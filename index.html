@@ -502,6 +502,43 @@ body.pres main{max-width:none!important;padding:12px 16px!important}
 .pres-nav .pn{flex:1;min-width:0}
 .pres-nav .pn b{font-family:var(--f-display);font-size:1.4rem;display:block}
 .pres-nav .pn small{color:var(--muted);font-weight:700;font-size:1rem}
+/* Tafel-Fenster (Beamer) und Mini-Tafel: Größen relativ zum Rahmen (cqw/cqh) */
+body.boardwin{padding:0;overflow:hidden}
+body.boardwin .top,body.boardwin #nav,body.boardwin #live{display:none!important}
+body.boardwin main#view{max-width:none;margin:0;padding:0}
+.bw{container-type:size;height:100%;display:grid;grid-template-rows:auto 1fr auto;background:var(--bg);color:var(--ink);border-top:1.2cqh solid var(--sc,var(--navy));overflow:hidden}
+body.boardwin .bw{height:100vh}
+.bw-top{display:flex;align-items:center;gap:2cqw;padding:1.6cqh 2.4cqw;font-weight:800;font-size:2.6cqh}
+.bw-top .logo{font-size:3.6cqh}.bw-top .logo .on i{width:2.6cqh;height:2.6cqh}
+.bw-top .tt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.bw-dots{display:flex;gap:.6cqw}.bw-dots i{width:1.6cqh;height:1.6cqh;border-radius:50%;background:var(--line)}.bw-dots i.past{background:var(--sc,var(--navy));opacity:.45}.bw-dots i.on{background:var(--sc,var(--navy))}
+.bw-timer{font-family:var(--f-display);font-variant-numeric:tabular-nums;font-size:4.4cqh;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.4cqh 2cqw}
+.bw-main{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:0;padding:1cqh 4cqw;text-align:center;gap:2.4cqh}
+.bw-main .slide{gap:2.6cqh;width:100%}
+.bw-main .slide h1{font-size:10cqh}
+.bw-main .slide p{font-size:4.4cqh;max-width:34ch}
+.bw-main .slide .gi{font-size:16cqh}
+.bw-main .slide-media{min-height:0;max-height:62cqh;width:100%}
+.bw-main .slide-media img,.bw-main .slide-media video{max-height:60cqh}
+.bw-main .slide-media iframe{height:60cqh}
+.bw-main .kfb{width:100%;display:grid;gap:3cqh}
+.bw-main .kfb-top .team big{font-size:10cqh}.bw-main .kfb-top .team span{font-size:3cqh}
+.bw-main .kq{font-size:12cqh}
+.bw-main .pitch{height:24cqh}.bw-main .pitch .ball{font-size:12cqh}.bw-main .pitch .g{font-size:6cqh}
+.bw-main .kfb-msg{font-size:4cqh}
+.bw-main .bw-big{font-size:12cqh;font-family:var(--f-display)}
+.bw-foot{padding:1.4cqh 2.4cqw;display:flex;justify-content:center;gap:2cqw;flex-wrap:wrap}
+.bw-note{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1cqh 2.4cqw;font-weight:800;font-size:3cqh}
+.bw-hint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--navy);color:#fff;font-weight:800;padding:10px 18px;border-radius:999px;z-index:5;transition:opacity .6s}
+.lov.full:not([hidden])~.mt{display:none}
+body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
+.mt{position:fixed;right:12px;bottom:12px;z-index:31;width:min(320px,46vw);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--surface)}
+.mt.big{left:12px;width:auto;display:grid;z-index:32}
+.mt.off{width:auto;border:0;background:none;box-shadow:none;overflow:visible}
+.mt-bar{display:flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;font-weight:800;font-size:.85rem}
+.mt-bar b{flex:1}.mt-bar button{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;font:inherit;font-size:.8rem;font-weight:800;padding:4px 10px;cursor:pointer;min-height:32px}
+.mt-frame{aspect-ratio:16/9;cursor:pointer}.mt.big{right:12px;bottom:auto;top:50%;transform:translateY(-50%);grid-template-rows:auto auto}.mt.big .mt-frame{width:min(100%,calc((100vh - 90px)*16/9));justify-self:center;cursor:default}
+.mt-pill{border:0;background:var(--navy);color:#fff;font:inherit;font-weight:800;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer;min-height:44px}
 .slide{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
 .slide h1{font-size:clamp(2.6rem,6vw,5.5rem);line-height:1.05}
 .slide p{font-size:clamp(1.3rem,2.6vw,2.2rem);font-weight:700;color:var(--muted);max-width:30ch}
@@ -572,7 +609,7 @@ body.pres main{max-width:none!important;padding:12px 16px!important}
 </div><div id="live" hidden></div></header>
 <main id="view"></main>
 <div id="ov" class="ov" hidden></div>
-<div id="live-ov" class="lov" hidden></div>
+<div id="live-ov" class="lov" hidden></div><div id="miniT" class="mt" hidden></div>
 
 <script>
 /* =====================================================================
@@ -719,10 +756,12 @@ const KEY='elon-v1';
 const def=()=>({stars:0,mut:0,done:{},mission:'Today I can buy clothes in a London shop.',rocket:0,classSize:24,mistake:'',reflect:null,copied:{},hwDone:{},earned:{},lastSlot:null,lastSubj:null,lessons:null,journal:[],journalDone:{},role:null,code:'',school:'',cls:'',nr:null,nick:'',voted:{},readyDone:{},phaseSeen:'',cs:null});
 let S;
 try{S=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('anton-english-v1')||'{}'))}catch(e){S=def()}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(typeof cloudQueue==='function')cloudQueue()}
+const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
+function save(){if(BOARD)return;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(typeof cloudQueue==='function')cloudQueue()}
 // The role is also kept per window, so one Mac can show the Tafel and a student view side by side
 try{const r=JSON.parse(sessionStorage.getItem('elon-role')||'null');if(r)Object.assign(S,r)}catch(e){}
-function saveRole(){try{sessionStorage.setItem('elon-role',JSON.stringify({role:S.role,code:S.code,nr:S.nr,nick:S.nick,school:S.school,cls:S.cls}))}catch(e){}save()}
+if(BOARD){S.role='board';if(QS.get('tafel'))S.code=QS.get('tafel')}
+function saveRole(){if(BOARD)return;try{sessionStorage.setItem('elon-role',JSON.stringify({role:S.role,code:S.code,nr:S.nr,nick:S.nick,school:S.school,cls:S.cls}))}catch(e){}save()}
 
 /* ---------- Helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -853,7 +892,7 @@ function render(){
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
   document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
   document.body.classList.toggle('pres',V.name==='present');
-  if(V.name==='present')fillMedia();
+  if(V.name==='present'||V.name==='beamer')fillMedia();
   document.body.classList.toggle('tboard',S.role==='teacher'&&['memory','salad','balloon'].includes(V.name));
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
@@ -863,7 +902,7 @@ function render(){
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
-  updBanner();
+  updBanner();renderMini();
   if(V.name==='tafel')updTafel();
 }
 function tickClock(){
@@ -1358,7 +1397,7 @@ const Live={bc:null,sb:null,kind:'off',
   },
   stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;try{this.sb&&this.sb.unsubscribe()}catch(e){}this.sb=null;this.kind='off'},
   post(t,p){const d={t,p};try{if(this.sb)this.sb.send({type:'broadcast',event:'e',payload:d});else if(this.bc)this.bc.postMessage(d)}catch(e){}},
-  recv(d){if(!d||!d.t)return;if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
+  recv(d){if(!d||!d.t)return;if(BOARD){if(d.t==='state')onBoardState(d.p);return}if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
 };
 const phaseOf=id=>id&&typeof id==='object'?id:(PHASES.find(p=>p.id===id)||PHASES[0]);
 function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.max(0,Math.round((t.endsAt-(Date.now()-off))/1000))}
@@ -1369,7 +1408,7 @@ function initTeacher(){
   CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:false,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
   CS.poll=null;CS.ready=null;CS.journal=null;CS.share=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
 }
-function pushCS(){if(!CS)return;CS.mission=S.mission;S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
+function pushCS(){if(!CS)return;CS.mission=S.mission;CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
 function onStudentMsg(m){
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
@@ -1388,7 +1427,7 @@ function onStudentMsg(m){
 }
 VIEWS.tafel=()=>{
   const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id);
-  return `<div class="tafel">
+  return `<div class="row" style="justify-content:flex-end;margin-bottom:10px"><button class="btn sm" data-act="board-open">📺 Tafel-Fenster für den Beamer öffnen</button></div><div class="tafel">
     <div class="t-head panel">
       <div style="min-width:0"><span class="label">${L?`${esc(L.title)} · Phase ${CS.step+1} von ${L.phases.length}`:`Phase · ${esc(className())}`}</span>
         <h1 class="t-big">${esc(ph.name)}</h1><p class="t-txt">${esc(ph.txt)}</p>
@@ -1452,9 +1491,51 @@ function updTafel(){
 }
 
 /* --- Student side --- */
+/* --- Tafel-Fenster (Beamer) und Mini-Tafel der SuS: zeigen nur, was alle sehen sollen --- */
+function stageOf(){
+  const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return null;
+  const p=L.phases[CS.step]||{},t=p.tool||{},m=t.mat&&typeof libById==='function'?libById(t.mat):null;
+  return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
+    tool:t.id?{id:t.id,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
+}
+const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.phase,R.poll&&[R.poll.q,R.poll.voted.length],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
+function boardHTML(R,mini){
+  const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
+  if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
+  const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
+  if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
+  else if(K){const cells=[-3,-2,-1,0,1,2,3];
+    main=`<div class="kfb"><div class="kfb-top"><div class="team a"><span>Team Rot</span><big>${K.score[0]}</big></div><div class="kq">${esc(K.q)} = ${K.sol!=null?esc(String(K.sol)):'?'}</div><div class="team b"><big>${K.score[1]}</big><span>Team Blau</span></div></div>
+      <div class="pitch"><div class="g l">🥅</div>${cells.map(c=>`<div class="c">${c===K.pos?'<span class="ball">⚽</span>':''}</div>`).join('')}<div class="g r">🥅</div></div>
+      <div class="kfb-msg ${K.goal?'ok':K.ask?'':K.last?(K.last.ok?'ok':'no'):''}">${K.goal?`TOOOR für Team ${K.goal==='A'?'Rot':'Blau'}! 🎉`:K.ask?`${esc(K.ask.name||'')} ist dran …`:K.last?String(K.last.txt).replace(/</g,'&lt;'):'Rechnet im Kopf mit!'}</div></div>`}
+  else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
+  else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
+    main=`<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${st.act==='mission'&&R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}
+      ${t.mat?(mini||!BOARD?`<span class="bw-note">📎 ${esc(t.matName||'Material')} · an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}"></div>`):''}${!t.text&&!t.mat&&st.act!=='mission'?`<p>${esc(st.txt)}</p>`:''}</div>`}
+  else{const ph=phaseOf(R.phase);main=`<div class="slide"><h1>${esc(ph.name)}</h1><p>${esc(ph.txt)}</p>${R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}</div>`}
+  const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
+  const foot=[R.poll?`<span class="bw-note">🗳️ ${esc(R.poll.q)} · ${R.poll.voted.length} abgestimmt</span>`:'',R.share?`<span class="bw-note">🔗 Auf euren iPads: ${esc(R.share.name)}</span>`:''].join('');
+  return `<div class="bw ${st?'s-'+st.subj:''}"><div class="bw-top">${LOGO}<span class="tt">${st?esc(st.title)+' · '+esc(st.name):esc(className())}</span>
+    ${st?`<span class="bw-dots">${Array.from({length:st.n},(_,j)=>`<i class="${j===st.step?'on':j<st.step?'past':''}"></i>`).join('')}</span>`:''}
+    ${showT?`<span class="bw-timer btimer">${fmt(tl)}</span>`:''}</div><div class="bw-main">${main}</div><div class="bw-foot">${foot}</div></div>`;
+}
+let BRCS=null,bSig='';
+VIEWS.beamer=()=>boardHTML(BRCS);
+function onBoardState(p){BRCS=p;OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg!==bSig){bSig=sg;render();fillMedia()}}
+let MINI='small',miniSig='';
+function renderMini(force){
+  const el=$('#miniT');if(!el)return;
+  if(S.role!=='student'||V.name==='role'||!RCS||Date.now()-rcsAt>10000){el.hidden=true;miniSig='';document.body.classList.remove('has-mt');return}
+  document.body.classList.toggle('has-mt',MINI==='small');
+  const sg=MINI+boardSig(RCS);if(!force&&sg===miniSig)return;miniSig=sg;el.hidden=false;el.className='mt '+MINI;
+  el.innerHTML=MINI==='off'?`<button class="mt-pill" data-act="mt" data-m="small">📺 Tafel</button>`
+    :`<div class="mt-bar"><b>📺 Tafel</b><button data-act="mt" data-m="${MINI==='big'?'small':'big'}">${MINI==='big'?'Klein':'Groß'}</button><button data-act="mt" data-m="off" aria-label="Tafel ausblenden">✕</button></div>
+      <div class="mt-frame" ${MINI==='big'?'':'data-act="mt" data-m="big"'}>${boardHTML(RCS,true)}</div>`;
+}
+setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='';
 let dashSig='';
-function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;updBanner();liveOverlay();
+function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||''})}
 function updBanner(){
@@ -1538,7 +1619,7 @@ VIEWS.role=()=>{
       <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
       <p class="muted" style="margin-top:12px;font-size:.9rem">Danach wählst du einen Nickname. Dein echter Name wird nicht gespeichert.</p></section>
     <section class="panel"><h2>Ich bin Lehrkraft</h2>
-      ${CLOUD?`<p class="muted" style="font-weight:700;margin-top:8px">Mit deinem eigenen Lehrer-Konto.</p><button class="btn pri" data-act="login" style="margin-top:14px;width:100%">Anmelden</button>`
+      ${CLOUD&&!Cloud.err?`<p class="muted" style="font-weight:700;margin-top:8px">Mit deinem eigenen Lehrer-Konto.</p><button class="btn pri" data-act="login" style="margin-top:14px;width:100%">Anmelden</button>`
       :`<label class="label" for="r-pin" style="display:block;margin-top:12px">PIN (Demo)</label><input id="r-pin" type="password" inputmode="numeric" autocomplete="off">
       <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p>`}</section>
   </div></div>`;
@@ -1889,11 +1970,11 @@ let KF=null;
 const teamOf=k=>(TD.teams&&TD.teams[k])||(k<=Math.ceil(S.classSize/2)?'A':'B');
 function kfbStart(level,quiet){KF={level:level||'1x1',pos:0,score:[0,0],task:kfbTask(level||'1x1'),ask:null,last:null,show:false,teamEdit:false};if(!quiet)kfbPush()}
 function kfbStop(quiet){KF=null;if(CS){CS.kfb=null;if(!quiet)pushCS()}}
-function kfbSync(){if(!CS)return;CS.kfb=KF?{q:KF.task.q,pos:KF.pos,score:KF.score.slice(),ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join('')}:null}
+function kfbSync(){if(!CS)return;CS.kfb=KF?{q:KF.task.q,pos:KF.pos,score:KF.score.slice(),ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id,name:nickOf(KF.ask.nr)||'Nr. '+KF.ask.nr}:null,sol:KF.show?KF.task.a:null,goal:KF.goal||null,last:KF.last?{ok:KF.last.ok,txt:KF.last.txt}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join('')}:null}
 function kfbPush(){kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}
 function kfbMove(team){
   KF.pos+=team==='A'?1:-1;
-  if(Math.abs(KF.pos)>=4){KF.score[team==='A'?0:1]++;KF.pos=0;KF.goal=team;SND.cheer();setTimeout(()=>{if(KF){KF.goal=null;if(['kfb','present'].includes(V.name))render()}},2500)}else SND.right();
+  if(Math.abs(KF.pos)>=4){KF.score[team==='A'?0:1]++;KF.pos=0;KF.goal=team;SND.cheer();setTimeout(()=>{if(KF){KF.goal=null;kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}},2500)}else SND.right();
 }
 function kfbNext(){KF.task=kfbTask(KF.level);KF.ask=null;KF.show=false}
 function kfbAnswer(nr,m){
@@ -1944,7 +2025,7 @@ VIEWS.present=()=>{
   const i=CS.step,p=L.phases[i]||{},n=L.phases.length;
   const ms=(p.mats||[]).map(libById).filter(Boolean);
   return `<div class="pres s-${L.subject}">
-    <div class="pres-top"><button class="btn sm" data-act="tafel">Steuerpult</button><div class="strip">${L.phases.map((x,j)=>`<button class="${j===i?'on':j<i?'past':''}" data-act="l-go" data-i="${j}">${j+1}. ${esc(x.name)}</button>`).join('')}</div>
+    <div class="pres-top"><button class="btn sm" data-act="tafel">Steuerpult</button><button class="btn sm" data-act="board-open" title="Fenster für den Beamer / 2. Bildschirm">📺 Tafel-Fenster</button><div class="strip">${L.phases.map((x,j)=>`<button class="${j===i?'on':j<i?'past':''}" data-act="l-go" data-i="${j}">${j+1}. ${esc(x.name)}</button>`).join('')}</div>
       <span class="chip">${CS?online().length:0} online</span><span class="ptimer" id="ptimer">${fmt(timerLeft(CS.timer))}</span></div>
     <div class="pres-main">${toolStage(p,L)}${ms.length?`<div class="row" style="justify-content:center;margin-top:14px">${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`:''}</div>
     <div class="pres-nav"><button class="btn big" data-act="l-go" data-i="${i-1}" ${i<=0?'disabled':''} aria-label="Vorherige Phase">◀</button>
@@ -2274,10 +2355,14 @@ document.addEventListener('click',e=>{
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<3){$('#nick-err').textContent='Dein Nickname braucht 3 bis 16 Zeichen (Buchstaben, Zahlen, - oder _).';break}
       setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
-    case 'r-teach':if(CLOUD)break;if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
+    case 'r-teach':if(CLOUD&&!Cloud.err)break;if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'role-reset':Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
+    case 'board-open':{const u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'');
+      const w=window.open(u,'elio-tafel','popup,width=1280,height=720');if(!w)alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');
+      [800,2000,4000].forEach(t=>setTimeout(pushCS,t));break}
+    case 'mt':MINI=d.m;renderMini(true);break;
     case 'tdash':go('tdash');break;
     case 'login':V.err='';go('login');break;
     case 'lg-in':lgIn(false);break;
@@ -2457,11 +2542,14 @@ document.addEventListener('click',e=>{
 function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSize;if(!(n>=2&&n<=40))n=S.classSize;S.classSize=n;save();return n}
 
 $('#star-ico').innerHTML=STAR;
-if(!S.role)V={name:'role'};
+if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};Live.start(S.code);libLoad();
+  document.addEventListener('dblclick',()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}});
+  setTimeout(()=>{const h=document.createElement('div');h.className='bw-hint';h.textContent='Fenster auf den Beamer ziehen · Doppelklick = Vollbild';document.body.appendChild(h);setTimeout(()=>{h.style.opacity=0;setTimeout(()=>h.remove(),700)},6000)},300)}
+else if(!S.role)V={name:'role'};
 else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
 hdr();tickClock();render();
 if(S.role==='teacher')libLoad();
-if(CLOUD)cloudBoot();
+if(CLOUD&&!BOARD)cloudBoot();
 try{speechSynthesis.getVoices()}catch(e){}
 let lastMin=-1;
 setInterval(()=>{
