@@ -530,6 +530,23 @@ body.pres main{max-width:none!important;padding:12px 16px!important}
 .kseat.on{opacity:1}.kseat.A{border-color:#cf3a2c}.kseat.B{border-color:#2f6fd6}
 .kseat.ask{background:var(--yellow);animation:pulse 1.2s infinite}
 .kin{font-size:2rem;text-align:center;font-family:var(--f-display);font-weight:800}
+
+/* v11: Login, Admin, Klassen */
+.adm{display:grid;gap:16px}
+.adm table{width:100%;border-collapse:collapse}
+.adm td,.adm th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.adm th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.adm .cls-chk{display:flex;flex-wrap:wrap;gap:6px}
+.adm .cls-chk label{display:inline-flex;gap:5px;align-items:center;padding:4px 10px;border-radius:999px;border:2px solid var(--line);font-weight:800;font-size:.85rem;cursor:pointer}
+.adm .cls-chk input{width:18px;height:18px}
+.ctt select{width:100%;padding:6px 8px;font-size:.85rem;border-radius:8px}
+.ctt td{vertical-align:top}
+.ctt .cell{display:grid;gap:4px;padding:6px;border-radius:10px;border:2px solid var(--line);min-width:120px}
+.ctt .cell.has{border-color:var(--sc);background:color-mix(in srgb,var(--sc) 8%,var(--surface))}
+.clsw{display:flex;flex-wrap:wrap;gap:8px}
+.clsw button{padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}
+.clsw button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tlink{background:none;border:0;color:var(--muted);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer;margin-top:6px}
 </style>
 
 <header class="top"><div class="top-in">
@@ -540,6 +557,7 @@ body.pres main{max-width:none!important;padding:12px 16px!important}
     <button class="tv" data-act="tplan" data-nav="tplan" id="nav-lessons" hidden>Planung</button>
     <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
     <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
+    <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
     <button class="sv" data-act="homework" data-nav="homework">Hausaufgaben</button>
     <button class="sv" data-act="practice" data-nav="practice">Üben</button>
@@ -571,7 +589,7 @@ const SUBJECTS={
   I:{name:'Informatik',short:'In',prep:['iPad geladen','Informatik-Heft']},
   W:{name:'W&B',short:'WB',prep:['W&B-Heft','Mappe']},
 };
-const TIMETABLE_EXAMPLE=true;
+let TIMETABLE_EXAMPLE=true;
 const PERIODS=[[1,'08:00','08:45'],[2,'08:45','09:30'],[3,'09:45','10:30'],[4,'10:30','11:15'],[5,'11:30','12:15'],[6,'12:15','13:00'],[7,'13:45','14:30'],[8,'14:30','15:15']];
 // Mo..Fr, one column per period; '' = frei
 const WEEK=[
@@ -701,7 +719,7 @@ const KEY='elon-v1';
 const def=()=>({stars:0,mut:0,done:{},mission:'Today I can buy clothes in a London shop.',rocket:0,classSize:24,mistake:'',reflect:null,copied:{},hwDone:{},earned:{},lastSlot:null,lastSubj:null,lessons:null,journal:[],journalDone:{},role:null,code:'',school:'',cls:'',nr:null,nick:'',voted:{},readyDone:{},phaseSeen:'',cs:null});
 let S;
 try{S=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('anton-english-v1')||'{}'))}catch(e){S=def()}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(typeof cloudQueue==='function')cloudQueue()}
 // The role is also kept per window, so one Mac can show the Tafel and a student view side by side
 try{const r=JSON.parse(sessionStorage.getItem('elon-role')||'null');if(r)Object.assign(S,r)}catch(e){}
 function saveRole(){try{sessionStorage.setItem('elon-role',JSON.stringify({role:S.role,code:S.code,nr:S.nr,nick:S.nick,school:S.school,cls:S.cls}))}catch(e){}save()}
@@ -840,9 +858,11 @@ function render(){
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
+  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');
+  $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
   updBanner();
   if(V.name==='tafel')updTafel();
 }
@@ -1327,8 +1347,7 @@ const Live={bc:null,sb:null,kind:'off',
     this.stop();
     if(LIVE_SERVER&&LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
       try{
-        if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.79.0/dist/umd/supabase.js');
-        const c=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);
+        const c=await sbClient();
         this.sb=c.channel('elon-'+code,{config:{broadcast:{self:false}}});
         this.st='connecting';
         this.sb.on('broadcast',{event:'e'},({payload})=>this.recv(payload)).subscribe(st=>{this.st=st;if(V.name==='tafel')render()});
@@ -1496,11 +1515,13 @@ VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
   if(step==='splash')return `<div class="splash">${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
-    <button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button></div>`;
+    <button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button>${CLOUD?'<button class="tlink" data-act="login">Für Lehrkräfte: Anmelden</button>':''}</div>`;
+  if(step==='school'&&CLOUD&&!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
+  if(step==='school'&&!SCHOOLS.length)return `<div class="start"><div class="start-head">${back('splash')}</div><div class="empty">Hier ist noch keine Schule eingetragen. ${Cloud.err?esc(Cloud.err):'Deine Lehrkraft richtet das gerade ein.'}</div></div>`;
   if(step==='school')return `<div class="start"><div class="start-head">${back('splash')}<span class="label">Schritt 1 von 3</span></div><h1>Wähle deine Schule</h1>
     <div class="pick">${SCHOOLS.map(x=>`<button class="pick-card" data-act="st-school" data-id="${x.id}"><b>${esc(x.name)}</b><span class="muted">${esc(x.place)} · ${x.classes.length} Klasse${x.classes.length>1?'n':''}</span></button>`).join('')}</div></div>`;
   if(step==='class')return `<div class="start"><div class="start-head">${back('school')}<span class="label">Schritt 2 von 3 · ${esc(sc.name)}</span></div><h1>Wähle deine Klasse</h1>
-    <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
+    <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.label||c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
   if(step==='nick')return `<div class="start"><div class="start-head">${back('role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Wähle deinen Nickname</h1>
     <section class="panel" style="margin-top:16px">
       <p style="font-weight:700">So heißt du in ELIO und an der Tafel. <b>Nimm nicht deinen echten Namen</b>, sondern etwas Ausgedachtes.</p>
@@ -1517,11 +1538,12 @@ VIEWS.role=()=>{
       <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
       <p class="muted" style="margin-top:12px;font-size:.9rem">Danach wählst du einen Nickname. Dein echter Name wird nicht gespeichert.</p></section>
     <section class="panel"><h2>Ich bin Lehrkraft</h2>
-      <label class="label" for="r-pin" style="display:block;margin-top:12px">PIN</label><input id="r-pin" type="password" inputmode="numeric" autocomplete="off">
-      <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p></section>
+      ${CLOUD?`<p class="muted" style="font-weight:700;margin-top:8px">Mit deinem eigenen Lehrer-Konto.</p><button class="btn pri" data-act="login" style="margin-top:14px;width:100%">Anmelden</button>`
+      :`<label class="label" for="r-pin" style="display:block;margin-top:12px">PIN (Demo)</label><input id="r-pin" type="password" inputmode="numeric" autocomplete="off">
+      <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p>`}</section>
   </div></div>`;
 };
-function setClass(){S.school=V.school;S.cls=V.cls;S.code=V.school+'-'+V.cls;const c=classBy(V.school,V.cls);if(c&&c.size)S.classSize=c.size}
+function setClass(){S.school=V.school;S.cls=V.cls;const c=classBy(V.school,V.cls);S.code=(c&&c.code)||V.school+'-'+V.cls;if(c&&c.size)S.classSize=c.size}
 const NICK_A=['Blue','Happy','Brave','Speedy','Clever','Lucky','Sunny','Cool','Mighty','Funny','Golden','Turbo'];
 const NICK_B=['Tiger','Fox','Panda','Owl','Shark','Eagle','Koala','Wolf','Dolphin','Penguin','Falcon','Dragon'];
 function suggestNicks(){const out=new Set();while(out.size<4)out.add(pick(NICK_A)+pick(NICK_B)+(Math.random()<.4?Math.floor(Math.random()*90+10):''));return [...out].map(x=>x.slice(0,16))}
@@ -1734,7 +1756,9 @@ VIEWS.tdash=()=>{
   const L=CS&&CS.lesson&&lessonById(CS.lesson.id),on=CS?online().length:0,all=Object.values(TD.obs).flat();
   const h=new Date().getHours(),hi=h<11?'Guten Morgen!':h<17?'Hallo!':'Guten Abend!';
   const ls=lessons();
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1><span class="chip">${esc(className())}</span></div>
+  const mc=CLOUD&&Cloud.myClasses||[];
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}${Cloud.prof&&Cloud.prof.name?' '+esc(Cloud.prof.name.split(' ')[0]):''}</h1><span class="chip">${esc(className())}</span></div>
+  ${mc.length>1?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</div></div>`:''}
   <div class="areas four">
     <button class="area a-tafel" data-act="tafel"><span class="ai">🖥️</span><b>Tafel</b><small>${L?`Läuft: ${esc(L.title)} · Phase ${CS.step+1}`:'Keine Stunde aktiv'} · ${on} online</small></button>
     <button class="area a-plan" data-act="tplan"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
@@ -1766,7 +1790,7 @@ const TEMPLATES={M:[
 function newLessonFrom(subj,min,title){
   const base=clone(TEMPLATES[subj]||SCAFFOLD),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
   base.forEach(p=>{p.min=Math.max(1,Math.round(p.min*f));if(p.target==='heft:M'&&subj!=='M')p.target='heft:'+subj;if(p.tool&&p.tool.s&&GAMES[subj])p.tool.s=subj});
-  const L={id:'L'+Date.now(),title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'vorläufig':''};
+  const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'vorläufig':''};
   lessons().push(L);save();return L;
 }
 const TOOLS={
@@ -1821,8 +1845,8 @@ VIEWS.tplan=()=>{
       <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span></span>
       ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):'<span class="add">+ Stunde planen</span>'}</div>`};
   return `<div class="row" style="justify-content:space-between;margin-bottom:10px"><h1>Planung</h1>
-    <div class="row"><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':'Stundenplan bearbeiten'}</button></div></div>
-  ${TD.ttEx?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
+    <div class="row"><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
+  ${TD.ttEx&&!(CLOUD&&Cloud.prof)?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
   ${ed?'<div class="priv">✏️ Tippe auf ein Feld, um Fach und Klasse einzutragen. Das gilt für jede Woche.</div>':''}
   <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
     <b style="font-family:var(--f-display);font-size:1.2rem">${days[0].toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} – ${days[4].toLocaleDateString('de-DE',{day:'numeric',month:'numeric',year:'numeric'})}${off===0?' · diese Woche':off===1?' · nächste Woche':''}</b>
@@ -1850,7 +1874,7 @@ function tpCell(d,i,date){
     ${others.length?`<div class="row" style="margin-top:12px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div>`:''}
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
 }
-function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave()}
+function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave();cloudPlan(d,i,date,lid);if(dbl)cloudPlan(d,i+1,date,lid)}
 
 /* --- Kopfrechenfußball --- */
 const KFB_LEVELS={'1x1':'Kleines Einmaleins','plus':'Plus bis 100','minus':'Minus bis 100','mix':'Gemischt (· + −)','quad':'Quadratzahlen bis 20','proz':'Einfache Prozente'};
@@ -1936,6 +1960,192 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('change',e=>{if(e.target.id==='kfb-lv'&&KF){KF.level=e.target.value;kfbNext();kfbPush()}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='kfb-a'){e.preventDefault();const b=document.querySelector('[data-act=kfb-send]');b&&b.click()}});
 setInterval(()=>{const t=$('#ptimer');if(t&&CS)t.textContent=fmt(timerLeft(CS.timer))},1000);
+
+/* =====================================================================
+   CLOUD (Supabase, Frankfurt): Lehrer-Logins, Admin, Klassen, Stundenpläne
+   Schülerdaten und Beobachtungen bleiben auf den Geräten.
+   ===================================================================== */
+const SB_SRC='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.79.0/dist/umd/supabase.js';
+const CLOUD=LIVE_SERVER&&!!LIVE_CFG.supabaseUrl;
+const Cloud={sb:null,user:null,prof:null,myClasses:[],ready:false,err:'',sig:{},busy:false};
+const lid=()=>'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+async function sbClient(){if(Cloud.sb)return Cloud.sb;if(!window.supabase)await loadScript(SB_SRC);Cloud.sb=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);return Cloud.sb}
+const CLS_COLS='id,school_id,name,size,code';
+async function q(p){const r=await p;if(r.error)throw r.error;return r.data}
+async function cloudBoot(){
+  try{const sb=await sbClient();
+    const [sc,cl]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name'))]);
+    SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}));
+    const {data}=await sb.auth.getSession();Cloud.user=data&&data.session?data.session.user:null;
+    if(Cloud.user)await cloudLoadMe();
+    if(S.role==='teacher'&&!(Cloud.prof&&Cloud.prof.role!=='pending')){S.role=null;save();V={name:'login'}}
+    else if(S.role==='teacher'){await cloudSync()}
+    if(S.role==='student'&&S.cls)await cloudLoadWeek(S.cls);
+  }catch(e){Cloud.err='Der ELIO-Server ist gerade nicht erreichbar.';console.warn(e)}
+  Cloud.ready=true;render();
+}
+async function cloudLoadMe(){
+  const sb=Cloud.sb,uid=Cloud.user.id;
+  Cloud.prof=(await q(sb.from('profiles').select('id,email,name,role').eq('id',uid)))[0]||null;
+  Cloud.myClasses=[];
+  if(Cloud.prof&&Cloud.prof.role!=='pending'){
+    const all=await q(sb.from('classes').select(CLS_COLS).order('name'));
+    if(Cloud.prof.role==='admin')Cloud.myClasses=all;
+    else{const ct=await q(sb.from('class_teachers').select('class_id').eq('teacher_id',uid));Cloud.myClasses=all.filter(c=>ct.some(x=>x.class_id===c.id))}
+  }
+}
+function useClass(c){S.school=c.school_id;S.cls=c.id;S.code=c.code;S.classSize=c.size;saveRole()}
+async function teacherEnter(c){
+  useClass(c);S.role='teacher';saveRole();CS=null;S.cs=null;initTeacher();await Live.start(S.code);pushCS();libLoad();
+  await cloudSync();go('tdash');
+}
+async function cloudLoadWeek(cid){
+  try{const sl=await q(Cloud.sb.from('slots').select('day,period,subject').eq('class_id',cid));
+    if(sl.length){WEEK.forEach(r=>r.fill(null));sl.forEach(x=>{if(WEEK[x.day]&&x.period<WEEK[x.day].length)WEEK[x.day][x.period]=x.subject});TIMETABLE_EXAMPLE=false}}catch(e){}
+}
+// Lehrkraft: eigener Stundenplan (alle Klassen), Wochenplanung, Stunden
+async function cloudSync(){
+  if(!Cloud.prof||Cloud.prof.role==='pending')return;
+  const sb=Cloud.sb,uid=Cloud.user.id,ids=Cloud.myClasses.map(c=>c.id);
+  try{
+    const sl=ids.length?await q(sb.from('slots').select('class_id,day,period,subject,teacher_id').in('class_id',ids)):[];
+    TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);TD.tt[x.day+'-'+x.period]={s:x.subject,c:c?c.name:'',cid:x.class_id}});TD.ttEx=false;
+    const pl=ids.length?await q(sb.from('plans').select('class_id,date,period,lesson_id,teacher_id').in('class_id',ids)):[];
+    TD.plan={};pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id)TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
+    const ls=await q(sb.from('lessons').select('id,owner,class_id,shared,data'));
+    const planned=new Set(Object.values(TD.plan));
+    // Die Demo-Stunde wandert nur in die Cloud, wenn sie verplant ist
+    const mine=lessons().filter(L=>(!L.owner||L.owner===uid)&&!(L.id==='L-bsp'&&!ls.some(x=>x.id===L.id)&&!planned.has(L.id)));
+    // Lokale Stunden beim ersten Login hochladen
+    mine.forEach(L=>{if(!ls.some(x=>x.id===L.id)){if(L.id==='L-bsp'){const nid=lid();Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===L.id)TD.plan[k]=nid});L.id=nid}L.owner=uid;L.cid=L.cid||S.cls}});
+    const fromCloud=ls.map(x=>Object.assign({},x.data,{id:x.id,owner:x.owner,cid:x.class_id,shared:x.shared}));
+    const merged=fromCloud.concat(mine.filter(L=>!ls.some(x=>x.id===L.id)));
+    S.lessons=merged;Cloud.sig={};ls.forEach(x=>{Cloud.sig[x.id]=JSON.stringify(lessonRow(fromCloud.find(L=>L.id===x.id)))});
+    try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}cloudQueue();
+  }catch(e){console.warn(e);Cloud.err='Sync fehlgeschlagen.'}
+}
+function lessonRow(L){const d=Object.assign({},L);['id','owner','cid','shared'].forEach(k=>delete d[k]);return {id:L.id,class_id:L.cid||null,subject:L.subject,title:L.title,data:d,shared:!!L.shared}}
+let cloudT=null;
+function cloudQueue(){
+  if(!CLOUD||!Cloud.prof||Cloud.prof.role==='pending'||S.role!=='teacher')return;
+  clearTimeout(cloudT);cloudT=setTimeout(async()=>{
+    const uid=Cloud.user.id,rows=[];
+    (S.lessons||[]).forEach(L=>{if(L.owner&&L.owner!==uid)return;L.owner=uid;const r=lessonRow(L),sg=JSON.stringify(r);if(Cloud.sig[L.id]!==sg){rows.push(r);Cloud.sig[L.id]=sg}});
+    if(rows.length){try{await q(Cloud.sb.from('lessons').upsert(rows))}catch(e){console.warn(e);rows.forEach(r=>delete Cloud.sig[r.id])}}
+  },1200);
+}
+async function cloudDelLesson(id){if(!CLOUD||!Cloud.prof)return;try{await q(Cloud.sb.from('lessons').delete().eq('id',id));delete Cloud.sig[id]}catch(e){}}
+async function cloudPlan(d,i,date,lessonId){if(!CLOUD||!Cloud.prof)return;const t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
+  clearTimeout(cloudT);const L=lessonById(lessonId);if(L){L.cid=L.cid||t.cid;await new Promise(r=>setTimeout(r,0))}
+  try{if(L){const r=lessonRow(L);await q(Cloud.sb.from('lessons').upsert([r]));Cloud.sig[L.id]=JSON.stringify(r)}
+    await q(Cloud.sb.from('plans').upsert([{class_id:t.cid,date,period:i,lesson_id:lessonId}]))}catch(e){console.warn(e)}}
+async function cloudUnplan(k){if(!CLOUD||!Cloud.prof)return;const [date,i]=k.split('|'),d=(new Date(date+'T12:00').getDay()+6)%7,t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
+  try{await q(Cloud.sb.from('plans').delete().eq('class_id',t.cid).eq('date',date).eq('period',+i))}catch(e){}}
+
+/* --- Anmeldung Lehrkraft --- */
+VIEWS.login=()=>{
+  const back=`<button class="btn sm" data-act="st-step" data-step="splash">← Zurück</button>`;
+  if(!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
+  if(Cloud.user&&Cloud.prof&&Cloud.prof.role==='pending')return `<div class="start"><div class="start-head">${back}</div><h1>Fast geschafft</h1>
+    <section class="panel"><p style="font-weight:700">Dein Konto <b>${esc(Cloud.user.email||'')}</b> ist angelegt. Der Admin muss dich noch freischalten und deinen Klassen zuordnen.</p>
+    <div class="row" style="margin-top:14px"><button class="btn pri" data-act="lg-refresh">Nochmal prüfen</button><button class="btn" data-act="lg-out">Abmelden</button></div></section></div>`;
+  if(Cloud.user&&Cloud.prof){const mc=Cloud.myClasses;
+    return `<div class="start"><div class="start-head">${back}<span class="label">${esc(Cloud.user.email||'')}</span></div><h1>Welche Klasse?</h1>
+    ${mc.length?`<div class="pick">${mc.map(c=>`<button class="pick-card cls" data-act="lg-cls" data-id="${c.id}"><b class="cl">${esc(c.name)}</b><span class="muted">${esc((SCHOOLS.find(x=>x.id===c.school_id)||{}).name||'')}</span></button>`).join('')}</div>`
+      :`<div class="empty">Du bist noch keiner Klasse zugeordnet.${Cloud.prof.role==='admin'?' Lege im Admin-Bereich Schule und Klasse an.':''}</div>`}
+    <div class="row" style="margin-top:16px">${Cloud.prof.role==='admin'?'<button class="btn pri" data-act="lg-admin">Zum Admin-Bereich</button>':''}<button class="btn" data-act="lg-out">Abmelden</button></div></div>`}
+  return `<div class="start"><div class="start-head">${back}</div><h1>Anmelden als Lehrkraft</h1>
+    <section class="panel" style="max-width:520px">
+      <label class="label" for="lg-mail" style="display:block">E-Mail</label><input id="lg-mail" type="text" inputmode="email" autocomplete="username" autocapitalize="off">
+      <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" type="password" autocomplete="current-password">
+      <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
+      <div class="row" style="margin-top:14px"><button class="btn pri" data-act="lg-in">Anmelden</button><button class="btn" data-act="lg-up">Konto erstellen</button></div>
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></section></div>`;
+};
+async function lgIn(up){
+  const em=($('#lg-mail').value||'').trim(),pw=$('#lg-pw').value||'';
+  if(!/\S+@\S+\.\S+/.test(em)||pw.length<8){V.err='Bitte E-Mail und ein Passwort mit mindestens 8 Zeichen eingeben.';V.msg='';render();return}
+  const sb=await sbClient();
+  const r=up?await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email:em,password:pw});
+  if(r.error){V.err=up?'Konto konnte nicht erstellt werden: '+r.error.message:'Anmelden hat nicht geklappt. Stimmen E-Mail und Passwort?';V.msg='';render();return}
+  if(up&&!r.data.session){V.err='';V.msg='Fast geschafft: Bestätige den Link in deiner E-Mail und melde dich dann hier an.';render();return}
+  Cloud.user=r.data.user;V.err='';V.msg='';await cloudLoadMe();
+  if(Cloud.myClasses.length===1&&Cloud.prof.role==='teacher'){await teacherEnter(Cloud.myClasses[0]);return}
+  render();
+}
+
+/* --- Admin (nur Rolle admin; der Server prüft das zusätzlich) --- */
+const A={schools:[],classes:[],profiles:[],ct:[],ok:false,msg:''};
+async function adminLoad(){
+  const sb=Cloud.sb;
+  try{[A.schools,A.classes,A.profiles,A.ct]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role').order('created_at')),q(sb.from('class_teachers').select('class_id,teacher_id'))]);A.ok=true}
+  catch(e){A.msg='Laden fehlgeschlagen: '+(e.message||e)}
+  if(V.name==='admin')render();
+}
+async function adminDo(p,msg){try{await q(p);A.msg=msg||'Gespeichert.'}catch(e){A.msg='Fehler: '+(e.message||e)}await adminLoad();await cloudLoadMe();await cloudBoot0()}
+async function cloudBoot0(){try{const sc=A.schools,cl=A.classes;SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}))}catch(e){}}
+VIEWS.admin=()=>{
+  if(!CLOUD)return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Der Admin-Bereich funktioniert nur auf der echten ELIO-Seite mit Server.</div>`;
+  if(!(Cloud.prof&&Cloud.prof.role==='admin'))return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Nur für den Admin.</div>`;
+  if(!A.ok){adminLoad();return '<div class="empty">Lädt …</div>'}
+  const uid=Cloud.user.id,cls=A.classes;
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Admin</h1><span class="chip">nur für dich</span></div>
+  ${A.msg?`<p class="saved">${esc(A.msg)}</p>`:''}
+  <div class="adm">
+  <section class="panel"><span class="label">Schulen und Klassen</span>
+    ${A.schools.map(sc=>`<div style="margin-top:14px"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.2rem">${esc(sc.name)} <span class="muted" style="font-size:.9rem">${esc(sc.place||'')}</span></b>
+        ${V.adel==='s'+sc.id?`<span class="row"><button class="btn sm red" data-act="ad-school-del" data-id="${sc.id}">Schule mit allen Klassen löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button></span>`:`<button class="btn sm" data-act="ad-ask" data-k="s${sc.id}">Löschen</button>`}</div>
+      <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th></th></tr>${cls.filter(c=>c.school_id===sc.id).map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
+        <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc((A.profiles.find(p=>p.id===x.teacher_id)||{}).name||(A.profiles.find(p=>p.id===x.teacher_id)||{}).email||'?')).join(', ')||'<span class="muted">–</span>'}</td>
+        <td style="text-align:right"><button class="btn sm" data-act="ctt-open" data-id="${c.id}">Stundenplan</button>${V.adel==='c'+c.id?`<button class="btn sm red" data-act="ad-class-del" data-id="${c.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="c${c.id}">Löschen</button>`}</td></tr>`).join('')}</table>
+      <div class="row" style="margin-top:8px"><input id="ad-cn-${sc.id}" type="text" placeholder="Neue Klasse, z. B. 7bG" style="max-width:220px"><input id="ad-cs-${sc.id}" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="ad-class-add" data-id="${sc.id}">Klasse anlegen</button></div></div>`).join('')||'<p class="muted" style="margin-top:8px">Noch keine Schule.</p>'}
+    <div class="row" style="margin-top:16px"><input id="ad-sn" type="text" placeholder="Name der Schule" style="max-width:280px"><input id="ad-sp" type="text" placeholder="Ort" style="max-width:180px"><button class="btn pri sm" data-act="ad-school-add">Schule anlegen</button></div></section>
+  <section class="panel"><span class="label">Lehrkräfte</span><p class="muted" style="font-weight:700;margin-top:4px">Neue Lehrkräfte erstellen selbst ein Konto (Startseite → „Für Lehrkräfte: Anmelden“). Hier schaltest du sie frei und ordnest Klassen zu.</p>
+    <table><tr><th>Konto</th><th>Name</th><th>Rolle</th><th>Klassen</th></tr>${A.profiles.map(p=>`<tr><td>${esc(p.email||'')}</td>
+      <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
+      <td><select data-adrole="${p.id}" ${p.id===uid?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
+      <td><div class="cls-chk">${cls.map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">erst Klasse anlegen</span>'}</div></td></tr>`).join('')}</table></section>
+  </div>`;
+};
+document.addEventListener('change',e=>{
+  const t=e.target,sb=Cloud.sb;if(!sb)return;
+  if(t.dataset.adrole)adminDo(sb.from('profiles').update({role:t.value}).eq('id',t.dataset.adrole),'Rolle geändert.');
+  if(t.dataset.adct){const [tid,cid]=t.dataset.adct.split('|');adminDo(t.checked?sb.from('class_teachers').insert([{class_id:cid,teacher_id:tid}]):sb.from('class_teachers').delete().eq('class_id',cid).eq('teacher_id',tid),'Klassen gespeichert.')}
+  if(t.dataset.slot)cttSave(t.dataset.slot);
+});
+
+/* --- Klassen-Stundenplan (alle Lehrkräfte der Klasse) --- */
+const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
+async function cttLoad(cid){
+  CT.cid=cid;CT.ok=false;const sb=Cloud.sb;
+  try{const [sl,ct,pr]=await Promise.all([q(sb.from('slots').select('class_id,day,period,subject,teacher_id').eq('class_id',cid)),q(sb.from('class_teachers').select('class_id,teacher_id').eq('class_id',cid)),q(sb.from('profiles').select('id,email,name,role'))]);
+    CT.slots=sl;CT.teachers=pr.filter(p=>ct.some(x=>x.teacher_id===p.id));CT.ok=true}catch(e){CT.msg='Laden fehlgeschlagen.'}
+  if(V.name==='ctt')render();
+}
+VIEWS.ctt=()=>{
+  if(!CLOUD||!Cloud.prof)return '<div class="empty">Nur mit Lehrer-Konto.</div>';
+  if(CT.cid!==V.cid||!CT.ok){if(CT.cid!==V.cid)cttLoad(V.cid);return '<div class="empty">Lädt …</div>'}
+  const c=(A.classes.length?A.classes:Cloud.myClasses).find(x=>x.id===V.cid)||Cloud.myClasses.find(x=>x.id===V.cid)||{name:''};
+  const tn=p=>p.name||p.email;
+  return `<div class="st-head"><button class="btn sm" data-act="${V.from||'tplan'}">← Zurück</button><h1 style="font-size:1.6rem">Stundenplan ${esc(c.name)}</h1><span class="chip">für alle Lehrkräfte der Klasse</span></div>
+  <p class="muted" style="font-weight:700">Fach und Lehrkraft wählen. Wird sofort gespeichert. Die Schüler sehen den Plan auf ihrem Dashboard, jede Lehrkraft ihre eigenen Stunden in der Planung.</p>
+  ${CT.msg?`<p class="saved">${esc(CT.msg)}</p>`:''}
+  <div class="tp ctt"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>
+  ${PERIODS.map((pp,i)=>`<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}</td>${DAYS.map((_,d)=>{const sl=CT.slots.find(x=>x.day===d&&x.period===i);
+    return `<td><div class="cell ${sl?'has s-'+sl.subject:''}"><select data-slot="${d}-${i}" data-k="s" aria-label="Fach"><option value="">– frei –</option>${Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${sl&&sl.subject===k?'selected':''}>${v.name}</option>`).join('')}</select>
+      <select data-slot="${d}-${i}" data-k="t" aria-label="Lehrkraft" ${sl?'':'disabled'}><option value="">– Lehrkraft –</option>${CT.teachers.map(p=>`<option value="${p.id}" ${sl&&sl.teacher_id===p.id?'selected':''}>${esc(tn(p))}</option>`).join('')}</select></div></td>`}).join('')}</tr>`).join('')}
+  </tbody></table></div>`;
+};
+async function cttSave(key){
+  const [d,i]=key.split('-').map(Number),sb=Cloud.sb,cid=CT.cid;
+  const sEl=document.querySelector(`[data-slot="${key}"][data-k="s"]`),tEl=document.querySelector(`[data-slot="${key}"][data-k="t"]`);
+  const subj=sEl.value;let teacher=tEl.value||null;
+  if(subj&&!teacher&&!CT.slots.find(x=>x.day===d&&x.period===i))teacher=Cloud.user.id;
+  try{if(!subj)await q(sb.from('slots').delete().eq('class_id',cid).eq('day',d).eq('period',i));
+    else await q(sb.from('slots').upsert([{class_id:cid,day:d,period:i,subject:subj,teacher_id:teacher}]));CT.msg='Gespeichert.'}
+  catch(e){CT.msg='Speichern hat nicht geklappt: '+(e.message||e)}
+  CT.ok=false;await cttLoad(cid);await cloudSync();
+}
 VIEWS.lessons=()=>{
   const list=lessons();
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div>
@@ -1954,6 +2164,7 @@ VIEWS['lesson-edit']=()=>{
     <label style="grid-column:1/-1">Titel der Stunde<input type="text" data-f="title" value="${esc(L.title)}"></label>
     <label>Fach<select data-f="subject">${opt(Object.fromEntries(Object.entries(SUBJECTS).map(([k,v])=>[k,v.name])),L.subject)}</select></label>
     <label style="grid-column:span 2">Mission (Stundenziel, „I can …“)<input type="text" data-f="mission" value="${esc(L.mission||'')}"></label>
+    ${CLOUD&&Cloud.prof?`<label style="grid-column:1/-1;flex-direction:row;display:flex;gap:10px;align-items:center;font-weight:800"><input type="checkbox" data-f="shared" ${L.shared?'checked':''} style="width:22px;height:22px" ${L.owner&&Cloud.user&&L.owner!==Cloud.user.id?'disabled':''}> Mit den Lehrkräften dieser Klasse teilen</label>`:''}
   </div></section>
   <div class="lesson-list" style="margin-top:16px">${L.phases.map((p,i)=>`<article class="lcard">
     <div class="row" style="justify-content:space-between"><div class="row"><span class="lnum">${i+1}</span><h3>${esc(p.name)}</h3></div>
@@ -1976,7 +2187,7 @@ VIEWS['lesson-edit']=()=>{
 document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
-  const v=e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
+  const v=e.target.type==='checkbox'?e.target.checked:e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool)p.tool[k[3]]=v}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
@@ -2037,12 +2248,12 @@ document.addEventListener('click',e=>{
   const a=b.dataset.act,d=b.dataset;ctx();
   switch(a){
     case 'lessons':go('lessons');break;
-    case 'l-new':{const L={id:'L'+Date.now(),title:'Neue Stunde',subject:'E',mission:'',phases:clone(SCAFFOLD)};lessons().push(L);save();go('lesson-edit',{id:L.id});break}
+    case 'l-new':{const L={id:lid(),cid:S.cls,title:'Neue Stunde',subject:'E',mission:'',phases:clone(SCAFFOLD)};lessons().push(L);save();go('lesson-edit',{id:L.id});break}
     case 'l-edit':go('lesson-edit',{id:d.id});break;
-    case 'l-dup':{const L=clone(lessonById(d.id));L.id='L'+Date.now();L.title+=' (Kopie)';lessons().push(L);save();render();break}
+    case 'l-dup':{const L=clone(lessonById(d.id));L.id=lid();delete L.owner;delete L.shared;L.title+=' (Kopie)';lessons().push(L);save();render();break}
     case 'l-del':V.del=d.id;render();break;
     case 'l-del-no':V.del=null;render();break;
-    case 'l-del-yes':S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
+    case 'l-del-yes':cloudDelLesson(d.id);S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
     case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
     case 'l-go':startStep(+d.i);break;
     case 'l-stop':if(KF)kfbStop(true);CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
@@ -2062,22 +2273,41 @@ document.addEventListener('click',e=>{
     case 'nick-more':V.sugg=suggestNicks();render();break;
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<3){$('#nick-err').textContent='Dein Nickname braucht 3 bis 16 Zeichen (Buchstaben, Zahlen, - oder _).';break}
-      setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);break}
-    case 'r-teach':if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
+      setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+    case 'r-teach':if(CLOUD)break;if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
-    case 'role-reset':Live.stop();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'role-reset':Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'tdash':go('tdash');break;
+    case 'login':V.err='';go('login');break;
+    case 'lg-in':lgIn(false);break;
+    case 'lg-up':lgIn(true);break;
+    case 'lg-out':try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[];S.role=null;save();go('role',{step:'splash'});break;
+    case 'lg-refresh':cloudLoadMe().then(render);break;
+    case 'lg-cls':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c)teacherEnter(c);break}
+    case 'lg-admin':S.role='teacher';saveRole();if(!CS)initTeacher();A.ok=false;go('admin');break;
+    case 'admin':A.ok=false;A.msg='';go('admin');break;
+    case 'ad-ask':V.adel=d.k;render();break;
+    case 'ad-cancel':V.adel=null;render();break;
+    case 'ad-school-add':{const n=$('#ad-sn').value.trim();if(n){V.adel=null;adminDo(Cloud.sb.from('schools').insert([{name:n.slice(0,80),place:$('#ad-sp').value.trim().slice(0,60)}]),'Schule angelegt.')}break}
+    case 'ad-school-del':V.adel=null;adminDo(Cloud.sb.from('schools').delete().eq('id',d.id),'Schule gelöscht.');break;
+    case 'ad-class-add':{const n=$('#ad-cn-'+d.id).value.trim().slice(0,20),sz=Math.max(2,Math.min(40,+$('#ad-cs-'+d.id).value||24));
+      if(n)adminDo(Cloud.sb.from('classes').insert([{school_id:d.id,name:n,size:sz,code:n.replace(/[^A-Za-z0-9]/g,'')+'-'+Math.random().toString(36).slice(2,8)}]),'Klasse angelegt.');break}
+    case 'ad-class-del':V.adel=null;adminDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
+    case 'ad-name':adminDo(Cloud.sb.from('profiles').update({name:$('#ad-pn-'+d.id).value.trim().slice(0,60)}).eq('id',d.id),'Name gespeichert.');break;
+    case 'ctt-open':CT.cid=null;go('ctt',{cid:d.id,from:'admin'});break;
+    case 'cls-switch':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()}break}
+
     case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
     case 'tp-w':V.w=+d.w;render();break;
-    case 'tt-edit':V.ttEdit=!V.ttEdit;render();break;
+    case 'tt-edit':if(CLOUD&&Cloud.prof){go('ctt',{cid:S.cls,from:'tplan'});break}V.ttEdit=!V.ttEdit;render();break;
     case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
     case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
     case 'tp-new':{const sl=TD.tt[d.d+'-'+d.i],dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
       const L=newLessonFrom(sl.s,dbl?90:45,`${SUBJECTS[sl.s].name} ${sl.c} · ${DAYS[+d.d]} ${new Date(d.date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${dbl?' (Doppelstunde)':''}`);
       tpAssign(+d.d,+d.i,d.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
     case 'tp-assign':tpAssign(+d.d,+d.i,d.date,$('#tp-ex').value);$('#ov').hidden=true;render();break;
-    case 'tp-unset':{const lid=TD.plan[d.k];Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===lid&&k.split('|')[0]===d.k.split('|')[0])delete TD.plan[k]});tsave();$('#ov').hidden=true;render();break}
+    case 'tp-unset':{const lid=TD.plan[d.k];Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===lid&&k.split('|')[0]===d.k.split('|')[0]){cloudUnplan(k);delete TD.plan[k]}});tsave();$('#ov').hidden=true;render();break}
     case 'tool-pool':toolPool(+d.i);break;
     case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id];p.tool=d.t?toolDefaults(d.t,p,L):null;
       if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render()}break}
@@ -2231,6 +2461,7 @@ if(!S.role)V={name:'role'};
 else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
 hdr();tickClock();render();
 if(S.role==='teacher')libLoad();
+if(CLOUD)cloudBoot();
 try{speechSynthesis.getVoices()}catch(e){}
 let lastMin=-1;
 setInterval(()=>{
