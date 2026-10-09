@@ -470,6 +470,66 @@ body.tboard .hintbox{font-size:2.2rem}
 body.tboard .fb{font-size:1.5rem}
 body.tboard .sky{height:260px}
 body.tboard .bal{width:48px;height:60px}
+
+/* v10: Planung, Werkzeuge, Präsentation, Kopfrechenfußball */
+.tp{overflow-x:auto;margin-top:12px}
+.tp table{border-collapse:separate;border-spacing:6px;width:100%;min-width:760px;table-layout:fixed}
+.tp th{font-weight:800;color:var(--muted);font-size:.85rem;text-align:left;padding:0 4px}
+.tp td.tm{font-size:.8rem;font-weight:800;color:var(--muted);width:90px;vertical-align:top}
+.tpc{min-height:74px;border-radius:12px;border:2px dashed var(--line);padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted)}
+.tpc.has{border:2px solid var(--sc);border-left-width:6px;background:var(--surface);color:var(--ink)}
+.tpc.planned{background:color-mix(in srgb,var(--sc) 10%,var(--surface))}
+.tpc.today{box-shadow:0 0 0 3px var(--yellow)}
+.tpc b{font-size:.92rem;line-height:1.15;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.tpc .add{color:var(--sc);font-weight:800}
+.toolcard{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--surface-2)}
+.toolcard .ti{font-size:2rem}
+.pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px;text-align:left}
+.pool button{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--surface);cursor:pointer;text-align:left;font:inherit;color:var(--ink)}
+.pool button.fit{border-color:var(--green)}
+.pool button.cur{background:var(--ok-bg)}
+.pool .gi{font-size:1.8rem}.pool small{color:var(--muted);font-weight:700}
+.fit-tag{font-size:.72rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:.06em}
+body.pres .top{display:none}
+body.pres main{max-width:none!important;padding:12px 16px!important}
+.pres{display:grid;grid-template-rows:auto 1fr auto;gap:12px;min-height:calc(100vh - 24px)}
+.pres-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pres-top .strip{margin:0;flex:1}
+.ptimer{font-family:var(--f-display);font-size:1.8rem;font-weight:800;font-variant-numeric:tabular-nums;padding:2px 14px;border-radius:12px;background:var(--surface);border:2px solid var(--line)}
+.pres-main{background:var(--surface);border-radius:24px;border:1px solid var(--line);box-shadow:var(--shadow);padding:clamp(16px,3vw,40px);display:flex;flex-direction:column;min-height:0;overflow:auto;border-top:10px solid var(--sc)}
+.pres-nav{display:flex;gap:12px;align-items:center}
+.pres-nav .btn.big{min-width:120px;min-height:72px;font-size:2rem}
+.pres-nav .pn{flex:1;min-width:0}
+.pres-nav .pn b{font-family:var(--f-display);font-size:1.4rem;display:block}
+.pres-nav .pn small{color:var(--muted);font-weight:700;font-size:1rem}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
+.slide h1{font-size:clamp(2.6rem,6vw,5.5rem);line-height:1.05}
+.slide p{font-size:clamp(1.3rem,2.6vw,2.2rem);font-weight:700;color:var(--muted);max-width:30ch}
+.slide-media{width:100%;flex:1;min-height:40vh;display:grid;place-items:center}
+.slide-media img,.slide-media video{max-width:100%;max-height:60vh;border-radius:16px}
+.slide-media iframe{width:100%;height:60vh;border:0;border-radius:16px;background:#fff}
+.kfb{display:grid;gap:14px}
+.kfb-top{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.team{font-family:var(--f-display);font-weight:800;font-size:clamp(1.3rem,2.4vw,2rem);padding:8px 16px;border-radius:16px;color:#fff;display:flex;justify-content:space-between;gap:10px}
+.team.a{background:#cf3a2c}.team.b{background:#2f6fd6}
+.team big{font-size:1.4em}
+.kq{font-family:var(--f-display);font-weight:800;font-size:clamp(2.6rem,6vw,5rem);text-align:center;font-variant-numeric:tabular-nums}
+.pitch{display:grid;grid-template-columns:.6fr repeat(7,1fr) .6fr;height:clamp(110px,18vh,190px);border-radius:18px;overflow:hidden;background:repeating-linear-gradient(90deg,#2f9a5a 0 14.28%,#38a865 14.28% 28.56%);border:4px solid #fff;box-shadow:var(--shadow);position:relative}
+.pitch::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid rgba(255,255,255,.7)}
+.pitch .g{display:grid;place-items:center;font-size:2rem;color:#fff;font-weight:800}
+.pitch .g.l{background:rgba(207,58,44,.6)}.pitch .g.r{background:rgba(47,111,214,.6)}
+.pitch .c{display:grid;place-items:center;position:relative;z-index:1}
+.pitch .ball{font-size:clamp(2.6rem,6vh,4.6rem);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3));animation:pop .35s}
+.kfb-msg{text-align:center;font-weight:800;font-size:1.3rem;min-height:1.6em}
+.kfb-msg.ok{color:var(--green)}.kfb-msg.no{color:var(--orange)}
+.kfb-ctrl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.kfb-ctrl .ta{background:#cf3a2c;border-color:#cf3a2c;color:#fff}.kfb-ctrl .tb{background:#2f6fd6;border-color:#2f6fd6;color:#fff}
+.kseats{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px}
+.kseat{min-height:58px;border-radius:12px;border:3px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.55;padding:2px}
+.kseat small{font-size:.72rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kseat.on{opacity:1}.kseat.A{border-color:#cf3a2c}.kseat.B{border-color:#2f6fd6}
+.kseat.ask{background:var(--yellow);animation:pulse 1.2s infinite}
+.kin{font-size:2rem;text-align:center;font-family:var(--f-display);font-weight:800}
 </style>
 
 <header class="top"><div class="top-in">
@@ -477,7 +537,7 @@ body.tboard .bal{width:48px;height:60px}
   <nav class="nav" id="nav">
     <button class="tv" data-act="tdash" data-nav="tdash" hidden>Lehrerzimmer</button>
     <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
-    <button class="tv" data-act="lessons" data-nav="lessons" id="nav-lessons" hidden>Planung</button>
+    <button class="tv" data-act="tplan" data-nav="tplan" id="nav-lessons" hidden>Planung</button>
     <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
     <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
@@ -767,20 +827,22 @@ function lessonPopup(sl,prev){
 
 /* ---------- Router ---------- */
 let V={name:'dash'},stops=[];
-function go(name,arg={}){stops.forEach(f=>f());stops=[];V={name,...arg};render();window.scrollTo(0,0)}
+function go(name,arg={}){stops.forEach(f=>f());stops=[];if(typeof KF!=='undefined'&&KF&&V.name==='kfb'&&name!=='kfb')kfbStop();V={name,...arg};render();window.scrollTo(0,0)}
 function render(){
   $('#view').innerHTML=VIEWS[V.name]();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name));
   $('#nav').hidden=V.name==='role';
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
-  document.body.classList.toggle('wide',V.name==='tafel');
+  document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
+  document.body.classList.toggle('pres',V.name==='present');
+  if(V.name==='present')fillMedia();
   document.body.classList.toggle('tboard',S.role==='teacher'&&['memory','salad','balloon'].includes(V.name));
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='lesson-edit'&&b.dataset.nav==='lessons')));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
   updBanner();
   if(V.name==='tafel')updTafel();
 }
@@ -879,7 +941,7 @@ function lvlInfo(){const l=Math.floor(S.stars/10)+1;return {l,name:LEVELS[Math.m
 function lvlBar(){const L=lvlInfo();
   return `<div class="lvl">${elo('happy',52)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b style="font-size:1.15rem">Level ${L.l} · ${L.name}</b><small class="muted" style="font-weight:700">Noch ${L.left} Stern${L.left>1?'e':''} bis Level ${L.l+1}</small></div>
     <div class="bar"><i style="width:${L.pct}%"></i></div></div></div>`}
-function gameHead(g,s){return `<div class="st-head s-${s}">${S.role==='teacher'?'<button class="btn sm" data-act="tafel">← Tafel</button><span class="chip">An der Tafel · Touch</span>':`<button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
+function gameHead(g,s){return `<div class="st-head s-${s}">${S.role==='teacher'?`<button class="btn sm" data-act="${V.back||'tafel'}">← ${V.back==='present'?'Präsentation':'Tafel'}</button><span class="chip">An der Tafel · Touch</span>`:`<button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
 function finishGame(g){
   const day=new Date().toISOString().slice(0,10);
   if(S.playDay!==day){S.play={};S.playDay=day}
@@ -890,7 +952,7 @@ function finishGame(g){
 }
 function winBox(g){return `<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b>
   <p>${S.role==='teacher'?'Stark gemacht, Klasse!':g.star?'+1 Stern fürs Dranbleiben.':'Für dieses Spiel hast du heute schon 3 Sterne. Üben lohnt sich trotzdem!'}</p></div>
-  <button class="btn pri" data-act="g-again">Nochmal</button>${S.role==='teacher'?'<button class="btn" data-act="tafel">Zurück zur Tafel</button>':`<button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button>`}</div>`}
+  <button class="btn pri" data-act="g-again">Nochmal</button>${S.role==='teacher'?`<button class="btn" data-act="${V.back||'tafel'}">Zurück</button>`:`<button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button>`}</div>`}
 VIEWS.practice=()=>{
   const s=V.s||S.lastPs||'E';
   const lad=[
@@ -1295,6 +1357,7 @@ function onStudentMsg(m){
   (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
   if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(TD.nicks[nr]!==nk){TD.nicks[nr]=nk;tsave()}if(V.name==='tafel')updTafel()}}
   let ch=false;
+  if(m.k==='kfb'){kfbAnswer(nr,m);return}
   if(m.k==='help'){const has=CS.help.includes(nr);if(m.on&&!has){CS.help.push(nr);ch=true;SND.right()}if(!m.on&&has){CS.help=CS.help.filter(x=>x!==nr);ch=true}}
   if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true}
   if(m.k==='vote'&&CS.poll&&m.id===CS.poll.id&&!CS.poll.voted.includes(nr)){CS.poll.voted.push(nr);TALLY[m.o]=(TALLY[m.o]||0)+1;ch=true}
@@ -1314,7 +1377,7 @@ VIEWS.tafel=()=>{
         <p style="margin-top:10px;font-family:var(--f-display);font-size:1.3rem"><span class="label">Mission</span> ${esc(S.mission)}</p>
         ${tafelMats(L)}
         ${L?`<div class="strip">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}">${i+1}. ${esc(p.name)}</button>`).join('')}</div>
-          <div class="row" style="margin-top:12px"><button class="btn" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button><button class="btn pri" data-act="l-go" data-i="${CS.step+1}" ${CS.step>=L.phases.length-1?'disabled':''}>Nächste Phase ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button></div>`
+          <div class="row" style="margin-top:12px"><button class="btn" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button><button class="btn pri" data-act="l-go" data-i="${CS.step+1}" ${CS.step>=L.phases.length-1?'disabled':''}>Nächste Phase ▶</button><button class="btn sm" data-act="present">Präsentation</button><button class="btn sm" data-act="l-stop">Stunde beenden</button></div>`
         :`<div class="row" style="margin-top:12px"><button class="btn pri" data-act="lessons">Stunde starten</button></div>`}</div>
       <div class="ring" id="tring"><div id="ttime">${fmt(timerLeft(CS.timer))}</div></div>
     </div>
@@ -1333,7 +1396,7 @@ VIEWS.tafel=()=>{
     <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
     <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
-      ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}</div>
+      ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}<button class="btn" data-act="tkfb">⚽ Kopfrechenfußball</button></div>
     <div class="grp row"><span class="label">Material</span><button class="btn" data-act="lib-pick">Aus der Bibliothek zeigen</button>${CS.share?`<span class="chip">Auf den iPads: ${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button>`:''}</div>
     <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-set" data-m="${m}">${m} min</button>`).join('')}
       <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
@@ -1394,6 +1457,15 @@ function liveOverlay(){
   if(!RCS.freeze&&RCS.share&&S.shareSeen!==RCS.share.at){sig='sh'+RCS.share.at;
     html=box(`<span class="label">Von deiner Lehrkraft</span><h2>${esc(RCS.share.name)}</h2>
       <div class="row" style="justify-content:center;margin-top:16px"><a class="btn pri" href="${esc(RCS.share.url)}" target="_blank" rel="noopener" data-act="share-ok">Öffnen</a><button class="btn" data-act="share-ok">Schließen</button></div>`)}
+  else if(RCS.kfb&&!RCS.freeze){const K=RCS.kfb,mine=K.ask&&K.ask.nr===S.nr&&!(S.kfbDone||{})[K.ask.id],tm=(K.teams||'')[S.nr-1]==='B'?'B':'A';
+    if(mine){sig='ka'+K.ask.id;full=true;
+      html=`<div class="look" style="background:${tm==='A'?'#cf3a2c':'#2f6fd6'};color:#fff;padding:32px 40px;border-radius:32px">${elo('cheer',100)}<h1 style="color:#fff">Du bist dran!</h1><p class="kin" style="color:#fff;font-size:3.4rem">${esc(K.q)} = ?</p>
+        <div class="row" style="justify-content:center;margin-top:10px"><input id="kfb-a" type="text" inputmode="decimal" autocomplete="off" style="width:200px;font-size:2rem;text-align:center"><button class="btn" data-act="kfb-send" style="min-height:58px;font-size:1.3rem;background:#fff;color:#18203d;border-color:#fff">Abschicken</button></div></div>`;
+      if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}setTimeout(()=>{const i=$('#kfb-a');i&&i.focus()},100)}}
+    else{sig='ki'+K.q+K.pos+K.score+(K.ask?K.ask.nr:'');
+      html=box(`<span class="label">Kopfrechenfußball · Team ${tm==='A'?'Rot':'Blau'}</span><h2 class="kin" style="font-size:3rem;margin-top:8px">${esc(K.q)} = ?</h2>
+        <p style="font-weight:700;margin-top:6px">${K.ask?'Jemand ist gerade dran. Rechne im Kopf mit!':'Rechne im Kopf mit. Vielleicht wirst du gleich drangenommen!'}</p>
+        <p style="font-family:var(--f-display);font-size:1.6rem;margin-top:10px"><span style="color:#cf3a2c">Rot ${K.score[0]}</span> : <span style="color:#2f6fd6">${K.score[1]} Blau</span></p>`)}}
   else if(RCS.freeze||ph.look){sig='look'+RCS.freeze+RCS.phaseAt;full=true;
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
   else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null;
@@ -1503,6 +1575,7 @@ function startStep(i){
   if(p.act==='poll'){const P=POLLS[p.poll||'thumbs'];CS.poll={id:'p'+Date.now(),type:p.poll||'thumbs',q:P.q,opts:P.opts,voted:[]};TALLY={}}
   if(p.act==='ready')CS.ready={id:'r'+Date.now(),done:[],rewarded:false};
   if(p.act==='journal')CS.journal={id:'j'+Date.now(),done:[]};
+  if(p.tool&&p.tool.id==='kfb'){if(!KF)kfbStart(p.tool.level,true)}else if(KF)kfbStop(true);
   pushCS();render();
 }
 
@@ -1664,7 +1737,7 @@ VIEWS.tdash=()=>{
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1><span class="chip">${esc(className())}</span></div>
   <div class="areas four">
     <button class="area a-tafel" data-act="tafel"><span class="ai">🖥️</span><b>Tafel</b><small>${L?`Läuft: ${esc(L.title)} · Phase ${CS.step+1}`:'Keine Stunde aktiv'} · ${on} online</small></button>
-    <button class="area a-plan" data-act="lessons"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
+    <button class="area a-plan" data-act="tplan"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
     <button class="area a-lib" data-act="library"><span class="ai">📚</span><b>Bibliothek</b><small>${LIB.ready?LIB.items.length+' Materialien':'lädt …'}</small></button>
     <button class="area a-obs" data-act="obs"><span class="ai">📝</span><b>Beobachtungen</b><small>${all.length} Notizen · nur für dich</small></button>
   </div>
@@ -1673,6 +1746,196 @@ VIEWS.tdash=()=>{
       <span class="row"><button class="btn sm ok" data-act="l-start" data-id="${x.id}">Starten</button><button class="btn sm" data-act="l-edit" data-id="${x.id}">Bearbeiten</button></span></div>`).join('')||'<div class="empty">Noch keine Stunden.</div>'}</div></section>
   <div class="row" style="margin-top:18px"><button class="btn" data-act="preview">Schüleransicht ansehen</button><button class="btn" data-act="role-reset">Abmelden</button></div>`;
 };
+
+/* =====================================================================
+   PLANUNG: Lehrer-Stundenplan, Vorlagen, Werkzeug-Pool
+   ===================================================================== */
+// Vorläufige Mathe-Vorlage, bis Fabians echte Vorlage da ist
+const TEMPLATES={M:[
+  {name:'Begrüßung',goal:'Ankommen, Stundenstart',min:3,sf:'Plenum',method:'Begrüßungsfolie',txt:'Guten Morgen! Leg deine Sachen bereit.',act:'look',tool:{id:'slide',title:'Guten Morgen, 7bG!',text:'',mat:''}},
+  {name:'Ritual / Warm-up',goal:'Kopfrechnen automatisieren, aktivieren',min:10,sf:'Plenum',method:'Kopfrechenfußball',txt:'Kopfrechenfußball! Rechne mit, vielleicht wirst du drangenommen.',act:'none',tool:{id:'kfb',level:'1x1'}},
+  {name:'Vorwissensaktivierung',goal:'An Bekanntes anknüpfen',min:7,sf:'PA',method:'Blitzlicht',txt:'Was weißt du schon zum Thema?',act:'look',tool:{id:'slide',title:'Was wissen wir schon?',text:'',mat:''}},
+  {name:'Problemstellung',goal:'Neugier wecken, Problem erkennen',min:7,sf:'Plenum',method:'Problemfolie',txt:'Schau dir das Problem an. Was fällt dir auf?',act:'look',tool:{id:'slide',title:'Unser Problem heute',text:'',mat:''}},
+  {name:'Zielangabe',goal:'Stundenziel transparent machen',min:3,sf:'Plenum',method:"Elo's Mission Call",txt:'Hör zu: Das ist heute unsere Mission.',act:'mission',tool:{id:'slide',title:'Unsere Mission',text:'',mat:''}},
+  {name:'Erarbeitung',goal:'Lösungswege selbst entdecken',min:18,sf:'EA',method:'Ich – Du – Wir',txt:'Löse die Aufgabe erst allein, dann mit deinem Partner.',act:'none',tool:null},
+  {name:'Sicherung',goal:'Ergebnisse festhalten',min:12,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'goto',target:'heft:M',tool:{id:'slide',title:'Merke',text:'',mat:''}},
+  {name:'Übung / Vertiefung',goal:'Gelerntes anwenden',min:18,sf:'PA',method:'Lernspiele',txt:'Übe mit deinem Partner.',act:'none',tool:{id:'memory',s:'M'}},
+  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:6,sf:'Plenum',method:'Daumen-Abfrage',txt:'Hast du es verstanden? Stimm ab.',act:'poll',poll:'thumbs',tool:null},
+  {name:'Lerntagebuch & Ausblick',goal:'Lernen festhalten, Hausaufgabe',min:6,sf:'EA',method:'Lerntagebuch',txt:'Trag ein, was du heute gelernt hast.',act:'journal',tool:null},
+]};
+function newLessonFrom(subj,min,title){
+  const base=clone(TEMPLATES[subj]||SCAFFOLD),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
+  base.forEach(p=>{p.min=Math.max(1,Math.round(p.min*f));if(p.target==='heft:M'&&subj!=='M')p.target='heft:'+subj;if(p.tool&&p.tool.s&&GAMES[subj])p.tool.s=subj});
+  const L={id:'L'+Date.now(),title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'vorläufig':''};
+  lessons().push(L);save();return L;
+}
+const TOOLS={
+  slide:{name:'Folie',icon:'🖼️',txt:'Große Folie mit Titel, Text und Bild, Video oder PDF aus der Bibliothek.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
+  kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams. Du nimmst per Sitzplan jemanden dran, die Aufgabe poppt auf dem iPad auf. Richtig = Ball rollt weiter.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
+  memory:{name:'Memory',icon:'🃏',txt:'Paare finden, groß an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
+  salad:{name:'Wortsalat',icon:'🔤',txt:'Buchstaben ordnen, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
+  balloon:{name:'Ballon-Rätsel',icon:'🎈',txt:'Wort erraten, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
+  mat:{name:'Material zeigen',icon:'📚',txt:'Eine Datei oder ein Video aus deiner Bibliothek groß zeigen.',fit:/begr|einstieg|problem|erarb|sicherung/i},
+};
+function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';
+  return {slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'1x1'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
+const showable=m=>m.kind==='link'||canShow(m);
+function toolEditor(p,i,L){
+  const t=p.tool,T=t&&TOOLS[t.id];
+  if(!T)return `<div class="toolcard" style="margin-top:6px"><span class="ti">➕</span><div style="flex:1"><b>Kein Werkzeug</b><br><small class="muted" style="font-weight:700">Die Tafel zeigt Phase und Anweisung.</small></div><button class="btn pri sm" data-act="tool-pool" data-i="${i}">Aus dem Pool wählen</button></div>`;
+  let cfg='';
+  if(t.id==='slide')cfg=`<div class="lgrid" style="margin-top:8px"><label>Titel auf der Folie<input type="text" data-f="ph.${i}.tool.title" value="${esc(t.title||'')}"></label>
+      <label>Text (freiwillig)<input type="text" data-f="ph.${i}.tool.text" value="${esc(t.text||'')}"></label>
+      <label>Bild, Video oder PDF<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
+  if(t.id==='mat')cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Material<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):''}</select></label></div>`;
+  if(t.id==='kfb')cfg=`<div class="lgrid" style="margin-top:8px"><label>Aufgaben<select data-f="ph.${i}.tool.level">${Object.entries(KFB_LEVELS).map(([k,v])=>`<option value="${k}" ${k===t.level?'selected':''}>${v}</option>`).join('')}</select></label></div>`;
+  if(GAME_INFO[t.id])cfg=`<div class="lgrid" style="margin-top:8px"><label>Inhalte aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div>`;
+  return `<div class="toolcard" style="margin-top:6px"><span class="ti">${T.icon}</span><div style="flex:1;min-width:0"><b>${T.name}</b><br><small class="muted" style="font-weight:700">${T.txt}</small></div><button class="btn sm" data-act="tool-pool" data-i="${i}">Ändern</button></div>${cfg}`;
+}
+function toolPool(i){
+  const L=lessonById(V.id),p=L&&L.phases[i];if(!p)return;
+  const fits=id=>TOOLS[id].fit.test(p.name+' '+(p.goal||''))&&(!TOOLS[id].subj||TOOLS[id].subj===L.subject);
+  const ids=Object.keys(TOOLS).sort((a,b)=>fits(b)-fits(a));
+  showOv(`<div class="box" style="max-width:820px;text-align:left"><span class="label">Werkzeug-Pool · Phase ${i+1}</span><h2>${esc(p.name)}: Was soll an die Tafel?</h2>
+    <div class="pool">${ids.map(id=>`<button class="${fits(id)?'fit':''} ${p.tool&&p.tool.id===id?'cur':''}" data-act="tool-pick" data-i="${i}" data-t="${id}">${fits(id)?'<span class="fit-tag">Passt zu dieser Phase</span>':''}<span class="gi">${TOOLS[id].icon}</span><b>${TOOLS[id].name}</b><small>${TOOLS[id].txt}</small></button>`).join('')}
+      <button data-act="tool-pick" data-i="${i}" data-t=""><span class="gi">➖</span><b>Kein Werkzeug</b><small>Nur Phase und Anweisung an der Tafel.</small></button></div>
+    <p class="muted" style="margin-top:12px;font-weight:700">Der Pool wächst: Neue Werkzeuge (z. B. aus deinen PowerPoints) kommen hier dazu.</p>
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Schließen</button></div></div>`);
+}
+
+/* --- Lehrer-Stundenplan --- */
+function ttDefault(){const t={};WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c:'7bG'}}));return t}
+if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}
+TD.plan=TD.plan||{};
+function monday(off){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7)+7*off);return d}
+const isoD=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x.toISOString().slice(0,10)};
+function weekOff(){if(V.w!=null)return V.w;const n=new Date(),g=n.getDay();return g===0||g===6||(g===5&&n.getHours()>=13)?1:0}
+VIEWS.tplan=()=>{
+  const off=weekOff(),mo=monday(off),days=[0,1,2,3,4].map(d=>{const x=new Date(mo);x.setDate(mo.getDate()+d);return x});
+  const td=isoD(new Date()),ed=!!V.ttEdit;
+  const cell=(d,i)=>{const sl=TD.tt[d+'-'+i],date=isoD(days[d]),lid=TD.plan[date+'|'+i],L=lid&&lessonById(lid);
+    const prev=i>0&&TD.plan[date+'|'+(i-1)]===lid&&L;
+    if(!sl)return `<div class="tpc" data-act="tp-cell" data-d="${d}" data-i="${i}" data-date="${date}">${ed?'+ Fach eintragen':''}</div>`;
+    return `<div class="tpc has s-${sl.s} ${L?'planned':''} ${date===td?'today':''}" data-act="tp-cell" data-d="${d}" data-i="${i}" data-date="${date}" role="button" tabindex="0">
+      <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span></span>
+      ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):'<span class="add">+ Stunde planen</span>'}</div>`};
+  return `<div class="row" style="justify-content:space-between;margin-bottom:10px"><h1>Planung</h1>
+    <div class="row"><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':'Stundenplan bearbeiten'}</button></div></div>
+  ${TD.ttEx?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
+  ${ed?'<div class="priv">✏️ Tippe auf ein Feld, um Fach und Klasse einzutragen. Das gilt für jede Woche.</div>':''}
+  <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
+    <b style="font-family:var(--f-display);font-size:1.2rem">${days[0].toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} – ${days[4].toLocaleDateString('de-DE',{day:'numeric',month:'numeric',year:'numeric'})}${off===0?' · diese Woche':off===1?' · nächste Woche':''}</b>
+    <button class="btn sm" data-act="tp-w" data-w="${off+1}">Nächste Woche ▶</button></div>
+  <div class="tp"><table><thead><tr><th></th>${days.map((x,d)=>`<th>${DAYS[d]} ${x.toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</th>`).join('')}</tr></thead><tbody>
+    ${PERIODS.map((pp,i)=>`<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${days.map((_,d)=>`<td>${cell(d,i)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+};
+function tpCell(d,i,date){
+  const sl=TD.tt[d+'-'+i];
+  if(V.ttEdit||!sl){
+    showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${DAYS[d]} · ${i+1}. Stunde · jede Woche</span><h2>Fach und Klasse</h2>
+      <label class="label" style="display:block;margin-top:10px">Klasse<input id="tt-c" type="text" value="${esc(sl?sl.c:'7bG')}"></label>
+      <div class="cats" style="margin-top:10px">${Object.entries(SUBJECTS).map(([k,v])=>`<button class="${sl&&sl.s===k?'on':''}" data-act="tt-set" data-d="${d}" data-i="${i}" data-s="${k}">${v.name}</button>`).join('')}
+        <button data-act="tt-set" data-d="${d}" data-i="${i}" data-s="">frei</button></div>
+      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Schließen</button></div></div>`);return}
+  const key=date+'|'+i,L=lessonById(TD.plan[key]);
+  const nx=TD.tt[d+'-'+(i+1)],dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
+  const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
+  if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
+  const others=lessons().filter(x=>x.subject===sl.s);
+  showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
+    ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
+    <button class="btn pri" style="width:100%;margin-top:12px" data-act="tp-new" data-d="${d}" data-i="${i}" data-date="${date}">Neue Stunde aus der ${TEMPLATES[sl.s]?SUBJECTS[sl.s].name+'-':''}Vorlage</button>
+    ${others.length?`<div class="row" style="margin-top:12px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div>`:''}
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
+}
+function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave()}
+
+/* --- Kopfrechenfußball --- */
+const KFB_LEVELS={'1x1':'Kleines Einmaleins','plus':'Plus bis 100','minus':'Minus bis 100','mix':'Gemischt (· + −)','quad':'Quadratzahlen bis 20','proz':'Einfache Prozente'};
+function kfbTask(lv){const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  if(lv==='mix')lv=['1x1','plus','minus'][r(0,2)];
+  if(lv==='plus'){const a=r(11,89),b=r(5,100-a);return {q:`${a} + ${b}`,a:a+b}}
+  if(lv==='minus'){const a=r(20,100),b=r(5,a-1);return {q:`${a} − ${b}`,a:a-b}}
+  if(lv==='quad'){const a=r(2,20);return {q:`${a}²`,a:a*a}}
+  if(lv==='proz'){const pc=[10,20,25,50][r(0,3)],base=pc===25?r(1,20)*4:pc===20?r(1,20)*5:r(1,20)*10;return {q:`${pc} % von ${base}`,a:base*pc/100}}
+  const a=r(2,10),b=r(2,10);return {q:`${a} · ${b}`,a:a*b}}
+let KF=null;
+const teamOf=k=>(TD.teams&&TD.teams[k])||(k<=Math.ceil(S.classSize/2)?'A':'B');
+function kfbStart(level,quiet){KF={level:level||'1x1',pos:0,score:[0,0],task:kfbTask(level||'1x1'),ask:null,last:null,show:false,teamEdit:false};if(!quiet)kfbPush()}
+function kfbStop(quiet){KF=null;if(CS){CS.kfb=null;if(!quiet)pushCS()}}
+function kfbSync(){if(!CS)return;CS.kfb=KF?{q:KF.task.q,pos:KF.pos,score:KF.score.slice(),ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join('')}:null}
+function kfbPush(){kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}
+function kfbMove(team){
+  KF.pos+=team==='A'?1:-1;
+  if(Math.abs(KF.pos)>=4){KF.score[team==='A'?0:1]++;KF.pos=0;KF.goal=team;SND.cheer();setTimeout(()=>{if(KF){KF.goal=null;if(['kfb','present'].includes(V.name))render()}},2500)}else SND.right();
+}
+function kfbNext(){KF.task=kfbTask(KF.level);KF.ask=null;KF.show=false}
+function kfbAnswer(nr,m){
+  if(!KF||!KF.ask||m.id!==KF.ask.id||nr!==KF.ask.nr)return;
+  const val=parseFloat(String(m.a||'').replace(',','.').trim()),ok=Math.abs(val-KF.task.a)<1e-9,nm=esc(nickOf(nr)||'Nr. '+nr);
+  if(ok){kfbMove(teamOf(nr));KF.last={ok:true,txt:`${nm}: ${KF.task.q} = ${KF.task.a} ✓ Der Ball rollt für Team ${teamOf(nr)==='A'?'Rot':'Blau'}!`}}
+  else{SND.oops();KF.last={ok:false,txt:`${nm}: ${esc(String(m.a||'–'))}. Richtig wäre ${KF.task.a}. Nächste Chance!`}}
+  kfbNext();kfbPush();
+}
+function renderKfb(){
+  if(!KF)kfbStart('1x1',true),kfbSync();
+  const on=CS?online():[],ask=KF.ask,cells=Array.from({length:7},(_,j)=>j-3);
+  return `<div class="kfb">
+    <div class="kfb-top"><div class="team a"><span>Team Rot</span><big>${KF.score[0]}</big></div><div class="kq">${esc(KF.task.q)} = ${KF.show?KF.task.a:'?'}</div><div class="team b"><big>${KF.score[1]}</big><span>Team Blau</span></div></div>
+    <div class="pitch"><div class="g l">🥅</div>${cells.map(c=>`<div class="c">${c===KF.pos?'<span class="ball">⚽</span>':''}</div>`).join('')}<div class="g r">🥅</div></div>
+    <div class="kfb-msg ${KF.goal?'ok':ask?'':KF.last?(KF.last.ok?'ok':'no'):''}">${KF.goal?`TOOOR für Team ${KF.goal==='A'?'Rot':'Blau'}! 🎉`:ask?`${esc(nickOf(ask.nr)||'Nr. '+ask.nr)} ist dran … die Aufgabe ist auf dem iPad.`:KF.last?KF.last.txt:'Tippe unten auf einen Platz, um jemanden dranzunehmen.'}</div>
+    <div class="kfb-ctrl"><button class="btn ta" data-act="kfb-team" data-t="A">Team Rot richtig</button><button class="btn" data-act="kfb-show">${KF.show?'Lösung verstecken':'Lösung zeigen'}</button><button class="btn" data-act="kfb-new">Neue Aufgabe</button><button class="btn tb" data-act="kfb-team" data-t="B">Team Blau richtig</button></div>
+    <details class="panel" open><summary style="font-weight:800;cursor:pointer">Sitzplan · ${on.length} online · ${KF.teamEdit?'Teams einteilen: Tippe zum Wechseln':'Tippe, um jemanden dranzunehmen'}</summary>
+      <div class="kseats" style="margin-top:10px">${Array.from({length:S.classSize},(_,i)=>{const k=i+1;return `<button class="kseat ${teamOf(k)} ${on.includes(k)?'on':''} ${ask&&ask.nr===k?'ask':''}" data-act="kfb-seat" data-n="${k}">${k}${nickOf(k)?`<small>${esc(nickOf(k))}</small>`:''}</button>`}).join('')}</div>
+      <div class="row" style="margin-top:10px"><button class="btn sm ${KF.teamEdit?'on':''}" data-act="kfb-teams">${KF.teamEdit?'Teams fertig':'Teams einteilen'}</button>
+        <select id="kfb-lv" style="width:auto">${Object.entries(KFB_LEVELS).map(([k,v])=>`<option value="${k}" ${k===KF.level?'selected':''}>${v}</option>`).join('')}</select>
+        <button class="btn sm" data-act="kfb-reset">Spielstand auf 0</button>${ask?'<button class="btn sm" data-act="kfb-cancel">Drannehmen abbrechen</button>':''}</div></details></div>`;
+}
+VIEWS.kfb=()=>`<div class="st-head"><button class="btn sm" data-act="tafel">← Tafel</button><h1 style="font-size:1.6rem">⚽ Kopfrechenfußball</h1></div>${renderKfb()}`;
+
+/* --- Präsentation (Live an der Tafel) --- */
+function toolStage(p,L){
+  const t=p.tool||{};
+  if(t.id==='kfb')return renderKfb();
+  if(GAME_INFO[t.id])return `<div class="slide"><span style="font-size:5rem">${GAME_INFO[t.id].icon}</span><h1>${GAME_INFO[t.id].name}</h1><p>${esc(p.txt||'')}</p><button class="btn pri" style="font-size:1.6rem;padding:18px 34px" data-act="pgame" data-g="${t.id}" data-s="${t.s||'E'}">Spiel starten</button></div>`;
+  if(t.id==='slide'||t.id==='mat'){const title=t.id==='slide'?(t.title||p.name):'';
+    return `<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${p.act==='mission'&&S.mission?`<p style="color:var(--ink)">🎯 ${esc(S.mission)}</p>`:''}
+      ${t.mat?`<div class="slide-media" id="slide-media" data-id="${t.mat}"></div>`:''}${!t.text&&!t.mat&&p.act!=='mission'?`<p>${esc(p.txt||'')}</p>`:''}</div>`}
+  return `<div class="slide"><h1>${esc(p.name||'')}</h1><p>${esc(p.txt||'')}</p>${p.act==='mission'&&S.mission?`<p style="color:var(--ink)">🎯 ${esc(S.mission)}</p>`:''}${p.method?`<span class="chip" style="font-size:1rem">${esc(p.method)}</span>`:''}</div>`;
+}
+async function fillMedia(){
+  const el=$('#slide-media');if(!el||el.dataset.done)return;el.dataset.done=1;
+  if(!LIB.ready)await libLoad();
+  const m=libById(el.dataset.id);if(!m){el.innerHTML='<p class="muted">Material nicht gefunden (liegt es auf diesem Gerät?).</p>';return}
+  if(m.kind==='link'){el.innerHTML=`<button class="btn pri" style="font-size:1.4rem" data-act="lib-view" data-id="${m.id}">🔗 ${esc(m.name)} öffnen</button>`;return}
+  const b=await idb('blob','readonly',st=>st.get(m.id));if(!b||!$('#slide-media'))return;
+  const u=URL.createObjectURL(b),t=m.mime||'';
+  el.innerHTML=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
+}
+VIEWS.present=()=>{
+  const L=CS&&CS.lesson&&lessonById(CS.lesson.id);
+  if(!L)return `<div class="empty" style="margin-top:40px">Gerade läuft keine Stunde.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn pri" data-act="tplan">Zur Planung</button><button class="btn" data-act="tdash">Lehrerzimmer</button></div></div>`;
+  const i=CS.step,p=L.phases[i]||{},n=L.phases.length;
+  const ms=(p.mats||[]).map(libById).filter(Boolean);
+  return `<div class="pres s-${L.subject}">
+    <div class="pres-top"><button class="btn sm" data-act="tafel">Steuerpult</button><div class="strip">${L.phases.map((x,j)=>`<button class="${j===i?'on':j<i?'past':''}" data-act="l-go" data-i="${j}">${j+1}. ${esc(x.name)}</button>`).join('')}</div>
+      <span class="chip">${CS?online().length:0} online</span><span class="ptimer" id="ptimer">${fmt(timerLeft(CS.timer))}</span></div>
+    <div class="pres-main">${toolStage(p,L)}${ms.length?`<div class="row" style="justify-content:center;margin-top:14px">${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>`).join('')}</div>`:''}</div>
+    <div class="pres-nav"><button class="btn big" data-act="l-go" data-i="${i-1}" ${i<=0?'disabled':''} aria-label="Vorherige Phase">◀</button>
+      <div class="pn"><b>${i+1}/${n} · ${esc(p.name||'')}</b><small>${esc(p.sf||'')}${p.method?' · '+esc(p.method):''} · ${+p.min||0} min</small></div>
+      ${i>=n-1?'<button class="btn big red" data-act="l-stop" style="font-size:1.2rem">Ende</button>':`<button class="btn big pri" data-act="l-go" data-i="${i+1}" aria-label="Nächste Phase">▶</button>`}</div></div>`;
+};
+document.addEventListener('keydown',e=>{
+  if(V.name!=='present'||!CS||!CS.lesson||/INPUT|TEXTAREA|SELECT/.test(document.activeElement&&document.activeElement.tagName))return;
+  const L=lessonById(CS.lesson.id);if(!L)return;
+  if(['ArrowRight','PageDown',' '].includes(e.key)&&CS.step<L.phases.length-1){e.preventDefault();startStep(CS.step+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)&&CS.step>0){e.preventDefault();startStep(CS.step-1)}
+});
+document.addEventListener('change',e=>{if(e.target.id==='kfb-lv'&&KF){KF.level=e.target.value;kfbNext();kfbPush()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='kfb-a'){e.preventDefault();const b=document.querySelector('[data-act=kfb-send]');b&&b.click()}});
+setInterval(()=>{const t=$('#ptimer');if(t&&CS)t.textContent=fmt(timerLeft(CS.timer))},1000);
 VIEWS.lessons=()=>{
   const list=lessons();
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div>
@@ -1705,7 +1968,8 @@ VIEWS['lesson-edit']=()=>{
       <label style="grid-column:span 2">Was passiert auf den iPads?<select data-f="ph.${i}.act">${opt(ACTS,p.act||'none')}</select></label>
       ${p.act==='goto'?`<label>Welche Seite?<select data-f="ph.${i}.target">${opt(TARGETS,p.target||'module')}</select></label>`:''}
       ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}
-      <div style="grid-column:1/-1"><span class="label">Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>
+      <div style="grid-column:1/-1"><span class="label">An der Tafel (Werkzeug)</span>${toolEditor(p,i,L)}</div>
+      <div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>
     </div></article>`).join('')}</div>
   <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button></div>`;
 };
@@ -1713,7 +1977,7 @@ document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
   const v=e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
-  const k=f.split('.');if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
+  const k=f.split('.');if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool)p.tool[k[3]]=v}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.act$/.test(f)&&V.name==='lesson-edit')render()});
@@ -1779,9 +2043,9 @@ document.addEventListener('click',e=>{
     case 'l-del':V.del=d.id;render();break;
     case 'l-del-no':V.del=null;render();break;
     case 'l-del-yes':S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
-    case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();go('tafel');startStep(0);break}
+    case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
     case 'l-go':startStep(+d.i);break;
-    case 'l-stop':CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'l-stop':if(KF)kfbStop(true);CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
     case 'ph-del':{const L=lessonById(V.id);L.phases.splice(+d.i,1);save();render();break}
     case 'ph-up':case 'ph-down':{const L=lessonById(V.id),i=+d.i,j=a==='ph-up'?i-1:i+1;if(j<0||j>=L.phases.length)break;[L.phases[i],L.phases[j]]=[L.phases[j],L.phases[i]];save();render();break}
@@ -1804,6 +2068,31 @@ document.addEventListener('click',e=>{
     case 'role-reset':Live.stop();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'tdash':go('tdash');break;
+    case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
+    case 'tp-w':V.w=+d.w;render();break;
+    case 'tt-edit':V.ttEdit=!V.ttEdit;render();break;
+    case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
+    case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
+    case 'tp-new':{const sl=TD.tt[d.d+'-'+d.i],dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
+      const L=newLessonFrom(sl.s,dbl?90:45,`${SUBJECTS[sl.s].name} ${sl.c} · ${DAYS[+d.d]} ${new Date(d.date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${dbl?' (Doppelstunde)':''}`);
+      tpAssign(+d.d,+d.i,d.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
+    case 'tp-assign':tpAssign(+d.d,+d.i,d.date,$('#tp-ex').value);$('#ov').hidden=true;render();break;
+    case 'tp-unset':{const lid=TD.plan[d.k];Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===lid&&k.split('|')[0]===d.k.split('|')[0])delete TD.plan[k]});tsave();$('#ov').hidden=true;render();break}
+    case 'tool-pool':toolPool(+d.i);break;
+    case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id];p.tool=d.t?toolDefaults(d.t,p,L):null;
+      if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render()}break}
+    case 'present':go('present');break;
+    case 'pgame':go(d.g,{s:d.s,back:'present'});break;
+    case 'tkfb':if(!CS)initTeacher();kfbStart('1x1');go('kfb');break;
+    case 'kfb-seat':{const k=+d.n;if(!KF)break;if(KF.teamEdit){TD.teams=TD.teams||{};TD.teams[k]=teamOf(k)==='A'?'B':'A';tsave();kfbPush()}else{KF.ask={nr:k,id:'k'+Date.now()};KF.last=null;SND.swap();kfbPush()}break}
+    case 'kfb-teams':if(KF){KF.teamEdit=!KF.teamEdit;render()}break;
+    case 'kfb-team':if(KF){kfbMove(d.t);KF.last={ok:true,txt:`Richtig! Ball rollt für Team ${d.t==='A'?'Rot':'Blau'}.`};kfbNext();kfbPush()}break;
+    case 'kfb-show':if(KF){KF.show=!KF.show;render()}break;
+    case 'kfb-new':if(KF){kfbNext();KF.last=null;kfbPush()}break;
+    case 'kfb-cancel':if(KF){KF.ask=null;kfbPush()}break;
+    case 'kfb-reset':if(KF){KF.score=[0,0];KF.pos=0;KF.last=null;kfbPush()}break;
+    case 'kfb-send':{const K=RCS&&RCS.kfb;if(!K||!K.ask)break;const a=($('#kfb-a').value||'').trim();if(!a)break;S.kfbDone=S.kfbDone||{};S.kfbDone[K.ask.id]=1;save();sendMsg({k:'kfb',id:K.ask.id,a:a.slice(0,12)});lastOvSig='';liveOverlay();break}
+
     case 'tgame':go(d.g,{s:$('#tg-s').value});break;
     case 'preview':go('dash');break;
     case 'library':go('library');break;
@@ -1856,7 +2145,7 @@ document.addEventListener('click',e=>{
     case 'practice':go('practice',d.s?{s:d.s}:{});break;
     case 'ps':S.lastPs=d.s;save();V.s=d.s;render();break;
     case 'game':go(d.g,{s:d.s});break;
-    case 'g-again':go(V.name,{s:V.s});break;
+    case 'g-again':go(V.name,{s:V.s,back:V.back});break;
     case 'mem':memClick(+d.i);break;
     case 'sal-pick':{const g=V.g;if(g.fb==='no')g.fb='';g.pick.push(+d.j);if(g.pick.length===g.W[g.i].w.length)saladCheck();render();break}
     case 'sal-un':{const g=V.g;g.pick.splice(+d.p,1);g.fb='';render();break}
