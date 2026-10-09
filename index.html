@@ -67,6 +67,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .empty{padding:22px;border:2px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);font-weight:700}
 
 /* Subject colours: fixed, white text works in both themes */
+.s-WK{--sc:#b0521a}.s-ES{--sc:#c2477f}.s-T{--sc:#55606e}.s-S{--sc:#1f8f4e}.s-GS{--sc:#8d6b12}.s-ET{--sc:#5b57b8}.s-R{--sc:#7a4a2a}.s-GD{--sc:#3d6f8f}
 .s-E{--sc:#c8402f}.s-M{--sc:#2f63c8}.s-K{--sc:#8a4fc1}.s-D{--sc:#0e8577}.s-G{--sc:#a8650f}.s-N{--sc:#3f8a2b}.s-I{--sc:#4a5d78}.s-W{--sc:#c03a74}
 .sbadge{flex:none;width:44px;height:44px;border-radius:12px;background:var(--sc);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.05rem}
 
@@ -475,6 +476,11 @@ body.tboard .bal{width:48px;height:60px}
 .tp{overflow-x:auto;margin-top:12px}
 .tp table{border-collapse:separate;border-spacing:6px;width:100%;min-width:760px;table-layout:fixed}
 .tp th{font-weight:800;color:var(--muted);font-size:.85rem;text-align:left;padding:0 4px}
+.wk tr.pause td,.tp tr.pause td{text-align:center;font-weight:800;font-size:.8rem;color:var(--muted);background:repeating-linear-gradient(45deg,var(--surface-2) 0 8px,transparent 8px 16px);border-radius:8px;padding:4px;border:0}
+.kl{display:grid;gap:16px}.kl .acc{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.kl .acc b{font-family:var(--f-display);font-size:1.6rem;letter-spacing:.08em;background:var(--surface-2);border-radius:10px;padding:4px 12px}
+.splash .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;width:min(640px,100%);margin-top:8px}
+.splash .roles .btn{min-height:84px;font-size:1.25rem;flex-direction:column;gap:4px}.splash .roles .btn small{font-size:.85rem;font-weight:700;opacity:.8}
 .tp td.tm{font-size:.8rem;font-weight:800;color:var(--muted);width:90px;vertical-align:top}
 .tpc{min-height:74px;border-radius:12px;border:2px dashed var(--line);padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted)}
 .tpc.has{border:2px solid var(--sc);border-left-width:6px;background:var(--surface);color:var(--ink)}
@@ -594,6 +600,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="tplan" data-nav="tplan" id="nav-lessons" hidden>Planung</button>
     <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
     <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
+    <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
     <button class="sv" data-act="homework" data-nav="homework">Hausaufgaben</button>
@@ -624,17 +631,28 @@ const SUBJECTS={
   G:{name:'GPG',short:'GPG',prep:['GPG-Heft','Atlas']},
   N:{name:'N&T',short:'NT',prep:['N&T-Heft','Buntstifte']},
   I:{name:'Informatik',short:'In',prep:['iPad geladen','Informatik-Heft']},
-  W:{name:'W&B',short:'WB',prep:['W&B-Heft','Mappe']},
+  W:{name:'Wirtschaft im Beruf',short:'WiB',prep:['WiB-Heft','Mappe']},
+  WK:{name:'Wirtschaft und Kommunikation',short:'WiK',prep:['WiK-Heft','iPad geladen']},
+  ES:{name:'Ernährung & Soziales',short:'ES',prep:['ES-Heft','Schürze','Haargummi']},
+  T:{name:'Technik',short:'Te',prep:['Technik-Heft','Bleistift und Lineal']},
+  S:{name:'Sport',short:'Sp',prep:['Sportsachen','Trinkflasche']},
+  GS:{name:'GmS',short:'GmS',prep:['GmS-Heft']},
+  ET:{name:'Ethik',short:'Eth',prep:['Ethik-Heft']},
+  R:{name:'Religion',short:'Rel',prep:['Religions-Heft']},
+  GD:{name:'Gebundener Ganztag',short:'GD',prep:['Hausaufgabenheft','Federmäppchen']},
 };
 let TIMETABLE_EXAMPLE=true;
-const PERIODS=[[1,'08:00','08:45'],[2,'08:45','09:30'],[3,'09:45','10:30'],[4,'10:30','11:15'],[5,'11:30','12:15'],[6,'12:15','13:00'],[7,'13:45','14:30'],[8,'14:30','15:15']];
+// 10 Stunden à 45 Minuten, große Pause (30 min) nach der 3. Stunde
+const PERIODS=[[1,'08:00','08:45'],[2,'08:45','09:30'],[3,'09:30','10:15'],[4,'10:45','11:30'],[5,'11:30','12:15'],[6,'12:15','13:00'],[7,'13:00','13:45'],[8,'13:45','14:30'],[9,'14:30','15:15'],[10,'15:15','16:00']];
+const brk=i=>i>0&&PERIODS[i][1]!==PERIODS[i-1][2];
+const pauseTr=i=>brk(i)?`<tr class="pause"><td colspan="6">Pause · ${PERIODS[i-1][2]}–${PERIODS[i][1]}</td></tr>`:'';
 // Mo..Fr, one column per period; '' = frei
 const WEEK=[
-  ['D','D','M','E','G','K','',''],
-  ['M','E','N','N','D','I','',''],
-  ['E','M','D','W','W','K','K',''],
-  ['M','M','E','G','N','D','I','I'],
-  ['E','D','M','K','W','','',''],
+  ['D','D','M','E','G','K','','','',''],
+  ['M','E','N','N','D','I','','','',''],
+  ['E','M','D','W','W','K','K','','',''],
+  ['M','M','E','G','N','D','I','I','',''],
+  ['E','D','M','K','W','','','','',''],
 ];
 const DAYS=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag'];
 const HEFT={
@@ -897,11 +915,11 @@ function render(){
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
-  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');
+  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
 }
@@ -948,7 +966,7 @@ VIEWS.dash=()=>{
     <div class="dash">
       <div style="display:grid;gap:18px;min-width:0">
         <section><span class="label">Meine Fächer</span>
-          <div class="subj-grid">${Object.keys(SUBJECTS).map(subjTile).join('')}</div></section>
+          <div class="subj-grid">${Object.keys(SUBJECTS).filter(k=>WEEK.some(r=>r.includes(k))||HEFT[k]).map(subjTile).join('')}</div></section>
       </div>
       <div style="display:grid;gap:18px;min-width:0">
         <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Heute</span>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>${today}</section>
@@ -1105,7 +1123,7 @@ VIEWS.week=()=>{
   const n=nowInfo();
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Stundenplan</h1>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
   <div class="wk"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>
-  ${PERIODS.map((p,i)=>`<tr><td class="tm">${p[0]}. ${p[1]}<br>${p[2]}</td>${WEEK.map((row,d)=>{const s=row[i];
+  ${PERIODS.map((p,i)=>`${pauseTr(i)}<tr><td class="tm">${p[0]}. ${p[1]}<br>${p[2]}</td>${WEEK.map((row,d)=>{const s=row[i];
     const cur=d===n.day&&n.min>=toMin(p[1])&&n.min<toMin(p[2]);
     return s?`<td class="has s-${s} ${cur?'cur':''}">${SUBJECTS[s].name}</td>`:'<td></td>'}).join('')}</tr>`).join('')}
   </tbody></table></div>`;
@@ -1590,13 +1608,20 @@ const SCHOOLS=[
 ];
 const schoolBy=id=>SCHOOLS.find(x=>x.id===id);
 const classBy=(sid,cid)=>{const sc=schoolBy(sid);return sc&&sc.classes.find(c=>c.id===cid)};
-const className=()=>{const c=classBy(S.school,S.cls);return c?c.name:'Klasse '+S.code};
+const className=()=>{const c=classBy(S.school,S.cls);return c?c.name:S.clsName||'Klasse '+S.code};
 const BIGLOGO='<div class="biglogo">EL<span class="on">I<i></i></span></div>';
 VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
   if(step==='splash')return `<div class="splash">${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
-    <button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button>${CLOUD?'<button class="tlink" data-act="login">Für Lehrkräfte: Anmelden</button>':''}</div>`;
+    ${CLOUD&&!Cloud.err?`<div class="roles"><button class="btn pri" data-act="st-step" data-step="join">🎒 Schüler/in<small>mit Klassencode</small></button>
+      <button class="btn" data-act="login">👩‍🏫 Lehrkraft<small>mit eigenem Konto</small></button><button class="btn" data-act="login" data-admin="1">🔑 Admin<small>Schule verwalten</small></button></div>`
+    :`<button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button>`}</div>`;
+  if(step==='join')return `<div class="start"><div class="start-head">${back('splash')}</div><h1>Anmelden als Schüler/in</h1>
+    <section class="panel" style="max-width:460px"><p style="font-weight:700">Deine Lehrkraft gibt dir den Klassencode und das Passwort.</p>
+      <label class="label" for="j-code" style="display:block;margin-top:12px">Klassencode</label><input id="j-code" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="z. B. 4821" style="font-size:1.6rem;letter-spacing:.1em">
+      <label class="label" for="j-pw" style="display:block;margin-top:12px">Passwort</label><input id="j-pw" type="password" inputmode="numeric" autocomplete="off" maxlength="20" style="font-size:1.6rem;letter-spacing:.1em">
+      <p class="err" id="j-err">${esc(V.err||'')}</p><button class="btn ok big" data-act="join" style="width:100%;margin-top:12px">Weiter</button></section></div>`;
   if(step==='school'&&CLOUD&&!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
   if(step==='school'&&!SCHOOLS.length)return `<div class="start"><div class="start-head">${back('splash')}</div><div class="empty">Hier ist noch keine Schule eingetragen. ${Cloud.err?esc(Cloud.err):'Deine Lehrkraft richtet das gerade ein.'}</div></div>`;
   if(step==='school')return `<div class="start"><div class="start-head">${back('splash')}<span class="label">Schritt 1 von 3</span></div><h1>Wähle deine Schule</h1>
@@ -1612,6 +1637,10 @@ VIEWS.role=()=>{
       <p class="err" id="nick-err"></p>
       <button class="btn ok big" data-act="nick-ok" style="width:100%;margin-top:16px">Fertig</button>
     </section></div>`;
+  if(V.only==='student')return `<div class="start"><div class="start-head">${back('join')}<span class="label">${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Welche Nummer hast du?</h1>
+    <section class="panel"><p class="label">Tippe auf deine Nummer aus der Klassenliste</p>
+      <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach wählst du einen Nickname. Dein echter Name wird nicht gespeichert.</p></section></div>`;
   return `<div class="start"><div class="start-head">${back('class')}<span class="label">Schritt 3 von 3 · ${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Wer bist du?</h1>
   <div class="role-wrap">
     <section class="panel"><h2>Ich bin Schüler/in</h2>
@@ -1624,7 +1653,7 @@ VIEWS.role=()=>{
       <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p>`}</section>
   </div></div>`;
 };
-function setClass(){S.school=V.school;S.cls=V.cls;const c=classBy(V.school,V.cls);S.code=(c&&c.code)||V.school+'-'+V.cls;if(c&&c.size)S.classSize=c.size}
+function setClass(){S.school=V.school;S.cls=V.cls;const c=classBy(V.school,V.cls);S.code=(c&&c.code)||V.school+'-'+V.cls;if(c&&c.size)S.classSize=c.size;if(c)S.clsName=c.name}
 const NICK_A=['Blue','Happy','Brave','Speedy','Clever','Lucky','Sunny','Cool','Mighty','Funny','Golden','Turbo'];
 const NICK_B=['Tiger','Fox','Panda','Owl','Shark','Eagle','Koala','Wolf','Dolphin','Penguin','Falcon','Dragon'];
 function suggestNicks(){const out=new Set();while(out.size<4)out.add(pick(NICK_A)+pick(NICK_B)+(Math.random()<.4?Math.floor(Math.random()*90+10):''));return [...out].map(x=>x.slice(0,16))}
@@ -1933,7 +1962,7 @@ VIEWS.tplan=()=>{
     <b style="font-family:var(--f-display);font-size:1.2rem">${days[0].toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} – ${days[4].toLocaleDateString('de-DE',{day:'numeric',month:'numeric',year:'numeric'})}${off===0?' · diese Woche':off===1?' · nächste Woche':''}</b>
     <button class="btn sm" data-act="tp-w" data-w="${off+1}">Nächste Woche ▶</button></div>
   <div class="tp"><table><thead><tr><th></th>${days.map((x,d)=>`<th>${DAYS[d]} ${x.toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</th>`).join('')}</tr></thead><tbody>
-    ${PERIODS.map((pp,i)=>`<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${days.map((_,d)=>`<td>${cell(d,i)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${days.map((_,d)=>`<td>${cell(d,i)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 };
 function tpCell(d,i,date){
   const sl=TD.tt[d+'-'+i];
@@ -2053,10 +2082,12 @@ const lid=()=>'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 async function sbClient(){if(Cloud.sb)return Cloud.sb;if(!window.supabase)await loadScript(SB_SRC);Cloud.sb=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);return Cloud.sb}
 const CLS_COLS='id,school_id,name,size,code';
 async function q(p){const r=await p;if(r.error)throw r.error;return r.data}
+function buildSchools(sc,cl){SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}))}
+const isLead=cid=>!!(Cloud.prof&&(Cloud.prof.role==='admin'||(Cloud.lead||[]).includes(cid)));
 async function cloudBoot(){
   try{const sb=await sbClient();
     const [sc,cl]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name'))]);
-    SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}));
+    buildSchools(sc,cl);
     const {data}=await sb.auth.getSession();Cloud.user=data&&data.session?data.session.user:null;
     if(Cloud.user)await cloudLoadMe();
     if(S.role==='teacher'&&!(Cloud.prof&&Cloud.prof.role!=='pending')){S.role=null;save();V={name:'login'}}
@@ -2070,9 +2101,10 @@ async function cloudLoadMe(){
   Cloud.prof=(await q(sb.from('profiles').select('id,email,name,role').eq('id',uid)))[0]||null;
   Cloud.myClasses=[];
   if(Cloud.prof&&Cloud.prof.role!=='pending'){
-    const all=await q(sb.from('classes').select(CLS_COLS).order('name'));
+    const [all,sc,ct]=await Promise.all([q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('class_teachers').select('class_id,lead').eq('teacher_id',uid))]);
+    buildSchools(sc,all);Cloud.lead=ct.filter(x=>x.lead).map(x=>x.class_id);
     if(Cloud.prof.role==='admin')Cloud.myClasses=all;
-    else{const ct=await q(sb.from('class_teachers').select('class_id').eq('teacher_id',uid));Cloud.myClasses=all.filter(c=>ct.some(x=>x.class_id===c.id))}
+    else Cloud.myClasses=all.filter(c=>ct.some(x=>x.class_id===c.id));
   }
 }
 function useClass(c){S.school=c.school_id;S.cls=c.id;S.code=c.code;S.classSize=c.size;saveRole()}
@@ -2133,7 +2165,8 @@ VIEWS.login=()=>{
   if(Cloud.user&&Cloud.prof){const mc=Cloud.myClasses;
     return `<div class="start"><div class="start-head">${back}<span class="label">${esc(Cloud.user.email||'')}</span></div><h1>Welche Klasse?</h1>
     ${mc.length?`<div class="pick">${mc.map(c=>`<button class="pick-card cls" data-act="lg-cls" data-id="${c.id}"><b class="cl">${esc(c.name)}</b><span class="muted">${esc((SCHOOLS.find(x=>x.id===c.school_id)||{}).name||'')}</span></button>`).join('')}</div>`
-      :`<div class="empty">Du bist noch keiner Klasse zugeordnet.${Cloud.prof.role==='admin'?' Lege im Admin-Bereich Schule und Klasse an.':''}</div>`}
+      :`<div class="empty">Du bist noch keiner Klasse zugeordnet. Leg deine eigene Klasse an oder bitte die Klassenleitung, dich dazuzuholen.</div>`}
+    <div class="row" style="margin-top:12px"><button class="btn" data-act="lg-klassen">Klassen verwalten / neue Klasse anlegen</button></div>
     <div class="row" style="margin-top:16px">${Cloud.prof.role==='admin'?'<button class="btn pri" data-act="lg-admin">Zum Admin-Bereich</button>':''}<button class="btn" data-act="lg-out">Abmelden</button></div></div>`}
   return `<div class="start"><div class="start-head">${back}</div><h1>Anmelden als Lehrkraft</h1>
     <section class="panel" style="max-width:520px">
@@ -2151,20 +2184,22 @@ async function lgIn(up){
   if(r.error){V.err=up?'Konto konnte nicht erstellt werden: '+r.error.message:'Anmelden hat nicht geklappt. Stimmen E-Mail und Passwort?';V.msg='';render();return}
   if(up&&!r.data.session){V.err='';V.msg='Fast geschafft: Bestätige den Link in deiner E-Mail und melde dich dann hier an.';render();return}
   Cloud.user=r.data.user;V.err='';V.msg='';await cloudLoadMe();
+  if(V.asAdmin&&Cloud.prof&&Cloud.prof.role==='admin'){S.role='teacher';saveRole();if(!CS)initTeacher();A.ok=false;go('admin');return}
   if(Cloud.myClasses.length===1&&Cloud.prof.role==='teacher'){await teacherEnter(Cloud.myClasses[0]);return}
   render();
 }
 
 /* --- Admin (nur Rolle admin; der Server prüft das zusätzlich) --- */
-const A={schools:[],classes:[],profiles:[],ct:[],ok:false,msg:''};
+const A={schools:[],classes:[],profiles:[],ct:[],staff:[],ok:false,msg:''};
+const STAFF_SEED='Kat, Sun, Sim, Mat, GmS, Ver, Ant, Jan, Vera';
 async function adminLoad(){
   const sb=Cloud.sb;
-  try{[A.schools,A.classes,A.profiles,A.ct]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role').order('created_at')),q(sb.from('class_teachers').select('class_id,teacher_id'))]);A.ok=true}
+  try{[A.schools,A.classes,A.profiles,A.ct,A.staff]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role').order('created_at')),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short'))]);A.ok=true}
   catch(e){A.msg='Laden fehlgeschlagen: '+(e.message||e)}
   if(V.name==='admin')render();
 }
 async function adminDo(p,msg){try{await q(p);A.msg=msg||'Gespeichert.'}catch(e){A.msg='Fehler: '+(e.message||e)}await adminLoad();await cloudLoadMe();await cloudBoot0()}
-async function cloudBoot0(){try{const sc=A.schools,cl=A.classes;SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}))}catch(e){}}
+async function cloudBoot0(){try{buildSchools(A.schools,A.classes)}catch(e){}}
 VIEWS.admin=()=>{
   if(!CLOUD)return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Der Admin-Bereich funktioniert nur auf der echten ELIO-Seite mit Server.</div>`;
   if(!(Cloud.prof&&Cloud.prof.role==='admin'))return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Nur für den Admin.</div>`;
@@ -2176,11 +2211,19 @@ VIEWS.admin=()=>{
   <section class="panel"><span class="label">Schulen und Klassen</span>
     ${A.schools.map(sc=>`<div style="margin-top:14px"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.2rem">${esc(sc.name)} <span class="muted" style="font-size:.9rem">${esc(sc.place||'')}</span></b>
         ${V.adel==='s'+sc.id?`<span class="row"><button class="btn sm red" data-act="ad-school-del" data-id="${sc.id}">Schule mit allen Klassen löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button></span>`:`<button class="btn sm" data-act="ad-ask" data-k="s${sc.id}">Löschen</button>`}</div>
-      <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th></th></tr>${cls.filter(c=>c.school_id===sc.id).map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
-        <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc((A.profiles.find(p=>p.id===x.teacher_id)||{}).name||(A.profiles.find(p=>p.id===x.teacher_id)||{}).email||'?')).join(', ')||'<span class="muted">–</span>'}</td>
+      <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th>Klassenleitung</th><th></th></tr>${cls.filter(c=>c.school_id===sc.id).map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
+        <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc(pName(A.profiles,x.teacher_id))).join(', ')||'<span class="muted">–</span>'}</td>
+        <td><select data-adlead="${c.id}" style="width:auto" aria-label="Klassenleitung ${esc(c.name)}"><option value="">– keine –</option>${A.ct.filter(x=>x.class_id===c.id).map(x=>`<option value="${x.teacher_id}" ${x.lead?'selected':''}>${esc(pName(A.profiles,x.teacher_id))}</option>`).join('')}</select></td>
         <td style="text-align:right"><button class="btn sm" data-act="ctt-open" data-id="${c.id}">Stundenplan</button>${V.adel==='c'+c.id?`<button class="btn sm red" data-act="ad-class-del" data-id="${c.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="c${c.id}">Löschen</button>`}</td></tr>`).join('')}</table>
       <div class="row" style="margin-top:8px"><input id="ad-cn-${sc.id}" type="text" placeholder="Neue Klasse, z. B. 7bG" style="max-width:220px"><input id="ad-cs-${sc.id}" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="ad-class-add" data-id="${sc.id}">Klasse anlegen</button></div></div>`).join('')||'<p class="muted" style="margin-top:8px">Noch keine Schule.</p>'}
     <div class="row" style="margin-top:16px"><input id="ad-sn" type="text" placeholder="Name der Schule" style="max-width:280px"><input id="ad-sp" type="text" placeholder="Ort" style="max-width:180px"><button class="btn pri sm" data-act="ad-school-add">Schule anlegen</button></div></section>
+  <section class="panel"><span class="label">Kollegium (Kürzel für den Stundenplan)</span>
+    <p class="muted" style="font-weight:700;margin-top:4px">Kürzel brauchen kein Konto. Verknüpfe ein Kürzel mit einem Konto, dann sieht die Lehrkraft ihre Stunden in der Planung und gehört automatisch zu den Klassen, in denen sie unterrichtet. Leg auch dein eigenes Kürzel an.</p>
+    ${A.schools.map(sc=>{const st=A.staff.filter(x=>x.school_id===sc.id);return `<div style="margin-top:12px"><b>${esc(sc.name)}</b>
+      <table><tr><th>Kürzel</th><th>Konto</th><th></th></tr>${st.map(x=>`<tr><td><b>${esc(x.short)}</b></td>
+        <td><select data-adstaff="${x.id}" style="width:auto"><option value="">– ohne Konto –</option>${A.profiles.filter(p=>p.role!=='pending').map(p=>`<option value="${p.id}" ${x.profile_id===p.id?'selected':''}>${esc(p.name||p.email)}${p.id===Cloud.user.id?' (du)':''}</option>`).join('')}</select></td>
+        <td style="text-align:right"><button class="btn sm" data-act="ad-staff-del" data-id="${x.id}">Löschen</button></td></tr>`).join('')}</table>
+      <div class="row" style="margin-top:8px"><input id="ad-st-${sc.id}" type="text" value="${st.length?'':STAFF_SEED}" placeholder="Kürzel, mit Komma getrennt" style="max-width:420px"><button class="btn sm pri" data-act="ad-staff-add" data-id="${sc.id}">Kürzel anlegen</button></div></div>`}).join('')||'<p class="muted">Erst eine Schule anlegen.</p>'}</section>
   <section class="panel"><span class="label">Lehrkräfte</span><p class="muted" style="font-weight:700;margin-top:4px">Neue Lehrkräfte erstellen selbst ein Konto (Startseite → „Für Lehrkräfte: Anmelden“). Hier schaltest du sie frei und ordnest Klassen zu.</p>
     <table><tr><th>Konto</th><th>Name</th><th>Rolle</th><th>Klassen</th></tr>${A.profiles.map(p=>`<tr><td>${esc(p.email||'')}</td>
       <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
@@ -2193,37 +2236,82 @@ document.addEventListener('change',e=>{
   if(t.dataset.adrole)adminDo(sb.from('profiles').update({role:t.value}).eq('id',t.dataset.adrole),'Rolle geändert.');
   if(t.dataset.adct){const [tid,cid]=t.dataset.adct.split('|');adminDo(t.checked?sb.from('class_teachers').insert([{class_id:cid,teacher_id:tid}]):sb.from('class_teachers').delete().eq('class_id',cid).eq('teacher_id',tid),'Klassen gespeichert.')}
   if(t.dataset.slot)cttSave(t.dataset.slot);
+  if(t.dataset.adstaff)adminDo(sb.from('staff').update({profile_id:t.value||null}).eq('id',t.dataset.adstaff),'Kürzel verknüpft.');
+  if(t.dataset.adlead){const cid=t.dataset.adlead,tid=t.value;adminDo((async()=>{const r=await sb.from('class_teachers').update({lead:false}).eq('class_id',cid);if(r.error||!tid)return r;return sb.from('class_teachers').update({lead:true}).eq('class_id',cid).eq('teacher_id',tid)})(),'Klassenleitung gespeichert.')}
 });
+
+const pName=(ps,id)=>{const p=ps.find(x=>x.id===id)||{};return p.name||p.email||'?'};
+/* --- Meine Klassen: Klassenleitung legt Klasse an, holt Lehrkräfte dazu, vergibt den Schüler-Zugang --- */
+const K={ct:[],profiles:[],access:[],ok:false,msg:''};
+async function klLoad(){const sb=Cloud.sb;
+  try{[K.ct,K.profiles,K.access]=await Promise.all([q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('profiles').select('id,email,name,role')),q(sb.from('class_access').select('class_id,join_code,pw'))]);K.ok=true}
+  catch(e){K.msg='Laden fehlgeschlagen: '+(e.message||e)}
+  if(V.name==='klassen')render();
+}
+async function klDo(p,msg){try{await q(p);K.msg=msg||'Gespeichert.'}catch(e){K.msg='Das hat nicht geklappt: '+(e.message||e)}await cloudLoadMe();await klLoad();cloudSync()}
+const rnd4=()=>String(Math.floor(1000+Math.random()*9000));
+async function klAccess(cid){const sb=Cloud.sb,pw=rnd4();let r;
+  for(let i=0;i<6;i++){r=await sb.from('class_access').upsert([{class_id:cid,join_code:rnd4(),pw}]);if(!r.error)break}
+  return r}
+VIEWS.klassen=()=>{
+  if(!CLOUD||!Cloud.prof)return '<div class="empty">Nur mit Lehrer-Konto.</div>';
+  if(!K.ok){klLoad();return '<div class="empty">Lädt …</div>'}
+  const uid=Cloud.user.id,mc=Cloud.myClasses,ok=K.profiles.filter(p=>p.role!=='pending');
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Meine Klassen</h1><button class="btn pri" data-act="kl-new-open">+ Neue Klasse anlegen</button></div>
+  ${K.msg?`<p class="saved">${esc(K.msg)}</p>`:''}
+  ${V.newCls?`<section class="panel" style="margin-bottom:16px"><span class="label">Neue Klasse · du wirst ihre Klassenleitung</span>
+    ${SCHOOLS.length?`<div class="row" style="margin-top:10px"><select id="kl-s" style="width:auto">${SCHOOLS.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}</select>
+      <input id="kl-n" type="text" placeholder="Name, z. B. 7bG" maxlength="20" style="max-width:200px"><input id="kl-z" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS">
+      <button class="btn ok" data-act="kl-new">Anlegen</button><button class="btn" data-act="kl-new-close">Abbrechen</button></div>`
+    :'<p class="muted" style="font-weight:700;margin-top:8px">Es gibt noch keine Schule. Der Admin muss sie zuerst anlegen.</p>'}</section>`:''}
+  <div class="kl">${mc.map(c=>{const lead=isLead(c.id),ac=K.access.find(a=>a.class_id===c.id),ts=K.ct.filter(x=>x.class_id===c.id),sc=SCHOOLS.find(x=>x.id===c.school_id)||{};
+    return `<section class="panel"><div class="row" style="justify-content:space-between"><div><h2 style="font-size:1.5rem">${esc(c.name)}</h2><span class="muted" style="font-weight:700">${esc(sc.name||'')} · ${c.size} SuS</span>
+      ${(Cloud.lead||[]).includes(c.id)?'<span class="chip" style="margin-left:8px">Klassenleitung</span>':''}</div>
+      <div class="row"><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls!==c.id?`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`:'<span class="chip">aktiv</span>'}</div></div>
+      <div class="acc"><span class="label">Schüler-Zugang</span>${ac?`<span>Klassencode <b>${esc(ac.join_code)}</b></span><span>Passwort <b>${esc(ac.pw)}</b></span>`:'<span class="muted" style="font-weight:700">noch keiner</span>'}
+        ${lead?`<button class="btn sm" data-act="kl-access" data-id="${c.id}">${ac?'Neu erzeugen':'Zugang erzeugen'}</button>`:''}</div>
+      <div style="margin-top:12px"><span class="label">Lehrkräfte</span><div class="row" style="margin-top:6px">${ts.map(x=>`<span class="chip">${x.lead?'★ ':''}${esc(pName(K.profiles,x.teacher_id))}${lead&&x.teacher_id!==uid&&!x.lead?` <button class="btn sm" data-act="kl-rm" data-id="${c.id}" data-t="${x.teacher_id}" aria-label="Entfernen" style="min-height:26px;padding:0 8px">✕</button>`:''}</span>`).join('')}</div>
+        ${lead?`<div class="row" style="margin-top:8px"><select id="kl-add-${c.id}" style="width:auto"><option value="">Lehrkraft dazuholen …</option>${ok.filter(p=>!ts.some(x=>x.teacher_id===p.id)).map(p=>`<option value="${p.id}">${esc(p.name||p.email)}</option>`).join('')}</select><button class="btn sm" data-act="kl-add" data-id="${c.id}">Dazuholen</button></div>`:''}</div>
+      ${lead?`<details style="margin-top:12px"><summary style="font-weight:800;cursor:pointer">Klasse bearbeiten</summary><div class="row" style="margin-top:8px">
+        <input id="kl-en-${c.id}" type="text" value="${esc(c.name)}" maxlength="20" style="max-width:200px"><input id="kl-ez-${c.id}" type="number" min="2" max="40" value="${c.size}" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="kl-save" data-id="${c.id}">Speichern</button>
+        ${V.kdel===c.id?`<button class="btn sm red" data-act="kl-del" data-id="${c.id}">Klasse wirklich löschen</button><button class="btn sm" data-act="kl-del-no">Nein</button>`:`<button class="btn sm" data-act="kl-del-ask" data-id="${c.id}">Klasse löschen</button>`}</div></details>`:''}
+    </section>`}).join('')||'<div class="empty">Du bist noch keiner Klasse zugeordnet. Leg oben eine neue Klasse an.</div>'}</div>
+  <p class="muted" style="margin-top:14px;font-size:.9rem">Die SuS wählen auf der Startseite „Schüler/in“ und geben Klassencode und Passwort ein. Den Stundenplan können alle Lehrkräfte der Klasse ändern.</p>`;
+};
 
 /* --- Klassen-Stundenplan (alle Lehrkräfte der Klasse) --- */
 const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
 async function cttLoad(cid){
   CT.cid=cid;CT.ok=false;const sb=Cloud.sb;
-  try{const [sl,ct,pr]=await Promise.all([q(sb.from('slots').select('class_id,day,period,subject,teacher_id').eq('class_id',cid)),q(sb.from('class_teachers').select('class_id,teacher_id').eq('class_id',cid)),q(sb.from('profiles').select('id,email,name,role'))]);
-    CT.slots=sl;CT.teachers=pr.filter(p=>ct.some(x=>x.teacher_id===p.id));CT.ok=true}catch(e){CT.msg='Laden fehlgeschlagen.'}
+  try{const [sl,st,pr]=await Promise.all([q(sb.from('slots').select('class_id,day,period,subject,teacher_id,staff_id').eq('class_id',cid)),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('profiles').select('id,email,name,role'))]);
+    const c=cttClass(cid);CT.slots=sl;CT.staff=st.filter(x=>!c.school_id||x.school_id===c.school_id);CT.profiles=pr;CT.ok=true}catch(e){CT.msg='Laden fehlgeschlagen.'}
   if(V.name==='ctt')render();
 }
+const cttClass=cid=>(A.classes||[]).find(x=>x.id===cid)||Cloud.myClasses.find(x=>x.id===cid)||{name:''};
+const staffLabel=(x,ps)=>{const p=x.profile_id&&ps.find(y=>y.id===x.profile_id);return x.short+(p?' · '+(p.name||p.email):'')};
 VIEWS.ctt=()=>{
   if(!CLOUD||!Cloud.prof)return '<div class="empty">Nur mit Lehrer-Konto.</div>';
   if(CT.cid!==V.cid||!CT.ok){if(CT.cid!==V.cid)cttLoad(V.cid);return '<div class="empty">Lädt …</div>'}
-  const c=(A.classes.length?A.classes:Cloud.myClasses).find(x=>x.id===V.cid)||Cloud.myClasses.find(x=>x.id===V.cid)||{name:''};
-  const tn=p=>p.name||p.email;
+  const c=cttClass(V.cid);
   return `<div class="st-head"><button class="btn sm" data-act="${V.from||'tplan'}">← Zurück</button><h1 style="font-size:1.6rem">Stundenplan ${esc(c.name)}</h1><span class="chip">für alle Lehrkräfte der Klasse</span></div>
-  <p class="muted" style="font-weight:700">Fach und Lehrkraft wählen. Wird sofort gespeichert. Die Schüler sehen den Plan auf ihrem Dashboard, jede Lehrkraft ihre eigenen Stunden in der Planung.</p>
+  <p class="muted" style="font-weight:700">Fach und Lehrkraft (Kürzel) wählen. Wird sofort gespeichert. Die Schüler sehen den Plan auf ihrem Dashboard. Ist ein Kürzel mit einem Konto verknüpft, sieht diese Lehrkraft ihre Stunden in der Planung.</p>
+  <div class="row" style="margin:8px 0 4px"><span class="label">Kollegium</span>${CT.staff.map(x=>`<span class="chip">${esc(staffLabel(x,CT.profiles))}</span>`).join('')||'<span class="muted">noch keine Kürzel</span>'}
+    <input id="ctt-new" type="text" placeholder="Kürzel, z. B. Kat, Sun" style="max-width:220px"><button class="btn sm" data-act="ctt-staff">Kürzel anlegen</button></div>
   ${CT.msg?`<p class="saved">${esc(CT.msg)}</p>`:''}
   <div class="tp ctt"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>
-  ${PERIODS.map((pp,i)=>`<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}</td>${DAYS.map((_,d)=>{const sl=CT.slots.find(x=>x.day===d&&x.period===i);
+  ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${DAYS.map((_,d)=>{const sl=CT.slots.find(x=>x.day===d&&x.period===i);
     return `<td><div class="cell ${sl?'has s-'+sl.subject:''}"><select data-slot="${d}-${i}" data-k="s" aria-label="Fach"><option value="">– frei –</option>${Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${sl&&sl.subject===k?'selected':''}>${v.name}</option>`).join('')}</select>
-      <select data-slot="${d}-${i}" data-k="t" aria-label="Lehrkraft" ${sl?'':'disabled'}><option value="">– Lehrkraft –</option>${CT.teachers.map(p=>`<option value="${p.id}" ${sl&&sl.teacher_id===p.id?'selected':''}>${esc(tn(p))}</option>`).join('')}</select></div></td>`}).join('')}</tr>`).join('')}
+      <select data-slot="${d}-${i}" data-k="t" aria-label="Lehrkraft" ${sl?'':'disabled'}><option value="">– Lehrkraft –</option>${CT.staff.map(x=>`<option value="${x.id}" ${sl&&sl.staff_id===x.id?'selected':''}>${esc(staffLabel(x,CT.profiles))}</option>`).join('')}</select></div></td>`}).join('')}</tr>`).join('')}
   </tbody></table></div>`;
 };
 async function cttSave(key){
   const [d,i]=key.split('-').map(Number),sb=Cloud.sb,cid=CT.cid;
   const sEl=document.querySelector(`[data-slot="${key}"][data-k="s"]`),tEl=document.querySelector(`[data-slot="${key}"][data-k="t"]`);
-  const subj=sEl.value;let teacher=tEl.value||null;
-  if(subj&&!teacher&&!CT.slots.find(x=>x.day===d&&x.period===i))teacher=Cloud.user.id;
+  const subj=sEl.value;let staff=tEl.value||null;
+  if(subj&&!staff&&!CT.slots.find(x=>x.day===d&&x.period===i)){const me=CT.staff.find(x=>x.profile_id===Cloud.user.id);if(me)staff=me.id}
+  const st=staff&&CT.staff.find(x=>x.id===staff);
   try{if(!subj)await q(sb.from('slots').delete().eq('class_id',cid).eq('day',d).eq('period',i));
-    else await q(sb.from('slots').upsert([{class_id:cid,day:d,period:i,subject:subj,teacher_id:teacher}]));CT.msg='Gespeichert.'}
+    else await q(sb.from('slots').upsert([{class_id:cid,day:d,period:i,subject:subj,staff_id:staff,teacher_id:st?st.profile_id:null}]));CT.msg='Gespeichert.'}
   catch(e){CT.msg='Speichern hat nicht geklappt: '+(e.message||e)}
   CT.ok=false;await cttLoad(cid);await cloudSync();
 }
@@ -2364,7 +2452,30 @@ document.addEventListener('click',e=>{
       [800,2000,4000].forEach(t=>setTimeout(pushCS,t));break}
     case 'mt':MINI=d.m;renderMini(true);break;
     case 'tdash':go('tdash');break;
-    case 'login':V.err='';go('login');break;
+    case 'login':V.err='';go('login',d.admin?{asAdmin:1}:{});break;
+    case 'join':{const code=($('#j-code').value||'').replace(/\D/g,''),pw=($('#j-pw').value||'').trim();
+      if(code.length<4||pw.length<4){$('#j-err').textContent='Bitte Klassencode und Passwort eingeben.';break}
+      (async()=>{try{const sb=await sbClient();const r=await q(sb.rpc('join_class',{p_code:code,p_pw:pw}));const c=r&&r[0];
+        if(!c){V.err='Klassencode oder Passwort stimmt nicht. Frag deine Lehrkraft.';render();return}
+        let sc=SCHOOLS.find(x=>x.id===c.school_id);if(!sc){sc={id:c.school_id,name:c.school_name,place:'',classes:[]};SCHOOLS.push(sc)}
+        if(!sc.classes.some(x=>x.id===c.id))sc.classes.push({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code});
+        V.err='';V.school=c.school_id;V.cls=c.id;V.only='student';V.step='role';render()}
+        catch(e){V.err='ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';render()}})();break}
+    case 'lg-klassen':S.role='teacher';saveRole();if(!CS)initTeacher();K.ok=false;K.msg='';go('klassen',{newCls:!Cloud.myClasses.length});break;
+    case 'klassen':K.ok=false;K.msg='';go('klassen');break;
+    case 'kl-new-open':V.newCls=true;render();break;
+    case 'kl-new-close':V.newCls=false;render();break;
+    case 'kl-new':{const n=($('#kl-n').value||'').trim().slice(0,20),sz=Math.max(2,Math.min(40,+$('#kl-z').value||24)),sid=$('#kl-s').value;if(!n){$('#kl-n').focus();break}
+      const id=crypto.randomUUID();V.newCls=false;
+      klDo((async()=>{const r=await Cloud.sb.from('classes').insert([{id,school_id:sid,name:n,size:sz,code:n.replace(/[^A-Za-z0-9]/g,'')+'-'+Math.random().toString(36).slice(2,8)}]);if(r.error)return r;return klAccess(id)})(),'Klasse '+n+' angelegt. Du bist die Klassenleitung. Trag jetzt den Stundenplan ein.')
+        .then(()=>{const c=Cloud.myClasses.find(x=>x.id===id);if(c&&!S.cls){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()}});break}
+    case 'kl-access':klDo(klAccess(d.id),'Neuer Schüler-Zugang erzeugt.');break;
+    case 'kl-add':{const tid=$('#kl-add-'+d.id).value;if(tid)klDo(Cloud.sb.from('class_teachers').insert([{class_id:d.id,teacher_id:tid}]),'Lehrkraft dazugeholt.');break}
+    case 'kl-rm':klDo(Cloud.sb.from('class_teachers').delete().eq('class_id',d.id).eq('teacher_id',d.t),'Lehrkraft entfernt.');break;
+    case 'kl-save':klDo(Cloud.sb.from('classes').update({name:($('#kl-en-'+d.id).value||'').trim().slice(0,20)||'Klasse',size:Math.max(2,Math.min(40,+$('#kl-ez-'+d.id).value||24))}).eq('id',d.id),'Klasse gespeichert.');break;
+    case 'kl-del-ask':V.kdel=d.id;render();break;
+    case 'kl-del-no':V.kdel=null;render();break;
+    case 'kl-del':V.kdel=null;if(S.cls===d.id){S.cls=null;S.code=null;saveRole()}klDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
     case 'lg-in':lgIn(false);break;
     case 'lg-up':lgIn(true);break;
     case 'lg-out':try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[];S.role=null;save();go('role',{step:'splash'});break;
@@ -2374,13 +2485,20 @@ document.addEventListener('click',e=>{
     case 'admin':A.ok=false;A.msg='';go('admin');break;
     case 'ad-ask':V.adel=d.k;render();break;
     case 'ad-cancel':V.adel=null;render();break;
+    case 'ad-staff-add':{const ex=A.staff.filter(x=>x.school_id===d.id).map(x=>x.short.toLowerCase()),seen=new Set();
+      const rows=($('#ad-st-'+d.id).value||'').split(/[,;\n]/).map(x=>x.trim().slice(0,12)).filter(x=>x&&!ex.includes(x.toLowerCase())&&!seen.has(x.toLowerCase())&&seen.add(x.toLowerCase())).map(short=>({school_id:d.id,short}));
+      if(rows.length)adminDo(Cloud.sb.from('staff').insert(rows),rows.length+' Kürzel angelegt.');break}
+    case 'ad-staff-del':adminDo(Cloud.sb.from('staff').delete().eq('id',d.id),'Kürzel gelöscht.');break;
+    case 'ctt-staff':{const c=cttClass(CT.cid),ex=CT.staff.map(x=>x.short.toLowerCase()),seen=new Set();
+      const rows=($('#ctt-new').value||'').split(/[,;\n]/).map(x=>x.trim().slice(0,12)).filter(x=>x&&!ex.includes(x.toLowerCase())&&!seen.has(x.toLowerCase())&&seen.add(x.toLowerCase())).map(short=>({school_id:c.school_id,short}));
+      if(rows.length&&c.school_id)(async()=>{try{await q(Cloud.sb.from('staff').insert(rows));CT.msg=rows.length+' Kürzel angelegt.'}catch(e){CT.msg='Fehler: '+(e.message||e)}CT.ok=false;cttLoad(CT.cid)})();break}
     case 'ad-school-add':{const n=$('#ad-sn').value.trim();if(n){V.adel=null;adminDo(Cloud.sb.from('schools').insert([{name:n.slice(0,80),place:$('#ad-sp').value.trim().slice(0,60)}]),'Schule angelegt.')}break}
     case 'ad-school-del':V.adel=null;adminDo(Cloud.sb.from('schools').delete().eq('id',d.id),'Schule gelöscht.');break;
     case 'ad-class-add':{const n=$('#ad-cn-'+d.id).value.trim().slice(0,20),sz=Math.max(2,Math.min(40,+$('#ad-cs-'+d.id).value||24));
       if(n)adminDo(Cloud.sb.from('classes').insert([{school_id:d.id,name:n,size:sz,code:n.replace(/[^A-Za-z0-9]/g,'')+'-'+Math.random().toString(36).slice(2,8)}]),'Klasse angelegt.');break}
     case 'ad-class-del':V.adel=null;adminDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
     case 'ad-name':adminDo(Cloud.sb.from('profiles').update({name:$('#ad-pn-'+d.id).value.trim().slice(0,60)}).eq('id',d.id),'Name gespeichert.');break;
-    case 'ctt-open':CT.cid=null;go('ctt',{cid:d.id,from:'admin'});break;
+    case 'ctt-open':CT.cid=null;go('ctt',{cid:d.id,from:d.from||'admin'});break;
     case 'cls-switch':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()}break}
 
     case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
