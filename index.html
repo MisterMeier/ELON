@@ -1182,7 +1182,10 @@ function tStop(){clearInterval(T.id);T.run=false}
    Fenstern auf demselben Gerät. Mit Supabase-Daten läuft es über das Internet.
    Der Server speichert nichts, er leitet nur Nachrichten weiter.
    ===================================================================== */
-const LIVE_CFG={supabaseUrl:'',supabaseKey:''};
+// Supabase (Region Frankfurt). Der Publishable Key ist zum Veröffentlichen gedacht; der Server leitet nur Nachrichten weiter, es wird nichts gespeichert.
+const LIVE_CFG={supabaseUrl:'https://yljzqjnvfoxzkhjsnawn.supabase.co',supabaseKey:'sb_publishable_OOT7PbMKgjKuxYslJOC95A_fZKeWf7N',
+  hosts:['mistermeier.github.io']};
+const LIVE_SERVER=LIVE_CFG.hosts.includes(location.hostname)||/[?&]live=1/.test(location.search);
 const TEACHER_PIN='2026';
 const PHASES=[
   {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELON.'},
@@ -1201,12 +1204,13 @@ function loadScript(src){return new Promise((res,rej)=>{const s=document.createE
 const Live={bc:null,sb:null,kind:'off',
   async start(code){
     this.stop();
-    if(LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
+    if(LIVE_SERVER&&LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
       try{
-        if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
+        if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.79.0/dist/umd/supabase.js');
         const c=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);
         this.sb=c.channel('elon-'+code,{config:{broadcast:{self:false}}});
-        this.sb.on('broadcast',{event:'e'},({payload})=>this.recv(payload)).subscribe();
+        this.st='connecting';
+        this.sb.on('broadcast',{event:'e'},({payload})=>this.recv(payload)).subscribe(st=>{this.st=st;if(V.name==='tafel')render()});
         this.kind='server';return;
       }catch(e){}
     }
@@ -1255,7 +1259,7 @@ VIEWS.tafel=()=>{
       <div class="ring" id="tring"><div id="ttime">${fmt(timerLeft(CS.timer))}</div></div>
     </div>
     <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0</span> online</span>
-      <span class="chip conn">${Live.kind==='server'?'Live über Server':Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
+      <span class="chip conn">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?'Live über Server · verbunden':Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
       <div class="seats" id="seats"></div>
       <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit / eingetragen</span><span><i style="background:var(--late-bg);border-color:var(--red)"></i>braucht Hilfe</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
     <div class="t-side">
