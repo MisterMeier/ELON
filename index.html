@@ -593,6 +593,16 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1.2em;font-weight:700}
 .rt-heft{background:#eef1f6;padding-bottom:1em}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
 .rt-diary{background:#fff}.rt-diary .in{flex:1;display:grid;align-content:center;gap:1em;padding:1em 2.4em}.rt-diary ol{font-size:2em;font-weight:700;display:grid;gap:.5em;padding-left:1.2em}.rt-diary p{font-size:1.3em;color:var(--muted);font-weight:700}
+.say{display:grid;gap:12px;max-width:620px;margin:0 auto}.say-warn{background:#fff6e0;border:2px solid #d98a00;border-radius:12px;padding:10px 14px;font-weight:700;color:#5a3d00}
+.say-prog{height:10px;border-radius:6px;background:var(--surface-2);overflow:hidden}.say-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s}
+.say-card{background:var(--surface);border-radius:18px;padding:22px 16px;text-align:center;box-shadow:0 4px 18px rgba(26,40,90,.1);display:grid;gap:10px}
+.say-w{font-family:var(--f-display);font-size:clamp(1.8rem,6vw,2.8rem);font-weight:800;line-height:1.2;word-break:break-word}
+.say-btns{display:grid;grid-template-columns:2fr 1fr;gap:10px}.say-b{padding:18px;font-size:1.2rem;font-weight:800;border:0;color:#fff;justify-content:center}.say-r{grid-column:1/-1;background:#e8710a}.say-l{background:var(--blue)}.say-s{background:#5a6aa8}
+.say-r.on{background:#c0392b;animation:sayp 1s infinite}@keyframes sayp{50%{box-shadow:0 0 0 12px rgba(192,57,43,0)}0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.4)}}
+.say-live{text-align:center;font-weight:800;color:#c0392b}.say-fb{border-radius:16px;padding:14px 16px;border:2px solid;display:grid;gap:8px;font-weight:700}.say-fb>b{font-size:1.15rem}
+.say-fb.green{background:#e3f5e6;border-color:#1a9b5f;color:#14532d}.say-fb.yellow{background:#fff6e0;border-color:#d98a00;color:#5a3d00}.say-fb.red{background:#fde8e8;border-color:#c0392b;color:#7a1b1b}
+.say-cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}.say-cmp div{background:rgba(255,255,255,.75);border-radius:10px;padding:8px;text-align:center}.say-cmp small{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;opacity:.7}
+.say-stat{text-align:center;color:var(--muted);font-weight:700}
 .ak .st-head{margin-bottom:8px}.ak-ic{font-size:2rem}.ak-hint{font-weight:700;color:var(--muted);margin-bottom:10px}
 .ak-match{display:grid;grid-template-columns:1fr 1fr;gap:16px}.ak-match>div{display:grid;gap:10px;align-content:start}
 .ak-c{min-height:58px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;font-size:1.15rem;cursor:pointer;padding:8px 12px;color:var(--ink)}
@@ -2008,7 +2018,7 @@ function goTarget(t){
   else if(t.startsWith('heft:'))go('subject',{s:t.slice(5),tab:'heft'});
   else if(t.startsWith('station:')){const id=t.slice(8);W={};({words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[id]||(()=>{}))();go('station',{id})}
 }
-function akLive(T,p){CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:AKT[T.id].parse(T.text||AKT[T.id].ex)}}
+function akLive(T,p){const A=AKT[T.id],L=CS.lesson&&lessonById(CS.lesson.id);CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:A.parse(T.text||(L&&L.subject==='E'&&A.exE)||A.ex)}}
 function quizStart(T,p){CS.poll={id:'p'+Date.now(),type:'quiz',q:T.q||p.name,opts:lines(T.opts).slice(0,8),voted:[],multi:!!T.multi,mat:T.mat||''};if(!CS.poll.opts.length)CS.poll.opts=['Ja','Nein'];TALLY={}}
 const curTool=()=>{const L=CS&&CS.lesson&&lessonById(CS.lesson.id),p=L&&L.phases[CS.step];return p&&p.tool?{p,t:p.tool}:null};
 function startStep(i){
@@ -2319,7 +2329,7 @@ function toolEditor(p,i,L){
   if(t.id==='high5')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fünf Fragen (eine pro Zeile)',t.qs,5)}</div>`;
   if(AKT[t.id]){const A=AKT[t.id];let n='';try{n=A.count(A.parse(t.text||''))}catch(e){n='?'}
     cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel an der Tafel (freiwillig)',t.title,A.name)}<label style="grid-column:1/-1">Inhalt · ${esc(A.help)}<textarea rows="7" data-f="ph.${i}.tool.text" data-akc="${i}">${esc(t.text||'')}</textarea></label>
-      <div class="row" style="grid-column:1/-1"><span class="chip" id="akc-${i}">Erkannt: ${esc(n)}</span><button class="btn sm" data-act="ak-ex" data-i="${i}">Mathe-Beispiel einsetzen</button><span class="muted" style="font-weight:700;font-size:.9rem">Text aus Word, PowerPoint oder einer Liste einfach reinkopieren.</span></div></div>`}
+      <div class="row" style="grid-column:1/-1"><span class="chip" id="akc-${i}">Erkannt: ${esc(n)}</span><button class="btn sm" data-act="ak-ex" data-i="${i}">${A.exE?'Beispiel einsetzen':'Mathe-Beispiel einsetzen'}</button><span class="muted" style="font-weight:700;font-size:.9rem">Text aus Word, PowerPoint oder einer Liste einfach reinkopieren.</span></div></div>`}
   if(t.id==='heft')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
   if(t.id==='diary')cfg=`<div class="lgrid" style="margin-top:8px">${ta('prompt','Leitfragen (eine pro Zeile)',t.prompt,3)}</div>`;
   if(t.id==='quiz')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q,'Welcher Term passt zur Folie?')}${ta('opts','Antworten (eine pro Zeile, bis zu 8: A, B, C …)',t.opts,4)}
@@ -2374,6 +2384,29 @@ function wgBuild(ws){const W=ws.map(w=>w.toUpperCase().replace(/ß/g,'SS').repla
       for(let k=0;k<w.length;k++)G[r+dr*k][c+dc*k]=w[k];put.push({w,r,c,dr,dc});return}});
   const AB='ABCDEFGHIJKLMNOPRSTUVWZEEINR';G.forEach(row=>row.forEach((x,j)=>{if(!x)row[j]=AB[Math.floor(Math.random()*AB.length)]}));
   return {N,G,words:put}}
+/* Aussprach-Assistent: Vergleich von Zielwort und Erkanntem (Laut-Regeln für Deutsch, Buchstaben-Abstand für Englisch) */
+function sayStop(s){s.rec=false;clearTimeout(s._t);try{s._rc&&s._rc.stop()}catch(e){}}
+function levD(a,b){const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=a[i-1]===b[j-1]?p[j-1]:1+Math.min(p[j],c[j-1],p[j-1]);p=c}return p[n]}
+const sayNorm=s=>String(s).toLowerCase().replace(/ß/g,'ss').replace(/[’']/g,'').replace(/[^a-zäöü0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+function deLaut(w){w=w.replace(/tsch/g,'C').replace(/sch/g,'S').replace(/ch/g,'X').replace(/ck/g,'K').replace(/ng/g,'N').replace(/nk/g,'NK').replace(/pf/g,'PF').replace(/qu/g,'KV').replace(/tz/g,'Z').replace(/dt/g,'T').replace(/th/g,'T')
+  .replace(/aa/g,'A').replace(/ee/g,'E').replace(/oo/g,'O').replace(/ie/g,'I').replace(/([aeiouäöü])h/g,'$1').replace(/ä/g,'E').replace(/ö/g,'OE').replace(/ü/g,'UE')
+  .replace(/b$/,'p').replace(/d$/,'t').replace(/g$/,'k').replace(/v$/,'f').replace(/^v/,'f');return w.replace(/(.)\1/g,'$1')}
+// Englisch: grobe Klang-Regeln, damit gleich klingende Schreibweisen (hoodie/hoody) nicht als Fehler zählen
+const enLaut=w=>w.replace(/(.)\1/g,'$1').replace(/ph/g,'f').replace(/ck/g,'k').replace(/(ie|ee|ea|y)\b/g,'i').replace(/(ie|ee|ea)/g,'i').replace(/([^aeiou])e\b/g,'$1').replace(/gh/g,'').replace(/wh/g,'w').replace(/kn/g,'n');
+const saySim=(a,b,de)=>{const x=de?deLaut(a):enLaut(a),y=de?deLaut(b):enLaut(b);return 1-levD(x,y)/Math.max(x.length,y.length,1)};
+function sayCheck(target,heard,lang){const de=lang==='de-DE',T=sayNorm(target),H=sayNorm(heard);
+  if(T===H)return {level:'green',score:1,hints:[],missing:[]};
+  const tw=T.split(' '),hw=H.split(' ').filter(Boolean);
+  if(tw.length===1){const sim=saySim(T,H.replace(/ /g,''),de),hints=[],h=H.replace(/ /g,'');
+    if(de){['tsch','sch','ch','st','sp','pf','ng','ck','tz'].forEach(c=>{if(T.includes(c)&&!h.includes(c))hints.push(`Der Laut „${c}“ fehlt oder klingt anders.`)});
+      ['ä','ö','ü'].forEach(u=>{if((T.split(u).length)!==(h.split(u).length))hints.push(`Achte auf den Umlaut „${u}“.`)});
+      const lv=/(?:aa|ee|oo|ie|[aeiou]h)/g;if((T.match(lv)||[]).length!==(h.match(lv)||[]).length)hints.push('Achte auf lange und kurze Vokale.')}
+    const sy=x=>(x.match(/[aeiouäöüy]+/g)||[1]).length;if(sy(T)>sy(h)+1)hints.push(`Eine Silbe fehlt. Das Wort hat ${sy(T)} Silben.`);
+    let level=sim>=.92&&!hints.length?'green':sim>=.75||sim>=.92?'yellow':'red';if(1-levD(T,h)/Math.max(T.length,h.length)<.45)level='red';
+    return {level,score:sim,hints:hints.slice(0,3),missing:[]}}
+  const used=[],sims=tw.map(t=>{let bi=-1,bs=-1;hw.forEach((x,j)=>{if(used[j])return;const s=saySim(t,x,de);if(s>bs){bs=s;bi=j}});if(bi>=0&&bs>=.6){used[bi]=1;return bs}return 0});
+  const orig=String(target).replace(/[^\p{L}0-9\s]/gu,' ').split(/\s+/).filter(Boolean),missing=tw.map((x,i)=>sims[i]?null:(orig.length===tw.length?orig[i]:x)).filter(Boolean),score=sims.reduce((a,b)=>a+b,0)/tw.length;
+  return {level:score>=.92&&!missing.length?'green':score>=.72||missing.length<=1?'yellow':'red',score,hints:[],missing}}
 const MIO=['50','100','200','300','500','1.000','2.000','4.000','8.000','16.000','32.000','64.000','125.000','500.000','1 Million'];
 const AKT={
   match:{name:'Paare zuordnen',icon:'🔗',txt:'Links und rechts verbinden. Eine Zeile pro Paar, getrennt mit |.',fit:/übung|vertief|wiederhol|sicherung|anwend/i,
@@ -2474,6 +2507,44 @@ const AKT={
       if(a.k==='next'){if(s.i+1<d.qs.length){s.i++;s.sel=null;s.lock=false;s.out={}}else{s.win=true;s.msg='Ihr habt '+MIO[d.qs.length-1]+' Punkte geknackt!'}return}
       if(a.k==='lost'){s.res='lost';return}
       if(a.k==='again'){Object.assign(s,AKT.mio.init(d));return}}},
+  say:{name:'Aussprach-Assistent',icon:'🎤',txt:'Wörter und Sätze anhören, nachsprechen, ELIO prüft die Aussprache. Für DaZ und Englisch.',fit:/sprech|ausspr|daz|vokabel|wort|übung|warm/i,
+    help:'Erste Zeile: Sprache: Deutsch oder Sprache: Englisch. Danach ein Wort oder Satz pro Zeile.',
+    exE:'Sprache: Englisch\nhoodie\ntrainers\nchanging room\nCan I try it on, please?\nHow much are these jeans?\nI\'m looking for a T-shirt.',
+    ex:'Sprache: Deutsch\nHaltestelle\numsteigen\ngeradeaus\nEntschuldigung, können Sie mir helfen?\nWie komme ich zum Marienplatz?\nDu musst die U3 nehmen.',
+    parse:t=>{let L=akLines(t),lang='de-DE';const m=(L[0]||'').match(/^(sprache|language)\s*:\s*(.+)$/i);
+      if(m){lang=/engl|^en/i.test(m[2])?'en-GB':'de-DE';L=L.slice(1)}return {lang,items:L.slice(0,40)}},
+    count:d=>d.items.length+(d.items.length===1?' Wort':' Wörter/Sätze')+' · '+(d.lang==='en-GB'?'Englisch':'Deutsch'),
+    init:d=>({i:0,heard:'',rec:false,res:null,done:{},ok:0}),
+    view:(d,s)=>{const w=d.items[s.i],en=d.lang==='en-GB',api=!!(window.SpeechRecognition||window.webkitSpeechRecognition),r=s.res;
+      if(!w)return '<div class="empty">Keine Wörter eingetragen.</div>';
+      return `<div class="say">
+        ${api?'':`<p class="say-warn">⚠️ ${en?'Die automatische Prüfung geht auf diesem Gerät nicht.':'Die automatische Prüfung geht auf diesem Gerät nicht.'} Du kannst trotzdem anhören und nachsprechen.</p>`}
+        <div class="say-prog"><i style="width:${Object.keys(s.done).length/d.items.length*100}%"></i></div>
+        <div class="say-card"><span class="label">${en?'Englisch':'Deutsch'} · ${s.i+1} von ${d.items.length}</span><div class="say-w">${esc(w)}</div>
+          <div class="row" style="justify-content:center"><button class="btn sm" data-act="ak" data-k="nav" data-i="-1" ${s.i?'':'disabled'} aria-label="Zurück">◀</button><button class="btn sm" data-act="ak" data-k="nav" data-i="1" ${s.i<d.items.length-1?'':'disabled'} aria-label="Weiter">▶</button></div></div>
+        <div class="say-btns"><button class="btn say-b say-l" data-act="ak" data-k="hear">🔊 Anhören</button><button class="btn say-b say-s" data-act="ak" data-k="hear" data-i="slow">🐢 Langsam</button>
+          <button class="btn say-b say-r ${s.rec?'on':''}" data-act="ak" data-k="rec" ${api?'':'disabled'}>${s.rec?'⏹ Ich bin fertig':'🎤 Nachsprechen'}</button></div>
+        ${s.rec?'<p class="say-live">Sprich jetzt deutlich ins iPad …</p>':''}${s.err?`<p class="say-live">${esc(s.err)}</p>`:''}
+        ${r?`<div class="say-fb ${r.level}"><b>${{green:'🎉 Sehr gut! Die Aussprache stimmt.',yellow:'🙂 Fast richtig. Achte auf die markierten Laute.',red:'💪 Noch einmal. Hör zuerst genau zu.'}[r.level]}</b>
+          <div class="say-cmp"><div><small>Ziel</small><span>${esc(w)}</span></div><div><small>ELIO hat gehört</small><span>${esc(s.heard)}</span></div></div>
+          ${r.missing.length?`<p>❌ Fehlt: <b>${esc(r.missing.join(', '))}</b></p>`:''}${r.hints.map(h=>`<p>👂 ${esc(h)}</p>`).join('')}</div>`:''}
+        <p class="say-stat">${Object.keys(s.done).length} von ${d.items.length} geübt · ${s.ok} sehr gut</p></div>`},
+    act:(d,s,a)=>{
+      if(a.k==='nav'){sayStop(s);s.i=Math.max(0,Math.min(d.items.length-1,s.i+(+a.i)));s.heard='';s.res=null;s.err='';return}
+      if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(d.items[s.i]);u.lang=d.lang;u.rate=a.i==='slow'?.6:.85;
+        const v=speechSynthesis.getVoices().find(x=>x.lang.replace('_','-').startsWith(d.lang.slice(0,2))&&(d.lang==='de-DE'||/GB/i.test(x.lang)))||speechSynthesis.getVoices().find(x=>x.lang.startsWith(d.lang.slice(0,2)));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
+      if(a.k==='rec'){if(s.rec){sayStop(s);return}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
+        s.res=null;s.heard='';s.err='';const rc=new SR();rc.lang=d.lang;rc.interimResults=false;rc.maxAlternatives=3;s._rc=rc;s.rec=true;const at=s.i;
+        rc.onresult=e=>{if(s.i!==at)return;const alts=[...e.results[0]].map(x=>x.transcript.trim());const target=d.items[s.i];
+          // die beste der erkannten Varianten zählt
+          let best=null;alts.forEach(h=>{const r=sayCheck(target,h,d.lang);if(!best||r.score>best.r.score)best={h,r}});
+          s.heard=best.h;s.res=best.r;if(!s.done[s.i]){s.done[s.i]=1;if(best.r.level==='green')s.ok++}
+          if(best.r.level==='green'){SND.right();s.done[s.i]=2}
+          if(Object.keys(s.done).length>=d.items.length&&!s.win){s.win=true;s.msg=`${s.ok} von ${d.items.length} gleich beim ersten Mal sehr gut`}
+          if(AK.st===s)render()};
+        rc.onerror=e=>{s.err=e.error==='no-speech'?'Ich habe nichts gehört. Versuch es nochmal!':e.error==='not-allowed'?'Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen freigeben.':'Die Aufnahme hat nicht geklappt.';sayStop(s);if(AK.st===s)render()};
+        rc.onend=()=>{if(s.rec){s.rec=false;if(AK.st===s)render()}};
+        try{rc.start()}catch(e){s.rec=false}clearTimeout(s._t);s._t=setTimeout(()=>{if(s.rec){sayStop(s);if(AK.st===s)render()}},8000);return}}},
 };
 Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt,fit:a.fit});
 const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
@@ -3215,7 +3286,7 @@ document.addEventListener('click',e=>{
     case 'me-tname':if(Cloud.sb&&Cloud.user){const n=$('#me-tn').value.trim().slice(0,60);Cloud.sb.from('profiles').update({name:n}).eq('id',Cloud.user.id).then(r=>{if(!r.error){Cloud.prof.name=n;V.ok=1}else V.err=r.error.message;render()})}break;
     case 'ak':akAct(d,e);break;
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
-    case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=AKT[t.id].ex;save();render()}break}
+    case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
     case 'theft':go('theft');break;
     case 'hf-add':{const t=$('#hf-t').value.trim(),x=$('#hf-x').value.trim(),k=$('#hf-s').value;if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
