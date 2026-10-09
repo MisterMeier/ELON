@@ -186,6 +186,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .tk-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--red,#d33);color:#fff;font-size:.75rem;margin-left:4px}
 .tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
 @media print{.tk-fab{display:none}}
+.keyqr{position:fixed;right:3vw;bottom:4vh;z-index:40;background:#fff;color:#111;border-radius:22px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:min(30vw,340px);text-align:center;display:grid;gap:6px}.keyqr .qr svg{width:100%;height:auto}.keyqr p{font-size:.9rem;font-weight:700;color:#555}
 .lock{display:grid;place-items:center;min-height:60vh}.lock .panel{max-width:440px;width:100%;display:grid;gap:6px;text-align:left}.lock h1{font-size:1.5rem}
 .mods{display:grid;gap:10px}.mod-card .mi{font-size:2.2rem;flex:none}.mod-card.locked{opacity:.55;cursor:default;box-shadow:none}.mod-card .btn{flex:none}
 .sboxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -986,6 +987,8 @@ const def=()=>({stars:0,mut:0,done:{},mission:'Today I can buy clothes in a Lond
 let S;
 try{S=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('anton-english-v1')||'{}'))}catch(e){S=def()}
 const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
+// Klassenschlüssel kommt nur im #-Teil der Adresse (QR-Karte, Tafel-QR): der wird nie an einen Server geschickt
+const HK=(()=>{const h=new URLSearchParams(location.hash.slice(1));const o={k:h.get('k'),ck:h.get('ck')};if(o.k||o.ck){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}return o})();
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
 const MINE=['stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','fleiss'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
@@ -999,6 +1002,7 @@ try{const r=JSON.parse(sessionStorage.getItem('elon-role')||'null');if(r)Object.
 // Alte Version: persönliche Daten lagen im gemeinsamen Speicher. Sie gehören der zuletzt angemeldeten Nummer.
 try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&o.cls&&o.nr&&MINE.some(k=>k!=='nick'&&k in o)){const id=meKey(o.school,o.cls,o.nr);if(!localStorage.getItem(id)){const m={};MINE.forEach(k=>{if(k in o)m[k]=o[k]});localStorage.setItem(id,JSON.stringify(m))}}}catch(e){}
 {const nk=S.nick;meLoad();if(S.role==='student'&&!S.nick)S.nick=nk}
+if(!BOARD&&ckOk(HK.k)){S.ckIn=HK.k;if(S.role==='student'&&S.code){S.ck=S.ck||{};S.ck[S.code]=HK.k;delete S.ckIn}}
 if(BOARD){S.role='board';if(QS.get('tafel'))S.code=QS.get('tafel')}
 else setTimeout(save,0);
 function saveRole(){if(BOARD)return;try{sessionStorage.setItem('elon-role',JSON.stringify({role:S.role,code:S.code,nr:S.nr,nick:S.nick,school:S.school,cls:S.cls}))}catch(e){}save()}
@@ -1676,6 +1680,7 @@ const Live={bc:null,sb:null,kind:'off',
     if(LIVE_SERVER&&LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
       try{
         const c=await sbClient();this.code=code;this.needJoin=false;
+        if(S.role==='student'&&ckOk(S.ckIn)){S.ck=S.ck||{};S.ck[code]=S.ckIn;delete S.ckIn;save()}
         // Privater Kanal: Supabase prüft, ob dieses Konto bzw. iPad zur Klasse gehört (supabase/live.sql).
         // Ist der Schutz noch nicht eingerichtet, geht es wie bisher über den offenen Kanal.
         const open=priv=>{try{c.realtime.setAuth()}catch(e){}const ch=c.channel('elon-'+code,{config:{private:priv,broadcast:{self:false}}});this.sb=ch;this.priv=priv;this.st='connecting';
@@ -1690,12 +1695,27 @@ const Live={bc:null,sb:null,kind:'off',
     try{this.bc=new BroadcastChannel('elon-'+code);this.bc.onmessage=e=>this.recv(e.data);this.kind='demo'}catch(e){this.kind='off'}
   },
   stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;const ch=this.sb;this.sb=null;try{ch&&ch.unsubscribe()}catch(e){}this.kind='off'},
-  post(t,p){const d={t,p};try{if(this.sb)this.sb.send({type:'broadcast',event:t,payload:d});else if(this.bc)this.bc.postMessage(d)}catch(e){}},
-  recv(d){if(!d||!d.t)return;d=liveClean(d);if(BOARD){if(d.t==='state')onBoardState(d.p);return}if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
+  post(t,p){const d={t,p};try{if(this.sb){const k=myCk(this.code);if(!k){if(S.role==='student'){this.needKey=true;updBanner()}return}
+      ckSeal(k,d).then(e=>{if(this.sb)this.sb.send({type:'broadcast',event:t,payload:{t,e}})}).catch(e=>console.warn(e));return}else if(this.bc)this.bc.postMessage(d)}catch(e){}},
+  recv(d){if(!d||!d.t)return;
+    if(this.kind==='server'){const k=myCk(this.code);if(!d.e||!k){if(S.role==='student'&&!k){this.needKey=true;updBanner()}return}
+      ckOpen(k,d.e).then(o=>{if(o&&o.t===d.t){if(S.role==='student'&&this.needKey){this.needKey=false;updBanner()}this.recv2(o)}}).catch(()=>{if(S.role==='student'){this.needKey=true;updBanner()}});return}
+    this.recv2(d)},
+  recv2(d){d=liveClean(d);if(BOARD){if(d.t==='state')onBoardState(d.p);return}if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
 };
 // Alles, was über den Live-Kanal kommt, wird entschärft: kein „<“ und kein „"“ kann HTML oder Attribute aufbrechen
 function liveClean(v,dep=0){if(dep>12)return null;if(typeof v==='string')return v.replace(/</g,'＜').replace(/>/g,'＞').replace(/"/g,'“');
   if(Array.isArray(v))return v.map(x=>liveClean(x,dep+1));if(v&&typeof v==='object'){const o={};for(const k in v)if(!/^(__proto__|constructor|prototype)$/.test(k))o[k]=liveClean(v[k],dep+1);return o}return v}
+// Ende-zu-Ende: Was über den Server läuft, ist mit dem Klassenschlüssel verschlüsselt (AES-GCM). Supabase sieht nur Zeichensalat.
+const b64u=b=>b64e(b).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''),b64ud=s=>b64d(String(s).replace(/-/g,'+').replace(/_/g,'/')+'==='.slice((String(s).length+3)%4));
+const CKC={};const ckImp=k=>CKC[k]||(CKC[k]=crypto.subtle.importKey('raw',b64ud(k),'AES-GCM',false,['encrypt','decrypt']));
+function ckOk(k){return typeof k==='string'&&/^[\w-]{43}$/.test(k)}
+let BOARDCK=null;if(BOARD){try{BOARDCK=HK.k||sessionStorage.getItem('elio-bk');if(BOARDCK)sessionStorage.setItem('elio-bk',BOARDCK)}catch(e){BOARDCK=HK.k}}
+function myCk(code){code=code||S.code;if(BOARD)return ckOk(BOARDCK)?BOARDCK:null;
+  if(S.role==='teacher'){if(!TDKEY)return null;TD.ck=TD.ck||{};if(!TD.ck[code]){TD.ck[code]=b64u(crypto.getRandomValues(new Uint8Array(32)));tsave()}return TD.ck[code]}
+  const k=(S.ck||{})[code];return ckOk(k)?k:null}
+async function ckSeal(k,o){const iv=crypto.getRandomValues(new Uint8Array(12));return {iv:b64e(iv),ct:b64e(await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),new TextEncoder().encode(JSON.stringify(o))))}}
+async function ckOpen(k,e){return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(e.iv)},await ckImp(k),b64d(e.ct))))}
 const safeUrl=u=>/^https?:\/\//i.test(String(u||''))?String(u):'#';
 const phaseOf=id=>id&&typeof id==='object'?id:(PHASES.find(p=>p.id===id)||PHASES[0]);
 function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.max(0,Math.round((t.endsAt-(Date.now()-off))/1000))}
@@ -1759,6 +1779,7 @@ VIEWS.tafel=()=>{
     <div class="tprev-w"><div class="row" style="justify-content:space-between;margin-bottom:6px"><span class="label">📺 Gerade an der Tafel</span><button class="btn sm" data-act="board-open">Tafel-Fenster öffnen</button></div><div class="tprev" id="tprev"></div></div>
   </div>
   <details class="panel ctrl" open><summary>Steuerung</summary>
+    ${Live.kind==='server'?`<div class="grp row"><span class="label">Verschlüsselt verbunden</span><button class="btn sm ${CS.keyQr?'on':''}" data-act="t-keyqr">🔑 ${CS.keyQr?'Schlüssel-QR ausblenden':'iPads verbinden (Schlüssel-QR an der Tafel)'}</button></div>`:''}
     <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
     <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
@@ -1818,7 +1839,7 @@ function stageOf(){
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
     sf:p.sf||'',min:+p.min||0,tool:t.id?{...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
 }
-const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
+const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
@@ -1842,7 +1863,8 @@ function boardHTML(R,mini){
     ${showT?`<span class="bw-timer btimer">${fmt(tl)}</span>`:''}</div><div class="bw-main">${main}</div><div class="bw-foot">${foot}</div></div>`;
 }
 let BRCS=null,bSig='';
-VIEWS.beamer=()=>boardHTML(BRCS);
+VIEWS.beamer=()=>{const h=boardHTML(BRCS);if(!(BRCS&&BRCS.keyQr&&ckOk(BOARDCK)))return h;setTimeout(fillQR,0);
+  return h+`<div class="keyqr"><div class="qr" data-qr="${esc(location.origin+location.pathname+'#k='+BOARDCK)}"></div><b>🔑 iPads verbinden</b><p>Mit der Kamera scannen. Der Schlüssel bleibt auf dem iPad.</p></div>`};
 function onBoardState(p){const old=BRCS;BRCS=p;
   if(V.name==='beamer'&&old&&old.poll&&p.poll&&p.poll.type==='quiz'&&old.poll.id===p.poll.id&&!old.poll.res===!p.poll.res&&boardSig({...old,poll:p.poll})===boardSig(p)&&updQuiz(p.poll,{})){bSig=boardSig(p);OFF=Date.now()-p.now;return}OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg===bSig)return;bSig=sg;
   // Spiel läuft: die Tafel zeigt es spielbar (Touch), sonst die normale Tafelansicht
@@ -1866,7 +1888,7 @@ let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;
   if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length+':'+(e.help||'').length).join()+JSON.stringify([p.hw,p.mods,p.modx&&Object.keys(p.modx)]);if(hs!==S.heftSig){S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.heftSig=hs;save();if(['desk','subject','dash','homework','mod'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
-function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
+function sendMsg(m){Live.post('msg',{...m,nr:S.nr,av:S.av,...(Live.kind==='server'?{}:{nick:S.nick||''})})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
 const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
 const b64e=b=>{const u=new Uint8Array(b);let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
@@ -1889,7 +1911,7 @@ function updBanner(){
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
   el.hidden=false;
-  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">${Live.needJoin?'Keine Verbindung zur Tafel. Melde dich ab und tritt der Klasse neu bei (Code oder QR-Karte).':'Warte auf die Tafel …'} · ${esc(className())} · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
+  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">${Live.needJoin?'Keine Verbindung zur Tafel. Melde dich ab und tritt der Klasse neu bei (Code oder QR-Karte).':Live.needKey?'🔑 Scanne den Schlüssel-QR an der Tafel oder auf deiner Karte, dann geht es los.':'Warte auf die Tafel …'} · ${esc(className())} · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
   const ph=phaseOf(RCS.phase),inHelp=RCS.help.includes(S.nr),tl=timerLeft(RCS.timer,OFF);
   const G=!RCS.freeze&&RCS.game&&gInfo(RCS.game.g);
   el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+esc(G.name):esc(ph.name)}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
@@ -2032,7 +2054,7 @@ function avatar(i,sz){const a=AVS[(+i||0)%AVS.length]||AVS[0],sk=AV_SKIN[a[0]],h
 const myAv=()=>S.av!=null?avatar(S.av,22):'';
 // QR-Codes: Bibliothek liegt im Repo (MIT, Kazuhiko Arase)
 async function qrSvg(txt){if(!window.qrcode)await loadScript('assets/vendor/qrcode.js');const q=qrcode(0,'M');q.addData(txt);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})}
-const joinUrl=(code,pw,nr)=>location.origin+location.pathname+'?j='+code+'-'+encodeURIComponent(pw)+'-'+nr+(QS.has('live')?'&live=1':'');
+const joinUrl=(code,pw,nr,ck)=>location.origin+location.pathname+'?j='+code+'-'+encodeURIComponent(pw)+'-'+nr+(QS.has('live')?'&live=1':'')+(ck?'#k='+ck:'');
 async function fillQR(){for(const el of document.querySelectorAll('[data-qr]:not([data-done])')){el.dataset.done=1;try{el.innerHTML=await qrSvg(el.dataset.qr)}catch(e){el.textContent='QR nicht verfügbar'}}}
 
 /* =====================================================================
@@ -2134,11 +2156,11 @@ async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
   if(p2){if(pw.length<8){V.lkErr='Mindestens 8 Zeichen.';render();return}if(pw!==p2.value){V.lkErr='Die beiden Passwörter sind nicht gleich.';render();return}}
   const b=$('[data-act=lk-go]');if(b){b.disabled=true;b.textContent='Prüfe …'}
   const ok=await tdOpen(pw);if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
-  TDFAIL=0;V.lkErr='';V.lkForget=false;if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render()}
+  TDFAIL=0;V.lkErr='';V.lkForget=false;if(HK.ck){const i=HK.ck.lastIndexOf('.'),c=HK.ck.slice(0,i),k=HK.ck.slice(i+1);if(c&&ckOk(k)){TD.ck=TD.ck||{};TD.ck[c]=k;tsave();V.msg='Klassenschlüssel für '+c+' übernommen.'}HK.ck=null}if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render()}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&/^lk-pw/.test(e.target.id)){e.preventDefault();lockGo()}});
 ['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
 setInterval(()=>{if(S.role==='teacher'&&TDKEY&&!TDIDLE&&Date.now()-TDLAST>15*60000){TDIDLE=true;render()}},20000);
-const nickOf=k=>(ROSTER[k]&&ROSTER[k].nick)||TD.nicks[k]||'';
+const nickOf=k=>TD.nicks[k]||(ROSTER[k]&&ROSTER[k].nick)||'';
 const avOf=k=>{const a=ROSTER[k]&&ROSTER[k].av!=null?ROSTER[k].av:(TD.avs||{})[k];return a!=null?avatar(a,30):''};
 const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)};
 const today=()=>new Date().toISOString().slice(0,10);
@@ -2325,7 +2347,8 @@ function saBody(k){const A=saGet(k),t=V.otab,td=todayISO();
         <label class="label" style="margin-top:10px;display:block">Anmerkungen ${P[1]}<textarea rows="2" data-san="${ck}" placeholder="Anmerkungen zu ${esc(cn)} im Zeitraum ${P[1]}">${esc(notes[per]||'')}</textarea></label>
         ${SA_PER.filter(p=>p[0]!==per&&notes[p[0]]).map(p=>`<p class="sa-old"><b style="color:${p[2]}">${p[1]}</b> ${esc(notes[p[0]])}</p>`).join('')}</section>`}).join('')}`}
   return ''}
-function saHead(k){const A=saGet(k);return `<section class="panel"><span class="label">Anmerkungen aus dem Schülerbogen</span><textarea rows="2" data-saan="1" placeholder="z. B. Förderbedarf, Nachteilsausgleich, Gesundheit">${esc(A.an||'')}</textarea>
+function saHead(k){const A=saGet(k);return `<section class="panel"><label class="label" style="display:block">Vorname (nur auf deinem Gerät, wird nie gesendet)<input type="text" maxlength="16" data-sanick="${k}" value="${esc(TD.nicks[k]||'')}" placeholder="z. B. Lea" style="margin-top:4px"></label>
+  <span class="label" style="display:block;margin-top:10px">Anmerkungen aus dem Schülerbogen</span><textarea rows="2" data-saan="1" placeholder="z. B. Förderbedarf, Nachteilsausgleich, Gesundheit">${esc(A.an||'')}</textarea>
   <div class="row" style="margin-top:8px"><span class="chip">${A.el.length} Elternkontakte</span><span class="chip">${A.vk.length} Vorkommnisse</span><span class="spacer"></span><button class="btn sm" data-act="sa-print" data-n="${k}">🖨️ Akte drucken / als PDF</button></div></section>`}
 /* Druckansicht im Layout der Vorlage */
 function saPrintOne(k){const A=saGet(k),yr=saYear(),blank=n=>Array.from({length:n},()=>`<tr><td>&nbsp;</td><td></td>${''}</tr>`).join('');
@@ -2358,7 +2381,7 @@ function saAct(a,d){
   if(a==='sa-print'){go('sa-print',{n:+d.n});return}
   if(a==='sa-printall'){go('sa-print',{all:1});return}
 }
-let saT=0;document.addEventListener('input',e=>{const t=e.target,c=t.dataset&&t.dataset.san,an=t.dataset&&t.dataset.saan;if(c==null&&an==null)return;
+let saT=0;document.addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.sanick){const k=e.target.dataset.sanick,v=cleanNick(e.target.value);if(v)TD.nicks[k]=v;else delete TD.nicks[k];clearTimeout(saT);saT=setTimeout(tsave,500);return}const t=e.target,c=t.dataset&&t.dataset.san,an=t.dataset&&t.dataset.saan;if(c==null&&an==null)return;
   const A=saEdit(V.n);if(an!=null)A.an=t.value;else{const per=V.per||saCurPer();(A.n[c]=A.n[c]||{})[per]=t.value}clearTimeout(saT);saT=setTimeout(tsave,400)});
 function obsQuick(k){
   OQ={n:k,cat:OQ.cat||'Mitarbeit'};
@@ -3293,7 +3316,8 @@ VIEWS.klassen=()=>{
       ${(Cloud.lead||[]).includes(c.id)?'<span class="chip" style="margin-left:8px">Klassenleitung</span>':''}</div>
       <div class="row"><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls!==c.id?`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`:'<span class="chip">aktiv</span>'}</div></div>
       <div class="acc"><span class="label">Schüler-Zugang</span>${ac?`<span>Klassencode <b>${esc(ac.join_code)}</b></span><span>Passwort <b>${esc(ac.pw)}</b></span>`:'<span class="muted" style="font-weight:700">noch keiner</span>'}
-        ${lead?`<button class="btn sm" data-act="kl-access" data-id="${c.id}">${ac?'Neu erzeugen':'Zugang erzeugen'}</button>`:''}${ac?`<button class="btn sm pri" data-act="kl-cards" data-id="${c.id}">🔳 QR-Karten für alle SuS</button>`:''}</div>
+        ${lead?`<button class="btn sm" data-act="kl-access" data-id="${c.id}">${ac?'Neu erzeugen':'Zugang erzeugen'}</button>`:''}${ac?`<button class="btn sm pri" data-act="kl-cards" data-id="${c.id}">🔳 QR-Karten für alle SuS</button>`:''}<button class="btn sm" data-act="kl-key" data-code="${esc(c.code)}">🔑 Schlüssel für Kolleg:innen</button></div>
+      ${V.keyFor===c.code?`<div class="panel" style="margin-top:8px"><b>Klassenschlüssel teilen</b><p class="muted" style="font-weight:700">Schick diesen Link nur an Lehrkräfte dieser Klasse, am besten über den Dienst-Messenger. Sie öffnen ihn auf ihrem Gerät und entsperren dort ELIO. Dann können sie mit denselben iPads arbeiten.</p><textarea rows="2" readonly onclick="this.select()">${esc(location.origin+location.pathname+'#ck='+c.code+'.'+myCk(c.code))}</textarea></div>`:''}
       <div style="margin-top:12px"><span class="label">Lehrkräfte</span><div class="row" style="margin-top:6px">${ts.map(x=>`<span class="chip">${x.lead?'★ ':''}${esc(pName(K.profiles,x.teacher_id))}${lead&&x.teacher_id!==uid&&!x.lead?` <button class="btn sm" data-act="kl-rm" data-id="${c.id}" data-t="${x.teacher_id}" aria-label="Entfernen" style="min-height:26px;padding:0 8px">✕</button>`:''}</span>`).join('')}</div>
         ${lead?`<div class="row" style="margin-top:8px"><select id="kl-add-${c.id}" style="width:auto"><option value="">Lehrkraft dazuholen …</option>${ok.filter(p=>!ts.some(x=>x.teacher_id===p.id)).map(p=>`<option value="${p.id}">${esc(p.name||p.email)}</option>`).join('')}</select><button class="btn sm" data-act="kl-add" data-id="${c.id}">Dazuholen</button></div>`:''}</div>
       ${lead?`<details style="margin-top:12px"><summary style="font-weight:800;cursor:pointer">Klasse bearbeiten</summary><div class="row" style="margin-top:8px">
@@ -3307,13 +3331,13 @@ VIEWS['kl-cards']=()=>{
   if(!K.ok){klLoad();return '<div class="empty">Lädt …</div>'}
   const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid),ac=c&&K.access.find(a=>a.class_id===c.id);
   if(!c||!ac)return '<div class="empty">Für diese Klasse gibt es noch keinen Schüler-Zugang.</div>';
-  const n=c.size||24,nrs=Array.from({length:n},(_,i)=>i+1);
-  V.list=`ELIO · Klasse ${c.name} · persönliche Zugänge\n`+nrs.map(k=>`Nr. ${k}: ${joinUrl(ac.join_code,ac.pw,k)}`).join('\n');
+  const n=c.size||24,nrs=Array.from({length:n},(_,i)=>i+1),ck=myCk(c.code);
+  V.list=`ELIO · Klasse ${c.name} · persönliche Zugänge\n`+nrs.map(k=>`Nr. ${k}: ${joinUrl(ac.join_code,ac.pw,k,ck)}`).join('\n');
   setTimeout(fillQR,0);
   return `<div class="st-head noprint"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">QR-Karten · ${esc(c.name)}</h1>
       <button class="btn pri" data-act="kl-print">🖨️ Drucken</button><button class="btn" data-act="kl-copy">🔗 Links kopieren</button>${V.copied===1?'<span class="chip">Kopiert</span>':V.copied===2?'<span class="chip">Kopieren ging nicht</span>':''}</div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und gibt nur noch den Vornamen ein. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
-    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k))}"></div>
+    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o,ch,help,ub})=>({id,s,title,text,date,o,ch,help,ub}));
@@ -3623,7 +3647,9 @@ document.addEventListener('click',e=>{
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
     case 'role-reset':$('#umenu').hidden=true;if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
-    case 'board-open':{const u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'');
+    case 'kl-key':V.keyFor=V.keyFor===d.code?null:d.code;render();break;
+    case 't-keyqr':CS.keyQr=!CS.keyQr;pushCS();render();break;
+    case 'board-open':{const k=myCk(),u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'')+(k?'#k='+k:'');
       const w=window.open(u,'elio-tafel','popup,width=1280,height=720');if(!w)alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');
       [800,2000,4000].forEach(t=>setTimeout(pushCS,t));break}
     case 'mt':MINI=d.m;renderMini(true);break;
