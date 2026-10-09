@@ -125,6 +125,18 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .page h4{font-family:var(--f-display);font-size:1.1rem;margin:14px 0 4px;color:var(--sc)}
 .page ul{margin:4px 0;padding-left:22px}
 .page li{margin-block:2px}
+.sa-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}.sa-tabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}.sa-tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.sa-pers{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.sa-pers button{border:2px solid var(--pc);color:var(--pc);background:var(--surface);border-radius:10px;padding:6px 12px;font:inherit;font-weight:800;cursor:pointer}.sa-pers button.on{background:var(--pc);color:#fff}
+.sa-cat{margin-top:12px;border-top:5px solid var(--pc)}.sa-cat h3{margin:0}.sa-it{display:grid;grid-template-columns:1fr auto auto 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.sa-it .l{font-weight:700}.sa-it .r{color:var(--muted);font-weight:600}
+.sa-seg{display:flex;border:2px solid var(--line);border-radius:10px;overflow:hidden}.sa-seg button{border:0;background:var(--surface);font:inherit;font-weight:800;min-width:42px;padding:8px 4px;cursor:pointer;color:var(--ink)}.sa-seg button+button{border-left:1px solid var(--line)}.sa-seg button.on{background:var(--pc);color:#fff}
+.sa-hist{display:flex;gap:2px}.sa-hist span{width:24px;height:24px;border-radius:6px;border:1.5px solid var(--hc);color:var(--hc);font-size:.7rem;font-weight:800;display:grid;place-items:center}.sa-hist span.cur{background:var(--hc);color:#fff}
+.sa-old{margin-top:6px;font-weight:600;color:var(--muted)}
+@media (max-width:760px){.sa-it{grid-template-columns:1fr auto}.sa-it .r{grid-column:1/-1;font-size:.9rem}.sa-hist{display:none}}
+.sa-pr{background:#fff;color:#000;padding:8mm;font-size:10pt;border-radius:8px;margin-bottom:14px}.sa-bar{display:flex;justify-content:space-between;background:#c5d9f1;border:1px solid #5a5a5a;padding:4px 8px;margin-bottom:6px;font-size:12pt}
+.sa-nm{display:flex;gap:40px;background:#e2eaf4;border:1px solid #5a5a5a;padding:6px 8px;margin-bottom:6px}.sa-an{border:1px solid #5a5a5a;padding:6px 8px;min-height:18mm;margin-bottom:8px}
+.sa-t{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:9pt}.sa-t th,.sa-t td{border:1px solid #5a5a5a;padding:3px 5px;vertical-align:top;text-align:left}.sa-t .hb{background:#c5d9f1;text-align:center;font-size:11pt}
+.sa-vb{table-layout:fixed}.sa-vb td{background:#e2eaf4}.sa-vb .cn{background:#fff;font-weight:800;text-align:center;vertical-align:middle}.sa-t .pp{width:9mm;text-align:center;font-weight:800;font-size:8pt}.sa-leg{font-size:8pt;color:#555}
+@media print{.sa-pr{padding:0;border-radius:0;margin:0}.sa-brk{break-after:page}.sa-vb{break-inside:avoid}}
 .achtung{margin-block:12px;border:3px dashed #d98a00;border-radius:12px;padding:10px 14px;background:#fff6e0;color:#3b2a00}.achtung .l{color:#a86500}
 .vs{display:flex;gap:10px;align-items:baseline;margin:4px 0;padding:6px 12px;border-radius:10px;font-weight:700}.vs b{flex:none;min-width:5.4em;font-size:.85em}
 .vs.no{background:#fde8e8;color:#7a1b1b}.vs.no span{text-decoration:line-through;text-decoration-color:rgba(200,40,40,.6)}.vs.yes{background:#e3f5e6;color:#14532d}
@@ -323,7 +335,9 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .t-top .ring{width:96px;height:96px;align-self:start}.t-top .ring div{width:76px;height:76px;font-size:1.45rem}
 .tprev-w{min-width:0}
 .tprev{aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:2px solid var(--line,var(--surface-2));box-shadow:0 6px 18px rgba(0,0,0,.12);background:var(--bg)}
-.tprev .bw-kf{overflow:auto}
+.tprev .bw-kf{overflow:auto}.tprev{position:relative}
+.tmir{transform-origin:0 0;pointer-events:none;overflow:hidden;background:var(--bg)}.tmir.tb{padding:24px 32px}.tmir .bw{height:100%}.tmir-ph{display:grid;place-items:center;height:60%;font-size:2rem;font-weight:800;background:#000;color:#fff;border-radius:12px}
+.tmir-live{position:absolute;bottom:6px;right:8px;background:rgba(200,40,40,.9);color:#fff;font-weight:800;font-size:.72rem;padding:2px 8px;border-radius:999px}
 .t-top+.ctrl{margin-top:0;margin-bottom:16px}
 @media (max-width:820px){.t-top{grid-template-columns:1fr}}
 .t-txt{font-size:1.3rem;font-weight:700;color:var(--muted);margin-top:4px}
@@ -1671,7 +1685,15 @@ function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
 function pushCS(){if(!CS)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
-function updPrev(){const el=$('#tprev');if(!el||!CS)return;const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
+let MIR=null,MIRC=null;
+function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
+function updPrev(){const el=$('#tprev');if(!el||!CS)return;mirListen();
+  // Tafel-Fenster offen: genau dessen Bild spiegeln (auch laufende Spiele), sonst eine Vorschau aus dem Klassenzustand
+  if(MIR&&Date.now()-MIR.at<5000){if(MIR.same&&el.dataset.sig==='mir')return;el.dataset.sig='mir';const k=el.clientWidth/MIR.w;
+    const h=MIR.html.replace(/<iframe[\s\S]*?<\/iframe>/g,'<div class="tmir-ph">📺 Video läuft an der Tafel</div>').replace(/\sautoplay/g,'').replace(/<video/g,'<video muted');
+    el.innerHTML=`<div class="tmir ${/tboard/.test(MIR.cls)?'tb':''}" style="width:${MIR.w}px;height:${MIR.h}px;transform:scale(${k})">${h}</div><span class="tmir-live">● live</span>`;return}
+  const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
+setInterval(()=>{if(V.name==='tafel'&&MIR&&Date.now()-MIR.at>=5000&&$('#tprev')&&$('#tprev').dataset.sig==='mir'){$('#tprev').dataset.sig='';updPrev()}},2000);
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
 function onStudentMsg(m){
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
@@ -2169,7 +2191,7 @@ function addObs(n,cat,subj,txt){txt=(txt||'').trim();if(!txt)return false;(TD.ob
 const pupilName=k=>nickOf(k)?`${esc(nickOf(k))} <span class="muted">· Nr. ${k}</span>`:`Nr. ${k}`;
 VIEWS.obs=()=>{
   const on=CS?online():[],all=Object.values(TD.obs).flat(),td=all.filter(o=>new Date(o.t).toISOString().slice(0,10)===today()).length;
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Beobachtungen</h1><div class="row"><span class="chip">${all.length} Notizen · heute ${td}</span><button class="btn sm" data-act="obs-export" ${all.length?'':'disabled'}>Alle als Textdatei sichern</button></div></div>
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Beobachtungen</h1><div class="row"><span class="chip">${all.length} Notizen · heute ${td}</span><button class="btn sm" data-act="obs-export" ${all.length?'':'disabled'}>Alle als Textdatei sichern</button><button class="btn sm" data-act="sa-printall">🖨️ Alle Akten drucken</button></div></div>
   <div class="priv">🔒 Nur für dich. Beobachtungen bleiben auf diesem Gerät und werden nie an die iPads gesendet.</div>
   <span class="label">${esc(className())} · tippe auf einen Schüler</span>
   <div class="pupils">${Array.from({length:S.classSize},(_,i)=>{const k=i+1,L=TD.obs[k]||[];
@@ -2177,10 +2199,11 @@ VIEWS.obs=()=>{
       <small>${esc(nickOf(k)||'noch kein Vorname')}</small><small>${L.length?`${L.length} Notiz${L.length>1?'en':''} · zuletzt ${new Date(L[0].t).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}`:'keine Notizen'}</small>${diaryOf(k).length?`<small>📔 ${diaryOf(k).length} Tagebuch-Tag${diaryOf(k).length>1?'e':''}</small>`:''}</button>`}).join('')}</div>`;
 };
 VIEWS['obs-p']=()=>{
-  const k=V.n,L=TD.obs[k]||[],cat=V.cat||'Mitarbeit',sub=V.subj||curSubj();
+  const k=V.n,L=TD.obs[k]||[],cat=V.cat||'Mitarbeit',sub=V.subj||curSubj(),tab=V.otab||'notes';
   return `<div class="st-head"><button class="btn sm" data-act="obs">← Alle Schüler</button><button class="btn sm" data-act="obs-p" data-n="${k>1?k-1:S.classSize}" aria-label="Vorheriger Schüler">◀</button><button class="btn sm" data-act="obs-p" data-n="${k<S.classSize?k+1:1}" aria-label="Nächster Schüler">▶</button></div>
   <h1 style="margin-bottom:10px">${pupilName(k)}</h1>
-  <div class="priv">🔒 Nur für dich sichtbar.</div>
+  <div class="priv">🔒 Nur für dich sichtbar. Alles bleibt auf diesem Gerät.</div>
+  ${saTabs()}${tab!=='notes'&&tab!=='diary'?saHead(k)+saBody(k):tab==='diary'?'':`
   <section class="panel"><span class="label">Neue Beobachtung</span>
     <div class="cats">${OBS_CATS.map(([c,i])=>`<button class="${c===cat?'on':''}" data-act="obs-cat" data-c="${c}">${i} ${c}</button>`).join('')}</div>
     <div class="row" style="margin-bottom:8px"><label class="label" for="obs-subj">Fach</label><select id="obs-subj">${Object.entries(SUBJECTS).map(([s,v])=>`<option value="${s}" ${s===sub?'selected':''}>${v.name}</option>`).join('')}</select></div>
@@ -2189,11 +2212,90 @@ VIEWS['obs-p']=()=>{
   <div class="notes">${L.map(o=>`<div class="note"><div class="meta"><span>${new Date(o.t).toLocaleString('de-DE',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
       <span class="chip">${(OBS_CATS.find(c=>c[0]===o.cat)||['','📝'])[1]} ${esc(o.cat)}</span>${SUBJECTS[o.subj]?badge(o.subj):''}<span class="spacer"></span>
       ${V.odel===o.id?`<button class="btn sm red" data-act="obs-del-yes" data-id="${o.id}">Wirklich löschen</button><button class="btn sm" data-act="obs-del-no">Nein</button>`:`<button class="btn sm" data-act="obs-del" data-id="${o.id}">Löschen</button>`}</div>
-    <div style="white-space:pre-wrap">${esc(o.txt)}</div></div>`).join('')||'<div class="empty">Noch keine Beobachtungen zu diesem Schüler.</div>'}</div>
-  <section class="panel" style="margin-top:16px"><span class="label">📔 Lerntagebuch · nur du und ${esc(nickOf(k)||'die Schülerin / der Schüler')} können es lesen</span>
-    ${diaryOf(k).map(([d,e],i)=>`<details class="dd" ${i?'':'open'}><summary>${new Date(d+'T12:00').toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</summary><div style="white-space:pre-wrap;margin-top:6px">${esc(e.t)}</div></details>`).join('')||'<p class="muted" style="font-weight:700;margin-top:6px">Noch nichts angekommen. Einträge kommen verschlüsselt an, sobald der Schüler oder die Schülerin während deiner Stunde online ist.</p>'}</section>`;
+    <div style="white-space:pre-wrap">${esc(o.txt)}</div></div>`).join('')||'<div class="empty">Noch keine Beobachtungen zu diesem Schüler.</div>'}</div>`}
+  ${tab!=='diary'?'':`<section class="panel" style="margin-top:16px"><span class="label">📔 Lerntagebuch · nur du und ${esc(nickOf(k)||'die Schülerin / der Schüler')} können es lesen</span>
+    ${diaryOf(k).map(([d,e],i)=>`<details class="dd" ${i?'':'open'}><summary>${new Date(d+'T12:00').toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</summary><div style="white-space:pre-wrap;margin-top:6px">${esc(e.t)}</div></details>`).join('')||'<p class="muted" style="font-weight:700;margin-top:6px">Noch nichts angekommen. Einträge kommen verschlüsselt an, sobald der Schüler oder die Schülerin während deiner Stunde online ist.</p>'}</section>`}`;
 };
 const diaryOf=k=>Object.entries(((TD.diary||{})[S.cls||'-']||{})[k]||{}).sort((a,b)=>b[0].localeCompare(a[0]));
+/* --- Schülerakte (nach dem Beobachtungsbogen-Vorlage): Elternkontakte, Vorkommnisse, Verhaltensbeschreibung.
+   Bleibt nur auf dem Gerät der Lehrkraft, pro Klasse und Nummer. --- */
+const SA_PER=[['p1','09/10','#18242c'],['p2','11/12','#c8322b'],['p3','01/02','#1f6fbf'],['p4','03/04','#23905a'],['p5','05/06','#d9791a']];
+const SA_KAT=[
+  ['arbeit','Arbeitsverhalten',[['a1','arbeitet intensiv mit','arbeitet nicht mit'],['a2','leicht ansprechbar auf neue Lerninhalte','schwer ansprechbar'],['a3','ist allgemein aktiv und lebendig','allgemein passiv']]],
+  ['lern','Lernverhalten',[['l1','arbeitet selbstständig mit','nicht selbstständig'],['l2','erledigt schriftliche Arbeiten gründlich und sorgfältig','oberflächlich und nachlässig'],['l3','fasst neuen Unterrichtsstoff schnell auf','fasst langsam auf'],['l4','kann konzentriert arbeiten, lässt sich wenig ablenken','unkonzentriert, leicht ablenkbar'],['l5','verbalisiert und spricht klar und eigenständig, gewandt','benötigt oft Verbalisierungshilfen, spricht unbeholfen'],['l6','braucht kaum Lernhilfen','braucht oft Lernhilfen']]],
+  ['emo','Emotionalität',[['e1','in Prüfungen und Stresssituationen ruhig und gelassen','unruhig und aufgeregt'],['e2','ist gut gesteuert und beherrscht','oft ungesteuert und unbeherrscht'],['e3','ist leicht ansprechbar','schwer ansprechbar, verschlossen'],['e4','ist allgemein ausgeglichen','oft unausgeglichen'],['e5','ist selbstbewusst und selbstsicher','schwaches Selbstgefühl, unsicher'],['e6','hat keine Angst, vor der Klasse zu reden','ängstlich und gehemmt']]],
+  ['gruppe','Gruppenverhalten',[['g1','findet schnell Kontakt zu Gleichaltrigen','hat Kontaktschwierigkeiten'],['g2','findet leicht Kontakt zum Lehrer','gehemmt, verschlossen'],['g3','übernimmt Dienste und Gemeinschaftsaufgaben zuverlässig und mit Freude','übernimmt sie ungern, hält Dienste nicht ein']]],
+  ['sozial','Sozialverhalten',[['s1','hält Klassen- und Gesprächsregeln ein','missachtet Regeln häufig'],['s2','geht respektvoll mit anderen um','verhält sich oft respektlos'],['s3','ist hilfsbereit und rücksichtsvoll','wenig hilfsbereit, rücksichtslos'],['s4','löst Konflikte angemessen','reagiert in Konflikten unangemessen']]],
+  ['methoden','Methoden / Sozialformen',[['m1','kann eigenständig in offenen Unterrichtsformen arbeiten','arbeitet nicht selbstständig, benötigt starke Lenkung und viele Hilfen'],['m2','arbeitet eigenständig und zielorientiert in der Partnerarbeit','ist in der Partnerarbeit leicht ablenkbar und arbeitet nicht zielorientiert'],['m3','präsentiert Arbeitsergebnisse sicher und frei','präsentiert Arbeitsergebnisse nicht ohne Hilfen und starke Lenkung']]],
+  ['ha','Hausaufgaben',[['h1','erledigt Hausaufgaben regelmäßig, vollständig und sauber','erledigt Hausaufgaben nur unregelmäßig'],['h2','kontrolliert, reflektiert und verbessert Hausaufgaben selbstständig anhand der Lösungen','verbessert und reflektiert seine Hausaufgaben nicht']]]];
+const SA_SC={4:'++',3:'+',2:'–',1:'– –'};
+const SA_EL=['Telefonat','Persönliches Gespräch','Elternsprechtag','E-Mail','Brief / Mitteilungsheft','Sonstiges'];
+const SA_VK=['Positives Ereignis','Konflikt mit Mitschüler:innen','Unterrichtsstörung','Regelverstoß','Verweigerung','Verletzung / Unfall','Gesundheit','Sonstiges'];
+const saCurPer=()=>{const m=new Date().getMonth()+1;return m>=9&&m<=10?'p1':m>=11?'p2':m<=2?'p3':m<=4?'p4':m<=7?'p5':'p1'};
+const saYear=()=>{const d=new Date(),y=d.getFullYear();return d.getMonth()+1>=8?`${y}/${y+1}`:`${y-1}/${y}`};
+const saGet=k=>(((TD.akte||{})[S.cls||'-'])||{})[k]||{an:'',v:{},n:{},el:[],vk:[]};
+function saEdit(k){TD.akte=TD.akte||{};const C=TD.akte[S.cls||'-']=TD.akte[S.cls||'-']||{};return C[k]=C[k]||{an:'',v:{},n:{},el:[],vk:[]}}
+const saFmt=iso=>iso?iso.split('-').reverse().join('.'):'';
+const saSort=a=>a.slice().sort((x,y)=>(x.d||'').localeCompare(y.d||''));
+function saDone(A,per){let n=0,r=0;SA_KAT.forEach(c=>c[2].forEach(i=>{n++;if((A.v[i[0]]||{})[per])r++}));return [r,n]}
+const SA_TABS=[['notes','📝 Notizen'],['el','1 Eltern'],['vk','2 Vorkommnisse'],['vb','3 Verhalten'],['diary','📔 Lerntagebuch']];
+function saTabs(){const t=V.otab||'notes';return `<div class="sa-tabs noprint" role="tablist">${SA_TABS.map(([k,l])=>`<button role="tab" aria-selected="${t===k}" class="${t===k?'on':''}" data-act="sa-tab" data-t="${k}">${l}</button>`).join('')}</div>`}
+function saDel(l,e){return V.sadel===e.id?`<span class="row" style="gap:6px"><button class="btn sm red" data-act="sa-delok" data-l="${l}" data-id="${e.id}">Wirklich löschen</button><button class="btn sm" data-act="sa-delno">Nein</button></span>`:`<button class="btn sm" data-act="sa-del" data-id="${e.id}">Löschen</button>`}
+function saBody(k){const A=saGet(k),t=V.otab,td=todayISO();
+  if(t==='el'||t==='vk'){const el=t==='el',L=saSort(el?A.el:A.vk),ar=el?SA_EL:SA_VK;
+    return `<section class="panel"><span class="label">${el?'Neuer Elternkontakt':'Neues besonderes Vorkommnis'}</span>
+      <div class="lgrid" style="margin-top:8px"><label>Datum<input type="date" id="sa-d" value="${td}"></label><label>Art<select id="sa-a">${ar.map(a=>`<option>${a}</option>`).join('')}</select></label>
+      <label style="grid-column:1/-1">Bemerkungen<textarea id="sa-t" rows="3" placeholder="${el?'Anlass, Gesprächspartner, Ergebnis, Vereinbarungen':'Was ist passiert? Welche Maßnahme?'}"></textarea></label></div>
+      <div class="row" style="margin-top:10px">${el?'':'<label class="row" style="gap:6px;font-weight:700"><input type="checkbox" id="sa-e" style="width:auto"> Eltern informiert</label>'}<button class="btn pri" data-act="sa-add" data-l="${t}">Eintragen</button><span class="err" id="sa-err"></span></div></section>
+      ${L.length?`<div class="tbl" style="margin-top:14px"><table><thead><tr><th>Datum</th><th>Bemerkungen</th>${el?'':'<th>Eltern</th>'}<th></th></tr></thead><tbody>${L.map(e=>`<tr><td style="white-space:nowrap">${saFmt(e.d)}</td><td><b>${esc(e.a)}:</b> ${esc(e.t)}</td>${el?'':`<td>${e.inf?'<span class="chip ok">informiert</span>':'nein'}</td>`}<td>${saDel(t,e)}</td></tr>`).join('')}</tbody></table></div>`
+        :`<p class="muted" style="font-weight:700;margin-top:12px">${el?'Noch kein Elternkontakt eingetragen.':'Noch kein Vorkommnis eingetragen.'}</p>`}`}
+  if(t==='vb'){const per=V.per||saCurPer(),P=SA_PER.find(p=>p[0]===per);
+    return `<section class="panel"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><span class="label">Beobachtungszeitraum</span>
+      <div class="sa-pers">${SA_PER.map(p=>`<button class="${p[0]===per?'on':''}" style="--pc:${p[2]}" data-act="sa-per" data-p="${p[0]}">${p[1]}</button>`).join('')}</div></div>
+      <p class="muted" style="font-weight:700;font-size:.9rem;max-width:420px">++ links trifft voll zu · + eher links · – eher rechts · – – rechts trifft voll zu. Nochmal tippen hebt die Auswahl auf.</p></div></section>
+    ${SA_KAT.map(([ck,cn,its])=>{const notes=A.n[ck]||{},done=its.filter(i=>(A.v[i[0]]||{})[per]).length;
+      return `<section class="panel sa-cat" style="--pc:${P[2]}"><div class="row" style="justify-content:space-between"><h3>${cn}</h3><span class="chip">${P[1]}: ${done}/${its.length}</span></div>
+        ${its.map(([id,l,r])=>{const vals=A.v[id]||{},cur=vals[per];return `<div class="sa-it"><div class="l">${esc(l)}</div>
+          <div class="sa-seg">${[4,3,2,1].map(v=>`<button class="${cur===v?'on':''}" data-act="sa-v" data-it="${id}" data-v="${v}">${SA_SC[v]}</button>`).join('')}</div>
+          <div class="sa-hist" title="Verlauf">${SA_PER.map(p=>`<span style="--hc:${p[2]}" class="${p[0]===per?'cur':''}" title="${p[1]}">${vals[p[0]]?SA_SC[vals[p[0]]]:''}</span>`).join('')}</div><div class="r">${esc(r)}</div></div>`}).join('')}
+        <label class="label" style="margin-top:10px;display:block">Anmerkungen ${P[1]}<textarea rows="2" data-san="${ck}" placeholder="Anmerkungen zu ${esc(cn)} im Zeitraum ${P[1]}">${esc(notes[per]||'')}</textarea></label>
+        ${SA_PER.filter(p=>p[0]!==per&&notes[p[0]]).map(p=>`<p class="sa-old"><b style="color:${p[2]}">${p[1]}</b> ${esc(notes[p[0]])}</p>`).join('')}</section>`}).join('')}`}
+  return ''}
+function saHead(k){const A=saGet(k);return `<section class="panel"><span class="label">Anmerkungen aus dem Schülerbogen</span><textarea rows="2" data-saan="1" placeholder="z. B. Förderbedarf, Nachteilsausgleich, Gesundheit">${esc(A.an||'')}</textarea>
+  <div class="row" style="margin-top:8px"><span class="chip">${A.el.length} Elternkontakte</span><span class="chip">${A.vk.length} Vorkommnisse</span><span class="spacer"></span><button class="btn sm" data-act="sa-print" data-n="${k}">🖨️ Akte drucken / als PDF</button></div></section>`}
+/* Druckansicht im Layout der Vorlage */
+function saPrintOne(k){const A=saGet(k),yr=saYear(),blank=n=>Array.from({length:n},()=>`<tr><td>&nbsp;</td><td></td>${''}</tr>`).join('');
+  const el=saSort(A.el),vk=saSort(A.vk);
+  return `<article class="sa-pr"><div class="sa-bar"><b>Schülerbeobachtungen</b><b>Schuljahr ${yr}</b></div>
+    <div class="sa-nm"><span><b>Name:</b> ${esc(pupilNameTxt(k))}</span><span>${esc(className())}</span></div>
+    <div class="sa-an"><b>Anmerkungen aus dem Schülerbogen:</b><br>${esc(A.an||'')}</div>
+    <table class="sa-t"><thead><tr><th colspan="2" class="hb">1. Kontakt mit Eltern</th></tr><tr><th style="width:24mm">Datum</th><th>Bemerkungen</th></tr></thead><tbody>
+      ${el.map(e=>`<tr><td>${saFmt(e.d)}</td><td>${esc(e.a)}: ${esc(e.t)}</td></tr>`).join('')}${Array.from({length:Math.max(0,6-el.length)},()=>'<tr><td>&nbsp;</td><td></td></tr>').join('')}</tbody></table>
+    <table class="sa-t"><thead><tr><th colspan="3" class="hb">2. Besondere Vorkommnisse</th></tr><tr><th style="width:24mm">Datum</th><th>Bemerkungen</th><th style="width:15mm">Eltern inf.</th></tr></thead><tbody>
+      ${vk.map(e=>`<tr><td>${saFmt(e.d)}</td><td>${esc(e.a)}: ${esc(e.t)}</td><td style="text-align:center">${e.inf?'ja':''}</td></tr>`).join('')}${Array.from({length:Math.max(0,6-vk.length)},()=>'<tr><td>&nbsp;</td><td></td><td></td></tr>').join('')}</tbody></table>
+    <div class="sa-brk"></div><div class="sa-bar"><b>3. Verhaltensbeschreibung</b><span>${esc(pupilNameTxt(k))} · ${yr}</span></div>
+    ${SA_KAT.map(([ck,cn,its])=>{const notes=A.n[ck]||{};return `<table class="sa-t sa-vb"><thead><tr><th style="width:24mm"></th><th>Beobachtungszeitraum:</th>${SA_PER.map(p=>`<th class="pp" style="color:${p[2]}">${p[1]}</th>`).join('')}<th></th></tr></thead><tbody>
+      ${its.map(([id,l,r],ix)=>`<tr>${ix?'':`<td rowspan="${its.length+1}" class="cn">${cn}</td>`}<td>${esc(l)}</td>${SA_PER.map(p=>`<td class="pp" style="color:${p[2]}">${(A.v[id]||{})[p[0]]?SA_SC[A.v[id][p[0]]]:''}</td>`).join('')}<td>${esc(r)}</td></tr>`).join('')}
+      <tr><td colspan="7"><b>Anmerkungen:</b> ${SA_PER.filter(p=>notes[p[0]]).map(p=>`<span style="color:${p[2]};font-weight:700">${p[1]}:</span> ${esc(notes[p[0]])}`).join(' · ')}</td></tr></tbody></table>`}).join('')}
+    <p class="sa-leg">Ausprägungsgrad: ++ linkes Merkmal trifft voll zu · + eher links · – eher rechts · – – rechtes Merkmal trifft voll zu</p></article>`}
+const pupilNameTxt=k=>nickOf(k)?nickOf(k)+' (Nr. '+k+')':'Nr. '+k;
+VIEWS['sa-print']=()=>{const ks=V.all?Array.from({length:S.classSize},(_,i)=>i+1).filter(k=>{const A=saGet(k);return A.an||A.el.length||A.vk.length||Object.keys(A.v).length}):[V.n];
+  return `<div class="row noprint" style="margin-bottom:12px"><button class="btn sm" data-act="${V.all?'obs':'obs-p'}" data-n="${V.n||1}">← Zurück</button><button class="btn pri" data-act="kl-print">🖨️ Drucken oder als PDF sichern</button><span class="muted" style="font-weight:700">Im Druckfenster „Als PDF sichern“ wählen.</span></div>
+  ${ks.length?ks.map(saPrintOne).join('<div class="sa-brk"></div>'):'<div class="empty">Noch keine Akten angelegt.</div>'}`};
+function saAct(a,d){
+  if(a==='sa-tab'){V.otab=d.t;V.sadel=null;render();return}
+  if(a==='sa-per'){V.per=d.p;render();return}
+  if(a==='sa-v'){const A=saEdit(V.n),per=V.per||saCurPer(),o=A.v[d.it]=A.v[d.it]||{};if(o[per]===+d.v)delete o[per];else o[per]=+d.v;tsave();render();return}
+  if(a==='sa-add'){const t=$('#sa-t').value.trim();if(!t){$('#sa-err').textContent='Bitte Bemerkungen eintragen.';return}
+    const A=saEdit(V.n),e={id:'s'+Date.now().toString(36),d:$('#sa-d').value||todayISO(),a:$('#sa-a').value,t};if(d.l==='vk'){e.inf=$('#sa-e').checked;A.vk.push(e)}else A.el.push(e);tsave();render();return}
+  if(a==='sa-del'){V.sadel=d.id;render();return}
+  if(a==='sa-delno'){V.sadel=null;render();return}
+  if(a==='sa-delok'){const A=saEdit(V.n);A[d.l]=A[d.l].filter(x=>x.id!==d.id);V.sadel=null;tsave();render();return}
+  if(a==='sa-print'){go('sa-print',{n:+d.n});return}
+  if(a==='sa-printall'){go('sa-print',{all:1});return}
+}
+let saT=0;document.addEventListener('input',e=>{const t=e.target,c=t.dataset&&t.dataset.san,an=t.dataset&&t.dataset.saan;if(c==null&&an==null)return;
+  const A=saEdit(V.n);if(an!=null)A.an=t.value;else{const per=V.per||saCurPer();(A.n[c]=A.n[c]||{})[per]=t.value}clearTimeout(saT);saT=setTimeout(tsave,400)});
 function obsQuick(k){
   OQ={n:k,cat:OQ.cat||'Mitarbeit'};
   showOv(`<div class="box" style="text-align:left;max-width:520px;border-color:var(--navy)"><span class="label">Beobachtung · nur für dich</span><h2>${pupilName(k)}</h2>
@@ -3410,7 +3512,8 @@ document.addEventListener('click',e=>{
     case 'share-ok':if(RCS&&RCS.share){S.shareSeen=RCS.share.at;save();liveOverlay()}break;
     case 'ph-mat-del':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&p.mats){p.mats=p.mats.filter(x=>x!==d.m);save();render()}break}
     case 'obs':go('obs');break;
-    case 'obs-p':$('#ov').hidden=true;go('obs-p',{n:+d.n});break;
+    case 'obs-p':$('#ov').hidden=true;go('obs-p',{n:+d.n,otab:V.otab,per:V.per});break;
+    case 'sa-tab':case 'sa-per':case 'sa-v':case 'sa-add':case 'sa-del':case 'sa-delno':case 'sa-delok':case 'sa-print':case 'sa-printall':saAct(a,d);break;
     case 'obs-cat':V.cat=d.c;{const t=$('#obs-txt').value,sj=$('#obs-subj').value;V.subj=sj;render();$('#obs-txt').value=t}break;
     case 'obs-save':if(addObs(V.n,V.cat||'Mitarbeit',$('#obs-subj').value,$('#obs-txt').value)){V.subj=$('#obs-subj').value;render()}else $('#obs-err').textContent='Bitte etwas eintragen.';break;
     case 'obs-del':V.odel=d.id;render();break;
@@ -3535,6 +3638,11 @@ function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSi
 
 $('#star-ico').innerHTML=STAR;
 if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};Live.start(S.code);libLoad();
+  // Spiegel für den Mini-Bildschirm der Lehrkraft (gleiches Gerät): schickt, was gerade im Tafel-Fenster zu sehen ist
+  try{const mc=new BroadcastChannel('elio-mirror-'+S.code);let mt=0,last='';const send=()=>{mt=0;const v=$('#view');if(!v)return;const h=v.innerHTML;
+      mc.postMessage({html:h,cls:document.body.className,w:innerWidth,h:innerHeight,at:Date.now(),same:h===last});last=h};
+    new MutationObserver(()=>{if(!mt)mt=setTimeout(send,350)}).observe($('#view'),{subtree:true,childList:true,characterData:true,attributes:true});
+    setInterval(send,1500)}catch(e){}
   document.addEventListener('dblclick',e=>{if(e.target.closest('button'))return;try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}});
   setTimeout(()=>{const h=document.createElement('div');h.className='bw-hint';h.textContent='Fenster auf den Beamer ziehen · Doppelklick = Vollbild';document.body.appendChild(h);setTimeout(()=>{h.style.opacity=0;setTimeout(()=>h.remove(),700)},6000)},300)}
 else if(QS.get('j')&&CLOUD){const m=QS.get('j').match(/^(\d{4,8})-(\w{4,20})-(\d{1,2})$/);try{history.replaceState(null,'',location.pathname+(QS.has('live')?'?live=1':''))}catch(e){}
