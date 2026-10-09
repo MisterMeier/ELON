@@ -186,6 +186,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .tk-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--red,#d33);color:#fff;font-size:.75rem;margin-left:4px}
 .tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
 @media print{.tk-fab{display:none}}
+.lock{display:grid;place-items:center;min-height:60vh}.lock .panel{max-width:440px;width:100%;display:grid;gap:6px;text-align:left}.lock h1{font-size:1.5rem}
 .mods{display:grid;gap:10px}.mod-card .mi{font-size:2.2rem;flex:none}.mod-card.locked{opacity:.55;cursor:default;box-shadow:none}.mod-card .btn{flex:none}
 .sboxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .sbox{display:grid;justify-items:center;gap:2px;padding:12px 8px;border-radius:14px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;color:var(--ink);text-align:center}.sbox .si{font-size:1.6rem}.sbox small{color:var(--muted);font-weight:700;font-size:.8rem}
@@ -1132,9 +1133,9 @@ function lessonPopup(sl,prev){
 let V={name:'dash'},stops=[];
 function go(name,arg={}){stops.forEach(f=>f());stops=[];if(typeof KF!=='undefined'&&KF&&V.name==='kfb'&&name!=='kfb')kfbStop();V={name,...arg};render();window.scrollTo(0,0)}
 function render(){
-  $('#view').innerHTML=VIEWS[V.name]();
+  $('#view').innerHTML=tdLocked()?lockHTML():VIEWS[V.name]();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name));
-  $('#nav').hidden=V.name==='role';
+  $('#nav').hidden=V.name==='role'||tdLocked();
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
   document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
   document.body.classList.toggle('pres',V.name==='present');
@@ -1655,7 +1656,6 @@ function tStop(){clearInterval(T.id);T.run=false}
 const LIVE_CFG={supabaseUrl:'https://yljzqjnvfoxzkhjsnawn.supabase.co',supabaseKey:'sb_publishable_OOT7PbMKgjKuxYslJOC95A_fZKeWf7N',
   hosts:['mistermeier.github.io']};
 const LIVE_SERVER=LIVE_CFG.hosts.includes(location.hostname)||/[?&]live=1/.test(location.search);
-const TEACHER_PIN='2026';
 const PHASES=[
   {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELIO.'},
   {id:'start',name:'Einstieg',txt:'Augen zur Tafel. Das iPad bleibt liegen.',look:true},
@@ -1675,19 +1675,28 @@ const Live={bc:null,sb:null,kind:'off',
     this.stop();
     if(LIVE_SERVER&&LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
       try{
-        const c=await sbClient();
-        this.sb=c.channel('elon-'+code,{config:{broadcast:{self:false}}});
-        this.st='connecting';
-        this.sb.on('broadcast',{event:'e'},({payload})=>this.recv(payload)).subscribe(st=>{this.st=st;if(V.name==='tafel')render()});
-        this.kind='server';return;
+        const c=await sbClient();this.code=code;this.needJoin=false;
+        // Privater Kanal: Supabase prüft, ob dieses Konto bzw. iPad zur Klasse gehört (supabase/live.sql).
+        // Ist der Schutz noch nicht eingerichtet, geht es wie bisher über den offenen Kanal.
+        const open=priv=>{try{c.realtime.setAuth()}catch(e){}const ch=c.channel('elon-'+code,{config:{private:priv,broadcast:{self:false}}});this.sb=ch;this.priv=priv;this.st='connecting';
+          ['state','msg'].forEach(ev=>ch.on('broadcast',{event:ev},({payload})=>this.recv(payload)));
+          ch.subscribe(st=>{if(this.sb!==ch)return;this.st=st;
+            if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&priv){try{c.removeChannel(ch)}catch(e){}open(false);return}
+            if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&!priv&&S.role==='student'){this.needJoin=true;updBanner()}
+            if(V.name==='tafel')render()})};
+        open(true);this.kind='server';return;
       }catch(e){}
     }
     try{this.bc=new BroadcastChannel('elon-'+code);this.bc.onmessage=e=>this.recv(e.data);this.kind='demo'}catch(e){this.kind='off'}
   },
-  stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;try{this.sb&&this.sb.unsubscribe()}catch(e){}this.sb=null;this.kind='off'},
-  post(t,p){const d={t,p};try{if(this.sb)this.sb.send({type:'broadcast',event:'e',payload:d});else if(this.bc)this.bc.postMessage(d)}catch(e){}},
-  recv(d){if(!d||!d.t)return;if(BOARD){if(d.t==='state')onBoardState(d.p);return}if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
+  stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;const ch=this.sb;this.sb=null;try{ch&&ch.unsubscribe()}catch(e){}this.kind='off'},
+  post(t,p){const d={t,p};try{if(this.sb)this.sb.send({type:'broadcast',event:t,payload:d});else if(this.bc)this.bc.postMessage(d)}catch(e){}},
+  recv(d){if(!d||!d.t)return;d=liveClean(d);if(BOARD){if(d.t==='state')onBoardState(d.p);return}if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
 };
+// Alles, was über den Live-Kanal kommt, wird entschärft: kein „<“ und kein „"“ kann HTML oder Attribute aufbrechen
+function liveClean(v,dep=0){if(dep>12)return null;if(typeof v==='string')return v.replace(/</g,'＜').replace(/>/g,'＞').replace(/"/g,'“');
+  if(Array.isArray(v))return v.map(x=>liveClean(x,dep+1));if(v&&typeof v==='object'){const o={};for(const k in v)if(!/^(__proto__|constructor|prototype)$/.test(k))o[k]=liveClean(v[k],dep+1);return o}return v}
+const safeUrl=u=>/^https?:\/\//i.test(String(u||''))?String(u):'#';
 const phaseOf=id=>id&&typeof id==='object'?id:(PHASES.find(p=>p.id===id)||PHASES[0]);
 function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.max(0,Math.round((t.endsAt-(Date.now()-off))/1000))}
 
@@ -1703,7 +1712,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
+function pushCS(){if(!CS||!TDKEY)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -1715,7 +1724,7 @@ function updPrev(){const el=$('#tprev');if(!el||!CS)return;mirListen();
   const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
 setInterval(()=>{if(V.name==='tafel'&&MIR&&Date.now()-MIR.at>=5000&&$('#tprev')&&$('#tprev').dataset.sig==='mir'){$('#tprev').dataset.sig='';updPrev()}},2000);
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
-function onStudentMsg(m){
+function onStudentMsg(m){if(!TDKEY)return;
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
   (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
   if(m.k==='diary'){if(TD.dk&&m.w)dDec(TD.dk.priv,m).then(o=>{if(!o||!/^\d{4}-\d\d-\d\d$/.test(o.d))return;const c=S.cls||'-';TD.diary=TD.diary||{};const B=(TD.diary[c]=TD.diary[c]||{}),P=(B[nr]=B[nr]||{});
@@ -1880,10 +1889,10 @@ function updBanner(){
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
   el.hidden=false;
-  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">Warte auf die Tafel … · ${esc(className())} · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
+  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">${Live.needJoin?'Keine Verbindung zur Tafel. Melde dich ab und tritt der Klasse neu bei (Code oder QR-Karte).':'Warte auf die Tafel …'} · ${esc(className())} · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
   const ph=phaseOf(RCS.phase),inHelp=RCS.help.includes(S.nr),tl=timerLeft(RCS.timer,OFF);
   const G=!RCS.freeze&&RCS.game&&gInfo(RCS.game.g);
-  el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+G.name:ph.name}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
+  el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+esc(G.name):esc(ph.name)}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
     ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
     <span class="chip">${myAv()} ${esc(S.nick||'Nr. '+S.nr)}</span>
     <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
@@ -1895,7 +1904,7 @@ function liveOverlay(){
   let sig='',html='',full=false;
   if(!RCS.freeze&&RCS.share&&S.shareSeen!==RCS.share.at){sig='sh'+RCS.share.at;
     html=box(`<span class="label">Von deiner Lehrkraft</span><h2>${esc(RCS.share.name)}</h2>
-      <div class="row" style="justify-content:center;margin-top:16px"><a class="btn pri" href="${esc(RCS.share.url)}" target="_blank" rel="noopener" data-act="share-ok">Öffnen</a><button class="btn" data-act="share-ok">Schließen</button></div>`)}
+      <div class="row" style="justify-content:center;margin-top:16px"><a class="btn pri" href="${esc(safeUrl(RCS.share.url))}" target="_blank" rel="noopener" data-act="share-ok">Öffnen</a><button class="btn" data-act="share-ok">Schließen</button></div>`)}
   else if(RCS.kfb&&!RCS.freeze){const K=RCS.kfb,mine=K.ask&&K.ask.nr===S.nr&&!(S.kfbDone||{})[K.ask.id],tm=(K.teams||'')[S.nr-1]==='B'?'B':'A';
     if(mine){sig='ka'+K.ask.id;full=true;
       html=`<div class="look" style="background:${tm==='A'?'#2e7d32':'#1f7fb3'};color:#fff;padding:32px 40px;border-radius:32px">${elo('cheer',100)}<h1 style="color:#fff">Du bist dran!</h1><p class="kin" style="color:#fff;font-size:3.4rem">${esc(K.q)} = ?</p>
@@ -1929,7 +1938,7 @@ function liveOverlay(){
     html=box(`<span class="label">Abstimmung · anonym</span><h2>${esc(RCS.poll.q)}</h2><div class="opts">${RCS.poll.opts.map((o,i)=>`<button class="btn opt ${RCS.poll.type==='corners'?CORNERS[i].c:''}" data-act="vote" data-o="${i}">${esc(o)}</button>`).join('')}</div>
       <p class="muted" style="margin-top:10px;font-weight:700">Niemand sieht, was du gewählt hast.</p>`)}
   else if(S.phaseSeen!==String(RCS.phaseAt)){sig='ph'+RCS.phaseAt;
-    html=box(`<span class="label">Neue Phase</span><h2>${ph.name}</h2><p style="font-weight:700;margin-top:6px">${esc(ph.txt)}</p><button class="btn pri" data-act="phase-go" style="width:100%;margin-top:16px">Los geht's</button>`)}
+    html=box(`<span class="label">Neue Phase</span><h2>${esc(ph.name)}</h2><p style="font-weight:700;margin-top:6px">${esc(ph.txt)}</p><button class="btn pri" data-act="phase-go" style="width:100%;margin-top:16px">Los geht's</button>`)}
   if(!sig){el.hidden=true;lastOvSig='';return}
   if(sig===lastOvSig)return;
   lastOvSig=sig;el.innerHTML=html;el.classList.toggle('full',full);el.hidden=false;
@@ -1984,8 +1993,8 @@ VIEWS.role=()=>{
       <p class="muted" style="margin-top:12px;font-size:.9rem">Danach gibst du deinen Vornamen an.</p></section>
     <section class="panel"><h2>Ich bin Lehrkraft</h2>
       ${CLOUD&&!Cloud.err?`<p class="muted" style="font-weight:700;margin-top:8px">Mit deinem eigenen Lehrer-Konto.</p><button class="btn pri" data-act="login" style="margin-top:14px;width:100%">Anmelden</button>`
-      :`<label class="label" for="r-pin" style="display:block;margin-top:12px">PIN (Demo)</label><input id="r-pin" type="password" inputmode="numeric" autocomplete="off">
-      <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p>`}</section>
+      :`<p class="muted" style="font-weight:700;margin-top:8px">${CLOUD?'Der Server ist gerade nicht erreichbar. Du kannst mit deinen Daten auf diesem Gerät weiterarbeiten.':'Ohne Konto, nur auf diesem Gerät.'} Geschützt mit deinem Geräte-Passwort.</p>
+      <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Lehrerbereich öffnen</button>`}</section>
   </div></div>`;
 };
 // Beigetretene Klasse bleibt erhalten, auch wenn die Schulliste danach neu geladen wird
@@ -1997,6 +2006,9 @@ async function joinClass(code,pw,nr){
   try{const sb=await sbClient();const r=await q(sb.rpc('join_class',{p_code:code,p_pw:pw}));const c=r&&r[0];
     if(!c){V.err='Klassencode oder Passwort stimmt nicht. Frag deine Lehrkraft.';V.step='join';render();return}
     JOINED=c;addJoined();
+    // Anonyme Sitzung für dieses iPad, an die Klasse gebunden: nur so kommt es in den geschützten Live-Kanal
+    try{let {data}=await sb.auth.getSession();if(!data.session){await sb.auth.signInAnonymously();({data}=await sb.auth.getSession())}
+      if(data.session&&data.session.user.is_anonymous){Cloud.anon=data.session.user;await sb.rpc('bind_class',{p_code:code,p_pw:pw})}}catch(e){console.warn(e)}
     V.err='';V.school=c.school_id;V.cls=c.id;V.only='student';
     if(nr>=1&&nr<=(c.size||40)){V.nr=nr;V.step='nick'}else V.step='role';render()}
   catch(e){V.err='ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';V.step='join';render()}
@@ -2092,8 +2104,40 @@ function startStep(i){
    Alles hier bleibt auf dem Gerät der Lehrkraft und wird nie an iPads gesendet.
    ===================================================================== */
 const TKEY='elio-teacher';
-let TD;try{TD=Object.assign({obs:{},nicks:{}},JSON.parse(localStorage.getItem(TKEY)||'{}'))}catch(e){TD={obs:{},nicks:{}}}
-function tsave(){try{localStorage.setItem(TKEY,JSON.stringify(TD))}catch(e){}}
+// Lehrer-Tresor: Notizen, Beobachtungen, Lerntagebücher und der Tagebuch-Schlüssel liegen verschlüsselt auf dem Gerät
+// (Geräte-Passwort → PBKDF2 → AES-GCM). Ohne Passwort öffnet sich der Lehrerbereich nicht, nach 15 Minuten ohne Eingabe sperrt er sich.
+const tdVault=()=>{try{const r=JSON.parse(localStorage.getItem(TKEY)||'null');return r&&r.vault?r:null}catch(e){return null}};
+let TD,TDKEY=null,TDSALT=null,TDIT=310000,TDIDLE=false,TDLAST=Date.now(),TDSEQ=0,TDFAIL=0,TDWAIT=0;
+{const v=tdVault();TD={obs:{},nicks:{}};if(!v&&!BOARD){try{Object.assign(TD,JSON.parse(localStorage.getItem(TKEY)||'{}'))}catch(e){}}}
+function tsave(){if(!TDKEY||!(window.crypto&&crypto.subtle))return;const n=++TDSEQ,iv=crypto.getRandomValues(new Uint8Array(12)),salt=TDSALT,it=TDIT;
+  crypto.subtle.encrypt({name:'AES-GCM',iv},TDKEY,new TextEncoder().encode(JSON.stringify(TD))).then(ct=>{if(n!==TDSEQ)return;try{localStorage.setItem(TKEY,JSON.stringify({vault:1,salt,it,iv:b64e(iv),ct:b64e(ct)}))}catch(e){console.warn(e)}})}
+async function tdDerive(pw,salt,it){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(salt),iterations:it,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+function tdDefaults(){TD.obs=TD.obs||{};TD.nicks=TD.nicks||{};if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}TD.plan=TD.plan||{}}
+// Entsperren (oder beim ersten Mal: Passwort festlegen und vorhandene Daten verschlüsseln)
+async function tdOpen(pw){const v=tdVault();
+  if(v){const k=await tdDerive(pw,v.salt,v.it);let pt;try{pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(v.iv)},k,b64d(v.ct))}catch(e){return false}
+    if(!TDKEY)TD=Object.assign({obs:{},nicks:{}},JSON.parse(new TextDecoder().decode(pt)));TDSALT=v.salt;TDIT=v.it;TDKEY=k}
+  else{TDSALT=b64e(crypto.getRandomValues(new Uint8Array(16)));TDKEY=await tdDerive(pw,TDSALT,TDIT)}
+  tdDefaults();TDIDLE=false;TDLAST=Date.now();tsave();return true}
+function tdClose(){TDKEY=null;TDIDLE=false;TD={obs:{},nicks:{}};tdDefaults()}
+const tdLocked=()=>S.role==='teacher'&&!BOARD&&(!TDKEY||TDIDLE);
+function lockHTML(){const v=tdVault();
+  return `<div class="lock"><section class="panel">${elo('think',72)}<h1>${v?'🔒 Lehrerbereich gesperrt':'🔐 Geräte-Passwort festlegen'}</h1>
+    <p class="muted" style="font-weight:700">${v?(TDIDLE?'Nach 15 Minuten ohne Eingabe gesperrt. ':'')+'Gib dein Geräte-Passwort ein.':'Es schützt deine Notizen, Beobachtungen und die Lerntagebücher auf diesem Gerät. Sie werden damit verschlüsselt. Nimm ein anderes Passwort als für dein Konto, mindestens 8 Zeichen.'}</p>
+    <input id="lk-pw" type="password" autocomplete="${v?'current-password':'new-password'}" placeholder="Geräte-Passwort">${v?'':'<input id="lk-pw2" type="password" autocomplete="new-password" placeholder="Passwort wiederholen" style="margin-top:8px">'}
+    <p class="err" id="lk-err">${esc(V.lkErr||'')}</p><button class="btn pri" data-act="lk-go" style="width:100%;margin-top:8px">${v?'Entsperren':'Festlegen und weiter'}</button>
+    ${v?'':'<p class="muted" style="font-size:.85rem;margin-top:10px">Wichtig: Vergisst du das Passwort, kann niemand die Notizen wiederherstellen, auch der Admin nicht.</p>'}
+    <div class="row" style="justify-content:space-between;margin-top:14px"><button class="btn sm" data-act="role-reset">Abmelden</button>${v?`<button class="btn sm ${V.lkForget?'red':''}" data-act="lk-forget">${V.lkForget?'Wirklich alle Lehrer-Notizen auf diesem Gerät löschen':'Passwort vergessen?'}</button>`:''}</div></section></div>`}
+async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
+  if(Date.now()<TDWAIT){V.lkErr='Zu viele Versuche. Warte kurz.';render();return}
+  if(p2){if(pw.length<8){V.lkErr='Mindestens 8 Zeichen.';render();return}if(pw!==p2.value){V.lkErr='Die beiden Passwörter sind nicht gleich.';render();return}}
+  const b=$('[data-act=lk-go]');if(b){b.disabled=true;b.textContent='Prüfe …'}
+  const ok=await tdOpen(pw);if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
+  TDFAIL=0;V.lkErr='';V.lkForget=false;if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render()}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&/^lk-pw/.test(e.target.id)){e.preventDefault();lockGo()}});
+['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
+setInterval(()=>{if(S.role==='teacher'&&TDKEY&&!TDIDLE&&Date.now()-TDLAST>15*60000){TDIDLE=true;render()}},20000);
 const nickOf=k=>(ROSTER[k]&&ROSTER[k].nick)||TD.nicks[k]||'';
 const avOf=k=>{const a=ROSTER[k]&&ROSTER[k].av!=null?ROSTER[k].av:(TD.avs||{})[k];return a!=null?avatar(a,30):''};
 const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)};
@@ -2606,8 +2650,8 @@ const AKT={
     count:d=>d.words.length+' Wörter',
     init:d=>({a:null,found:{}}),
     view:(d,s)=>{const on={};d.words.forEach((p,j)=>{if(s.found[j])for(let k=0;k<p.w.length;k++)on[(p.r+p.dr*k)+','+(p.c+p.dc*k)]=1});
-      return `<div class="ak-wg"><div class="wgg" style="grid-template-columns:repeat(${d.N},1fr)">${d.G.map((row,r)=>row.map((ch,c)=>`<button class="${on[r+','+c]?'f':''} ${s.a===r+','+c?'on':''}" data-act="ak" data-k="c" data-i="${r},${c}">${ch}</button>`).join('')).join('')}</div>
-        <div class="wgl">${d.words.map((p,j)=>`<span class="${s.found[j]?'f':''}">${p.w}</span>`).join('')}</div></div>`},
+      return `<div class="ak-wg"><div class="wgg" style="grid-template-columns:repeat(${d.N},1fr)">${d.G.map((row,r)=>row.map((ch,c)=>`<button class="${on[r+','+c]?'f':''} ${s.a===r+','+c?'on':''}" data-act="ak" data-k="c" data-i="${r},${c}">${esc(ch)}</button>`).join('')).join('')}</div>
+        <div class="wgl">${d.words.map((p,j)=>`<span class="${s.found[j]?'f':''}">${esc(p.w)}</span>`).join('')}</div></div>`},
     act:(d,s,a)=>{if(a.k!=='c')return;if(!s.a){s.a=a.i;return}const [r1,c1]=s.a.split(',').map(Number),[r2,c2]=a.i.split(',').map(Number);s.a=null;
       const j=d.words.findIndex((p,j)=>!s.found[j]&&((p.r===r1&&p.c===c1&&p.r+p.dr*(p.w.length-1)===r2&&p.c+p.dc*(p.w.length-1)===c2)||(p.r===r2&&p.c===c2&&p.r+p.dr*(p.w.length-1)===r1&&p.c+p.dc*(p.w.length-1)===c1)));
       if(j>=0){s.found[j]=1;SND.right();if(Object.keys(s.found).length>=d.words.length)s.win=true}else SND.oops()}},
@@ -2979,7 +3023,7 @@ async function cloudBoot(){
   try{const sb=await sbClient();
     const [sc,cl]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name'))]);
     buildSchools(sc,cl);
-    const {data}=await sb.auth.getSession();Cloud.user=data&&data.session?data.session.user:null;
+    const {data}=await sb.auth.getSession();Cloud.user=data&&data.session?data.session.user:null;if(Cloud.user&&Cloud.user.is_anonymous){Cloud.anon=Cloud.user;Cloud.user=null}
     if(Cloud.user)await cloudLoadMe();
     if(S.role==='teacher'&&!(Cloud.prof&&Cloud.prof.role!=='pending')){S.role=null;save();V={name:'login'}}
     else if(S.role==='teacher'){await cloudSync()}
@@ -3573,9 +3617,11 @@ document.addEventListener('click',e=>{
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Bitte gib deinen Vornamen ein.';break}
       setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=V.av;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
-    case 'r-teach':if(CLOUD&&!Cloud.err)break;if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
+    case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
-    case 'role-reset':$('#umenu').hidden=true;Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'lk-go':lockGo();break;
+    case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
+    case 'role-reset':$('#umenu').hidden=true;if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'board-open':{const u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'');
       const w=window.open(u,'elio-tafel','popup,width=1280,height=720');if(!w)alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');
