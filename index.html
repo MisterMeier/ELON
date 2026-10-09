@@ -178,7 +178,18 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .mod-card svg{flex:none}
 .mod-card .t{flex:1;min-width:0}
 .mod-card b{font-family:var(--f-display);font-size:1.3rem;display:block}
+.tk-m{position:fixed;inset:0;z-index:90;background:rgba(10,20,40,.45);display:grid;place-items:center;padding:16px}.tk-m[hidden]{display:none}
+.tk-box{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:18px;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;display:grid;gap:8px}.tk-box h2{font-size:1.3rem}.tk-box textarea{width:100%}
+.tk-big{width:min(1100px,100%)}.tk-big img{width:100%;border-radius:12px;border:1px solid var(--line)}
+.tk-prev{display:flex;gap:10px;align-items:flex-start}.tk-prev img{max-width:60%;max-height:200px;border-radius:10px;border:1px solid var(--line)}.tk-warn{font-size:.85rem;font-weight:700;color:#a86500}
+.tk-fab{position:fixed;left:14px;bottom:14px;z-index:55;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);font-size:1.25rem;cursor:pointer;opacity:.75}.tk-fab:hover{opacity:1}.tk-fab[hidden]{display:none}
+.tk-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--red,#d33);color:#fff;font-size:.75rem;margin-left:4px}
+.tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
+@media print{.tk-fab{display:none}}
 .mods{display:grid;gap:10px}.mod-card .mi{font-size:2.2rem;flex:none}.mod-card.locked{opacity:.55;cursor:default;box-shadow:none}.mod-card .btn{flex:none}
+.sboxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.sbox{display:grid;justify-items:center;gap:2px;padding:12px 8px;border-radius:14px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;color:var(--ink);text-align:center}.sbox .si{font-size:1.6rem}.sbox small{color:var(--muted);font-weight:700;font-size:.8rem}
+.sbox.on{border-color:var(--navy);background:var(--surface-2);box-shadow:inset 0 -3px 0 var(--navy)}.sb-pane{margin-top:10px;padding-top:4px}.ub-row{display:flex;gap:10px;align-items:center}.ub-row .si{font-size:1.8rem}
 .sub-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .helpbox{margin-top:10px;border:3px dashed #d98a00;border-radius:14px;padding:10px 14px;background:#fffaf0}.helpbox>.l{color:#a86500;display:block;margin-bottom:4px}
 .hw-form{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:10px;padding:10px;border-radius:12px;background:var(--bg,#f4f6fb)}.hw-form label{display:grid;gap:4px;font-weight:700;font-size:.9rem}
@@ -799,6 +810,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
     <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
+    <button class="tv" data-act="inbox" data-nav="inbox" id="nav-inbox" hidden>Postfach</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
     <button class="sv" data-act="desk" data-nav="desk">Schreibtisch</button>
     <button class="sv" data-act="homework" data-nav="homework">Hausaufgaben</button>
@@ -814,7 +826,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 </div><div id="live" hidden></div></header>
 <main id="view"></main>
 <div id="ov" class="ov" hidden></div>
-<div id="live-ov" class="lov" hidden></div><div id="miniT" class="mt" hidden></div>
+<div id="live-ov" class="lov" hidden></div><div id="tk-m" class="tk-m" hidden></div><button id="tk-fab" class="tk-fab" data-act="tk-open" title="Problem melden" aria-label="Problem melden" hidden>🛠️</button><div id="miniT" class="mt" hidden></div>
 
 <script>
 /* =====================================================================
@@ -1077,8 +1089,8 @@ function mutStar(){if(S.mut<30){S.mut++;addStars(1)}}
 function umenuHTML(){const T=S.role==='teacher',it=(v,l)=>`<button data-act="um-go" data-v="${v}">${l}</button>`;
   const who=T?`<b>${esc(Cloud.prof&&Cloud.prof.name||'Lehrkraft')}</b><small>${esc(Cloud.user&&Cloud.user.email||'Demo-Modus')} · ${esc(className())}</small>`
     :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||'Nr. '+S.nr)}</b><small>Nr. ${S.nr} · ${esc(className())}</small></span></span>`;
-  return `<div class="um-who">${who}</div>${T?it('tdash','🏠 Lehrerzimmer')+it('me','👤 Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','🏫 Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','🔑 Admin'):'')+it('dash','👀 Schüleransicht')
-    :it('dash','🏠 Dashboard')+it('desk','🗂️ Schreibtisch')+it('me','👤 Name und Avatar ändern')}<button class="out" data-act="role-reset">🚪 Abmelden</button>`}
+  return `<div class="um-who">${who}</div>${T?it('tdash','🏠 Lehrerzimmer')+it('me','👤 Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','🏫 Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','🔑 Admin'):'')+it('dash','👀 Schüleransicht')+(tkAdmin()?it('inbox','📬 Postfach'):'')
+    :it('dash','🏠 Dashboard')+it('desk','🗂️ Schreibtisch')+it('me','👤 Name und Avatar ändern')}<button data-act="tk-open">🛠️ Problem melden</button><button class="out" data-act="role-reset">🚪 Abmelden</button>`}
 document.addEventListener('click',e=>{const m=$('#umenu');if(m&&!m.hidden&&!e.target.closest('#umenu,.logo'))m.hidden=true},true);
 function hdr(){$('#star-n').textContent=S.stars}
 function complete(id){
@@ -1131,7 +1143,7 @@ function render(){
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
-  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
+  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
@@ -3098,6 +3110,72 @@ async function adminLoad(){
 }
 async function adminDo(p,msg){try{await q(p);A.msg=msg||'Gespeichert.'}catch(e){A.msg='Fehler: '+(e.message||e)}await adminLoad();await cloudLoadMe();await cloudBoot0()}
 async function cloudBoot0(){try{buildSchools(A.schools,A.classes)}catch(e){}}
+/* ---------- Problem melden (Tickets) und Postfach für den Admin ---------- */
+const ELIO_VER='2026-10-09';
+const ERRLOG=[];window.addEventListener('error',e=>{ERRLOG.push((e.message||'Fehler')+(e.lineno?' (Zeile '+e.lineno+')':''));if(ERRLOG.length>8)ERRLOG.shift()});
+window.addEventListener('unhandledrejection',e=>{ERRLOG.push('Promise: '+String(e.reason&&e.reason.message||e.reason).slice(0,200));if(ERRLOG.length>8)ERRLOG.shift()});
+const TKEYS='elio-tickets';let TKF=null;const TK={list:[],ok:false,n:0,msg:''};
+const tkAdmin=()=>S.role==='teacher'&&(Cloud.prof?Cloud.prof.role==='admin':true);
+const tkLocal=()=>{try{return JSON.parse(localStorage.getItem(TKEYS)||'[]')}catch(e){return []}};
+const tkLocalSave=L=>{try{localStorage.setItem(TKEYS,JSON.stringify(L.slice(-60)))}catch(e){}};
+const tkFind=id=>[...TK.list,...tkLocal()].find(t=>String(t.id)===String(id));
+function tkView(){const x=[V.name];['s','tab','ch','step'].forEach(k=>{if(V[k]!=null&&typeof V[k]!=='object')x.push(k+'='+V[k])});return x.join(' · ')}
+function tkShow(){const m=$('#tk-m'),T=S.role==='teacher';
+  m.innerHTML=`<div class="tk-box" role="dialog" aria-label="Problem melden"><div class="row" style="justify-content:space-between"><h2>🛠️ Problem melden</h2><button class="btn sm" data-act="tk-close">✕</button></div>
+    <p class="muted">Was klappt nicht? Schreib kurz, was du gemacht hast und was passiert ist. ${T?'Die Meldung geht an den Admin.':'Die Meldung geht an den Admin, ohne deinen Namen.'}</p>
+    <textarea id="tk-x" rows="5" maxlength="4000" placeholder="Zum Beispiel: Ich habe auf Üben gedrückt, dann ist der Bildschirm weiß geblieben.">${esc(TKF.body||'')}</textarea>
+    <div class="row" style="margin-top:8px;gap:8px"><button class="btn" data-act="tk-snap">📷 Diesen Bildschirm anhängen</button><button class="btn" data-act="tk-pick">🖼️ Bild auswählen</button><input id="tk-file" type="file" accept="image/*" hidden></div>
+    ${TKF.shot?`<div class="tk-prev"><img src="${TKF.shot}" alt="Vorschau"><button class="btn sm red" data-act="tk-noshot">Bild entfernen</button></div><p class="tk-warn">Schau das Bild kurz an: Es dürfen keine Namen, Noten oder Beobachtungen zu sehen sein.</p>`:''}
+    <p class="muted" style="font-size:.85rem">Automatisch dabei: Seite „${esc(TKF.view)}“, Gerät und Browser, Version ${ELIO_VER}${ERRLOG.length?', '+ERRLOG.length+' technische Fehlermeldung'+(ERRLOG.length>1?'en':''):''}.</p>
+    ${TKF.msg?`<p class="${TKF.ok?'saved':'err'}">${esc(TKF.msg)}</p>`:''}
+    <div class="row" style="justify-content:flex-end;margin-top:6px">${TKF.ok?'<button class="btn pri" data-act="tk-close">Fertig</button>':`<button class="btn pri" data-act="tk-send" ${TKF.busy?'disabled':''}>${TKF.busy?'Wird gesendet …':'Absenden'}</button>`}</div></div>`;
+  m.hidden=false;const f=$('#tk-file');if(f)f.onchange=()=>{const fl=f.files&&f.files[0];if(!fl)return;TKF.body=$('#tk-x').value;const r=new FileReader();r.onload=()=>tkShrink(r.result).then(u=>{TKF.shot=u;tkShow()});r.readAsDataURL(fl)}}
+// Bild verkleinern (JPEG, max. 1280 px breit), damit es klein bleibt
+function tkShrink(src){return new Promise(res=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1280/im.width),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.6))};im.onerror=()=>res(null);im.src=src})}
+async function tkSnap(){TKF.body=$('#tk-x').value;const m=$('#tk-m');m.hidden=true;
+  try{if(!window.html2canvas)await loadScript('https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.13/dist/html2canvas-pro.min.js');
+    const c=await html2canvas(document.body,{x:window.scrollX,y:window.scrollY,width:innerWidth,height:innerHeight,scale:Math.min(1,1280/innerWidth),useCORS:true,logging:false,ignoreElements:el=>el.id==='tk-m'||el.id==='tk-fab'});
+    TKF.shot=await tkShrink(c.toDataURL('image/png'));TKF.msg=''}
+  catch(e){console.warn(e);TKF.msg='Das Bildschirmfoto hat nicht geklappt. Mach ein normales Bildschirmfoto und wähle es mit „Bild auswählen“.';TKF.ok=false}
+  tkShow()}
+async function tkSend(){const body=$('#tk-x').value.trim();TKF.body=body;if(body.length<3){TKF.msg='Bitte schreib kurz, was nicht klappt.';tkShow();return}
+  const ctx={ver:ELIO_VER,ua:navigator.userAgent,scr:innerWidth+'×'+innerHeight,cls:className(),live:!!(RCS||CS),errors:ERRLOG.slice(),url:location.origin+location.pathname};
+  const role=S.role==='teacher'?'teacher':'student',isU=/^[0-9a-f-]{36}$/i.test(S.cls||'');TKF.busy=true;tkShow();
+  let id=null;if(CLOUD&&(role==='student'||Cloud.user)){try{const sb=await sbClient();id=await q(sb.rpc('submit_ticket',{p_role:role,p_class:isU?S.cls:null,p_view:TKF.view,p_body:body,p_shot:TKF.shot,p_ctx:ctx}))}catch(e){id=null;ctx.cloudErr=String(e.message||e).slice(0,200)}}
+  if(id==null){const L=tkLocal();L.push({id:'L'+Date.now().toString(36),at:new Date().toISOString(),role,cls:className(),who:role==='teacher'?(Cloud.prof&&Cloud.prof.name||''):'',view:TKF.view,body,shot:TKF.shot,ctx,status:'neu'});tkLocalSave(L)}
+  TKF.busy=false;TKF.ok=true;TKF.msg=id!=null?'Danke! Deine Meldung ist beim Admin angekommen (Nr. '+id+').':CLOUD&&(role==='student'||Cloud.user)?'Danke! Senden ging gerade nicht, die Meldung ist auf diesem Gerät gespeichert.':'Danke! Die Meldung ist im Postfach auf diesem Gerät.';tkShow();if(S.role==='teacher')render()}
+async function tkLoad(){TK.ok=true;TK.msg='';if(!(CLOUD&&Cloud.prof&&Cloud.prof.role==='admin')){TK.list=[];return}
+  try{const sb=await sbClient();const r=await q(sb.from('tickets').select('id,created_at,role,class_id,who,view,body,shot,ctx,status,note').order('created_at',{ascending:false}).limit(200));
+    TK.list=r.map(t=>({...t,at:t.created_at,cls:t.ctx&&t.ctx.cls||''}));TK.n=TK.list.filter(t=>t.status==='neu').length}
+  catch(e){TK.list=[];TK.msg='Das Postfach in der Cloud ist noch nicht eingerichtet. Führe einmal supabase/tickets.sql im Supabase SQL Editor aus.'}
+  if(V.name==='inbox')render()}
+async function tkSet(id,ch){if(String(id)[0]==='L'){const L=tkLocal(),t=L.find(x=>x.id===id);if(t)Object.assign(t,ch);tkLocalSave(L);render();return}
+  try{const sb=await sbClient();await q(sb.from('tickets').update(ch).eq('id',id));const t=TK.list.find(x=>x.id===id);if(t)Object.assign(t,ch);TK.n=TK.list.filter(t=>t.status==='neu').length}catch(e){TK.msg='Ändern hat nicht geklappt.'}render()}
+async function tkDel(id){if(String(id)[0]==='L'){tkLocalSave(tkLocal().filter(x=>x.id!==id));render();return}
+  try{const sb=await sbClient();await q(sb.from('tickets').delete().eq('id',id));TK.list=TK.list.filter(x=>x.id!==id)}catch(e){TK.msg='Löschen hat nicht geklappt.'}render()}
+function tkText(t){const c=t.ctx||{};
+  return `ELIO Problem-Ticket ${t.id} vom ${new Date(t.at).toLocaleString('de-DE')}
+Gemeldet von: ${t.role==='teacher'?'Lehrkraft'+(t.who?' ('+t.who+')':''):'Schüler/in'}${t.cls||c.cls?', '+(t.cls||c.cls):''}
+Seite in ELIO: ${t.view||'?'}
+Beschreibung: ${t.body}
+Screenshot: ${t.shot?'ja, im Postfach (bitte als Bild mitschicken)':'keiner'}
+Technik: Version ${c.ver||'?'} · ${c.scr||''} · ${c.ua||''}
+Technische Fehlermeldungen: ${(c.errors||[]).join(' | ')||'keine'}${c.cloudErr?'\nCloud-Fehler beim Senden: '+c.cloudErr:''}
+
+Bitte finde die Ursache im ELIO-Code (index.html), behebe sie und sag mir in einfachen Worten, was los war.`}
+async function tkCopy(id){const t=tkFind(id);if(!t)return;const tx=tkText(t);let ok=false;try{await navigator.clipboard.writeText(tx);ok=true}catch(e){}
+  const m=$('#tk-m');m.innerHTML=`<div class="tk-box"><h2>🤖 Für Claude</h2><p class="muted">${ok?'Der Text ist kopiert.':'Markiere den Text und kopiere ihn.'} Füge ihn im ELIO-Projekt bei Claude ein${t.shot?' und häng das Bild dazu':''}. Claude kennt dort den ganzen Code und kann das Problem direkt lösen.</p>
+    <textarea rows="10" readonly onclick="this.select()">${esc(tx)}</textarea><div class="row" style="justify-content:flex-end;margin-top:8px">${t.shot?`<a class="btn" href="${t.shot}" download="elio-ticket-${t.id}.jpg">Bild speichern</a>`:''}<button class="btn pri" data-act="tk-close">Fertig</button></div></div>`;m.hidden=false;
+  if(t.status==='neu')tkSet(id,{status:'dran'})}
+VIEWS.inbox=()=>{if(!TK.ok)tkLoad();const all=[...TK.list,...tkLocal().slice().reverse()],f=V.tf||'offen';
+  const L=all.filter(t=>f==='alle'||(f==='offen'?t.status!=='erledigt':t.status==='erledigt'));const ST={neu:'🆕 neu',dran:'🔧 in Arbeit',erledigt:'✅ erledigt'};
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Postfach · Problem-Meldungen</h1><div class="tabs" style="margin:0">${['offen','erledigt','alle'].map(x=>`<button class="${f===x?'on':''}" data-act="tf" data-t="${x}">${x[0].toUpperCase()+x.slice(1)} · ${all.filter(t=>x==='alle'||(x==='offen'?t.status!=='erledigt':t.status==='erledigt')).length}</button>`).join('')}</div></div>
+  ${TK.msg?`<p class="err">${esc(TK.msg)}</p>`:''}
+  <p class="muted" style="font-weight:700;margin-bottom:10px">Lehrkräfte und SuS melden hier Probleme über „🛠️ Problem melden“ (Menü oben links und der Knopf unten links). Mit „🤖 Für Claude“ kopierst du alles, was Claude zum Lösen braucht.</p>
+  <div class="tk-list">${L.map(t=>`<article class="panel tk ${t.status}"><div class="row" style="justify-content:space-between;gap:8px"><span class="row" style="gap:6px"><span class="chip">${ST[t.status]||t.status}</span><b>${t.role==='teacher'?'👩‍🏫 Lehrkraft'+(t.who?' · '+esc(t.who):''):'🧒 Schüler/in'}</b><span class="muted">${esc(t.cls||(t.ctx&&t.ctx.cls)||'')} · ${new Date(t.at).toLocaleString('de-DE',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</span>${String(t.id)[0]==='L'?'<span class="chip">nur auf diesem Gerät</span>':''}</span><span class="muted" style="font-size:.85rem">Seite: ${esc(t.view||'')}</span></div>
+    <div class="tk-body">${t.shot?`<button class="tk-th" data-act="tk-img" data-id="${t.id}"><img src="${t.shot}" alt="Screenshot"></button>`:''}<p>${esc(t.body)}</p></div>
+    ${(t.ctx&&t.ctx.errors||[]).length?`<p class="muted" style="font-size:.85rem">⚙️ ${esc(t.ctx.errors.join(' | '))}</p>`:''}
+    <div class="row" style="gap:6px;margin-top:8px"><button class="btn sm pri" data-act="tk-copy" data-id="${t.id}">🤖 Für Claude kopieren</button>${t.status!=='dran'?`<button class="btn sm" data-act="tk-st" data-id="${t.id}" data-v="dran">In Arbeit</button>`:''}${t.status!=='erledigt'?`<button class="btn sm ok" data-act="tk-st" data-id="${t.id}" data-v="erledigt">Erledigt</button>`:`<button class="btn sm" data-act="tk-st" data-id="${t.id}" data-v="neu">Wieder öffnen</button>`}<span class="spacer"></span><button class="btn sm red" data-act="tk-del" data-id="${t.id}">${V.tdel==t.id?'Wirklich löschen':'Löschen'}</button></div></article>`).join('')||'<div class="empty">Keine Meldungen. Läuft!</div>'}</div>`};
 VIEWS.admin=()=>{
   if(!CLOUD)return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Der Admin-Bereich funktioniert nur auf der echten ELIO-Seite mit Server.</div>`;
   if(!(Cloud.prof&&Cloud.prof.role==='admin'))return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Nur für den Admin.</div>`;
@@ -3232,15 +3310,22 @@ function subExtras(e,T){const op=V.op||{},hk='h-'+e.id,done=S.ubDone&&S.ubDone[e
     ${op[hk]?`<div class="helpbox"><b class="l">⚠️ Typische Fehler & Hilfen</b>${heftBody(heftBlocks(e.help))}</div>`:''}`}
 VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=modX(ch),op=V.op||{};
   const m=modChs(k).find(x=>x.ch===ch)||{},pts=Object.entries(S.fleiss||{}).filter(([q])=>q.startsWith(ch+'#')).reduce((a,[,p])=>a+p,0);
-  const sub=e=>{const hk='e-'+e.id,c=S.ubDone&&S.ubDone[e.id];
+  // Pro Unterkapitel drei Boxen: Hefteintrag, Übungen, Hilfestation. Es ist immer nur eine offen.
+  const tips=`<h4>Das hilft in diesem Kapitel immer</h4><ul>${(X.tipps||[]).map(t=>{const i=t.indexOf(':');return `<li>${i>0&&i<40?`<b>${esc(t.slice(0,i))}:</b>${esc(t.slice(i+1))}`:esc(t)}</li>`}).join('')}</ul>`;
+  const sub=e=>{const pk='p-'+e.id,cur=(V.box||{})[e.id],c=S.ubDone&&S.ubDone[e.id],A=e.ub&&AKT[e.ub.t],box=(b,ic,l,sm)=>`<button class="sbox ${cur===b?'on':''}" data-act="sbox" data-id="${e.id}" data-b="${b}"><span class="si">${ic}</span><b>${l}</b><small>${sm}</small></button>`;
+    let body='';
+    if(cur==='heft')body=`<div class="sb-pane">${heftBody(e.blocks)}</div>`;
+    if(cur==='ub')body=`<div class="sb-pane"><div class="ub-row"><span class="si">${A?A.icon:'✏️'}</span><div style="flex:1;min-width:0"><b>${A?A.name:'Übung'}</b><small class="muted" style="display:block">${A?esc(A.count(A.parse(e.ub.x))):''} · passt genau zu ${esc(e.title)}</small></div>${c?'<span class="chip ok">✓ geübt</span>':''}</div>
+      <div class="sub-btns">${A?`<button class="btn sm pri" data-act="ub-go" data-id="${e.id}">▶ Jetzt üben</button>`:''}${T&&A?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}">📺 An der Tafel</button><button class="btn sm ${V.hwf===e.id?'on':''}" data-act="hw-form" data-id="${e.id}">📌 Als Hausaufgabe</button>`:''}</div>
+      ${T&&V.hwf===e.id?`<div class="hw-form"><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label><label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label><button class="btn ok" data-act="hw-add" data-id="${e.id}">Hausaufgabe stellen</button></div>`:''}
+      <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`;
+    if(cur==='help')body=`<div class="sb-pane helpbox"><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
     return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?'<span class="chip">Entwurf</span>':'<span class="chip ok">bei den SuS</span>'):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
-      <div class="sub-btns"><button class="btn sm ${op[hk]?'on':''}" data-act="mx-tog" data-k="${hk}">📒 Hefteintrag</button></div>${op[hk]?heftBody(e.blocks):''}${subExtras(e,T)}</article>`};
+      <div class="sboxes">${box('heft','📒','Hefteintrag','zum Abschreiben')}${box('ub','✏️','Übungen',c?'✓ geübt':A?'interaktiv':'kommt noch')}${box('help','🛟','Hilfestation','Fehler und Tipps')}</div>${body}</article>`};
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">Modul freigeben</button>`):`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
   <div style="display:grid;gap:16px;align-content:start">
-    <section class="panel station st-help"><h2>🛟 Hilfestation</h2><p class="muted">So kommst du weiter, wenn es hakt:</p><ul>${(X.tipps||[]).map(t=>{const i=t.indexOf(':');return `<li>${i>0&&i<40?`<b>${esc(t.slice(0,i))}:</b>${esc(t.slice(i+1))}`:esc(t)}</li>`}).join('')}</ul>
-      <p class="muted" style="font-size:.9rem">Bei jedem Unterkapitel findest du außerdem „⚠️ Typische Fehler & Hilfen“.</p></section>
     <section class="panel station st-fleiss"><h2>💪 Fleiß-Station</h2><p class="muted">Extra-Aufgaben für Schnelle. Jede bringt Fleißpunkte.</p>
       ${(X.fleiss||[]).map((f,i)=>{const key=ch+'#'+i,ok=S.fleiss&&S.fleiss[key],sh=T||op['f'+i]||ok;
         return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
@@ -3461,6 +3546,7 @@ document.addEventListener('click',e=>{
     case 'tsubj':go('tsubj',{s:d.s});break;
     case 'mod-open':go('mod',{s:d.s,ch:d.ch,back:V.name==='subject'?{name:'subject',s:V.s,tab:'module',desk:V.desk}:{name:V.name,s:V.s}});break;
     case 'mod-back':{const b=V.back||{name:S.role==='teacher'?'tdesk':'desk'};go(b.name,b);break}
+    case 'sbox':V.box=V.box||{};V.box[d.id]=V.box[d.id]===d.b?null:d.b;V.hwf=null;render();break;
     case 'mx-tog':V.op=V.op||{};V.op[d.k]=!V.op[d.k];render();break;
     case 'ub-go':{const x=ubFind(d.id),A=x&&x.ub&&AKT[x.ub.t];if(!A)break;const back={...V};AK.G=null;akStart({g:x.ub.t,at:'ub-'+x.id,title:'Üben: '+x.title,data:A.parse(x.ub.x),eid:x.id,back});go('akt');break}
     case 'ub-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'tdesk':'desk');break}
@@ -3524,6 +3610,18 @@ document.addEventListener('click',e=>{
     case 'lg-cls':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c)teacherEnter(c);break}
     case 'lg-admin':S.role='teacher';saveRole();if(!CS)initTeacher();A.ok=false;go('admin');break;
     case 'admin':A.ok=false;A.msg='';go('admin');break;
+    case 'inbox':TK.ok=false;go('inbox');break;
+    case 'tf':V.tf=d.t;render();break;
+    case 'tk-open':$('#umenu').hidden=true;TKF={shot:null,msg:'',view:tkView()};tkShow();break;
+    case 'tk-close':$('#tk-m').hidden=true;break;
+    case 'tk-snap':tkSnap();break;
+    case 'tk-pick':$('#tk-file').click();break;
+    case 'tk-noshot':TKF.body=$('#tk-x').value;TKF.shot=null;tkShow();break;
+    case 'tk-send':tkSend();break;
+    case 'tk-st':tkSet(d.id,{status:d.v});break;
+    case 'tk-del':if(V.tdel!==d.id){V.tdel=d.id;render();break}V.tdel=null;tkDel(d.id);break;
+    case 'tk-copy':tkCopy(d.id);break;
+    case 'tk-img':{const t=tkFind(d.id);if(t&&t.shot){const m=$('#tk-m');m.innerHTML=`<div class="tk-box tk-big"><img src="${t.shot}" alt="Screenshot"><div class="row" style="justify-content:flex-end;margin-top:8px"><a class="btn" href="${t.shot}" download="elio-ticket-${t.id}.jpg">Bild speichern</a><button class="btn pri" data-act="tk-close">Schließen</button></div></div>`;m.hidden=false}break}
     case 'ad-ask':V.adel=d.k;render();break;
     case 'ad-cancel':V.adel=null;render();break;
     case 'ad-staff-add':{const ex=A.staff.filter(x=>x.school_id===d.id).map(x=>x.short.toLowerCase()),seen=new Set();
