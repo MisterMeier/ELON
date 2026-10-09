@@ -560,6 +560,16 @@ body.boardwin .bw{height:100vh}
 .rt-c4 .cg b{font-family:var(--f-display);font-size:1.3em}
 .rt-c4 .c1{background:#fde4e1}.rt-c4 .c2{background:#fff1d0}.rt-c4 .c3{background:#dcecff}.rt-c4 .c4{background:#dff3e4}
 .rt-timer{position:absolute;top:2cqh;right:2cqw}
+.rt-quiz{background:#fff}.qz-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:.9em;padding:.8em 1.2em;min-height:0}.bw .rt-quiz .qz-o{font-size:1.6em}.rt-quiz h1{font-size:2.2em;text-align:center}
+.rt-quiz .slide-media{flex:1;min-height:0;max-height:none}.rt-quiz .slide-media img,.rt-quiz .slide-media video{max-height:38vh;object-fit:contain}.bw .rt-quiz .slide-media img,.bw .rt-quiz .slide-media video{max-height:40cqh}
+.qz-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:.5em}
+.qz-o{position:relative;overflow:hidden;background:var(--qc);color:#fff;border-radius:.5em;padding:.5em .8em;display:flex;align-items:center;gap:.6em;font-weight:800;font-size:1.3em;min-height:2.4em}
+.qz-o b{background:rgba(255,255,255,.25);border-radius:.3em;padding:0 .4em;font-family:var(--f-display)}.qz-o span{flex:1}.qz-o em{font-style:normal;font-family:var(--f-display);font-size:1.3em;position:relative}
+.qz-o i{position:absolute;left:0;bottom:0;height:.3em;background:rgba(255,255,255,.75)}.qz-o u{text-decoration:none;font-size:1.4em}
+.qz-o.no{opacity:.35}.qz-o.ok{outline:.2em solid #172B31;outline-offset:-.2em}
+.qz-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.qz-pick button{background:var(--qc);color:#fff;border:4px solid transparent;border-radius:16px;min-height:84px;font:inherit;font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;padding:10px;text-align:left;cursor:pointer}
+.qz-pick button b{font-family:var(--f-display);font-size:1.6rem}.qz-pick button.on{border-color:#172B31;box-shadow:inset 0 0 0 3px #fff}
 .bw-main .slide h1{font-size:10cqh}
 .bw-main .slide p{font-size:4.4cqh;max-width:34ch}
 .bw-main .slide .gi{font-size:16cqh}
@@ -1536,7 +1546,7 @@ function onStudentMsg(m){
   if(m.k==='kfb'){kfbAnswer(nr,m);return}
   if(m.k==='help'){const has=CS.help.includes(nr);if(m.on&&!has){CS.help.push(nr);ch=true;SND.right()}if(!m.on&&has){CS.help=CS.help.filter(x=>x!==nr);ch=true}}
   if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true}
-  if(m.k==='vote'&&CS.poll&&m.id===CS.poll.id&&!CS.poll.voted.includes(nr)){CS.poll.voted.push(nr);TALLY[m.o]=(TALLY[m.o]||0)+1;ch=true}
+  if(m.k==='vote'&&CS.poll&&m.id===CS.poll.id&&!CS.poll.voted.includes(nr)){CS.poll.voted.push(nr);[].concat(m.o).forEach(o=>{o=+o;if(o>=0&&o<CS.poll.opts.length)TALLY[o]=(TALLY[o]||0)+1});ch=true;if(V.name==='present'&&CS.poll.type==='quiz')updQuiz()}
   if(m.k==='journal'&&CS.journal&&m.id===CS.journal.id&&!CS.journal.done.includes(nr)){CS.journal.done.push(nr);ch=true}
   if(m.k==='hi'&&!ROSTER[nr].known){ROSTER[nr].known=1;ch=true}
   if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.rocket=Math.min(10,CS.rocket+1);SND.cheer();ch=true}}
@@ -1616,7 +1626,7 @@ function stageOf(){
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
     sf:p.sf||'',min:+p.min||0,tool:t.id?{...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
 }
-const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.phase,R.poll&&[R.poll.q,R.poll.voted.length],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
+const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
@@ -1625,6 +1635,7 @@ function boardHTML(R,mini){
   if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
   else if(R.game&&GAME_INFO[R.game.g])main=`<div class="slide"><span class="gi">${GAME_INFO[R.game.g].icon}</span><h1>${esc(GAME_INFO[R.game.g].name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p></div>`;
+  else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='kfb')main=`<img src="assets/kfb/logo.webp" alt="Kopfrechnen Fußball" style="max-height:62cqh;max-width:80%;border-radius:2cqh"><p style="font-weight:800;font-size:4cqh">Gleich geht's los!</p>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
@@ -1639,7 +1650,8 @@ function boardHTML(R,mini){
 }
 let BRCS=null,bSig='';
 VIEWS.beamer=()=>boardHTML(BRCS);
-function onBoardState(p){BRCS=p;OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg===bSig)return;bSig=sg;
+function onBoardState(p){const old=BRCS;BRCS=p;
+  if(V.name==='beamer'&&old&&old.poll&&p.poll&&p.poll.type==='quiz'&&old.poll.id===p.poll.id&&!old.poll.res===!p.poll.res&&boardSig({...old,poll:p.poll})===boardSig(p)&&updQuiz(p.poll,{})){bSig=boardSig(p);OFF=Date.now()-p.now;return}OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg===bSig)return;bSig=sg;
   // Spiel läuft: die Tafel zeigt es spielbar (Touch), sonst die normale Tafelansicht
   const G=!p.freeze&&!p.kfb&&p.game&&GAME_INFO[p.game.g]?p.game:null;
   let ch=false;if(G&&V.gat!==G.at){V={name:G.g,s:G.s,gat:G.at};ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
@@ -1656,7 +1668,7 @@ function renderMini(force){
   kfAnimate();
 }
 setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
-let RCS=null,rcsAt=0,OFF=0,lastOvSig='';
+let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
 let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
@@ -1703,7 +1715,14 @@ function liveOverlay(){
     html=box(`<span class="label">${RCS.ready.msg?'Stundenbeginn':'Bereit-Check'}</span><h2>${esc(RCS.ready.msg||'Bist du bereit?')}</h2>${its?`<p style="margin-top:8px;font-weight:700">Liegt alles bereit?</p><div class="prep">${its.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>`:''}
       <button class="btn ok" data-act="ready" style="width:100%;margin-top:16px">Ich bin bereit</button>`)}
   else if(RCS.journal&&!S.journalDone[RCS.journal.id]&&!RCS.journal.done.includes(S.nr)){sig='j'+RCS.journal.id;html=box(journalForm('live',RCS.journal.id))}
-  else if(RCS.poll&&!S.voted[RCS.poll.id]&&!RCS.poll.voted.includes(S.nr)){sig='p'+RCS.poll.id;
+  else if(RCS.poll&&RCS.poll.type==='quiz'&&!RCS.poll.res&&!S.voted[RCS.poll.id]&&!RCS.poll.voted.includes(S.nr)){const P=RCS.poll;sig='q'+P.id+(P.multi?JSON.stringify(QSEL):'');
+    html=box(`<span class="label">Abstimmung${P.multi?' · mehrere Antworten möglich':''}</span><h2>${esc(P.q)}</h2><div class="qz-pick">${P.opts.map((o,i)=>`<button class="${QSEL.includes(i)?'on':''}" style="--qc:${QZ_C[i%8]}" data-act="${P.multi?'qz-tog':'vote'}" data-o="${i}"><b>${ABC(i)}</b><span>${esc(o)}</span></button>`).join('')}</div>
+      ${P.multi?`<button class="btn ok" data-act="qz-send" style="width:100%;margin-top:12px" ${QSEL.length?'':'disabled'}>Abschicken</button>`:''}`)}
+  else if(RCS.poll&&RCS.poll.type==='quiz'&&RCS.poll.res&&Array.isArray(S.voted[RCS.poll.id])&&!(S.qzSeen||{})[RCS.poll.id]){const P=RCS.poll,R=P.right||[],mine=S.voted[P.id];sig='qr'+P.id;
+    const ok=R.length&&mine.length===R.length&&mine.every(x=>R.includes(x));
+    html=box(`${R.length?`${elo(ok?'cheer':'think',90)}<h2>${ok?'Richtig!':'Leider nicht ganz.'}</h2><p style="font-weight:700;margin-top:6px">Du hast ${mine.map(ABC).join(', ')} gewählt. Richtig ${R.length>1?'sind':'ist'}: ${R.map(ABC).join(', ')}.</p>`:`<h2>Danke fürs Abstimmen!</h2><p style="font-weight:700">Das Ergebnis siehst du an der Tafel.</p>`}
+      <button class="btn pri" data-act="qz-ok" style="width:100%;margin-top:14px">Weiter</button>`);if(sig!==lastOvSig&&R.length)(ok?SND.right:SND.oops)()}
+  else if(RCS.poll&&RCS.poll.type!=='quiz'&&!S.voted[RCS.poll.id]&&!RCS.poll.voted.includes(S.nr)){sig='p'+RCS.poll.id;
     html=box(`<span class="label">Abstimmung · anonym</span><h2>${esc(RCS.poll.q)}</h2><div class="opts">${RCS.poll.opts.map((o,i)=>`<button class="btn opt ${RCS.poll.type==='corners'?CORNERS[i].c:''}" data-act="vote" data-o="${i}">${esc(o)}</button>`).join('')}</div>
       <p class="muted" style="margin-top:10px;font-weight:700">Niemand sieht, was du gewählt hast.</p>`)}
   else if(S.phaseSeen!==String(RCS.phaseAt)){sig='ph'+RCS.phaseAt;
@@ -1766,12 +1785,15 @@ VIEWS.role=()=>{
       <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p>`}</section>
   </div></div>`;
 };
+// Beigetretene Klasse bleibt erhalten, auch wenn die Schulliste danach neu geladen wird
+let JOINED=null;
+function addJoined(){const c=JOINED;if(!c)return;let sc=SCHOOLS.find(x=>x.id===c.school_id);if(!sc){sc={id:c.school_id,name:c.school_name,place:'',classes:[]};SCHOOLS.push(sc)}
+  if(!sc.classes.some(x=>x.id===c.id))sc.classes.push({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code})}
 // Schüler-Zugang: Klassencode + Passwort, bei persönlichem QR-Code auch die Nummer
 async function joinClass(code,pw,nr){
   try{const sb=await sbClient();const r=await q(sb.rpc('join_class',{p_code:code,p_pw:pw}));const c=r&&r[0];
     if(!c){V.err='Klassencode oder Passwort stimmt nicht. Frag deine Lehrkraft.';V.step='join';render();return}
-    let sc=SCHOOLS.find(x=>x.id===c.school_id);if(!sc){sc={id:c.school_id,name:c.school_name,place:'',classes:[]};SCHOOLS.push(sc)}
-    if(!sc.classes.some(x=>x.id===c.id))sc.classes.push({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code});
+    JOINED=c;addJoined();
     V.err='';V.school=c.school_id;V.cls=c.id;V.only='student';
     if(nr>=1&&nr<=(c.size||40)){V.nr=nr;V.step='nick'}else V.step='role';render()}
   catch(e){V.err='ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';V.step='join';render()}
@@ -1835,6 +1857,8 @@ function goTarget(t){
   else if(t.startsWith('heft:'))go('subject',{s:t.slice(5),tab:'heft'});
   else if(t.startsWith('station:')){const id=t.slice(8);W={};({words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[id]||(()=>{}))();go('station',{id})}
 }
+function quizStart(T,p){CS.poll={id:'p'+Date.now(),type:'quiz',q:T.q||p.name,opts:lines(T.opts).slice(0,8),voted:[],multi:!!T.multi,mat:T.mat||''};if(!CS.poll.opts.length)CS.poll.opts=['Ja','Nein'];TALLY={}}
+const curTool=()=>{const L=CS&&CS.lesson&&lessonById(CS.lesson.id),p=L&&L.phases[CS.step];return p&&p.tool?{p,t:p.tool}:null};
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
   i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
@@ -1849,6 +1873,8 @@ function startStep(i){
   if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean)};
   if(T.id==='task'&&T.text)CS.phase.txt=lines(T.text).join(' · ');
   if(T.id==='question'&&T.q)CS.phase.txt=T.q;
+  if(T.id==='quiz'||T.id==='corners4')CS.phase.look=false;// Abstimmen braucht das iPad
+  if(T.id==='quiz')quizStart(T,p);
   if(T.id==='corners4'){CS.poll={id:'p'+Date.now(),type:'corners',q:T.q||'Wie gut kannst du es schon?',opts:lines(T.opts||C4_OPTS).slice(0,4).map((o,k)=>`Ecke ${k+1}: ${o}`),voted:[]};TALLY={}}
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
   pushCS();render();
@@ -2050,7 +2076,7 @@ function newLessonFrom(subj,min,title){
   const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'Vorlage':''};
   lessons().push(L);save();return L;
 }
-const RICH=['start','cover','question','hypo','task','high5','corners4'];
+const RICH=['quiz','start','cover','question','hypo','task','high5','corners4'];
 const TOOLS={
   slide:{name:'Folie',icon:'🖼️',txt:'Große Folie mit Titel, Text und Bild, Video oder PDF aus der Bibliothek.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
@@ -2064,11 +2090,23 @@ const TOOLS={
   hypo:{name:'Vermutungen',icon:'💡',txt:'Vermutungen sammeln oder überprüfen.',fit:/hypo|vermut|sicherung|überprüf/i},
   task:{name:'Arbeitsauftrag',icon:'📝',txt:'Leere Vorlage: Du schreibst den Auftrag, Sozialform und Zeit kommen aus der Phase.',fit:/auftrag|erarb|anwend|übung/i},
   high5:{name:'High-Five-Feedback',icon:'🙌',txt:'Fünf Reflexionsfragen an der Tafel.',fit:/reflex|feedback|abschluss/i},
+  quiz:{name:'Abstimmung / Quiz',icon:'🗳️',txt:'Eigene Frage mit A, B, C … wie bei Kahoot. Eine oder mehrere richtige Antworten, auf Wunsch mit Folie. Du löst auf, wann du willst.',fit:/vorwissen|wiederhol|abstimm|quiz|hypo|vermut|sicherung|überprüf/i},
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 const SF_TXT={EA:'Du arbeitest allein',PA:'Du arbeitest mit deinem Partner',GA:'Ihr arbeitet in der Gruppe',Plenum:'Wir arbeiten gemeinsam'};
 const lines=x=>String(x||'').split('\n').map(v=>v.trim()).filter(Boolean);
+// Abstimmung/Quiz: Lösung kennt nur das Gerät der Lehrkraft, bis sie auflöst
+const QZ_C=['#e21b3c','#1368ce','#d89e00','#26890c','#864cbf','#0aa3a3','#e5711f','#d6387f'];
+const ABC=i=>String.fromCharCode(65+i);
+function quizRight(t,n){return [...new Set(String(t&&t.right||'').toUpperCase().replace(/[^A-H]/g,'').split('').map(c=>c.charCodeAt(0)-65).filter(i=>i<n))]}
+// Nur Zähler und Balken tauschen, damit Folie oder Video nicht neu lädt
+function updQuiz(P,c){const el=$('.rt-quiz');if(!el)return false;const tmp=document.createElement('div');tmp.innerHTML=quizHTML(P||CS.poll,c||{teacher:1,tally:TALLY});
+  ['.band','.qz-opts'].forEach(k=>{const a=el.querySelector(k),b=tmp.querySelector(k);if(a&&b)a.replaceWith(b)});return true}
+function quizHTML(P,c){const res=P.res||(c.tally?P.opts.map((_,i)=>c.tally[i]||0):null),show=!!P.res||c.teacher,tot=Math.max(1,(res||[]).reduce((a,b)=>a+b,0)),R=P.right||[];
+  return `<div class="rt rt-quiz"><div class="band">${P.res?'Auflösung':'Abstimmung'} · ${P.voted.length} abgestimmt${P.multi?' · mehrere Antworten möglich':''}</div>
+    <div class="qz-body"><h1>${esc(P.q)}</h1>${P.mat?(c.mini||!(BOARD||c.teacher)?'':`<div class="slide-media" id="slide-media" data-id="${esc(P.mat)}"></div>`):''}
+    <div class="qz-opts">${P.opts.map((o,i)=>`<div class="qz-o ${P.res&&R.length?(R.includes(i)?'ok':'no'):''}" style="--qc:${QZ_C[i%8]}"><b>${ABC(i)}</b><span>${esc(o)}</span>${show&&res?`<em>${res[i]}</em><i style="width:${res[i]/tot*100}%"></i>`:''}${P.res&&R.includes(i)?'<u>✓</u>':''}</div>`).join('')}</div></div></div>`}
 // Neue Werkzeuge: dieselbe Ansicht im Präsentationsmodus und im Tafel-Fenster (rt = rich tool)
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
   if(t.id==='start')return `<div class="rt rt-start">${c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`}
@@ -2086,7 +2124,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';
   return {start:{id,hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
-    task:{id,text:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+    task:{id,text:''},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
 function toolEditor(p,i,L){
@@ -2105,6 +2143,9 @@ function toolEditor(p,i,L){
   if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
   if(t.id==='task')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Arbeitsauftrag (jede Zeile ein Punkt)',t.text,4)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Sozialform und Minuten kommen aus der Phase. Die iPads zeigen den Auftrag auch.</p></div>`;
   if(t.id==='high5')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fünf Fragen (eine pro Zeile)',t.qs,5)}</div>`;
+  if(t.id==='quiz')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q,'Welcher Term passt zur Folie?')}${ta('opts','Antworten (eine pro Zeile, bis zu 8: A, B, C …)',t.opts,4)}
+    ${inp('right','Richtig ist (Buchstaben)',t.right,'z. B. B oder A, C · leer = Meinungsumfrage')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.multi" ${t.multi?'checked':''} style="width:auto"> SuS dürfen mehrere ankreuzen</label>
+    <label style="grid-column:1/-1">Folie dazu (Bild, PDF oder Video, freiwillig)<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
   if(t.id==='corners4')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}${ta('opts','Vier Ecken (eine pro Zeile)',t.opts,4)}</div>`;
   if(GAME_INFO[t.id])cfg=`<div class="lgrid" style="margin-top:8px"><label>Inhalte aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div>`;
   return `<div class="toolcard" style="margin-top:6px"><span class="ti">${T.icon}</span><div style="flex:1;min-width:0"><b>${T.name}</b><br><small class="muted" style="font-weight:700">${T.txt}</small></div><button class="btn sm" data-act="tool-pool" data-i="${i}">Ändern</button></div>${cfg}`;
@@ -2351,6 +2392,10 @@ KS.load();
 /* --- Präsentation (Live an der Tafel) --- */
 function toolStage(p,L){
   const t=p.tool||{};
+  if(t.id==='quiz'){const P=CS.poll&&CS.poll.type==='quiz'?CS.poll:null;if(!P)return `<div class="slide"><h1>${esc(t.q||p.name)}</h1><button class="btn pri" data-act="quiz-again">Abstimmung starten</button></div>`;
+    const R=quizRight(t,P.opts.length);
+    return `${quizHTML(P,{teacher:1,tally:TALLY})}<div class="row" style="justify-content:center;margin-top:10px">${P.res?'<button class="btn" data-act="quiz-again">Nochmal abstimmen</button>':`<button class="btn pri" data-act="quiz-reveal">${R.length?'Auflösen':'Ergebnis zeigen'}</button>`}
+      <span class="muted" style="font-weight:700">${R.length?'Richtig: '+R.map(ABC).join(', ')+' · nur du siehst das':'Meinungsumfrage ohne richtige Antwort'}</span></div>`}
   if(TOOLS[t.id]&&RICH.includes(t.id))return richTool(t,{subj:L.subject,name:p.name,sf:p.sf,min:+p.min||0});
   if(t.id==='kfb')return renderKfb();
   if(GAME_INFO[t.id])return `<div class="slide"><span style="font-size:5rem">${GAME_INFO[t.id].icon}</span><h1>${GAME_INFO[t.id].name}</h1><p>${esc(p.txt||'')}</p><button class="btn pri" style="font-size:1.6rem;padding:18px 34px" data-act="pgame" data-g="${t.id}" data-s="${t.s||'E'}">Spiel starten</button></div>`;
@@ -2401,7 +2446,7 @@ const lid=()=>'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 async function sbClient(){if(Cloud.sb)return Cloud.sb;if(!window.supabase)await loadScript(SB_SRC);Cloud.sb=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);return Cloud.sb}
 const CLS_COLS='id,school_id,name,size,code';
 async function q(p){const r=await p;if(r.error)throw r.error;return r.data}
-function buildSchools(sc,cl){SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}))}
+function buildSchools(sc,cl){SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}));if(typeof addJoined==='function')addJoined()}
 const isLead=cid=>!!(Cloud.prof&&(Cloud.prof.role==='admin'||(Cloud.lead||[]).includes(cid)));
 async function cloudBoot(){
   try{const sb=await sbClient();
@@ -2938,7 +2983,12 @@ document.addEventListener('click',e=>{
     case 't-cls':{const n=parseInt($('#t-cls').value,10);if(n>=2&&n<=40){S.classSize=n;save();updTafel()}break}
     case 'help':if(RCS)sendMsg({k:'help',on:!RCS.help.includes(S.nr)});break;
     case 'ready':if(RCS&&RCS.ready){S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id});SND.right();liveOverlay()}break;
-    case 'vote':if(RCS&&RCS.poll){S.voted[RCS.poll.id]=1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
+    case 'vote':if(RCS&&RCS.poll){const qz=RCS.poll.type==='quiz';S.voted[RCS.poll.id]=qz?[+d.o]:1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
+    case 'qz-tog':{const o=+d.o;QSEL=QSEL.includes(o)?QSEL.filter(x=>x!==o):[...QSEL,o].sort();liveOverlay();break}
+    case 'qz-send':if(RCS&&RCS.poll&&QSEL.length){S.voted[RCS.poll.id]=QSEL.slice();save();sendMsg({k:'vote',id:RCS.poll.id,o:QSEL.slice()});QSEL=[];SND.right();liveOverlay()}break;
+    case 'qz-ok':if(RCS&&RCS.poll){(S.qzSeen=S.qzSeen||{})[RCS.poll.id]=1;save();liveOverlay()}break;
+    case 'quiz-reveal':if(CS.poll&&CS.poll.type==='quiz'){const c=curTool();CS.poll.right=c&&c.t.id==='quiz'?quizRight(c.t,CS.poll.opts.length):[];CS.poll.res=CS.poll.opts.map((_,i)=>TALLY[i]||0);pushCS();render()}break;
+    case 'quiz-again':{const c=curTool();if(c&&c.t.id==='quiz'){quizStart(c.t,c.p);pushCS();render()}break}
     case 'g-join':if(RCS&&RCS.game){S.gameSeen=RCS.game.at;save();lastOvSig='';$('#live-ov').hidden=true;go(RCS.game.g,{s:RCS.game.s})}break;
     case 'phase-go':{const ph=phaseOf(RCS.phase);S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';$('#live-ov').hidden=true;
       goTarget(ph.go);
