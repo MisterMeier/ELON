@@ -512,6 +512,7 @@ body.pres main{max-width:none!important;padding:12px 16px!important}
 body.boardwin{padding:0;overflow:hidden}
 body.boardwin .top,body.boardwin #nav,body.boardwin #live{display:none!important}
 body.boardwin main#view{max-width:none;margin:0;padding:0}
+body.boardwin.tboard{overflow:auto}body.boardwin.tboard main#view{padding:24px 32px;min-height:100vh}
 .bw{container-type:size;height:100%;display:grid;grid-template-rows:auto 1fr auto;background:var(--bg);color:var(--ink);border-top:1.2cqh solid var(--sc,var(--navy));overflow:hidden}
 body.boardwin .bw{height:100vh}
 .bw-top{display:flex;align-items:center;gap:2cqw;padding:1.6cqh 2.4cqw;font-weight:800;font-size:2.6cqh}
@@ -527,11 +528,8 @@ body.boardwin .bw{height:100vh}
 .bw-main .slide-media{min-height:0;max-height:62cqh;width:100%}
 .bw-main .slide-media img,.bw-main .slide-media video{max-height:60cqh}
 .bw-main .slide-media iframe{height:60cqh}
-.bw-main .kfb{width:100%;display:grid;gap:3cqh}
-.bw-main .kfb-top .team big{font-size:10cqh}.bw-main .kfb-top .team span{font-size:3cqh}
 .bw-main .kq{font-size:12cqh}
 .bw-main .pitch{height:24cqh}.bw-main .pitch .ball{font-size:12cqh}.bw-main .pitch .g{font-size:6cqh}
-.bw-main .kfb-msg{font-size:4cqh}
 .bw-main .bw-big{font-size:12cqh;font-family:var(--f-display)}
 .bw-foot{padding:1.4cqh 2.4cqw;display:flex;justify-content:center;gap:2cqw;flex-wrap:wrap}
 .bw-note{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1cqh 2.4cqw;font-weight:800;font-size:3cqh}
@@ -551,22 +549,78 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .slide-media{width:100%;flex:1;min-height:40vh;display:grid;place-items:center}
 .slide-media img,.slide-media video{max-width:100%;max-height:60vh;border-radius:16px}
 .slide-media iframe{width:100%;height:60vh;border:0;border-radius:16px;background:#fff}
-.kfb{display:grid;gap:14px}
-.kfb-top{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
-.team{font-family:var(--f-display);font-weight:800;font-size:clamp(1.3rem,2.4vw,2rem);padding:8px 16px;border-radius:16px;color:#fff;display:flex;justify-content:space-between;gap:10px}
-.team.a{background:#cf3a2c}.team.b{background:#2f6fd6}
-.team big{font-size:1.4em}
-.kq{font-family:var(--f-display);font-weight:800;font-size:clamp(2.6rem,6vw,5rem);text-align:center;font-variant-numeric:tabular-nums}
-.pitch{display:grid;grid-template-columns:.6fr repeat(7,1fr) .6fr;height:clamp(110px,18vh,190px);border-radius:18px;overflow:hidden;background:repeating-linear-gradient(90deg,#2f9a5a 0 14.28%,#38a865 14.28% 28.56%);border:4px solid #fff;box-shadow:var(--shadow);position:relative}
-.pitch::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid rgba(255,255,255,.7)}
-.pitch .g{display:grid;place-items:center;font-size:2rem;color:#fff;font-weight:800}
-.pitch .g.l{background:rgba(207,58,44,.6)}.pitch .g.r{background:rgba(47,111,214,.6)}
-.pitch .c{display:grid;place-items:center;position:relative;z-index:1}
-.pitch .ball{font-size:clamp(2.6rem,6vh,4.6rem);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3));animation:pop .35s}
-.kfb-msg{text-align:center;font-weight:800;font-size:1.3rem;min-height:1.6em}
-.kfb-msg.ok{color:var(--green)}.kfb-msg.no{color:var(--orange)}
-.kfb-ctrl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.kfb-ctrl .ta{background:#cf3a2c;border-color:#cf3a2c;color:#fff}.kfb-ctrl .tb{background:#2f6fd6;border-color:#2f6fd6;color:#fff}
+/* Kopfrechenfußball: Rasengrün, Dunkelgrün/Schwarz, Weiß, Blau aus der Vorlage */
+.kf{--kg:#4D8936;--kd:#172B31;--kb:#42A7D3;--t0:#2e7d32;--t1:#1f7fb3;container-type:inline-size;display:grid;gap:1.4cqw;width:100%}
+.kf-score{display:grid;grid-template-columns:1fr auto 1fr;background:var(--kg);border-bottom:.6cqw solid var(--kb);border-radius:1.4cqw;color:#fff;overflow:hidden;box-shadow:0 .6cqw 1.6cqw rgba(0,0,0,.18)}
+.kf-st{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-items:center;gap:.2cqw 1.4cqw;padding:1cqw 2cqw;transition:background .3s}
+.kf-st .nm{font-family:var(--f-display);font-size:2.6cqw;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kf-st .pt{grid-row:span 2;font-family:var(--f-display);font-weight:800;font-size:6cqw;line-height:1;font-variant-numeric:tabular-nums}
+.kf-st.t1{grid-template-columns:auto 1fr;text-align:right}.kf-st.t1 .pt{grid-column:1;grid-row:1/span 2}.kf-st.t1 .nm,.kf-st.t1 .kf-tally{grid-column:2;justify-self:end}
+.kf-st.on{background:color-mix(in srgb,var(--kd) 55%,transparent)}
+.kf-turn{background:var(--kd);display:grid;place-items:center;align-content:center;padding:.6cqw 2.4cqw;text-align:center;min-width:18cqw}
+.kf-turn span{font-size:1.4cqw;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--kb)}.kf-turn b{font-family:var(--f-display);font-size:2.4cqw;white-space:nowrap;animation:kfpulse 1.4s infinite}
+.kf-tally{display:flex;gap:.6cqw;align-items:center;min-height:2.4cqw;flex-wrap:wrap}
+.kf-tally i{display:inline-block;width:.45cqw;height:2.4cqw;background:#fff;border-radius:.2cqw}
+.kf-tally .t5{position:relative;display:inline-flex;gap:.45cqw}.kf-tally .t5::after{content:"";position:absolute;left:-.4cqw;right:-.4cqw;top:50%;height:.45cqw;background:#fff;transform:rotate(-24deg);border-radius:.2cqw}
+.kf-field{position:relative;width:min(100%,calc((100vh - 290px)*16/9));min-width:min(100%,520px);aspect-ratio:16/9;margin-inline:auto;background:#2f8a2f url(assets/kfb/field.webp) center/100% 100% no-repeat;border-radius:1.2cqw;overflow:hidden;box-shadow:0 .8cqw 2.4cqw rgba(0,0,0,.25);container-type:inline-size}
+.kf-field.intro{animation:kfin 1.8s cubic-bezier(.2,.8,.2,1) both}
+.kf-dot{position:absolute;width:7.2%;aspect-ratio:1;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 .3cqw .8cqw rgba(0,0,0,.25)}
+.kf-card{position:absolute;left:50%;top:46.8%;transform:translate(-50%,-50%);background:#E0EDDF;border-radius:2.2cqw;padding:1.3cqw 1.8cqw;box-shadow:0 .6cqw 1.6cqw rgba(0,0,0,.25);max-width:80%}
+.kf-q{background:#fff;border:.35cqw solid var(--kg);border-radius:1.4cqw;padding:.9cqw 3cqw;font-family:var(--f-display);font-weight:800;font-size:5cqw;color:var(--kd);white-space:nowrap;font-variant-numeric:tabular-nums;text-align:center}
+.kf-ball{position:absolute;width:6.6%;aspect-ratio:1;transform:translate(-50%,-50%);transition:left 1s cubic-bezier(.3,.7,.25,1),top 1s cubic-bezier(.3,.7,.25,1);z-index:2;filter:drop-shadow(0 .5cqw .5cqw rgba(0,0,0,.4))}
+.kf-ball img{width:100%;height:100%;display:block}.kf-ball.roll img{animation:kfspin 1s cubic-bezier(.3,.7,.25,1)}
+.kf-side{position:absolute;top:3%;padding:.7cqw 1.6cqw;border-radius:99px;font-family:var(--f-display);font-weight:800;font-size:2.4cqw;background:rgba(10,25,15,.6);color:#fff;max-width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:.3cqw solid transparent;z-index:3}
+.kf-side.l{left:2%}.kf-side.r{right:2%}.kf-side small{font-size:.7em;opacity:.9}
+.kf-side.on.t0{background:var(--t0);border-color:#fff;animation:kfpulse 1.4s infinite}.kf-side.on.t1{background:var(--t1);border-color:#fff;animation:kfpulse 1.4s infinite}
+.kf-intro{position:absolute;inset:0;display:grid;place-items:center;z-index:4;pointer-events:none}
+.kf-intro b{font-family:var(--f-display);font-size:11cqw;color:#fff;text-transform:uppercase;letter-spacing:.04em;-webkit-text-stroke:.3cqw var(--kd);text-shadow:0 1cqw 2cqw rgba(0,0,0,.5);animation:kfpop 3.6s ease both}
+.kf-goal{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;z-index:5;background:radial-gradient(circle,rgba(0,0,0,.15),rgba(0,0,0,.6));animation:kffade .4s both;overflow:hidden}
+.kf-goal b{font-family:var(--f-display);font-size:16cqw;line-height:1;color:#fff;-webkit-text-stroke:.4cqw var(--kd);text-shadow:0 1.2cqw 3cqw rgba(0,0,0,.6);animation:kfgoal 1s cubic-bezier(.2,1.6,.4,1) both}
+.kf-goal span{font-family:var(--f-display);font-size:4.4cqw;color:#fff;padding:.6cqw 3cqw;border-radius:99px;margin-top:1cqw;animation:kfpop 1.2s .3s both}
+.kf-goal.t0 span{background:var(--t0)}.kf-goal.t1 span{background:var(--t1)}
+.kf-goal i,.kf-conf i{position:absolute;top:-5%;width:1.2cqw;height:2cqw;border-radius:.3cqw;animation:kfconf 2.6s linear infinite}
+.kf-goal i:nth-child(odd),.kf-conf i:nth-child(odd){background:#fff}.kf-goal i:nth-child(3n),.kf-conf i:nth-child(3n){background:var(--kb)}.kf-goal i:nth-child(3n+1),.kf-conf i:nth-child(3n+1){background:#8fd14f}
+.kf-ctrl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.kf-b{font:inherit;font-weight:800;font-size:clamp(1.05rem,1.8vw,1.5rem);min-height:64px;padding:10px 26px;border-radius:16px;border:3px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;touch-action:manipulation}
+.kf-b:disabled{opacity:.4;cursor:default}.kf-b.sm{font-size:1rem;min-height:52px;padding:8px 16px}
+.kf-b.ok{background:#4D8936;border-color:#4D8936;color:#fff;min-width:200px}.kf-b.no{background:#172B31;border-color:#172B31;color:#fff;min-width:200px}
+.kf-b.end{border-color:#172B31}
+.kf-b.peek .sol{display:inline-block;min-width:2.5em;filter:blur(9px);opacity:.25;transition:filter .1s}.kf-b.peek.show .sol{filter:none;opacity:1}
+.kf-snd{display:inline-flex;align-items:center;gap:6px}.kf-snd input{width:110px}
+.kf-setup{background:#fff;color:#172B31;border-radius:24px;padding:clamp(14px,2.4vw,32px);text-align:center;justify-items:center;box-shadow:var(--shadow);border-top:10px solid #4D8936;border-bottom:6px solid #42A7D3}
+.kf-logo{width:min(560px,80%);height:auto}
+.kf-teams{display:flex;gap:16px;align-items:end;justify-content:center;flex-wrap:wrap;width:100%}
+.kf-teams label{display:grid;gap:6px;text-align:left;font-weight:800;flex:1;min-width:200px;max-width:340px}
+.kf-teams label span{font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:#4D8936}
+.kf-teams input{font-size:1.5rem;font-weight:800;padding:12px 16px;border:3px solid #4D8936;border-radius:14px}
+.kf-teams label:last-child input{border-color:#42A7D3}.kf-teams label:last-child span{color:#1f7fb3}
+.kf-teams .vs{font-family:var(--f-display);font-size:2rem;padding-bottom:10px}
+.kf-opts{display:grid;gap:10px;width:min(700px,100%);text-align:left}
+.kf-opts textarea{font:inherit;font-size:1.15rem;font-weight:700;padding:12px;border-radius:12px;border:2px solid var(--line);width:100%}
+.kf-seg{display:flex;border:3px solid #172B31;border-radius:14px;overflow:hidden}.kf-seg button{flex:1;font:inherit;font-weight:800;font-size:1.05rem;padding:12px;border:0;background:#fff;color:#172B31;cursor:pointer}.kf-seg button.on{background:#172B31;color:#fff}
+.kf-go{font-family:var(--f-display);font-size:clamp(1.8rem,3.4vw,2.8rem);padding:16px 54px;border-radius:999px;border:0;background:#4D8936;color:#fff;cursor:pointer;box-shadow:0 8px 0 #172B31;text-transform:uppercase;letter-spacing:.04em;transition:transform .1s}
+.kf-go:active{transform:translateY(6px);box-shadow:0 2px 0 #172B31}
+.kf-wait{justify-items:center;text-align:center;background:#fff;border-radius:2cqw;padding:3cqw}.kf-wait img{width:60%}.kf-wait p{font-family:var(--f-display);font-size:4cqw;color:#172B31}
+.kf-end{position:relative;overflow:hidden;background:linear-gradient(160deg,#173d22,#0b1a10);color:#fff;border-radius:2cqw;padding:2.4cqw;display:grid;justify-items:center;gap:1.4cqw;text-align:center;border-bottom:.8cqw solid #42A7D3}
+.kf-elogo{width:34cqw;border-radius:1.4cqw;background:#fff;padding:.6cqw}
+.kf-end .lb{font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#42A7D3;font-size:2cqw}
+.kf-final{display:flex;align-items:center;gap:3cqw}.kf-final div{display:grid;justify-items:center;gap:.6cqw}.kf-final b{font-family:var(--f-display);font-size:3.4cqw}
+.kf-final span{font-family:var(--f-display);font-size:12cqw;line-height:1}.kf-final em{font-style:normal;font-family:var(--f-display);font-size:8cqw}
+.kf-final .t0 b{color:#8fd14f}.kf-final .t1 b{color:#7fcdf0}
+.kf-end h2{font-size:4.4cqw;color:#fff}
+.kf-conf{position:absolute;inset:0;pointer-events:none}
+.kseat.kt0{border-color:#2e7d32}.kseat.kt1{border-color:#1f7fb3}.kseat:disabled{opacity:.25;cursor:default}
+.bw-kf{grid-template-rows:1fr;padding:1.4cqh 2cqw;border-top:0;background:#0f2416}
+.bw-kf .kf-elogo{width:min(34cqw,36cqh)}.bw-kf .kf-end{gap:min(1.4cqw,1.4cqh);padding:min(2.4cqw,3cqh)}.bw-kf .kf-final span{font-size:min(12cqw,18cqh)}.bw-kf .kf-final em{font-size:min(8cqw,12cqh)}.bw-kf .kf-final b{font-size:min(3.4cqw,5cqh)}.bw-kf .kf-end h2{font-size:min(4.4cqw,6.5cqh)}
+.bw-kf .kf{height:100%;align-content:center}.bw-kf .kf-field{width:min(100%,calc((100cqh - 16cqw)*16/9))}
+@keyframes kfin{from{opacity:0;transform:perspective(900px) rotateX(55deg) scale(.6)}to{opacity:1;transform:none}}
+@keyframes kfspin{from{transform:rotate(0)}to{transform:rotate(540deg)}}
+@keyframes kfpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}50%{box-shadow:0 0 0 .8cqw rgba(255,255,255,0)}}
+@keyframes kfpop{0%{opacity:0;transform:scale(.3)}15%{opacity:1;transform:scale(1.15)}25%{transform:scale(1)}85%{opacity:1}100%{opacity:0}}
+@keyframes kffade{from{opacity:0}to{opacity:1}}
+@keyframes kfgoal{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:scale(1) rotate(-4deg);opacity:1}}
+@keyframes kfconf{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(120cqw) rotate(720deg)}}
+@media (prefers-reduced-motion:reduce){.kf-field.intro,.kf-ball.roll img,.kf-goal b,.kf-goal i,.kf-conf i,.kf-side.on,.kf-turn b{animation:none!important}.kf-ball{transition:none}}
 .kseats{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px}
 .kseat{min-height:58px;border-radius:12px;border:3px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.55;padding:2px}
 .kseat small{font-size:.72rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -913,7 +967,7 @@ function render(){
   document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
   document.body.classList.toggle('pres',V.name==='present');
   if(V.name==='present'||V.name==='beamer')fillMedia();
-  document.body.classList.toggle('tboard',S.role==='teacher'&&['memory','salad','balloon'].includes(V.name));
+  document.body.classList.toggle('tboard',(S.role==='teacher'||BOARD)&&['memory','salad','balloon'].includes(V.name));
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
@@ -924,6 +978,7 @@ function render(){
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
+  kfAnimate();
 }
 function tickClock(){
   const n=nowInfo(),c=$('#clock');
@@ -1020,18 +1075,18 @@ function lvlInfo(){const l=Math.floor(S.stars/10)+1;return {l,name:LEVELS[Math.m
 function lvlBar(){const L=lvlInfo();
   return `<div class="lvl">${elo('happy',52)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b style="font-size:1.15rem">Level ${L.l} · ${L.name}</b><small class="muted" style="font-weight:700">Noch ${L.left} Stern${L.left>1?'e':''} bis Level ${L.l+1}</small></div>
     <div class="bar"><i style="width:${L.pct}%"></i></div></div></div>`}
-function gameHead(g,s){return `<div class="st-head s-${s}">${S.role==='teacher'?`<button class="btn sm" data-act="${V.back||'tafel'}">← ${V.back==='present'?'Präsentation':'Tafel'}</button><span class="chip">An der Tafel · Touch</span>`:`<button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
+function gameHead(g,s){return `<div class="st-head s-${s}">${BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='teacher'?`<button class="btn sm" data-act="${V.back||'tafel'}">← ${V.back==='present'?'Präsentation':'Tafel'}</button><span class="chip">An der Tafel · Touch</span>`:`<button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
 function finishGame(g){
   const day=new Date().toISOString().slice(0,10);
   if(S.playDay!==day){S.play={};S.playDay=day}
   const key=V.name+'-'+V.s,c=S.play[key]||0;
-  if(S.role==='teacher'){g.star=false;g.win=true;SND.cheer();return}
+  if(S.role!=='student'){g.star=false;g.win=true;SND.cheer();return}
   g.star=c<3;if(g.star){S.play[key]=c+1;addStars(1)}else save();
   g.win=true;SND.cheer();
 }
 function winBox(g){return `<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b>
-  <p>${S.role==='teacher'?'Stark gemacht, Klasse!':g.star?'+1 Stern fürs Dranbleiben.':'Für dieses Spiel hast du heute schon 3 Sterne. Üben lohnt sich trotzdem!'}</p></div>
-  <button class="btn pri" data-act="g-again">Nochmal</button>${S.role==='teacher'?`<button class="btn" data-act="${V.back||'tafel'}">Zurück</button>`:`<button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button>`}</div>`}
+  <p>${S.role!=='student'?'Stark gemacht, Klasse!':g.star?'+1 Stern fürs Dranbleiben.':'Für dieses Spiel hast du heute schon 3 Sterne. Üben lohnt sich trotzdem!'}</p></div>
+  <button class="btn pri" data-act="g-again">Nochmal</button>${BOARD?'':S.role==='teacher'?`<button class="btn" data-act="${V.back||'tafel'}">Zurück</button>`:`<button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button>`}</div>`}
 VIEWS.practice=()=>{
   const s=V.s||S.lastPs||'E';
   const lad=[
@@ -1430,6 +1485,8 @@ function initTeacher(){
   CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:false,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
   CS.poll=null;CS.ready=null;CS.journal=null;CS.share=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
 }
+// Lernspiel für alle: Tafel spielbar, iPads bekommen das Spiel zum Mitspielen
+function gameLive(g,s){if(!CS)initTeacher();CS.game=g?{g,s,at:Date.now()}:null;pushCS()}
 function pushCS(){if(!CS)return;CS.mission=S.mission;CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
 function onStudentMsg(m){
@@ -1476,7 +1533,7 @@ VIEWS.tafel=()=>{
     <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
     <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
-      ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}<button class="btn" data-act="tkfb">⚽ Kopfrechenfußball</button></div>
+      ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}<button class="btn" data-act="tkfb">⚽ Kopfrechenfußball</button>${CS.game&&GAME_INFO[CS.game.g]?`<span class="chip">Läuft: ${GAME_INFO[CS.game.g].name} an Tafel und iPads</span><button class="btn sm red" data-act="t-game-end">Spiel beenden</button>`:''}</div>
     <div class="grp row"><span class="label">Material</span><button class="btn" data-act="lib-pick">Aus der Bibliothek zeigen</button>${CS.share?`<span class="chip">Auf den iPads: ${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button>`:''}</div>
     <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-set" data-m="${m}">${m} min</button>`).join('')}
       <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
@@ -1520,16 +1577,14 @@ function stageOf(){
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
     tool:t.id?{id:t.id,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
 }
-const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.phase,R.poll&&[R.poll.q,R.poll.voted.length],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
+const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.phase,R.poll&&[R.poll.q,R.poll.voted.length],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
   const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
   if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
-  else if(K){const cells=[-3,-2,-1,0,1,2,3];
-    main=`<div class="kfb"><div class="kfb-top"><div class="team a"><span>Team Rot</span><big>${K.score[0]}</big></div><div class="kq">${esc(K.q)} = ${K.sol!=null?esc(String(K.sol)):'?'}</div><div class="team b"><big>${K.score[1]}</big><span>Team Blau</span></div></div>
-      <div class="pitch"><div class="g l">🥅</div>${cells.map(c=>`<div class="c">${c===K.pos?'<span class="ball">⚽</span>':''}</div>`).join('')}<div class="g r">🥅</div></div>
-      <div class="kfb-msg ${K.goal?'ok':K.ask?'':K.last?(K.last.ok?'ok':'no'):''}">${K.goal?`TOOOR für Team ${K.goal==='A'?'Rot':'Blau'}! 🎉`:K.ask?`${esc(K.ask.name||'')} ist dran …`:K.last?String(K.last.txt).replace(/</g,'&lt;'):'Rechnet im Kopf mit!'}</div></div>`}
+  else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
+  else if(R.game&&GAME_INFO[R.game.g])main=`<div class="slide"><span class="gi">${GAME_INFO[R.game.g].icon}</span><h1>${esc(GAME_INFO[R.game.g].name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p></div>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
     main=`<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${st.act==='mission'&&R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}
@@ -1543,7 +1598,11 @@ function boardHTML(R,mini){
 }
 let BRCS=null,bSig='';
 VIEWS.beamer=()=>boardHTML(BRCS);
-function onBoardState(p){BRCS=p;OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg!==bSig){bSig=sg;render();fillMedia()}}
+function onBoardState(p){BRCS=p;OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg===bSig)return;bSig=sg;
+  // Spiel läuft: die Tafel zeigt es spielbar (Touch), sonst die normale Tafelansicht
+  const G=!p.freeze&&!p.kfb&&p.game&&GAME_INFO[p.game.g]?p.game:null;
+  let ch=false;if(G&&V.gat!==G.at){V={name:G.g,s:G.s,gat:G.at};ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
+  if(V.name==='beamer'){render();fillMedia()}else if(ch)render()}
 let MINI='small',miniSig='';
 function renderMini(force){
   const el=$('#miniT');if(!el)return;
@@ -1553,6 +1612,7 @@ function renderMini(force){
   el.innerHTML=MINI==='off'?`<button class="mt-pill" data-act="mt" data-m="small">📺 Tafel</button>`
     :`<div class="mt-bar"><b>📺 Tafel</b><button data-act="mt" data-m="${MINI==='big'?'small':'big'}">${MINI==='big'?'Klein':'Groß'}</button><button data-act="mt" data-m="off" aria-label="Tafel ausblenden">✕</button></div>
       <div class="mt-frame" ${MINI==='big'?'':'data-act="mt" data-m="big"'}>${boardHTML(RCS,true)}</div>`;
+  kfAnimate();
 }
 setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='';
@@ -1566,7 +1626,8 @@ function updBanner(){
   el.hidden=false;
   if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">Warte auf die Tafel … · ${esc(className())} · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
   const ph=phaseOf(RCS.phase),inHelp=RCS.help.includes(S.nr),tl=timerLeft(RCS.timer,OFF);
-  el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${ph.name}</b><span class="ph-txt">${esc(ph.txt)}</span><span class="spacer"></span>
+  const G=!RCS.freeze&&RCS.game&&GAME_INFO[RCS.game.g];
+  el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+G.name:ph.name}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
     ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
     <span class="chip">${esc(S.nick||'Nr. '+S.nr)}</span>
     <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
@@ -1581,13 +1642,19 @@ function liveOverlay(){
       <div class="row" style="justify-content:center;margin-top:16px"><a class="btn pri" href="${esc(RCS.share.url)}" target="_blank" rel="noopener" data-act="share-ok">Öffnen</a><button class="btn" data-act="share-ok">Schließen</button></div>`)}
   else if(RCS.kfb&&!RCS.freeze){const K=RCS.kfb,mine=K.ask&&K.ask.nr===S.nr&&!(S.kfbDone||{})[K.ask.id],tm=(K.teams||'')[S.nr-1]==='B'?'B':'A';
     if(mine){sig='ka'+K.ask.id;full=true;
-      html=`<div class="look" style="background:${tm==='A'?'#cf3a2c':'#2f6fd6'};color:#fff;padding:32px 40px;border-radius:32px">${elo('cheer',100)}<h1 style="color:#fff">Du bist dran!</h1><p class="kin" style="color:#fff;font-size:3.4rem">${esc(K.q)} = ?</p>
+      html=`<div class="look" style="background:${tm==='A'?'#2e7d32':'#1f7fb3'};color:#fff;padding:32px 40px;border-radius:32px">${elo('cheer',100)}<h1 style="color:#fff">Du bist dran!</h1><p class="kin" style="color:#fff;font-size:3.4rem">${esc(K.q)} = ?</p>
         <div class="row" style="justify-content:center;margin-top:10px"><input id="kfb-a" type="text" inputmode="decimal" autocomplete="off" style="width:200px;font-size:2rem;text-align:center"><button class="btn" data-act="kfb-send" style="min-height:58px;font-size:1.3rem;background:#fff;color:#18203d;border-color:#fff">Abschicken</button></div></div>`;
       if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}setTimeout(()=>{const i=$('#kfb-a');i&&i.focus()},100)}}
-    else{sig='ki'+K.q+K.pos+K.score+(K.ask?K.ask.nr:'');
-      html=box(`<span class="label">Kopfrechenfußball · Team ${tm==='A'?'Rot':'Blau'}</span><h2 class="kin" style="font-size:3rem;margin-top:8px">${esc(K.q)} = ?</h2>
+    else if(K.phase==='play'){sig='ki'+K.q+K.pos+K.score+K.turn+(K.ask?K.ask.nr:'');
+      const nm=K.names||['Team 1','Team 2'];
+      html=box(`<span class="label">Kopfrechenfußball · ${esc(nm[tm==='A'?0:1])}${K.phase==='play'&&K.turn===(tm==='A'?0:1)?' · ihr seid dran':''}</span><h2 class="kin" style="font-size:3rem;margin-top:8px">${esc(K.q)} = ?</h2>
         <p style="font-weight:700;margin-top:6px">${K.ask?'Jemand ist gerade dran. Rechne im Kopf mit!':'Rechne im Kopf mit. Vielleicht wirst du gleich drangenommen!'}</p>
-        <p style="font-family:var(--f-display);font-size:1.6rem;margin-top:10px"><span style="color:#cf3a2c">Rot ${K.score[0]}</span> : <span style="color:#2f6fd6">${K.score[1]} Blau</span></p>`)}}
+        <p style="font-family:var(--f-display);font-size:1.6rem;margin-top:10px"><span style="color:#2e7d32">${esc(nm[0])} ${K.score[0]}</span> : <span style="color:#1f7fb3">${K.score[1]} ${esc(nm[1])}</span></p>`)}}
+  else if(RCS.game&&!RCS.freeze&&GAME_INFO[RCS.game.g]){const G=RCS.game,I=GAME_INFO[G.g];
+    if(S.gameSeen!==G.at){sig='g'+G.at;full=true;
+      html=`<div class="look">${elo('cheer',110)}<h1>${I.icon} ${esc(I.name)}</h1><p>${esc(I.txt)} Spiel mit auf deinem iPad!</p>
+        <button class="btn pri big" data-act="g-join" style="margin-top:18px">Jetzt spielen</button></div>`;
+      if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}}}}
   else if(RCS.freeze||ph.look){sig='look'+RCS.freeze+RCS.phaseAt;full=true;
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
   else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null;
@@ -1703,7 +1770,7 @@ function goTarget(t){
 }
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
-  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
+  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
   CS.phase={name:p.name,txt:p.txt||p.goal||'',look:p.act==='look'||p.act==='mission',go:p.act==='goto'?p.target:null,sf:p.sf,method:p.method};
   CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;
   const m=+p.min||0;CS.timer=m?{run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000}:{run:false,total:300,left:300,endsAt:0};
@@ -1909,14 +1976,14 @@ function newLessonFrom(subj,min,title){
 }
 const TOOLS={
   slide:{name:'Folie',icon:'🖼️',txt:'Große Folie mit Titel, Text und Bild, Video oder PDF aus der Bibliothek.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
-  kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams. Du nimmst per Sitzplan jemanden dran, die Aufgabe poppt auf dem iPad auf. Richtig = Ball rollt weiter.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
+  kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
   memory:{name:'Memory',icon:'🃏',txt:'Paare finden, groß an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   salad:{name:'Wortsalat',icon:'🔤',txt:'Buchstaben ordnen, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   balloon:{name:'Ballon-Rätsel',icon:'🎈',txt:'Wort erraten, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   mat:{name:'Material zeigen',icon:'📚',txt:'Eine Datei oder ein Video aus deiner Bibliothek groß zeigen.',fit:/begr|einstieg|problem|erarb|sicherung/i},
 };
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';
-  return {slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'1x1'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+  return {slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
 function toolEditor(p,i,L){
@@ -1927,7 +1994,7 @@ function toolEditor(p,i,L){
       <label>Text (freiwillig)<input type="text" data-f="ph.${i}.tool.text" value="${esc(t.text||'')}"></label>
       <label>Bild, Video oder PDF<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
   if(t.id==='mat')cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Material<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):''}</select></label></div>`;
-  if(t.id==='kfb')cfg=`<div class="lgrid" style="margin-top:8px"><label>Aufgaben<select data-f="ph.${i}.tool.level">${Object.entries(KFB_LEVELS).map(([k,v])=>`<option value="${k}" ${k===t.level?'selected':''}>${v}</option>`).join('')}</select></label></div>`;
+  if(t.id==='kfb')cfg=`<div class="lgrid" style="margin-top:8px"><label>Aufgaben<select data-f="ph.${i}.tool.level">${Object.entries(KFB_LEVELS).filter(([k])=>['pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===(KF_LEGACY[t.level]||t.level)?'selected':''}>${v}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Teamnamen und eigene Aufgaben trägst du beim Start des Spiels ein.</p></div>`;
   if(GAME_INFO[t.id])cfg=`<div class="lgrid" style="margin-top:8px"><label>Inhalte aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div>`;
   return `<div class="toolcard" style="margin-top:6px"><span class="ti">${T.icon}</span><div style="flex:1;min-width:0"><b>${T.name}</b><br><small class="muted" style="font-weight:700">${T.txt}</small></div><button class="btn sm" data-act="tool-pool" data-i="${i}">Ändern</button></div>${cfg}`;
 }
@@ -1991,47 +2058,184 @@ function tpCell(d,i,date){
 function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave();cloudPlan(d,i,date,lid);if(dbl)cloudPlan(d,i+1,date,lid)}
 
 /* --- Kopfrechenfußball --- */
-const KFB_LEVELS={'1x1':'Kleines Einmaleins','plus':'Plus bis 100','minus':'Minus bis 100','mix':'Gemischt (· + −)','quad':'Quadratzahlen bis 20','proz':'Einfache Prozente'};
+/* =====================================================================
+   KOPFRECHNEN-FUSSBALL (nach Fabians PowerPoint-Vorlage)
+   Zwei Teams abwechselnd, Lehrkraft bewertet Richtig/Falsch,
+   3 Felder Richtung Tor = Tor. Lösung sieht nur die Lehrkraft.
+   ===================================================================== */
+const KFA='assets/kfb/';
+const KFB_LEVELS={pvs:'Punkt vor Strich (wie Vorlage)',pm:'Plus und Minus bis 100',x:'Einmaleins (· und :)',mix:'Gemischt, schwerer',
+  '1x1':'Kleines Einmaleins','plus':'Plus bis 100','minus':'Minus bis 100','quad':'Quadratzahlen bis 20','proz':'Einfache Prozente'};
+const KFB_EXAMPLES=['45 + 18 − 20','70 − 25 − 15','56 : 7 + 9','8 · 7 − 16','45 − 6 · 5','72 : 8 · 4','63 − 18 − 12','36 : 6 + 7 · 4','80 − 24 : 6','9 · 6 − 24 : 4'];
+// Ballstationen aus Folie 5 (Anteil von Breite/Höhe des Spielfelds), von der Mitte Richtung Tor
+const KF_SPOTS={0:[.5,.665],1:[.597,.193],2:[.666,.765],3:[.837,.577],'-1':[.386,.191],'-2':[.334,.768],'-3':[.151,.565],net1:[.968,.5],'net-1':[.032,.5]};
+function kfNorm(s){return String(s).replace(/[*×]/g,'·').replace(/(\d)\s*[xX]\s*(?=\d)/g,'$1·').replace(/[÷/]/g,':').replace(/[–—-]/g,'−').replace(/=\s*\??\s*$/,'').replace(/\s+/g,'').trim()}
+const kfPretty=s=>kfNorm(s).replace(/([+−·:])/g,' $1 ');
+function kfEval(s){
+  const t=kfNorm(s),tok=t.match(/\d+(?:[.,]\d+)?|[+−·:()]/g);if(!tok||tok.join('')!==t)return null;let i=0;
+  const num=()=>{const x=tok[i++];if(x==='('){const v=expr();if(tok[i++]!==')')throw 0;return v}if(x==null||!/\d/.test(x))throw 0;return parseFloat(x.replace(',','.'))};
+  const term=()=>{let v=num();while(tok[i]==='·'||tok[i]===':'){const o=tok[i++],w=num();if(o===':'&&w===0)throw 0;v=o==='·'?v*w:v/w}return v};
+  const expr=()=>{let v=term();while(tok[i]==='+'||tok[i]==='−'){const o=tok[i++],w=term();v=o==='+'?v+w:v-w}return v};
+  try{const v=expr();return i===tok.length?Math.round(v*1000)/1000:null}catch(e){return null}
+}
+function kfParseList(txt){const ok=[],bad=[];String(txt||'').split(/\n|;/).map(x=>x.trim()).filter(Boolean).forEach(l=>{const a=kfEval(l);a==null?bad.push(l):ok.push({q:kfPretty(l),a})});return {ok,bad}}
 function kfbTask(lv){const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
-  if(lv==='mix')lv=['1x1','plus','minus'][r(0,2)];
   if(lv==='plus'){const a=r(11,89),b=r(5,100-a);return {q:`${a} + ${b}`,a:a+b}}
   if(lv==='minus'){const a=r(20,100),b=r(5,a-1);return {q:`${a} − ${b}`,a:a-b}}
   if(lv==='quad'){const a=r(2,20);return {q:`${a}²`,a:a*a}}
   if(lv==='proz'){const pc=[10,20,25,50][r(0,3)],base=pc===25?r(1,20)*4:pc===20?r(1,20)*5:r(1,20)*10;return {q:`${pc} % von ${base}`,a:base*pc/100}}
-  const a=r(2,10),b=r(2,10);return {q:`${a} · ${b}`,a:a*b}}
+  if(lv==='1x1'){const a=r(2,10),b=r(2,10);return {q:`${a} · ${b}`,a:a*b}}
+  for(let k=0;k<300;k++){let q;const a=r(2,10),b=r(2,10),c=r(2,9);
+    if(lv==='pm')q=[`${r(10,60)} + ${r(5,40)} − ${r(2,30)}`,`${r(40,99)} − ${r(5,30)} − ${r(2,20)}`,`${r(20,70)} − ${r(2,19)} + ${r(5,25)}`][r(0,2)];
+    else if(lv==='x')q=[`${a} · ${b}`,`${a*b} : ${a}`,`${a*b} : ${b} · ${c}`][r(0,2)];
+    else if(lv==='mix')q=[`${a} · ${b} − ${c*r(2,9)} : ${c}`,`${a*c} : ${c} + ${b} · ${r(2,9)}`,`${r(50,100)} − ${a} · ${b} + ${r(2,20)}`,`${a} · ${b} : ${a} + ${r(10,60)}`][r(0,3)];
+    else q=[`${a} · ${b} − ${r(2,30)}`,`${a*b} : ${a} + ${r(2,30)}`,`${r(40,100)} − ${a} · ${b}`,`${a*b} : ${b} · ${c}`,`${r(20,90)} − ${a*b} : ${a}`,`${a*b} : ${a} + ${c} · ${r(2,9)}`,`${r(20,60)} + ${r(5,30)} − ${r(2,25)}`][r(0,6)];
+    const v=kfEval(q);if(v!=null&&v>=0&&v<=100&&Number.isInteger(v))return {q:kfPretty(q),a:v}}
+  return {q:'8 · 7',a:56}}
 let KF=null;
 const teamOf=k=>(TD.teams&&TD.teams[k])||(k<=Math.ceil(S.classSize/2)?'A':'B');
-function kfbStart(level,quiet){KF={level:level||'1x1',pos:0,score:[0,0],task:kfbTask(level||'1x1'),ask:null,last:null,show:false,teamEdit:false};if(!quiet)kfbPush()}
+const kfTeamIdx=k=>teamOf(k)==='A'?0:1;
+function kfCfg(){TD.kfb=TD.kfb||{names:['Team 1','Team 2'],mode:'rand',level:'pvs',list:''};return TD.kfb}
+const KF_LEGACY={'1x1':'x','plus':'pm','minus':'pm','quad':'x','proz':'pvs'};
+function kfbStart(level,quiet){const c=kfCfg();level=KF_LEGACY[level]||level;if(level&&KFB_LEVELS[level])c.level=level;
+  KF={phase:'setup',names:c.names.slice(),mode:c.mode,level:c.level,list:[],idx:0,task:null,pos:0,net:false,score:[0,0],turn:0,goal:null,last:null,ask:null,teamEdit:false,busy:false};
+  if(!quiet)kfbPush()}
 function kfbStop(quiet){KF=null;if(CS){CS.kfb=null;if(!quiet)pushCS()}}
-function kfbSync(){if(!CS)return;CS.kfb=KF?{q:KF.task.q,pos:KF.pos,score:KF.score.slice(),ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id,name:nickOf(KF.ask.nr)||'Nr. '+KF.ask.nr}:null,sol:KF.show?KF.task.a:null,goal:KF.goal||null,last:KF.last?{ok:KF.last.ok,txt:KF.last.txt}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join('')}:null}
+function kfbSync(){if(!CS)return;CS.kfb=KF?{phase:KF.phase,names:KF.names,q:KF.task?KF.task.q:'',pos:KF.pos,net:KF.net,score:KF.score.slice(),turn:KF.turn,goal:KF.goal,last:KF.last?{ok:KF.last.ok,team:KF.last.team}:null,
+  ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id,name:nickOf(KF.ask.nr)||'Nr. '+KF.ask.nr}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join(''),at:KF.at||0}:null}
 function kfbPush(){kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}
-function kfbMove(team){
-  KF.pos+=team==='A'?1:-1;
-  if(Math.abs(KF.pos)>=4){KF.score[team==='A'?0:1]++;KF.pos=0;KF.goal=team;SND.cheer();setTimeout(()=>{if(KF){KF.goal=null;kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}},2500)}else SND.right();
+function kfbNext(){if(KF.mode==='list'&&KF.list.length){KF.task=KF.list[KF.idx%KF.list.length];KF.idx++}else KF.task=kfbTask(KF.level);KF.ask=null;KF.peek=false}
+function kfKickoff(){
+  const c=kfCfg(),n0=($('#kf-n0')||{}).value,n1=($('#kf-n1')||{}).value;
+  c.names=[(n0||'').trim().slice(0,24)||'Team 1',(n1||'').trim().slice(0,24)||'Team 2'];
+  if(c.mode==='list'){const t=$('#kf-list');if(t)c.list=t.value;const P=kfParseList(c.list);if(!P.ok.length){const e=$('#kf-err');if(e)e.textContent='Keine gültige Aufgabe gefunden. Eine Aufgabe pro Zeile, z. B. 45 + 18 − 20.';return}KF.list=P.ok}
+  const lv=$('#kf-lv');if(lv)c.level=lv.value;tsave();
+  Object.assign(KF,{names:c.names.slice(),mode:c.mode,level:c.level,idx:0,pos:0,net:false,score:[0,0],turn:0,goal:null,last:null,ask:null,phase:'intro',at:Date.now(),busy:true});
+  kfbNext();kfbPush();KS.intro();
+  setTimeout(()=>{if(KF&&KF.phase==='intro'){KF.phase='play';KF.busy=false;kfbPush()}},4200);
 }
-function kfbNext(){KF.task=kfbTask(KF.level);KF.ask=null;KF.show=false}
+function kfJudge(ok){
+  if(!KF||KF.phase!=='play'||KF.busy)return;const team=KF.turn,dir=team===0?1:-1;
+  KF.last={ok,team};KF.peek=false;
+  if(ok){KF.pos+=dir;KS.kick();setTimeout(()=>KS.roll(),120);
+    if(Math.abs(KF.pos)>=3){KF.busy=true;KF.ask=null;kfbPush();
+      setTimeout(()=>{if(!KF)return;KF.net=true;KF.goal=team;KF.score[team]++;KS.goal();kfbPush()},1000);
+      setTimeout(()=>{if(!KF)return;KF.net=false;KF.goal=null;KF.pos=0;KF.turn=1-team;KF.busy=false;KF.last=null;kfbNext();kfbPush()},5600);
+      return}
+  }else{KS.whistle(.35);setTimeout(()=>KS.ohh(),250)}
+  KF.turn=1-team;kfbNext();kfbPush();
+}
 function kfbAnswer(nr,m){
-  if(!KF||!KF.ask||m.id!==KF.ask.id||nr!==KF.ask.nr)return;
-  const val=parseFloat(String(m.a||'').replace(',','.').trim()),ok=Math.abs(val-KF.task.a)<1e-9,nm=esc(nickOf(nr)||'Nr. '+nr);
-  if(ok){kfbMove(teamOf(nr));KF.last={ok:true,txt:`${nm}: ${KF.task.q} = ${KF.task.a} ✓ Der Ball rollt für Team ${teamOf(nr)==='A'?'Rot':'Blau'}!`}}
-  else{SND.oops();KF.last={ok:false,txt:`${nm}: ${esc(String(m.a||'–'))}. Richtig wäre ${KF.task.a}. Nächste Chance!`}}
-  kfbNext();kfbPush();
+  if(!KF||!KF.ask||m.id!==KF.ask.id||nr!==KF.ask.nr||KF.phase!=='play')return;
+  const val=parseFloat(String(m.a||'').replace(',','.').trim());kfJudge(Math.abs(val-KF.task.a)<1e-9);
+}
+function kfEnd(){if(!KF)return;KF.phase='end';KF.busy=false;KF.ask=null;KS.final();kfbPush()}
+const kfTally=n=>{let h='';for(let i=0;i<Math.floor(n/5);i++)h+='<span class="t5"><i></i><i></i><i></i><i></i></span>';for(let i=0;i<n%5;i++)h+='<i></i>';return `<span class="kf-tally">${h}</span>`};
+// Spielfeld für Lehrkraft, Tafel-Fenster und Mini-Tafel (K = synchronisierter Spielstand)
+function kfScoreHTML(K){
+  return `<div class="kf-score">${[0,1].map(t=>`<div class="kf-st t${t} ${K.turn===t&&K.phase==='play'?'on':''}"><b class="nm">${esc(K.names[t])}</b><span class="pt">${K.score[t]}</span>${kfTally(K.score[t])}</div>`).join(`<div class="kf-turn">${K.phase==='play'?`<span>am Ball</span><b>${t0arrow(K)}</b>`:K.phase==='intro'?'<b>Anpfiff!</b>':''}</div>`)}</div>`;
+}
+const t0arrow=K=>K.turn===0?`◀ ${esc(K.names[0])}`:`${esc(K.names[1])} ▶`;
+function kfFieldHTML(K){
+  const spot=K.net?KF_SPOTS['net'+(K.pos>0?1:-1)]:(KF_SPOTS[K.pos]||KF_SPOTS[0]);
+  return `<div class="kf-field ${K.phase==='intro'?'intro':''}">
+    ${[1,2,3,-1,-2,-3].map(k=>`<i class="kf-dot" style="left:${KF_SPOTS[k][0]*100}%;top:${KF_SPOTS[k][1]*100}%"></i>`).join('')}
+    <span class="kf-side l t0 ${K.turn===0&&K.phase==='play'?'on':''}">${esc(K.names[0])}${K.turn===0&&K.phase==='play'?' <small>ist dran</small>':''}</span>
+    <span class="kf-side r t1 ${K.turn===1&&K.phase==='play'?'on':''}">${K.turn===1&&K.phase==='play'?'<small>ist dran</small> ':''}${esc(K.names[1])}</span>
+    <div class="kf-card"><div class="kf-q">${esc(K.q||'')} =</div></div>
+    <span class="kf-ball" data-x="${spot[0]}" data-y="${spot[1]}" data-k="${K.net?'net':K.pos}" style="left:${spot[0]*100}%;top:${spot[1]*100}%"><img src="${KFA}ball.webp" alt="Ball"></span>
+    ${K.phase==='intro'?'<div class="kf-intro"><b>Anpfiff!</b></div>':''}
+    ${K.goal!=null?`<div class="kf-goal t${K.goal}"><b>TOOOR!</b><span>${esc(K.names[K.goal])}</span>${kfConf(24)}</div>`:''}
+  </div>`;
+}
+function kfEndHTML(K){const w=K.score[0]===K.score[1]?-1:K.score[0]>K.score[1]?0:1;
+  return `<div class="kf-end"><img src="${KFA}logo.webp" alt="Kopfrechnen Fußball" class="kf-elogo"><span class="lb">Abpfiff · Endstand</span>
+    <div class="kf-final"><div class="t0"><b>${esc(K.names[0])}</b><span>${K.score[0]}</span>${kfTally(K.score[0])}</div><em>:</em><div class="t1"><b>${esc(K.names[1])}</b><span>${K.score[1]}</span>${kfTally(K.score[1])}</div></div>
+    <h2>${w<0?'Unentschieden! Starkes Spiel von beiden Teams.':`🏆 ${esc(K.names[w])} gewinnt!`}</h2>${w>=0?'<div class="kf-conf">'+kfConf(30)+'</div>':''}</div>`}
+function kfViewHTML(K,teacher){
+  if(K.phase==='setup')return `<div class="kf kf-wait"><img src="${KFA}logo.webp" alt="Kopfrechnen Fußball"><p>Gleich geht's los …</p></div>`;
+  if(K.phase==='end')return `<div class="kf">${kfEndHTML(K)}</div>`;
+  return `<div class="kf">${kfScoreHTML(K)}${kfFieldHTML(K)}</div>`;
+}
+// Ball-Animation: das neue Spielfeld startet an der alten Ballposition und rollt zur neuen
+const kfConf=n=>Array.from({length:n},(_,j)=>`<i style="left:${(j*37)%100}%;animation-delay:${(j%9)*.28}s;animation-duration:${2.2+(j%5)*.35}s"></i>`).join('');
+let kfBallAt=null;
+function kfAnimate(){
+  document.querySelectorAll('.kf-ball').forEach(b=>{
+    const x=+b.dataset.x,y=+b.dataset.y,k=b.dataset.k,prev=kfBallAt;kfBallAt={x,y,k};
+    if(!prev||prev.k===k||prev.k==='net')return;
+    b.style.transition='none';b.style.left=prev.x*100+'%';b.style.top=prev.y*100+'%';void b.offsetWidth;
+    b.style.transition='';b.style.left=x*100+'%';b.style.top=y*100+'%';b.classList.add('roll');
+  });
 }
 function renderKfb(){
-  if(!KF)kfbStart('1x1',true),kfbSync();
-  const on=CS?online():[],ask=KF.ask,cells=Array.from({length:7},(_,j)=>j-3);
-  return `<div class="kfb">
-    <div class="kfb-top"><div class="team a"><span>Team Rot</span><big>${KF.score[0]}</big></div><div class="kq">${esc(KF.task.q)} = ${KF.show?KF.task.a:'?'}</div><div class="team b"><big>${KF.score[1]}</big><span>Team Blau</span></div></div>
-    <div class="pitch"><div class="g l">🥅</div>${cells.map(c=>`<div class="c">${c===KF.pos?'<span class="ball">⚽</span>':''}</div>`).join('')}<div class="g r">🥅</div></div>
-    <div class="kfb-msg ${KF.goal?'ok':ask?'':KF.last?(KF.last.ok?'ok':'no'):''}">${KF.goal?`TOOOR für Team ${KF.goal==='A'?'Rot':'Blau'}! 🎉`:ask?`${esc(nickOf(ask.nr)||'Nr. '+ask.nr)} ist dran … die Aufgabe ist auf dem iPad.`:KF.last?KF.last.txt:'Tippe unten auf einen Platz, um jemanden dranzunehmen.'}</div>
-    <div class="kfb-ctrl"><button class="btn ta" data-act="kfb-team" data-t="A">Team Rot richtig</button><button class="btn" data-act="kfb-show">${KF.show?'Lösung verstecken':'Lösung zeigen'}</button><button class="btn" data-act="kfb-new">Neue Aufgabe</button><button class="btn tb" data-act="kfb-team" data-t="B">Team Blau richtig</button></div>
-    <details class="panel" open><summary style="font-weight:800;cursor:pointer">Sitzplan · ${on.length} online · ${KF.teamEdit?'Teams einteilen: Tippe zum Wechseln':'Tippe, um jemanden dranzunehmen'}</summary>
-      <div class="kseats" style="margin-top:10px">${Array.from({length:S.classSize},(_,i)=>{const k=i+1;return `<button class="kseat ${teamOf(k)} ${on.includes(k)?'on':''} ${ask&&ask.nr===k?'ask':''}" data-act="kfb-seat" data-n="${k}">${k}${nickOf(k)?`<small>${esc(nickOf(k))}</small>`:''}</button>`}).join('')}</div>
-      <div class="row" style="margin-top:10px"><button class="btn sm ${KF.teamEdit?'on':''}" data-act="kfb-teams">${KF.teamEdit?'Teams fertig':'Teams einteilen'}</button>
-        <select id="kfb-lv" style="width:auto">${Object.entries(KFB_LEVELS).map(([k,v])=>`<option value="${k}" ${k===KF.level?'selected':''}>${v}</option>`).join('')}</select>
-        <button class="btn sm" data-act="kfb-reset">Spielstand auf 0</button>${ask?'<button class="btn sm" data-act="kfb-cancel">Drannehmen abbrechen</button>':''}</div></details></div>`;
+  if(!KF)kfbStart('',true),kfbSync();
+  const c=kfCfg();
+  if(KF.phase==='setup'){const P=kfParseList(c.list);
+    return `<div class="kf kf-setup"><img class="kf-logo" src="${KFA}logo.webp" alt="Kopfrechnen Fußball">
+      <div class="kf-teams"><label><span>Team 1 · links</span><input id="kf-n0" type="text" maxlength="24" value="${esc(c.names[0])}"></label><b class="vs">VS</b><label><span>Team 2 · rechts</span><input id="kf-n1" type="text" maxlength="24" value="${esc(c.names[1])}"></label></div>
+      <div class="kf-opts"><div class="kf-seg"><button class="${c.mode!=='list'?'on':''}" data-act="kf-mode" data-m="rand">Zufallsaufgaben</button><button class="${c.mode==='list'?'on':''}" data-act="kf-mode" data-m="list">Eigene Aufgaben</button></div>
+        ${c.mode==='list'?`<textarea id="kf-list" rows="6" placeholder="Eine Aufgabe pro Zeile, z. B. 45 + 18 − 20">${esc(c.list||'')}</textarea>
+          <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="kf-ex">Beispiele aus der Vorlage einfügen</button><span class="muted" id="kf-chk" style="font-weight:700">${P.ok.length} Aufgaben erkannt${P.bad.length?` · ${P.bad.length} nicht lesbar`:''}</span></div>
+          <p class="muted" style="font-size:.9rem;font-weight:700">Mal: · oder * · Geteilt: : · Punkt vor Strich wird beachtet. Die Lösungen rechnet ELIO aus.</p>`
+        :`<label class="label" for="kf-lv">Schwierigkeit</label><select id="kf-lv">${Object.entries(KFB_LEVELS).filter(([k])=>['pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===c.level?'selected':''}>${v}</option>`).join('')}</select>`}
+        <p class="err" id="kf-err"></p></div>
+      <button class="kf-go" data-act="kf-kickoff">⚽ Anpfiff</button>
+      ${kfSoundBtn()}</div>`}
+  if(KF.phase==='end')return `<div class="kf">${kfEndHTML(KF)}<div class="kf-ctrl"><button class="kf-b ok" data-act="kf-again">Revanche (gleiche Teams)</button><button class="kf-b" data-act="kf-new">Neues Spiel</button>${kfSoundBtn()}</div></div>`;
+  const on=CS?online():[],ask=KF.ask,dis=KF.busy||KF.phase!=='play'?'disabled':'';
+  return `<div class="kf">${kfScoreHTML(KF)}${kfFieldHTML(KF)}
+    <div class="kf-ctrl"><button class="kf-b ok" data-act="kf-ok" ${dis}>✓ Richtig</button><button class="kf-b no" data-act="kf-no" ${dis}>✗ Falsch</button>
+      <button class="kf-b peek" data-peek="1" ${dis} title="Gedrückt halten">👁 Lösung <span class="sol">${KF.task?esc(String(KF.task.a).replace('.',',')):''}</span></button>
+      <button class="kf-b sm" data-act="kf-skip" ${dis}>↻ Andere Aufgabe</button>${kfSoundBtn()}<button class="kf-b end" data-act="kf-end">Abpfiff</button></div>
+    <details class="panel kf-seats"><summary style="font-weight:800;cursor:pointer">iPads: Sitzplan · ${on.length} online · ${KF.teamEdit?'Teams einteilen: Tippe zum Wechseln':`Tippe auf jemanden aus ${esc(KF.names[KF.turn])}, die Aufgabe erscheint auf dem iPad`}</summary>
+      <div class="kseats" style="margin-top:10px">${Array.from({length:S.classSize},(_,i)=>{const k=i+1,t=kfTeamIdx(k);return `<button class="kseat kt${t} ${on.includes(k)?'on':''} ${ask&&ask.nr===k?'ask':''}" data-act="kfb-seat" data-n="${k}" ${!KF.teamEdit&&(t!==KF.turn||KF.busy)?'disabled':''}>${k}${nickOf(k)?`<small>${esc(nickOf(k))}</small>`:''}</button>`}).join('')}</div>
+      <div class="row" style="margin-top:10px"><button class="btn sm ${KF.teamEdit?'on':''}" data-act="kfb-teams">${KF.teamEdit?'Teams fertig':'Teams für die iPads einteilen'}</button>${ask?'<button class="btn sm" data-act="kfb-cancel">Drannehmen abbrechen</button>':''}
+        <span class="muted" style="font-weight:700">${ask?esc(nickOf(ask.nr)||'Nr. '+ask.nr)+' antwortet gerade am iPad …':''}</span></div></details></div>`;
 }
-VIEWS.kfb=()=>`<div class="st-head"><button class="btn sm" data-act="tafel">← Tafel</button><h1 style="font-size:1.6rem">⚽ Kopfrechenfußball</h1></div>${renderKfb()}`;
+const kfSoundBtn=()=>`<span class="kf-snd"><button class="kf-b sm" data-act="kf-mute" aria-label="${KS.muted?'Ton an':'Ton aus'}">${KS.muted?'🔇':'🔊'}</button><input id="kf-vol" type="range" min="0" max="1" step="0.05" value="${KS.vol}" aria-label="Lautstärke"></span>`;
+VIEWS.kfb=()=>`<div class="st-head"><button class="btn sm" data-act="tafel">← Tafel</button><h1 style="font-size:1.6rem">⚽ Kopfrechenfußball</h1><button class="btn sm" data-act="board-open">📺 Tafel-Fenster</button></div>${renderKfb()}`;
+// Lösung nur solange gedrückt
+['pointerdown','pointerup','pointerleave','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{const b=e.target.closest&&e.target.closest('[data-peek]');if(!b)return;b.classList.toggle('show',ev==='pointerdown'&&!b.disabled)}));
+document.addEventListener('input',e=>{
+  if(e.target.id==='kf-vol'){KS.vol=+e.target.value;KS.muted=false;KS.save();KS.apply()}
+  if(e.target.id==='kf-list'){const c=kfCfg();c.list=e.target.value;tsave();const P=kfParseList(c.list),el=$('#kf-chk');if(el)el.textContent=`${P.ok.length} Aufgaben erkannt${P.bad.length?` · ${P.bad.length} nicht lesbar: ${P.bad.slice(0,3).join(', ')}`:''}`}
+  if(e.target.id==='kf-n0'||e.target.id==='kf-n1'){const c=kfCfg();c.names[+e.target.id.slice(-1)]=e.target.value.slice(0,24);tsave()}
+});
+document.addEventListener('change',e=>{if(e.target.id==='kf-lv'){kfCfg().level=e.target.value;tsave()}});
+document.addEventListener('keydown',e=>{if(!KF||KF.phase!=='play'||!['kfb','present'].includes(V.name)||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))return;
+  if(e.key==='r'||e.key==='R')kfJudge(true);if(e.key==='f'||e.key==='F')kfJudge(false)});
+
+/* --- Geräusche (Web Audio; Tor = Fabians Sound-Datei) --- */
+const KS={ctx:null,master:null,vol:0.8,muted:false,goalEl:null,
+  load(){try{const v=localStorage.getItem('elio-kfb-vol');if(v!=null)this.vol=+v;this.muted=localStorage.getItem('elio-kfb-mute')==='1'}catch(e){}},
+  save(){try{localStorage.setItem('elio-kfb-vol',this.vol);localStorage.setItem('elio-kfb-mute',this.muted?'1':'0')}catch(e){}},
+  apply(){if(this.master)this.master.gain.value=this.muted?0:this.vol;if(this.goalEl)this.goalEl.volume=this.muted?0:this.vol},
+  ac(){if(BOARD)return null;if(!this.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;this.ctx=new C();this.master=this.ctx.createGain();this.master.connect(this.ctx.destination);this.apply()}
+    if(this.ctx.state==='suspended')this.ctx.resume();return this.ctx},
+  noise(c,sec){const b=c.createBuffer(1,Math.max(1,Math.floor(c.sampleRate*sec)),c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=c.createBufferSource();s.buffer=b;return s},
+  env(c,g,t,a,hold,rel,peak){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.setValueAtTime(peak,t+a+hold);g.gain.exponentialRampToValueAtTime(0.0001,t+a+hold+rel)},
+  // Stadion: mehrere Rausch-Bänder mit unruhiger Lautstärke = Menge
+  crowd(sec,peak=.35,delay=0){const c=this.ac();if(!c)return;const t=c.currentTime+delay;
+    [[350,.8],[900,.7],[1800,.9],[3200,1.4]].forEach(([f,q],j)=>{const s=this.noise(c,sec),bp=c.createBiquadFilter(),g=c.createGain(),lfo=c.createOscillator(),lg=c.createGain();
+      bp.type='bandpass';bp.frequency.value=f;bp.Q.value=q;const p=peak*[1,.9,.6,.3][j];this.env(c,g,t,sec*.3,sec*.35,sec*.35,p);
+      lfo.frequency.value=2+Math.random()*5;lg.gain.value=p*.35;lfo.connect(lg);lg.connect(g.gain);s.connect(bp);bp.connect(g);g.connect(this.master);s.start(t);lfo.start(t);s.stop(t+sec);lfo.stop(t+sec)})},
+  whistle(dur=.4,delay=0,vol=.22){const c=this.ac();if(!c)return;const t=c.currentTime+delay,g=c.createGain(),bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=3000;bp.Q.value=4;
+    const trem=c.createOscillator(),tg=c.createGain();trem.frequency.value=28;tg.gain.value=vol*.5;trem.connect(tg);tg.connect(g.gain);
+    [2950,3080].forEach(f=>{const o=c.createOscillator();o.type='square';o.frequency.value=f;o.connect(bp);o.start(t);o.stop(t+dur+.05)});
+    bp.connect(g);g.connect(this.master);this.env(c,g,t,.02,dur-.06,.04,vol);trem.start(t);trem.stop(t+dur+.05)},
+  kick(){const c=this.ac();if(!c)return;const t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(45,t+.16);
+    g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);o.connect(g);g.connect(this.master);o.start(t);o.stop(t+.25);
+    const n=this.noise(c,.03),hp=c.createBiquadFilter(),ng=c.createGain();hp.type='highpass';hp.frequency.value=1500;ng.gain.value=.4;n.connect(hp);hp.connect(ng);ng.connect(this.master);n.start(t)},
+  roll(){const c=this.ac();if(!c)return;const t=c.currentTime,n=this.noise(c,.8),lp=c.createBiquadFilter(),g=c.createGain();lp.type='lowpass';lp.frequency.value=380;this.env(c,g,t,.05,.35,.4,.35);n.connect(lp);lp.connect(g);g.connect(this.master);n.start(t)},
+  ohh(){const c=this.ac();if(!c)return;const t=c.currentTime;
+    [[800,320,5],[2300,1000,6]].forEach(([f0,f1,q],j)=>{const n=this.noise(c,1.6),bp=c.createBiquadFilter(),g=c.createGain();bp.type='bandpass';bp.Q.value=q;bp.frequency.setValueAtTime(f0,t);bp.frequency.exponentialRampToValueAtTime(f1,t+1.4);
+      this.env(c,g,t,.25,.6,.7,j?.25:.6);n.connect(bp);bp.connect(g);g.connect(this.master);n.start(t)})},
+  goal(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio(KFA+'goal.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}this.crowd(5,.4,.2)},
+  intro(){this.crowd(4.4,.38);this.whistle(.25,3.0);this.whistle(1,3.35)},
+  final(){this.whistle(.28,0);this.whistle(.28,.45);this.whistle(1.3,.9);this.crowd(3.5,.3,.8)},
+};
+KS.load();
 
 /* --- Präsentation (Live an der Tafel) --- */
 function toolStage(p,L){
@@ -2071,7 +2275,6 @@ document.addEventListener('keydown',e=>{
   if(['ArrowRight','PageDown',' '].includes(e.key)&&CS.step<L.phases.length-1){e.preventDefault();startStep(CS.step+1)}
   if(['ArrowLeft','PageUp'].includes(e.key)&&CS.step>0){e.preventDefault();startStep(CS.step-1)}
 });
-document.addEventListener('change',e=>{if(e.target.id==='kfb-lv'&&KF){KF.level=e.target.value;kfbNext();kfbPush()}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='kfb-a'){e.preventDefault();const b=document.querySelector('[data-act=kfb-send]');b&&b.click()}});
 setInterval(()=>{const t=$('#ptimer');if(t&&CS)t.textContent=fmt(timerLeft(CS.timer))},1000);
 
@@ -2456,7 +2659,7 @@ document.addEventListener('click',e=>{
     case 'l-del-yes':cloudDelLesson(d.id);S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
     case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
     case 'l-go':startStep(+d.i);break;
-    case 'l-stop':if(KF)kfbStop(true);CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'l-stop':if(KF)kfbStop(true);CS.game=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
     case 'ph-del':{const L=lessonById(V.id);L.phases.splice(+d.i,1);save();render();break}
     case 'ph-up':case 'ph-down':{const L=lessonById(V.id),i=+d.i,j=a==='ph-up'?i-1:i+1;if(j<0||j>=L.phases.length)break;[L.phases[i],L.phases[j]]=[L.phases[j],L.phases[i]];save();render();break}
@@ -2548,18 +2751,25 @@ document.addEventListener('click',e=>{
     case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id];p.tool=d.t?toolDefaults(d.t,p,L):null;
       if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render()}break}
     case 'present':go('present');break;
-    case 'pgame':go(d.g,{s:d.s,back:'present'});break;
-    case 'tkfb':if(!CS)initTeacher();kfbStart('1x1');go('kfb');break;
-    case 'kfb-seat':{const k=+d.n;if(!KF)break;if(KF.teamEdit){TD.teams=TD.teams||{};TD.teams[k]=teamOf(k)==='A'?'B':'A';tsave();kfbPush()}else{KF.ask={nr:k,id:'k'+Date.now()};KF.last=null;SND.swap();kfbPush()}break}
+    case 'pgame':gameLive(d.g,d.s);go(d.g,{s:d.s,back:'present'});break;
+    case 't-game-end':gameLive(null);render();break;
+    case 'tkfb':if(!CS)initTeacher();kfbStart('');go('kfb');break;
+    case 'kfb-seat':{const k=+d.n;if(!KF)break;if(KF.teamEdit){TD.teams=TD.teams||{};TD.teams[k]=teamOf(k)==='A'?'B':'A';tsave();kfbPush()}else if(KF.phase==='play'&&!KF.busy){KF.ask={nr:k,id:'k'+Date.now()};SND.swap();kfbPush()}break}
     case 'kfb-teams':if(KF){KF.teamEdit=!KF.teamEdit;render()}break;
-    case 'kfb-team':if(KF){kfbMove(d.t);KF.last={ok:true,txt:`Richtig! Ball rollt für Team ${d.t==='A'?'Rot':'Blau'}.`};kfbNext();kfbPush()}break;
-    case 'kfb-show':if(KF){KF.show=!KF.show;render()}break;
-    case 'kfb-new':if(KF){kfbNext();KF.last=null;kfbPush()}break;
     case 'kfb-cancel':if(KF){KF.ask=null;kfbPush()}break;
-    case 'kfb-reset':if(KF){KF.score=[0,0];KF.pos=0;KF.last=null;kfbPush()}break;
+    case 'kf-mode':{const c=kfCfg(),n0=$('#kf-n0'),n1=$('#kf-n1');if(n0)c.names=[n0.value,n1.value];c.mode=d.m;tsave();render();break}
+    case 'kf-ex':{const t=$('#kf-list');const c=kfCfg();c.list=(t&&t.value.trim()?t.value.trim()+'\n':'')+KFB_EXAMPLES.join('\n');tsave();render();break}
+    case 'kf-kickoff':kfKickoff();break;
+    case 'kf-ok':kfJudge(true);break;
+    case 'kf-no':kfJudge(false);break;
+    case 'kf-skip':if(KF&&!KF.busy){kfbNext();kfbPush()}break;
+    case 'kf-end':kfEnd();break;
+    case 'kf-again':if(KF){Object.assign(KF,{phase:'setup'});render();setTimeout(kfKickoff,0)}break;
+    case 'kf-new':if(KF){KF.phase='setup';kfbPush()}break;
+    case 'kf-mute':KS.muted=!KS.muted;KS.save();KS.apply();render();break;
     case 'kfb-send':{const K=RCS&&RCS.kfb;if(!K||!K.ask)break;const a=($('#kfb-a').value||'').trim();if(!a)break;S.kfbDone=S.kfbDone||{};S.kfbDone[K.ask.id]=1;save();sendMsg({k:'kfb',id:K.ask.id,a:a.slice(0,12)});lastOvSig='';liveOverlay();break}
 
-    case 'tgame':go(d.g,{s:$('#tg-s').value});break;
+    case 'tgame':gameLive(d.g,$('#tg-s').value);go(d.g,{s:$('#tg-s').value});break;
     case 'preview':go('dash');break;
     case 'library':go('library');break;
     case 'lib-f':V.f=d.f;render();break;
@@ -2586,7 +2796,7 @@ document.addEventListener('click',e=>{
     case 'oq-cat':OQ.cat=d.c;document.querySelectorAll('#oq-cats button').forEach(x=>x.classList.toggle('on',x.dataset.c===d.c));break;
     case 'oq-save':if(addObs(OQ.n,OQ.cat,curSubj(),$('#oq-txt').value)){$('#ov').hidden=true;if(V.name==='tafel')updTafel()}else $('#oq-err').textContent='Bitte etwas eintragen.';break;
 
-    case 't-ph':CS.phase=d.p;CS.phaseAt=Date.now();CS.freeze=false;pushCS();render();break;
+    case 't-ph':CS.game=null;CS.phase=d.p;CS.phaseAt=Date.now();CS.freeze=false;pushCS();render();break;
     case 'tt-set':CS.timer={run:false,total:+d.m*60,left:+d.m*60,endsAt:0};pushCS();render();break;
     case 'tt-go':if(CS.timer.run){CS.timer.left=timerLeft(CS.timer);CS.timer.run=false}else{if(CS.timer.left<=0)CS.timer.left=CS.timer.total;CS.timer.endsAt=Date.now()+CS.timer.left*1000;CS.timer.run=true}pushCS();render();break;
     case 'tt-reset':CS.timer={run:false,total:CS.timer.total,left:CS.timer.total,endsAt:0};pushCS();render();break;
@@ -2603,6 +2813,7 @@ document.addEventListener('click',e=>{
     case 'help':if(RCS)sendMsg({k:'help',on:!RCS.help.includes(S.nr)});break;
     case 'ready':if(RCS&&RCS.ready){S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id});SND.right();liveOverlay()}break;
     case 'vote':if(RCS&&RCS.poll){S.voted[RCS.poll.id]=1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
+    case 'g-join':if(RCS&&RCS.game){S.gameSeen=RCS.game.at;save();lastOvSig='';$('#live-ov').hidden=true;go(RCS.game.g,{s:RCS.game.s})}break;
     case 'phase-go':{const ph=phaseOf(RCS.phase);S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';$('#live-ov').hidden=true;
       goTarget(ph.go);
       liveOverlay();break}
@@ -2694,7 +2905,7 @@ function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSi
 
 $('#star-ico').innerHTML=STAR;
 if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};Live.start(S.code);libLoad();
-  document.addEventListener('dblclick',()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}});
+  document.addEventListener('dblclick',e=>{if(e.target.closest('button'))return;try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}});
   setTimeout(()=>{const h=document.createElement('div');h.className='bw-hint';h.textContent='Fenster auf den Beamer ziehen · Doppelklick = Vollbild';document.body.appendChild(h);setTimeout(()=>{h.style.opacity=0;setTimeout(()=>h.remove(),700)},6000)},300)}
 else if(!S.role)V={name:'role'};
 else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
