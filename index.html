@@ -1,4 +1,4 @@
-<title>ELON</title>
+<title>ELIO</title>
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,7 @@ button{font:inherit;color:inherit}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1;letter-spacing:.02em}
-.logo .on{display:inline-flex;align-items:center;gap:4px;background:var(--green);color:var(--on-accent);border-radius:999px;padding:2px 10px 0 4px}
+.logo .on{display:inline-flex;align-items:center;gap:5px;background:var(--green);color:var(--on-accent);border-radius:999px;padding:2px 4px 0 11px}
 .logo .on i{width:18px;height:18px;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-2px}
 .nav{display:flex;gap:6px;flex-wrap:wrap}
 .nav button{border:0;background:none;padding:8px 12px;border-radius:12px;font-weight:800;cursor:pointer;color:var(--muted);min-height:42px}
@@ -290,7 +290,7 @@ textarea,input[type=text],input[type=number],input[type=time],input[type=passwor
 /* Start screen */
 .splash{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:18px;text-align:center}
 .biglogo{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:800;font-size:clamp(4rem,14vw,8rem);line-height:1;letter-spacing:.02em}
-.biglogo .on{display:inline-flex;align-items:center;gap:.12em;background:var(--green);color:var(--on-accent);border-radius:999px;padding:.06em .3em 0 .1em}
+.biglogo .on{display:inline-flex;align-items:center;gap:.14em;background:var(--green);color:var(--on-accent);border-radius:999px;padding:.06em .1em 0 .32em}
 .biglogo .on i{width:.62em;height:.62em;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-.08em}
 .tagline{font-size:1.2rem;font-weight:800;color:var(--muted);letter-spacing:.04em}
 .btn.big{min-height:64px;padding:12px 40px;font-size:1.3rem;border-radius:18px}
@@ -424,7 +424,7 @@ button.slot{border-style:solid;border-color:var(--sc);background:var(--surface);
 </style>
 
 <header class="top"><div class="top-in">
-  <button class="logo" data-act="dash" aria-label="ELON Dashboard">EL<span class="on"><i></i>ON</span></button>
+  <button class="logo" data-act="dash" aria-label="ELIO Dashboard">EL<span class="on">I<i></i></span></button>
   <nav class="nav" id="nav">
     <button data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
     <button data-act="lessons" data-nav="lessons" id="nav-lessons" hidden>Stunden</button>
@@ -449,7 +449,7 @@ button.slot{border-style:solid;border-color:var(--sc);background:var(--surface);
    ex:true = Beispielinhalt, wird durch echte Einträge ersetzt.
    ===================================================================== */
 const SUBJECTS={
-  E:{name:'Englisch',short:'E',prep:['Englisch-Heft','iPad mit ELON offen','Federmäppchen']},
+  E:{name:'Englisch',short:'E',prep:['Englisch-Heft','iPad mit ELIO offen','Federmäppchen']},
   M:{name:'Mathematik',short:'M',prep:['Mathe-Heft','Geodreieck','Taschenrechner']},
   K:{name:'Kunst',short:'Ku',prep:['Zeichenblock','Bleistift und Radiergummi','Farbkasten und Pinsel']},
   D:{name:'Deutsch',short:'D',prep:['Deutsch-Heft','Lesebuch']},
@@ -569,7 +569,7 @@ const CORNERS=[
 ];
 const RITUALS=[
   {tag:'Stundenbeginn',t:"Elo's Mission Call",d:'Ein Lotse drückt „Mission vorlesen“. Elo liest das Stundenziel auf Englisch vor, die Klasse antwortet im Chor „Mission accepted!“. Das Ziel ist ab Minute 1 klar und kommt nicht von der Lehrkraft.'},
-  {tag:'Stundenwechsel',t:'Fach-Check-in',d:'ELON zeigt beim Stundenwechsel, was auf den Tisch muss. Die SuS haken selbst ab. Wer fertig ist, legt das iPad mit dem Display nach unten: das stille Zeichen „Ich bin bereit“.'},
+  {tag:'Stundenwechsel',t:'Fach-Check-in',d:'ELIO zeigt beim Stundenwechsel, was auf den Tisch muss. Die SuS haken selbst ab. Wer fertig ist, legt das iPad mit dem Display nach unten: das stille Zeichen „Ich bin bereit“.'},
   {tag:'Rollen',t:'Lernlotsen-Jobs',d:'Jede Stunde vergibt das Board vier Jobs per Zufall: Time Keeper, Sound Master, Mission Reader und Help Desk. Die SuS steuern Timer, Signale und Hilfe selbst. Du beobachtest und gibst Feedback.'},
   {tag:'Hilfe',t:'Erst Elo, dann Partner, dann Lotse',d:'Hilfekaskade: zuerst Hören-Button und Hinweise, dann der Sitznachbar, dann der Help Desk. Erst danach die Lehrkraft. Das macht Selbstständigkeit sichtbar.'},
   {tag:'Signal',t:'Freeze-Gong',d:'Gong heißt: Hände hoch, Mund zu, Blick nach vorne. Wenn die ganze Klasse in fünf Sekunden still ist, bekommt die Klassen-Rakete Treibstoff. Kein Rufen mehr nötig.'},
@@ -577,7 +577,7 @@ const RITUALS=[
   {tag:'Sprechen',t:'Phone Box',d:'Zwei Stühle Rücken an Rücken als „rote Telefonzelle“. Der Dialog läuft ohne Blickkontakt, also nur über Sprache und Zuhören. Das ist schülernah und sehr realistisch.'},
   {tag:'Bewegung',t:'London Tube (Kugellager)',d:'Innen- und Außenkreis. Beim Swap-Signal „fährt“ der Außenkreis eine Station weiter, der Lotse ruft die Station aus („Next stop: Oxford Circus!“).'},
   {tag:'Aussprache',t:'Shadowing-Karaoke',d:'Elo spricht einen Satz vor, alle sprechen gleichzeitig leise mit. Aussprache wird trainiert, ohne dass jemand alleine vor der Klasse sprechen muss.'},
-  {tag:'Fehlerkultur',t:'My favourite mistake',d:'Am Stundenende darf, wer will, seinen Lieblingsfehler nennen und was er daraus gelernt hat. Die Klasse applaudiert. In ELON gibt es dafür Mut-Sterne.'},
+  {tag:'Fehlerkultur',t:'My favourite mistake',d:'Am Stundenende darf, wer will, seinen Lieblingsfehler nennen und was er daraus gelernt hat. Die Klasse applaudiert. In ELIO gibt es dafür Mut-Sterne.'},
   {tag:'Belohnung',t:'Klassen-Rakete statt Rangliste',d:'Sterne gibt es für Dranbleiben, nicht für Tempo. Die Klasse tankt gemeinsam die Rakete voll und wählt dann eine Klassenbelohnung. Niemand wird verglichen.'},
 ];
 const REWARDS=['Musik in der Übungsphase','Taboo-Battle: Klasse gegen Elo','Lieblings-Warm-up aussuchen','Hausaufgaben-Joker für alle'];
@@ -1188,7 +1188,7 @@ const LIVE_CFG={supabaseUrl:'https://yljzqjnvfoxzkhjsnawn.supabase.co',supabaseK
 const LIVE_SERVER=LIVE_CFG.hosts.includes(location.hostname)||/[?&]live=1/.test(location.search);
 const TEACHER_PIN='2026';
 const PHASES=[
-  {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELON.'},
+  {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELIO.'},
   {id:'start',name:'Einstieg',txt:'Augen zur Tafel. Das iPad bleibt liegen.',look:true},
   {id:'work',name:'Arbeitsphase',txt:'Arbeite an deiner Lernleiter. Brauchst du Hilfe? Tippe auf „Hilfe“.',go:'module'},
   {id:'pair',name:'Partnerarbeit',txt:'Spielt den Dialog zu zweit auf der Dialog-Leiter.',go:'station:ladder'},
@@ -1285,7 +1285,7 @@ VIEWS.tafel=()=>{
         <button class="btn pri" data-act="t-poll" data-t="custom">Starten</button></div></div>
     <div class="grp row"><label for="t-cls" class="label">SuS in der Klasse</label><input id="t-cls" type="number" min="2" max="40" value="${S.classSize}" style="width:90px">
       <button class="btn sm" data-act="t-cls">Übernehmen</button>
-      <span class="muted" style="font-weight:700">So kommen die SuS rein: ELON öffnen → Schule → <b>${esc(className())}</b> → „Ich bin Schüler/in“ → eigene Nummer.</span></div>
+      <span class="muted" style="font-weight:700">So kommen die SuS rein: ELIO öffnen → Schule → <b>${esc(className())}</b> → „Ich bin Schüler/in“ → eigene Nummer.</span></div>
   </details>`;
 };
 function updTafel(){
@@ -1353,7 +1353,7 @@ const SCHOOLS=[
 const schoolBy=id=>SCHOOLS.find(x=>x.id===id);
 const classBy=(sid,cid)=>{const sc=schoolBy(sid);return sc&&sc.classes.find(c=>c.id===cid)};
 const className=()=>{const c=classBy(S.school,S.cls);return c?c.name:'Klasse '+S.code};
-const BIGLOGO='<div class="biglogo">EL<span class="on"><i></i>ON</span></div>';
+const BIGLOGO='<div class="biglogo">EL<span class="on">I<i></i></span></div>';
 VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
@@ -1365,7 +1365,7 @@ VIEWS.role=()=>{
     <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
   if(step==='nick')return `<div class="start"><div class="start-head">${back('role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Wähle deinen Nickname</h1>
     <section class="panel" style="margin-top:16px">
-      <p style="font-weight:700">So heißt du in ELON und an der Tafel. <b>Nimm nicht deinen echten Namen</b>, sondern etwas Ausgedachtes.</p>
+      <p style="font-weight:700">So heißt du in ELIO und an der Tafel. <b>Nimm nicht deinen echten Namen</b>, sondern etwas Ausgedachtes.</p>
       <label class="label" for="nick" style="display:block;margin-top:14px">Dein Nickname</label><input id="nick" type="text" maxlength="16" autocomplete="off" autocapitalize="off" value="${esc(S.nick||'')}" placeholder="z. B. ${esc(V.sugg[0])}">
       <p class="label" style="margin-top:14px">Ideen von Elo</p>
       <div class="sugg">${V.sugg.map(n=>`<button class="btn sm" data-act="nick-sugg" data-n="${esc(n)}">${esc(n)}</button>`).join('')}<button class="btn sm" data-act="nick-more">Neue Ideen</button></div>
@@ -1522,7 +1522,7 @@ VIEWS.journal=()=>{
   ${list.length?`<div class="entries">${list.map(e=>`<article class="page ${e.subj?'s-'+e.subj:''}"><header><h3>${e.subj?SUBJECTS[e.subj].name:'Eintrag'}</h3>
       <span class="date">${new Date(e.at).toLocaleDateString('de-DE')} ${e.mood!=null&&MOODS[e.mood]?MOODS[e.mood][0]:''}</span></header>
       <h4>Heute habe ich gelernt</h4><p>${esc(e.learned)}</p>${e.hard?`<h4>Das war noch schwer</h4><p>${esc(e.hard)}</p>`:''}</article>`).join('')}</div>`
-    :'<div class="empty">Noch keine Einträge. Am Ende jeder Stunde fragt ELON dich, was du gelernt hast.</div>'}
+    :'<div class="empty">Noch keine Einträge. Am Ende jeder Stunde fragt ELIO dich, was du gelernt hast.</div>'}
   <p class="muted" style="margin-top:14px;font-size:.9rem">Dein Lerntagebuch bleibt auf deinem iPad.</p>`;
 };
 
