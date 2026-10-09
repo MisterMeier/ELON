@@ -1687,10 +1687,14 @@ const Live={bc:null,sb:null,kind:'off',
         if(S.role==='student'&&ckOk(S.ckIn)){S.ck=S.ck||{};S.ck[code]=S.ckIn;delete S.ckIn;save()}
         // Privater Kanal: Supabase prüft, ob dieses Konto bzw. iPad zur Klasse gehört (supabase/live.sql).
         // Ist der Schutz noch nicht eingerichtet, geht es wie bisher über den offenen Kanal.
-        const open=priv=>{try{c.realtime.setAuth()}catch(e){}const ch=c.channel('elon-'+code,{config:{private:priv,broadcast:{self:false}}});this.sb=ch;this.priv=priv;this.st='connecting';
+        // Erst anmelden (sonst lehnt Supabase den privaten Kanal ab), dann den Klassenschlüssel vom Server holen
+        try{await c.realtime.setAuth()}catch(e){}
+        await ckSync(c,code);
+        let tries=0;
+        const open=priv=>{const ch=c.channel('elon-'+code,{config:{private:priv,broadcast:{self:false}}});this.sb=ch;this.priv=priv;this.st='connecting';
           ['state','msg'].forEach(ev=>ch.on('broadcast',{event:ev},({payload})=>this.recv(payload)));
           ch.subscribe(st=>{if(this.sb!==ch)return;this.st=st;
-            if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&priv){try{c.removeChannel(ch)}catch(e){}open(false);return}
+            if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&priv){try{c.removeChannel(ch)}catch(e){}if(++tries<3){setTimeout(async()=>{try{await c.realtime.setAuth()}catch(e){}if(this.code===code)open(true)},1500*tries);return}open(false);return}
             if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&!priv&&S.role==='student'){this.needJoin=true;updBanner()}
             if(V.name==='tafel')render()})};
         open(true);this.kind='server';return;
@@ -1715,9 +1719,15 @@ const b64u=b=>b64e(b).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''),b6
 const CKC={};const ckImp=k=>CKC[k]||(CKC[k]=crypto.subtle.importKey('raw',b64ud(k),'AES-GCM',false,['encrypt','decrypt']));
 function ckOk(k){return typeof k==='string'&&/^[\w-]{43}$/.test(k)}
 let BOARDCK=null;if(BOARD){try{BOARDCK=HK.k||sessionStorage.getItem('elio-bk');if(BOARDCK)sessionStorage.setItem('elio-bk',BOARDCK)}catch(e){BOARDCK=HK.k}}
-function myCk(code){code=code||S.code;if(BOARD)return ckOk(BOARDCK)?BOARDCK:null;
+const CKMEM={};
+function myCk(code){code=code||S.code;if(ckOk(CKMEM[code]))return CKMEM[code];if(BOARD)return ckOk(BOARDCK)?BOARDCK:null;
   if(S.role==='teacher'){if(!TDKEY)return null;TD.ck=TD.ck||{};if(!TD.ck[code]){TD.ck[code]=b64u(crypto.getRandomValues(new Uint8Array(32)));tsave()}return TD.ck[code]}
   const k=(S.ck||{})[code];return ckOk(k)?k:null}
+// Klassenschlüssel vom Server (supabase/keys.sql): alle Lehrkräfte und beigetretenen iPads der Klasse bekommen denselben, ohne QR-Code
+async function ckSync(c,code){try{let k=await q(c.rpc('class_key',{p_code:code}));
+    if(!ckOk(k)&&S.role==='teacher'&&!BOARD){const mine=TDKEY?myCk(code):b64u(crypto.getRandomValues(new Uint8Array(32)));k=await q(c.rpc('set_class_key',{p_code:code,p_k:mine}))}
+    if(ckOk(k)){CKMEM[code]=k;Live.dbKey=true;if(S.role==='teacher'&&TDKEY){TD.ck=TD.ck||{};if(TD.ck[code]!==k){TD.ck[code]=k;tsave()}}if(S.role==='student'){S.ck=S.ck||{};if(S.ck[code]!==k){S.ck[code]=k;save()}}}}
+  catch(e){Live.dbKey=false}}
 async function ckSeal(k,o){const iv=crypto.getRandomValues(new Uint8Array(12));return {iv:b64e(iv),ct:b64e(await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),new TextEncoder().encode(JSON.stringify(o))))}}
 async function ckOpen(k,e){return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(e.iv)},await ckImp(k),b64d(e.ct))))}
 const safeUrl=u=>/^https?:\/\//i.test(String(u||''))?String(u):'#';
@@ -1783,7 +1793,7 @@ VIEWS.tafel=()=>{
     <div class="tprev-w"><div class="row" style="justify-content:space-between;margin-bottom:6px"><span class="label">📺 Gerade an der Tafel</span><button class="btn sm" data-act="board-open">Tafel-Fenster öffnen</button></div><div class="tprev" id="tprev"></div></div>
   </div>
   <details class="panel ctrl" open><summary>Steuerung</summary>
-    ${Live.kind==='server'?`<div class="grp row"><span class="label">Verschlüsselt verbunden</span><button class="btn sm ${CS.keyQr?'on':''}" data-act="t-keyqr">🔑 ${CS.keyQr?'Schlüssel-QR ausblenden':'iPads verbinden (Schlüssel-QR an der Tafel)'}</button></div>`:''}
+    ${Live.kind==='server'&&!Live.dbKey?`<div class="grp row"><span class="label">Verschlüsselt verbunden</span><button class="btn sm ${CS.keyQr?'on':''}" data-act="t-keyqr">🔑 ${CS.keyQr?'Schlüssel-QR ausblenden':'iPads verbinden (Schlüssel-QR an der Tafel)'}</button></div>`:''}
     <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
     <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
@@ -1806,7 +1816,7 @@ VIEWS.tafel=()=>{
   </details>
   <div class="tafel">
     <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0</span> online</span>
-      <span class="chip conn">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?'Live über Server · verbunden':Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
+      <span class="chip conn">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 Live geschützt · verbunden':'⚠️ Live offen · verbunden'):Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
       <div class="seats" id="seats"></div>
       <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit / eingetragen</span><span><i style="background:var(--late-bg);border-color:var(--red)"></i>braucht Hilfe</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
     <div class="t-side">
