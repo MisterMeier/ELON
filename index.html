@@ -568,6 +568,18 @@ body.boardwin .bw{height:100vh}
 .qz-o i{position:absolute;left:0;bottom:0;height:.3em;background:rgba(255,255,255,.75)}.qz-o u{text-decoration:none;font-size:1.4em}
 .qz-o.no{opacity:.35}.qz-o.ok{outline:.2em solid #172B31;outline-offset:-.2em}
 iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:14px;background:#000}.bw iframe.emb{max-height:60cqh;width:auto;height:60cqh}.vbody iframe.emb{max-height:75vh}
+.desk{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px;padding:28px;border-radius:24px;background:linear-gradient(180deg,#c99a68,#b07f4f);box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),var(--shadow)}
+.folder{position:relative;border:0;background:none;padding:14px 0 0;cursor:pointer;text-align:left;font:inherit}
+.folder .tab{position:absolute;top:0;left:14px;width:42%;height:22px;border-radius:10px 10px 0 0;background:var(--sc)}
+.folder .fbody{display:grid;gap:6px;min-height:130px;align-content:end;background:var(--sc);color:#fff;border-radius:0 14px 14px 14px;padding:16px;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.folder b{font-family:var(--f-display);font-size:1.5rem}.folder small{font-weight:700;opacity:.95}.folder em{font-style:normal;background:#fff;color:var(--ink);border-radius:999px;padding:0 8px}
+.folder:hover .fbody{transform:translateY(-3px)}
+.diary{position:relative;border:0;cursor:pointer;font:inherit;min-height:150px;border-radius:8px 16px 16px 8px;background:#3b4a8a;color:#fff;display:grid;align-content:center;justify-items:center;gap:6px;padding:16px 16px 16px 30px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.diary .spine{position:absolute;left:0;top:0;bottom:0;width:16px;border-radius:8px 0 0 8px;background:#2a3566}.diary b{font-family:var(--f-display);font-size:1.5rem}
+.diary-today textarea{margin-top:8px;font-size:1.1rem;line-height:1.6;background:repeating-linear-gradient(#fff 0 1.55em,#e3e8f2 1.55em 1.6em);min-height:200px}
+details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1.2em;font-weight:700}
+.rt-heft{background:#eef1f6;padding-bottom:1em}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
+.rt-diary{background:#fff}.rt-diary .in{flex:1;display:grid;align-content:center;gap:1em;padding:1em 2.4em}.rt-diary ol{font-size:2em;font-weight:700;display:grid;gap:.5em;padding-left:1.2em}.rt-diary p{font-size:1.3em;color:var(--muted);font-weight:700}
 .qz-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .qz-pick button{background:var(--qc);color:#fff;border:4px solid transparent;border-radius:16px;min-height:84px;font:inherit;font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;padding:10px;text-align:left;cursor:pointer}
 .qz-pick button b{font-family:var(--f-display);font-size:1.6rem}.qz-pick button.on{border-color:#172B31;box-shadow:inset 0 0 0 3px #fff}
@@ -704,10 +716,12 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
     <button class="tv" data-act="tplan" data-nav="tplan" id="nav-lessons" hidden>Planung</button>
     <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
+    <button class="tv" data-act="theft" data-nav="theft" hidden>Regelheft</button>
     <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
     <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
+    <button class="sv" data-act="desk" data-nav="desk">Schreibtisch</button>
     <button class="sv" data-act="homework" data-nav="homework">Hausaufgaben</button>
     <button class="sv" data-act="practice" data-nav="practice">Üben</button>
     <button class="sv" data-act="week" data-nav="week">Stundenplan</button>
@@ -1072,7 +1086,7 @@ VIEWS.dash=()=>{
     <div class="dash">
       <div style="display:grid;gap:18px;min-width:0">
         <section><span class="label">Meine Fächer</span>
-          <div class="subj-grid">${Object.keys(SUBJECTS).filter(k=>WEEK.some(r=>r.includes(k))||HEFT[k]).map(subjTile).join('')}</div></section>
+          <div class="subj-grid">${Object.keys(SUBJECTS).filter(k=>WEEK.some(r=>r.includes(k))||heftAll(k).length).map(subjTile).join('')}</div></section>
       </div>
       <div style="display:grid;gap:18px;min-width:0">
         <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Heute</span>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>${today}</section>
@@ -1081,6 +1095,17 @@ VIEWS.dash=()=>{
       </div>
     </div>
     <p class="foot">Dein Fortschritt bleibt nur auf diesem iPad. Kein Login, keine Namen, keine Rangliste.</p>`;
+};
+// Schreibtisch: Fachordner mit Regelheft, Hausaufgaben, Lernmodulen + Lerntagebuch
+const DESK=['M','E','D'];
+VIEWS.desk=()=>{
+  const ks=[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
+  const days=Object.keys(S.diary||{}).length+(S.journal||[]).length;
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch</h1>${S.av!=null?avatar(S.av,44):''}</div>
+  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=HOMEWORK.filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+      return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody"><b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
+    <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button></div>
+  <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
 };
 function liveStrip(){
   if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000)return '';
@@ -1091,7 +1116,7 @@ function liveStrip(){
     <p><b>${esc(ph.name)}:</b> ${esc(ph.txt||'')}</p>${ph.go?`<div class="row" style="margin-top:10px"><button class="btn sm" data-act="phase-go">Los geht's</button></div>`:''}</div>`;
 }
 function subjTile(k){
-  const list=HEFT[k]||[],copied=list.filter(e=>S.copied[e.id]).length;
+  const list=heftAll(k),copied=list.filter(e=>S.copied[e.id]).length;
   const hw=HOMEWORK.filter(h=>h.s===k&&!S.hwDone[h.id]).length;
   let pct=list.length?copied/list.length*100:0,meta=`${list.length} Hefteinträge`;
   if(k==='E'){const d=STATIONS.filter(s=>S.done[s.id]).length;pct=d/STATIONS.length*100;meta=`Lernleiter ${d}/${STATIONS.length} · ${list.length} Einträge`}
@@ -1237,8 +1262,8 @@ function weekView(){
   </tbody></table></div>`;
 }
 VIEWS.subject=()=>{
-  const k=V.s,sub=SUBJECTS[k],tab=V.tab||(k==='E'?'module':'heft');
-  const entries=(HEFT[k]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const k=V.s,sub=SUBJECTS[k],tab=V.tab||(k==='E'&&!V.desk?'module':'heft');
+  const entries=heftAll(k).sort((a,b)=>b.date.localeCompare(a.date));
   const hws=HOMEWORK.filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   let body='';
   if(tab==='heft')body=entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
@@ -1248,14 +1273,32 @@ VIEWS.subject=()=>{
       <span class="muted">${STATIONS.filter(s=>S.done[s.id]).length} von ${STATIONS.length} Stufen geschafft</span></span><span class="btn pri">Öffnen</span></button>`
     :`<div class="empty">Für ${sub.name} gibt es noch keine Lernmodule.${k==='M'||k==='K'?' Kommt als Nächstes!':''}</div>`;
   if(tab==='module'&&GAMES[k])body+=`<button class="mod-card" style="margin-top:12px" data-act="practice" data-s="${k}"><span style="font-size:2.6rem">🎮</span><span class="t"><span class="label">Üben</span><b>Lernspiele in ${sub.name}</b><span class="muted">Memory, Wortsalat, Ballon-Rätsel</span></span><span class="btn">Spielen</span></button>`;
-  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="dash">← Dashboard</button>${badge(k)}<h1>${sub.name}</h1></div>
+  return `<div class="subj-head s-${k}">${V.desk?'<button class="btn sm" data-act="desk">← Schreibtisch</button>':'<button class="btn sm" data-act="dash">← Dashboard</button>'}${badge(k)}<h1>${sub.name}</h1></div>
     <div class="tabs s-${k}" role="tablist">
       <button class="${tab==='module'?'on':''}" data-act="tab" data-t="module">Lernmodule</button>
-      <button class="${tab==='heft'?'on':''}" data-act="tab" data-t="heft">Digitales Heft · ${entries.length}</button>
+      <button class="${tab==='heft'?'on':''}" data-act="tab" data-t="heft">Regelheft · ${entries.length}</button>
       <button class="${tab==='hw'?'on':''}" data-act="tab" data-t="hw">Hausaufgaben · ${hws.filter(h=>!S.hwDone[h.id]).length}</button>
     </div>
     <div class="s-${k}">${body}</div>`;
 };
+// Hefteintrag aus einfachem Text: "# Überschrift", "- Punkt", "Merke: …", "| a | b |" für Tabellen
+function heftBlocks(t){const out=[];let list=null,tab=null;
+  String(t||'').split('\n').forEach(raw=>{const l=raw.trim();
+    if(/^[-•*]\s+/.test(l)){tab=null;if(!list){list=[];out.push(['list',list])}list.push(l.replace(/^[-•*]\s+/,''));return}list=null;
+    if(/^\|.*\|$/.test(l)){const cells=l.slice(1,-1).split('|').map(x=>x.trim());if(cells.every(x=>/^:?-+:?$/.test(x)))return;if(!tab){tab=[];out.push(['table',tab])}tab.push(cells);return}tab=null;
+    if(!l)return;
+    if(/^#+\s*/.test(l))out.push(['h',l.replace(/^#+\s*/,'')]);
+    else if(/^merke:?/i.test(l))out.push(['merke',esc(l.replace(/^merke:?\s*/i,''))]);
+    else out.push(['p',esc(l)])});
+  return out}
+const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,date:e.date,title:e.title,blocks:heftBlocks(e.text)})),...(HEFT[k]||[])];
+function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
+    case 'h':return `<h4>${esc(b[1])}</h4>`;
+    case 'p':return `<p>${b[1]}</p>`;
+    case 'list':return `<ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+    case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
+    case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }return ''}).join('')}
 function heftPage(e){
   const blk=b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
@@ -1266,7 +1309,7 @@ function heftPage(e){
   }return ''};
   const c=!!S.copied[e.id];
   return `<article class="page"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span></span></header>
-    ${e.blocks.map(blk).join('')}
+    ${heftBody(e.blocks)}
     <footer><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button></footer></article>`;
 }
 
@@ -1536,7 +1579,7 @@ function initTeacher(){
 }
 // Lernspiel für alle: Tafel spielbar, iPads bekommen das Spiel zum Mitspielen
 function gameLive(g,s){if(!CS)initTeacher();CS.game=g?{g,s,at:Date.now()}:null;pushCS()}
-function pushCS(){if(!CS)return;CS.mission=S.mission;CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
+function pushCS(){if(!CS)return;CS.mission=S.mission;CS.heft=heftFor();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
 function onStudentMsg(m){
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
@@ -1672,7 +1715,8 @@ function renderMini(force){
 setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
 let dashSig='';
-function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;updBanner();liveOverlay();renderMini();
+function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;
+  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length).join();if(hs!==S.heftSig){S.heftRecv=p.heft;S.heftSig=hs;save();if(['desk','subject','dash'].includes(V.name))render()}}updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 function updBanner(){
@@ -1875,7 +1919,9 @@ function startStep(i){
   if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean)};
   if(T.id==='task'&&T.text)CS.phase.txt=lines(T.text).join(' · ');
   if(T.id==='question'&&T.q)CS.phase.txt=T.q;
-  if(T.id==='quiz'||T.id==='corners4')CS.phase.look=false;// Abstimmen braucht das iPad
+  if(T.id==='quiz'||T.id==='corners4'||T.id==='diary')CS.phase.look=false;
+  if(T.id==='diary')CS.journal={id:'j'+Date.now(),done:[],prompt:T.prompt||''};
+  if(T.id==='heft'&&(T.title||T.text))heftPublish({id:'ph-'+L.id+'-'+i,s:L.subject,title:T.title||p.name,text:T.text||''});// Abstimmen braucht das iPad
   if(T.id==='quiz')quizStart(T,p);
   if(T.id==='corners4'){CS.poll={id:'p'+Date.now(),type:'corners',q:T.q||'Wie gut kannst du es schon?',opts:lines(T.opts||C4_OPTS).slice(0,4).map((o,k)=>`Ecke ${k+1}: ${o}`),voted:[]};TALLY={}}
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
@@ -2090,7 +2136,7 @@ function newLessonFrom(subj,min,title){
   const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'Vorlage':''};
   lessons().push(L);save();return L;
 }
-const RICH=['quiz','start','cover','question','hypo','task','high5','corners4'];
+const RICH=['heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
 const TOOLS={
   slide:{name:'Folie',icon:'🖼️',txt:'Große Folie mit Titel, Text und Bild, Video oder PDF aus der Bibliothek.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
@@ -2104,6 +2150,8 @@ const TOOLS={
   hypo:{name:'Vermutungen',icon:'💡',txt:'Vermutungen sammeln oder überprüfen.',fit:/hypo|vermut|sicherung|überprüf/i},
   task:{name:'Arbeitsauftrag',icon:'📝',txt:'Leere Vorlage: Du schreibst den Auftrag, Sozialform und Zeit kommen aus der Phase.',fit:/auftrag|erarb|anwend|übung/i},
   high5:{name:'High-Five-Feedback',icon:'🙌',txt:'Fünf Reflexionsfragen an der Tafel.',fit:/reflex|feedback|abschluss/i},
+  heft:{name:'Hefteintrag',icon:'📒',txt:'Groß an der Tafel und automatisch im Regelheft aller SuS. Text einfach reinkopieren.',fit:/sicherung|merke|heft|regel/i},
+  diary:{name:'Lerntagebuch',icon:'📔',txt:'Leitfragen an der Tafel, die SuS schreiben in ihr Lerntagebuch auf dem iPad.',fit:/tagebuch|reflex|abschluss|ausblick/i},
   quiz:{name:'Abstimmung / Quiz',icon:'🗳️',txt:'Eigene Frage mit A, B, C … wie bei Kahoot. Eine oder mehrere richtige Antworten, auf Wunsch mit Folie. Du löst auf, wann du willst.',fit:/vorwissen|wiederhol|abstimm|quiz|hypo|vermut|sicherung|überprüf/i},
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
@@ -2123,6 +2171,8 @@ function quizHTML(P,c){const res=P.res||(c.tally?P.opts.map((_,i)=>c.tally[i]||0
     <div class="qz-opts">${P.opts.map((o,i)=>`<div class="qz-o ${P.res&&R.length?(R.includes(i)?'ok':'no'):''}" style="--qc:${QZ_C[i%8]}"><b>${ABC(i)}</b><span>${esc(o)}</span>${show&&res?`<em>${res[i]}</em><i style="width:${res[i]/tot*100}%"></i>`:''}${P.res&&R.includes(i)?'<u>✓</u>':''}</div>`).join('')}</div></div></div>`}
 // Neue Werkzeuge: dieselbe Ansicht im Präsentationsmodus und im Tafel-Fenster (rt = rich tool)
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
+  if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
+  if(t.id==='diary')return `<div class="rt rt-diary"><div class="band">📔 Lerntagebuch</div><div class="in"><ol>${lines(t.prompt).map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p>Schreib in dein Lerntagebuch auf dem iPad.</p></div></div>`;
   if(t.id==='start')return `<div class="rt rt-start">${c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`}
     <div class="in"><h1>Du hast jetzt ${esc(sn)}</h1><p>${dateDE()}</p>${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}</div></div>`;
   if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
@@ -2138,7 +2188,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';
   return {start:{id,hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
-    task:{id,text:''},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+    task:{id,text:''},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
 function toolEditor(p,i,L){
@@ -2157,6 +2207,8 @@ function toolEditor(p,i,L){
   if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
   if(t.id==='task')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Arbeitsauftrag (jede Zeile ein Punkt)',t.text,4)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Sozialform und Minuten kommen aus der Phase. Die iPads zeigen den Auftrag auch.</p></div>`;
   if(t.id==='high5')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fünf Fragen (eine pro Zeile)',t.qs,5)}</div>`;
+  if(t.id==='heft')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
+  if(t.id==='diary')cfg=`<div class="lgrid" style="margin-top:8px">${ta('prompt','Leitfragen (eine pro Zeile)',t.prompt,3)}</div>`;
   if(t.id==='quiz')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q,'Welcher Term passt zur Folie?')}${ta('opts','Antworten (eine pro Zeile, bis zu 8: A, B, C …)',t.opts,4)}
     ${inp('right','Richtig ist (Buchstaben)',t.right,'z. B. B oder A, C · leer = Meinungsumfrage')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.multi" ${t.multi?'checked':''} style="width:auto"> SuS dürfen mehrere ankreuzen</label>
     <label style="grid-column:1/-1">Folie dazu (Bild, PDF oder Video, freiwillig)<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
@@ -2693,6 +2745,18 @@ VIEWS['kl-cards']=()=>{
     <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
+const heftFor=()=>(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice(-40).map(({id,s,title,text,date})=>({id,s,title,text,date}));
+function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
+const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
+VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Regelheft · ${esc(className())}</h1></div>
+  <section class="panel"><span class="label">Neuer Hefteintrag · erscheint im Regelheft aller SuS</span>
+    <div class="lgrid" style="margin-top:8px"><label>Fach<select id="hf-s">${Object.keys(SUBJECTS).map(x=>`<option value="${x}" ${x===k?'selected':''}>${SUBJECTS[x].name}</option>`).join('')}</select></label>
+      <label>Titel<input id="hf-t" type="text" maxlength="80" placeholder="z. B. Terme vereinfachen"></label>
+      <label style="grid-column:1/-1">Inhalt<textarea id="hf-x" rows="7" placeholder="${esc(HEFT_HELP)}"></textarea></label></div>
+    <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">So formatierst du: „# “ Überschrift, „- “ Aufzählung, „Merke:“ Merkkasten, „| a | b |“ Tabelle. Text aus Word oder PowerPoint einfach reinkopieren.</p>
+    <p class="err" id="hf-err"></p><button class="btn pri" data-act="hf-add" style="margin-top:8px">Veröffentlichen</button></section>
+  <div class="entries" style="margin-top:16px">${list.map(e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px"><span class="date">${fmtDate(e.date)}</span><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${heftBody(heftBlocks(e.text))}</article>`).join('')||'<div class="empty">Noch keine Hefteinträge. Was du hier veröffentlichst, landet im Regelheft auf jedem Schreibtisch.</div>'}</div>`};
 /* --- Klassen-Stundenplan (alle Lehrkräfte der Klasse) --- */
 const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
 async function cttLoad(cid){
@@ -2779,6 +2843,7 @@ document.addEventListener('input',e=>{
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.act$/.test(f)&&V.name==='lesson-edit')render()});
+let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.id==='lib-file'&&t.files&&t.files.length){const fs=[...t.files];t.value='';libAddFiles(fs,$('#lib-subj').value);return}
@@ -2791,8 +2856,9 @@ document.addEventListener('input',e=>{if(e.target.id==='lib-q'){V.q=e.target.val
    ===================================================================== */
 const MOODS=[['😀','super'],['🙂','gut'],['😐','geht so'],['😕','schwer']];
 let JM=null;
-function journalForm(src,id=''){JM=null;return `<span class="label">Lerntagebuch</span><h2>Was hast du heute gelernt?</h2>
-  <label class="label" for="jr-learned" style="display:block;margin-top:12px">Heute habe ich gelernt …</label><textarea id="jr-learned" rows="3"></textarea>
+function journalForm(src,id=''){JM=null;const pr=src==='live'&&RCS&&RCS.journal&&RCS.journal.prompt?lines(RCS.journal.prompt):null;
+  return `<span class="label">Lerntagebuch</span><h2>${pr?'Schreib in dein Lerntagebuch':'Was hast du heute gelernt?'}</h2>${pr?`<ul class="jr-prompts">${pr.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+  <label class="label" for="jr-learned" style="display:block;margin-top:12px">${pr?'Mein Eintrag':'Heute habe ich gelernt …'}</label><textarea id="jr-learned" rows="${pr?6:3}"></textarea>
   <label class="label" for="jr-hard" style="display:block;margin-top:10px">Das war noch schwer … (freiwillig)</label><textarea id="jr-hard" rows="2"></textarea>
   <p class="label" style="margin-top:12px">So ging es mir</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood" data-act="jr-mood" data-i="${i}">${m[0]}<small>${m[1]}</small></button>`).join('')}</div>
   <p class="err" id="jr-err"></p>
@@ -2812,6 +2878,7 @@ function saveJournal(src,id){
   if(learned.trim().length<3){$('#jr-err').textContent='Schreib mindestens einen kurzen Satz.';return}
   const sl=slotNow();
   S.journal=S.journal||[];S.journal.push({at:Date.now(),subj:sl.kind==='lesson'?sl.l.s:null,learned:learned.trim(),hard:hard.trim(),mood:JM});
+  S.diary=S.diary||{};const td=todayISO();S.diary[td]=((S.diary[td]||'').trim()+(S.diary[td]?'\n\n':'')+learned.trim()+(hard.trim()?'\nSchwer war: '+hard.trim():'')).trim();
   if(id)S.journalDone[id]=1;
   earnOnce('jr_'+(id||Date.now()));SND.cheer();save();
   if(src==='live'){sendMsg({k:'journal',id});if(RCS)S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';liveOverlay()}
@@ -2819,13 +2886,17 @@ function saveJournal(src,id){
   else{V.form=false;render()}
 }
 VIEWS.journal=()=>{
-  const list=(S.journal||[]).slice().reverse();
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Lerntagebuch</h1>${V.form?'':'<button class="btn pri" data-act="jr-new">Neuer Eintrag</button>'}</div>
-  ${V.form?`<section class="panel" style="margin-bottom:16px">${journalForm('free')}</section>`:''}
+  const list=(S.journal||[]).slice().reverse(),td=todayISO(),D=S.diary||{};
+  const days=Object.keys(D).filter(d=>d!==td&&D[d].trim()).sort().reverse();
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Lerntagebuch</h1>${V.form?'':'<button class="btn" data-act="jr-new">Kurz-Eintrag mit Stimmung</button>'}</div>
+  <section class="panel diary-today"><span class="label">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span>
+    <textarea id="jr-day" rows="7" placeholder="Liebes Lerntagebuch, heute …">${esc(D[td]||'')}</textarea><p class="muted" id="jr-day-st" style="font-weight:700;font-size:.85rem">Wird automatisch gespeichert.</p></section>
+  ${days.length?`<span class="label" style="display:block;margin:16px 0 6px">Frühere Tage</span><div class="entries">${days.map(d=>`<details class="page"><summary><b>${fmtDate(d)}</b> <span class="muted">${esc(D[d].slice(0,60))}${D[d].length>60?' …':''}</span></summary><p style="white-space:pre-wrap;margin-top:8px">${esc(D[d])}</p></details>`).join('')}</div>`:''}
+  ${V.form?`<section class="panel" style="margin:16px 0">${journalForm('free')}</section>`:''}
   ${list.length?`<div class="entries">${list.map(e=>`<article class="page ${e.subj?'s-'+e.subj:''}"><header><h3>${e.subj?SUBJECTS[e.subj].name:'Eintrag'}</h3>
       <span class="date">${new Date(e.at).toLocaleDateString('de-DE')} ${e.mood!=null&&MOODS[e.mood]?MOODS[e.mood][0]:''}</span></header>
       <h4>Heute habe ich gelernt</h4><p>${esc(e.learned)}</p>${e.hard?`<h4>Das war noch schwer</h4><p>${esc(e.hard)}</p>`:''}</article>`).join('')}</div>`
-    :'<div class="empty">Noch keine Einträge. Am Ende jeder Stunde fragt ELIO dich, was du gelernt hast.</div>'}
+    :''}
   <p class="muted" style="margin-top:14px;font-size:.9rem">Dein Lerntagebuch bleibt auf deinem iPad.</p>`;
 };
 
@@ -2857,6 +2928,12 @@ document.addEventListener('click',e=>{
     case 'st-class':V.cls=d.id;V.step='role';render();break;
     case 'r-nr':V.nr=+d.n;V.step='nick';render();break;
     case 'av-pick':V.av=+d.i;document.querySelectorAll('.avpick button').forEach(b=>b.classList.toggle('on',b.dataset.i===d.i));break;
+    case 'desk':go('desk');break;
+    case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
+    case 'theft':go('theft');break;
+    case 'hf-add':{const t=$('#hf-t').value.trim(),x=$('#hf-x').value.trim(),k=$('#hf-s').value;if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
+      if(!CS)initTeacher();heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x});V.hs=k;render();break}
+    case 'hf-del':TD.heft=(TD.heft||[]).filter(e=>e.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'kl-cards':go('kl-cards',{cid:d.id});break;
     case 'kl-print':window.print();break;
     case 'kl-copy':{const t=V.list||'';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{V.copied=1;render()},()=>{V.copied=2;render()});break}
