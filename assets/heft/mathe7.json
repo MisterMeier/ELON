@@ -1,0 +1,172 @@
+[
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.1 Terme und Variablen",
+  "text": "# Was ist ein Term?\nEin Term ist ein Rechenausdruck aus Zahlen, Variablen und Rechenzeichen. Ein Term hat kein Gleichheitszeichen.\n- Terme: 7 + 4x  |  3a − 5  |  5 · (x + 3)\n- keine Terme: 3x + 5 = 20  |  4 > 2\n# Variable\nEine Variable ist ein Platzhalter für eine Zahl, meist ein Buchstabe wie x, a oder n.\nMerke: Zwischen Zahl und Variable steht ein unsichtbarer Malpunkt: 3x = 3 · x"
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.2 Terme aufstellen",
+  "text": "# Vom Text zum Term\n| Text | Term |\n|---|---|\n| das Doppelte einer Zahl | 2x |\n| eine Zahl vermehrt um 5 | x + 5 |\n| eine Zahl vermindert um 3 | x − 3 |\n| die Hälfte einer Zahl | x : 2 |\n| 4 Hefte zu je x € und 2 € Porto | 4x + 2 |\nMerke: Lege zuerst fest, wofür die Variable steht, z. B. x = Preis eines Heftes in €."
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.3 Termwerte berechnen",
+  "text": "# Einsetzen\nFür die Variable setzt du eine Zahl ein und rechnest den Wert des Terms aus.\n| x | 1 | 2 | 3 | 4 |\n|---|---|---|---|---|\n| 3x + 2 | 5 | 8 | 11 | 14 |\nMerke: Beim Einsetzen den Malpunkt mitschreiben: 3x + 2 für x = 4 → 3 · 4 + 2 = 14\nJe größer x wird, desto größer wird hier der Wert des Terms."
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.4 Rechengesetze",
+  "text": "# Vertauschungsgesetz (Kommutativgesetz)\nBei + und · darf man die Zahlen vertauschen.\n- a + b = b + a\n- a · b = b · a\n# Verbindungsgesetz (Assoziativgesetz)\nBei + und · darf man beliebig Klammern setzen: (a + b) + c = a + (b + c)\n# Verteilungsgesetz (Distributivgesetz)\nMerke: Ausmultiplizieren: a · (b + c) = a · b + a · c\n- 3 · (x + 4) = 3x + 12\n- 5 · (2a − 1) = 10a − 5"
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.5 Terme vereinfachen",
+  "text": "# Gleichartige Terme\nGleichartige Terme haben dieselbe Variable. Nur sie darf man zusammenfassen.\n- 4x + 7x = 11x\n- 9a − 3a + a = 7a\n- 3x + 5y bleibt so (nicht gleichartig)\nMerke: Zahlen zu Zahlen, x zu x: 6x + 4 − 2x + 3 = 4x + 7"
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.6 Gleichungen",
+  "text": "# Was ist eine Gleichung?\nEine Gleichung besteht aus zwei Termen, die mit einem Gleichheitszeichen verbunden sind: 2x + 3 = 11\nDie Lösung ist die Zahl, die für x eingesetzt eine wahre Aussage ergibt.\n# Systematisches Probieren\n| x | 2 | 3 | 4 |\n|---|---|---|---|\n| 2x + 3 | 7 | 9 | 11 ✓ |\nMerke: Eine Gleichung ist wie eine Waage im Gleichgewicht. Beide Seiten sind gleich schwer."
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.7 Gleichungen lösen (Äquivalenzumformung)",
+  "text": "# Die Waagen-Regel\nWas du auf einer Seite machst, musst du auch auf der anderen Seite machen. Dann bleibt die Waage im Gleichgewicht.\n# Beispiel: 3x + 5 = 20\n- 3x + 5 = 20   | − 5\n- 3x = 15   | : 3\n- x = 5\n# Probe\n3 · 5 + 5 = 20 ✓\nMerke: Erst + und − wegrechnen, dann · und :. Am Ende immer die Probe machen."
+ },
+ {
+  "ch": "1 Terme und Gleichungen",
+  "title": "1.8 Sachaufgaben mit Gleichungen",
+  "text": "# So gehst du vor\n- 1. Variable festlegen: x = gesuchte Größe\n- 2. Gleichung aufstellen\n- 3. Gleichung lösen\n- 4. Probe machen\n- 5. Antwortsatz schreiben\n# Beispiel\nTim kauft 3 gleiche Hefte und bezahlt mit 2 € Porto insgesamt 8 €.\n3x + 2 = 8 → 3x = 6 → x = 2\nAntwort: Ein Heft kostet 2 €."
+ },
+ {
+  "ch": "2 Rationale Zahlen",
+  "title": "2.1 Rationale Zahlen und Zahlengerade",
+  "text": "# Positive und negative Zahlen\nRationale Zahlen sind alle positiven und negativen Zahlen, auch Brüche und Dezimalzahlen.\nBeispiele: Temperatur −5 °C, Kontostand −20 €, Höhe unter dem Meer −10 m\n# Zahlengerade\nLinks von 0 liegen die negativen, rechts die positiven Zahlen.\nMerke: Je weiter rechts eine Zahl liegt, desto größer ist sie: −7 < −2 < 0 < 3\nGegenzahlen haben den gleichen Abstand zur 0: 4 und −4"
+ },
+ {
+  "ch": "2 Rationale Zahlen",
+  "title": "2.2 Addieren und Subtrahieren",
+  "text": "# Mit Guthaben und Schulden denken\n- Plus heißt: auf der Zahlengeraden nach rechts gehen\n- Minus heißt: nach links gehen\n| Aufgabe | Ergebnis |\n|---|---|\n| −3 + 5 | 2 |\n| 2 − 6 | −4 |\n| −4 − 3 | −7 |\nMerke: Minus und Minus wird Plus: 5 − (−3) = 5 + 3 = 8\nPlus und Minus wird Minus: 5 + (−3) = 5 − 3 = 2"
+ },
+ {
+  "ch": "2 Rationale Zahlen",
+  "title": "2.3 Multiplizieren und Dividieren",
+  "text": "# Vorzeichenregeln\n| Vorzeichen | Ergebnis | Beispiel |\n|---|---|---|\n| + · + | + | 3 · 4 = 12 |\n| − · − | + | (−3) · (−4) = 12 |\n| + · − | − | 3 · (−4) = −12 |\n| − · + | − | (−3) · 4 = −12 |\nMerke: Gleiche Vorzeichen ergeben Plus, verschiedene Vorzeichen ergeben Minus. Das gilt auch beim Dividieren: (−12) : (−3) = 4"
+ },
+ {
+  "ch": "2 Rationale Zahlen",
+  "title": "2.4 Vorteilhaft rechnen und Überschlag",
+  "text": "# Rechenregeln\n- Klammer vor Punkt vor Strich\n- Vertauschen und geschickt zusammenfassen: −7 + 15 + 7 = 15\n- Dividieren durch Dezimalzahlen: Komma bei beiden Zahlen gleich weit verschieben: 4,8 : 0,4 = 48 : 4 = 12\nMerke: Mit einem Überschlag prüfst du, ob dein Ergebnis ungefähr stimmen kann: −19,8 · 3,1 ≈ −20 · 3 = −60"
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.1 Prozent als Hundertstel",
+  "text": "# Was heißt Prozent?\nProzent bedeutet „von Hundert“. 1 % = 1/100 = 0,01\n| Prozent | Bruch | Dezimalzahl |\n|---|---|---|\n| 50 % | 1/2 | 0,5 |\n| 25 % | 1/4 | 0,25 |\n| 10 % | 1/10 | 0,1 |\n| 75 % | 3/4 | 0,75 |\nMerke: Mit Prozent kann man Anteile gut vergleichen, auch wenn das Ganze unterschiedlich groß ist."
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.2 Grundwert, Prozentwert, Prozentsatz",
+  "text": "# Die drei Grundbegriffe\n| Begriff | Zeichen | Bedeutung | Beispiel |\n|---|---|---|---|\n| Grundwert | G | das Ganze (100 %) | 80 € |\n| Prozentsatz | p % | der Anteil in Prozent | 25 % |\n| Prozentwert | P | der Anteil als Größe | 20 € |\nMerke: „von“ zeigt meist auf den Grundwert: 25 % von 80 € → G = 80 €"
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.3 Prozentwert berechnen",
+  "text": "# Gesucht: P\nWie viel sind 30 % von 250 €?\n# Mit dem Dreisatz\n- 100 % → 250 €\n- 1 % → 2,50 €\n- 30 % → 75 €\nMerke: P = G · p : 100   → 250 € · 30 : 100 = 75 €"
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.4 Prozentsatz berechnen",
+  "text": "# Gesucht: p %\n18 von 24 Schülern fahren mit dem Bus. Wie viel Prozent sind das?\nMerke: p % = P : G · 100 %   → 18 : 24 · 100 % = 75 %\nTipp: Erst kürzen hilft: 18/24 = 3/4 = 75 %"
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.5 Grundwert berechnen",
+  "text": "# Gesucht: G\n15 % der Klasse sind 3 Schüler. Wie viele Schüler hat die Klasse?\n# Mit dem Dreisatz\n- 15 % → 3\n- 1 % → 0,2\n- 100 % → 20\nMerke: G = P : p · 100   → 3 : 15 · 100 = 20"
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.6 Prozente im Alltag",
+  "text": "# Rabatt, Aufschlag, Mischungen\n- Rabatt: Preis wird um p % billiger → neuer Preis = 100 % − p %\n- Aufschlag: Preis wird um p % teurer → neuer Preis = 100 % + p %\n- Mischung: 200 g Müsli enthalten 50 g Nüsse → Anteil 25 %\nMerke: Ein Hoodie für 40 € mit 20 % Rabatt kostet 80 % von 40 € = 32 €"
+ },
+ {
+  "ch": "3 Prozentrechnung",
+  "title": "3.7 Diagramme lesen",
+  "text": "# Diagrammarten\n- Säulen- und Balkendiagramm: Größen vergleichen\n- Streifendiagramm: Anteile am Ganzen, der ganze Streifen sind 100 %\n- Kreisdiagramm: Anteile am Ganzen, der ganze Kreis sind 100 % = 360°\nMerke: 1 % im Kreisdiagramm sind 3,6°. 25 % sind also 90°.\nAchte auf die Achsen: Beginnt eine Achse nicht bei 0, wirken Unterschiede größer, als sie sind."
+ },
+ {
+  "ch": "4 Proportionalität",
+  "title": "4.1 Zuordnungen",
+  "text": "# Was ist eine Zuordnung?\nEine Zuordnung ordnet einer Größe eine andere zu, z. B. Menge → Preis.\nDarstellen kann man sie in Worten, als Tabelle, als Diagramm oder als Graph.\nMerke: Je-desto-Satz: Je mehr Brötchen ich kaufe, desto mehr muss ich bezahlen."
+ },
+ {
+  "ch": "4 Proportionalität",
+  "title": "4.2 Proportionale Zuordnungen",
+  "text": "# Erkennen\n- Doppelte Menge → doppelter Preis, halbe Menge → halber Preis\n- Alle Quotienten sind gleich: Preis : Menge = immer gleich\n- Der Graph ist eine Gerade durch den Ursprung (0 | 0)\n| Menge (kg) | 1 | 2 | 4 |\n|---|---|---|---|\n| Preis (€) | 3 | 6 | 12 |\nMerke: Nicht jede Zuordnung ist proportional. Das Alter und die Körpergröße zum Beispiel nicht."
+ },
+ {
+  "ch": "4 Proportionalität",
+  "title": "4.3 Der Dreisatz",
+  "text": "# Drei Schritte\n5 Hefte kosten 7,50 €. Wie viel kosten 8 Hefte?\n- 5 Hefte → 7,50 €   | : 5\n- 1 Heft → 1,50 €   | · 8\n- 8 Hefte → 12,00 €\nMerke: Erst auf 1 rechnen, dann auf die gesuchte Menge. Links und rechts machst du das Gleiche."
+ },
+ {
+  "ch": "5 Geometrische Figuren und Körper",
+  "title": "5.1 Senkrechte und Mittelsenkrechte",
+  "text": "# Senkrechte\nEine Senkrechte schneidet eine Gerade im rechten Winkel (90°). Zeichne sie mit dem Geodreieck.\n# Mittelsenkrechte\nDie Mittelsenkrechte geht durch die Mitte einer Strecke und steht senkrecht auf ihr.\nMerke: Jeder Punkt auf der Mittelsenkrechten ist von beiden Endpunkten der Strecke gleich weit entfernt.\nDer Abstand eines Punktes zu einer Geraden wird immer senkrecht gemessen."
+ },
+ {
+  "ch": "5 Geometrische Figuren und Körper",
+  "title": "5.2 Maßstab",
+  "text": "# Vergrößern und verkleinern\nDer Maßstab gibt an, wie stark etwas verkleinert oder vergrößert ist.\n- 1 : 100 → 1 cm in der Zeichnung sind 100 cm = 1 m in Wirklichkeit\n- 10 : 1 → 10 cm in der Zeichnung sind 1 cm in Wirklichkeit\nMerke: 1 : 25 000 → 4 cm auf der Karte sind 4 · 25 000 cm = 100 000 cm = 1 km"
+ },
+ {
+  "ch": "5 Geometrische Figuren und Körper",
+  "title": "5.3 Dreiecke",
+  "text": "# Beschriften\nEcken A, B, C gegen den Uhrzeigersinn. Die Seite gegenüber von A heißt a. Winkel α bei A, β bei B, γ bei C.\n# Dreiecksarten\n- rechtwinklig: ein Winkel ist 90°\n- gleichschenklig: zwei Seiten sind gleich lang\n- gleichseitig: alle drei Seiten sind gleich lang, alle Winkel 60°\nMerke: Die Innenwinkelsumme im Dreieck beträgt immer 180°: α + β + γ = 180°"
+ },
+ {
+  "ch": "5 Geometrische Figuren und Körper",
+  "title": "5.4 Dreiecke konstruieren",
+  "text": "# Drei Fälle\n- sss: drei Seiten gegeben → Zirkel\n- sws: zwei Seiten und der Winkel dazwischen\n- wsw: eine Seite und die zwei anliegenden Winkel\nMerke: Erst eine Planfigur skizzieren und die gegebenen Größen farbig markieren. Dann mit der gegebenen Seite beginnen."
+ },
+ {
+  "ch": "5 Geometrische Figuren und Körper",
+  "title": "5.5 Prismen",
+  "text": "# Was ist ein Prisma?\nEin Prisma hat zwei gleiche, parallele Grundflächen. Die Seitenflächen sind Rechtecke.\nGrundfläche kann ein Rechteck, Parallelogramm oder Dreieck sein.\n# Fachbegriffe\nEcke, Kante, Seitenfläche, Grundfläche, Diagonale, parallel, senkrecht\n# Darstellen\n- Netz: alle Flächen aufgeklappt in der Ebene\n- Schrägbild: nach hinten laufende Kanten schräg (45°) und halb so lang"
+ },
+ {
+  "ch": "6 Flächeninhalt",
+  "title": "6.1 Parallelogramm",
+  "text": "# Zerlegen zum Rechteck\nSchneidet man ein Dreieck ab und setzt es auf der anderen Seite an, entsteht ein Rechteck mit gleicher Fläche.\nMerke: A = g · h   (Grundseite mal zugehörige Höhe)\nBeispiel: g = 6 cm, h = 4 cm → A = 24 cm²\nDie Höhe steht immer senkrecht auf der Grundseite."
+ },
+ {
+  "ch": "6 Flächeninhalt",
+  "title": "6.2 Dreieck",
+  "text": "# Halbes Parallelogramm\nZwei gleiche Dreiecke ergeben zusammen ein Parallelogramm.\nMerke: A = g · h : 2\nBeispiel: g = 8 cm, h = 5 cm → A = 8 · 5 : 2 = 20 cm²\n# Umkehraufgabe\nh = A · 2 : g   und   g = A · 2 : h"
+ },
+ {
+  "ch": "6 Flächeninhalt",
+  "title": "6.3 Zusammengesetzte Figuren und Oberfläche",
+  "text": "# Zusammengesetzte Figuren\nZerlege die Figur in Rechtecke, Parallelogramme und Dreiecke. Berechne die Teilflächen und addiere sie.\n# Oberfläche eines Prismas\nMerke: O = 2 · G + M   (zwei Grundflächen + Mantel)\nDer Mantel besteht aus allen Seitenflächen: M = Umfang der Grundfläche · Höhe des Prismas"
+ },
+ {
+  "ch": "7 Rauminhalt",
+  "title": "7.1 Volumen gerader Prismen",
+  "text": "# Grundfläche mal Höhe\nEin Prisma kann man sich aus vielen gleichen Grundflächen gestapelt vorstellen.\nMerke: V = G · h\n- Quader: G = a · b\n- Parallelogramm-Prisma: G = g · h\n- Dreiecksprisma: G = g · h : 2\n# Einheiten\n- 1 dm³ = 1 000 cm³ = 1 Liter\n- 1 m³ = 1 000 dm³"
+ },
+ {
+  "ch": "7 Rauminhalt",
+  "title": "7.2 Zusammengesetzte Körper",
+  "text": "# Zerlegen oder ergänzen\nZerlege den Körper in einfache Prismen und addiere die Volumen. Oder ergänze zu einem großen Prisma und ziehe ab, was fehlt.\nMerke: Alle Längen erst in die gleiche Einheit umrechnen.\nBeispiel: Ein Pool ist 8 m lang, 4 m breit und 1,5 m tief: V = 8 · 4 · 1,5 = 48 m³ = 48 000 Liter"
+ },
+ {
+  "ch": "8 Daten und Diagramme",
+  "title": "8.1 Daten darstellen",
+  "text": "# Darstellungsformen\nText, Tabelle, Säulen-, Balken-, Kreis- oder Liniendiagramm\n- Säulen/Balken: Werte vergleichen\n- Kreis: Anteile am Ganzen\n- Linie: Entwicklung über die Zeit\nMerke: Prüfe bei Diagrammen: Beginnt die Achse bei 0? Sind die Abstände gleich? Wie viele wurden befragt?"
+ },
+ {
+  "ch": "8 Daten und Diagramme",
+  "title": "8.2 Mittelwert, Zentralwert, Spannweite",
+  "text": "# Kennwerte\nBeispiel Noten: 2, 3, 3, 4, 5\n| Kennwert | Bedeutung | Beispiel |\n|---|---|---|\n| Mittelwert | Summe : Anzahl | 17 : 5 = 3,4 |\n| Zentralwert | mittlerer Wert der geordneten Liste | 3 |\n| Spannweite | größter − kleinster Wert | 5 − 2 = 3 |\nMerke: Ausreißer verändern den Mittelwert stark, den Zentralwert kaum."
+ }
+]
