@@ -1,0 +1,1691 @@
+<title>ELON</title>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Layout: iPad-first app shell. Sticky header with clock and nav; dashboard = "Jetzt"-card + Fächer-grid; each subject has Heft / Hausaufgaben / Module. */
+:root{
+  --bg:#eef1f8; --surface:#ffffff; --surface-2:#f5f7fc; --ink:#18203d; --muted:#586082; --line:#d8ddee;
+  --navy:#26337a; --red:#cf3a2c; --yellow:#f2b51d; --green:#1f8f5d; --blue:#2f6fd6; --orange:#e8743b;
+  --on-accent:#ffffff; --on-bright:#18203d; --ok-bg:#dff4e9; --warn-bg:#fdf0d2; --late-bg:#fde3df;
+  --f-display:"Baloo 2","Arial Rounded MT Bold",ui-rounded,system-ui,sans-serif;
+  --f-body:"Nunito",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:18px;
+  --shadow:0 2px 0 rgba(24,32,61,.07),0 10px 24px rgba(24,32,61,.06);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1328; --surface:#181e3c; --surface-2:#1f274a; --ink:#eef0fa; --muted:#a4acce; --line:#2e3768;
+  --navy:#a3b3ff; --red:#ff7b6c; --yellow:#ffcb47; --green:#4fd394; --blue:#7fabff; --orange:#ff9a62;
+  --on-accent:#0f1328; --ok-bg:#173a2d; --warn-bg:#3a3017; --late-bg:#45201d;
+  --shadow:0 2px 0 rgba(0,0,0,.25),0 10px 24px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1328; --surface:#181e3c; --surface-2:#1f274a; --ink:#eef0fa; --muted:#a4acce; --line:#2e3768;
+  --navy:#a3b3ff; --red:#ff7b6c; --yellow:#ffcb47; --green:#4fd394; --blue:#7fabff; --orange:#ff9a62;
+  --on-accent:#0f1328; --ok-bg:#173a2d; --warn-bg:#3a3017; --late-bg:#45201d;
+  --shadow:0 2px 0 rgba(0,0,0,.25),0 10px 24px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.6rem,3.4vw,2.3rem)} h2{font-size:clamp(1.3rem,2.6vw,1.7rem)} h3{font-size:1.2rem}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1;letter-spacing:.02em}
+.logo .on{display:inline-flex;align-items:center;gap:4px;background:var(--green);color:var(--on-accent);border-radius:999px;padding:2px 10px 0 4px}
+.logo .on i{width:18px;height:18px;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-2px}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav button{border:0;background:none;padding:8px 12px;border-radius:12px;font-weight:800;cursor:pointer;color:var(--muted);min-height:42px}
+.nav button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.spacer{flex:1}
+.clock{font-family:var(--f-display);font-weight:800;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.clock.sim{color:var(--orange)}
+.stars{display:flex;align-items:center;gap:6px;font-weight:800;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-variant-numeric:tabular-nums}
+.stars svg{width:20px;height:20px}
+
+main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:800;cursor:pointer;touch-action:manipulation;transition:transform .08s}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:active{transform:translateY(2px)}
+.btn.pri{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
+.btn.ok{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.btn.red{background:var(--red);border-color:var(--red);color:var(--on-accent)}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:.9rem;border-radius:12px}
+.btn[disabled]{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:.8rem;font-weight:800;letter-spacing:.02em;color:var(--muted)}
+.chip.ex{border-style:dashed;color:var(--orange);border-color:var(--orange)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);min-width:0}
+.muted{color:var(--muted)}
+.label{font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.empty{padding:22px;border:2px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);font-weight:700}
+
+/* Subject colours: fixed, white text works in both themes */
+.s-E{--sc:#c8402f}.s-M{--sc:#2f63c8}.s-K{--sc:#8a4fc1}.s-D{--sc:#0e8577}.s-G{--sc:#a8650f}.s-N{--sc:#3f8a2b}.s-I{--sc:#4a5d78}.s-W{--sc:#c03a74}
+.sbadge{flex:none;width:44px;height:44px;border-radius:12px;background:var(--sc);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.05rem}
+
+/* Dashboard */
+.dash{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:820px){.dash{grid-template-columns:1fr}}
+.now{border-radius:22px;padding:22px;background:var(--sc,var(--navy));color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.now.idle{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.now .k{font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.now h2{font-size:clamp(2rem,5vw,3rem);margin-block:2px 4px;padding-right:70px}
+.now .bar{height:10px;border-radius:10px;background:rgba(255,255,255,.3);margin-top:14px;overflow:hidden}
+.now .bar i{display:block;height:100%;background:#fff}
+.now .btn{border-color:#fff;background:#fff;color:#18203d}
+.now .btn.ghost{background:transparent;color:#fff}
+.now .elo{position:absolute;right:14px;top:14px}
+.today{display:grid;gap:6px;margin-top:10px}
+.slot-row{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:12px}
+.slot-row.cur{background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--sc)}
+.slot-row.past{opacity:.5}
+.slot-row .sbadge{width:34px;height:34px;font-size:.85rem;border-radius:10px}
+.slot-row .tm{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700;width:104px;flex:none;font-size:.9rem}
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:12px;margin-top:10px}
+.subj{display:flex;flex-direction:column;gap:10px;text-align:left;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;border-top:6px solid var(--sc)}
+.subj b{font-family:var(--f-display);font-size:1.2rem;line-height:1.1}
+.subj small{color:var(--muted);font-weight:700;display:block}
+.mini{height:8px;border-radius:8px;background:var(--surface-2);overflow:hidden}
+.mini i{display:block;height:100%;background:var(--sc)}
+.hw-list{display:grid;gap:8px;margin-top:10px}
+.hw{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.hw .sbadge{width:36px;height:36px;font-size:.85rem;border-radius:10px}
+.hw .tx{flex:1;min-width:0}
+.hw .tx b{display:block}
+.hw.done .tx{opacity:.55;text-decoration:line-through}
+.due{display:inline-block;font-size:.8rem;font-weight:800;padding:1px 8px;border-radius:8px;background:var(--surface-2);color:var(--muted)}
+.due.soon{background:var(--warn-bg);color:var(--ink)}
+.due.late{background:var(--late-bg);color:var(--red)}
+.check{flex:none;width:40px;height:40px;border-radius:12px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;font-weight:800}
+.check.on{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+
+/* Subject page */
+.subj-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.subj-head .sbadge{width:56px;height:56px;font-size:1.3rem;border-radius:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-bottom:16px}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:800;cursor:pointer;color:var(--muted);border-bottom:4px solid transparent;margin-bottom:-2px;min-height:46px}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--sc)}
+
+/* Heft: looks like a real exercise-book page */
+.entries{display:grid;gap:16px}
+.page{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:6px 16px 16px 6px;box-shadow:var(--shadow);padding:20px 20px 18px 34px;min-width:0;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 31px,color-mix(in srgb,var(--blue) 14%,transparent) 31px 32px);background-position:0 54px}
+.page::before{content:"";position:absolute;left:20px;top:0;bottom:0;width:2px;background:color-mix(in srgb,var(--red) 55%,transparent)}
+.page header{display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.page h3{font-size:1.45rem;text-decoration:underline;text-decoration-color:var(--sc);text-decoration-thickness:3px;text-underline-offset:5px}
+.page .date{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:800}
+.page h4{font-family:var(--f-display);font-size:1.1rem;margin:14px 0 4px;color:var(--sc)}
+.page ul{margin:4px 0;padding-left:22px}
+.page li{margin-block:2px}
+.merke{margin-block:12px;border:3px solid var(--sc);border-radius:12px;padding:10px 14px;background:var(--surface)}
+.merke b.l{font-family:var(--f-display);color:var(--sc)}
+.tbl{overflow-x:auto;margin-block:8px}
+.tbl table{border-collapse:collapse;min-width:280px;background:var(--surface)}
+.tbl td,.tbl th{border:1px solid var(--line);padding:6px 12px;text-align:left}
+.tbl th{background:var(--surface-2)}
+.page footer{margin-top:14px;display:flex;justify-content:flex-end}
+
+/* English module (Lernleiter) */
+.home{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:20px;align-items:start}
+@media (max-width:760px){.home{grid-template-columns:1fr}}
+.hello{display:flex;gap:14px;align-items:flex-start}
+.hello svg{flex:none}
+.bubble{position:relative;background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-weight:700}
+.mission{margin-top:16px;border:2px dashed var(--yellow);border-radius:16px;padding:14px;background:var(--warn-bg)}
+.mission p{font-family:var(--f-display);font-size:1.35rem;line-height:1.2;margin-top:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;margin-top:10px}
+.pc{aspect-ratio:3/2;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;text-align:center;border:2px solid var(--line);background:var(--surface-2);color:var(--muted);padding:4px}
+.pc span{font-size:1.7rem;line-height:1.2}
+.pc.on{background:var(--surface);border-color:var(--red);color:var(--ink);box-shadow:inset 0 0 0 3px var(--surface),inset 0 0 0 5px var(--red)}
+.pc.off span{filter:grayscale(1);opacity:.35}
+.ladder{display:flex;flex-direction:column-reverse;position:relative;padding-inline:26px}
+.ladder::before,.ladder::after{content:"";position:absolute;top:0;bottom:0;width:8px;border-radius:8px;background:var(--navy);opacity:.9}
+.ladder::before{left:8px}.ladder::after{right:8px}
+.rung{position:relative;display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;margin-block:6px;background:var(--surface);border:2px solid var(--line);border-radius:14px;cursor:pointer;box-shadow:var(--shadow);min-height:66px}
+.rung .n{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.15rem;background:var(--surface-2);border:2px solid var(--line)}
+.rung.done{border-color:var(--green)}
+.rung.done .n{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.rung.next{border-color:var(--yellow);box-shadow:0 0 0 4px color-mix(in srgb,var(--yellow) 35%,transparent)}
+.rung .t{flex:1;min-width:0}
+.rung .t b{display:block;font-family:var(--f-display);font-size:1.12rem;line-height:1.15}
+.rung .t small{display:block;color:var(--muted);font-weight:700}
+.rung .climber{position:absolute;right:-6px;top:-22px}
+.ladder-top{text-align:center;font-family:var(--f-display);font-weight:800;color:var(--red);margin-bottom:6px}
+.mod-card{display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:16px;border-radius:16px;border:2px solid var(--line);background:var(--surface);box-shadow:var(--shadow);cursor:pointer}
+.mod-card svg{flex:none}
+.mod-card .t{flex:1;min-width:0}
+.mod-card b{font-family:var(--f-display);font-size:1.3rem;display:block}
+
+.st-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.goal{display:flex;gap:10px;align-items:center;background:var(--ok-bg);border-radius:14px;padding:10px 14px;font-weight:800;margin-bottom:16px}
+.goal .label{color:var(--green)}
+.say{display:flex;gap:12px;align-items:center;margin-block:10px}
+.say svg{flex:none}
+.prog{height:12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--green);border-radius:12px;transition:width .3s}
+.big-card{text-align:center;padding:28px 18px;border-radius:22px;background:var(--surface);border:3px solid var(--navy);box-shadow:var(--shadow)}
+.big-word{font-family:var(--f-display);font-size:clamp(2.4rem,9vw,4.8rem);line-height:1;margin-block:8px}
+.taboo{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.taboo span{padding:6px 12px;border-radius:10px;background:var(--surface-2);border:2px solid var(--red);color:var(--red);font-weight:800;text-decoration:line-through}
+.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.choice{padding:18px;border-radius:16px;border:2px solid var(--line);background:var(--surface);text-align:left;cursor:pointer;box-shadow:var(--shadow)}
+.choice b{font-family:var(--f-display);font-size:1.3rem;display:block}
+.opts{display:grid;gap:10px;margin-top:16px}
+.opt{min-height:58px;font-size:1.2rem}
+.opt.right{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.pop{animation:pop .3s}
+@keyframes pop{50%{transform:scale(1.05)}}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.match{grid-template-columns:1fr}}
+.match .col{display:grid;gap:10px;align-content:start}
+.mbtn{justify-content:flex-start;text-align:left;min-height:60px}
+.mbtn.sel{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 30%,transparent)}
+.mbtn.ok{background:var(--ok-bg);border-color:var(--green);opacity:.75}
+.dlg{display:grid;gap:8px}
+.line{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--surface)}
+.who{flex:none;width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;font-weight:800;font-size:.85rem;color:var(--on-accent)}
+.who.A{background:var(--blue)}.who.B{background:var(--red)}
+.line .tx{flex:1;min-width:0;font-weight:700;font-size:1.08rem}
+.line.mine{border-color:var(--yellow);background:var(--warn-bg)}
+.line.theirs .tx{color:var(--muted)}
+.line .de{font-style:italic}
+.ear{color:var(--muted);font-weight:800}
+.gap{display:inline-block;min-width:70px;border:0;border-bottom:3px dotted var(--navy);background:none;padding:0 4px;font-weight:800;color:var(--navy);cursor:pointer}
+.gap.shown{border-bottom-style:solid}
+.icon-btn{flex:none;width:40px;height:40px;border-radius:12px;border:2px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:pointer}
+.icon-btn svg{width:20px;height:20px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stepb{flex-direction:column;gap:0;min-height:62px;line-height:1.1}
+.stepb small{font-weight:700;color:var(--muted)}
+.stepb.on{border-color:var(--navy);background:var(--surface-2);box-shadow:inset 0 -4px 0 var(--navy)}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:14px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:10px 14px;font-weight:800;cursor:pointer;min-height:46px}
+.seg button.on{background:var(--navy);color:var(--on-accent)}
+.rolecards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.rolecard{border-radius:18px;padding:18px;border:3px solid var(--line);background:var(--surface)}
+.rolecard.A{border-color:var(--blue)}.rolecard.B{border-color:var(--red)}
+.rolecard ul{margin:8px 0 0;padding-left:20px;font-weight:700}
+.rolecard.dim{opacity:.4}
+.pool{display:grid;gap:8px}
+.slot{min-height:52px;border:2px dashed var(--line);border-radius:14px;display:flex;align-items:center;padding:8px 12px;color:var(--muted);font-weight:700}
+.corners{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.corner{min-height:120px;border-radius:18px;border:0;padding:14px;text-align:left;cursor:pointer;color:var(--on-bright);font-weight:800;display:flex;flex-direction:column;justify-content:space-between}
+.corner b{font-family:var(--f-display);font-size:1.5rem}
+.c1{background:#ffd95e}.c2{background:#ffb57d}.c3{background:#8fe0b5}.c4{background:#9cc2ff}
+[hidden]{display:none!important}
+textarea,input[type=text],input[type=number],input[type=time],input[type=password],select{font:inherit;width:100%;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+
+/* Week */
+.wk{overflow-x:auto}
+.wk table{border-collapse:separate;border-spacing:6px;min-width:640px;width:100%}
+.wk th{font-family:var(--f-display);text-align:left;color:var(--muted);font-size:.95rem}
+.wk td{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-weight:800;height:52px;vertical-align:middle}
+.wk td.has{background:var(--sc);color:#fff;border-color:var(--sc)}
+.wk td.cur{box-shadow:0 0 0 3px var(--yellow)}
+.wk td.tm{background:none;border:0;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums;font-size:.85rem;white-space:nowrap}
+
+/* Board */
+.board{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.board > *{grid-column:span 6}
+.board .wide{grid-column:span 12}
+@media (max-width:820px){.board > *{grid-column:span 12}}
+.timer{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.ring{--p:1;width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--navy) calc(var(--p)*360deg),var(--surface-2) 0);flex:none}
+.ring div{width:138px;height:138px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--f-display);font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums}
+.sig{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sig .btn{min-height:76px;flex-direction:column;gap:2px;line-height:1.1}
+.sig .btn small{font-weight:700;opacity:.8}
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pairs span{padding:6px 12px;border-radius:12px;background:var(--surface-2);border:2px solid var(--line);font-weight:800;font-variant-numeric:tabular-nums}
+.rocket{display:flex;gap:16px;align-items:flex-end}
+.fuel{display:flex;flex-direction:column-reverse;gap:4px;width:44px;flex:none}
+.fuel i{height:16px;border-radius:5px;background:var(--surface-2);border:1px solid var(--line)}
+.fuel i.on{background:var(--orange);border-color:var(--orange)}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px;margin-top:12px}
+.lib article{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface-2);min-width:0}
+.lib article h3{font-size:1.1rem;margin-bottom:4px}
+.lib .tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+.jobs{display:grid;gap:8px;margin-top:10px}
+.jobs div{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:12px;background:var(--surface-2)}
+.jobs b{font-variant-numeric:tabular-nums;font-family:var(--f-display);font-size:1.2rem}
+
+/* Overlay */
+.ov{position:fixed;inset:0;z-index:20;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
+.ov[hidden]{display:none}
+.ov .box{max-width:460px;width:100%;text-align:center;background:var(--surface);border-radius:24px;border:3px solid var(--yellow);padding:24px;box-shadow:var(--shadow);animation:pop .4s;max-height:100%;overflow:auto}
+.ov .box.change{border-color:var(--sc);text-align:left}
+.ov .post{font-size:4rem;line-height:1.1}
+.prep{display:grid;gap:8px;margin-top:12px}
+.prep button{display:flex;gap:12px;align-items:center;text-align:left;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface-2);font-weight:800;cursor:pointer;min-height:52px}
+.prep button i{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;font-style:normal}
+.prep button.on i{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.saved{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--ok-bg);font-weight:700}
+.foot{margin-top:28px;font-size:.85rem;color:var(--muted);text-align:center}
+/* Live banner (students) */
+#live{border-top:1px solid var(--line);background:var(--surface)}
+.live-in{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 25%,transparent)}
+.dot.off{background:var(--muted);box-shadow:none}
+.ph-txt{color:var(--muted);font-weight:700;min-width:0}
+.ltimer{font-family:var(--f-display);font-weight:800;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.lov{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(8px)}
+.lov[hidden]{display:none}
+.lov .box{max-width:480px;width:100%;background:var(--surface);border-radius:24px;border:3px solid var(--navy);padding:24px;box-shadow:var(--shadow);animation:pop .4s;max-height:100%;overflow:auto}
+.lov.full{background:var(--surface)}
+.look{text-align:center;display:grid;justify-items:center;gap:8px}
+.look h1{font-size:clamp(3rem,10vw,6rem)}
+.look p{font-size:1.4rem;font-weight:800;color:var(--muted)}
+.opt.c1,.opt.c2,.opt.c3,.opt.c4{color:var(--on-bright);border-color:transparent}
+
+/* Start screen */
+.splash{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:18px;text-align:center}
+.biglogo{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:800;font-size:clamp(4rem,14vw,8rem);line-height:1;letter-spacing:.02em}
+.biglogo .on{display:inline-flex;align-items:center;gap:.12em;background:var(--green);color:var(--on-accent);border-radius:999px;padding:.06em .3em 0 .1em}
+.biglogo .on i{width:.62em;height:.62em;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-.08em}
+.tagline{font-size:1.2rem;font-weight:800;color:var(--muted);letter-spacing:.04em}
+.btn.big{min-height:64px;padding:12px 40px;font-size:1.3rem;border-radius:18px}
+.start{max-width:860px;margin:0 auto}
+.start-head{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px;margin-top:16px}
+.pick-card{display:flex;flex-direction:column;gap:4px;text-align:left;padding:20px;border-radius:18px;border:2px solid var(--line);background:var(--surface);box-shadow:var(--shadow);cursor:pointer;font-weight:700}
+.pick-card b{font-family:var(--f-display);font-size:1.4rem;line-height:1.1}
+.pick-card b.cl{font-size:3rem;color:var(--navy)}
+.pick-card:hover{border-color:var(--navy)}
+/* Role screen */
+.role-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;margin-top:16px}
+.numgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px;margin-top:10px}
+.numgrid .btn{min-height:56px;font-family:var(--f-display);font-size:1.3rem;padding:0}
+.err{color:var(--red);font-weight:800;margin-top:8px}
+
+/* Tafel (teacher dashboard for Apple TV) */
+.tafel{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;align-items:start}
+.t-head{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+@media (max-width:820px){.tafel,.t-head{grid-template-columns:1fr}}
+.t-big{font-size:clamp(2.4rem,5vw,4rem)}
+.t-txt{font-size:1.3rem;font-weight:700;color:var(--muted);margin-top:4px}
+.t-side{display:grid;gap:16px;min-width:0}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:12px}
+.seat{min-height:78px;border-radius:14px;border:2px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px;font-family:var(--f-display);font-weight:800;font-size:1.25rem;color:var(--muted);position:relative;min-width:0;text-align:center}
+.seat small{font-family:var(--f-body);font-size:.78rem;font-weight:800;line-height:1.1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.seat.on{border:2px solid var(--line);background:var(--surface-2);color:var(--ink)}
+.seat.ready{background:var(--ok-bg);border-color:var(--green)}
+.seat.voted::after{content:"";position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
+.seat.help{background:var(--late-bg);border-color:var(--red);color:var(--red);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--red) 25%,transparent)}}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:.85rem;font-weight:700;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:4px;vertical-align:-1px;border:2px solid var(--line)}
+.helpq{display:grid;gap:6px;margin-top:8px}
+.helpq div{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:12px;background:var(--late-bg)}
+.helpq b{font-family:var(--f-display);font-size:1.3rem}
+.bars{display:grid;gap:8px;margin-top:10px}
+.barrow{display:grid;grid-template-columns:minmax(0,1fr) 36px;gap:8px;align-items:center}
+.barrow .track{height:30px;border-radius:8px;background:var(--surface-2);overflow:hidden;position:relative}
+.barrow .track i{display:block;height:100%;background:color-mix(in srgb,var(--blue) 45%,transparent)}
+.barrow .track span{position:absolute;left:10px;top:4px;font-weight:800;font-size:.9rem;white-space:nowrap}
+.barrow b{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-display);font-size:1.2rem}
+.ctrl{margin-top:16px}
+.ctrl summary{font-family:var(--f-display);font-weight:800;font-size:1.25rem;cursor:pointer}
+.grp{margin-top:16px}
+.phbtns{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px}
+.btn.on{background:var(--navy);color:var(--on-accent);border-color:var(--navy)}
+.moods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:6px}
+.mood{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 4px;font-size:1.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.mood small{font-size:.75rem;font-weight:800;color:var(--muted)}
+.mood.on{border-color:var(--green);background:var(--ok-bg)}
+.lesson-list{display:grid;gap:12px}
+.lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
+.lgrid label{display:grid;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);min-width:0}
+.lgrid input,.lgrid select{text-transform:none;letter-spacing:0;font-size:1rem;font-weight:600}
+.lnum{flex:none;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--on-accent);display:grid;place-items:center;font-family:var(--f-display);font-weight:800}
+.strip{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.strip button{border:2px solid var(--line);background:var(--surface-2);border-radius:10px;padding:4px 10px;font-weight:800;font-size:.85rem;cursor:pointer;min-height:36px}
+.strip button.on{background:var(--navy);color:var(--on-accent);border-color:var(--navy)}
+.strip button.past{opacity:.55}
+.conn{font-size:.8rem}
+body.wide main,body.wide .top-in{max-width:1760px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* v8: Dashboard-Bereiche + Üben */
+.areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.areas{grid-template-columns:1fr}}
+.area{display:flex;flex-direction:column;gap:6px;text-align:left;padding:18px;border-radius:20px;background:var(--surface);border:1px solid var(--line);border-top:7px solid var(--ac);box-shadow:var(--shadow);cursor:pointer;color:var(--ink);font:inherit}
+.area .ai{font-size:2rem;line-height:1}
+.area b{font-family:var(--f-display);font-size:1.35rem}
+.area small{color:var(--muted);font-weight:700}
+.area .mini i{background:var(--ac)}
+.a-plan{--ac:var(--blue)}.a-hw{--ac:var(--orange)}.a-play{--ac:var(--green)}
+.pstrip{margin-top:14px;padding:12px;border-radius:14px;background:rgba(255,255,255,.16)}
+.pstrip p{margin:8px 0 0}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pills span{padding:4px 10px;border-radius:999px;font-size:.8rem;font-weight:800;background:rgba(255,255,255,.18);opacity:.75}
+.pills span.past{opacity:.5;text-decoration:line-through}
+.pills span.cur{background:#fff;color:#18203d;opacity:1}
+.now.idle .pstrip{background:var(--surface-2);border:1px solid var(--line)}
+.now.idle .pills span{background:var(--line);color:var(--ink)}
+.now.idle .pills span.cur{background:var(--navy);color:#fff}
+.now.idle .pstrip .btn{background:var(--navy);border-color:var(--navy);color:#fff}
+.lvl{display:flex;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:18px}
+.lvl .bar{height:12px;border-radius:12px;background:var(--surface-2);overflow:hidden;margin-top:8px;border:1px solid var(--line)}
+.lvl .bar i{display:block;height:100%;background:var(--green)}
+.psub{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
+.psub button{padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;color:var(--ink);cursor:pointer}
+.psub button.on{border-color:var(--sc);background:var(--sc);color:#fff}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.games{grid-template-columns:1fr}}
+.gcard{display:flex;flex-direction:column;gap:6px;text-align:left;padding:18px;border-radius:20px;border:2px solid var(--line);background:var(--surface);box-shadow:var(--shadow);cursor:pointer;font:inherit;color:var(--ink)}
+.gcard .gi{font-size:2.4rem;line-height:1}
+.gcard b{font-family:var(--f-display);font-size:1.25rem}
+.gcard small{color:var(--muted);font-weight:700}
+.gcard[disabled]{opacity:.55;cursor:default}
+.mem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+@media (max-width:520px){.mem{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mc{min-height:92px;border-radius:16px;border:2px solid var(--line);background:var(--sc,var(--navy));color:#fff;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;padding:8px;transition:transform .15s}
+.mc span{font-family:var(--f-display);font-size:2rem;opacity:.6}
+.mc.up{background:var(--surface);color:var(--ink);border-color:var(--sc,var(--navy));transform:scale(1.03)}
+.mc.ok{background:var(--ok-bg);border-color:var(--green);opacity:1}
+.mc[disabled]{cursor:default}
+.slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0}
+.slot,.tile{width:52px;height:58px;border-radius:12px;font-family:var(--f-display);font-size:1.7rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+.slot{border:2px dashed var(--line);background:var(--surface-2);color:var(--ink)}
+button.slot{border-style:solid;border-color:var(--sc);background:var(--surface);cursor:pointer}
+.tile{border:2px solid var(--sc);background:var(--sc);color:#fff;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.tile[disabled]{opacity:.15;cursor:default}
+.slots.ok .slot{border-color:var(--green);background:var(--ok-bg)}
+.hintbox{text-align:center;font-size:1.3rem;font-weight:800;margin-top:6px}
+.fb{text-align:center;font-weight:800;margin-top:10px;min-height:1.5em}
+.fb.ok{color:var(--green)}.fb.no{color:var(--orange)}
+.sky{position:relative;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.bals{display:flex;gap:4px;margin-bottom:-6px}
+.bal{width:34px;height:42px;border-radius:50% 50% 48% 48%;position:relative;animation:bob 2.4s ease-in-out infinite}
+.bal::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:34px;background:var(--muted)}
+.bal:nth-child(2n){animation-delay:.6s}.bal:nth-child(3n){animation-delay:1.1s}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.bal{animation:none}}
+.landed{font-weight:800;color:var(--muted);text-align:center}
+.kbd{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
+.kbd button{width:44px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;font-size:1.15rem;color:var(--ink);cursor:pointer}
+.kbd button.hit{background:var(--ok-bg);border-color:var(--green)}
+.kbd button.miss{opacity:.35}
+.win{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:18px;padding:16px;border-radius:20px;background:var(--ok-bg)}
+.win p{margin:4px 0 0}
+.gprog{font-weight:800;color:var(--muted)}
+</style>
+
+<header class="top"><div class="top-in">
+  <button class="logo" data-act="dash" aria-label="ELON Dashboard">EL<span class="on"><i></i>ON</span></button>
+  <nav class="nav" id="nav">
+    <button data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
+    <button data-act="lessons" data-nav="lessons" id="nav-lessons" hidden>Stunden</button>
+    <button data-act="dash" data-nav="dash">Dashboard</button>
+    <button data-act="homework" data-nav="homework">Hausaufgaben</button>
+    <button data-act="practice" data-nav="practice">Üben</button>
+    <button data-act="week" data-nav="week">Stundenplan</button>
+    <button data-act="journal" data-nav="journal" id="nav-journal" hidden>Lerntagebuch</button>
+    <button data-act="board" data-nav="board">Lotsen-Board</button>
+  </nav>
+  <span class="spacer"></span>
+  <span class="clock" id="clock">--:--</span>
+  <span class="stars" title="Deine Sterne"><span id="star-ico"></span><span id="star-n">0</span></span>
+</div><div id="live" hidden></div></header>
+<main id="view"></main>
+<div id="ov" class="ov" hidden></div>
+<div id="live-ov" class="lov" hidden></div>
+
+<script>
+/* =====================================================================
+   CLASS DATA: Stundenplan, Hefteinträge und Hausaufgaben der Klasse.
+   ex:true = Beispielinhalt, wird durch echte Einträge ersetzt.
+   ===================================================================== */
+const SUBJECTS={
+  E:{name:'Englisch',short:'E',prep:['Englisch-Heft','iPad mit ELON offen','Federmäppchen']},
+  M:{name:'Mathematik',short:'M',prep:['Mathe-Heft','Geodreieck','Taschenrechner']},
+  K:{name:'Kunst',short:'Ku',prep:['Zeichenblock','Bleistift und Radiergummi','Farbkasten und Pinsel']},
+  D:{name:'Deutsch',short:'D',prep:['Deutsch-Heft','Lesebuch']},
+  G:{name:'GPG',short:'GPG',prep:['GPG-Heft','Atlas']},
+  N:{name:'N&T',short:'NT',prep:['N&T-Heft','Buntstifte']},
+  I:{name:'Informatik',short:'In',prep:['iPad geladen','Informatik-Heft']},
+  W:{name:'W&B',short:'WB',prep:['W&B-Heft','Mappe']},
+};
+const TIMETABLE_EXAMPLE=true;
+const PERIODS=[[1,'08:00','08:45'],[2,'08:45','09:30'],[3,'09:45','10:30'],[4,'10:30','11:15'],[5,'11:30','12:15'],[6,'12:15','13:00'],[7,'13:45','14:30'],[8,'14:30','15:15']];
+// Mo..Fr, one column per period; '' = frei
+const WEEK=[
+  ['D','D','M','E','G','K','',''],
+  ['M','E','N','N','D','I','',''],
+  ['E','M','D','W','W','K','K',''],
+  ['M','M','E','G','N','D','I','I'],
+  ['E','D','M','K','W','','',''],
+];
+const DAYS=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag'];
+const HEFT={
+  E:[{id:'e1',date:'2026-10-07',ex:true,title:'Shopping for clothes',blocks:[
+      ['h','Words'],['table',[['English','Deutsch'],['hoodie','Kapuzenpulli'],['trainers','Turnschuhe'],['changing room','Umkleidekabine'],['expensive','teuer'],['cheap','billig'],['change','Wechselgeld']]],
+      ['h','Useful phrases'],['list',['Can I help you? – Kann ich dir helfen?',"I'm looking for … – Ich suche …",'What size are you? – Welche Größe hast du?','Can I try it on? – Kann ich es anprobieren?']],
+      ['merke','How much <b>is</b> it? → ein Ding (Singular)<br>How much <b>are</b> they? → mehrere Dinge (Plural, z. B. trainers, jeans)']]}],
+  M:[{id:'m1',date:'2026-10-08',ex:true,title:'Prozentrechnung – Grundbegriffe',blocks:[
+      ['table',[['Begriff','Zeichen','Beispiel'],['Grundwert','G','50 €'],['Prozentsatz','p %','20 %'],['Prozentwert','P','10 €']]],
+      ['merke','Prozentwert = Grundwert · Prozentsatz : 100<br><b>P = G · p : 100</b>'],
+      ['h','Beispiel'],['p','Ein Hoodie kostet 50 €. Er ist um 20 % reduziert.<br>P = 50 € · 20 : 100 = <b>10 €</b>. Der Hoodie kostet jetzt 40 €.']]}],
+  K:[{id:'k1',date:'2026-10-06',ex:true,title:'Der Farbkreis nach Itten',blocks:[
+      ['h','Grundfarben (1. Ordnung)'],['p','Gelb, Rot, Blau'],
+      ['h','Mischfarben (2. Ordnung)'],['list',['Gelb + Rot = Orange','Rot + Blau = Violett','Blau + Gelb = Grün']],
+      ['merke','Komplementärfarben liegen sich im Farbkreis <b>gegenüber</b>. Sie verstärken sich gegenseitig (z. B. Rot und Grün).']]}],
+};
+const HOMEWORK=[
+  {id:'h1',s:'M',due:'2026-10-12',ex:true,task:'Arbeitsblatt Prozente, Aufgaben 1 bis 4'},
+  {id:'h2',s:'E',due:'2026-10-13',ex:true,task:'Lerne die Wörter aus „Shopping for clothes“. Schreibe 3 Sätze mit „I\'m looking for …“.'},
+  {id:'h3',s:'K',due:'2026-10-14',ex:true,task:'Bring eine leere Klopapierrolle und Zeitungspapier mit.'},
+  {id:'h4',s:'D',due:'2026-10-15',ex:true,task:'Lies im Lesebuch S. 42–45 und notiere drei Fragen zum Text.'},
+];
+
+/* ---------- English module content ---------- */
+const STATIONS=[
+  {id:'warmup', name:'Warm-up', title:'Taboo & Heads-Up', goal:'I can explain shop words in English.', mode:'Partner', post:['🎡','London Eye']},
+  {id:'words', name:'Words', title:'Wörter-Training', goal:'I know 12 words for clothes and shopping.', mode:'Alleine', post:['🚌','Red Bus']},
+  {id:'phrases', name:'Phrases', title:'Satz-Paare', goal:'I can match questions and answers in a shop.', mode:'Alleine', post:['🌉','Tower Bridge']},
+  {id:'order', name:'Dialogue puzzle', title:'Dialog-Puzzle', goal:'I can put a shop dialogue in the right order.', mode:'Alleine oder zu zweit', post:['🕰️','Big Ben']},
+  {id:'ladder', name:'Talk', title:'Dialog-Leiter', goal:'I can act out a shop dialogue with a partner.', mode:'Partner', post:['☎️','Phone Box']},
+  {id:'swap', name:'Swap & Talk', title:'Swap & Talk', goal:'I can talk to different partners.', mode:'Bewegt', post:['🚕','Black Cab']},
+  {id:'reflect', name:'Reflect', title:'Reflexion', goal:'I know what I can already do.', mode:'Alleine', post:['🚇','The Tube']},
+];
+const TABOO=[
+  {w:'hoodie',no:['jumper','warm','head']},{w:'trainers',no:['shoes','sport','run']},
+  {w:'changing room',no:['clothes','try','room']},{w:'expensive',no:['money','cheap','price']},
+  {w:'shop assistant',no:['shop','help','work']},{w:'size',no:['small','big','M']},
+  {w:'pound',no:['money','England','£']},{w:'cap',no:['head','hat','sun']},
+  {w:'bag',no:['carry','shopping','plastic']},{w:'scarf',no:['neck','winter','warm']},
+  {w:'change',no:['money','back','coins']},{w:'socks',no:['feet','shoes','two']},
+];
+const VOCAB=[
+  ['hoodie','Kapuzenpulli','🧥'],['trousers','Hose','👖'],['trainers','Turnschuhe','👟'],['cap','Kappe','🧢'],
+  ['dress','Kleid','👗'],['socks','Socken','🧦'],['scarf','Schal','🧣'],['bag','Tüte','🛍️'],
+  ['price','Preis','🏷️'],['size','Größe','📏'],['changing room','Umkleidekabine','🚪'],['expensive','teuer','💎'],
+];
+const PAIRS=[
+  ['Can I help you?',"Yes, please. I'm looking for a hoodie."],
+  ['What size are you?',"I'm a medium."],
+  ['What colour would you like?','Have you got it in blue?'],
+  ['Do you want to try it on?','Yes, please. Where are the changing rooms?'],
+  ['How much is it?',"It's 25 pounds."],
+  ['Would you like a bag?','No, thanks.'],
+];
+const PUZZLE=[
+  ['B','Hello! Can I help you?'],['A',"Yes, please. I'm looking for a cap."],['B','What colour would you like?'],
+  ['A','Red, please.'],['B','Here you are.'],['A','Thanks. How much is it?'],['B',"It's 12 pounds."],
+  ['A',"Great, I'll take it."],['B',"Here's your change. Bye!"],
+];
+const DIALOGUE=[
+  ['B','Hello! Can I [help] you?','Begrüße und frag, ob du helfen kannst.'],
+  ['A',"Yes, please. I'm [looking for] a hoodie.",'Sag, dass du einen Hoodie suchst.'],
+  ['B','What [size] are you?','Frag nach der Größe.'],
+  ['A',"I'm a [medium].",'Nenne deine Größe (S, M, L).'],
+  ['B','What [colour] would you like?','Frag nach der Farbe.'],
+  ['A','Have you [got] it in blue?','Frag, ob es ihn in Blau gibt.'],
+  ['B','Yes, here you are. Do you want to [try it on]?','Gib ihn und frag, ob man ihn anprobieren möchte.'],
+  ['A','Yes, please. Where are the [changing rooms]?','Frag nach der Umkleidekabine.'],
+  ['B','Over there, next to the shoes.','Zeig den Weg.'],
+  ['A','It [fits]! How [much] is it?','Sag, dass er passt. Frag nach dem Preis.'],
+  ['B',"It's 25 [pounds].",'Nenne den Preis.'],
+  ['A',"Oh, that's too [expensive]. Have you got a [cheaper] one?",'Sag, dass er zu teuer ist. Frag nach einem billigeren.'],
+  ['B','This one is 18 pounds.','Biete einen billigeren an.'],
+  ['A',"Great, I'll [take] it.",'Sag, dass du ihn nimmst.'],
+  ['B','Would you like a [bag]?','Frag, ob man eine Tüte möchte.'],
+  ['A','No, thanks. Here you are.','Lehne ab und bezahle.'],
+  ['B',"Thank you. Here's your [change]. Have a nice day!",'Gib das Wechselgeld und verabschiede dich.'],
+  ['A','Thanks, bye!','Verabschiede dich.'],
+];
+const ROLE={A:'Customer',B:'Shop assistant'};
+const ITEMS=['hoodie','cap','T-shirt','pair of trainers','pair of jeans','jacket','scarf'];
+const COLOURS=['blue','red','black','green','white','yellow','grey'];
+const SWAP=[
+  ["What's your favourite colour?",'My favourite colour is …'],
+  ['What are you wearing today?',"Today I'm wearing …"],
+  ['What do you usually wear at the weekend?','At the weekend I usually wear …'],
+  ["What's your favourite piece of clothing?",'My favourite … is …'],
+  ['Do you like shopping? Why or why not?',"Yes, I do, because … / No, I don't, because …"],
+  ['What would you buy in London?','In London I would buy …'],
+  ['Where do you like to go shopping?','I like to go shopping in …'],
+  ['What colour are your shoes?','My shoes are …'],
+  ['Which is better: a cap or a hat?','I think a … is better because …'],
+  ['What do you wear when it is cold?','When it is cold, I wear …'],
+];
+const CORNERS=[
+  {c:'c1',t:'Noch nicht',d:'Ich brauche noch Hilfe.',tip:'Übe Stufe 1 der Dialog-Leiter zusammen mit einem Lernlotsen.'},
+  {c:'c2',t:'Mit Hilfe',d:'Mit dem Text klappt es.',tip:'Probiere als Nächstes Stufe 2 mit Lücken.'},
+  {c:'c3',t:'Fast alleine',d:'Ich brauche nur Hinweise.',tip:'Spiel Stufe 3 nur mit den deutschen Hinweisen.'},
+  {c:'c4',t:'Ich kann es',d:'Ich kann anderen helfen.',tip:'Werde Lernlotse oder spiel Stufe 4 ganz frei.'},
+];
+const RITUALS=[
+  {tag:'Stundenbeginn',t:"Elo's Mission Call",d:'Ein Lotse drückt „Mission vorlesen“. Elo liest das Stundenziel auf Englisch vor, die Klasse antwortet im Chor „Mission accepted!“. Das Ziel ist ab Minute 1 klar und kommt nicht von der Lehrkraft.'},
+  {tag:'Stundenwechsel',t:'Fach-Check-in',d:'ELON zeigt beim Stundenwechsel, was auf den Tisch muss. Die SuS haken selbst ab. Wer fertig ist, legt das iPad mit dem Display nach unten: das stille Zeichen „Ich bin bereit“.'},
+  {tag:'Rollen',t:'Lernlotsen-Jobs',d:'Jede Stunde vergibt das Board vier Jobs per Zufall: Time Keeper, Sound Master, Mission Reader und Help Desk. Die SuS steuern Timer, Signale und Hilfe selbst. Du beobachtest und gibst Feedback.'},
+  {tag:'Hilfe',t:'Erst Elo, dann Partner, dann Lotse',d:'Hilfekaskade: zuerst Hören-Button und Hinweise, dann der Sitznachbar, dann der Help Desk. Erst danach die Lehrkraft. Das macht Selbstständigkeit sichtbar.'},
+  {tag:'Signal',t:'Freeze-Gong',d:'Gong heißt: Hände hoch, Mund zu, Blick nach vorne. Wenn die ganze Klasse in fünf Sekunden still ist, bekommt die Klassen-Rakete Treibstoff. Kein Rufen mehr nötig.'},
+  {tag:'Differenzierung',t:'Dialog-Leiter mit Selbstwahl',d:'Vier Stufen vom ganzen Text bis zum freien Sprechen. Die SuS wählen selbst und dürfen jederzeit wechseln. Die Stufen tragen Farben und Namen, keine Noten.'},
+  {tag:'Sprechen',t:'Phone Box',d:'Zwei Stühle Rücken an Rücken als „rote Telefonzelle“. Der Dialog läuft ohne Blickkontakt, also nur über Sprache und Zuhören. Das ist schülernah und sehr realistisch.'},
+  {tag:'Bewegung',t:'London Tube (Kugellager)',d:'Innen- und Außenkreis. Beim Swap-Signal „fährt“ der Außenkreis eine Station weiter, der Lotse ruft die Station aus („Next stop: Oxford Circus!“).'},
+  {tag:'Aussprache',t:'Shadowing-Karaoke',d:'Elo spricht einen Satz vor, alle sprechen gleichzeitig leise mit. Aussprache wird trainiert, ohne dass jemand alleine vor der Klasse sprechen muss.'},
+  {tag:'Fehlerkultur',t:'My favourite mistake',d:'Am Stundenende darf, wer will, seinen Lieblingsfehler nennen und was er daraus gelernt hat. Die Klasse applaudiert. In ELON gibt es dafür Mut-Sterne.'},
+  {tag:'Belohnung',t:'Klassen-Rakete statt Rangliste',d:'Sterne gibt es für Dranbleiben, nicht für Tempo. Die Klasse tankt gemeinsam die Rakete voll und wählt dann eine Klassenbelohnung. Niemand wird verglichen.'},
+];
+const REWARDS=['Musik in der Übungsphase','Taboo-Battle: Klasse gegen Elo','Lieblings-Warm-up aussuchen','Hausaufgaben-Joker für alle'];
+const JOBS=[['Time Keeper','startet den Timer'],['Sound Master','gibt die Signale'],['Mission Reader','liest die Mission'],['Help Desk','hilft bei Fragen']];
+
+/* ---------- State (stays on this iPad only) ---------- */
+const KEY='elon-v1';
+const def=()=>({stars:0,mut:0,done:{},mission:'Today I can buy clothes in a London shop.',rocket:0,classSize:24,mistake:'',reflect:null,copied:{},hwDone:{},earned:{},lastSlot:null,lastSubj:null,lessons:null,journal:[],journalDone:{},role:null,code:'',school:'',cls:'',nr:null,nick:'',voted:{},readyDone:{},phaseSeen:'',cs:null});
+let S;
+try{S=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('anton-english-v1')||'{}'))}catch(e){S=def()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+// The role is also kept per window, so one Mac can show the Tafel and a student view side by side
+try{const r=JSON.parse(sessionStorage.getItem('elon-role')||'null');if(r)Object.assign(S,r)}catch(e){}
+function saveRole(){try{sessionStorage.setItem('elon-role',JSON.stringify({role:S.role,code:S.code,nr:S.nr,nick:S.nick,school:S.school,cls:S.cls}))}catch(e){}save()}
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="var(--yellow)" stroke="var(--orange)" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+const SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+const badge=k=>`<span class="sbadge s-${k}">${SUBJECTS[k].short}</span>`;
+
+function elo(mood='happy',size=56){
+  const mouth=mood==='cheer'?'<path d="M38 65 Q50 82 62 65 Z" fill="#18203d"/><path d="M43 71 Q50 77 57 71" fill="#e5546a"/>'
+    :mood==='think'?'<circle cx="55" cy="69" r="3.6" fill="#18203d"/>'
+    :'<path d="M40 65 Q50 74 60 65" stroke="#18203d" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
+  const brow=mood==='think'?'<path d="M56 40 L68 37" stroke="#18203d" stroke-width="3" stroke-linecap="round"/>':'';
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true">
+    <path d="M17 44 L21 9 L44 27 Z" fill="#e8743b"/><path d="M83 44 L79 9 L56 27 Z" fill="#e8743b"/>
+    <path d="M23 36 L25 17 L37 27 Z" fill="#ffd2b8"/><path d="M77 36 L75 17 L63 27 Z" fill="#ffd2b8"/>
+    <circle cx="50" cy="56" r="34" fill="#e8743b"/>
+    <ellipse cx="50" cy="69" rx="23" ry="17" fill="#fff4ea"/>
+    <circle cx="38" cy="51" r="5.2" fill="#18203d"/><circle cx="62" cy="51" r="5.2" fill="#18203d"/>
+    <circle cx="39.8" cy="49.3" r="1.7" fill="#fff"/><circle cx="63.8" cy="49.3" r="1.7" fill="#fff"/>
+    ${brow}<ellipse cx="50" cy="60" rx="5.5" ry="3.8" fill="#18203d"/>${mouth}
+    <path d="M20 33 Q50 4 80 33 Q50 25 20 33 Z" fill="#1f8f5d"/><path d="M58 31 Q78 25 90 35 Q74 38 58 34 Z" fill="#17734a"/>
+    <circle cx="50" cy="14" r="3.5" fill="#f2b51d"/>
+  </svg>`;
+}
+
+/* ---------- Time & timetable ---------- */
+let SIM=null; // {day:0..4, min, setAt}
+const toMin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m};
+function nowInfo(){
+  if(SIM){const el=Math.floor((Date.now()-SIM.setAt)/60000);return {day:SIM.day,min:SIM.min+el,sim:true}}
+  const d=new Date();return {day:d.getDay()-1,min:d.getHours()*60+d.getMinutes(),sim:false};
+}
+function slotNow(){
+  const n=nowInfo();
+  if(n.day<0||n.day>4)return {kind:'weekend',n};
+  const lessons=PERIODS.map((p,i)=>({p:p[0],start:toMin(p[1]),end:toMin(p[2]),from:p[1],to:p[2],s:WEEK[n.day][i]})).filter(l=>l.s);
+  if(!lessons.length)return {kind:'free',n};
+  for(const l of lessons){if(n.min>=l.start&&n.min<l.end)return {kind:'lesson',l,n,next:lessons.find(x=>x.start>=l.end)}}
+  const next=lessons.find(l=>l.start>n.min);
+  if(n.min<lessons[0].start)return {kind:'before',next,n};
+  if(next)return {kind:'break',next,n};
+  return {kind:'after',n};
+}
+const hhmm=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function daysUntil(iso){return Math.round((new Date(iso+'T00:00')-new Date(todayISO()+'T00:00'))/864e5)}
+function dueLabel(iso){const d=daysUntil(iso);if(d<0)return ['late','überfällig'];if(d===0)return ['soon','heute'];if(d===1)return ['soon','morgen'];
+  const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return ['',`bis ${w}, ${iso.slice(8,10)}.${iso.slice(5,7)}.`]}
+const fmtDate=iso=>`${iso.slice(8,10)}.${iso.slice(5,7)}.${iso.slice(0,4)}`;
+
+/* ---------- Sound ---------- */
+let AC;
+function ctx(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC}
+function tone(f,start,dur,type='sine',vol=.22){
+  const a=ctx();if(!a)return;
+  const o=a.createOscillator(),g=a.createGain(),t=a.currentTime+start;
+  o.type=type;o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur+.05);
+}
+const SND={
+  freeze(){tone(196,0,2.6,'sine',.45);tone(392,0,1.8,'sine',.14);tone(294,0,2.2,'triangle',.08);tone(523,.02,1.2,'sine',.05)},
+  swap(){tone(880,0,.35,'triangle');tone(1175,.18,.5,'triangle')},
+  seats(){[784,659,523].forEach((f,i)=>tone(f,i*.22,.45))},
+  cheer(){[523,659,784,1047].forEach((f,i)=>tone(f,i*.12,.55,'triangle',.18))},
+  bigben(){[659,831,740,494].forEach((f,i)=>tone(f,i*.6,1.3,'sine',.3))},
+  mission(){[392,523,659].forEach((f,i)=>tone(f,i*.15,.4,'square',.07));tone(784,.45,.7,'triangle',.18)},
+  change(){[523,784,659,1047].forEach((f,i)=>tone(f,i*.25,.8,'sine',.22))},
+  right(){tone(660,0,.14,'sine',.18);tone(990,.09,.25,'sine',.18)},
+  oops(){tone(300,0,.22,'sine',.12)},
+};
+function say(t){
+  try{const u=new SpeechSynthesisUtterance(t.replace(/[\[\]]/g,''));u.lang='en-GB';u.rate=.88;
+    const v=speechSynthesis.getVoices().find(v=>v.lang==='en-GB')||speechSynthesis.getVoices().find(v=>/^en/.test(v.lang));
+    if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
+}
+
+/* ---------- Rewards (effort, never speed or ranking) ---------- */
+function addStars(n){S.stars+=n;save();hdr()}
+function earnOnce(key){if(!S.earned[key]){S.earned[key]=1;addStars(1)}}
+function mutStar(){if(S.mut<30){S.mut++;addStars(1)}}
+function hdr(){$('#star-n').textContent=S.stars}
+function complete(id){
+  const st=STATIONS.find(s=>s.id===id),first=!S.done[id];
+  S.done[id]=true;if(first)addStars(3);save();SND.cheer();
+  showOv(`<div class="box" role="dialog" aria-label="Station geschafft">
+    ${elo('cheer',90)}
+    <h2 style="margin-top:6px">Well done!</h2>
+    <p class="muted" style="margin-top:4px">${first?'+3 Sterne · Neue Postkarte für deine Sammlung':'Du hast die Station nochmal geschafft.'}</p>
+    <div class="post" style="margin-top:10px">${st.post[0]}</div><b>${st.post[1]}</b>
+    <div class="row" style="justify-content:center;margin-top:18px"><button class="btn pri" data-act="close-ov" data-to="module">Zur Lernleiter</button></div>
+  </div>`);
+}
+function showOv(html,k=''){const ov=$('#ov');ov.innerHTML=html;ov.dataset.k=k;ov.hidden=false}
+
+/* ---------- Lesson change ---------- */
+function checkSlot(){
+  if(S.role!=='student')return;
+  const sl=slotNow();
+  if(sl.kind!=='lesson')return;
+  const key=`${todayISO()}|${sl.n.day}|${sl.l.p}|${sl.n.sim?'sim':''}`;
+  if(key===S.lastSlot)return;
+  const prev=S.lastSubj;S.lastSlot=key;S.lastSubj=sl.l.s;save();
+  lessonPopup(sl,prev&&prev!==sl.l.s?prev:null);
+}
+function lessonPopup(sl,prev){
+  const sub=SUBJECTS[sl.l.s];
+  SND.change();
+  showOv(`<div class="box change s-${sl.l.s}" role="dialog" aria-label="Stundenwechsel">
+    <div class="row">${badge(sl.l.s)}<div><span class="label">Stundenwechsel · ${sl.l.p}. Stunde · ${sl.l.from}–${sl.l.to}</span><h2>Jetzt: ${sub.name}</h2></div></div>
+    <p style="margin-top:12px;font-weight:700">Leg bereit und hake ab:</p>
+    <div class="prep">${sub.prep.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>
+    ${prev?`<div class="saved">Dein Fortschritt in ${SUBJECTS[prev].name} ist gespeichert.</div>`:''}
+    <div class="row" style="margin-top:16px"><button class="btn pri" style="flex:1" data-act="close-ov" data-to="subject" data-s="${sl.l.s}">Los geht's: ${sub.name}</button></div>
+  </div>`);
+}
+
+/* ---------- Router ---------- */
+let V={name:'dash'},stops=[];
+function go(name,arg={}){stops.forEach(f=>f());stops=[];V={name,...arg};render();window.scrollTo(0,0)}
+function render(){
+  $('#view').innerHTML=VIEWS[V.name]();
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name));
+  $('#nav').hidden=V.name==='role';
+  document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
+  document.body.classList.toggle('wide',V.name==='tafel');
+  $('#nav-tafel').hidden=$('#nav-lessons').hidden=S.role!=='teacher';
+  $('#nav-journal').hidden=S.role!=='student';
+  updBanner();
+  if(V.name==='tafel')updTafel();
+}
+function tickClock(){
+  const n=nowInfo(),c=$('#clock');
+  c.textContent=hhmm(((n.min%1440)+1440)%1440);c.classList.toggle('sim',n.sim);c.title=n.sim?'Simulierte Zeit':'';
+}
+
+/* ---------- Views ---------- */
+const VIEWS={};
+VIEWS.dash=()=>{
+  const sl=slotNow(),n=sl.n;
+  const h=new Date().getHours();
+  const hi=h<11?'Guten Morgen!':h<17?'Hallo!':'Guten Abend!';
+  let now;
+  if(sl.kind==='lesson'){
+    const pct=Math.min(100,Math.max(0,(n.min-sl.l.start)/(sl.l.end-sl.l.start)*100));
+    now=`<div class="now s-${sl.l.s}"><span class="elo">${elo('happy',58)}</span><span class="k">Jetzt · ${sl.l.p}. Stunde · ${sl.l.from}–${sl.l.to}</span>
+      <h2>${SUBJECTS[sl.l.s].name}</h2><p style="font-weight:700">Noch ${sl.l.end-n.min} Minuten${sl.next?` · danach ${SUBJECTS[sl.next.s].name}`:''}</p>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="row" style="margin-top:14px"><button class="btn" data-act="subject" data-s="${sl.l.s}">Zum Fach</button><button class="btn sm ghost" data-act="recheck">Check-in zeigen</button></div>${liveStrip()}</div>`;
+  }else{
+    const nx=sl.next?`${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'';
+    const msg={weekend:'Schönes Wochenende! Schau in deine Hausaufgaben.',free:'Heute ist kein Unterricht.',after:'Der Unterricht ist für heute vorbei. Denk an deine Hausaufgaben!',
+      before:`Gleich geht's los: ${nx}`,break:`Pause! Danach: ${nx}`}[sl.kind];
+    now=`<div class="now idle"><span class="elo">${elo(sl.kind==='break'?'cheer':'happy',58)}</span><span class="k" style="color:var(--muted)">${sl.kind==='break'?'Pause':'Jetzt'}</span>
+      <h2 style="font-size:clamp(1.5rem,4vw,2.2rem)">${esc(msg)}</h2>${liveStrip()}</div>`;
+  }
+  const dayIdx=n.day>=0&&n.day<=4?n.day:null;
+  const today=dayIdx==null?'<p class="muted" style="margin-top:8px">Heute ist kein Schultag.</p>'
+    :`<div class="today">${PERIODS.map((p,i)=>{const s=WEEK[dayIdx][i];if(!s)return '';
+      const st=toMin(p[1]),en=toMin(p[2]),cls=n.min>=en?'past':(n.min>=st?'cur':'');
+      return `<div class="slot-row s-${s} ${cls}"><span class="tm">${p[0]}. ${p[1]}–${p[2]}</span>${badge(s)}<b>${SUBJECTS[s].name}</b></div>`}).join('')}</div>`;
+  const open=HOMEWORK.filter(h=>!S.hwDone[h.id]).sort((a,b)=>a.due.localeCompare(b.due));
+  const L=lvlInfo(),planTxt=sl.kind==='lesson'?`Jetzt: ${SUBJECTS[sl.l.s].name}`:sl.next?`Als Nächstes: ${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'Deine Woche im Überblick';
+  const areas=`<div class="areas">
+      <button class="area a-plan" data-act="week"><span class="ai">🗓️</span><b>Stundenplan</b><small>${esc(planTxt)}</small></button>
+      <button class="area a-hw" data-act="homework"><span class="ai">📝</span><b>Hausaufgaben</b><small>${open.length?open.length+' offen':'Alles erledigt'}</small></button>
+      <button class="area a-play" data-act="practice"><span class="ai">🎮</span><b>Üben</b><small>Level ${L.l} · Lernleitern und Spiele</small><div class="mini"><i style="width:${L.pct}%"></i></div></button>
+    </div>`;
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
+      <span class="muted" style="font-weight:800">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span></div>
+    <div style="display:grid;gap:18px;margin-bottom:18px">${now}${areas}</div>
+    <div class="dash">
+      <div style="display:grid;gap:18px;min-width:0">
+        <section><span class="label">Meine Fächer</span>
+          <div class="subj-grid">${Object.keys(SUBJECTS).map(subjTile).join('')}</div></section>
+      </div>
+      <div style="display:grid;gap:18px;min-width:0">
+        <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Heute</span>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>${today}</section>
+        <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Hausaufgaben · ${open.length} offen</span><button class="btn sm" data-act="homework">Alle</button></div>
+          ${open.length?`<div class="hw-list">${open.slice(0,3).map(hwRow).join('')}</div>`:'<div class="empty" style="margin-top:10px">Alles erledigt. Stark!</div>'}</section>
+      </div>
+    </div>
+    <p class="foot">Dein Fortschritt bleibt nur auf diesem iPad. Kein Login, keine Namen, keine Rangliste.</p>`;
+};
+function liveStrip(){
+  if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000)return '';
+  const ph=phaseOf(RCS.phase),lp=RCS.lesson&&RCS.lesson.plan;
+  const plan=lp?lp:PHASES.map(p=>p.name),cur=lp?RCS.step:PHASES.findIndex(p=>p.id===RCS.phase);
+  return `<div class="pstrip"><span class="k">Live in der Klasse${RCS.lesson&&RCS.lesson.title?' · '+esc(RCS.lesson.title):''}</span>
+    <div class="pills">${plan.map((n,i)=>`<span class="${i<cur?'past':i===cur?'cur':''}">${esc(n)}</span>`).join('')}</div>
+    <p><b>${esc(ph.name)}:</b> ${esc(ph.txt||'')}</p>${ph.go?`<div class="row" style="margin-top:10px"><button class="btn sm" data-act="phase-go">Los geht's</button></div>`:''}</div>`;
+}
+function subjTile(k){
+  const list=HEFT[k]||[],copied=list.filter(e=>S.copied[e.id]).length;
+  const hw=HOMEWORK.filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+  let pct=list.length?copied/list.length*100:0,meta=`${list.length} Hefteinträge`;
+  if(k==='E'){const d=STATIONS.filter(s=>S.done[s.id]).length;pct=d/STATIONS.length*100;meta=`Lernleiter ${d}/${STATIONS.length} · ${list.length} Einträge`}
+  return `<button class="subj s-${k}" data-act="subject" data-s="${k}"><div class="row" style="gap:10px">${badge(k)}<b>${SUBJECTS[k].name}</b></div>
+    <div><small>${meta}</small><small>${hw?hw+' Hausaufgabe'+(hw>1?'n':'')+' offen':'Keine Hausaufgaben'}</small></div><div class="mini"><i style="width:${pct}%"></i></div></button>`;
+}
+function hwRow(h){
+  const [c,l]=dueLabel(h.due),done=!!S.hwDone[h.id];
+  return `<div class="hw s-${h.s} ${done?'done':''}">${badge(h.s)}<div class="tx"><b>${SUBJECTS[h.s].name}</b>${esc(h.task)}
+    <div class="row" style="gap:6px;margin-top:4px"><span class="due ${done?'':c}">${l}</span>${h.ex?'<span class="chip ex">Beispiel</span>':''}</div></div>
+    <button class="check ${done?'on':''}" data-act="hw" data-id="${h.id}" aria-label="Erledigt">${done?'✓':''}</button></div>`;
+}
+
+/* ---------- Üben: Lernspiele ---------- */
+const GAMES={
+  E:{ex:false,pairs:VOCAB.map(v=>[v[2]+' '+v[0],v[1]]),
+     words:VOCAB.filter(v=>!v[0].includes(' ')).map(v=>({w:v[0].toUpperCase(),hint:v[2]+' '+v[1]}))},
+  M:{ex:true,pairs:[['3 · 4','12'],['½','0,5'],['¼','25 %'],['7 · 8','56'],['1 m','100 cm'],['1 kg','1000 g'],['¾','0,75'],['9²','81']],
+     words:[{w:'BRUCH',hint:'¾ ist ein …'},{w:'WINKEL',hint:'wird in Grad gemessen'},{w:'PROZENT',hint:'„von Hundert“'},{w:'DREIECK',hint:'hat drei Ecken'},{w:'SUMME',hint:'Ergebnis beim Plus-Rechnen'},{w:'RADIUS',hint:'halber Durchmesser'}]},
+  K:{ex:true,pairs:[['Rot + Gelb','Orange'],['Blau + Gelb','Grün'],['Rot + Blau','Violett'],['Weiß + Schwarz','Grau'],['Pinsel','malt mit Farbe'],['Skizze','schnelle Vorzeichnung'],['Kontrast','starker Unterschied'],['Palette','zum Farben mischen']],
+     words:[{w:'PINSEL',hint:'damit malst du'},{w:'SKIZZE',hint:'schnelle Vorzeichnung'},{w:'PALETTE',hint:'hier mischst du Farben'},{w:'KONTRAST',hint:'hell gegen dunkel'},{w:'COLLAGE',hint:'Bild aus Schnipseln'},{w:'FARBKREIS',hint:'zeigt alle Farben im Rund'}]},
+};
+const GAME_INFO={
+  memory:{name:'Memory',icon:'🃏',txt:'Finde die Paare, die zusammengehören.'},
+  salad:{name:'Wortsalat',icon:'🔤',txt:'Bring die Buchstaben in die richtige Reihenfolge.'},
+  balloon:{name:'Ballon-Rätsel',icon:'🎈',txt:'Rate das Wort Buchstabe für Buchstabe. Elo landet immer weich.'},
+};
+const LEVELS=['Starter','Entdecker','Kletterer','Profi','Lernlotse','Meister'];
+function lvlInfo(){const l=Math.floor(S.stars/10)+1;return {l,name:LEVELS[Math.min(LEVELS.length-1,Math.floor((l-1)/2))],pct:(S.stars%10)*10,left:10-S.stars%10}}
+function lvlBar(){const L=lvlInfo();
+  return `<div class="lvl">${elo('happy',52)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b style="font-size:1.15rem">Level ${L.l} · ${L.name}</b><small class="muted" style="font-weight:700">Noch ${L.left} Stern${L.left>1?'e':''} bis Level ${L.l+1}</small></div>
+    <div class="bar"><i style="width:${L.pct}%"></i></div></div></div>`}
+function gameHead(g,s){return `<div class="st-head s-${s}"><button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
+function finishGame(g){
+  const day=new Date().toISOString().slice(0,10);
+  if(S.playDay!==day){S.play={};S.playDay=day}
+  const key=V.name+'-'+V.s,c=S.play[key]||0;
+  g.star=c<3;if(g.star){S.play[key]=c+1;addStars(1)}else save();
+  g.win=true;SND.cheer();
+}
+function winBox(g){return `<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b>
+  <p>${g.star?'+1 Stern fürs Dranbleiben.':'Für dieses Spiel hast du heute schon 3 Sterne. Üben lohnt sich trotzdem!'}</p></div>
+  <button class="btn pri" data-act="g-again">Nochmal</button><button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button></div>`}
+VIEWS.practice=()=>{
+  const s=V.s||S.lastPs||'E';
+  const lad=[
+    {s:'E',t:'Shopping in London',n:STATIONS.length,d:STATIONS.filter(x=>S.done[x.id]).length,act:'module'},
+    {s:'M',t:'Lernleiter Mathe',soon:1},{s:'K',t:'Lernleiter Kunst',soon:1}];
+  return `<h1 style="margin-bottom:14px">Üben</h1>${lvlBar()}
+    <span class="label">Lernleitern · Schritt für Schritt</span>
+    <div class="games" style="margin:8px 0 22px">${lad.map(l=>`<button class="gcard s-${l.s}" style="border-top:7px solid var(--sc)" ${l.soon?'disabled':`data-act="${l.act}"`}>
+      <div class="row" style="gap:8px">${badge(l.s)}<small>${SUBJECTS[l.s].name}</small></div><b>${esc(l.t)}</b>
+      ${l.soon?'<small>Kommt bald</small>':`<small>${l.d} von ${l.n} Stufen geschafft</small><div class="mini"><i style="width:${l.d/l.n*100}%"></i></div>`}</button>`).join('')}</div>
+    <span class="label">Lernspiele</span>
+    <div class="psub">${Object.keys(GAMES).map(k=>`<button class="s-${k} ${k===s?'on':''}" data-act="ps" data-s="${k}">${SUBJECTS[k].name}</button>`).join('')}</div>
+    ${GAMES[s].ex?'<p class="muted" style="margin:-6px 0 12px"><span class="chip ex">Beispiel-Inhalte</span> Die echten Inhalte kommen von deinem Lehrer.</p>':''}
+    <div class="games s-${s}">${Object.keys(GAME_INFO).map(g=>`<button class="gcard" style="border-top:7px solid var(--sc)" data-act="game" data-g="${g}" data-s="${s}">
+      <span class="gi">${GAME_INFO[g].icon}</span><b>${GAME_INFO[g].name}</b><small>${GAME_INFO[g].txt}</small></button>`).join('')}</div>
+    <p class="foot">Keine Rangliste. Sterne gibt es fürs Dranbleiben, auch wenn mal etwas schiefgeht.</p>`;
+};
+function newMemory(s){const P=shuffle(GAMES[s].pairs).slice(0,6);
+  return {cards:shuffle(P.flatMap((p,i)=>[{t:p[0],k:i,a:1},{t:p[1],k:i,a:0}])),open:[],done:{},n:P.length,moves:0,lock:false}}
+VIEWS.memory=()=>{
+  const g=V.g||(V.g=newMemory(V.s)),found=Object.keys(g.done).length;
+  return gameHead('memory',V.s)+`<div class="row" style="justify-content:space-between"><span class="muted" style="font-weight:700">${V.s==='E'?'Finde Englisch und Deutsch zusammen.':'Finde, was zusammengehört.'}</span><span class="gprog">${found} von ${g.n} Paaren</span></div>
+    <div class="mem s-${V.s}">${g.cards.map((c,i)=>{const up=g.open.includes(i)||g.done[c.k];
+      return `<button class="mc ${up?'up':''} ${g.done[c.k]?'ok':''}" data-act="mem" data-i="${i}" ${up?'disabled':''}>${up?esc(c.t):'<span>?</span>'}</button>`}).join('')}</div>
+    ${g.win?winBox(g):''}`;
+};
+function memClick(i){
+  const g=V.g;if(!g||g.lock||g.open.includes(i)||g.done[g.cards[i].k])return;
+  g.open.push(i);
+  if(g.open.length===2){
+    g.moves++;const [a,b]=g.open.map(x=>g.cards[x]);
+    if(a.k===b.k){g.done[a.k]=1;g.open=[];SND.right();if(V.s==='E')say((a.a?a:b).t.replace(/^\S+\s/,''));
+      if(Object.keys(g.done).length===g.n)finishGame(g)}
+    else{g.lock=true;setTimeout(()=>{if(V.g!==g)return;g.open=[];g.lock=false;render()},1100)}
+  }
+  render();
+}
+function newSalad(s){return {W:shuffle(GAMES[s].words).slice(0,5),i:0,pick:[],letters:null,tries:0,fb:''}}
+function saladLetters(w){let l,n=0;do{l=shuffle(w.split(''))}while(l.join('')===w&&++n<20);return l}
+VIEWS.salad=()=>{
+  const g=V.g||(V.g=newSalad(V.s));
+  if(g.win)return gameHead('salad',V.s)+winBox(g);
+  const it=g.W[g.i];if(!g.letters)g.letters=saladLetters(it.w);
+  const full=g.pick.length===it.w.length;
+  return gameHead('salad',V.s)+`<div class="row" style="justify-content:space-between"><span class="muted" style="font-weight:700">Tippe die Buchstaben in die richtige Reihenfolge.</span><span class="gprog">Wort ${g.i+1} von ${g.W.length}</span></div>
+    <div class="hintbox">${esc(it.hint)}</div>
+    <div class="slots s-${V.s} ${g.fb==='ok'?'ok':''}">${it.w.split('').map((_,p)=>g.pick[p]!=null
+      ?`<button class="slot" data-act="sal-un" data-p="${p}" ${g.fb==='ok'?'disabled':''}>${g.letters[g.pick[p]]}</button>`:`<span class="slot"></span>`).join('')}</div>
+    <div class="slots s-${V.s}">${g.letters.map((ch,j)=>`<button class="tile" data-act="sal-pick" data-j="${j}" ${g.pick.includes(j)||g.fb==='ok'?'disabled':''}>${ch}</button>`).join('')}</div>
+    <div class="fb ${g.fb}">${g.fb==='ok'?'Richtig! '+(g.tries?'Mut-Stern fürs Dranbleiben!':''):g.fb==='no'?'Fast! Die Reihenfolge stimmt noch nicht. Probier nochmal.'+(g.tries>=2?' Tipp: Es beginnt mit '+it.w[0]+'.':''):''}</div>
+    <div class="row" style="justify-content:center;margin-top:10px">${g.fb==='ok'?`<button class="btn pri" data-act="sal-next">${g.i+1<g.W.length?'Nächstes Wort':'Fertig'}</button>`
+      :`<button class="btn sm" data-act="sal-clear" ${g.pick.length?'':'disabled'}>Zurücksetzen</button>`}</div>`;
+};
+function saladCheck(){
+  const g=V.g,it=g.W[g.i],ans=g.pick.map(j=>g.letters[j]).join('');
+  if(ans===it.w){g.fb='ok';SND.right();if(g.tries)mutStar();if(V.s==='E')say(it.w.toLowerCase())}
+  else{g.fb='no';g.tries++;SND.oops();g.pick=[]}
+}
+const ALPHA='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),BAL_N=6,BAL_C=['#cf3a2c','#f2b51d','#2f6fd6','#1f8f5d','#e8743b','#8a4fc1'];
+function newBalloon(s){return {W:shuffle(GAMES[s].words).slice(0,3),i:0,guess:{},miss:0}}
+VIEWS.balloon=()=>{
+  const g=V.g||(V.g=newBalloon(V.s));
+  if(g.win)return gameHead('balloon',V.s)+winBox(g);
+  const it=g.W[g.i],solved=it.w.split('').every(c=>g.guess[c]),landed=g.miss>=BAL_N,over=solved||landed;
+  const keys=V.s==='E'?ALPHA:ALPHA.concat(['Ä','Ö','Ü']);
+  return gameHead('balloon',V.s)+`<div class="row" style="justify-content:space-between"><span class="muted" style="font-weight:700">Welcher Buchstabe steckt im Wort?</span><span class="gprog">Wort ${g.i+1} von ${g.W.length}</span></div>
+    <div class="hintbox">${esc(it.hint)}</div>
+    <div class="sky">${landed?'':`<div class="bals">${BAL_C.slice(0,BAL_N-g.miss).map(c=>`<span class="bal" style="background:${c}"></span>`).join('')}</div>`}
+      <div style="margin-top:30px">${elo(solved?'cheer':'happy',64)}</div></div>
+    <div class="slots s-${V.s} ${solved?'ok':''}">${it.w.split('').map(c=>`<span class="slot">${g.guess[c]||landed?c:''}</span>`).join('')}</div>
+    ${over?`<div class="fb ${solved?'ok':''}">${solved?'Super, gelöst!':'Elo ist sanft gelandet. Kein Problem, jetzt kennst du das Wort!'}</div>
+      <div class="row" style="justify-content:center;margin-top:10px"><button class="btn pri" data-act="bal-next">${g.i+1<g.W.length?'Nächstes Wort':'Fertig'}</button></div>`
+    :`<div class="kbd">${keys.map(k=>{const u=g.guess[k]||g.wrong&&g.wrong[k];return `<button class="${g.guess[k]?'hit':u?'miss':''}" data-act="bal" data-l="${k}" ${u?'disabled':''}>${k}</button>`}).join('')}</div>`}`;
+};
+function balGuess(l){
+  const g=V.g,it=g.W[g.i];g.wrong=g.wrong||{};
+  if(it.w.includes(l)){g.guess[l]=l;SND.right();if(it.w.split('').every(c=>g.guess[c])&&V.s==='E')say(it.w.toLowerCase())}
+  else{g.wrong[l]=1;g.miss++;SND.oops()}
+  render();
+}
+VIEWS.homework=()=>{
+  const all=HOMEWORK.slice().sort((a,b)=>a.due.localeCompare(b.due));
+  const open=all.filter(h=>!S.hwDone[h.id]),done=all.filter(h=>S.hwDone[h.id]);
+  return `<h1 style="margin-bottom:14px">Hausaufgaben</h1>
+    <span class="label">Offen · ${open.length}</span>
+    ${open.length?`<div class="hw-list">${open.map(hwRow).join('')}</div>`:'<div class="empty" style="margin-top:10px">Alles erledigt. Stark!</div>'}
+    ${done.length?`<div style="margin-top:22px"><span class="label">Erledigt · ${done.length}</span><div class="hw-list">${done.map(hwRow).join('')}</div></div>`:''}
+    <p class="muted" style="margin-top:16px;font-size:.9rem">Hake ab, was du erledigt hast. Für jede erledigte Hausaufgabe gibt es einen Stern.</p>`;
+};
+VIEWS.week=()=>{
+  const n=nowInfo();
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Stundenplan</h1>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
+  <div class="wk"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>
+  ${PERIODS.map((p,i)=>`<tr><td class="tm">${p[0]}. ${p[1]}<br>${p[2]}</td>${WEEK.map((row,d)=>{const s=row[i];
+    const cur=d===n.day&&n.min>=toMin(p[1])&&n.min<toMin(p[2]);
+    return s?`<td class="has s-${s} ${cur?'cur':''}">${SUBJECTS[s].name}</td>`:'<td></td>'}).join('')}</tr>`).join('')}
+  </tbody></table></div>`;
+};
+VIEWS.subject=()=>{
+  const k=V.s,sub=SUBJECTS[k],tab=V.tab||(k==='E'?'module':'heft');
+  const entries=(HEFT[k]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const hws=HOMEWORK.filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+  let body='';
+  if(tab==='heft')body=entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
+    :`<div class="empty">Noch keine Einträge in ${sub.name}. Sobald es einen Tafelanschrieb gibt, erscheint er hier.</div>`;
+  if(tab==='hw')body=hws.length?`<div class="hw-list">${hws.map(hwRow).join('')}</div>`:'<div class="empty">Keine Hausaufgaben in diesem Fach.</div>';
+  if(tab==='module')body=k==='E'?`<button class="mod-card" data-act="module">${elo('happy',64)}<span class="t"><span class="label">Lernleiter · 7 Stufen</span><b>Shopping in London</b>
+      <span class="muted">${STATIONS.filter(s=>S.done[s.id]).length} von ${STATIONS.length} Stufen geschafft</span></span><span class="btn pri">Öffnen</span></button>`
+    :`<div class="empty">Für ${sub.name} gibt es noch keine Lernmodule.${k==='M'||k==='K'?' Kommt als Nächstes!':''}</div>`;
+  if(tab==='module'&&GAMES[k])body+=`<button class="mod-card" style="margin-top:12px" data-act="practice" data-s="${k}"><span style="font-size:2.6rem">🎮</span><span class="t"><span class="label">Üben</span><b>Lernspiele in ${sub.name}</b><span class="muted">Memory, Wortsalat, Ballon-Rätsel</span></span><span class="btn">Spielen</span></button>`;
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="dash">← Dashboard</button>${badge(k)}<h1>${sub.name}</h1></div>
+    <div class="tabs s-${k}" role="tablist">
+      <button class="${tab==='module'?'on':''}" data-act="tab" data-t="module">Lernmodule</button>
+      <button class="${tab==='heft'?'on':''}" data-act="tab" data-t="heft">Digitales Heft · ${entries.length}</button>
+      <button class="${tab==='hw'?'on':''}" data-act="tab" data-t="hw">Hausaufgaben · ${hws.filter(h=>!S.hwDone[h.id]).length}</button>
+    </div>
+    <div class="s-${k}">${body}</div>`;
+};
+function heftPage(e){
+  const blk=b=>{switch(b[0]){
+    case 'h':return `<h4>${esc(b[1])}</h4>`;
+    case 'p':return `<p>${b[1]}</p>`;
+    case 'list':return `<ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+    case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
+    case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }return ''};
+  const c=!!S.copied[e.id];
+  return `<article class="page"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span></span></header>
+    ${e.blocks.map(blk).join('')}
+    <footer><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button></footer></article>`;
+}
+
+VIEWS.module=()=>{
+  const nextI=STATIONS.findIndex(s=>!S.done[s.id]);
+  const all=nextI===-1;
+  const greet=all?'You did it! Alle Postkarten gesammelt. Hilf jetzt anderen als Lernlotse.'
+    :nextI===0?"Hi! I'm Elo. Ich will in London einkaufen. Hilfst du mir? Starte unten auf der Lernleiter."
+    :`Super! Weiter geht's mit Stufe ${nextI+1}: ${STATIONS[nextI].name}.`;
+  const rungs=STATIONS.map((s,i)=>`<button class="rung ${S.done[s.id]?'done':''} ${i===nextI?'next':''}" data-act="station" data-id="${s.id}">
+      <span class="n">${S.done[s.id]?'✓':i+1}</span>
+      <span class="t"><b>${s.name}</b><small>${s.title} · ${s.mode}</small></span>
+      ${i===nextI?`<span class="climber">${elo('happy',44)}</span>`:''}
+    </button>`).join('');
+  return `<div class="st-head"><button class="btn sm" data-act="subject" data-s="E">← Englisch</button><span class="chip">Lernleiter</span></div>
+  <div class="home">
+    <section class="panel">
+      <div class="hello">${elo(all?'cheer':'happy',72)}<div class="bubble">${esc(greet)}</div></div>
+      <div class="mission"><span class="label">Today's mission</span><p>${esc(S.mission)}</p>
+        <div class="row" style="margin-top:10px"><button class="btn sm" data-act="say" data-t="${esc(S.mission)}">${SPK} Anhören</button></div></div>
+      <div style="margin-top:18px"><span class="label">Meine London-Postkarten</span>
+        <div class="cards">${STATIONS.map(s=>`<div class="pc ${S.done[s.id]?'on':'off'}"><span>${s.post[0]}</span>${S.done[s.id]?s.post[1]:'???'}</div>`).join('')}</div>
+        <p class="muted" style="margin-top:10px;font-size:.9rem">Sterne gibt es fürs Dranbleiben: für jede Station und für jeden zweiten Versuch (Mut-Stern). Fehler sind Freunde.</p>
+      </div>
+    </section>
+    <section>
+      <div class="ladder-top">Lernleiter · Shopping in London</div>
+      <div class="ladder">${rungs}</div>
+    </section>
+  </div>`;
+};
+VIEWS.station=()=>STV[V.id]();
+
+/* --- Station views --- */
+const STV={};
+let W={};
+function stationHead(st,extra=''){
+  const i=STATIONS.indexOf(st)+1;
+  return `<div class="st-head"><button class="btn sm" data-act="module">← Lernleiter</button>
+    <span class="chip">Stufe ${i} von ${STATIONS.length}</span><span class="chip">${st.mode}</span>${extra}</div>
+    <h1>${st.title}</h1>
+    <div class="goal" style="margin-top:10px"><span class="label">Mission</span><span>${esc(st.goal)}</span></div>`;
+}
+STV.warmup=()=>{
+  const st=STATIONS[0];
+  if(!W.mode)return stationHead(st)+`<div class="choice-grid">
+    <button class="choice" data-act="wu-mode" data-m="taboo"><b>Taboo</b><span class="muted">Erkläre das Wort auf Englisch. Die roten Wörter sind verboten. Dein Partner rät.</span></button>
+    <button class="choice" data-act="wu-mode" data-m="heads"><b>Heads-Up</b><span class="muted">Halte das iPad an die Stirn. Dein Partner erklärt auf Englisch, du rätst. 60 Sekunden.</span></button>
+  </div>
+  <div class="say">${elo('think',48)}<p class="bubble">Useful phrases: <i>It's a thing you wear on … · You need it when … · It's the opposite of …</i></p></div>
+  <div class="row" style="margin-top:14px"><button class="btn ok" data-act="complete" data-id="warmup">Wir haben genug Wörter erklärt ✓</button></div>`;
+  const c=TABOO[W.deck[W.i%W.deck.length]];
+  const heads=W.mode==='heads';
+  return stationHead(st,`<span class="chip">Erraten: ${W.got}</span>${heads?`<span class="chip" id="hu-t">${W.left}s</span>`:''}`)+`
+    <div class="big-card ${W.anim||''}">
+      <span class="label">${heads?'Halte mich an die Stirn!':'Erkläre auf Englisch'}</span>
+      <div class="big-word">${esc(c.w)}</div>
+      ${heads?'':`<div class="taboo">${c.no.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`}
+    </div>
+    ${W.left===0?`<div class="say">${elo('cheer',48)}<p class="bubble">Time's up! Ihr habt ${W.got} Wörter geschafft. Tauscht die Rollen!</p></div>
+      <div class="row"><button class="btn pri" data-act="wu-mode" data-m="heads">Nochmal (Rollen tauschen)</button><button class="btn ok" data-act="complete" data-id="warmup">Station abschließen ✓</button></div>`
+    :`<div class="row" style="margin-top:16px"><button class="btn ok" style="flex:1" data-act="wu-next" data-got="1">Erraten ✓</button><button class="btn" style="flex:1" data-act="wu-next">Weiter</button></div>
+      <div class="row" style="margin-top:10px"><button class="btn sm" data-act="wu-back">Spiel wechseln</button>${heads?'':'<button class="btn sm ok" data-act="complete" data-id="warmup">Station abschließen ✓</button>'}</div>`}`;
+};
+function startHeads(){
+  W.left=60;
+  const id=setInterval(()=>{W.left--;const el=$('#hu-t');if(el)el.textContent=W.left+'s';if(W.left<=0){clearInterval(id);SND.bigben();render()}},1000);
+  stops.push(()=>clearInterval(id));
+}
+function initWords(){W={q:shuffle(VOCAB.map((_,i)=>i)),done:0,miss:false};W.opts=mkOpts(W.q[0])}
+function mkOpts(i){return shuffle([i,...shuffle(VOCAB.map((_,k)=>k).filter(k=>k!==i)).slice(0,2)])}
+STV.words=()=>{
+  const st=STATIONS[1];
+  if(!W.q.length)return stationHead(st)+`<div class="say">${elo('cheer',64)}<p class="bubble">Great! Du kennst jetzt alle 12 Wörter. Hör sie dir zum Schluss nochmal an.</p></div>
+    <div class="row">${VOCAB.map(v=>`<button class="btn sm" data-act="say" data-t="${esc(v[0])}">${v[2]} ${esc(v[0])}</button>`).join('')}</div>
+    <div class="row" style="margin-top:16px"><button class="btn ok" data-act="complete" data-id="words">Station abschließen ✓</button></div>`;
+  const cur=VOCAB[W.q[0]];
+  return stationHead(st)+`<div class="prog"><i style="width:${W.done/VOCAB.length*100}%"></i></div>
+    <div class="big-card" style="margin-top:14px"><div style="font-size:3.4rem">${cur[2]}</div><span class="label">Wie heißt das auf Englisch?</span><div class="big-word" style="font-size:clamp(2rem,6vw,3rem)">${esc(cur[1])}</div></div>
+    <div class="opts">${W.opts.map(k=>`<button class="btn opt" data-act="w-pick" data-k="${k}">${esc(VOCAB[k][0])}</button>`).join('')}</div>
+    <div class="say">${elo(W.miss?'think':'happy',44)}<p class="bubble" id="w-msg">${W.miss?'Kein Problem! Fehler sind Freunde. Probier ein anderes Wort.':'Tippe auf das richtige Wort.'}</p></div>`;
+};
+function initPhrases(){W={left:shuffle(PAIRS.map((_,i)=>i)),right:shuffle(PAIRS.map((_,i)=>i)),sel:null,ok:[],miss:false}}
+STV.phrases=()=>{
+  const st=STATIONS[2],fin=W.ok.length===PAIRS.length;
+  return stationHead(st)+`<p class="muted" style="margin-bottom:12px">Tippe links eine Frage an, dann rechts die passende Antwort.</p>
+    <div class="match">
+      <div class="col"><span class="label">Shop assistant fragt</span>${W.left.map(i=>`<button class="btn mbtn ${W.ok.includes(i)?'ok':''} ${W.sel===i?'sel':''}" data-act="p-q" data-i="${i}" ${W.ok.includes(i)?'disabled':''}>${esc(PAIRS[i][0])}</button>`).join('')}</div>
+      <div class="col"><span class="label">Customer antwortet</span>${W.right.map(i=>`<button class="btn mbtn ${W.ok.includes(i)?'ok':''}" data-act="p-a" data-i="${i}" ${W.ok.includes(i)?'disabled':''}>${esc(PAIRS[i][1])}</button>`).join('')}</div>
+    </div>
+    <div class="say">${elo(fin?'cheer':W.miss?'think':'happy',44)}<p class="bubble">${fin?'Perfect match! Lies alle Paare einmal laut mit deinem Nachbarn.':W.miss?'Hmm, das passt noch nicht. Lies die Frage nochmal genau.':'Paare gefunden: '+W.ok.length+' von '+PAIRS.length}</p></div>
+    ${fin?'<div class="row"><button class="btn ok" data-act="complete" data-id="phrases">Station abschließen ✓</button></div>':''}`;
+};
+function initOrder(){W={pool:shuffle(PUZZLE.map((_,i)=>i)),placed:[],miss:false,shake:null}}
+STV.order=()=>{
+  const st=STATIONS[3],fin=W.placed.length===PUZZLE.length;
+  const line=i=>`<div class="line"><span class="who ${PUZZLE[i][0]}">${PUZZLE[i][0]}</span><span class="tx">${esc(PUZZLE[i][1])}</span><button class="icon-btn" data-act="say" data-t="${esc(PUZZLE[i][1])}" aria-label="Anhören">${SPK}</button></div>`;
+  return stationHead(st)+`<p class="muted" style="margin-bottom:12px">Elo kauft eine Kappe. Tippe die Sätze in der richtigen Reihenfolge an. <b>A</b> = Customer, <b>B</b> = Shop assistant.</p>
+    <div class="match">
+      <div class="col"><span class="label">Dein Dialog</span><div class="dlg">${W.placed.map(line).join('')}${fin?'':'<div class="slot">Nächster Satz …</div>'}</div></div>
+      <div class="col"><span class="label">Sätze</span><div class="pool">${W.pool.map(i=>`<button class="btn mbtn ${W.shake===i?'shake':''}" data-act="o-pick" data-i="${i}"><span class="who ${PUZZLE[i][0]}" style="width:26px;height:26px;font-size:.8rem">${PUZZLE[i][0]}</span>${esc(PUZZLE[i][1])}</button>`).join('')}</div></div>
+    </div>
+    <div class="say">${elo(fin?'cheer':W.miss?'think':'happy',44)}<p class="bubble">${fin?'Brilliant! Spielt den Dialog jetzt zu zweit mit verteilten Rollen.':W.miss?'Fast! Tipp: Wer spricht als Nächstes, A oder B?':'Wer beginnt ein Gespräch im Laden?'}</p></div>
+    ${fin?'<div class="row"><button class="btn ok" data-act="complete" data-id="order">Station abschließen ✓</button></div>':''}`;
+};
+function rollCards(){
+  const item=pick(ITEMS),size=pick(['S','M','L']),col=shuffle(COLOURS).slice(0,3);
+  const budget=pick([15,20,25,30]),p1=budget+pick([5,8,10]),p2=budget-pick([2,3,5]);
+  const problem=pick([`Size ${size} is sold out. Offer size ${size==='L'?'M':'L'} instead.`,`You haven't got ${col[0]}. Offer ${col[1]} or ${col[2]}.`,'The changing rooms are closed. The customer can bring it back.']);
+  return {A:[`You want a <b>${item}</b>.`,`Your size: <b>${size}</b>`,`Your colour: <b>${col[0]}</b>`,`You've got <b>£${budget}</b>.`,'Ask questions and decide: buy it or not?'],
+          B:[`Your price for the ${item}: <b>£${p1}</b>`,`A cheaper one: <b>£${p2}</b>`,`Colours: <b>${col[1]}</b> and <b>${col[2]}</b>`,`Problem: ${problem}`,'Be friendly and help the customer.']};
+}
+function initLadder(){W={step:1,role:'A',rev:{},cards:rollCards()}}
+STV.ladder=()=>{
+  const st=STATIONS[4];
+  const STEPS=[['Ganzer Text','Lesen & spielen'],['Lücken','Tippen zum Aufdecken'],['Nur Hinweise','Deutsch → Englisch'],['Frei sprechen','Rollenkarten']];
+  let body='';
+  if(W.step<4){
+    body=`<div class="dlg">${DIALOGUE.map((d,li)=>{
+      const mine=d[0]===W.role;
+      let tx;
+      if(W.step===1||(!mine&&W.step===2))tx=esc(d[1].replace(/[\[\]]/g,''));
+      else if(W.step===2){let g=0;tx=esc(d[1]).replace(/\[(.+?)\]/g,(m,w)=>{const k=li+'-'+(g++);return `<button class="gap ${W.rev[k]?'shown':''}" data-act="l-rev" data-k="${k}">${W.rev[k]?w:'&nbsp;'.repeat(6)}</button>`})}
+      else tx=mine?`<span class="de">${esc(d[2])}</span>`:'<span class="ear">Hör gut zu! Dein Partner spricht.</span>';
+      return `<div class="line ${mine?'mine':'theirs'}"><span class="who ${d[0]}">${d[0]}</span><span class="tx">${tx}</span>${W.step<3||mine?`<button class="icon-btn" data-act="say" data-t="${esc(d[1])}" aria-label="Anhören">${SPK}</button>`:''}</div>`;
+    }).join('')}</div>`;
+  }else{
+    body=`<div class="rolecards">${['A','B'].map(r=>`<div class="rolecard ${r} ${W.role===r?'':'dim'}"><span class="label">Rolle ${r} · ${ROLE[r]}</span><ul>${W.cards[r].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div class="row" style="margin-top:12px"><button class="btn" data-act="l-cards">Neue Rollenkarten</button></div>
+      <div class="say">${elo('think',44)}<p class="bubble">Nur deine Karte ist hell. Zeig sie deinem Partner nicht! Startet mit „Hello! Can I help you?“</p></div>`;
+  }
+  return stationHead(st)+`<div class="steps">${STEPS.map((s,i)=>`<button class="btn stepb ${W.step===i+1?'on':''}" data-act="l-step" data-s="${i+1}">${s[0]}<small>${s[1]}</small></button>`).join('')}</div>
+    <div class="row" style="margin-block:14px"><span class="label">Ich spiele</span>
+      <div class="seg" role="group"><button class="${W.role==='A'?'on':''}" data-act="l-role" data-r="A">A · Customer</button><button class="${W.role==='B'?'on':''}" data-act="l-role" data-r="B">B · Shop assistant</button></div>
+      <button class="btn sm" data-act="l-swap">Rollen tauschen</button></div>
+    ${body}
+    <p class="muted" style="margin-top:12px;font-size:.9rem">Du wählst die Stufe selbst und darfst jederzeit wechseln. Gelb markiert sind deine Sätze.</p>
+    <div class="row" style="margin-top:12px"><button class="btn ok" data-act="complete" data-id="ladder">Wir haben beide Rollen gespielt ✓</button></div>`;
+};
+function initSwap(){W={deck:shuffle(SWAP.map((_,i)=>i)),i:0,talks:0,show:false}}
+STV.swap=()=>{
+  const st=STATIONS[5],c=SWAP[W.deck[W.i%W.deck.length]];
+  return stationHead(st,`<span class="chip">Gespräche: ${W.talks}</span>`)+`
+    <ol class="muted" style="margin:0 0 14px;padding-left:20px;font-weight:700"><li>Geh zu einem Partner und stell deine Frage.</li><li>Hör zu und antworte auf seine Frage.</li><li>Tippe „Swap!“ und such dir einen neuen Partner.</li></ol>
+    <div class="big-card ${W.anim||''}"><span class="label">Your question</span>
+      <div class="big-word" style="font-size:clamp(1.7rem,5.5vw,2.8rem)">${esc(c[0])}</div>
+      <button class="btn sm" data-act="say" data-t="${esc(c[0])}">${SPK} Anhören</button>
+      <div style="margin-top:14px">${W.show?`<span class="label">Answer starter</span><p style="font-weight:800;font-size:1.2rem">${esc(c[1])}</p>`:'<button class="btn sm" data-act="s-help">Antwort-Hilfe zeigen</button>'}</div>
+    </div>
+    <div class="row" style="margin-top:16px"><button class="btn pri" style="flex:1;min-height:64px;font-size:1.3rem" data-act="s-swap">Swap!</button></div>
+    <div class="row" style="margin-top:10px"><button class="btn ok" data-act="complete" data-id="swap" ${W.talks<3?'disabled':''}>Station abschließen ✓</button><span class="muted">${W.talks<3?`Noch ${3-W.talks} Gespräch${3-W.talks===1?'':'e'}`:'Du kannst weitermachen oder abschließen.'}</span></div>`;
+};
+function initReflect(){W={choice:S.reflect}}
+STV.reflect=()=>{
+  const st=STATIONS[6];
+  if(W.choice==null)return stationHead(st)+`<h2 style="margin-bottom:12px">Wie gut kannst du den Dialog im Laden?</h2>
+    <div class="corners">${CORNERS.map((c,i)=>`<button class="corner ${c.c}" data-act="r-pick" data-i="${i}"><span>Ecke ${i+1}</span><b>${c.t}</b><span>${c.d}</span></button>`).join('')}</div>
+    <p class="muted" style="margin-top:12px">Sei ehrlich. Jede Ecke ist okay, jede zeigt deinen nächsten Schritt.</p>`;
+  const c=CORNERS[W.choice];
+  return stationHead(st)+`<div class="corner ${c.c}" style="min-height:160px;cursor:default"><span>Geh jetzt in</span><b style="font-size:2.4rem">Ecke ${W.choice+1}</b><span>${c.t} · ${c.d}</span></div>
+    <div class="say">${elo('happy',48)}<p class="bubble">Dein nächster Schritt: ${esc(c.tip)}</p></div>
+    <label class="label" for="mistake">My favourite mistake today (freiwillig)</label>
+    <textarea id="mistake" rows="2" placeholder="Ich habe … gesagt. Richtig ist …">${esc(S.mistake)}</textarea>
+    <div class="row" style="margin-top:12px"><button class="btn" data-act="r-again">Andere Ecke wählen</button><button class="btn ok" data-act="r-done">Station abschließen ✓</button></div>`;
+};
+
+/* --- Lotsen-Board (Lehrkraft & Lernlotsen) --- */
+let T={total:180,left:180,run:false,id:null},PAIRS_OUT='',JOBS_OUT=null,ASK=false;
+VIEWS.board=()=>`<div class="st-head"><span class="chip">Für Lehrkraft & Lernlotsen</span></div>
+  <h1 style="margin-bottom:16px">Lotsen-Board</h1>
+  <div class="board">
+    <section class="panel wide"><span class="label">Mission der Stunde</span>
+      <p style="font-family:var(--f-display);font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.15;margin-block:6px 12px">${esc(S.mission)}</p>
+      <div class="row"><button class="btn pri" data-act="mission-call">Mission vorlesen</button>
+      <input id="mission-in" type="text" value="${esc(S.mission)}" style="flex:1;min-width:200px" aria-label="Mission bearbeiten"><button class="btn sm" data-act="mission-save">Speichern</button></div></section>
+    <section class="panel"><span class="label">Timer · Time Keeper</span>
+      <div class="timer" style="margin-top:10px"><div class="ring" id="ring" style="--p:${T.left/T.total}"><div id="tdisp">${fmt(T.left)}</div></div>
+      <div style="display:grid;gap:8px;flex:1;min-width:160px">
+        <div class="row">${[1,2,3,5,10].map(m=>`<button class="btn sm" data-act="t-set" data-m="${m}">${m} min</button>`).join('')}</div>
+        <div class="row"><button class="btn pri" data-act="t-go" id="t-go">${T.run?'Pause':'Start'}</button><button class="btn" data-act="t-reset">Zurück</button></div>
+        <span class="muted" style="font-size:.85rem">Am Ende schlägt Big Ben.</span></div></div></section>
+    <section class="panel"><span class="label">Signale · Sound Master</span>
+      <div class="sig" style="margin-top:10px">
+        <button class="btn red" data-act="snd" data-s="freeze">Freeze<small>Hände hoch, Mund zu</small></button>
+        <button class="btn pri" data-act="snd" data-s="swap">Swap<small>Partner wechseln</small></button>
+        <button class="btn" data-act="snd" data-s="seats">Back to seats<small>Zurück an den Platz</small></button>
+        <button class="btn ok" data-act="snd" data-s="cheer">Well done<small>Applaus-Signal</small></button>
+      </div></section>
+    <section class="panel"><span class="label">Partner & Jobs</span>
+      <div class="row" style="margin-top:10px"><label for="cls" class="muted" style="font-weight:800">SuS in der Klasse</label><input id="cls" type="number" min="2" max="40" value="${S.classSize}" style="width:90px"></div>
+      <div class="row" style="margin-top:10px"><button class="btn" data-act="mk-pairs">Paare bilden</button><button class="btn" data-act="mk-jobs">Lotsen-Jobs verteilen</button><button class="btn" data-act="coin">Wer beginnt?</button></div>
+      <div id="pairs-out">${PAIRS_OUT}</div>
+      ${JOBS_OUT?`<div class="jobs">${JOBS.map((j,i)=>`<div><span><b>${j[0]}</b> <span class="muted">${j[1]}</span></span><b>Nr. ${JOBS_OUT[i]}</b></div>`).join('')}</div>`:''}
+      <p class="muted" style="font-size:.85rem;margin-top:10px">Die Nummern sind eure Klassenlisten-Nummern. Es werden keine Namen gespeichert.</p></section>
+    <section class="panel"><span class="label">Klassen-Rakete</span>
+      <div class="rocket" style="margin-top:10px"><div class="fuel">${Array.from({length:10},(_,i)=>`<i class="${i<S.rocket?'on':''}"></i>`).join('')}</div>
+      <div style="flex:1;min-width:0"><p style="font-weight:700">Treibstoff gibt es, wenn die <b>ganze Klasse</b> ein Ritual schafft: z. B. alle in 5 Sekunden still nach dem Freeze-Gong.</p>
+        <p style="font-family:var(--f-display);font-size:1.6rem;margin-top:6px">${S.rocket} / 10</p>
+        <div class="row" style="margin-top:8px"><button class="btn ok" data-act="rk" data-d="1">+1 Treibstoff</button><button class="btn sm" data-act="rk" data-d="-1">−1</button></div>
+        ${S.rocket>=10?`<div class="mission" style="margin-top:12px"><span class="label">Rakete voll! Die Klasse wählt:</span><ul style="margin:6px 0 0;padding-left:20px;font-weight:700">${REWARDS.map(r=>`<li>${r}</li>`).join('')}</ul><button class="btn sm" style="margin-top:8px" data-act="rk0">Neue Rakete starten</button></div>`:''}
+      </div></div></section>
+    <section class="panel"><span class="label">Stundenwechsel testen</span>
+      <p class="muted" style="margin-top:6px;font-size:.9rem">Simuliert eine Uhrzeit auf diesem Gerät, z. B. zum Ausprobieren. Die Uhr oben wird dann orange.</p>
+      <div class="row" style="margin-top:10px"><select id="sim-day" style="width:auto">${DAYS.map((d,i)=>`<option value="${i}">${d}</option>`).join('')}</select>
+        <input id="sim-time" type="time" value="08:45" style="width:auto"></div>
+      <div class="row" style="margin-top:10px"><button class="btn pri" data-act="sim">Simulieren</button><button class="btn" data-act="sim-off" ${SIM?'':'disabled'}>Echte Zeit</button></div></section>
+    <section class="panel wide"><span class="label">Ritual-Bibliothek</span>
+      <div class="lib">${RITUALS.map(r=>`<article><span class="tag">${r.tag}</span><h3>${r.t}</h3><p class="muted">${r.d}</p></article>`).join('')}</div></section>
+    <section class="panel wide"><span class="label">Dieses iPad</span>
+      <div class="row" style="margin-top:8px">${ASK?'<span style="font-weight:800">Wirklich alle Sterne, Häkchen und Postkarten auf diesem iPad löschen?</span><button class="btn red" data-act="reset-yes">Ja, löschen</button><button class="btn" data-act="reset-no">Abbrechen</button>':'<button class="btn" data-act="reset-ask">Fortschritt zurücksetzen</button>'}<button class="btn" data-act="role-reset">Rolle wechseln${S.role==='student'?` (jetzt: ${esc(S.nick||'Nr. '+S.nr)}, ${esc(className())})`:S.role==='teacher'?' (jetzt: Lehrkraft)':''}</button></div></section>
+  </div>`;
+function fmt(s){return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`}
+function tDraw(){const d=$('#tdisp'),r=$('#ring'),b=$('#t-go');if(d)d.textContent=fmt(T.left);if(r)r.style.setProperty('--p',T.left/T.total);if(b)b.textContent=T.run?'Pause':'Start'}
+function tStop(){clearInterval(T.id);T.run=false}
+
+/* =====================================================================
+   LIVE: Tafel (Lehrkraft) <-> iPads (SuS)
+   Ohne Server-Daten läuft der Demo-Modus: Tafel und SuS-Ansicht in mehreren
+   Fenstern auf demselben Gerät. Mit Supabase-Daten läuft es über das Internet.
+   Der Server speichert nichts, er leitet nur Nachrichten weiter.
+   ===================================================================== */
+const LIVE_CFG={supabaseUrl:'',supabaseKey:''};
+const TEACHER_PIN='2026';
+const PHASES=[
+  {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELON.'},
+  {id:'start',name:'Einstieg',txt:'Augen zur Tafel. Das iPad bleibt liegen.',look:true},
+  {id:'work',name:'Arbeitsphase',txt:'Arbeite an deiner Lernleiter. Brauchst du Hilfe? Tippe auf „Hilfe“.',go:'module'},
+  {id:'pair',name:'Partnerarbeit',txt:'Spielt den Dialog zu zweit auf der Dialog-Leiter.',go:'station:ladder'},
+  {id:'move',name:'Bewegung',txt:'Swap & Talk! Steh auf und such dir einen Partner.',go:'station:swap'},
+  {id:'reflect',name:'Reflexion',txt:'Wie lief es heute? Stimm gleich auf deinem iPad ab.'},
+  {id:'end',name:'Abschluss',txt:'Räum auf und schau in deine Hausaufgaben.',go:'homework'},
+];
+const POLLS={
+  thumbs:{q:'Hast du es verstanden?',opts:['Ja, alles klar','Teilweise','Noch nicht']},
+  corners:{q:'Wie gut kannst du es schon?',opts:CORNERS.map((c,i)=>`Ecke ${i+1}: ${c.t}`)},
+};
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+const Live={bc:null,sb:null,kind:'off',
+  async start(code){
+    this.stop();
+    if(LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
+      try{
+        if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
+        const c=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);
+        this.sb=c.channel('elon-'+code,{config:{broadcast:{self:false}}});
+        this.sb.on('broadcast',{event:'e'},({payload})=>this.recv(payload)).subscribe();
+        this.kind='server';return;
+      }catch(e){}
+    }
+    try{this.bc=new BroadcastChannel('elon-'+code);this.bc.onmessage=e=>this.recv(e.data);this.kind='demo'}catch(e){this.kind='off'}
+  },
+  stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;try{this.sb&&this.sb.unsubscribe()}catch(e){}this.sb=null;this.kind='off'},
+  post(t,p){const d={t,p};try{if(this.sb)this.sb.send({type:'broadcast',event:'e',payload:d});else if(this.bc)this.bc.postMessage(d)}catch(e){}},
+  recv(d){if(!d||!d.t)return;if(d.t==='state'&&S.role==='student')onClassState(d.p);if(d.t==='msg'&&S.role==='teacher')onStudentMsg(d.p)},
+};
+const phaseOf=id=>id&&typeof id==='object'?id:(PHASES.find(p=>p.id===id)||PHASES[0]);
+function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.max(0,Math.round((t.endsAt-(Date.now()-off))/1000))}
+
+/* --- Teacher side: holds the class state and sends it to all iPads --- */
+let CS=null,ROSTER={},TALLY={};
+function initTeacher(){
+  CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:false,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
+  CS.poll=null;CS.ready=null;CS.journal=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
+}
+function pushCS(){if(!CS)return;CS.mission=S.mission;S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
+function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
+function onStudentMsg(m){
+  const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
+  (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
+  if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(V.name==='tafel')updTafel()}}
+  let ch=false;
+  if(m.k==='help'){const has=CS.help.includes(nr);if(m.on&&!has){CS.help.push(nr);ch=true;SND.right()}if(!m.on&&has){CS.help=CS.help.filter(x=>x!==nr);ch=true}}
+  if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true}
+  if(m.k==='vote'&&CS.poll&&m.id===CS.poll.id&&!CS.poll.voted.includes(nr)){CS.poll.voted.push(nr);TALLY[m.o]=(TALLY[m.o]||0)+1;ch=true}
+  if(m.k==='journal'&&CS.journal&&m.id===CS.journal.id&&!CS.journal.done.includes(nr)){CS.journal.done.push(nr);ch=true}
+  if(m.k==='hi'&&!ROSTER[nr].known){ROSTER[nr].known=1;ch=true}
+  if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.rocket=Math.min(10,CS.rocket+1);SND.cheer();ch=true}}
+  if(ch)pushCS();
+  if(V.name==='tafel')updTafel();
+}
+VIEWS.tafel=()=>{
+  const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id);
+  return `<div class="tafel">
+    <div class="t-head panel">
+      <div style="min-width:0"><span class="label">${L?`${esc(L.title)} · Phase ${CS.step+1} von ${L.phases.length}`:`Phase · ${esc(className())}`}</span>
+        <h1 class="t-big">${esc(ph.name)}</h1><p class="t-txt">${esc(ph.txt)}</p>
+        ${ph.sf||ph.method?`<div class="row" style="margin-top:8px">${ph.sf?`<span class="chip">${esc(ph.sf)}</span>`:''}${ph.method?`<span class="chip">${esc(ph.method)}</span>`:''}</div>`:''}
+        <p style="margin-top:10px;font-family:var(--f-display);font-size:1.3rem"><span class="label">Mission</span> ${esc(S.mission)}</p>
+        ${L?`<div class="strip">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}">${i+1}. ${esc(p.name)}</button>`).join('')}</div>
+          <div class="row" style="margin-top:12px"><button class="btn" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button><button class="btn pri" data-act="l-go" data-i="${CS.step+1}" ${CS.step>=L.phases.length-1?'disabled':''}>Nächste Phase ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button></div>`
+        :`<div class="row" style="margin-top:12px"><button class="btn pri" data-act="lessons">Stunde starten</button></div>`}</div>
+      <div class="ring" id="tring"><div id="ttime">${fmt(timerLeft(CS.timer))}</div></div>
+    </div>
+    <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0</span> online</span>
+      <span class="chip conn">${Live.kind==='server'?'Live über Server':Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
+      <div class="seats" id="seats"></div>
+      <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit / eingetragen</span><span><i style="background:var(--late-bg);border-color:var(--red)"></i>braucht Hilfe</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
+    <div class="t-side">
+      <section class="panel"><span class="label">Hilfe-Warteschlange</span><div class="helpq" id="helpq"></div></section>
+      <section class="panel" id="t-ready"></section>
+      <section class="panel" id="t-poll"></section>
+      <section class="panel"><span class="label">Klassen-Rakete</span><div id="t-rocket"></div></section>
+    </div>
+  </div>
+  <details class="panel ctrl" open><summary>Steuerung</summary>
+    <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
+      <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
+    <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-set" data-m="${m}">${m} min</button>`).join('')}
+      <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
+    <div class="grp row"><span class="label">Signale</span>
+      <button class="btn ${CS.freeze?'on':''} red" data-act="t-frz">${CS.freeze?'Freeze beenden':'Freeze: alle iPads sperren'}</button>
+      <button class="btn" data-act="t-rdy">${CS.ready?'Bereit-Check beenden':'Bereit-Check'}</button>
+      <button class="btn" data-act="t-jr">${CS.journal?'Lerntagebuch beenden':'Lerntagebuch für alle'}</button><button class="btn" data-act="snd" data-s="swap">Swap-Ton</button><button class="btn" data-act="mission-call">Mission vorlesen</button></div>
+    <div class="grp"><span class="label">Abstimmung (anonym)</span>
+      <div class="row" style="margin-top:6px"><button class="btn" data-act="t-poll" data-t="thumbs">Daumen: verstanden?</button><button class="btn" data-act="t-poll" data-t="corners">4 Ecken</button>${CS.poll?'<button class="btn red" data-act="t-poll-end">Abstimmung beenden</button>':''}</div>
+      <div class="row" style="margin-top:8px"><input id="cp-q" type="text" placeholder="Eigene Frage, z. B. Which word fits?" style="flex:2;min-width:220px">
+        ${[1,2,3,4].map(i=>`<input id="cp-o${i}" type="text" placeholder="Antwort ${i}" style="flex:1;min-width:110px">`).join('')}
+        <button class="btn pri" data-act="t-poll" data-t="custom">Starten</button></div></div>
+    <div class="grp row"><label for="t-cls" class="label">SuS in der Klasse</label><input id="t-cls" type="number" min="2" max="40" value="${S.classSize}" style="width:90px">
+      <button class="btn sm" data-act="t-cls">Übernehmen</button>
+      <span class="muted" style="font-weight:700">So kommen die SuS rein: ELON öffnen → Schule → <b>${esc(className())}</b> → „Ich bin Schüler/in“ → eigene Nummer.</span></div>
+  </details>`;
+};
+function updTafel(){
+  if(!CS||!$('#seats'))return;
+  const on=online(),n=S.classSize;
+  $('#t-online').textContent=on.length;
+  $('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
+    const nk=ROSTER[k]&&ROSTER[k].nick;return `<div class="seat ${cls}">${k}${nk?`<small>${esc(nk)}</small>`:''}</div>`}).join('');
+  $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||'Nr. '+k)}</b> <span class="muted">Nr. ${k}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
+  $('#t-ready').innerHTML=CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
+    :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
+  if(CS.poll){const tot=Math.max(1,CS.poll.voted.length);
+    $('#t-poll').innerHTML=`<span class="label">Abstimmung · ${CS.poll.voted.length} / ${on.length||'–'} abgestimmt</span><h3 style="margin-top:4px">${esc(CS.poll.q)}</h3>
+      <div class="bars">${CS.poll.opts.map((o,i)=>`<div class="barrow"><div class="track"><i style="width:${(TALLY[i]||0)/tot*100}%"></i><span>${esc(o)}</span></div><b>${TALLY[i]||0}</b></div>`).join('')}</div>`}
+  else $('#t-poll').innerHTML='<span class="label">Abstimmung</span><p class="muted" style="font-weight:700;margin-top:4px">Keine Abstimmung aktiv. Die Ergebnisse sind immer anonym.</p>';
+  $('#t-rocket').innerHTML=`<div class="rocket" style="margin-top:8px"><div class="fuel">${Array.from({length:10},(_,i)=>`<i class="${i<CS.rocket?'on':''}"></i>`).join('')}</div>
+    <div><p style="font-family:var(--f-display);font-size:1.8rem">${CS.rocket} / 10</p><div class="row"><button class="btn sm ok" data-act="t-rk" data-d="1">+1</button><button class="btn sm" data-act="t-rk" data-d="-1">−1</button></div>
+    ${CS.rocket>=10?`<p style="font-weight:800;margin-top:6px">Rakete voll! Die Klasse wählt eine Belohnung.</p>`:''}</div></div>`;
+}
+
+/* --- Student side --- */
+let RCS=null,rcsAt=0,OFF=0,lastOvSig='';
+let dashSig='';
+function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;updBanner();liveOverlay();
+  const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
+function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||''})}
+function updBanner(){
+  const el=$('#live');
+  if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
+  el.hidden=false;
+  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">Warte auf die Tafel … · ${esc(className())} · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
+  const ph=phaseOf(RCS.phase),inHelp=RCS.help.includes(S.nr),tl=timerLeft(RCS.timer,OFF);
+  el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${ph.name}</b><span class="ph-txt">${esc(ph.txt)}</span><span class="spacer"></span>
+    ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
+    <span class="chip">${esc(S.nick||'Nr. '+S.nr)}</span>
+    <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
+}
+function liveOverlay(){
+  const el=$('#live-ov');
+  if(S.role!=='student'||!RCS){el.hidden=true;lastOvSig='';return}
+  const ph=phaseOf(RCS.phase),box=h=>`<div class="box">${h}</div>`;
+  let sig='',html='',full=false;
+  if(RCS.freeze||ph.look){sig='look'+RCS.freeze+RCS.phaseAt;full=true;
+    html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
+  else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null;
+    html=box(`<span class="label">Bereit-Check</span><h2>Bist du bereit?</h2>${sub?`<p style="margin-top:8px;font-weight:700">Liegt alles bereit?</p><div class="prep">${SUBJECTS[sub].prep.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>`:''}
+      <button class="btn ok" data-act="ready" style="width:100%;margin-top:16px">Ich bin bereit</button>`)}
+  else if(RCS.journal&&!S.journalDone[RCS.journal.id]&&!RCS.journal.done.includes(S.nr)){sig='j'+RCS.journal.id;html=box(journalForm('live',RCS.journal.id))}
+  else if(RCS.poll&&!S.voted[RCS.poll.id]&&!RCS.poll.voted.includes(S.nr)){sig='p'+RCS.poll.id;
+    html=box(`<span class="label">Abstimmung · anonym</span><h2>${esc(RCS.poll.q)}</h2><div class="opts">${RCS.poll.opts.map((o,i)=>`<button class="btn opt ${RCS.poll.type==='corners'?CORNERS[i].c:''}" data-act="vote" data-o="${i}">${esc(o)}</button>`).join('')}</div>
+      <p class="muted" style="margin-top:10px;font-weight:700">Niemand sieht, was du gewählt hast.</p>`)}
+  else if(S.phaseSeen!==String(RCS.phaseAt)){sig='ph'+RCS.phaseAt;
+    html=box(`<span class="label">Neue Phase</span><h2>${ph.name}</h2><p style="font-weight:700;margin-top:6px">${esc(ph.txt)}</p><button class="btn pri" data-act="phase-go" style="width:100%;margin-top:16px">Los geht's</button>`)}
+  if(!sig){el.hidden=true;lastOvSig='';return}
+  if(sig===lastOvSig)return;
+  lastOvSig=sig;el.innerHTML=html;el.classList.toggle('full',full);el.hidden=false;
+}
+
+/* --- Role screen --- */
+/* --- Start: Logo → Schule → Klasse → Rolle --- */
+// Weitere Schulen und Klassen kommen hier dazu
+const SCHOOLS=[
+  {id:'MS',name:'Meine Mittelschule',place:'Bayern',classes:[{id:'7bG',name:'Klasse 7bG',size:24}]},
+];
+const schoolBy=id=>SCHOOLS.find(x=>x.id===id);
+const classBy=(sid,cid)=>{const sc=schoolBy(sid);return sc&&sc.classes.find(c=>c.id===cid)};
+const className=()=>{const c=classBy(S.school,S.cls);return c?c.name:'Klasse '+S.code};
+const BIGLOGO='<div class="biglogo">EL<span class="on"><i></i>ON</span></div>';
+VIEWS.role=()=>{
+  const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
+  const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
+  if(step==='splash')return `<div class="splash">${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
+    <button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button></div>`;
+  if(step==='school')return `<div class="start"><div class="start-head">${back('splash')}<span class="label">Schritt 1 von 3</span></div><h1>Wähle deine Schule</h1>
+    <div class="pick">${SCHOOLS.map(x=>`<button class="pick-card" data-act="st-school" data-id="${x.id}"><b>${esc(x.name)}</b><span class="muted">${esc(x.place)} · ${x.classes.length} Klasse${x.classes.length>1?'n':''}</span></button>`).join('')}</div></div>`;
+  if(step==='class')return `<div class="start"><div class="start-head">${back('school')}<span class="label">Schritt 2 von 3 · ${esc(sc.name)}</span></div><h1>Wähle deine Klasse</h1>
+    <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
+  if(step==='nick')return `<div class="start"><div class="start-head">${back('role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Wähle deinen Nickname</h1>
+    <section class="panel" style="margin-top:16px">
+      <p style="font-weight:700">So heißt du in ELON und an der Tafel. <b>Nimm nicht deinen echten Namen</b>, sondern etwas Ausgedachtes.</p>
+      <label class="label" for="nick" style="display:block;margin-top:14px">Dein Nickname</label><input id="nick" type="text" maxlength="16" autocomplete="off" autocapitalize="off" value="${esc(S.nick||'')}" placeholder="z. B. ${esc(V.sugg[0])}">
+      <p class="label" style="margin-top:14px">Ideen von Elo</p>
+      <div class="sugg">${V.sugg.map(n=>`<button class="btn sm" data-act="nick-sugg" data-n="${esc(n)}">${esc(n)}</button>`).join('')}<button class="btn sm" data-act="nick-more">Neue Ideen</button></div>
+      <p class="err" id="nick-err"></p>
+      <button class="btn ok big" data-act="nick-ok" style="width:100%;margin-top:16px">Fertig</button>
+    </section></div>`;
+  return `<div class="start"><div class="start-head">${back('class')}<span class="label">Schritt 3 von 3 · ${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Wer bist du?</h1>
+  <div class="role-wrap">
+    <section class="panel"><h2>Ich bin Schüler/in</h2>
+      <p class="label" style="margin-top:12px">Tippe auf deine Nummer aus der Klassenliste</p>
+      <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach wählst du einen Nickname. Dein echter Name wird nicht gespeichert.</p></section>
+    <section class="panel"><h2>Ich bin Lehrkraft</h2>
+      <label class="label" for="r-pin" style="display:block;margin-top:12px">PIN</label><input id="r-pin" type="password" inputmode="numeric" autocomplete="off">
+      <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p></section>
+  </div></div>`;
+};
+function setClass(){S.school=V.school;S.cls=V.cls;S.code=V.school+'-'+V.cls;const c=classBy(V.school,V.cls);if(c&&c.size)S.classSize=c.size}
+const NICK_A=['Blue','Happy','Brave','Speedy','Clever','Lucky','Sunny','Cool','Mighty','Funny','Golden','Turbo'];
+const NICK_B=['Tiger','Fox','Panda','Owl','Shark','Eagle','Koala','Wolf','Dolphin','Penguin','Falcon','Dragon'];
+function suggestNicks(){const out=new Set();while(out.size<4)out.add(pick(NICK_A)+pick(NICK_B)+(Math.random()<.4?Math.floor(Math.random()*90+10):''));return [...out].map(x=>x.slice(0,16))}
+const cleanNick=v=>String(v||'').trim().replace(/[^A-Za-zÄÖÜäöüß0-9_\- ]/g,'').replace(/\s+/g,' ').slice(0,16);
+const cleanCode=v=>(v||'7B').trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)||'7B';
+
+/* =====================================================================
+   STUNDENBAUKASTEN: Stunden nach dem Phasen-Gerüst planen und an der Tafel abspielen
+   (vorläufiges Gerüst, wird an Fabians Referendariats-Vorlage angepasst)
+   ===================================================================== */
+const SOZ=['Plenum','EA','PA','GA','Stationen','Bewegung'];
+const ACTS={none:'Nichts (iPad bleibt, wie es ist)',look:'„Schau zur Tafel“ (iPads gesperrt)',mission:'Mission vorlesen + „Schau zur Tafel“',goto:'iPads öffnen eine Seite',ready:'Bereit-Check',poll:'Abstimmung',journal:'Lerntagebuch'};
+const TARGETS={'module':'Englisch: Lernleiter','station:warmup':'Englisch: Taboo & Heads-Up','station:words':'Englisch: Wörter-Training','station:phrases':'Englisch: Satz-Paare','station:order':'Englisch: Dialog-Puzzle','station:ladder':'Englisch: Dialog-Leiter','station:swap':'Englisch: Swap & Talk','station:reflect':'Englisch: Reflexion','homework':'Hausaufgaben','journal':'Lerntagebuch',
+  ...Object.fromEntries(Object.keys(SUBJECTS).map(k=>['heft:'+k,`Digitales Heft: ${SUBJECTS[k].name}`]))};
+const SCAFFOLD=[
+  {name:'Einstieg',goal:'Motivation und Vorwissen aktivieren',min:5,sf:'Plenum',method:'Bildimpuls / Taboo',txt:'Augen zur Tafel.',act:'look'},
+  {name:'Zielangabe',goal:'Stundenziel transparent machen',min:2,sf:'Plenum',method:"Elo's Mission Call",txt:'Hör zu: Das ist heute unsere Mission.',act:'mission'},
+  {name:'Erarbeitung',goal:'Neues entdecken und verstehen',min:12,sf:'EA',method:'Lernleiter',txt:'Arbeite an deiner Lernleiter.',act:'goto',target:'module'},
+  {name:'Sicherung',goal:'Ergebnisse festhalten',min:6,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'goto',target:'heft:E'},
+  {name:'Übung / Anwendung',goal:'Gelerntes anwenden',min:10,sf:'PA',method:'Partnerarbeit',txt:'Arbeitet zu zweit.',act:'none'},
+  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:4,sf:'Plenum',method:'4-Ecken digital',txt:'Wie gut kannst du es schon? Stimm ab und geh in deine Ecke.',act:'poll',poll:'corners'},
+  {name:'Lerntagebuch & Ausblick',goal:'Lernen festhalten, Hausaufgabe',min:5,sf:'EA',method:'Lerntagebuch',txt:'Trag ein, was du heute gelernt hast.',act:'journal'},
+];
+const clone=o=>JSON.parse(JSON.stringify(o));
+function exampleLesson(){return {id:'L-bsp',title:'BUV Englisch: Shopping in London',subject:'E',mission:'Today I can buy clothes in a London shop.',phases:[
+  {name:'Einstieg',goal:'Vorwissen aktivieren',min:5,sf:'Plenum',method:'Taboo über die Tafel',txt:'Augen zur Tafel. Wir spielen Taboo mit Kleidungswörtern!',act:'look'},
+  {name:'Zielangabe',goal:'Stundenziel transparent machen',min:2,sf:'Plenum',method:"Elo's Mission Call",txt:'Hör zu: Das ist heute unsere Mission.',act:'mission'},
+  {name:'Erarbeitung',goal:'Dialogaufbau entdecken',min:8,sf:'EA',method:'Dialog-Puzzle',txt:'Bring den Dialog in die richtige Reihenfolge.',act:'goto',target:'station:order'},
+  {name:'Sicherung',goal:'Redemittel festhalten',min:5,sf:'Plenum',method:'Hefteintrag',txt:'Schreib die Useful phrases in dein Heft ab.',act:'goto',target:'heft:E'},
+  {name:'Übung',goal:'Dialog sprechen',min:10,sf:'PA',method:'Dialog-Leiter',txt:'Spielt den Dialog zu zweit. Wählt eure Stufe selbst.',act:'goto',target:'station:ladder'},
+  {name:'Anwendung',goal:'Frei sprechen mit wechselnden Partnern',min:7,sf:'Bewegung',method:'Swap & Talk',txt:'Steh auf und such dir einen Partner!',act:'goto',target:'station:swap'},
+  {name:'Reflexion',goal:'Lernstand einschätzen',min:3,sf:'Plenum',method:'4-Ecken digital',txt:'Wie gut kannst du den Dialog? Stimm ab und geh in deine Ecke.',act:'poll',poll:'corners'},
+  {name:'Lerntagebuch & Ausblick',goal:'Lernen festhalten, Hausaufgabe',min:5,sf:'EA',method:'Lerntagebuch',txt:'Trag ein, was du heute gelernt hast.',act:'journal'},
+]}}
+function lessons(){if(!Array.isArray(S.lessons)){S.lessons=[exampleLesson()];save()}return S.lessons}
+const lessonById=id=>lessons().find(l=>l.id===id);
+const lessonMin=L=>L.phases.reduce((a,p)=>a+(+p.min||0),0);
+function goTarget(t){
+  if(!t)return;
+  if(t==='module')go('module');else if(t==='homework')go('homework');else if(t==='journal')go('journal');
+  else if(t.startsWith('heft:'))go('subject',{s:t.slice(5),tab:'heft'});
+  else if(t.startsWith('station:')){const id=t.slice(8);W={};({words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[id]||(()=>{}))();go('station',{id})}
+}
+function startStep(i){
+  const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
+  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
+  CS.phase={name:p.name,txt:p.txt||p.goal||'',look:p.act==='look'||p.act==='mission',go:p.act==='goto'?p.target:null,sf:p.sf,method:p.method};
+  CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;
+  const m=+p.min||0;CS.timer=m?{run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000}:{run:false,total:300,left:300,endsAt:0};
+  if(p.act==='mission'){SND.mission();setTimeout(()=>say(S.mission),900)}
+  if(p.act==='poll'){const P=POLLS[p.poll||'thumbs'];CS.poll={id:'p'+Date.now(),type:p.poll||'thumbs',q:P.q,opts:P.opts,voted:[]};TALLY={}}
+  if(p.act==='ready')CS.ready={id:'r'+Date.now(),done:[],rewarded:false};
+  if(p.act==='journal')CS.journal={id:'j'+Date.now(),done:[]};
+  pushCS();render();
+}
+VIEWS.lessons=()=>{
+  const list=lessons();
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div>
+  <div class="lesson-list">${list.map(L=>`<article class="lcard s-${L.subject}"><div class="row" style="justify-content:space-between">
+      <div class="row">${badge(L.subject)}<div><h2>${esc(L.title)}</h2><span class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</span></div></div>
+      <div class="row"><button class="btn ok" data-act="l-start" data-id="${L.id}">An der Tafel starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-dup" data-id="${L.id}">Kopieren</button>
+      ${V.del===L.id?`<button class="btn sm red" data-act="l-del-yes" data-id="${L.id}">Wirklich löschen</button><button class="btn sm" data-act="l-del-no">Abbrechen</button>`:`<button class="btn sm" data-act="l-del" data-id="${L.id}">Löschen</button>`}</div></div>
+      <div class="strip">${L.phases.map((p,i)=>`<span class="chip">${i+1}. ${esc(p.name)} · ${+p.min||0} min</span>`).join('')}</div></article>`).join('')||'<div class="empty">Noch keine Stunden. Leg die erste aus dem Gerüst an.</div>'}</div>
+  <p class="muted" style="margin-top:14px;font-size:.9rem">Die Stunden sind auf diesem Gerät gespeichert. Das Gerüst ist vorläufig und wird an deine Referendariats-Vorlage angepasst.</p>`;
+};
+VIEWS['lesson-edit']=()=>{
+  const L=lessonById(V.id);if(!L)return '<div class="empty">Diese Stunde gibt es nicht mehr.</div>';
+  const opt=(o,v)=>Object.entries(o).map(([k,t])=>`<option value="${k}" ${k===v?'selected':''}>${esc(t)}</option>`).join('');
+  return `<div class="st-head"><button class="btn sm" data-act="lessons">← Meine Stunden</button><span class="chip">Gesamt: <b id="l-total">${lessonMin(L)}</b> Minuten</span><button class="btn ok sm" data-act="l-start" data-id="${L.id}">An der Tafel starten</button></div>
+  <section class="panel"><div class="lgrid">
+    <label style="grid-column:1/-1">Titel der Stunde<input type="text" data-f="title" value="${esc(L.title)}"></label>
+    <label>Fach<select data-f="subject">${opt(Object.fromEntries(Object.entries(SUBJECTS).map(([k,v])=>[k,v.name])),L.subject)}</select></label>
+    <label style="grid-column:span 2">Mission (Stundenziel, „I can …“)<input type="text" data-f="mission" value="${esc(L.mission||'')}"></label>
+  </div></section>
+  <div class="lesson-list" style="margin-top:16px">${L.phases.map((p,i)=>`<article class="lcard">
+    <div class="row" style="justify-content:space-between"><div class="row"><span class="lnum">${i+1}</span><h3>${esc(p.name)}</h3></div>
+      <div class="row"><button class="btn sm" data-act="ph-up" data-i="${i}" ${i===0?'disabled':''} aria-label="Nach oben">↑</button><button class="btn sm" data-act="ph-down" data-i="${i}" ${i===L.phases.length-1?'disabled':''} aria-label="Nach unten">↓</button><button class="btn sm" data-act="ph-del" data-i="${i}">Entfernen</button></div></div>
+    <div class="lgrid">
+      <label>Phase<input type="text" data-f="ph.${i}.name" value="${esc(p.name)}"></label>
+      <label>Minuten<input type="number" min="0" max="90" data-f="ph.${i}.min" value="${+p.min||0}"></label>
+      <label>Sozialform<select data-f="ph.${i}.sf">${SOZ.map(x=>`<option ${x===p.sf?'selected':''}>${x}</option>`).join('')}</select></label>
+      <label>Methode / Ritual<input type="text" data-f="ph.${i}.method" value="${esc(p.method||'')}"></label>
+      <label style="grid-column:1/-1">Didaktische Funktion (nur für dich)<input type="text" data-f="ph.${i}.goal" value="${esc(p.goal||'')}"></label>
+      <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>
+      <label style="grid-column:span 2">Was passiert auf den iPads?<select data-f="ph.${i}.act">${opt(ACTS,p.act||'none')}</select></label>
+      ${p.act==='goto'?`<label>Welche Seite?<select data-f="ph.${i}.target">${opt(TARGETS,p.target||'module')}</select></label>`:''}
+      ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}
+    </div></article>`).join('')}</div>
+  <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button></div>`;
+};
+document.addEventListener('input',e=>{
+  const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
+  const L=lessonById(V.id);if(!L)return;
+  const v=e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
+  const k=f.split('.');if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
+  save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
+});
+document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.act$/.test(f)&&V.name==='lesson-edit')render()});
+
+/* =====================================================================
+   LERNTAGEBUCH: automatisch 5 Minuten vor Stundenende und per Tafel
+   ===================================================================== */
+const MOODS=[['😀','super'],['🙂','gut'],['😐','geht so'],['😕','schwer']];
+let JM=null;
+function journalForm(src,id=''){JM=null;return `<span class="label">Lerntagebuch</span><h2>Was hast du heute gelernt?</h2>
+  <label class="label" for="jr-learned" style="display:block;margin-top:12px">Heute habe ich gelernt …</label><textarea id="jr-learned" rows="3"></textarea>
+  <label class="label" for="jr-hard" style="display:block;margin-top:10px">Das war noch schwer … (freiwillig)</label><textarea id="jr-hard" rows="2"></textarea>
+  <p class="label" style="margin-top:12px">So ging es mir</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood" data-act="jr-mood" data-i="${i}">${m[0]}<small>${m[1]}</small></button>`).join('')}</div>
+  <p class="err" id="jr-err"></p>
+  <button class="btn ok" data-act="jr-save" data-src="${src}" data-id="${esc(id)}" style="width:100%;margin-top:14px">Eintragen</button>`}
+function checkJournalAuto(){
+  if(S.role!=='student')return;
+  const sl=slotNow();if(sl.kind!=='lesson')return;
+  const left=sl.l.end-sl.n.min;if(left>5||left<=0)return;
+  const key=`auto|${todayISO()}|${sl.n.day}|${sl.l.p}${sl.n.sim?'|sim':''}`;
+  if(S.journalDone[key])return;
+  const ov=$('#ov');if(!ov.hidden&&ov.dataset.k===key)return;
+  if(RCS&&RCS.journal)return; // teacher already opened it live
+  SND.change();showOv(`<div class="box" style="text-align:left">${journalForm('auto',key)}</div>`,key);
+}
+function saveJournal(src,id){
+  const learned=($('#jr-learned')||{}).value||'',hard=($('#jr-hard')||{}).value||'';
+  if(learned.trim().length<3){$('#jr-err').textContent='Schreib mindestens einen kurzen Satz.';return}
+  const sl=slotNow();
+  S.journal=S.journal||[];S.journal.push({at:Date.now(),subj:sl.kind==='lesson'?sl.l.s:null,learned:learned.trim(),hard:hard.trim(),mood:JM});
+  if(id)S.journalDone[id]=1;
+  earnOnce('jr_'+(id||Date.now()));SND.cheer();save();
+  if(src==='live'){sendMsg({k:'journal',id});if(RCS)S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';liveOverlay()}
+  else if(src==='auto'){$('#ov').hidden=true;render()}
+  else{V.form=false;render()}
+}
+VIEWS.journal=()=>{
+  const list=(S.journal||[]).slice().reverse();
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Lerntagebuch</h1>${V.form?'':'<button class="btn pri" data-act="jr-new">Neuer Eintrag</button>'}</div>
+  ${V.form?`<section class="panel" style="margin-bottom:16px">${journalForm('free')}</section>`:''}
+  ${list.length?`<div class="entries">${list.map(e=>`<article class="page ${e.subj?'s-'+e.subj:''}"><header><h3>${e.subj?SUBJECTS[e.subj].name:'Eintrag'}</h3>
+      <span class="date">${new Date(e.at).toLocaleDateString('de-DE')} ${e.mood!=null&&MOODS[e.mood]?MOODS[e.mood][0]:''}</span></header>
+      <h4>Heute habe ich gelernt</h4><p>${esc(e.learned)}</p>${e.hard?`<h4>Das war noch schwer</h4><p>${esc(e.hard)}</p>`:''}</article>`).join('')}</div>`
+    :'<div class="empty">Noch keine Einträge. Am Ende jeder Stunde fragt ELON dich, was du gelernt hast.</div>'}
+  <p class="muted" style="margin-top:14px;font-size:.9rem">Dein Lerntagebuch bleibt auf deinem iPad.</p>`;
+};
+
+/* ---------- Events ---------- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+  const a=b.dataset.act,d=b.dataset;ctx();
+  switch(a){
+    case 'lessons':go('lessons');break;
+    case 'l-new':{const L={id:'L'+Date.now(),title:'Neue Stunde',subject:'E',mission:'',phases:clone(SCAFFOLD)};lessons().push(L);save();go('lesson-edit',{id:L.id});break}
+    case 'l-edit':go('lesson-edit',{id:d.id});break;
+    case 'l-dup':{const L=clone(lessonById(d.id));L.id='L'+Date.now();L.title+=' (Kopie)';lessons().push(L);save();render();break}
+    case 'l-del':V.del=d.id;render();break;
+    case 'l-del-no':V.del=null;render();break;
+    case 'l-del-yes':S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
+    case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();go('tafel');startStep(0);break}
+    case 'l-go':startStep(+d.i);break;
+    case 'l-stop':CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
+    case 'ph-del':{const L=lessonById(V.id);L.phases.splice(+d.i,1);save();render();break}
+    case 'ph-up':case 'ph-down':{const L=lessonById(V.id),i=+d.i,j=a==='ph-up'?i-1:i+1;if(j<0||j>=L.phases.length)break;[L.phases[i],L.phases[j]]=[L.phases[j],L.phases[i]];save();render();break}
+    case 't-jr':CS.journal=CS.journal?null:{id:'j'+Date.now(),done:[]};pushCS();render();break;
+    case 'jr-mood':JM=+d.i;b.parentNode.querySelectorAll('.mood').forEach(x=>x.classList.toggle('on',x===b));break;
+    case 'jr-save':saveJournal(d.src,d.id);break;
+    case 'jr-new':V.form=true;render();break;
+    case 'journal':go('journal');break;
+    case 'st-step':V.step=d.step;render();break;
+    case 'st-school':V.school=d.id;V.step='class';render();break;
+    case 'st-class':V.cls=d.id;V.step='role';render();break;
+    case 'r-nr':V.nr=+d.n;V.step='nick';V.sugg=suggestNicks();render();break;
+    case 'nick-sugg':{const i=$('#nick');i.value=d.n;i.focus();break}
+    case 'nick-more':V.sugg=suggestNicks();render();break;
+    case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
+      if(!nk||nk.length<3){$('#nick-err').textContent='Dein Nickname braucht 3 bis 16 Zeichen (Buchstaben, Zahlen, - oder _).';break}
+      setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);break}
+    case 'r-teach':if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
+      setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);go('tafel');break;
+    case 'role-reset':Live.stop();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'tafel':go('tafel');break;
+    case 't-ph':CS.phase=d.p;CS.phaseAt=Date.now();CS.freeze=false;pushCS();render();break;
+    case 'tt-set':CS.timer={run:false,total:+d.m*60,left:+d.m*60,endsAt:0};pushCS();render();break;
+    case 'tt-go':if(CS.timer.run){CS.timer.left=timerLeft(CS.timer);CS.timer.run=false}else{if(CS.timer.left<=0)CS.timer.left=CS.timer.total;CS.timer.endsAt=Date.now()+CS.timer.left*1000;CS.timer.run=true}pushCS();render();break;
+    case 'tt-reset':CS.timer={run:false,total:CS.timer.total,left:CS.timer.total,endsAt:0};pushCS();render();break;
+    case 't-frz':CS.freeze=!CS.freeze;if(CS.freeze)SND.freeze();pushCS();render();break;
+    case 't-rdy':CS.ready=CS.ready?null:{id:'r'+Date.now(),done:[],rewarded:false};pushCS();render();break;
+    case 't-poll':{let q,opts;
+      if(d.t==='custom'){q=$('#cp-q').value.trim();opts=[1,2,3,4].map(i=>$('#cp-o'+i).value.trim()).filter(Boolean);if(!q||opts.length<2){$('#cp-q').focus();$('#cp-q').placeholder='Bitte Frage und mindestens 2 Antworten eintragen';break}}
+      else{q=POLLS[d.t].q;opts=POLLS[d.t].opts}
+      CS.poll={id:'p'+Date.now(),type:d.t,q,opts,voted:[]};TALLY={};pushCS();render();break}
+    case 't-poll-end':CS.poll=null;pushCS();render();break;
+    case 't-help-done':CS.help=CS.help.filter(x=>x!==+d.n);pushCS();updTafel();break;
+    case 't-rk':CS.rocket=Math.max(0,Math.min(10,CS.rocket+(+d.d)));if(+d.d>0)CS.rocket>=10?SND.cheer():SND.right();pushCS();updTafel();break;
+    case 't-cls':{const n=parseInt($('#t-cls').value,10);if(n>=2&&n<=40){S.classSize=n;save();updTafel()}break}
+    case 'help':if(RCS)sendMsg({k:'help',on:!RCS.help.includes(S.nr)});break;
+    case 'ready':if(RCS&&RCS.ready){S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id});SND.right();liveOverlay()}break;
+    case 'vote':if(RCS&&RCS.poll){S.voted[RCS.poll.id]=1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
+    case 'phase-go':{const ph=phaseOf(RCS.phase);S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';$('#live-ov').hidden=true;
+      goTarget(ph.go);
+      liveOverlay();break}
+    case 'dash':go('dash');break;
+    case 'homework':go('homework');break;
+    case 'practice':go('practice',d.s?{s:d.s}:{});break;
+    case 'ps':S.lastPs=d.s;save();V.s=d.s;render();break;
+    case 'game':go(d.g,{s:d.s});break;
+    case 'g-again':go(V.name,{s:V.s});break;
+    case 'mem':memClick(+d.i);break;
+    case 'sal-pick':{const g=V.g;if(g.fb==='no')g.fb='';g.pick.push(+d.j);if(g.pick.length===g.W[g.i].w.length)saladCheck();render();break}
+    case 'sal-un':{const g=V.g;g.pick.splice(+d.p,1);g.fb='';render();break}
+    case 'sal-clear':V.g.pick=[];V.g.fb='';render();break;
+    case 'sal-next':{const g=V.g;if(g.i+1<g.W.length){g.i++;g.pick=[];g.letters=null;g.tries=0;g.fb=''}else finishGame(g);render();break}
+    case 'bal':balGuess(d.l);break;
+    case 'bal-next':{const g=V.g;if(g.i+1<g.W.length){g.i++;g.guess={};g.wrong={};g.miss=0}else finishGame(g);render();break}
+    case 'week':go('week');break;
+    case 'board':go('board');break;
+    case 'subject':go('subject',{s:d.s});break;
+    case 'tab':V.tab=d.t;render();break;
+    case 'module':go('module');break;
+    case 'close-ov':$('#ov').hidden=true;if(d.to==='subject')go('subject',{s:d.s});else if(d.to)go(d.to);break;
+    case 'prep':b.classList.toggle('on');b.querySelector('i').textContent=b.classList.contains('on')?'✓':'';SND.right();break;
+    case 'recheck':{const sl=slotNow();if(sl.kind==='lesson')lessonPopup(sl,null);break}
+    case 'hw':S.hwDone[d.id]=!S.hwDone[d.id];if(S.hwDone[d.id]){SND.right();earnOnce('hw_'+d.id)}save();render();break;
+    case 'copied':S.copied[d.id]=!S.copied[d.id];if(S.copied[d.id]){SND.right();earnOnce('cp_'+d.id)}save();render();break;
+    case 'say':say(d.t);break;
+    case 'complete':complete(d.id);break;
+    case 'station':{
+      W={};const init={words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[d.id];
+      if(init)init();go('station',{id:d.id});break}
+    case 'wu-mode':stops.forEach(f=>f());stops=[];W={mode:d.m,deck:shuffle(TABOO.map((_,i)=>i)),i:0,got:0,left:null};if(d.m==='heads')startHeads();render();break;
+    case 'wu-back':stops.forEach(f=>f());stops=[];W={};render();break;
+    case 'wu-next':if(d.got){W.got++;SND.right()}W.i++;W.anim='pop';render();break;
+    case 'w-pick':{
+      const k=+d.k,cur=W.q[0];
+      if(k===cur){SND.right();say(VOCAB[k][0]);if(W.miss)mutStar();W.q.shift();W.done++;W.miss=false;
+        b.classList.add('right');setTimeout(()=>{if(W.q.length)W.opts=mkOpts(W.q[0]);render()},650);}
+      else{SND.oops();W.miss=true;b.classList.add('shake');b.disabled=true;const m=$('#w-msg');if(m)m.textContent='Kein Problem! Fehler sind Freunde. Probier ein anderes Wort.'}
+      break}
+    case 'p-q':W.sel=+d.i;render();break;
+    case 'p-a':{
+      if(W.sel==null){b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);break}
+      if(+d.i===W.sel){SND.right();say(PAIRS[W.sel][0]+' '+PAIRS[W.sel][1]);if(W.miss)mutStar();W.ok.push(W.sel);W.sel=null;W.miss=false;render()}
+      else{SND.oops();W.miss=true;render()}
+      break}
+    case 'o-pick':{
+      const i=+d.i;
+      if(i===W.placed.length){SND.right();if(W.miss)mutStar();W.placed.push(i);W.pool=W.pool.filter(x=>x!==i);W.miss=false;W.shake=null}
+      else{SND.oops();W.miss=true;W.shake=i}
+      render();break}
+    case 'l-step':W.step=+d.s;render();break;
+    case 'l-role':W.role=d.r;render();break;
+    case 'l-swap':W.role=W.role==='A'?'B':'A';SND.swap();render();break;
+    case 'l-rev':W.rev[d.k]=true;render();break;
+    case 'l-cards':W.cards=rollCards();render();break;
+    case 's-help':W.show=true;render();break;
+    case 's-swap':W.i++;W.talks++;W.show=false;W.anim='pop';SND.swap();render();break;
+    case 'r-pick':W.choice=+d.i;S.reflect=W.choice;save();SND.right();render();break;
+    case 'r-again':W.choice=null;render();break;
+    case 'r-done':{const t=$('#mistake');if(t){S.mistake=t.value;if(t.value.trim())earnOnce('mistake')}save();complete('reflect');break}
+    case 'mission-call':SND.mission();setTimeout(()=>say(S.mission),900);break;
+    case 'mission-save':{const v=$('#mission-in').value.trim();if(v){S.mission=v;save();pushCS();render()}break}
+    case 't-set':tStop();T.total=T.left=(+d.m)*60;tDraw();break;
+    case 't-go':
+      if(T.run){tStop();tDraw();break}
+      if(T.left<=0)T.left=T.total;
+      T.run=true;T.id=setInterval(()=>{T.left--;tDraw();if(T.left<=0){tStop();tDraw();SND.bigben()}},1000);
+      stops.push(tStop);tDraw();break;
+    case 't-reset':tStop();T.left=T.total;tDraw();break;
+    case 'snd':SND[d.s]();break;
+    case 'mk-pairs':{
+      const n=readClass(),nums=shuffle(Array.from({length:n},(_,i)=>i+1)),out=[];
+      for(let i=0;i+1<nums.length;i+=2)out.push([nums[i],nums[i+1]]);
+      if(n%2&&out.length)out[out.length-1].push(nums[n-1]);
+      PAIRS_OUT=`<div class="pairs">${out.map(p=>`<span>${p.join(' + ')}</span>`).join('')}</div>`;render();break}
+    case 'mk-jobs':{const n=readClass();JOBS_OUT=shuffle(Array.from({length:n},(_,i)=>i+1)).slice(0,4);render();break}
+    case 'coin':{readClass();const r=pick(['A','B']);PAIRS_OUT=`<div class="pairs"><span style="font-size:1.3rem">${r} beginnt · ${ROLE[r]}</span></div>`;SND.right();render();break}
+    case 'rk':S.rocket=Math.max(0,Math.min(10,S.rocket+(+d.d)));save();if(+d.d>0)S.rocket>=10?SND.cheer():SND.right();if(CS){CS.rocket=S.rocket;pushCS()}render();break;
+    case 'rk0':S.rocket=0;save();render();break;
+    case 'sim':{const day=+$('#sim-day').value,t=$('#sim-time').value||'08:45';SIM={day,min:toMin(t),setAt:Date.now()};tickClock();checkSlot();if(!$('#ov').hidden)break;render();break}
+    case 'sim-off':SIM=null;tickClock();render();break;
+    case 'reset-ask':ASK=true;render();break;
+    case 'reset-no':ASK=false;render();break;
+    case 'reset-yes':{const keep={mission:S.mission,rocket:S.rocket,classSize:S.classSize};S=Object.assign(def(),keep);save();ASK=false;hdr();render();break}
+  }
+});
+function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSize;if(!(n>=2&&n<=40))n=S.classSize;S.classSize=n;save();return n}
+
+$('#star-ico').innerHTML=STAR;
+if(!S.role)V={name:'role'};
+else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tafel'}}}
+hdr();tickClock();render();
+try{speechSynthesis.getVoices()}catch(e){}
+let lastMin=-1;
+setInterval(()=>{
+  tickClock();
+  const m=nowInfo().min;
+  if(m!==lastMin){lastMin=m;checkSlot();checkJournalAuto();if(V.name==='dash'||V.name==='week')render()}
+},5000);
+setTimeout(checkSlot,400);
+// Live heartbeat: teacher re-sends the class state, students say hello
+setInterval(()=>{
+  if(S.role==='teacher'&&CS){pushCS();if(V.name==='tafel')updTafel()}
+  if(S.role==='student'){sendMsg({k:'hi'});updBanner()}
+},3000);
+setInterval(()=>{
+  if(S.role==='teacher'&&CS){
+    if(CS.timer.run&&timerLeft(CS.timer)<=0){CS.timer.run=false;CS.timer.left=0;SND.bigben();pushCS();if(V.name==='tafel')render()}
+    const t=$('#ttime');if(t){const l=timerLeft(CS.timer);t.textContent=fmt(l);$('#tring').style.setProperty('--p',CS.timer.total?l/CS.timer.total:0)}
+  }
+  if(S.role==='student'&&RCS){const t=$('#ltimer');if(t)t.textContent=fmt(timerLeft(RCS.timer,OFF))}
+},1000);
+</script>
