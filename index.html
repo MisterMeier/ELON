@@ -843,7 +843,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="tplan" data-nav="tplan" id="nav-lessons" hidden>Planung</button>
     <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
     <button class="tv" data-act="tdesk" data-nav="tdesk" hidden>Schreibtisch</button>
-    <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
+    <button class="tv" data-act="obs" data-nav="obs" id="nav-obs" hidden>Beobachtungen</button>
     <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
     <button class="tv" data-act="inbox" data-nav="inbox" id="nav-inbox" hidden>Postfach</button>
@@ -1183,7 +1183,7 @@ function render(){
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
-  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}navBadges();$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
+  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
@@ -2202,17 +2202,19 @@ async function tdOpen(pw){const v=tdVault();
   else{TDSALT=b64e(crypto.getRandomValues(new Uint8Array(16)));TDKEY=await tdDerive(pw,TDSALT,TDIT)}
   tdDefaults();TDIDLE=false;TDLAST=Date.now();tsave();try{if(!PERSIST&&navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(x=>{PERSIST=x})}catch(e){}return true}
 // Eigener Lehrer-Stundenplan: liegt verschlüsselt auf dem Gerät und hat Vorrang vor dem, was aus den Klassenplänen kommt
-function ttOwnApply(){const o=TD.ttOwn||{};Object.keys(o).forEach(k=>{const x=o[k];if(!x||!x.s){delete TD.tt[k];return}const c=(Cloud.myClasses||[]).find(y=>y.name===x.c);TD.tt[k]={s:x.s,c:x.c,...(c?{cid:c.id,g:0}:{})}})}
+function ttOwnApply(){const o=TD.ttOwn||{};Object.keys(o).forEach(k=>{const x=o[k];if(!x||!x.s){delete TD.tt[k];return}const M=Cloud.myClasses||[],c=(x.cid&&M.find(y=>y.id===x.cid))||M.find(y=>y.name===x.c);TD.tt[k]={s:x.s,c:x.c,...(c?{cid:c.id,g:0}:{})}})}
 function ttOwnHTML(){const mc=(Cloud.myClasses||[]).map(c=>c.name),o=TD.ttOwn||{};
   return `<section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">🗓️ Mein Stundenplan</h2>
     <p class="muted" style="font-weight:700">Trag hier deine eigenen Stunden ein, in allen Klassen. ${CLOUD&&Cloud.prof?'Stunden, in denen du in einem Klassen-Stundenplan stehst, sind schon da. ':''}Das Lehrerzimmer zeigt dir danach jeden Tag, welche Stunde gerade läuft und was als Nächstes kommt.</p>
     <datalist id="tt-cls">${[...new Set([...mc,...Object.values(TD.tt).map(x=>String(x.c||'').replace(/ \(Gruppe\)$/,''))])].filter(Boolean).map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
     <div class="tp ttown"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>${PERIODS.map((p,i)=>`<tr><td class="tm">${p[0]}.<br><small>${p[1]}</small></td>${DAYS.map((_,d)=>{const k=d+'-'+i,t=TD.tt[k]||{},own=o[k];
-      return `<td class="${t.s?'has s-'+t.s:''}"><select data-tto="${k}" data-k="s" aria-label="Fach"><option value="">–</option>${Object.entries(SUBJECTS).map(([kk,v])=>`<option value="${kk}" ${t.s===kk?'selected':''}>${v.name}</option>`).join('')}</select><input data-tto="${k}" data-k="c" list="tt-cls" value="${esc(t.c||'')}" placeholder="Klasse" ${t.s?'':'disabled'}>${t.cid&&!own?'<small title="aus dem Klassen-Stundenplan">🏫</small>':''}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+      return `<td class="${t.s?'has s-'+t.s:''}"><select data-tto="${k}" data-k="s" aria-label="Fach"><option value="">–</option>${Object.entries(SUBJECTS).map(([kk,v])=>`<option value="${kk}" ${t.s===kk?'selected':''}>${v.name}</option>`).join('')}</select>${(Cloud.myClasses||[]).length?`<select data-tto="${k}" data-k="c" aria-label="Klasse" ${t.s?'':'disabled'}><option value="">Klasse …</option>${Cloud.myClasses.map(c=>`<option value="${c.id}" ${(t.cid===c.id||(!t.cid&&t.c===c.name))?'selected':''}>${esc(c.name)}</option>`).join('')}${t.c&&!Cloud.myClasses.some(c=>c.id===t.cid||c.name===t.c)?`<option value="${esc(t.c)}" selected>${esc(t.c)}</option>`:''}</select>`:`<input data-tto="${k}" data-k="c" list="tt-cls" value="${esc(t.c||'')}" placeholder="Klasse" ${t.s?'':'disabled'}>`}${t.cid&&!own?'<small title="aus dem Klassen-Stundenplan">🏫</small>':''}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>
     ${TD.ttEx?'<div class="row" style="margin-top:8px"><span class="muted" style="font-size:.85rem;font-weight:700">Noch steht hier der Beispiel-Stundenplan.</span><button class="btn sm" data-act="tt-clear">Beispiel löschen und neu eintragen</button></div>':''}</section>`}
 document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.tto;if(!k||S.role!=='teacher'||!TDKEY)return;
   TD.ttOwn=TD.ttOwn||{};const cur=TD.tt[k]||{},sel=document.querySelector(`[data-tto="${k}"][data-k="s"]`),inp=document.querySelector(`[data-tto="${k}"][data-k="c"]`);
-  const s=sel.value,c=(inp.value||'').trim().slice(0,16)||(s?(cur.c||className().replace(/^Klasse /,'')):'');TD.ttOwn[k]={s,c};if(TD.ttEx){TD.ttEx=false}ttOwnApply();tsave();render()});
+  const s=sel.value,v=(inp.value||'').trim(),mc=(Cloud.myClasses||[]).find(x=>x.id===v),act=(Cloud.myClasses||[]).find(x=>x.id===S.cls);
+  // Klasse aus „Meine Klassen“: Name und ID merken, damit Lehrerzimmer und Tafel in die richtige Klasse wechseln
+  const c=mc?mc.name:(v.slice(0,16)||(s?(cur.c||(act?act.name:className().replace(/^Klasse /,''))):'')),cid=mc?mc.id:(!v&&s&&!cur.c&&act?act.id:cur.cid&&cur.c===c?cur.cid:undefined);TD.ttOwn[k]=cid?{s,c,cid}:{s,c};if(TD.ttEx){TD.ttEx=false}ttOwnApply();tsave();render()});
 let PERSIST=false;try{navigator.storage&&navigator.storage.persisted&&navigator.storage.persisted().then(x=>{PERSIST=x})}catch(e){}
 function tdClose(){TDKEY=null;TDIDLE=false;TD={obs:{},nicks:{}};tdDefaults()}
 const tdLocked=()=>S.role==='teacher'&&!BOARD&&(!TDKEY||TDIDLE);
@@ -2359,7 +2361,7 @@ VIEWS.obs=()=>{
 VIEWS['obs-p']=()=>{
   const k=V.n,L=TD.obs[k]||[],cat=V.cat||'Mitarbeit',sub=V.subj||curSubj(),tab=V.otab||'notes';
   return `<div class="st-head"><button class="btn sm" data-act="${V.from==='sus'?'sus':'obs'}">← Alle Schüler</button><button class="btn sm" data-act="obs-p" data-n="${k>1?k-1:S.classSize}" aria-label="Vorheriger Schüler">◀</button><button class="btn sm" data-act="obs-p" data-n="${k<S.classSize?k+1:1}" aria-label="Nächster Schüler">▶</button></div>
-  <h1 style="margin-bottom:10px">${pupilName(k)}</h1>
+  <div class="row" style="justify-content:space-between;margin-bottom:10px"><h1 style="margin:0">${pupilName(k)}</h1><button class="btn sm" data-act="sa-print" data-n="${k}">📄 Akte als PDF</button></div>
   <div class="priv">🔒 Nur für dich sichtbar. Alles bleibt auf diesem Gerät.</div>
   ${saTabs()}${SUS_TABS.includes(tab)?susTab(k,tab):tab!=='notes'&&tab!=='diary'?saHead(k)+saBody(k):tab==='diary'?'':`
   <section class="panel"><span class="label">Neue Beobachtung</span>
@@ -2436,10 +2438,12 @@ function saPrintOne(k){const A=saGet(k),yr=saYear(),blank=n=>Array.from({length:
     ${SA_KAT.map(([ck,cn,its])=>{const notes=A.n[ck]||{};return `<table class="sa-t sa-vb"><thead><tr><th style="width:24mm"></th><th>Beobachtungszeitraum:</th>${SA_PER.map(p=>`<th class="pp" style="color:${p[2]}">${p[1]}</th>`).join('')}<th></th></tr></thead><tbody>
       ${its.map(([id,l,r],ix)=>`<tr>${ix?'':`<td rowspan="${its.length+1}" class="cn">${cn}</td>`}<td>${esc(l)}</td>${SA_PER.map(p=>`<td class="pp" style="color:${p[2]}">${(A.v[id]||{})[p[0]]?SA_SC[A.v[id][p[0]]]:''}</td>`).join('')}<td>${esc(r)}</td></tr>`).join('')}
       <tr><td colspan="7"><b>Anmerkungen:</b> ${SA_PER.filter(p=>notes[p[0]]).map(p=>`<span style="color:${p[2]};font-weight:700">${p[1]}:</span> ${esc(notes[p[0]])}`).join(' · ')}</td></tr></tbody></table>`}).join('')}
-    <p class="sa-leg">Ausprägungsgrad: ++ linkes Merkmal trifft voll zu · + eher links · – eher rechts · – – rechtes Merkmal trifft voll zu</p></article>`}
+    <p class="sa-leg">Ausprägungsgrad: ++ linkes Merkmal trifft voll zu · + eher links · – eher rechts · – – rechtes Merkmal trifft voll zu</p>
+    ${(TD.obs[k]||[]).length?`<div class="sa-brk"></div><table class="sa-t"><thead><tr><th colspan="3" class="hb">4. Notizen aus dem Unterricht</th></tr><tr><th style="width:24mm">Datum</th><th style="width:30mm">Bereich</th><th>Beobachtung</th></tr></thead><tbody>
+      ${(TD.obs[k]||[]).slice().reverse().map(o=>`<tr><td>${new Date(o.t).toLocaleDateString('de-DE')}</td><td>${esc(o.cat)}${SUBJECTS[o.subj]?' · '+esc(SUBJECTS[o.subj].name):''}</td><td style="white-space:pre-wrap">${esc(o.txt)}</td></tr>`).join('')}</tbody></table>`:''}</article>`}
 const pupilNameTxt=k=>nickOf(k)?nickOf(k)+' (Nr. '+k+')':'Nr. '+k;
-VIEWS['sa-print']=()=>{const ks=V.all?Array.from({length:S.classSize},(_,i)=>i+1).filter(k=>{const A=saGet(k);return A.an||A.el.length||A.vk.length||Object.keys(A.v).length}):[V.n];
-  return `<div class="row noprint" style="margin-bottom:12px"><button class="btn sm" data-act="${V.all?'obs':'obs-p'}" data-n="${V.n||1}">← Zurück</button><button class="btn pri" data-act="kl-print">🖨️ Drucken oder als PDF sichern</button><span class="muted" style="font-weight:700">Im Druckfenster „Als PDF sichern“ wählen.</span></div>
+VIEWS['sa-print']=()=>{const ks=V.all?Array.from({length:S.classSize},(_,i)=>i+1).filter(k=>{const A=saGet(k);return A.an||A.el.length||A.vk.length||Object.keys(A.v).length||(TD.obs[k]||[]).length}):[V.n];
+  return `<div class="row noprint" style="margin-bottom:12px"><button class="btn sm" data-act="${V.all?'obs':'obs-p'}" data-n="${V.n||1}" data-from="${V.all?'':'sus'}">← Zurück</button><button class="btn pri" data-act="kl-print">🖨️ Drucken oder als PDF sichern</button><span class="muted" style="font-weight:700">Im Druckfenster „Als PDF sichern“ wählen.</span></div>
   ${ks.length?ks.map(saPrintOne).join('<div class="sa-brk"></div>'):'<div class="empty">Noch keine Akten angelegt.</div>'}`};
 function saAct(a,d){
   if(a==='sa-tab'){V.otab=d.t;V.sadel=null;if(d.t==='chat'||d.t==='abg')susRead(V.n,d.t);render();return}
@@ -2483,7 +2487,8 @@ function dayStrip(){const n=nowInfo(),d=n.day;if(d<0||d>4)return `<section class
   let sug='';if(focus){const L=lessonById(TD.plan[today+'|'+focus.i]),sl=focus.sl;
     const mats=L?[...new Set(L.phases.flatMap(p=>[...(p.mats||[]),...(p.tool&&p.tool.mat?[p.tool.mat]:[])]))].map(libById).filter(Boolean):[];
     sug=`<div class="dsug"><span class="label">${isNow?'Jetzt dran':'Als Nächstes um '+focus.p[1]}</span><div class="row" style="gap:8px;margin-top:4px">${badge(sl.s)}<b>${esc(SUBJECTS[sl.s]?SUBJECTS[sl.s].name:sl.s)} · ${esc(sl.c||'')}</b>
-      ${L?`<span class="muted" style="font-weight:700">${esc(L.title)}</span><span class="spacer"></span><button class="btn ok" data-act="l-start" data-id="${L.id}">▶ Stunde starten</button><button class="btn sm" data-act="l-edit" data-id="${L.id}">Ansehen</button>`:`<span class="muted" style="font-weight:700">Noch nichts geplant.</span><span class="spacer"></span><button class="btn sm" data-act="tplan">In der Planung zuordnen</button>`}</div>
+      ${sl.cid&&sl.cid!==S.cls?`<span class="chip ex" title="Gerade ist eine andere Klasse aktiv">gerade aktiv: ${esc(className())}</span>`:''}
+      ${L?`<span class="muted" style="font-weight:700">${esc(L.title)}</span><span class="spacer"></span><button class="btn ok" data-act="l-start" data-id="${L.id}" data-cid="${esc(sl.cid||'')}">▶ Stunde starten${sl.cid&&sl.cid!==S.cls?' in '+esc(sl.c||''):''}</button><button class="btn sm" data-act="l-edit" data-id="${L.id}">Ansehen</button>`:`<span class="muted" style="font-weight:700">Noch nichts geplant.</span><span class="spacer"></span>${sl.cid&&sl.cid!==S.cls?`<button class="btn sm pri" data-act="lg-cls" data-id="${esc(sl.cid)}">↔ Zu ${esc(sl.c||'der Klasse')} wechseln</button>`:''}<button class="btn sm" data-act="tplan">In der Planung zuordnen</button>`}</div>
       ${mats.length?`<div class="row" style="gap:6px;margin-top:8px"><span class="label">Dateien dafür</span>${mats.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>`).join('')}</div>`:''}</div>`}
   else sug=`<p class="muted" style="font-weight:700;margin-top:8px">${mine.length?'Für heute ist dein Unterricht vorbei.':'Heute stehen keine Stunden in deinem Stundenplan.'}</p>`;
   return `<section class="panel daybar"><div class="row" style="justify-content:space-between"><span class="label">Dein Tag · ${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span>${TD.ttEx?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
@@ -2500,7 +2505,7 @@ VIEWS.tdash=()=>{
     <button class="area a-tafel" data-act="tafel"><span class="ai">🖥️</span><b>Tafel</b><small>${L?`Läuft: ${esc(L.title)} · Phase ${CS.step+1}`:'Keine Stunde aktiv'} · ${on} online</small></button>
     <button class="area a-plan" data-act="tplan"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
     <button class="area a-lib" data-act="library"><span class="ai">📚</span><b>Bibliothek</b><small>${LIB.ready?LIB.items.length+' Materialien':'lädt …'}</small></button>
-    <button class="area a-obs" data-act="obs"><span class="ai">📝</span><b>Beobachtungen</b><small>${all.length} Notizen · nur für dich</small></button>
+    <button class="area a-obs" data-act="obs"><span class="ai">👥</span><b>${CLOUD&&Cloud.prof?'Schüler/innen':'Beobachtungen'}</b><small>${all.length} Notizen · nur für dich</small></button>
   </div>
   <section class="panel" style="margin-top:18px"><div class="row" style="justify-content:space-between"><span class="label">Schnellstart</span><button class="btn sm" data-act="l-new">Neue Stunde</button></div>
     <div style="display:grid;gap:8px;margin-top:10px">${ls.slice(0,6).map(x=>`<div class="row s-${x.subject}" style="justify-content:space-between"><span class="row">${badge(x.subject)}<b>${esc(x.title)}</b><span class="muted" style="font-weight:700">${x.phases.length} Phasen · ${lessonMin(x)} min</span></span>
@@ -3543,9 +3548,9 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{};
   const card=k=>{const P=B[k],nk=nickOf(k)||(P&&P.nick)||'',act=!!(P||TD.nicks[k]),pr=P&&P.prog;
     return `<button class="pupil ${act?'':'off'}" data-act="sus-p" data-n="${k}"><span class="row" style="justify-content:space-between"><span class="row" style="gap:6px">${avatar((TD.avs||{})[k]||0,30)}<b>${k}</b></span>${on.includes(k)?'<span class="dot" title="online"></span>':''}</span>
       <small><b>${esc(nk||'noch nicht angemeldet')}</b></small>${pr?`<small>✏️ ${pr.ub.length} Übungen · ✍️ ${pr.hx.length} Heft · ⭐ ${pr.st}</small>`:act?'<small class="muted">noch keine Daten</small>':''}
-      ${P&&(P.ua||P.un)?`<small>${P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P.un?`<span class="tk-n">💬 ${P.un}</span>`:''}</small>`:''}${P&&P.seen?`<small class="muted">zuletzt ${new Date(P.seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}${P&&P.warn?'<small class="err">⚠️ anderes Gerät</small>':''}</button>`};
-  const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]);
-  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>Schüler/innen · ${esc(className())}</h1></div><button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div>
+      ${P&&(P.ua||P.un)?`<small>${P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P.un?`<span class="tk-n">💬 ${P.un}</span>`:''}</small>`:''}${P&&P.seen?`<small class="muted">zuletzt ${new Date(P.seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}${(TD.obs[k]||[]).length?`<small>📝 ${(TD.obs[k]||[]).length} Notiz${(TD.obs[k]||[]).length>1?'en':''}</small>`:''}${P&&P.warn?'<small class="err">⚠️ anderes Gerät</small>':''}</button>`};
+  const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]||(TD.obs[k]||[]).length);
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>Schüler/innen · ${esc(className())}</h1></div><div class="row"><button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button><button class="btn sm" data-act="obs-export">📝 Notizen als Textdatei</button><button class="btn sm pri" data-act="sa-printall">📄 Alle Akten als PDF</button></div></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}<div class="priv">🔒 Lernstand, Abgaben und Chat kommen verschlüsselt an und liegen nur in deinem Lehrer-Tresor.</div>
   <span class="label">Angemeldet · ${act.length} von ${ks.length}</span><div class="pupils">${act.map(card).join('')||'<div class="empty">Noch hat sich niemand angemeldet.</div>'}</div>
   ${act.length<ks.length?`<details style="margin-top:14px"><summary class="label" style="cursor:pointer">Noch nicht angemeldet · ${ks.length-act.length}</summary><div class="pupils" style="margin-top:8px">${ks.filter(k=>!act.includes(k)).map(card).join('')}</div></details>`:''}`};
@@ -3873,7 +3878,9 @@ document.addEventListener('click',e=>{
     case 'l-del':V.del=d.id;render();break;
     case 'l-del-no':V.del=null;render();break;
     case 'l-del-yes':cloudDelLesson(d.id);S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
-    case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
+    case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;
+      // Stunde gehört zu einer anderen Klasse: erst dorthin wechseln (Live-Kanal, SuS, Hefte), dann starten
+      if(d.cid&&d.cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;if(!CS)initTeacher();CS.lesson={id:L2.id,title:L2.title,plan:L2.phases.map(p=>p.name)};if(L2.mission)S.mission=L2.mission;save();$('#ov').hidden=true;go('present');startStep(0)});break}}if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
     case 'l-go':startStep(+d.i);break;
     case 'l-stop':if(KF)kfbStop(true);CS.game=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
@@ -4074,8 +4081,8 @@ document.addEventListener('click',e=>{
     case 't-share-end':if(CS){CS.share=null;pushCS();render()}break;
     case 'share-ok':if(RCS&&RCS.share){S.shareSeen=RCS.share.at;save();liveOverlay()}break;
     case 'ph-mat-del':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&p.mats){p.mats=p.mats.filter(x=>x!==d.m);save();render()}break}
-    case 'obs':go('obs');break;
-    case 'obs-p':$('#ov').hidden=true;go('obs-p',{n:+d.n,otab:V.otab,per:V.per,from:V.from});break;
+    case 'obs':go(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?'sus':'obs');break;
+    case 'obs-p':$('#ov').hidden=true;go('obs-p',{n:+d.n,otab:V.otab,per:V.per,from:d.from||V.from});break;
     case 'sa-tab':case 'sa-per':case 'sa-v':case 'sa-add':case 'sa-del':case 'sa-delno':case 'sa-delok':case 'sa-print':case 'sa-printall':saAct(a,d);break;
     case 'obs-cat':V.cat=d.c;{const t=$('#obs-txt').value,sj=$('#obs-subj').value;V.subj=sj;render();$('#obs-txt').value=t}break;
     case 'obs-save':if(addObs(V.n,V.cat||'Mitarbeit',$('#obs-subj').value,$('#obs-txt').value)){V.subj=$('#obs-subj').value;render()}else $('#obs-err').textContent='Bitte etwas eintragen.';break;
