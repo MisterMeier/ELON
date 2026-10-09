@@ -587,6 +587,8 @@ body.boardwin .bw{height:100vh}
 .avpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:10px;margin-top:8px}
 .avpick button{border:3px solid transparent;background:var(--surface-2);border-radius:20px;padding:6px;cursor:pointer;display:grid;place-items:center}
 .avpick button.on{border-color:var(--green);background:var(--ok-bg)}
+.avb{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start}.avb-prev{display:grid;justify-items:center;gap:8px;position:sticky;top:80px}.avb-r{min-width:0}.avb .psub{margin:0 0 8px;flex-wrap:wrap}
+.avb .psub button{background:var(--surface-2);color:inherit}.avb .psub button.on{background:var(--navy);color:#fff}.avb .avpick{grid-template-columns:repeat(auto-fill,minmax(66px,1fr))}@media (max-width:600px){.avb{grid-template-columns:1fr}.avb-prev{position:static}}
 .qcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .qcard{background:#fff;color:#18203d;border:2px dashed #b9c2d6;border-radius:16px;padding:14px;display:grid;gap:8px;justify-items:center;text-align:center;break-inside:avoid}
 .qcard .qh{display:flex;justify-content:space-between;align-items:center;width:100%}.qcard .qh b{font-family:var(--f-display);font-size:1.6rem}
@@ -851,10 +853,10 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="sv" data-act="desk" data-nav="desk">Schreibtisch</button>
     <button class="sv" data-act="homework" data-nav="homework">Hausaufgaben</button>
     <button class="sv" data-act="practice" data-nav="practice">Üben</button>
-    <button class="sv" data-act="chat" data-nav="chat" id="nav-chat">💬 Chat</button>
     <button class="sv" data-act="week" data-nav="week">Stundenplan</button>
     <button class="sv" data-act="journal" data-nav="journal" id="nav-journal" hidden>Lerntagebuch</button>
-    <button class="sv" data-act="board" data-nav="board">Lotsen-Board</button>
+    <button class="sv" data-act="board" data-nav="board" id="nav-board" hidden>🧭 Lotsen-Board</button>
+    <button class="sv" data-act="chat" data-nav="chat" id="nav-chat">💬 Chat</button>
   </nav>
   <span class="spacer"></span>
   <span class="clock" id="clock">--:--</span>
@@ -1185,7 +1187,7 @@ function render(){
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
   $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
-  $('#nav-journal').hidden=S.role!=='student';
+  $('#nav-journal').hidden=S.role!=='student';$('#nav-board').hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk()){V.name='dash';return render()}
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
   updBanner();renderMini();
@@ -1798,7 +1800,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
   if(m.k==='diary'){if(TD.dk&&m.w)dDec(TD.dk.priv,m).then(o=>{if(!o||!/^\d{4}-\d\d-\d\d$/.test(o.d))return;const c=S.cls||'-';TD.diary=TD.diary||{};const B=(TD.diary[c]=TD.diary[c]||{}),P=(B[nr]=B[nr]||{});
     P[o.d]={t:String(o.t||'').slice(0,8000),at:Date.now(),nick:cleanNick(m.nick)};tsave();if(V.name==='obs'||(V.name==='obs-p'&&V.n===nr))render()}).catch(()=>{});return}
-  if(m.av!=null&&ROSTER[nr].av!==m.av){ROSTER[nr].av=m.av;TD.avs=TD.avs||{};TD.avs[nr]=m.av;tsave();if(V.name==='tafel')updTafel()}
+  if(m.av!=null&&ROSTER[nr].av!==cleanAv(m.av)){ROSTER[nr].av=cleanAv(m.av);TD.avs=TD.avs||{};TD.avs[nr]=ROSTER[nr].av;tsave();if(V.name==='tafel')updTafel()}
   if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(TD.nicks[nr]!==nk){TD.nicks[nr]=nk;tsave()}if(V.name==='tafel')updTafel()}}
   let ch=false;
   if(m.k==='kfb'){kfbAnswer(nr,m);return}
@@ -1810,7 +1812,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.k==='hi')mbFlushDown(nr);
   if(m.k==='mb'&&m.r){mbUp({...m.r,nr});return}
   // Podium: wer das Tafel-Spiel auf dem iPad geschafft hat, in der Reihenfolge des Ankommens
-  if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||'Nr. '+nr,av:+((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
+  if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||'Nr. '+nr,av:cleanAv((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
   if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.rocket=Math.min(10,CS.rocket+1);SND.cheer();ch=true}}
   if(ch)pushCS();
   if(V.name==='tafel')updTafel();
@@ -1837,6 +1839,7 @@ VIEWS.tafel=()=>{
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
     <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
       ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}<button class="btn" data-act="tkfb">⚽ Kopfrechenfußball</button>${CS.game&&gInfo(CS.game.g)?`<span class="chip">Läuft: ${esc(CS.game.title||gInfo(CS.game.g).name)} an Tafel und iPads</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button>`:''}</div>
+    <div class="grp row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':'Nr. '+CS.lotsen.join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" inputmode="numeric" placeholder="Nummern, z. B. 3, 12" style="width:170px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}</div>
     <div class="grp row"><span class="label">Material</span><button class="btn" data-act="lib-pick">Aus der Bibliothek zeigen</button>${CS.share?`<span class="chip">Auf den iPads: ${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button>`:''}</div>
     <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-min" data-m="${m}">${m} min</button>`).join('')}
       <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
@@ -1937,9 +1940,11 @@ function renderMini(force){
 }
 setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
+// Lotsen-Board nur, wenn die Lehrkraft es im Live-Modus freigibt: für alle (0) oder einzelne Nummern
+function lotsenOk(){if(S.role!=='student')return false;const L=RCS&&Date.now()-rcsAt<90000&&RCS.lotsen;return Array.isArray(L)&&(L.includes(0)||L.includes(+S.nr))}
 let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||S.tpk.n!==p.dpk.n)){S.tpk=p.dpk;save();mbFlush()}
-  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length+':'+(e.help||'').length).join()+JSON.stringify([p.hw,p.mods,p.modx&&Object.keys(p.modx)]);if(hs!==S.heftSig){S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.heftSig=hs;save();if(['desk','subject','dash','homework','mod'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();
+  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length+':'+(e.help||'').length).join()+JSON.stringify([p.hw,p.mods,p.modx&&Object.keys(p.modx)]);if(hs!==S.heftSig){S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.heftSig=hs;save();if(['desk','subject','dash','homework','mod'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
@@ -2048,25 +2053,22 @@ VIEWS.role=()=>{
     <div class="pick">${SCHOOLS.map(x=>`<button class="pick-card" data-act="st-school" data-id="${x.id}"><b>${esc(x.name)}</b><span class="muted">${esc(x.place)} · ${x.classes.length} Klasse${x.classes.length>1?'n':''}</span></button>`).join('')}</div></div>`;
   if(step==='class')return `<div class="start"><div class="start-head">${back('school')}<span class="label">Schritt 2 von 3 · ${esc(sc.name)}</span></div><h1>Wähle deine Klasse</h1>
     <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.label||c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
-  if(step==='nick'){if(V.av==null)V.av=S.av!=null?S.av:Math.floor(Math.random()*AVS.length);
-    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Gib deinen Vornamen an</h1>
-    <section class="panel" style="margin-top:16px">
-      <label class="label" for="nick" style="display:block">Dein Vorname</label><input id="nick" type="text" maxlength="16" autocomplete="off" autocapitalize="words" value="${esc(S.nick||'')}" placeholder="z. B. Lea">
-      <p class="label" style="margin-top:16px">Such dir deinen Kopf aus</p>
-      <div class="avpick">${AVS.map((_,k)=>`<button class="${k===V.av?'on':''}" data-act="av-pick" data-i="${k}" aria-label="Avatar ${k+1}">${avatar(k,64)}</button>`).join('')}</div>
+  if(step==='nick'){if(V.av==null)V.av=S.av!=null?cleanAv(S.av):avRandom();
+    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Bau dir deinen Avatar</h1>
+    <section class="panel" style="margin-top:16px">${avBuilder(V.av)}${avNameHTML('nick')}
       <p class="err" id="nick-err"></p>
       <button class="btn ok big" data-act="nick-ok" style="width:100%;margin-top:16px">Fertig</button>
     </section></div>`}
   if(V.only==='student')return `<div class="start"><div class="start-head">${back('join')}<span class="label">${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Welche Nummer hast du?</h1>
     <section class="panel"><p class="label">Tippe auf deine Nummer aus der Klassenliste</p>
       <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
-      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach gibst du deinen Vornamen an.</p></section></div>`;
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach baust du dir deinen Avatar.</p></section></div>`;
   return `<div class="start"><div class="start-head">${back('class')}<span class="label">Schritt 3 von 3 · ${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Wer bist du?</h1>
   <div class="role-wrap">
     <section class="panel"><h2>Ich bin Schüler/in</h2>
       <p class="label" style="margin-top:12px">Tippe auf deine Nummer aus der Klassenliste</p>
       <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
-      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach gibst du deinen Vornamen an.</p></section>
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach baust du dir deinen Avatar.</p></section>
     <section class="panel"><h2>Ich bin Lehrkraft</h2>
       ${CLOUD&&!Cloud.err?`<p class="muted" style="font-weight:700;margin-top:8px">Mit deinem eigenen Lehrer-Konto.</p><button class="btn pri" data-act="login" style="margin-top:14px;width:100%">Anmelden</button>`
       :`<p class="muted" style="font-weight:700;margin-top:8px">${CLOUD?'Der Server ist gerade nicht erreichbar. Du kannst mit deinen Daten auf diesem Gerät weiterarbeiten.':'Ohne Konto, nur auf diesem Gerät.'} Geschützt mit deinem Geräte-Passwort.</p>
@@ -2095,16 +2097,80 @@ const NICK_B=['Tiger','Fox','Panda','Owl','Shark','Eagle','Koala','Wolf','Dolphi
 function suggestNicks(){const out=new Set();while(out.size<4)out.add(pick(NICK_A)+pick(NICK_B)+(Math.random()<.4?Math.floor(Math.random()*90+10):''));return [...out].map(x=>x.slice(0,16))}
 const cleanNick=v=>String(v||'').trim().replace(/[^A-Za-zÄÖÜäöüß0-9_\- ]/g,'').replace(/\s+/g,' ').slice(0,16);
 const cleanCode=v=>(v||'7B').trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)||'7B';
-// Einfache Avatar-Köpfe: [Hautton, Haarfarbe, Frisur, Hintergrund]
-const AV_SKIN=['#f6d2b8','#e8b58f','#c68a5e','#8d5a3b'],AV_HAIR=['#2b2118','#6b3e1f','#d9a441','#b5462e','#3a3a46'],AV_BG=['#cfe8d9','#d6e6fb','#fde3c8','#efd9f5','#fbe0e0','#e3eccd'];
-const AVS=[[0,0,0,0],[1,2,1,1],[2,0,2,2],[3,0,0,3],[0,3,3,4],[1,1,4,5],[2,4,5,1],[0,2,1,2],[3,0,2,0],[1,0,3,3],[2,3,0,4],[0,1,5,5]];
-function avatar(i,sz){const a=AVS[(+i||0)%AVS.length]||AVS[0],sk=AV_SKIN[a[0]],hc=AV_HAIR[a[1]],st=a[2],bg=AV_BG[a[3]];
-  const back=st===1?`<path d="M12 52 Q9 14 32 12 Q55 14 52 52 Z" fill="${hc}"/>`:st===2?`<circle cx="32" cy="30" r="23" fill="${hc}"/>`:st===3?`<circle cx="32" cy="10" r="7" fill="${hc}"/>`:'';
-  const top=st===0||st===3?`<path d="M14 34 Q13 14 32 14 Q51 14 50 34 Q46 22 32 21 Q18 22 14 34Z" fill="${hc}"/>`:st===1?`<path d="M14 34 Q14 16 32 15 Q50 16 50 34 Q44 22 32 22 Q20 22 14 34Z" fill="${hc}"/>`
-    :st===4?`<path d="M14 32 L16 18 L22 24 L26 12 L32 21 L38 11 L42 23 L48 17 L50 32 Q44 23 32 23 Q20 23 14 32Z" fill="${hc}"/>`:st===5?`<path d="M13 30 Q14 12 32 12 Q50 12 51 30Z" fill="#2f6fd6"/><rect x="30" y="26" width="26" height="5" rx="2.5" fill="#2f6fd6"/>`:'';
-  return `<svg class="av" viewBox="0 0 64 64" width="${sz||40}" height="${sz||40}" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="${bg}"/>${back}<circle cx="32" cy="36" r="18" fill="${sk}"/>${top}
-    <circle cx="25" cy="37" r="2.4" fill="#222"/><circle cx="39" cy="37" r="2.4" fill="#222"/><circle cx="22" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/><circle cx="42" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/>
-    <path d="M26 44 Q32 49 38 44" stroke="#5a2b1c" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`}
+// Avatare: Menschen oder Fantasiewesen, frei zusammengestellt. Code als Text, z. B. "h.1.2.3.0.0.1.4" (ältere Geräte: Zahl 0–11)
+const AV_SKIN=['#fde0c8','#f6d2b8','#e8b58f','#c68a5e','#a06a42','#6e4630'],AV_HAIR=['#2b2118','#6b3e1f','#e0b04a','#b5462e','#8a8a96','#3b6fe0','#e05aa0','#2ea36b'];
+const AV_BG=['#cfe8d9','#d6e6fb','#fde3c8','#efd9f5','#fbe0e0','#e3eccd','#fff1b8','#d4f1f4','#e6e0ff','#ffd8c2'];
+const AV_T=[['Fuchs',['#e8792f','#c95a1f','#f0a050']],['Katze',['#9aa0a8','#e0a060','#4a4a52']],['Panda',['#222222','#6b3e1f','#c03b5a']],['Bär',['#8b5a2b','#c8925a','#5a3a20']],['Hase',['#f2f2f2','#d9c2a7','#b8b8c4']],
+  ['Frosch',['#5cbf5a','#3fa0a0','#9acd32']],['Eule',['#a07850','#7a6a9a','#c0a070']],['Roboter',['#9fb4c8','#c8ccd2','#e0b040']],['Alien',['#7ed46a','#a07ad8','#5ac8d8']],['Monster',['#5a7af0','#e05a8a','#f0a030']]];
+const AV_N={h:[['Haut',6],['Haarfarbe',8],['Frisur',9],['Augen',5],['Mund',5],['Extra',9],['Hintergrund',10]],t:[['Wesen',10],['Farbe',3],['Augen',5],['Mund',5],['Extra',9],['Hintergrund',10]]};
+const AVS=[[1,0,0,0],[2,2,1,1],[3,0,2,2],[4,0,0,3],[1,3,4,4],[2,1,3,5],[3,4,1,1],[1,2,6,2],[4,0,7,0],[2,0,8,3],[3,3,0,4],[1,1,1,5]];
+// Alles auf erlaubte Zahlen zurechtstutzen: kommt auch von anderen Geräten
+function avParse(v){if(typeof v==='number'||/^\d+$/.test(String(v))){const a=AVS[(+v||0)%AVS.length];return ['h',a[0],a[1],a[2],0,0,0,a[3]]}
+  const p=String(v||'').split('.'),k=p[0]==='t'?'t':'h',N=AV_N[k];return [k,...N.map(([,n],i)=>{const x=parseInt(p[i+1],10);return x>=0?x%n:0})]}
+const avCode=a=>a.join('.');
+function avRandom(k){k=k||(Math.random()<.5?'h':'t');const N=AV_N[k];return avCode([k,...N.map(([,n],i)=>k==='h'&&i===5||k==='t'&&i===4?(Math.random()<.5?0:Math.floor(Math.random()*n)):Math.floor(Math.random()*n))])}
+const cleanAv=v=>v==null||v===''?null:avCode(avParse(v));
+function avEyes(e,y,c){c=c||'#222';const L=25,R=39;
+  if(e===1)return `<path d="M${L-3} ${y+1} Q${L} ${y-3} ${L+3} ${y+1}M${R-3} ${y+1} Q${R} ${y-3} ${R+3} ${y+1}" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  if(e===2)return [L,R].map(x=>`<circle cx="${x}" cy="${y}" r="4.6" fill="#fff" stroke="${c}" stroke-width=".8"/><circle cx="${x+.6}" cy="${y+.6}" r="2.6" fill="${c}"/><circle cx="${x+1.6}" cy="${y-.8}" r="1" fill="#fff"/>`).join('');
+  if(e===3)return `<circle cx="${L}" cy="${y}" r="2.4" fill="${c}"/><path d="M${R-3} ${y} Q${R} ${y+3} ${R+3} ${y}" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  if(e===4)return `<path d="M${L-3} ${y} H${L+3}M${R-3} ${y} H${R+3}" stroke="${c}" stroke-width="2.4" stroke-linecap="round"/>`;
+  return `<circle cx="${L}" cy="${y}" r="2.4" fill="${c}"/><circle cx="${R}" cy="${y}" r="2.4" fill="${c}"/>`}
+function avMouth(m,y){const c='#5a2b1c';
+  if(m===1)return `<path d="M25 ${y-1} Q32 ${y+8} 39 ${y-1} Z" fill="${c}"/><path d="M27 ${y} H37 V${y+1.6} H27Z" fill="#fff"/>`;
+  if(m===2)return `<ellipse cx="32" cy="${y+1}" rx="3" ry="3.6" fill="${c}"/>`;
+  if(m===3)return `<path d="M26 ${y} Q32 ${y+5} 38 ${y}" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M30 ${y+2.5} Q32 ${y+7} 34 ${y+2.5}Z" fill="#f07a8a"/>`;
+  if(m===4)return `<path d="M27 ${y+1} Q33 ${y+3} 38 ${y-2}" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  return `<path d="M26 ${y} Q32 ${y+5} 38 ${y}" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`}
+function avAcc(a,ey,top){
+  if(a===1)return `<g fill="none" stroke="#2b2b35" stroke-width="1.8"><circle cx="25" cy="${ey}" r="5.5"/><circle cx="39" cy="${ey}" r="5.5"/><path d="M30.5 ${ey} H33.5"/></g>`;
+  if(a===2)return `<path d="M18 ${ey-4} H46 V${ey-1} Q46 ${ey+5} 40 ${ey+5} Q34 ${ey+5} 33.5 ${ey} H30.5 Q30 ${ey+5} 24 ${ey+5} Q18 ${ey+5} 18 ${ey-1}Z" fill="#1d2433"/>`;
+  if(a===3)return `<path d="M14 ${top+12} Q14 ${top-4} 32 ${top-4} Q50 ${top-4} 50 ${top+12}Z" fill="#2f6fd6"/><rect x="30" y="${top+8}" width="26" height="5" rx="2.5" fill="#2f6fd6"/><circle cx="32" cy="${top-4}" r="2" fill="#1d4fa8"/>`;
+  if(a===4)return `<path d="M12 38 Q12 ${top-6} 32 ${top-6} Q52 ${top-6} 52 38" stroke="#333" stroke-width="3" fill="none"/><rect x="8" y="33" width="8" height="12" rx="3" fill="#e0453a"/><rect x="48" y="33" width="8" height="12" rx="3" fill="#e0453a"/>`;
+  if(a===5)return `<path d="M20 ${top+4} L22 ${top-8} L27 ${top-1} L32 ${top-10} L37 ${top-1} L42 ${top-8} L44 ${top+4}Z" fill="#f2c230" stroke="#c99a10" stroke-width="1"/><circle cx="32" cy="${top-1}" r="1.8" fill="#e0453a"/>`;
+  if(a===6)return `<g transform="translate(44 ${top+2})"><path d="M0 0 L-8 -6 L-8 6Z M0 0 L8 -6 L8 6Z" fill="#ef5da8"/><circle r="2.6" fill="#c93d86"/></g>`;
+  if(a===7)return `<path d="M14 ${top+9} Q32 ${top} 50 ${top+9}" stroke="#e0453a" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  if(a===8)return `<g fill="#b9774d" opacity=".7">${[[21,43],[24,45],[27,43],[37,43],[40,45],[43,43]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1"/>`).join('')}</g>`;
+  return ''}
+function avatar(v,sz){const a=avParse(v),bg=AV_BG[a[a.length-1]];let body='';
+  if(a[0]==='h'){const [,s,h,st,e,m,ac]=a,sk=AV_SKIN[s],hc=AV_HAIR[h];
+    const back=st===1?`<path d="M12 54 Q8 14 32 12 Q56 14 52 54 Z" fill="${hc}"/>`:st===2?`<circle cx="32" cy="29" r="24" fill="${hc}"/>`:st===3?`<circle cx="32" cy="9" r="7" fill="${hc}"/>`:st===6?`<circle cx="14" cy="18" r="7" fill="${hc}"/><circle cx="50" cy="18" r="7" fill="${hc}"/>`:'';
+    const top=st===0||st===3||st===6?`<path d="M14 34 Q13 14 32 14 Q51 14 50 34 Q46 22 32 21 Q18 22 14 34Z" fill="${hc}"/>`:st===1?`<path d="M14 34 Q14 16 32 15 Q50 16 50 34 Q44 22 32 22 Q20 22 14 34Z" fill="${hc}"/>`
+      :st===4?`<path d="M14 32 L16 18 L22 24 L26 12 L32 21 L38 11 L42 23 L48 17 L50 32 Q44 23 32 23 Q20 23 14 32Z" fill="${hc}"/>`:st===2?`<path d="M14 32 Q16 18 32 18 Q48 18 50 32 Q44 24 32 24 Q20 24 14 32Z" fill="${hc}"/>`
+      :st===7?`<g fill="${hc}">${[17,23,29,35,41,47].map((x,i)=>`<circle cx="${x}" cy="${24-(i%2)*3}" r="6"/>`).join('')}</g>`:st===8?`<path d="M27 26 Q27 8 32 6 Q37 8 37 26Z" fill="${hc}"/>`:'';
+    body=`${back}<circle cx="32" cy="36" r="18" fill="${sk}"/>${top}${avEyes(e,37)}<circle cx="22" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/><circle cx="42" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/>${avMouth(m,44)}${avAcc(ac,37,st===2||st===8?14:17)}`}
+  else{const [,t,c,e,m,ac]=a,f=AV_T[t][1][c],lt='#fff7ec',ec=t===7?'#1d2433':'#222';let ears='',face=`<circle cx="32" cy="37" r="19" fill="${f}"/>`,extra='',my=46,ey=36,tp=19;
+    if(t===0){ears=`<path d="M13 30 L15 9 L28 21Z M51 30 L49 9 L36 21Z" fill="${f}"/><path d="M16 24 L17 13 L24 21Z M48 24 L47 13 L40 21Z" fill="#3a2418"/>`;extra=`<path d="M17 40 Q32 60 47 40 Q40 47 32 47 Q24 47 17 40Z" fill="${lt}"/><circle cx="32" cy="42" r="2.4" fill="#222"/>`}
+    if(t===1){ears=`<path d="M14 28 L16 12 L27 20Z M50 28 L48 12 L37 20Z" fill="${f}"/><path d="M17 24 L18 16 L23 20Z M47 24 L46 16 L41 20Z" fill="#f4a6b4"/>`;extra=`<path d="M30 41 H34 L32 43Z" fill="#e07a8a"/><g stroke="#555" stroke-width=".9"><path d="M12 42 H22 M12 46 H22 M42 42 H52 M42 46 H52"/></g>`}
+    if(t===2){face=`<circle cx="32" cy="37" r="19" fill="#f6f6f6"/>`;ears=`<circle cx="16" cy="20" r="7" fill="${f}"/><circle cx="48" cy="20" r="7" fill="${f}"/>`;extra=`<ellipse cx="24" cy="36" rx="6" ry="7" fill="${f}" transform="rotate(-20 24 36)"/><ellipse cx="40" cy="36" rx="6" ry="7" fill="${f}" transform="rotate(20 40 36)"/><ellipse cx="32" cy="42" rx="3" ry="2" fill="#222"/>`}
+    if(t===3){ears=`<circle cx="16" cy="21" r="7" fill="${f}"/><circle cx="48" cy="21" r="7" fill="${f}"/><circle cx="16" cy="21" r="3.5" fill="#f2c6a0"/><circle cx="48" cy="21" r="3.5" fill="#f2c6a0"/>`;extra=`<ellipse cx="32" cy="45" rx="9" ry="7" fill="#f2d2b0"/><ellipse cx="32" cy="41" rx="3" ry="2.2" fill="#222"/>`;my=47}
+    if(t===4){ears=`<ellipse cx="23" cy="10" rx="5" ry="13" fill="${f}"/><ellipse cx="41" cy="10" rx="5" ry="13" fill="${f}"/><ellipse cx="23" cy="11" rx="2.4" ry="9" fill="#f4a6b4"/><ellipse cx="41" cy="11" rx="2.4" ry="9" fill="#f4a6b4"/>`;extra=`<path d="M30 41 H34 L32 43Z" fill="#e07a8a"/><rect x="30" y="47" width="4" height="4" rx="1" fill="#fff" stroke="#ccc" stroke-width=".5"/>`}
+    if(t===5){face=`<ellipse cx="32" cy="40" rx="21" ry="16" fill="${f}"/>`;ears=`<circle cx="22" cy="26" r="8" fill="${f}"/><circle cx="42" cy="26" r="8" fill="${f}"/><circle cx="22" cy="26" r="5.5" fill="#fff"/><circle cx="42" cy="26" r="5.5" fill="#fff"/>`;ey=26;my=45;tp=18}
+    if(t===6){ears=`<path d="M14 26 L12 12 L24 20Z M50 26 L52 12 L40 20Z" fill="${f}"/>`;extra=`<circle cx="25" cy="36" r="7" fill="#f6ead8"/><circle cx="39" cy="36" r="7" fill="#f6ead8"/><path d="M29 42 L35 42 L32 47Z" fill="#f2a12c"/><path d="M20 50 Q32 56 44 50" stroke="${lt}" stroke-width="2" fill="none" opacity=".7"/>`;my=50}
+    if(t===7){face=`<rect x="13" y="19" width="38" height="36" rx="9" fill="${f}"/>`;ears=`<path d="M32 19 V9" stroke="#556" stroke-width="2.2"/><circle cx="32" cy="8" r="3.2" fill="#e0453a"/><rect x="9" y="32" width="5" height="10" rx="2" fill="#778"/><rect x="50" y="32" width="5" height="10" rx="2" fill="#778"/>`;extra=`<rect x="19" y="30" width="26" height="12" rx="5" fill="#1d2433" opacity=".12"/>`;tp=19}
+    if(t===8){face=`<ellipse cx="32" cy="36" rx="21" ry="19" fill="${f}"/>`;ears=`<path d="M22 20 L16 7 M42 20 L48 7" stroke="${f}" stroke-width="2.4"/><circle cx="16" cy="7" r="3" fill="${f}"/><circle cx="48" cy="7" r="3" fill="${f}"/>`}
+    if(t===9){ears=`<path d="M17 24 Q12 12 20 6 Q20 16 25 20Z M47 24 Q52 12 44 6 Q44 16 39 20Z" fill="#fff4d6"/>`;extra=`<path d="M27 46 L29 50 L31 46Z M33 46 L35 50 L37 46Z" fill="#fff"/>`}
+    body=`${ears}${face}${extra}${avEyes(e,ey,ec)}${t===3||t===6?'':`<circle cx="21" cy="${ey+7}" r="2.4" fill="#f19a9a" opacity=".5"/><circle cx="43" cy="${ey+7}" r="2.4" fill="#f19a9a" opacity=".5"/>`}${avMouth(m,my)}${avAcc(ac,ey,tp)}`}
+  return `<svg class="av" viewBox="0 0 64 64" width="${sz||40}" height="${sz||40}" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="${bg}"/><clipPath id="avclip"><circle cx="32" cy="32" r="32"/></clipPath><g clip-path="url(#avclip)">${body}</g></svg>`}
+// Namensvorschläge passend zum Avatar: Fantasienamen statt Vornamen
+const AVN_A=['Schlau','Flink','Mutig','Fröhlich','Cool','Schnell','Wild','Lustig','Stark','Klug','Funky','Super'],AV_G=['m','f','m','m','m','m','f','m','n','n'];
+const AVN_H=[['Blitz','m'],['Komet','m'],['Pixel','n'],['Stern','m'],['Ninja','m'],['Kapitän','m'],['Profi','m'],['Held','m'],['Champion','m'],['Drache','m']];
+function avNames(v){const a=avParse(v),out=new Set();let n=0;
+  while(out.size<4&&n++<50){const [w,g]=a[0]==='t'?[AV_T[a[1]][0],AV_G[a[1]]]:pick(AVN_H),adj=pick(AVN_A),end=/^(Funky|Super)$/.test(adj)?'':{m:'er',f:'e',n:'es'}[g];out.add((adj+end+' '+w).slice(0,16))}return [...out]}
+// Der Avatar spricht: Sprechblase und Vorlesen mit eigener Stimmhöhe
+function avSay(t,v){try{const u=new SpeechSynthesisUtterance(String(t));u.lang='de-DE';const a=avParse(v!=null?v:S.av);u.pitch=a[0]==='t'?1.35+(a[1]%3)*.15:1.05;u.rate=1;
+  const vo=speechSynthesis.getVoices().find(x=>x.lang==='de-DE')||speechSynthesis.getVoices().find(x=>/^de/.test(x.lang));if(vo)u.voice=vo;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function avBuilder(v){const a=avParse(v),k=a[0],N=AV_N[k],cat=Math.min(V.avCat||0,N.length-1);
+  const opt=i=>{const b=a.slice();b[cat+1]=i;return b};
+  return `<div class="avb"><div class="avb-prev">${avatar(v,120)}<button class="btn sm" data-act="av-rnd">🎲 Zufall</button></div><div class="avb-r">
+    <div class="psub avb-kind"><button class="${k==='h'?'on':''}" data-act="av-kind" data-k="h">🙂 Mensch</button><button class="${k==='t'?'on':''}" data-act="av-kind" data-k="t">🦊 Fantasiewesen</button></div>
+    <div class="psub avb-cat">${N.map(([l],i)=>`<button class="${i===cat?'on':''}" data-act="av-cat" data-i="${i}">${l}</button>`).join('')}</div>
+    <div class="avpick">${Array.from({length:N[cat][1]},(_,i)=>`<button class="${a[cat+1]===i?'on':''}" data-act="av-set" data-v="${avCode(opt(i))}" aria-label="${N[cat][0]} ${i+1}${k==='t'&&cat===0?': '+AV_T[i][0]:''}">${avatar(avCode(opt(i)),56)}</button>`).join('')}</div></div></div>`}
+function avNameHTML(id){const cur=V.nd!=null?V.nd:(S.nick||'');V.sugg=V.sugg&&V.sugg.av===V.av?V.sugg:Object.assign(avNames(V.av),{av:V.av});
+  return `<label class="label" for="${id}" style="display:block;margin-top:16px">Wie heißt dein Avatar?</label><input id="${id}" type="text" maxlength="16" autocomplete="off" value="${esc(cur)}" placeholder="z. B. ${esc(V.sugg[0])}">
+  <div class="row" style="gap:6px;margin-top:8px">${V.sugg.map(n=>`<button class="btn sm" data-act="nick-sugg" data-n="${esc(n)}" data-f="${id}">${esc(n)}</button>`).join('')}<button class="btn sm" data-act="nick-more">🎲 Andere</button><button class="btn sm" data-act="av-hi" data-f="${id}">🔊 Sag hallo</button></div>
+  <p class="muted" style="font-size:.88rem;margin-top:6px">Bitte keinen echten Namen. Deine Lehrkraft erkennt dich an deiner Nummer.</p>`}
+function acctSave(){}
 const myAv=()=>S.av!=null?avatar(S.av,22):'';
 // QR-Codes: Bibliothek liegt im Repo (MIT, Kazuhiko Arase)
 async function qrSvg(txt){if(!window.qrcode)await loadScript('assets/vendor/qrcode.js');const q=qrcode(0,'M');q.addData(txt);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})}
@@ -2845,9 +2911,8 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
       <div class="row" style="margin-top:8px"><button class="btn pri" data-act="bk-down">Sicherung herunterladen</button><button class="btn" data-act="bk-pick">Sicherung einspielen</button><input id="bk-file" type="file" accept=".json,application/json" hidden></div>
       ${V.bkMsg?`<p class="${V.bkErr?'err':'saved'}">${esc(V.bkMsg)}</p>`:''}${V.bkNew?`<p class="err">Achtung: Das ersetzt alle Lehrer-Notizen auf diesem Gerät durch die Sicherung vom ${esc(new Date(V.bkNew.at).toLocaleString('de-DE'))}.</p><div class="row"><button class="btn red" data-act="bk-yes">Ja, Sicherung einspielen</button><button class="btn" data-act="bk-no">Abbrechen</button></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">${PERSIST?'✓ Der Browser hält diese Daten dauerhaft fest.':'Tipp: Leg ELIO als App auf den Home-Bildschirm, dann löscht der Browser die Daten nicht so schnell.'}</p></section>`;
-  if(V.av==null)V.av=S.av!=null?S.av:0;
-  return `<h1 style="margin-bottom:14px">Name und Avatar</h1><section class="panel" style="max-width:560px"><label class="label" for="me-n">Dein Vorname</label><input id="me-n" type="text" maxlength="16" value="${esc(S.nick||'')}">
-    <p class="label" style="margin-top:14px">Dein Kopf</p><div class="avpick">${AVS.map((_,k)=>`<button class="${k===V.av?'on':''}" data-act="av-pick" data-i="${k}" aria-label="Avatar ${k+1}">${avatar(k,64)}</button>`).join('')}</div>
+  if(V.av==null)V.av=cleanAv(S.av)||avRandom();
+  return `<h1 style="margin-bottom:14px">Dein Avatar</h1><section class="panel" style="max-width:760px">${avBuilder(V.av)}${avNameHTML('me-n')}
     <p class="err" id="me-err"></p>${V.ok?'<p class="saved">Gespeichert.</p>':''}<div class="row" style="margin-top:14px"><button class="btn ok" data-act="me-save">Speichern</button><button class="btn red" data-act="role-reset">Abmelden</button></div></section>`};
 document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.cw;if(!k||!AK.st)return;const v=e.target.value.toUpperCase().replace(/[^A-ZÄÖÜ]/g,'').slice(-1);e.target.value=v;AK.st.v[k]=v;AK.st.chk=false;
   if(v){const [r,c]=k.split(',').map(Number);const nx=document.querySelector(`[data-cw="${r},${c+1}"]`)||document.querySelector(`[data-cw="${r+1},${c}"]`);if(nx)nx.focus()}});
@@ -3439,7 +3504,7 @@ VIEWS['kl-cards']=()=>{
   setTimeout(fillQR,0);
   return `<div class="st-head noprint"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">QR-Karten · ${esc(c.name)}</h1>
       <button class="btn pri" data-act="kl-print">🖨️ Drucken</button><button class="btn" data-act="kl-copy">🔗 Links kopieren</button>${V.copied===1?'<span class="chip">Kopiert</span>':V.copied===2?'<span class="chip">Kopieren ging nicht</span>':''}</div>
-    <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und gibt nur noch den Vornamen ein. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
+    <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und baut sich nur noch seinen Avatar. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
     <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
@@ -3897,11 +3962,13 @@ document.addEventListener('click',e=>{
     case 'st-school':V.school=d.id;V.step='class';render();break;
     case 'st-class':V.cls=d.id;V.step='role';render();break;
     case 'r-nr':V.nr=+d.n;V.step='nick';render();break;
-    case 'av-pick':V.av=+d.i;document.querySelectorAll('.avpick button').forEach(b=>b.classList.toggle('on',b.dataset.i===d.i));break;
+    case 'av-set':case 'av-kind':case 'av-cat':case 'av-rnd':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;
+      if(d.act==='av-set')V.av=cleanAv(d.v);if(d.act==='av-kind'){V.av=avRandom(d.k);V.avCat=0}if(d.act==='av-cat')V.avCat=+d.i;if(d.act==='av-rnd')V.av=avRandom(avParse(V.av)[0]);render();break}
+    case 'av-hi':{const f=$('#'+d.f),n=cleanNick(f&&f.value)||'dein Avatar';avSay('Hallo! Ich bin '+n+'.',V.av);break}
     case 'desk':go('desk');break;
     case 'umenu':{const m=$('#umenu');if(!S.role){go('role',{step:'splash'});break}if(!m.hidden){m.hidden=true;break}m.innerHTML=umenuHTML();const lg=$('.top .logo');m.style.top=(lg.offsetTop+lg.offsetHeight+6)+'px';m.hidden=false;break}
     case 'um-go':$('#umenu').hidden=true;go(d.v);break;
-    case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Bitte gib deinen Vornamen ein.';break}S.nick=nk;S.av=V.av;saveRole();sendMsg({k:'hi'});V.ok=1;render();break}
+    case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Gib deinem Avatar einen Namen.';break}S.nick=nk;S.av=cleanAv(V.av);V.nd=null;acctSave();saveRole();sendMsg({k:'hi'});V.ok=1;render();break}
     case 'me-tname':if(Cloud.sb&&Cloud.user){const n=$('#me-tn').value.trim().slice(0,60);Cloud.sb.from('profiles').update({name:n}).eq('id',Cloud.user.id).then(r=>{if(!r.error){Cloud.prof.name=n;V.ok=1}else V.err=r.error.message;render()})}break;
     case 'ak':akAct(d,e);break;
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
@@ -3925,6 +3992,7 @@ document.addEventListener('click',e=>{
       tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Hausaufgabe gestellt: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
     case 'hw-del':TD.hw=(TD.hw||[]).filter(h=>h.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'hx-ok':S.hxDone=S.hxDone||{};S.hxDone[d.k]=S.hxDone[d.k]?0:1;if(S.hxDone[d.k])SND.right();save();progTick();render();break;
+    case 't-lotsen':if(CS){const v=d.n!=null?d.n:(($('#t-lotsen')||{}).value||'');CS.lotsen=[...new Set(String(v).split(/[^0-9]+/).filter(x=>x!=='').map(Number).filter(n=>n>=0&&n<=40))].slice(0,40);pushCS();render()}break;
     case 't-pod':if(CS&&CS.game){CS.game.pod=!CS.game.pod;pushCS();render()}break;
     case 'sus':go('sus');mbPull();break;
     case 'sus-p':go('obs-p',{n:+d.n,otab:'stat',from:'sus'});break;
@@ -3947,11 +4015,11 @@ document.addEventListener('click',e=>{
     case 'kl-cards':go('kl-cards',{cid:d.id});break;
     case 'kl-print':window.print();break;
     case 'kl-copy':{const t=V.list||'';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{V.copied=1;render()},()=>{V.copied=2;render()});break}
-    case 'nick-sugg':{const i=$('#nick');i.value=d.n;i.focus();break}
-    case 'nick-more':V.sugg=suggestNicks();render();break;
+    case 'nick-sugg':{const i=$('#'+(d.f||'nick'));i.value=d.n;i.focus();break}
+    case 'nick-more':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;V.sugg=Object.assign(avNames(V.av),{av:V.av});render();break}
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
-      if(!nk||nk.length<2){$('#nick-err').textContent='Bitte gib deinen Vornamen ein.';break}
-      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=V.av;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      if(!nk||nk.length<2){$('#nick-err').textContent='Gib deinem Avatar einen Namen.';break}
+      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=cleanAv(V.av);V.nd=null;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
