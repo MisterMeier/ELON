@@ -2213,7 +2213,11 @@ VIEWS.admin=()=>{
         ${V.adel==='s'+sc.id?`<span class="row"><button class="btn sm red" data-act="ad-school-del" data-id="${sc.id}">Schule mit allen Klassen löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button></span>`:`<button class="btn sm" data-act="ad-ask" data-k="s${sc.id}">Löschen</button>`}</div>
       <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th>Klassenleitung</th><th></th></tr>${cls.filter(c=>c.school_id===sc.id).map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
         <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc(pName(A.profiles,x.teacher_id))).join(', ')||'<span class="muted">–</span>'}</td>
-        <td><select data-adlead="${c.id}" style="width:auto" aria-label="Klassenleitung ${esc(c.name)}"><option value="">– keine –</option>${A.ct.filter(x=>x.class_id===c.id).map(x=>`<option value="${x.teacher_id}" ${x.lead?'selected':''}>${esc(pName(A.profiles,x.teacher_id))}</option>`).join('')}</select></td>
+        <td>${(()=>{const ld=A.ct.find(x=>x.class_id===c.id&&x.lead),st=A.staff.filter(x=>x.school_id===c.school_id),
+          extra=A.profiles.filter(p=>p.role!=='pending'&&!st.some(x=>x.profile_id===p.id));
+        return `<select data-adlead="${c.id}" style="width:auto" aria-label="Klassenleitung ${esc(c.name)}"><option value="">– keine –</option>
+          ${st.map(x=>x.profile_id?`<option value="${x.profile_id}" ${ld&&ld.teacher_id===x.profile_id?'selected':''}>${esc(x.short)} · ${esc(pName(A.profiles,x.profile_id))}</option>`:`<option disabled>${esc(x.short)} (ohne Konto)</option>`).join('')}
+          ${extra.map(p=>`<option value="${p.id}" ${ld&&ld.teacher_id===p.id?'selected':''}>${esc(p.name||p.email)}</option>`).join('')}</select>`})()}</td>
         <td style="text-align:right"><button class="btn sm" data-act="ctt-open" data-id="${c.id}">Stundenplan</button>${V.adel==='c'+c.id?`<button class="btn sm red" data-act="ad-class-del" data-id="${c.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="c${c.id}">Löschen</button>`}</td></tr>`).join('')}</table>
       <div class="row" style="margin-top:8px"><input id="ad-cn-${sc.id}" type="text" placeholder="Neue Klasse, z. B. 7bG" style="max-width:220px"><input id="ad-cs-${sc.id}" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="ad-class-add" data-id="${sc.id}">Klasse anlegen</button></div></div>`).join('')||'<p class="muted" style="margin-top:8px">Noch keine Schule.</p>'}
     <div class="row" style="margin-top:16px"><input id="ad-sn" type="text" placeholder="Name der Schule" style="max-width:280px"><input id="ad-sp" type="text" placeholder="Ort" style="max-width:180px"><button class="btn pri sm" data-act="ad-school-add">Schule anlegen</button></div></section>
@@ -2237,7 +2241,7 @@ document.addEventListener('change',e=>{
   if(t.dataset.adct){const [tid,cid]=t.dataset.adct.split('|');adminDo(t.checked?sb.from('class_teachers').insert([{class_id:cid,teacher_id:tid}]):sb.from('class_teachers').delete().eq('class_id',cid).eq('teacher_id',tid),'Klassen gespeichert.')}
   if(t.dataset.slot)cttSave(t.dataset.slot);
   if(t.dataset.adstaff)adminDo(sb.from('staff').update({profile_id:t.value||null}).eq('id',t.dataset.adstaff),'Kürzel verknüpft.');
-  if(t.dataset.adlead){const cid=t.dataset.adlead,tid=t.value;adminDo((async()=>{const r=await sb.from('class_teachers').update({lead:false}).eq('class_id',cid);if(r.error||!tid)return r;return sb.from('class_teachers').update({lead:true}).eq('class_id',cid).eq('teacher_id',tid)})(),'Klassenleitung gespeichert.')}
+  if(t.dataset.adlead){const cid=t.dataset.adlead,tid=t.value;adminDo((async()=>{const r=await sb.from('class_teachers').update({lead:false}).eq('class_id',cid);if(r.error||!tid)return r;return sb.from('class_teachers').upsert([{class_id:cid,teacher_id:tid,lead:true}])})(),'Klassenleitung gespeichert.')}
 });
 
 const pName=(ps,id)=>{const p=ps.find(x=>x.id===id)||{};return p.name||p.email||'?'};
