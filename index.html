@@ -187,6 +187,10 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
 @media print{.tk-fab{display:none}}
 .keyqr{position:fixed;right:3vw;bottom:4vh;z-index:40;background:#fff;color:#111;border-radius:22px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:min(30vw,340px);text-align:center;display:grid;gap:6px}.keyqr .qr svg{width:100%;height:auto}.keyqr p{font-size:.9rem;font-weight:700;color:#555}
+.daybar{margin-bottom:16px}.dstrip{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 6px;scroll-snap-type:x mandatory}
+.dcell{flex:1 0 108px;scroll-snap-align:start;position:relative;display:grid;gap:2px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--surface)}.dcell b{font-size:1rem}.dcell small{color:var(--muted);font-weight:700;font-size:.78rem}
+.dcell.past{opacity:.5}.dcell.free{border-style:dashed}.dcell.cur{border-color:var(--navy);box-shadow:0 0 0 3px rgba(40,50,120,.15);background:var(--surface-2)}.dnow{position:absolute;top:-9px;right:10px;background:var(--navy);color:#fff;font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:9px}
+.dsug{border-top:2px solid var(--line);margin-top:8px;padding-top:10px}
 .lock{display:grid;place-items:center;min-height:60vh}.lock .panel{max-width:440px;width:100%;display:grid;gap:6px;text-align:left}.lock h1{font-size:1.5rem}
 .mods{display:grid;gap:10px}.mod-card .mi{font-size:2.2rem;flex:none}.mod-card.locked{opacity:.55;cursor:default;box-shadow:none}.mod-card .btn{flex:none}
 .sboxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -1888,7 +1892,7 @@ let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;
   if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length+':'+(e.help||'').length).join()+JSON.stringify([p.hw,p.mods,p.modx&&Object.keys(p.modx)]);if(hs!==S.heftSig){S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.heftSig=hs;save();if(['desk','subject','dash','homework','mod'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
-function sendMsg(m){Live.post('msg',{...m,nr:S.nr,av:S.av,...(Live.kind==='server'?{}:{nick:S.nick||''})})}
+function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
 const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
 const b64e=b=>{const u=new Uint8Array(b);let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
@@ -2348,7 +2352,7 @@ function saBody(k){const A=saGet(k),t=V.otab,td=todayISO();
         <label class="label" style="margin-top:10px;display:block">Anmerkungen ${P[1]}<textarea rows="2" data-san="${ck}" placeholder="Anmerkungen zu ${esc(cn)} im Zeitraum ${P[1]}">${esc(notes[per]||'')}</textarea></label>
         ${SA_PER.filter(p=>p[0]!==per&&notes[p[0]]).map(p=>`<p class="sa-old"><b style="color:${p[2]}">${p[1]}</b> ${esc(notes[p[0]])}</p>`).join('')}</section>`}).join('')}`}
   return ''}
-function saHead(k){const A=saGet(k);return `<section class="panel"><label class="label" style="display:block">Vorname (nur auf deinem Gerät, wird nie gesendet)<input type="text" maxlength="16" data-sanick="${k}" value="${esc(TD.nicks[k]||'')}" placeholder="z. B. Lea" style="margin-top:4px"></label>
+function saHead(k){const A=saGet(k);return `<section class="panel"><label class="label" style="display:block">Vorname (überschreibt den Namen vom iPad, nur auf deinem Gerät)<input type="text" maxlength="16" data-sanick="${k}" value="${esc(TD.nicks[k]||'')}" placeholder="z. B. Lea" style="margin-top:4px"></label>
   <span class="label" style="display:block;margin-top:10px">Anmerkungen aus dem Schülerbogen</span><textarea rows="2" data-saan="1" placeholder="z. B. Förderbedarf, Nachteilsausgleich, Gesundheit">${esc(A.an||'')}</textarea>
   <div class="row" style="margin-top:8px"><span class="chip">${A.el.length} Elternkontakte</span><span class="chip">${A.vk.length} Vorkommnisse</span><span class="spacer"></span><button class="btn sm" data-act="sa-print" data-n="${k}">🖨️ Akte drucken / als PDF</button></div></section>`}
 /* Druckansicht im Layout der Vorlage */
@@ -2402,13 +2406,29 @@ function obsExport(){
 }
 
 /* --- Lehrerzimmer --- */
+// Tagesleiste im Lehrerzimmer: alle Stunden von heute, die aktuelle hervorgehoben, dazu der passende Schnellstart
+function dayStrip(){const n=nowInfo(),d=n.day;if(d<0||d>4)return `<section class="panel daybar"><span class="label">Heute</span><p class="muted" style="font-weight:700;margin-top:6px">Heute ist kein Schultag. Schönes Wochenende!</p></section>`;
+  const today=isoD(new Date()),rows=PERIODS.map((p,i)=>({i,p,st:toMin(p[1]),en:toMin(p[2]),sl:TD.tt[d+'-'+i]}));
+  const cur=rows.find(r=>n.min>=r.st&&n.min<r.en),mine=rows.filter(r=>r.sl);
+  const focus=(cur&&cur.sl)?cur:mine.find(r=>r.st>n.min)||null,isNow=focus&&cur&&focus.i===cur.i;
+  const cells=rows.filter(r=>r.sl||r===cur).map(r=>{const st=r===cur?'cur':n.min>=r.en?'past':'',L=r.sl&&lessonById(TD.plan[today+'|'+r.i]);
+    return `<div class="dcell ${st} ${r.sl?'s-'+r.sl.s:'free'}"><small>${r.p[0]}. · ${r.p[1]}</small>${r.sl?`<b>${esc(SUBJECTS[r.sl.s]?SUBJECTS[r.sl.s].name:r.sl.s)}</b><small>${esc(r.sl.c||'')}${L?' · 📋':''}</small>`:'<b>frei</b>'}${st==='cur'?'<span class="dnow">jetzt</span>':''}</div>`}).join('');
+  let sug='';if(focus){const L=lessonById(TD.plan[today+'|'+focus.i]),sl=focus.sl;
+    const mats=L?[...new Set(L.phases.flatMap(p=>[...(p.mats||[]),...(p.tool&&p.tool.mat?[p.tool.mat]:[])]))].map(libById).filter(Boolean):[];
+    sug=`<div class="dsug"><span class="label">${isNow?'Jetzt dran':'Als Nächstes um '+focus.p[1]}</span><div class="row" style="gap:8px;margin-top:4px">${badge(sl.s)}<b>${esc(SUBJECTS[sl.s]?SUBJECTS[sl.s].name:sl.s)} · ${esc(sl.c||'')}</b>
+      ${L?`<span class="muted" style="font-weight:700">${esc(L.title)}</span><span class="spacer"></span><button class="btn ok" data-act="l-start" data-id="${L.id}">▶ Stunde starten</button><button class="btn sm" data-act="l-edit" data-id="${L.id}">Ansehen</button>`:`<span class="muted" style="font-weight:700">Noch nichts geplant.</span><span class="spacer"></span><button class="btn sm" data-act="tplan">In der Planung zuordnen</button>`}</div>
+      ${mats.length?`<div class="row" style="gap:6px;margin-top:8px"><span class="label">Dateien dafür</span>${mats.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>`).join('')}</div>`:''}</div>`}
+  else sug=`<p class="muted" style="font-weight:700;margin-top:8px">${mine.length?'Für heute ist dein Unterricht vorbei.':'Heute stehen keine Stunden in deinem Stundenplan.'}</p>`;
+  return `<section class="panel daybar"><div class="row" style="justify-content:space-between"><span class="label">Dein Tag · ${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span>${TD.ttEx?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
+    <div class="dstrip">${cells||'<span class="muted">Keine Stunden</span>'}</div>${sug}</section>`}
 VIEWS.tdash=()=>{
   const L=CS&&CS.lesson&&lessonById(CS.lesson.id),on=CS?online().length:0,all=Object.values(TD.obs).flat();
-  const h=new Date().getHours(),hi=h<11?'Guten Morgen!':h<17?'Hallo!':'Guten Abend!';
+  const h=new Date().getHours(),hi=h<11?'Guten Morgen!':h<14?'Guten Mittag!':h<17?'Guten Tag!':'Guten Abend!';
   const ls=lessons();
   const mc=CLOUD&&Cloud.myClasses||[];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}${Cloud.prof&&Cloud.prof.name?' '+esc(Cloud.prof.name.split(' ')[0]):''}</h1><span class="chip">${esc(className())}</span></div>
   ${mc.length>1?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</div></div>`:''}
+  ${dayStrip()}
   <div class="areas four">
     <button class="area a-tafel" data-act="tafel"><span class="ai">🖥️</span><b>Tafel</b><small>${L?`Läuft: ${esc(L.title)} · Phase ${CS.step+1}`:'Keine Stunde aktiv'} · ${on} online</small></button>
     <button class="area a-plan" data-act="tplan"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
@@ -3921,7 +3941,7 @@ let lastMin=-1;
 setInterval(()=>{
   tickClock();
   const m=nowInfo().min;
-  if(m!==lastMin){lastMin=m;checkSlot();checkJournalAuto();if(V.name==='dash'||V.name==='week')render()}
+  if(m!==lastMin){lastMin=m;checkSlot();checkJournalAuto();if(V.name==='dash'||V.name==='week'||(V.name==='tdash'&&!tdLocked()))render()}
 },5000);
 setTimeout(checkSlot,400);
 // Live heartbeat: teacher re-sends the class state, students say hello
