@@ -187,6 +187,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
 @media print{.tk-fab{display:none}}
 .keyqr{position:fixed;right:3vw;bottom:4vh;z-index:40;background:#fff;color:#111;border-radius:22px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:min(30vw,340px);text-align:center;display:grid;gap:6px}.keyqr .qr svg{width:100%;height:auto}.keyqr p{font-size:.9rem;font-weight:700;color:#555}
+.ttown table{width:100%;table-layout:fixed}.ttown td{padding:3px;vertical-align:top}.ttown select,.ttown input{width:100%;font-size:.78rem;padding:4px 5px;min-width:0}.ttown input{margin-top:3px}.ttown td.has{border-radius:8px}
 .daybar{margin-bottom:16px}.dstrip{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 6px;scroll-snap-type:x mandatory}
 .dcell{flex:1 0 108px;scroll-snap-align:start;position:relative;display:grid;gap:2px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--surface)}.dcell b{font-size:1rem}.dcell small{color:var(--muted);font-weight:700;font-size:.78rem}
 .dcell.past{opacity:.5}.dcell.free{border-style:dashed}.dcell.cur{border-color:var(--navy);box-shadow:0 0 0 3px rgba(40,50,120,.15);background:var(--surface-2)}.dnow{position:absolute;top:-9px;right:10px;background:var(--navy);color:#fff;font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:9px}
@@ -2156,6 +2157,18 @@ async function tdOpen(pw){const v=tdVault();
     if(!TDKEY)TD=Object.assign({obs:{},nicks:{}},JSON.parse(new TextDecoder().decode(pt)));TDSALT=v.salt;TDIT=v.it;TDKEY=k}
   else{TDSALT=b64e(crypto.getRandomValues(new Uint8Array(16)));TDKEY=await tdDerive(pw,TDSALT,TDIT)}
   tdDefaults();TDIDLE=false;TDLAST=Date.now();tsave();try{if(!PERSIST&&navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(x=>{PERSIST=x})}catch(e){}return true}
+// Eigener Lehrer-Stundenplan: liegt verschlüsselt auf dem Gerät und hat Vorrang vor dem, was aus den Klassenplänen kommt
+function ttOwnApply(){const o=TD.ttOwn||{};Object.keys(o).forEach(k=>{const x=o[k];if(!x||!x.s){delete TD.tt[k];return}const c=(Cloud.myClasses||[]).find(y=>y.name===x.c);TD.tt[k]={s:x.s,c:x.c,...(c?{cid:c.id,g:0}:{})}})}
+function ttOwnHTML(){const mc=(Cloud.myClasses||[]).map(c=>c.name),o=TD.ttOwn||{};
+  return `<section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">🗓️ Mein Stundenplan</h2>
+    <p class="muted" style="font-weight:700">Trag hier deine eigenen Stunden ein, in allen Klassen. ${CLOUD&&Cloud.prof?'Stunden, in denen du in einem Klassen-Stundenplan stehst, sind schon da. ':''}Das Lehrerzimmer zeigt dir danach jeden Tag, welche Stunde gerade läuft und was als Nächstes kommt.</p>
+    <datalist id="tt-cls">${[...new Set([...mc,...Object.values(TD.tt).map(x=>String(x.c||'').replace(/ \(Gruppe\)$/,''))])].filter(Boolean).map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
+    <div class="tp ttown"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>${PERIODS.map((p,i)=>`<tr><td class="tm">${p[0]}.<br><small>${p[1]}</small></td>${DAYS.map((_,d)=>{const k=d+'-'+i,t=TD.tt[k]||{},own=o[k];
+      return `<td class="${t.s?'has s-'+t.s:''}"><select data-tto="${k}" data-k="s" aria-label="Fach"><option value="">–</option>${Object.entries(SUBJECTS).map(([kk,v])=>`<option value="${kk}" ${t.s===kk?'selected':''}>${v.name}</option>`).join('')}</select><input data-tto="${k}" data-k="c" list="tt-cls" value="${esc(t.c||'')}" placeholder="Klasse" ${t.s?'':'disabled'}>${t.cid&&!own?'<small title="aus dem Klassen-Stundenplan">🏫</small>':''}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+    ${TD.ttEx?'<div class="row" style="margin-top:8px"><span class="muted" style="font-size:.85rem;font-weight:700">Noch steht hier der Beispiel-Stundenplan.</span><button class="btn sm" data-act="tt-clear">Beispiel löschen und neu eintragen</button></div>':''}</section>`}
+document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.tto;if(!k||S.role!=='teacher'||!TDKEY)return;
+  TD.ttOwn=TD.ttOwn||{};const cur=TD.tt[k]||{},sel=document.querySelector(`[data-tto="${k}"][data-k="s"]`),inp=document.querySelector(`[data-tto="${k}"][data-k="c"]`);
+  const s=sel.value,c=(inp.value||'').trim().slice(0,16)||(s?(cur.c||className().replace(/^Klasse /,'')):'');TD.ttOwn[k]={s,c};if(TD.ttEx){TD.ttEx=false}ttOwnApply();tsave();render()});
 let PERSIST=false;try{navigator.storage&&navigator.storage.persisted&&navigator.storage.persisted().then(x=>{PERSIST=x})}catch(e){}
 function tdClose(){TDKEY=null;TDIDLE=false;TD={obs:{},nicks:{}};tdDefaults()}
 const tdLocked=()=>S.role==='teacher'&&!BOARD&&(!TDKEY||TDIDLE);
@@ -2171,7 +2184,7 @@ async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
   if(p2){if(pw.length<8){V.lkErr='Mindestens 8 Zeichen.';render();return}if(pw!==p2.value){V.lkErr='Die beiden Passwörter sind nicht gleich.';render();return}}
   const b=$('[data-act=lk-go]');if(b){b.disabled=true;b.textContent='Prüfe …'}
   const ok=await tdOpen(pw);if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
-  TDFAIL=0;V.lkErr='';V.lkForget=false;if(HK.ck){const i=HK.ck.lastIndexOf('.'),c=HK.ck.slice(0,i),k=HK.ck.slice(i+1);if(c&&ckOk(k)){TD.ck=TD.ck||{};TD.ck[c]=k;tsave();V.msg='Klassenschlüssel für '+c+' übernommen.'}HK.ck=null}if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render()}
+  TDFAIL=0;V.lkErr='';V.lkForget=false;if(HK.ck){const i=HK.ck.lastIndexOf('.'),c=HK.ck.slice(0,i),k=HK.ck.slice(i+1);if(c&&ckOk(k)){TD.ck=TD.ck||{};TD.ck[c]=k;tsave();V.msg='Klassenschlüssel für '+c+' übernommen.'}HK.ck=null}if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render();heftClean()}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&/^lk-pw/.test(e.target.id)){e.preventDefault();lockGo()}});
 ['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
 setInterval(()=>{if(S.role==='teacher'&&TDKEY&&!TDIDLE&&Date.now()-TDLAST>15*60000){TDIDLE=true;render()}},20000);
@@ -2777,6 +2790,7 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
     ${Cloud.prof?`<label class="label" for="me-tn">Name (so sehen dich die anderen)</label><div class="row"><input id="me-tn" type="text" value="${esc(Cloud.prof.name||'')}" maxlength="60" style="flex:1"><button class="btn pri" data-act="me-tname">Speichern</button></div>
       <p style="margin-top:12px;font-weight:700">${esc(Cloud.user.email||'')} · Rolle: ${esc({admin:'Admin',teacher:'Lehrkraft',pending:'wartet auf Freigabe'}[Cloud.prof.role]||Cloud.prof.role)}</p>`:'<p style="font-weight:700">Demo-Modus ohne Konto.</p>'}
     ${V.ok?'<p class="saved">Gespeichert.</p>':''}${V.err?`<p class="err">${esc(V.err)}</p>`:''}<div class="row" style="margin-top:14px"><button class="btn red" data-act="role-reset">Abmelden</button></div></section>
+    ${ttOwnHTML()}
     <section class="panel" style="max-width:560px;margin-top:16px"><h2 style="font-size:1.2rem">💾 Sicherung deiner Notizen</h2>
       <p class="muted" style="font-weight:700">Notizen, Beobachtungen, Akten und Lerntagebücher liegen nur auf diesem Gerät. Lade ab und zu eine Sicherung herunter, zum Beispiel auf einen USB-Stick oder in deinen dienstlichen Speicher. Die Datei ist mit deinem Geräte-Passwort verschlüsselt und ohne Passwort nutzlos.</p>
       <div class="row" style="margin-top:8px"><button class="btn pri" data-act="bk-down">Sicherung herunterladen</button><button class="btn" data-act="bk-pick">Sicherung einspielen</button><input id="bk-file" type="file" accept=".json,application/json" hidden></div>
@@ -3135,7 +3149,7 @@ async function cloudSync(){
   const sb=Cloud.sb,uid=Cloud.user.id,ids=Cloud.myClasses.map(c=>c.id);
   try{
     const sl=ids.length?await q(sb.from('slots').select('class_id,day,period,subject,teacher_id,grp').in('class_id',ids)):[];
-    TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);const split=sl.filter(y=>y.class_id===x.class_id&&y.day===x.day&&y.period===x.period).length>1;TD.tt[x.day+'-'+x.period]={s:x.subject,c:(c?c.name:'')+(split?' (Gruppe)':''),cid:x.class_id,g:x.grp||0}});TD.ttEx=false;
+    TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);const split=sl.filter(y=>y.class_id===x.class_id&&y.day===x.day&&y.period===x.period).length>1;TD.tt[x.day+'-'+x.period]={s:x.subject,c:(c?c.name:'')+(split?' (Gruppe)':''),cid:x.class_id,g:x.grp||0}});ttOwnApply();TD.ttEx=false;
     const pl=ids.length?await q(sb.from('plans').select('class_id,date,period,lesson_id,teacher_id,grp').in('class_id',ids)):[];
     TD.plan={};pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id&&(t.g||0)===(x.grp||0))TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
     const ls=await q(sb.from('lessons').select('id,owner,class_id,shared,data'));
@@ -3377,13 +3391,20 @@ VIEWS['kl-cards']=()=>{
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o,ch,help,ub})=>({id,s,title,text,date,o,ch,help,ub}));
-async function heftLoadPlan(){try{const [L,M]=await Promise.all(['mathe7','mathe7_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
+// Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
+const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
+async function heftClean(){const bad=e=>String(e.text||'').split('\n').some(l=>HELPRE.test(l.trim()));if(!(TD.heft||[]).some(bad))return 0;
+  if(TD.heft.some(e=>/^m7-/.test(e.id)&&bad(e))){try{await heftLoadPlan(true)}catch(e){}}
+  let n=0;TD.heft.forEach(e=>{const ls=String(e.text||'').split('\n'),mv=ls.filter(l=>HELPRE.test(l.trim()));if(!mv.length)return;
+    e.text=ls.filter(l=>!HELPRE.test(l.trim())).join('\n').replace(/\n{3,}/g,'\n\n').trim();const h=String(e.help||'');e.help=[h,...mv.filter(l=>!h.includes(l.trim()))].filter(Boolean).join('\n');n++});
+  tsave();if(CS)pushCS();if(['tdesk','tsubj','mod','theft'].includes(V.name))render();return n}
+async function heftLoadPlan(quiet){try{const [L,M]=await Promise.all(['mathe7','mathe7_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
   let up=0;L.forEach((x,k)=>{const id='m7-'+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
     // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
     if(o){let c=0;const ot=o.text.trim();if(ot!==x.text&&(x.text.startsWith(ot)||ot.startsWith(x.text.trim()))){o.text=x.text;c=1}
       if(o.help!==x.help||JSON.stringify(o.ub)!==JSON.stringify(x.ub)||o.ch!==x.ch){o.help=x.help;o.ub=x.ub;o.ch=x.ch;c=1}up+=c;return}
     TD.heft.push({id,s:'M',title:x.title,text:x.text,help:x.help,ub:x.ub,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
-  tsave();if(CS)pushCS();V.msg=n?n+' Einträge in 8 Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':'Der Jahresplan ist schon geladen.'}catch(e){V.msg='Laden hat nicht geklappt.'}render()}
+  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in 8 Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':'Der Jahresplan ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
 /* ---------- Module: Jahresplan-Kapitel mit Unterkapiteln, Hilfestation und Fleiß-Station ---------- */
 const tHeft=k=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&(!k||e.s===k));
 function hwAll(){if(S.role==='teacher')return (TD.hw||[]).filter(h=>h.cls===S.cls);return Array.isArray(S.hwRecv)&&S.hwRecv.length?S.hwRecv:HOMEWORK}
@@ -3448,13 +3469,14 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
   <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
   <h2 style="margin:18px 0 8px">Hausaufgaben · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Hausaufgaben gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
-const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\nAchtung: typischer Fehler\nFalsch: 3x + 5y = 8xy\nRichtig: 3x + 5y bleibt so\n| Spalte | Spalte |';
+const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
   return `<div class="subj-head"><button class="btn sm" data-act="tdesk">← Schreibtisch</button><h1>Regelheft · ${esc(className())}</h1></div>
   <section class="panel"><span class="label">Neuer Hefteintrag · erscheint im Regelheft aller SuS</span>
     <div class="lgrid" style="margin-top:8px"><label>Fach<select id="hf-s">${Object.keys(SUBJECTS).map(x=>`<option value="${x}" ${x===k?'selected':''}>${SUBJECTS[x].name}</option>`).join('')}</select></label>
       <label>Titel<input id="hf-t" type="text" maxlength="80" placeholder="z. B. Terme vereinfachen"></label>
-      <label style="grid-column:1/-1">Inhalt<textarea id="hf-x" rows="7" placeholder="${esc(HEFT_HELP)}"></textarea></label></div>
+      <label style="grid-column:1/-1">Inhalt<textarea id="hf-x" rows="7" placeholder="${esc(HEFT_HELP)}"></textarea></label>
+      <label style="grid-column:1/-1">⚠️ Typische Fehler & Hilfen (erscheint in der Hilfestation, nicht im Heft)<textarea id="hf-h" rows="3" placeholder="Achtung: …&#10;Falsch: 3x + 5y = 8xy&#10;Richtig: 3x + 5y bleibt so"></textarea></label></div>
     <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">So formatierst du: „# “ Überschrift, „- “ Aufzählung, „Merke:“ Merkkasten, „| a | b |“ Tabelle. Text aus Word oder PowerPoint einfach reinkopieren.</p>
     <p class="err" id="hf-err"></p><button class="btn pri" data-act="hf-add" style="margin-top:8px">${V.hedit?'Änderung speichern':'Veröffentlichen'}</button></section>
   ${V.msg?`<p class="saved" style="margin-top:12px">${esc(V.msg)}</p>`:''}
@@ -3662,12 +3684,12 @@ document.addEventListener('click',e=>{
       tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Hausaufgabe gestellt: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
     case 'hw-del':TD.hw=(TD.hw||[]).filter(h=>h.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'fl-ok':S.fleiss=S.fleiss||{};S.fleiss[d.k]=+d.p||1;SND.right();earnOnce('fl_'+d.k);save();render();break;
-    case 'hf-add':{const t=$('#hf-t').value.trim(),x=$('#hf-x').value.trim(),k=$('#hf-s').value;if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
-      if(!CS)initTeacher();if(V.hedit){const y=(TD.heft||[]).find(z=>z.id===V.hedit);if(y){Object.assign(y,{s:k,title:t,text:x});tsave();pushCS()}V.hedit=null}else heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x});V.hs=k;render();break}
+    case 'hf-add':{const t=$('#hf-t').value.trim(),k=$('#hf-s').value,xl=$('#hf-x').value.trim().split('\n'),x=xl.filter(l=>!HELPRE.test(l.trim())).join('\n').trim(),hl=[$('#hf-h').value.trim(),...xl.filter(l=>HELPRE.test(l.trim()))].filter(Boolean).join('\n');if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
+      if(!CS)initTeacher();if(V.hedit){const y=(TD.heft||[]).find(z=>z.id===V.hedit);if(y){Object.assign(y,{s:k,title:t,text:x,help:hl});tsave();pushCS()}V.hedit=null}else heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x,help:hl});V.hs=k;render();break}
     case 'hf-plan':heftLoadPlan();break;
     case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){e.pub=a==='hf-pub';if(e.pub)e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
     case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(x.pub===false&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){x.pub=true;x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
-    case 'hf-edit':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x){V.hedit=x.id;render();setTimeout(()=>{$('#hf-s').value=x.s;$('#hf-t').value=x.title;$('#hf-x').value=x.text;window.scrollTo(0,0)},0)}break}
+    case 'hf-edit':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x){V.hedit=x.id;render();setTimeout(()=>{$('#hf-s').value=x.s;$('#hf-t').value=x.title;$('#hf-x').value=x.text;$('#hf-h').value=x.help||'';window.scrollTo(0,0)},0)}break}
     case 'hf-del':TD.heft=(TD.heft||[]).filter(e=>e.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'kl-cards':go('kl-cards',{cid:d.id});break;
     case 'kl-print':window.print();break;
@@ -3683,6 +3705,7 @@ document.addEventListener('click',e=>{
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
     case 'role-reset':$('#umenu').hidden=true;if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
+    case 'tt-clear':TD.tt={};TD.ttOwn={};TD.ttEx=false;tsave();render();break;
     case 'bk-down':{const v=tdVault();if(!v){V.bkMsg='Noch nichts zu sichern.';V.bkErr=1;render();break}
       const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({elio:'sicherung',v:1,at:new Date().toISOString(),vault:v})],{type:'application/json'}));a.download='elio-sicherung-'+todayISO()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
       TD.bkAt=Date.now();tsave();V.bkMsg='Sicherung heruntergeladen.';V.bkErr=0;render();break}
