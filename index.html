@@ -1922,7 +1922,7 @@ VIEWS.present=()=>{
   return `<div class="pres s-${L.subject}">
     <div class="pres-top"><button class="btn sm" data-act="tafel">Steuerpult</button><div class="strip">${L.phases.map((x,j)=>`<button class="${j===i?'on':j<i?'past':''}" data-act="l-go" data-i="${j}">${j+1}. ${esc(x.name)}</button>`).join('')}</div>
       <span class="chip">${CS?online().length:0} online</span><span class="ptimer" id="ptimer">${fmt(timerLeft(CS.timer))}</span></div>
-    <div class="pres-main">${toolStage(p,L)}${ms.length?`<div class="row" style="justify-content:center;margin-top:14px">${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>`).join('')}</div>`:''}</div>
+    <div class="pres-main">${toolStage(p,L)}${ms.length?`<div class="row" style="justify-content:center;margin-top:14px">${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`:''}</div>
     <div class="pres-nav"><button class="btn big" data-act="l-go" data-i="${i-1}" ${i<=0?'disabled':''} aria-label="Vorherige Phase">◀</button>
       <div class="pn"><b>${i+1}/${n} · ${esc(p.name||'')}</b><small>${esc(p.sf||'')}${p.method?' · '+esc(p.method):''} · ${+p.min||0} min</small></div>
       ${i>=n-1?'<button class="btn big red" data-act="l-stop" style="font-size:1.2rem">Ende</button>':`<button class="btn big pri" data-act="l-go" data-i="${i+1}" aria-label="Nächste Phase">▶</button>`}</div></div>`;
