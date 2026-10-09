@@ -522,6 +522,15 @@ body.boardwin .bw{height:100vh}
 .bw-timer{font-family:var(--f-display);font-variant-numeric:tabular-nums;font-size:4.4cqh;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.4cqh 2cqw}
 .bw-main{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:0;padding:1cqh 4cqw;text-align:center;gap:2.4cqh}
 .bw-main .slide{gap:2.6cqh;width:100%}
+.av{vertical-align:middle;flex:none}.seat .av{display:block;margin:0 auto 2px}
+.avpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:10px;margin-top:8px}
+.avpick button{border:3px solid transparent;background:var(--surface-2);border-radius:20px;padding:6px;cursor:pointer;display:grid;place-items:center}
+.avpick button.on{border-color:var(--green);background:var(--ok-bg)}
+.qcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.qcard{background:#fff;color:#18203d;border:2px dashed #b9c2d6;border-radius:16px;padding:14px;display:grid;gap:8px;justify-items:center;text-align:center;break-inside:avoid}
+.qcard .qh{display:flex;justify-content:space-between;align-items:center;width:100%}.qcard .qh b{font-family:var(--f-display);font-size:1.6rem}
+.qcard .qr{width:150px;height:150px}.qcard .qr svg{width:100%;height:100%}.qcard .qn{font-weight:700;align-self:stretch;text-align:left}.qcard small{color:#4a5470;line-height:1.35}
+@media print{body{background:#fff!important;padding:0}.top,#nav,#live,#miniT,.noprint,.bw-hint{display:none!important}main#view{max-width:none;padding:0;margin:0}.qcards{grid-template-columns:repeat(3,1fr);gap:8px}.qcard{padding:10px}}
 /* Neue Werkzeuge nach Fabians Mathe-Vorlage: Größen in em, Basis je nach Ort */
 .pres-main .rt{font-size:clamp(13px,1.8vw,28px);flex:1;min-height:60vh}
 .bw-rt{display:block;position:relative;border-top:0}.bw-rt .rt{font-size:3.1cqh;height:100%}
@@ -1521,6 +1530,7 @@ function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filt
 function onStudentMsg(m){
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
   (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
+  if(m.av!=null&&ROSTER[nr].av!==m.av){ROSTER[nr].av=m.av;TD.avs=TD.avs||{};TD.avs[nr]=m.av;tsave();if(V.name==='tafel')updTafel()}
   if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(TD.nicks[nr]!==nk){TD.nicks[nr]=nk;tsave()}if(V.name==='tafel')updTafel()}}
   let ch=false;
   if(m.k==='kfb'){kfbAnswer(nr,m);return}
@@ -1585,7 +1595,7 @@ function updTafel(){
   const on=online(),n=S.classSize;
   $('#t-online').textContent=on.length;
   $('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
-    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${k}${nk?`<small>${esc(nk)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
+    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}${k}${nk?`<small>${esc(nk)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||'Nr. '+k)}</b> <span class="muted">Nr. ${k}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   $('#t-ready').innerHTML=CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
@@ -1650,7 +1660,7 @@ let RCS=null,rcsAt=0,OFF=0,lastOvSig='';
 let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
-function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||''})}
+function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 function updBanner(){
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
@@ -1660,7 +1670,7 @@ function updBanner(){
   const G=!RCS.freeze&&RCS.game&&GAME_INFO[RCS.game.g];
   el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+G.name:ph.name}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
     ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
-    <span class="chip">${esc(S.nick||'Nr. '+S.nr)}</span>
+    <span class="chip">${myAv()} ${esc(S.nick||'Nr. '+S.nr)}</span>
     <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
 }
 function liveOverlay(){
@@ -1722,7 +1732,7 @@ VIEWS.role=()=>{
     :`<button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button>`}</div>`;
   if(step==='join')return `<div class="start"><div class="start-head">${back('splash')}</div><h1>Anmelden als Schüler/in</h1>
     <section class="panel" style="max-width:460px"><p style="font-weight:700">Deine Lehrkraft gibt dir den Klassencode und das Passwort.</p>
-      <label class="label" for="j-code" style="display:block;margin-top:12px">Klassencode</label><input id="j-code" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="z. B. 4821" style="font-size:1.6rem;letter-spacing:.1em">
+      <p class="muted" style="font-weight:700;margin-top:6px">📷 Hast du eine Karte mit QR-Code? Scanne ihn einfach mit der Kamera.</p><label class="label" for="j-code" style="display:block;margin-top:12px">Klassencode</label><input id="j-code" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="z. B. 4821" style="font-size:1.6rem;letter-spacing:.1em">
       <label class="label" for="j-pw" style="display:block;margin-top:12px">Passwort</label><input id="j-pw" type="password" inputmode="numeric" autocomplete="off" maxlength="20" style="font-size:1.6rem;letter-spacing:.1em">
       <p class="err" id="j-err">${esc(V.err||'')}</p><button class="btn ok big" data-act="join" style="width:100%;margin-top:12px">Weiter</button></section></div>`;
   if(step==='school'&&CLOUD&&!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
@@ -1731,37 +1741,62 @@ VIEWS.role=()=>{
     <div class="pick">${SCHOOLS.map(x=>`<button class="pick-card" data-act="st-school" data-id="${x.id}"><b>${esc(x.name)}</b><span class="muted">${esc(x.place)} · ${x.classes.length} Klasse${x.classes.length>1?'n':''}</span></button>`).join('')}</div></div>`;
   if(step==='class')return `<div class="start"><div class="start-head">${back('school')}<span class="label">Schritt 2 von 3 · ${esc(sc.name)}</span></div><h1>Wähle deine Klasse</h1>
     <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.label||c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
-  if(step==='nick')return `<div class="start"><div class="start-head">${back('role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Wähle deinen Nickname</h1>
+  if(step==='nick'){if(V.av==null)V.av=S.av!=null?S.av:Math.floor(Math.random()*AVS.length);
+    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Gib deinen Vornamen an</h1>
     <section class="panel" style="margin-top:16px">
-      <p style="font-weight:700">So heißt du in ELIO und an der Tafel. <b>Nimm nicht deinen echten Namen</b>, sondern etwas Ausgedachtes.</p>
-      <label class="label" for="nick" style="display:block;margin-top:14px">Dein Nickname</label><input id="nick" type="text" maxlength="16" autocomplete="off" autocapitalize="off" value="${esc(S.nick||'')}" placeholder="z. B. ${esc(V.sugg[0])}">
-      <p class="label" style="margin-top:14px">Ideen von Elo</p>
-      <div class="sugg">${V.sugg.map(n=>`<button class="btn sm" data-act="nick-sugg" data-n="${esc(n)}">${esc(n)}</button>`).join('')}<button class="btn sm" data-act="nick-more">Neue Ideen</button></div>
+      <label class="label" for="nick" style="display:block">Dein Vorname</label><input id="nick" type="text" maxlength="16" autocomplete="off" autocapitalize="words" value="${esc(S.nick||'')}" placeholder="z. B. Lea">
+      <p class="label" style="margin-top:16px">Such dir deinen Kopf aus</p>
+      <div class="avpick">${AVS.map((_,k)=>`<button class="${k===V.av?'on':''}" data-act="av-pick" data-i="${k}" aria-label="Avatar ${k+1}">${avatar(k,64)}</button>`).join('')}</div>
       <p class="err" id="nick-err"></p>
       <button class="btn ok big" data-act="nick-ok" style="width:100%;margin-top:16px">Fertig</button>
-    </section></div>`;
+    </section></div>`}
   if(V.only==='student')return `<div class="start"><div class="start-head">${back('join')}<span class="label">${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Welche Nummer hast du?</h1>
     <section class="panel"><p class="label">Tippe auf deine Nummer aus der Klassenliste</p>
       <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
-      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach wählst du einen Nickname. Dein echter Name wird nicht gespeichert.</p></section></div>`;
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach gibst du deinen Vornamen an.</p></section></div>`;
   return `<div class="start"><div class="start-head">${back('class')}<span class="label">Schritt 3 von 3 · ${esc(sc.name)} · ${esc(cl.name)}</span></div><h1>Wer bist du?</h1>
   <div class="role-wrap">
     <section class="panel"><h2>Ich bin Schüler/in</h2>
       <p class="label" style="margin-top:12px">Tippe auf deine Nummer aus der Klassenliste</p>
       <div class="numgrid">${Array.from({length:cl.size||24},(_,i)=>`<button class="btn" data-act="r-nr" data-n="${i+1}">${i+1}</button>`).join('')}</div>
-      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach wählst du einen Nickname. Dein echter Name wird nicht gespeichert.</p></section>
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Danach gibst du deinen Vornamen an.</p></section>
     <section class="panel"><h2>Ich bin Lehrkraft</h2>
       ${CLOUD&&!Cloud.err?`<p class="muted" style="font-weight:700;margin-top:8px">Mit deinem eigenen Lehrer-Konto.</p><button class="btn pri" data-act="login" style="margin-top:14px;width:100%">Anmelden</button>`
       :`<label class="label" for="r-pin" style="display:block;margin-top:12px">PIN (Demo)</label><input id="r-pin" type="password" inputmode="numeric" autocomplete="off">
       <button class="btn pri" data-act="r-teach" style="margin-top:14px;width:100%">Tafel öffnen</button><p class="err" id="r-err"></p>`}</section>
   </div></div>`;
 };
+// Schüler-Zugang: Klassencode + Passwort, bei persönlichem QR-Code auch die Nummer
+async function joinClass(code,pw,nr){
+  try{const sb=await sbClient();const r=await q(sb.rpc('join_class',{p_code:code,p_pw:pw}));const c=r&&r[0];
+    if(!c){V.err='Klassencode oder Passwort stimmt nicht. Frag deine Lehrkraft.';V.step='join';render();return}
+    let sc=SCHOOLS.find(x=>x.id===c.school_id);if(!sc){sc={id:c.school_id,name:c.school_name,place:'',classes:[]};SCHOOLS.push(sc)}
+    if(!sc.classes.some(x=>x.id===c.id))sc.classes.push({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code});
+    V.err='';V.school=c.school_id;V.cls=c.id;V.only='student';
+    if(nr>=1&&nr<=(c.size||40)){V.nr=nr;V.step='nick'}else V.step='role';render()}
+  catch(e){V.err='ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';V.step='join';render()}
+}
 function setClass(){S.school=V.school;S.cls=V.cls;const c=classBy(V.school,V.cls);S.code=(c&&c.code)||V.school+'-'+V.cls;if(c&&c.size)S.classSize=c.size;if(c)S.clsName=c.name}
 const NICK_A=['Blue','Happy','Brave','Speedy','Clever','Lucky','Sunny','Cool','Mighty','Funny','Golden','Turbo'];
 const NICK_B=['Tiger','Fox','Panda','Owl','Shark','Eagle','Koala','Wolf','Dolphin','Penguin','Falcon','Dragon'];
 function suggestNicks(){const out=new Set();while(out.size<4)out.add(pick(NICK_A)+pick(NICK_B)+(Math.random()<.4?Math.floor(Math.random()*90+10):''));return [...out].map(x=>x.slice(0,16))}
 const cleanNick=v=>String(v||'').trim().replace(/[^A-Za-zÄÖÜäöüß0-9_\- ]/g,'').replace(/\s+/g,' ').slice(0,16);
 const cleanCode=v=>(v||'7B').trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)||'7B';
+// Einfache Avatar-Köpfe: [Hautton, Haarfarbe, Frisur, Hintergrund]
+const AV_SKIN=['#f6d2b8','#e8b58f','#c68a5e','#8d5a3b'],AV_HAIR=['#2b2118','#6b3e1f','#d9a441','#b5462e','#3a3a46'],AV_BG=['#cfe8d9','#d6e6fb','#fde3c8','#efd9f5','#fbe0e0','#e3eccd'];
+const AVS=[[0,0,0,0],[1,2,1,1],[2,0,2,2],[3,0,0,3],[0,3,3,4],[1,1,4,5],[2,4,5,1],[0,2,1,2],[3,0,2,0],[1,0,3,3],[2,3,0,4],[0,1,5,5]];
+function avatar(i,sz){const a=AVS[(+i||0)%AVS.length]||AVS[0],sk=AV_SKIN[a[0]],hc=AV_HAIR[a[1]],st=a[2],bg=AV_BG[a[3]];
+  const back=st===1?`<path d="M12 52 Q9 14 32 12 Q55 14 52 52 Z" fill="${hc}"/>`:st===2?`<circle cx="32" cy="30" r="23" fill="${hc}"/>`:st===3?`<circle cx="32" cy="10" r="7" fill="${hc}"/>`:'';
+  const top=st===0||st===3?`<path d="M14 34 Q13 14 32 14 Q51 14 50 34 Q46 22 32 21 Q18 22 14 34Z" fill="${hc}"/>`:st===1?`<path d="M14 34 Q14 16 32 15 Q50 16 50 34 Q44 22 32 22 Q20 22 14 34Z" fill="${hc}"/>`
+    :st===4?`<path d="M14 32 L16 18 L22 24 L26 12 L32 21 L38 11 L42 23 L48 17 L50 32 Q44 23 32 23 Q20 23 14 32Z" fill="${hc}"/>`:st===5?`<path d="M13 30 Q14 12 32 12 Q50 12 51 30Z" fill="#2f6fd6"/><rect x="30" y="26" width="26" height="5" rx="2.5" fill="#2f6fd6"/>`:'';
+  return `<svg class="av" viewBox="0 0 64 64" width="${sz||40}" height="${sz||40}" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="${bg}"/>${back}<circle cx="32" cy="36" r="18" fill="${sk}"/>${top}
+    <circle cx="25" cy="37" r="2.4" fill="#222"/><circle cx="39" cy="37" r="2.4" fill="#222"/><circle cx="22" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/><circle cx="42" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/>
+    <path d="M26 44 Q32 49 38 44" stroke="#5a2b1c" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`}
+const myAv=()=>S.av!=null?avatar(S.av,22):'';
+// QR-Codes: Bibliothek liegt im Repo (MIT, Kazuhiko Arase)
+async function qrSvg(txt){if(!window.qrcode)await loadScript('assets/vendor/qrcode.js');const q=qrcode(0,'M');q.addData(txt);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})}
+const joinUrl=(code,pw,nr)=>location.origin+location.pathname+'?j='+code+'-'+encodeURIComponent(pw)+'-'+nr+(QS.has('live')?'&live=1':'');
+async function fillQR(){for(const el of document.querySelectorAll('[data-qr]:not([data-done])')){el.dataset.done=1;try{el.innerHTML=await qrSvg(el.dataset.qr)}catch(e){el.textContent='QR nicht verfügbar'}}}
 
 /* =====================================================================
    STUNDENBAUKASTEN: Stunden nach dem Phasen-Gerüst planen und an der Tafel abspielen
@@ -1827,6 +1862,7 @@ const TKEY='elio-teacher';
 let TD;try{TD=Object.assign({obs:{},nicks:{}},JSON.parse(localStorage.getItem(TKEY)||'{}'))}catch(e){TD={obs:{},nicks:{}}}
 function tsave(){try{localStorage.setItem(TKEY,JSON.stringify(TD))}catch(e){}}
 const nickOf=k=>(ROSTER[k]&&ROSTER[k].nick)||TD.nicks[k]||'';
+const avOf=k=>{const a=ROSTER[k]&&ROSTER[k].av!=null?ROSTER[k].av:(TD.avs||{})[k];return a!=null?avatar(a,30):''};
 const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)};
 const today=()=>new Date().toISOString().slice(0,10);
 
@@ -1935,7 +1971,7 @@ VIEWS.obs=()=>{
   <span class="label">${esc(className())} · tippe auf einen Schüler</span>
   <div class="pupils">${Array.from({length:S.classSize},(_,i)=>{const k=i+1,L=TD.obs[k]||[];
     return `<button class="pupil" data-act="obs-p" data-n="${k}"><span class="row" style="justify-content:space-between"><b>${k}</b>${on.includes(k)?'<span class="dot" title="online"></span>':''}</span>
-      <small>${esc(nickOf(k)||'noch kein Spitzname')}</small><small>${L.length?`${L.length} Notiz${L.length>1?'en':''} · zuletzt ${new Date(L[0].t).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}`:'keine Notizen'}</small></button>`}).join('')}</div>`;
+      <small>${esc(nickOf(k)||'noch kein Vorname')}</small><small>${L.length?`${L.length} Notiz${L.length>1?'en':''} · zuletzt ${new Date(L[0].t).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}`:'keine Notizen'}</small></button>`}).join('')}</div>`;
 };
 VIEWS['obs-p']=()=>{
   const k=V.n,L=TD.obs[k]||[],cat=V.cat||'Mitarbeit',sub=V.subj||curSubj();
@@ -2575,7 +2611,7 @@ VIEWS.klassen=()=>{
       ${(Cloud.lead||[]).includes(c.id)?'<span class="chip" style="margin-left:8px">Klassenleitung</span>':''}</div>
       <div class="row"><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls!==c.id?`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`:'<span class="chip">aktiv</span>'}</div></div>
       <div class="acc"><span class="label">Schüler-Zugang</span>${ac?`<span>Klassencode <b>${esc(ac.join_code)}</b></span><span>Passwort <b>${esc(ac.pw)}</b></span>`:'<span class="muted" style="font-weight:700">noch keiner</span>'}
-        ${lead?`<button class="btn sm" data-act="kl-access" data-id="${c.id}">${ac?'Neu erzeugen':'Zugang erzeugen'}</button>`:''}</div>
+        ${lead?`<button class="btn sm" data-act="kl-access" data-id="${c.id}">${ac?'Neu erzeugen':'Zugang erzeugen'}</button>`:''}${ac?`<button class="btn sm pri" data-act="kl-cards" data-id="${c.id}">🔳 QR-Karten für alle SuS</button>`:''}</div>
       <div style="margin-top:12px"><span class="label">Lehrkräfte</span><div class="row" style="margin-top:6px">${ts.map(x=>`<span class="chip">${x.lead?'★ ':''}${esc(pName(K.profiles,x.teacher_id))}${lead&&x.teacher_id!==uid&&!x.lead?` <button class="btn sm" data-act="kl-rm" data-id="${c.id}" data-t="${x.teacher_id}" aria-label="Entfernen" style="min-height:26px;padding:0 8px">✕</button>`:''}</span>`).join('')}</div>
         ${lead?`<div class="row" style="margin-top:8px"><select id="kl-add-${c.id}" style="width:auto"><option value="">Lehrkraft dazuholen …</option>${ok.filter(p=>!ts.some(x=>x.teacher_id===p.id)).map(p=>`<option value="${p.id}">${esc(p.name||p.email)}</option>`).join('')}</select><button class="btn sm" data-act="kl-add" data-id="${c.id}">Dazuholen</button></div>`:''}</div>
       ${lead?`<details style="margin-top:12px"><summary style="font-weight:800;cursor:pointer">Klasse bearbeiten</summary><div class="row" style="margin-top:8px">
@@ -2585,6 +2621,19 @@ VIEWS.klassen=()=>{
   <p class="muted" style="margin-top:14px;font-size:.9rem">Die SuS wählen auf der Startseite „Schüler/in“ und geben Klassencode und Passwort ein. Den Stundenplan können alle Lehrkräfte der Klasse ändern.</p>`;
 };
 
+VIEWS['kl-cards']=()=>{
+  if(!K.ok){klLoad();return '<div class="empty">Lädt …</div>'}
+  const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid),ac=c&&K.access.find(a=>a.class_id===c.id);
+  if(!c||!ac)return '<div class="empty">Für diese Klasse gibt es noch keinen Schüler-Zugang.</div>';
+  const n=c.size||24,nrs=Array.from({length:n},(_,i)=>i+1);
+  V.list=`ELIO · Klasse ${c.name} · persönliche Zugänge\n`+nrs.map(k=>`Nr. ${k}: ${joinUrl(ac.join_code,ac.pw,k)}`).join('\n');
+  setTimeout(fillQR,0);
+  return `<div class="st-head noprint"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">QR-Karten · ${esc(c.name)}</h1>
+      <button class="btn pri" data-act="kl-print">🖨️ Drucken</button><button class="btn" data-act="kl-copy">🔗 Links kopieren</button>${V.copied===1?'<span class="chip">Kopiert</span>':V.copied===2?'<span class="chip">Kopieren ging nicht</span>':''}</div>
+    <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und gibt nur noch den Vornamen ein. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
+    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k))}"></div>
+      <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
+};
 /* --- Klassen-Stundenplan (alle Lehrkräfte der Klasse) --- */
 const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
 async function cttLoad(cid){
@@ -2747,12 +2796,16 @@ document.addEventListener('click',e=>{
     case 'st-step':V.step=d.step;render();break;
     case 'st-school':V.school=d.id;V.step='class';render();break;
     case 'st-class':V.cls=d.id;V.step='role';render();break;
-    case 'r-nr':V.nr=+d.n;V.step='nick';V.sugg=suggestNicks();render();break;
+    case 'r-nr':V.nr=+d.n;V.step='nick';render();break;
+    case 'av-pick':V.av=+d.i;document.querySelectorAll('.avpick button').forEach(b=>b.classList.toggle('on',b.dataset.i===d.i));break;
+    case 'kl-cards':go('kl-cards',{cid:d.id});break;
+    case 'kl-print':window.print();break;
+    case 'kl-copy':{const t=V.list||'';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{V.copied=1;render()},()=>{V.copied=2;render()});break}
     case 'nick-sugg':{const i=$('#nick');i.value=d.n;i.focus();break}
     case 'nick-more':V.sugg=suggestNicks();render();break;
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
-      if(!nk||nk.length<3){$('#nick-err').textContent='Dein Nickname braucht 3 bis 16 Zeichen (Buchstaben, Zahlen, - oder _).';break}
-      setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      if(!nk||nk.length<2){$('#nick-err').textContent='Bitte gib deinen Vornamen ein.';break}
+      setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.av=V.av;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'role-reset':Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
@@ -2763,14 +2816,11 @@ document.addEventListener('click',e=>{
     case 'mt':MINI=d.m;renderMini(true);break;
     case 'tdash':go('tdash');break;
     case 'login':V.err='';go('login',d.admin?{asAdmin:1}:{});break;
-    case 'join':{const code=($('#j-code').value||'').replace(/\D/g,''),pw=($('#j-pw').value||'').trim();
+    case 'join':{const raw=($('#j-code').value||'').trim(),m=raw.match(/^(\d{4,8})-(\w{4,20})-(\d{1,2})$/);
+      if(m){joinClass(m[1],m[2],+m[3]);break}
+      const code=raw.replace(/\D/g,''),pw=($('#j-pw').value||'').trim();
       if(code.length<4||pw.length<4){$('#j-err').textContent='Bitte Klassencode und Passwort eingeben.';break}
-      (async()=>{try{const sb=await sbClient();const r=await q(sb.rpc('join_class',{p_code:code,p_pw:pw}));const c=r&&r[0];
-        if(!c){V.err='Klassencode oder Passwort stimmt nicht. Frag deine Lehrkraft.';render();return}
-        let sc=SCHOOLS.find(x=>x.id===c.school_id);if(!sc){sc={id:c.school_id,name:c.school_name,place:'',classes:[]};SCHOOLS.push(sc)}
-        if(!sc.classes.some(x=>x.id===c.id))sc.classes.push({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code});
-        V.err='';V.school=c.school_id;V.cls=c.id;V.only='student';V.step='role';render()}
-        catch(e){V.err='ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';render()}})();break}
+      joinClass(code,pw,0);break}
     case 'lg-klassen':S.role='teacher';saveRole();if(!CS)initTeacher();K.ok=false;K.msg='';go('klassen',{newCls:!Cloud.myClasses.length});break;
     case 'klassen':K.ok=false;K.msg='';go('klassen');break;
     case 'kl-new-open':V.newCls=true;render();break;
@@ -2983,6 +3033,8 @@ $('#star-ico').innerHTML=STAR;
 if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};Live.start(S.code);libLoad();
   document.addEventListener('dblclick',e=>{if(e.target.closest('button'))return;try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}});
   setTimeout(()=>{const h=document.createElement('div');h.className='bw-hint';h.textContent='Fenster auf den Beamer ziehen · Doppelklick = Vollbild';document.body.appendChild(h);setTimeout(()=>{h.style.opacity=0;setTimeout(()=>h.remove(),700)},6000)},300)}
+else if(QS.get('j')&&CLOUD){const m=QS.get('j').match(/^(\d{4,8})-(\w{4,20})-(\d{1,2})$/);try{history.replaceState(null,'',location.pathname+(QS.has('live')?'?live=1':''))}catch(e){}
+  V={name:'role',step:'join'};if(m){V.err='';setTimeout(()=>joinClass(m[1],m[2],+m[3]),0)}else V.err='Dieser QR-Code ist ungültig. Frag deine Lehrkraft.'}
 else if(!S.role)V={name:'role'};
 else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
 hdr();tickClock();render();
