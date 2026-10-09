@@ -567,6 +567,7 @@ body.boardwin .bw{height:100vh}
 .qz-o b{background:rgba(255,255,255,.25);border-radius:.3em;padding:0 .4em;font-family:var(--f-display)}.qz-o span{flex:1}.qz-o em{font-style:normal;font-family:var(--f-display);font-size:1.3em;position:relative}
 .qz-o i{position:absolute;left:0;bottom:0;height:.3em;background:rgba(255,255,255,.75)}.qz-o u{text-decoration:none;font-size:1.4em}
 .qz-o.no{opacity:.35}.qz-o.ok{outline:.2em solid #172B31;outline-offset:-.2em}
+iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:14px;background:#000}.bw iframe.emb{max-height:60cqh;width:auto;height:60cqh}.vbody iframe.emb{max-height:75vh}
 .qz-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .qz-pick button{background:var(--qc);color:#fff;border:4px solid transparent;border-radius:16px;min-height:84px;font:inherit;font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;padding:10px;text-align:left;cursor:pointer}
 .qz-pick button b{font-family:var(--f-display);font-size:1.6rem}.qz-pick button.on{border-color:#172B31;box-shadow:inset 0 0 0 3px #fff}
@@ -1626,7 +1627,7 @@ function stageOf(){
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
     sf:p.sf||'',min:+p.min||0,tool:t.id?{...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
 }
-const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
+const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
@@ -1634,6 +1635,7 @@ function boardHTML(R,mini){
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
   if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
+  else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">📺 Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}"></div>`}</div>`;
   else if(R.game&&GAME_INFO[R.game.g])main=`<div class="slide"><span class="gi">${GAME_INFO[R.game.g].icon}</span><h1>${esc(GAME_INFO[R.game.g].name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p></div>`;
   else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
@@ -1861,7 +1863,7 @@ function quizStart(T,p){CS.poll={id:'p'+Date.now(),type:'quiz',q:T.q||p.name,opt
 const curTool=()=>{const L=CS&&CS.lesson&&lessonById(CS.lesson.id),p=L&&L.phases[CS.step];return p&&p.tool?{p,t:p.tool}:null};
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
-  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
+  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;CS.media=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
   CS.phase={name:p.name,txt:p.txt||p.goal||'',look:p.act==='look'||p.act==='mission',go:p.act==='goto'?p.target:null,sf:p.sf,method:p.method};
   CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;
   const m=+p.min||0;CS.timer=m?{run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000}:{run:false,total:300,left:300,endsAt:0};
@@ -1954,9 +1956,21 @@ VIEWS.library=()=>{
     <input id="lib-q" type="search" placeholder="Suchen …" value="${esc(V.q||'')}" style="min-width:200px;width:auto"></div>
   <div id="lib-list">${libListHTML()}</div>`;
 };
+// Links, die direkt in ELIO laufen (YouTube & Co.), statt in einem neuen Tab
+function embedUrl(u){try{const x=new URL(u),h=x.hostname.replace(/^www\.|^m\./,'');let id='';
+  if(h==='youtu.be')id=x.pathname.slice(1);else if(h.endsWith('youtube.com')||h==='youtube-nocookie.com'){id=x.searchParams.get('v')||(x.pathname.match(/\/(?:embed|shorts|live)\/([\w-]{6,})/)||[])[1]||''}
+  if(id){const t=parseInt(x.searchParams.get('t')||x.searchParams.get('start')||'0',10)||0;return 'https://www.youtube-nocookie.com/embed/'+id.replace(/[^\w-]/g,'')+'?rel=0&modestbranding=1'+(t?'&start='+t:'')}
+  if(h==='vimeo.com'&&/^\/\d+/.test(x.pathname))return 'https://player.vimeo.com/video/'+x.pathname.match(/\d+/)[0];
+  if(h==='learningapps.org'){const v=x.searchParams.get('v')||(x.pathname.match(/\/(\w{6,})/)||[])[1];return v?'https://learningapps.org/watch?v='+v:u}
+  if(h==='docs.google.com'&&/\/presentation\//.test(x.pathname))return u.replace(/\/(edit|view)[^]*$/,'/embed');
+  if(/(^|\.)(geogebra\.org|h5p\.com|h5p\.org|padlet\.com|canva\.com|bookwidgets\.com|wordwall\.net)$/.test(h))return u;
+  return ''}catch(e){return ''}}
+const embedHTML=(m,big)=>{const e=embedUrl(m.url);return e?`<iframe class="emb ${big?'big':''}" src="${esc(e)}" title="${esc(m.name)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`:''};
 async function libView(id){
   const m=libById(id);if(!m)return;
-  if(m.kind==='link'){window.open(m.url,'_blank','noopener');return}
+  if(m.kind==='link'){const e=embedHTML(m,1);if(!e){window.open(m.url,'_blank','noopener');return}
+    showOv(`<div class="box viewer" role="dialog" aria-label="${esc(m.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${matIcon(m)} ${esc(m.name)}</b>
+      <div class="row"><a class="btn sm" href="${esc(m.url)}" target="_blank" rel="noopener">Im Browser öffnen</a><button class="btn sm pri" data-act="close-ov">Schließen</button></div></div><div class="vbody">${e}</div></div>`);return}
   const b=await idb('blob','readonly',st=>st.get(id));if(!b)return;
   if(!canShow(m)){dl(b,m.name);return}
   const u=URL.createObjectURL(b),t=m.mime||'';
@@ -1967,7 +1981,7 @@ async function libView(id){
 async function libDownload(id){const m=libById(id);if(!m||m.kind!=='file')return;const b=await idb('blob','readonly',st=>st.get(id));if(b)dl(b,m.name)}
 function tafelMats(L){
   if(!L)return '';const p=L.phases[CS.step];const ms=((p&&p.mats)||[]).map(libById).filter(Boolean);if(!ms.length)return '';
-  return `<div class="row" style="margin-top:10px"><span class="label">Material</span>${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`;
+  return `<div class="row" style="margin-top:10px"><span class="label">Material</span>${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${(m.kind==='link'?embedUrl(m.url):canShow(m))?`<button class="btn sm ${CS.media&&CS.media.id===m.id?'on':''}" data-act="t-media" data-id="${m.id}">📺 ${CS.media&&CS.media.id===m.id?'Von der Tafel nehmen':'An der Tafel zeigen'}</button>`:''}${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`;
 }
 function phaseMatEditor(p,i,L){
   const ms=(p.mats||[]).map(libById).filter(Boolean);
@@ -2408,7 +2422,7 @@ async function fillMedia(){
   const el=$('#slide-media');if(!el||el.dataset.done)return;el.dataset.done=1;
   if(!LIB.ready)await libLoad();
   const m=libById(el.dataset.id);if(!m){el.innerHTML='<p class="muted">Material nicht gefunden (liegt es auf diesem Gerät?).</p>';return}
-  if(m.kind==='link'){el.innerHTML=`<button class="btn pri" style="font-size:1.4rem" data-act="lib-view" data-id="${m.id}">🔗 ${esc(m.name)} öffnen</button>`;return}
+  if(m.kind==='link'){el.innerHTML=embedHTML(m)||`<button class="btn pri" style="font-size:1.4rem" data-act="lib-view" data-id="${m.id}">🔗 ${esc(m.name)} öffnen</button>`;return}
   const b=await idb('blob','readonly',st=>st.get(m.id));if(!b||!$('#slide-media'))return;
   const u=URL.createObjectURL(b),t=m.mime||'';
   el.innerHTML=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
@@ -2421,7 +2435,7 @@ VIEWS.present=()=>{
   return `<div class="pres s-${L.subject}">
     <div class="pres-top"><button class="btn sm" data-act="tafel">Steuerpult</button><button class="btn sm" data-act="board-open" title="Fenster für den Beamer / 2. Bildschirm">📺 Tafel-Fenster</button><div class="strip">${L.phases.map((x,j)=>`<button class="${j===i?'on':j<i?'past':''}" data-act="l-go" data-i="${j}">${j+1}. ${esc(x.name)}</button>`).join('')}</div>
       <span class="chip">${CS?online().length:0} online</span><span class="ptimer" id="ptimer">${fmt(timerLeft(CS.timer))}</span></div>
-    <div class="pres-main">${toolStage(p,L)}${ms.length?`<div class="row" style="justify-content:center;margin-top:14px">${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`:''}</div>
+    <div class="pres-main">${toolStage(p,L)}${ms.length?`<div class="row" style="justify-content:center;margin-top:14px">${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${(m.kind==='link'?embedUrl(m.url):canShow(m))?`<button class="btn sm ${CS.media&&CS.media.id===m.id?'on':''}" data-act="t-media" data-id="${m.id}">📺 ${CS.media&&CS.media.id===m.id?'Von der Tafel nehmen':'An der Tafel zeigen'}</button>`:''}${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`:''}</div>
     <div class="pres-nav"><button class="btn big" data-act="l-go" data-i="${i-1}" ${i<=0?'disabled':''} aria-label="Vorherige Phase">◀</button>
       <div class="pn"><b>${i+1}/${n} · ${esc(p.name||'')}</b><small>${esc(p.sf||'')}${p.method?' · '+esc(p.method):''} · ${+p.min||0} min</small></div>
       ${i>=n-1?'<button class="btn big red" data-act="l-stop" style="font-size:1.2rem">Ende</button>':`<button class="btn big pri" data-act="l-go" data-i="${i+1}" aria-label="Nächste Phase">▶</button>`}</div></div>`;
@@ -2951,6 +2965,7 @@ document.addEventListener('click',e=>{
     case 'lib-del-no':V.ldel=null;$('#lib-list').innerHTML=libListHTML();break;
     case 'lib-del-yes':V.ldel=null;libDel(d.id);break;
     case 'lib-pick':libPicker();break;
+    case 't-media':{const m=libById(d.id);if(m&&CS){CS.media=CS.media&&CS.media.id===m.id?null:{id:m.id,name:m.name,at:Date.now()};pushCS();render()}break}
     case 't-share':{const m=libById(d.id);if(m&&m.kind==='link'&&CS){CS.share={id:m.id,name:m.name,url:m.url,at:Date.now()};pushCS();$('#ov').hidden=true;render()}break}
     case 't-share-end':if(CS){CS.share=null;pushCS();render()}break;
     case 'share-ok':if(RCS&&RCS.share){S.shareSeen=RCS.share.at;save();liveOverlay()}break;
