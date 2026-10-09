@@ -178,6 +178,13 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .mod-card svg{flex:none}
 .mod-card .t{flex:1;min-width:0}
 .mod-card b{font-family:var(--f-display);font-size:1.3rem;display:block}
+.mods{display:grid;gap:10px}.mod-card .mi{font-size:2.2rem;flex:none}.mod-card.locked{opacity:.55;cursor:default;box-shadow:none}.mod-card .btn{flex:none}
+.sub-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.helpbox{margin-top:10px;border:3px dashed #d98a00;border-radius:14px;padding:10px 14px;background:#fffaf0}.helpbox>.l{color:#a86500;display:block;margin-bottom:4px}
+.hw-form{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:10px;padding:10px;border-radius:12px;background:var(--bg,#f4f6fb)}.hw-form label{display:grid;gap:4px;font-weight:700;font-size:.9rem}
+.mod-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;margin-top:12px}@media(max-width:820px){.mod-grid{grid-template-columns:1fr}}
+.page.sub header{margin-bottom:0}.station h2{font-size:1.25rem;margin-bottom:4px}.station ul{margin:8px 0 8px 18px;display:grid;gap:6px}
+.fl{border-top:2px solid var(--line);padding:10px 0}.fl p{margin:4px 0 6px}.fl-a{background:#e3f5e6;color:#14532d;border-radius:10px;padding:8px 10px;margin-top:4px}.fl.done{opacity:.8}
 
 .st-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .goal{display:flex;gap:10px;align-items:center;background:var(--ok-bg);border-radius:14px;padding:10px 14px;font-weight:800;margin-bottom:16px}
@@ -788,7 +795,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
     <button class="tv" data-act="tplan" data-nav="tplan" id="nav-lessons" hidden>Planung</button>
     <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
-    <button class="tv" data-act="theft" data-nav="theft" hidden>Regelheft</button>
+    <button class="tv" data-act="tdesk" data-nav="tdesk" hidden>Schreibtisch</button>
     <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
     <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
@@ -967,7 +974,7 @@ let S;
 try{S=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('anton-english-v1')||'{}'))}catch(e){S=def()}
 const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
-const MINE=['stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice'];
+const MINE=['stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','fleiss'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
 const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
 function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
@@ -1128,7 +1135,7 @@ function render(){
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
   kfAnimate();
@@ -1163,7 +1170,7 @@ VIEWS.dash=()=>{
     :`<div class="today">${PERIODS.map((p,i)=>{const s=WEEK[dayIdx][i];if(!s)return '';
       const st=toMin(p[1]),en=toMin(p[2]),cls=n.min>=en?'past':(n.min>=st?'cur':'');
       return `<div class="slot-row s-${s} ${cls}"><span class="tm">${p[0]}. ${p[1]}–${p[2]}</span>${badge(s)}<b>${SUBJECTS[s].name}</b></div>`}).join('')}</div>`;
-  const open=HOMEWORK.filter(h=>!S.hwDone[h.id]).sort((a,b)=>a.due.localeCompare(b.due));
+  const open=hwAll().filter(h=>!S.hwDone[h.id]).sort((a,b)=>a.due.localeCompare(b.due));
   const L=lvlInfo(),planTxt=sl.kind==='lesson'?`Jetzt: ${SUBJECTS[sl.l.s].name}`:sl.next?`Als Nächstes: ${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'Deine Woche im Überblick';
   const areas=`<div class="areas">
       <button class="area a-plan" data-act="week"><span class="ai">🗓️</span><b>Stundenplan</b><small>${esc(planTxt)}</small></button>
@@ -1192,7 +1199,7 @@ VIEWS.desk=()=>{
   const ks=[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
   const days=Object.keys(S.diary||{}).length+(S.journal||[]).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch</h1>${S.av!=null?avatar(S.av,44):''}</div>
-  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=HOMEWORK.filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody"><b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button></div>
   <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
@@ -1207,7 +1214,7 @@ function liveStrip(){
 }
 function subjTile(k){
   const list=heftAll(k),copied=list.filter(e=>S.copied[e.id]).length;
-  const hw=HOMEWORK.filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+  const hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
   let pct=list.length?copied/list.length*100:0,meta=`${list.length} Hefteinträge`;
   if(k==='E'){const d=STATIONS.filter(s=>S.done[s.id]).length;pct=d/STATIONS.length*100;meta=`Lernleiter ${d}/${STATIONS.length} · ${list.length} Einträge`}
   return `<button class="subj s-${k}" data-act="subject" data-s="${k}"><div class="row" style="gap:10px">${badge(k)}<b>${SUBJECTS[k].name}</b></div>
@@ -1216,7 +1223,7 @@ function subjTile(k){
 function hwRow(h){
   const [c,l]=dueLabel(h.due),done=!!S.hwDone[h.id];
   return `<div class="hw s-${h.s} ${done?'done':''}">${badge(h.s)}<div class="tx"><b>${SUBJECTS[h.s].name}</b>${esc(h.task)}
-    <div class="row" style="gap:6px;margin-top:4px"><span class="due ${done?'':c}">${l}</span>${h.ex?'<span class="chip ex">Beispiel</span>':''}</div></div>
+    <div class="row" style="gap:6px;margin-top:4px"><span class="due ${done?'':c}">${l}</span>${h.ex?'<span class="chip ex">Beispiel</span>':''}${h.mode==='hand'?'<span class="chip">✍️ von Hand ins Heft</span>':''}${h.eid&&ubFind(h.eid)?`<button class="btn sm pri" data-act="ub-go" data-id="${esc(h.eid)}">▶ Übung</button>`:''}</div></div>
     <button class="check ${done?'on':''}" data-act="hw" data-id="${h.id}" aria-label="Erledigt">${done?'✓':''}</button></div>`;
 }
 
@@ -1332,7 +1339,7 @@ function balGuess(l){
   render();
 }
 VIEWS.homework=()=>{
-  const all=HOMEWORK.slice().sort((a,b)=>a.due.localeCompare(b.due));
+  const all=hwAll().slice().sort((a,b)=>a.due.localeCompare(b.due));
   const open=all.filter(h=>!S.hwDone[h.id]),done=all.filter(h=>S.hwDone[h.id]);
   return `<h1 style="margin-bottom:14px">Hausaufgaben</h1>
     <span class="label">Offen · ${open.length}</span>
@@ -1354,12 +1361,13 @@ function weekView(){
 VIEWS.subject=()=>{
   const k=V.s,sub=SUBJECTS[k],tab=V.tab||(k==='E'&&!V.desk?'module':'heft');
   const entries=heftAll(k).sort(heftSort);
-  const hws=HOMEWORK.filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+  const hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   let body='';
   if(tab==='heft')body=entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
     :`<div class="empty">Noch keine Einträge in ${sub.name}. Sobald es einen Tafelanschrieb gibt, erscheint er hier.</div>`;
   if(tab==='hw')body=hws.length?`<div class="hw-list">${hws.map(hwRow).join('')}</div>`:'<div class="empty">Keine Hausaufgaben in diesem Fach.</div>';
-  if(tab==='module')body=k==='E'?`<button class="mod-card" data-act="module">${elo('happy',64)}<span class="t"><span class="label">Lernleiter · 7 Stufen</span><b>Shopping in London</b>
+  if(tab==='module'&&modChs(k).length)body=modList(k);
+  else if(tab==='module')body=k==='E'?`<button class="mod-card" data-act="module">${elo('happy',64)}<span class="t"><span class="label">Lernleiter · 7 Stufen</span><b>Shopping in London</b>
       <span class="muted">${STATIONS.filter(s=>S.done[s.id]).length} von ${STATIONS.length} Stufen geschafft</span></span><span class="btn pri">Öffnen</span></button>`
     :`<div class="empty">Für ${sub.name} gibt es noch keine Lernmodule.${k==='M'||k==='K'?' Kommt als Nächstes!':''}</div>`;
   if(tab==='module'&&GAMES[k])body+=`<button class="mod-card" style="margin-top:12px" data-act="practice" data-s="${k}"><span style="font-size:2.6rem">🎮</span><span class="t"><span class="label">Üben</span><b>Lernspiele in ${sub.name}</b><span class="muted">Memory, Wortsalat, Ballon-Rätsel</span></span><span class="btn">Spielen</span></button>`;
@@ -1384,7 +1392,7 @@ function heftBlocks(t){const out=[];let list=null,tab=null;
     else if(/^(richtig|✓)\s*:?/i.test(l))out.push(['yes',esc(l.replace(/^(richtig|✓)\s*:?\s*/i,''))]);
     else out.push(['p',esc(l)])});
   return out}
-const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,date:e.date,o:e.o,title:e.title,blocks:heftBlocks(e.text)})),...((S.heftRecv||[]).some(e=>e.s===k)?[]:(HEFT[k]||[]))];
+const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,s:e.s,date:e.date,o:e.o,title:e.title,ch:e.ch,help:e.help,ub:e.ub,blocks:heftBlocks(e.text)})),...((S.heftRecv||[]).some(e=>e.s===k)?[]:(HEFT[k]||[]))];
 const heftSort=(a,b)=>a.o!=null&&b.o!=null?a.o-b.o:a.o!=null?-1:b.o!=null?1:b.date.localeCompare(a.date);
 function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
@@ -1409,7 +1417,7 @@ function heftPage(e){
   }return ''};
   const c=!!S.copied[e.id];
   return `<article class="page"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span></span></header>
-    ${heftBody(e.blocks)}
+    ${heftBody(e.blocks)}${subExtras(e)}
     <footer><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button></footer></article>`;
 }
 
@@ -1683,7 +1691,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
+function pushCS(){if(!CS)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -1835,7 +1843,7 @@ setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
 let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;
-  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length).join();if(hs!==S.heftSig){S.heftRecv=p.heft;S.heftSig=hs;save();if(['desk','subject','dash'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();
+  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length+':'+(e.help||'').length).join()+JSON.stringify([p.hw,p.mods,p.modx&&Object.keys(p.modx)]);if(hs!==S.heftSig){S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.heftSig=hs;save();if(['desk','subject','dash','homework','mod'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
@@ -2652,7 +2660,7 @@ Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt
 const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
 function akStart(G){if(!AK.G||AK.G.at!==G.at){AK.G=G;AK.st=AKT[G.g].init(G.data)}}
 function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Kein Spiel aktiv.</div>';const s=AK.st;
-  const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}</div>`;
+  const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
   return `<div class="ak akg-${G.g}">${head}${s.win?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`:''}${A.view(G.data,s)}</div>`}
 VIEWS.akt=()=>akHTML();
 VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein Profil</h1><section class="panel" style="max-width:560px">
@@ -2665,7 +2673,7 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
     <p class="err" id="me-err"></p>${V.ok?'<p class="saved">Gespeichert.</p>':''}<div class="row" style="margin-top:14px"><button class="btn ok" data-act="me-save">Speichern</button><button class="btn red" data-act="role-reset">Abmelden</button></div></section>`};
 document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.cw;if(!k||!AK.st)return;const v=e.target.value.toUpperCase().replace(/[^A-ZÄÖÜ]/g,'').slice(-1);e.target.value=v;AK.st.v[k]=v;AK.st.chk=false;
   if(v){const [r,c]=k.split(',').map(Number);const nx=document.querySelector(`[data-cw="${r},${c+1}"]`)||document.querySelector(`[data-cw="${r+1},${c}"]`);if(nx)nx.focus()}});
-function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}}render()}
+function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}if(G.eid)ubDoneMark(G.eid)}render()}
 
 /* --- Lehrer-Stundenplan --- */
 function ttDefault(){const t={};WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c:'7bG'}}));return t}
@@ -3186,16 +3194,74 @@ VIEWS['kl-cards']=()=>{
     <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
-const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o})=>({id,s,title,text,date,o}));
-async function heftLoadPlan(){try{const r=await fetch('assets/heft/mathe7.json');const L=await r.json();TD.heft=TD.heft||[];let n=0;
+const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o,ch,help,ub})=>({id,s,title,text,date,o,ch,help,ub}));
+async function heftLoadPlan(){try{const [L,M]=await Promise.all(['mathe7','mathe7_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
   let up=0;L.forEach((x,k)=>{const id='m7-'+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
-    // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat
-    if(o){if(o.text!==x.text&&x.text.startsWith(o.text.trim())){o.text=x.text;up++}return}TD.heft.push({id,s:'M',title:x.title,text:x.text,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
-  tsave();if(up&&CS)pushCS();V.msg=n?n+' Einträge geladen. Sie sind noch nicht bei den SuS, du veröffentlichst sie Stück für Stück.':up?up+' Einträge auf die neue Fassung gebracht (mit Kontrasten und typischen Fehlern).':'Der Jahresplan ist schon geladen.'}catch(e){V.msg='Laden hat nicht geklappt.'}render()}
+    // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
+    if(o){let c=0;const ot=o.text.trim();if(ot!==x.text&&(x.text.startsWith(ot)||ot.startsWith(x.text.trim()))){o.text=x.text;c=1}
+      if(o.help!==x.help||JSON.stringify(o.ub)!==JSON.stringify(x.ub)||o.ch!==x.ch){o.help=x.help;o.ub=x.ub;o.ch=x.ch;c=1}up+=c;return}
+    TD.heft.push({id,s:'M',title:x.title,text:x.text,help:x.help,ub:x.ub,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
+  tsave();if(CS)pushCS();V.msg=n?n+' Einträge in 8 Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':'Der Jahresplan ist schon geladen.'}catch(e){V.msg='Laden hat nicht geklappt.'}render()}
+/* ---------- Module: Jahresplan-Kapitel mit Unterkapiteln, Hilfestation und Fleiß-Station ---------- */
+const tHeft=k=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&(!k||e.s===k));
+function hwAll(){if(S.role==='teacher')return (TD.hw||[]).filter(h=>h.cls===S.cls);return Array.isArray(S.hwRecv)&&S.hwRecv.length?S.hwRecv:HOMEWORK}
+function ubFind(id){return S.role==='teacher'?(TD.heft||[]).find(e=>e.id===id):(S.heftRecv||[]).find(e=>e.id===id)}
+function ubDoneMark(id){if(S.role!=='student')return;S.ubDone=S.ubDone||{};S.ubDone[id]=1;
+  hwAll().filter(h=>h.eid===id&&h.mode!=='hand'&&!S.hwDone[h.id]).forEach(h=>{S.hwDone[h.id]=1;earnOnce('hw_'+h.id)});save()}
+// Kapitel eines Fachs in Jahresplan-Reihenfolge; on = mindestens ein Unterkapitel bei den SuS
+function modChs(k){if(S.role==='teacher'){const es=tHeft(k).filter(e=>e.ch).sort(heftSort),chs=[...new Set(es.map(e=>e.ch))];
+    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>e.pub!==false).length;return {ch,n:x.length,on:n>0,all:n===x.length}})}
+  if(Array.isArray(S.modsRecv))return S.modsRecv.filter(m=>m.s===k);
+  return [...new Set(heftAll(k).filter(e=>e.ch).sort(heftSort).map(e=>e.ch))].map(ch=>({ch,on:true}))}
+function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch).map(e=>e.s))];CS.mods=[];CS.modx={};
+  ks.forEach(k=>modChs(k).forEach(m=>{CS.mods.push({s:k,ch:m.ch,on:m.on,n:m.n});if(m.on&&TD.modx&&TD.modx[m.ch])CS.modx[m.ch]=TD.modx[m.ch]}));
+  CS.hw=(TD.hw||[]).filter(h=>h.cls===S.cls)}
+function modEntries(k,ch){return (S.role==='teacher'?tHeft(k).map(e=>({...e,blocks:heftBlocks(e.text)})):heftAll(k)).filter(e=>e.ch===ch).sort(heftSort)}
+const modX=ch=>(S.role==='teacher'?(TD.modx||{}):(S.modxRecv||{}))[ch]||{tipps:[],fleiss:[]};
+function modList(k){const T=S.role==='teacher';
+  return `<div class="mods">${modChs(k).map(m=>{const es=m.on||T?modEntries(k,m.ch):[],done=es.filter(e=>S.ubDone&&S.ubDone[e.id]).length;
+    return `<div class="mod-card ${m.on||T?'':'locked'}" ${m.on||T?`data-act="mod-open" data-s="${k}" data-ch="${esc(m.ch)}" role="button" tabindex="0"`:''}><span class="mi">${m.on?'📗':'🔒'}</span><span class="t"><span class="label">Modul ${esc(m.ch.split(' ')[0])}</span><b>${esc(m.ch.replace(/^\d+\s*/,''))}</b>
+      <span class="muted">${T?`${m.n} Unterkapitel · ${m.all?'freigegeben':m.on?'teilweise freigegeben':'noch gesperrt'}`:m.on?`${es.length} Unterkapitel · ${done} geübt`:'Noch nicht freigegeben'}</span></span>
+      ${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(m.ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(m.ch)}">Freigeben</button>`):''}${m.on||T?'<span class="btn pri">Öffnen</span>':''}</div>`}).join('')}</div>`}
+// Extras pro Unterkapitel: typische Fehler nur auf Knopfdruck, dazu Üben
+function subExtras(e,T){const op=V.op||{},hk='h-'+e.id,done=S.ubDone&&S.ubDone[e.id];
+  if(!e.help&&!e.ub)return '';
+  return `<div class="sub-btns">${e.help?`<button class="btn sm ${op[hk]?'on':''}" data-act="mx-tog" data-k="${hk}">⚠️ Typische Fehler & Hilfen</button>`:''}${e.ub&&AKT[e.ub.t]?`<button class="btn sm pri" data-act="ub-go" data-id="${e.id}">✏️ Üben${done?' ✓':''}</button>`:''}
+    ${T&&e.ub?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}">📺 An der Tafel</button><button class="btn sm ${V.hwf===e.id?'on':''}" data-act="hw-form" data-id="${e.id}">📌 Als Hausaufgabe</button>`:''}</div>
+    ${T&&V.hwf===e.id?`<div class="hw-form"><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label><label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label><button class="btn ok" data-act="hw-add" data-id="${e.id}">Hausaufgabe stellen</button></div>`:''}
+    ${op[hk]?`<div class="helpbox"><b class="l">⚠️ Typische Fehler & Hilfen</b>${heftBody(heftBlocks(e.help))}</div>`:''}`}
+VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=modX(ch),op=V.op||{};
+  const m=modChs(k).find(x=>x.ch===ch)||{},pts=Object.entries(S.fleiss||{}).filter(([q])=>q.startsWith(ch+'#')).reduce((a,[,p])=>a+p,0);
+  const sub=e=>{const hk='e-'+e.id,c=S.ubDone&&S.ubDone[e.id];
+    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?'<span class="chip">Entwurf</span>':'<span class="chip ok">bei den SuS</span>'):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
+      <div class="sub-btns"><button class="btn sm ${op[hk]?'on':''}" data-act="mx-tog" data-k="${hk}">📒 Hefteintrag</button></div>${op[hk]?heftBody(e.blocks):''}${subExtras(e,T)}</article>`};
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">Modul freigeben</button>`):`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
+  ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
+  <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
+  <div style="display:grid;gap:16px;align-content:start">
+    <section class="panel station st-help"><h2>🛟 Hilfestation</h2><p class="muted">So kommst du weiter, wenn es hakt:</p><ul>${(X.tipps||[]).map(t=>{const i=t.indexOf(':');return `<li>${i>0&&i<40?`<b>${esc(t.slice(0,i))}:</b>${esc(t.slice(i+1))}`:esc(t)}</li>`}).join('')}</ul>
+      <p class="muted" style="font-size:.9rem">Bei jedem Unterkapitel findest du außerdem „⚠️ Typische Fehler & Hilfen“.</p></section>
+    <section class="panel station st-fleiss"><h2>💪 Fleiß-Station</h2><p class="muted">Extra-Aufgaben für Schnelle. Jede bringt Fleißpunkte.</p>
+      ${(X.fleiss||[]).map((f,i)=>{const key=ch+'#'+i,ok=S.fleiss&&S.fleiss[key],sh=T||op['f'+i]||ok;
+        return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
+          ${sh?`<div class="fl-a"><b>Lösung:</b> ${esc(f.a)}</div>`:`<button class="btn sm" data-act="mx-tog" data-k="f${i}">Lösung zeigen</button>`}
+          ${!T&&sh&&!ok?`<div class="row" style="margin-top:6px"><button class="btn sm ok" data-act="fl-ok" data-k="${esc(key)}" data-p="${f.p}">Hatte ich richtig (+${f.p})</button><button class="btn sm" data-act="mx-tog" data-k="f${i}">Nochmal probieren</button></div>`:ok?'<span class="chip ok">✓ geschafft</span>':''}</div>`}).join('')||'<div class="empty">Kommt noch.</div>'}</section></div></div>`};
+VIEWS.tdesk=()=>{const ks=[...new Set(['M',...tHeft().map(e=>e.s)])];
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
+  <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
+    return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody"><b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
+    <button class="folder" data-act="theft"><span class="tab"></span><span class="fbody"><b>+ Neuer Eintrag</b><small>Hefteintrag für ein Fach schreiben</small></span></button></div>`};
+VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
+  ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
+  <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
+  ${k==='M'&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade den Jahresplan Mathematik 7, dann erscheinen hier 8 Module mit 34 Unterkapiteln.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan">📚 Jahresplan laden</button></div></section>`:''}
+  <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
+  <h2 style="margin:18px 0 8px">Hausaufgaben · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Hausaufgaben gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
 const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\nAchtung: typischer Fehler\nFalsch: 3x + 5y = 8xy\nRichtig: 3x + 5y bleibt so\n| Spalte | Spalte |';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
-  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Regelheft · ${esc(className())}</h1></div>
+  return `<div class="subj-head"><button class="btn sm" data-act="tdesk">← Schreibtisch</button><h1>Regelheft · ${esc(className())}</h1></div>
   <section class="panel"><span class="label">Neuer Hefteintrag · erscheint im Regelheft aller SuS</span>
     <div class="lgrid" style="margin-top:8px"><label>Fach<select id="hf-s">${Object.keys(SUBJECTS).map(x=>`<option value="${x}" ${x===k?'selected':''}>${SUBJECTS[x].name}</option>`).join('')}</select></label>
       <label>Titel<input id="hf-t" type="text" maxlength="80" placeholder="z. B. Terme vereinfachen"></label>
@@ -3390,7 +3456,22 @@ document.addEventListener('click',e=>{
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
-    case 'theft':go('theft');break;
+    case 'theft':go('theft',{hs:d.s});break;
+    case 'tdesk':go('tdesk');break;
+    case 'tsubj':go('tsubj',{s:d.s});break;
+    case 'mod-open':go('mod',{s:d.s,ch:d.ch,back:V.name==='subject'?{name:'subject',s:V.s,tab:'module',desk:V.desk}:{name:V.name,s:V.s}});break;
+    case 'mod-back':{const b=V.back||{name:S.role==='teacher'?'tdesk':'desk'};go(b.name,b);break}
+    case 'mx-tog':V.op=V.op||{};V.op[d.k]=!V.op[d.k];render();break;
+    case 'ub-go':{const x=ubFind(d.id),A=x&&x.ub&&AKT[x.ub.t];if(!A)break;const back={...V};AK.G=null;akStart({g:x.ub.t,at:'ub-'+x.id,title:'Üben: '+x.title,data:A.parse(x.ub.x),eid:x.id,back});go('akt');break}
+    case 'ub-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'tdesk':'desk');break}
+    case 'ub-tafel':{const x=ubFind(d.id),A=x&&x.ub&&AKT[x.ub.t];if(!A)break;if(!CS)initTeacher();CS.game={g:x.ub.t,at:Date.now(),title:'Üben: '+x.title,data:A.parse(x.ub.x)};pushCS();V.msg='„'+x.title+'“ läuft jetzt an der Tafel und auf den iPads.';render();break}
+    case 'mod-on':case 'mod-off':{const on=d.act==='mod-on';(TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)){if(on&&x.pub===false)x.date=todayISO();x.pub=on}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
+    case 'hw-form':V.hwf=V.hwf===d.id?null:d.id;render();break;
+    case 'hw-add':{const x=ubFind(d.id);if(!x)break;const due=($('#hw-due')||{}).value||todayISO(),mode=($('#hw-mode')||{}).value||'digital';TD.hw=TD.hw||[];
+      TD.hw.push({id:'hw'+Date.now().toString(36),cls:S.cls,s:x.s,due,eid:x.id,mode,task:mode==='hand'?'Übung „'+x.title+'“ von Hand ins Heft rechnen. Wir besprechen sie in der Stunde.':'Übung „'+x.title+'“ digital in ELIO lösen.'});
+      tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Hausaufgabe gestellt: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
+    case 'hw-del':TD.hw=(TD.hw||[]).filter(h=>h.id!==d.id);tsave();if(CS)pushCS();render();break;
+    case 'fl-ok':S.fleiss=S.fleiss||{};S.fleiss[d.k]=+d.p||1;SND.right();earnOnce('fl_'+d.k);save();render();break;
     case 'hf-add':{const t=$('#hf-t').value.trim(),x=$('#hf-x').value.trim(),k=$('#hf-s').value;if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
       if(!CS)initTeacher();if(V.hedit){const y=(TD.heft||[]).find(z=>z.id===V.hedit);if(y){Object.assign(y,{s:k,title:t,text:x});tsave();pushCS()}V.hedit=null}else heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x});V.hs=k;render();break}
     case 'hf-plan':heftLoadPlan();break;

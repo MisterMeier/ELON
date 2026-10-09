@@ -1,0 +1,156 @@
+{
+ "1 Terme und Gleichungen": {
+  "tipps": [
+   "Klammer einkreisen: Wenn im Text „das Ergebnis“ steht, kommt fast immer eine Klammer.",
+   "Waage: Eine Gleichung ist eine Waage im Gleichgewicht. Was du links machst, machst du auch rechts.",
+   "Rechenbaum: Schreib den Term als Baum von unten nach oben. Rückwärts gelesen findest du die Lösung.",
+   "Untereinander schreiben: Jeder Rechenschritt bekommt eine eigene Zeile. Nie „= … =“ weiterrechnen.",
+   "Probe: Setz deine Lösung ein. Stimmt die Waage, stimmt die Lösung."
+  ],
+  "fleiss": [
+   {
+    "q": "Zahlentrick: Denk dir eine Zahl. Addiere 15, nimm mal 4, subtrahiere 16, nimm mal 25, subtrahiere 500, teile durch 100, subtrahiere die gedachte Zahl. Was kommt heraus? Begründe mit einem Term.",
+    "a": "Es kommt immer 4 heraus: ((x + 15) · 4 − 16) · 25 − 500 = 100x + 400, geteilt durch 100 ergibt x + 4, minus x ergibt 4.",
+    "p": 3
+   },
+   {
+    "q": "Erfinde eine Geschichte zur Gleichung x + 4 = 18.",
+    "a": "Zum Beispiel: Klara muss noch 4 Jahre warten, bis sie 18 ist. Wie alt ist sie? x = 14.",
+    "p": 2
+   },
+   {
+    "q": "Ein Quadrat aus Punkten hat an jeder Seite n Punkte. Wie viele Punkte liegen am Rand? Finde zwei verschiedene Terme.",
+    "a": "Zum Beispiel 4n − 4 oder 4 · (n − 1) oder 2n + 2 · (n − 2). Alle sind wertgleich.",
+    "p": 3
+   }
+  ]
+ },
+ "2 Rationale Zahlen": {
+  "tipps": [
+   "Zahlengerade: Plus heißt nach rechts, Minus heißt nach links.",
+   "Guthaben und Schulden: −20 € sind Schulden. Wer mehr Schulden hat, hat weniger Geld.",
+   "Minus hat drei Bedeutungen: abziehen (5 − 3), negative Zahl (−3) und Gegenzahl (−(−3) = 3).",
+   "Die Regel „Minus mal Minus gibt Plus“ gilt nur beim Malnehmen und Teilen."
+  ],
+  "fleiss": [
+   {
+    "q": "Die Temperatur steigt von −8 °C um 11 Grad und fällt dann um 5 Grad. Wie warm ist es?",
+    "a": "−8 + 11 − 5 = −2 °C",
+    "p": 2
+   },
+   {
+    "q": "Setze + oder − so ein, dass es stimmt: −3 _ 5 _ 2 = 0",
+    "a": "−3 + 5 − 2 = 0",
+    "p": 2
+   },
+   {
+    "q": "Finde drei Paare von Zahlen, deren Produkt −12 ist.",
+    "a": "Zum Beispiel 3 · (−4), (−3) · 4, (−2) · 6, 2 · (−6), 1 · (−12)",
+    "p": 1
+   }
+  ]
+ },
+ "3 Prozentrechnung": {
+  "tipps": [
+   "Frag dich zuerst: Was ist das Ganze (100 %)? Das ist der Grundwert.",
+   "Dreisatz: Erst auf 1 % rechnen, dann auf die gesuchten Prozent.",
+   "Überschlag: 30 % ist weniger als die Hälfte. Passt dein Ergebnis dazu?",
+   "Prozent heißt „von Hundert“: 5 % = 0,05 und nicht 0,5."
+  ],
+  "fleiss": [
+   {
+    "q": "Ein Handy kostet 400 €. Laden A gibt 25 % Rabatt, Laden B zieht 90 € ab. Wo ist es billiger?",
+    "a": "A: 300 €, B: 310 €. Laden A ist billiger.",
+    "p": 2
+   },
+   {
+    "q": "Eine Hose wird erst um 10 % teurer und dann um 10 % billiger. Kostet sie wieder gleich viel? Rechne mit 50 €.",
+    "a": "50 € → 55 € → 49,50 €. Nein, sie ist 50 Cent billiger.",
+    "p": 3
+   },
+   {
+    "q": "Macht eine Umfrage in der Klasse zum Lieblingsfach und zeichnet ein Kreisdiagramm.",
+    "a": "Für jede Stimme: Anteil · 360°. Kontrolle: Alle Winkel zusammen ergeben 360°.",
+    "p": 3
+   }
+  ]
+ },
+ "4 Proportionalität": {
+  "tipps": [
+   "Prüfe immer zuerst: Doppelt so viel, doppelt so viel? Dann ist es proportional.",
+   "Mehr Arbeiter, weniger Zeit: Das ist antiproportional. Hier bleibt das Produkt gleich.",
+   "Vorsicht bei Aufgaben, die nur so aussehen: 10 Wanderer laufen nicht schneller als 5."
+  ],
+  "fleiss": [
+   {
+    "q": "3 Hühner legen an 3 Tagen 3 Eier. Wie viele Eier legt ein Huhn an einem Tag?",
+    "a": "Ein Drittel Ei. 3 Hühner legen 1 Ei pro Tag, also ein Huhn 1/3 Ei pro Tag.",
+    "p": 3
+   },
+   {
+    "q": "Schreibe eine eigene Dreisatz-Aufgabe zum Einkaufen und löse sie.",
+    "a": "Zum Beispiel 4 Brezen kosten 3,20 €, 1 Breze 0,80 €, 7 Brezen 5,60 €.",
+    "p": 2
+   }
+  ]
+ },
+ "5 Geometrische Figuren und Körper": {
+  "tipps": [
+   "Planfigur zuerst: Skizze machen und Gegebenes farbig markieren.",
+   "Strecke oder Länge? [AB] ist die Linie, AB mit Strich ist ihre Länge in cm.",
+   "Die Seite a liegt immer gegenüber der Ecke A."
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne die Mittelsenkrechte einer 8 cm langen Strecke nur mit dem Zirkel.",
+    "a": "Um A und B Kreise mit gleichem Radius (größer als 4 cm). Die zwei Schnittpunkte verbinden.",
+    "p": 2
+   },
+   {
+    "q": "Zeichne das Netz eines Dreiecksprismas.",
+    "a": "Zwei gleiche Dreiecke und drei Rechtecke, die aneinander passen.",
+    "p": 2
+   }
+  ]
+ },
+ "6 Flächeninhalt": {
+  "tipps": [
+   "Die Höhe ist nie die schräge Seite. Sie steht senkrecht auf der Grundseite.",
+   "Liegt die Höhe außerhalb, verlängerst du die Grundseite.",
+   "Dreieck = halbes Parallelogramm: Darum „: 2“."
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne zwei verschiedene Dreiecke mit genau 12 cm² Fläche.",
+    "a": "Zum Beispiel g = 6 cm, h = 4 cm oder g = 8 cm, h = 3 cm.",
+    "p": 2
+   }
+  ]
+ },
+ "7 Rauminhalt": {
+  "tipps": [
+   "Volumen = Grundfläche · Höhe. Oberfläche ist etwas anderes.",
+   "Bei Raumeinheiten ist die Umrechnungszahl 1 000."
+  ],
+  "fleiss": [
+   {
+    "q": "Wie viele Liter passen in euer Klassenzimmer? Messt und rechnet.",
+    "a": "Länge · Breite · Höhe in dm ergibt Liter. Zum Beispiel 80 dm · 60 dm · 30 dm = 144 000 Liter.",
+    "p": 3
+   }
+  ]
+ },
+ "8 Daten und Diagramme": {
+  "tipps": [
+   "Für den Zentralwert erst der Größe nach ordnen.",
+   "Prüfe bei Diagrammen die Achsen: Beginnen sie bei 0?"
+  ],
+  "fleiss": [
+   {
+    "q": "Sammelt die Schuhgrößen der Klasse. Bestimmt Mittelwert, Zentralwert und Spannweite.",
+    "a": "Mittelwert: Summe durch Anzahl. Zentralwert: geordnet die Mitte. Spannweite: größte minus kleinste.",
+    "p": 3
+   }
+  ]
+ }
+}
