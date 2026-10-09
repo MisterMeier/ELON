@@ -584,6 +584,8 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .adm .cls-chk input{width:18px;height:18px}
 .ctt select{width:100%;padding:6px 8px;font-size:.85rem;border-radius:8px}
 .ctt td{vertical-align:top}
+.ctt td>.cell+.cell{margin-top:4px}.ctt .cell.grp{border-style:dashed}.ctt .gl{font-size:.7rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.ctt .ctt-split{width:100%;margin-top:4px;min-height:28px;font-size:.75rem;padding:2px 6px}
 .ctt .cell{display:grid;gap:4px;padding:6px;border-radius:10px;border:2px solid var(--line);min-width:120px}
 .ctt .cell.has{border-color:var(--sc);background:color-mix(in srgb,var(--sc) 8%,var(--surface))}
 .clsw{display:flex;flex-wrap:wrap;gap:8px}
@@ -1119,7 +1121,9 @@ VIEWS.homework=()=>{
     ${done.length?`<div style="margin-top:22px"><span class="label">Erledigt · ${done.length}</span><div class="hw-list">${done.map(hwRow).join('')}</div></div>`:''}
     <p class="muted" style="margin-top:16px;font-size:.9rem">Hake ab, was du erledigt hast. Für jede erledigte Hausaufgabe gibt es einen Stern.</p>`;
 };
-VIEWS.week=()=>{
+{const _d=VIEWS.dash;VIEWS.dash=()=>splitPanel(true)+_d()}
+VIEWS.week=()=>splitPanel(false)+weekView();
+function weekView(){
   const n=nowInfo();
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Stundenplan</h1>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
   <div class="wk"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>
@@ -1127,7 +1131,7 @@ VIEWS.week=()=>{
     const cur=d===n.day&&n.min>=toMin(p[1])&&n.min<toMin(p[2]);
     return s?`<td class="has s-${s} ${cur?'cur':''}">${SUBJECTS[s].name}</td>`:'<td></td>'}).join('')}</tr>`).join('')}
   </tbody></table></div>`;
-};
+}
 VIEWS.subject=()=>{
   const k=V.s,sub=SUBJECTS[k],tab=V.tab||(k==='E'?'module':'heft');
   const entries=(HEFT[k]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
@@ -2112,19 +2116,38 @@ async function teacherEnter(c){
   useClass(c);S.role='teacher';saveRole();CS=null;S.cs=null;initTeacher();await Live.start(S.code);pushCS();libLoad();
   await cloudSync();go('tdash');
 }
+// Geteilte Stunden: SPLIT["d-i"]=[Fächer]; jede/r SuS wählt einmal die eigene Gruppe (S.mySubj)
+let SPLIT={},SLOTS_RAW=null;
+function applyWeek(sl){
+  WEEK.forEach(r=>r.fill(null));SPLIT={};const by={};
+  sl.forEach(x=>{if(WEEK[x.day]&&x.period<WEEK[x.day].length)(by[x.day+'-'+x.period]=by[x.day+'-'+x.period]||[]).push(x)});
+  const mine=S.mySubj||[];
+  Object.entries(by).forEach(([k,xs])=>{const [d,i]=k.split('-').map(Number);xs.sort((a,b)=>(a.grp||0)-(b.grp||0));
+    const subs=[...new Set(xs.map(x=>x.subject))];if(subs.length>1)SPLIT[k]=subs;
+    WEEK[d][i]=subs.find(x=>mine.includes(x))||subs[0]});
+  TIMETABLE_EXAMPLE=false;
+}
+const splitSets=()=>{const m={};Object.values(SPLIT).forEach(a=>{const k=a.slice().sort().join('|');m[k]=a.slice().sort()});return Object.values(m)};
+function splitPanel(onlyOpen){
+  if(S.role!=='student')return '';
+  const sets=splitSets(),mine=S.mySubj||[],open=sets.filter(a=>!a.some(x=>mine.includes(x)));
+  const list=onlyOpen?open:sets;if(!list.length)return '';
+  return `<section class="panel" style="margin-bottom:14px"><span class="label">Geteilter Unterricht</span><p style="font-weight:700;margin:4px 0 8px">${open.length?'Manche Stunden hat deine Klasse in Gruppen. Welche Gruppe ist deine?':'Deine Gruppen. Tippe, um sie zu ändern.'}</p>
+    ${list.map(a=>`<div class="row" style="margin-top:6px">${a.map(x=>`<button class="btn sm ${mine.includes(x)?'on':''} s-${x}" data-act="my-subj" data-set="${a.join('|')}" data-s="${x}">${badge(x)} ${esc(SUBJECTS[x]?SUBJECTS[x].name:x)}</button>`).join('<span class="muted" style="font-weight:800">oder</span>')}</div>`).join('')}</section>`;
+}
 async function cloudLoadWeek(cid){
-  try{const sl=await q(Cloud.sb.from('slots').select('day,period,subject').eq('class_id',cid));
-    if(sl.length){WEEK.forEach(r=>r.fill(null));sl.forEach(x=>{if(WEEK[x.day]&&x.period<WEEK[x.day].length)WEEK[x.day][x.period]=x.subject});TIMETABLE_EXAMPLE=false}}catch(e){}
+  try{const sl=await q(Cloud.sb.from('slots').select('day,period,subject,grp').eq('class_id',cid));
+    if(sl.length){SLOTS_RAW=sl;applyWeek(sl)}}catch(e){}
 }
 // Lehrkraft: eigener Stundenplan (alle Klassen), Wochenplanung, Stunden
 async function cloudSync(){
   if(!Cloud.prof||Cloud.prof.role==='pending')return;
   const sb=Cloud.sb,uid=Cloud.user.id,ids=Cloud.myClasses.map(c=>c.id);
   try{
-    const sl=ids.length?await q(sb.from('slots').select('class_id,day,period,subject,teacher_id').in('class_id',ids)):[];
-    TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);TD.tt[x.day+'-'+x.period]={s:x.subject,c:c?c.name:'',cid:x.class_id}});TD.ttEx=false;
-    const pl=ids.length?await q(sb.from('plans').select('class_id,date,period,lesson_id,teacher_id').in('class_id',ids)):[];
-    TD.plan={};pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id)TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
+    const sl=ids.length?await q(sb.from('slots').select('class_id,day,period,subject,teacher_id,grp').in('class_id',ids)):[];
+    TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);const split=sl.filter(y=>y.class_id===x.class_id&&y.day===x.day&&y.period===x.period).length>1;TD.tt[x.day+'-'+x.period]={s:x.subject,c:(c?c.name:'')+(split?' (Gruppe)':''),cid:x.class_id,g:x.grp||0}});TD.ttEx=false;
+    const pl=ids.length?await q(sb.from('plans').select('class_id,date,period,lesson_id,teacher_id,grp').in('class_id',ids)):[];
+    TD.plan={};pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id&&(t.g||0)===(x.grp||0))TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
     const ls=await q(sb.from('lessons').select('id,owner,class_id,shared,data'));
     const planned=new Set(Object.values(TD.plan));
     // Die Demo-Stunde wandert nur in die Cloud, wenn sie verplant ist
@@ -2151,9 +2174,9 @@ async function cloudDelLesson(id){if(!CLOUD||!Cloud.prof)return;try{await q(Clou
 async function cloudPlan(d,i,date,lessonId){if(!CLOUD||!Cloud.prof)return;const t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
   clearTimeout(cloudT);const L=lessonById(lessonId);if(L){L.cid=L.cid||t.cid;await new Promise(r=>setTimeout(r,0))}
   try{if(L){const r=lessonRow(L);await q(Cloud.sb.from('lessons').upsert([r]));Cloud.sig[L.id]=JSON.stringify(r)}
-    await q(Cloud.sb.from('plans').upsert([{class_id:t.cid,date,period:i,lesson_id:lessonId}]))}catch(e){console.warn(e)}}
+    await q(Cloud.sb.from('plans').upsert([{class_id:t.cid,date,period:i,grp:t.g||0,lesson_id:lessonId}]))}catch(e){console.warn(e)}}
 async function cloudUnplan(k){if(!CLOUD||!Cloud.prof)return;const [date,i]=k.split('|'),d=(new Date(date+'T12:00').getDay()+6)%7,t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
-  try{await q(Cloud.sb.from('plans').delete().eq('class_id',t.cid).eq('date',date).eq('period',+i))}catch(e){}}
+  try{await q(Cloud.sb.from('plans').delete().eq('class_id',t.cid).eq('date',date).eq('period',+i).eq('grp',t.g||0))}catch(e){}}
 
 /* --- Anmeldung Lehrkraft --- */
 VIEWS.login=()=>{
@@ -2287,7 +2310,7 @@ VIEWS.klassen=()=>{
 const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
 async function cttLoad(cid){
   CT.cid=cid;CT.ok=false;const sb=Cloud.sb;
-  try{const [sl,st,pr]=await Promise.all([q(sb.from('slots').select('class_id,day,period,subject,teacher_id,staff_id').eq('class_id',cid)),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('profiles').select('id,email,name,role'))]);
+  try{const [sl,st,pr]=await Promise.all([q(sb.from('slots').select('class_id,day,period,grp,subject,teacher_id,staff_id').eq('class_id',cid)),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('profiles').select('id,email,name,role'))]);
     const c=cttClass(cid);CT.slots=sl;CT.staff=st.filter(x=>!c.school_id||x.school_id===c.school_id);CT.profiles=pr;CT.ok=true}catch(e){CT.msg='Laden fehlgeschlagen.'}
   if(V.name==='ctt')render();
 }
@@ -2303,20 +2326,24 @@ VIEWS.ctt=()=>{
     <input id="ctt-new" type="text" placeholder="Kürzel, z. B. Kat, Sun" style="max-width:220px"><button class="btn sm" data-act="ctt-staff">Kürzel anlegen</button></div>
   ${CT.msg?`<p class="saved">${esc(CT.msg)}</p>`:''}
   <div class="tp ctt"><table><thead><tr><th></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>
-  ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${DAYS.map((_,d)=>{const sl=CT.slots.find(x=>x.day===d&&x.period===i);
-    return `<td><div class="cell ${sl?'has s-'+sl.subject:''}"><select data-slot="${d}-${i}" data-k="s" aria-label="Fach"><option value="">– frei –</option>${Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${sl&&sl.subject===k?'selected':''}>${v.name}</option>`).join('')}</select>
-      <select data-slot="${d}-${i}" data-k="t" aria-label="Lehrkraft" ${sl?'':'disabled'}><option value="">– Lehrkraft –</option>${CT.staff.map(x=>`<option value="${x.id}" ${sl&&sl.staff_id===x.id?'selected':''}>${esc(staffLabel(x,CT.profiles))}</option>`).join('')}</select></div></td>`}).join('')}</tr>`).join('')}
+  ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${DAYS.map((_,d)=>{const es=CT.slots.filter(x=>x.day===d&&x.period===i).sort((a,b)=>(a.grp||0)-(b.grp||0)),extra=(CT.add||{})[d+'-'+i]||[];
+    const gs=[...new Set([...(es.length?es.map(x=>x.grp||0):[0]),...extra])].sort();
+    return `<td>${gs.map(g=>{const sl=es.find(x=>(x.grp||0)===g),k=`${d}-${i}-${g}`;
+      return `<div class="cell ${sl?'has s-'+sl.subject:''} ${gs.length>1?'grp':''}">${gs.length>1?`<span class="gl">Gruppe ${gs.indexOf(g)+1}</span>`:''}<select data-slot="${k}" data-k="s" aria-label="Fach"><option value="">– frei –</option>${Object.entries(SUBJECTS).map(([kk,v])=>`<option value="${kk}" ${sl&&sl.subject===kk?'selected':''}>${v.name}</option>`).join('')}</select>
+      <select data-slot="${k}" data-k="t" aria-label="Lehrkraft" ${sl?'':'disabled'}><option value="">– Lehrkraft –</option>${CT.staff.map(x=>`<option value="${x.id}" ${sl&&sl.staff_id===x.id?'selected':''}>${esc(staffLabel(x,CT.profiles))}</option>`).join('')}</select></div>`}).join('')}
+      ${es.length&&gs.length<4?`<button class="btn sm ctt-split" data-act="ctt-split" data-d="${d}" data-i="${i}" title="Klasse in dieser Stunde teilen">+ Gruppe</button>`:''}</td>`}).join('')}</tr>`).join('')}
   </tbody></table></div>`;
 };
 async function cttSave(key){
-  const [d,i]=key.split('-').map(Number),sb=Cloud.sb,cid=CT.cid;
+  const [d,i,g]=key.split('-').map(Number),sb=Cloud.sb,cid=CT.cid;
   const sEl=document.querySelector(`[data-slot="${key}"][data-k="s"]`),tEl=document.querySelector(`[data-slot="${key}"][data-k="t"]`);
   const subj=sEl.value;let staff=tEl.value||null;
-  if(subj&&!staff&&!CT.slots.find(x=>x.day===d&&x.period===i)){const me=CT.staff.find(x=>x.profile_id===Cloud.user.id);if(me)staff=me.id}
+  if(subj&&!staff&&!CT.slots.find(x=>x.day===d&&x.period===i&&(x.grp||0)===g)){const me=CT.staff.find(x=>x.profile_id===Cloud.user.id);if(me)staff=me.id}
   const st=staff&&CT.staff.find(x=>x.id===staff);
-  try{if(!subj)await q(sb.from('slots').delete().eq('class_id',cid).eq('day',d).eq('period',i));
-    else await q(sb.from('slots').upsert([{class_id:cid,day:d,period:i,subject:subj,staff_id:staff,teacher_id:st?st.profile_id:null}]));CT.msg='Gespeichert.'}
+  try{if(!subj)await q(sb.from('slots').delete().eq('class_id',cid).eq('day',d).eq('period',i).eq('grp',g));
+    else await q(sb.from('slots').upsert([{class_id:cid,day:d,period:i,grp:g,subject:subj,staff_id:staff,teacher_id:st?st.profile_id:null}]));CT.msg='Gespeichert.'}
   catch(e){CT.msg='Speichern hat nicht geklappt: '+(e.message||e)}
+  if(CT.add&&CT.add[d+'-'+i])CT.add[d+'-'+i]=CT.add[d+'-'+i].filter(x=>x!==g);
   CT.ok=false;await cttLoad(cid);await cloudSync();
 }
 VIEWS.lessons=()=>{
@@ -2507,6 +2534,8 @@ document.addEventListener('click',e=>{
 
     case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
     case 'tp-w':V.w=+d.w;render();break;
+    case 'my-subj':{const set=d.set.split('|');S.mySubj=(S.mySubj||[]).filter(x=>!set.includes(x)).concat(d.s);save();if(SLOTS_RAW)applyWeek(SLOTS_RAW);render();break}
+    case 'ctt-split':{const k=d.d+'-'+d.i,used=new Set([...CT.slots.filter(x=>x.day===+d.d&&x.period===+d.i).map(x=>x.grp||0),...((CT.add||{})[k]||[])]);let g=0;while(used.has(g))g++;if(g<4){CT.add=CT.add||{};(CT.add[k]=CT.add[k]||[]).push(g)}render();break}
     case 'tt-edit':if(CLOUD&&Cloud.prof){go('ctt',{cid:S.cls,from:'tplan'});break}V.ttEdit=!V.ttEdit;render();break;
     case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
     case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}

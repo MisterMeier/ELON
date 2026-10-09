@@ -86,6 +86,22 @@ create table if not exists public.plans (
   primary key (class_id, date, period)
 );
 
+-- Geteilte Stunden: mehrere Gruppen (z. B. Religion / Ethik) in derselben Stunde, grp 0–3
+alter table public.slots add column if not exists grp smallint not null default 0 check (grp between 0 and 3);
+alter table public.plans add column if not exists grp smallint not null default 0 check (grp between 0 and 3);
+do $$ begin
+  if not exists (select 1 from information_schema.key_column_usage
+                 where table_schema = 'public' and table_name = 'slots' and constraint_name = 'slots_pkey' and column_name = 'grp') then
+    alter table public.slots drop constraint if exists slots_pkey;
+    alter table public.slots add primary key (class_id, day, period, grp);
+  end if;
+  if not exists (select 1 from information_schema.key_column_usage
+                 where table_schema = 'public' and table_name = 'plans' and constraint_name = 'plans_pkey' and column_name = 'grp') then
+    alter table public.plans drop constraint if exists plans_pkey;
+    alter table public.plans add primary key (class_id, date, period, grp);
+  end if;
+end $$;
+
 -- Hilfsfunktionen (umgehen RLS gezielt, damit die Regeln sich nicht im Kreis drehen)
 create or replace function public.is_admin() returns boolean
 language sql stable security definer set search_path = public as $$
