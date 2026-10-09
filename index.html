@@ -939,10 +939,21 @@ const def=()=>({stars:0,mut:0,done:{},mission:'Today I can buy clothes in a Lond
 let S;
 try{S=Object.assign(def(),JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('anton-english-v1')||'{}'))}catch(e){S=def()}
 const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
-function save(){if(BOARD)return;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(typeof cloudQueue==='function')cloudQueue()}
+// Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
+const MINE=['stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice'];
+const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
+const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
+function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
+function meLoad(){meClear();const id=meId();if(!id)return;try{Object.assign(S,JSON.parse(localStorage.getItem(id)||'{}'))}catch(e){}}
+function save(){if(BOARD)return;const id=meId(),me={},rest={};Object.keys(S).forEach(k=>{(MINE.includes(k)?me:rest)[k]=S[k]});
+  try{if(id)localStorage.setItem(id,JSON.stringify(me));localStorage.setItem(KEY,JSON.stringify(rest))}catch(e){}if(typeof cloudQueue==='function')cloudQueue()}
 // The role is also kept per window, so one Mac can show the Tafel and a student view side by side
 try{const r=JSON.parse(sessionStorage.getItem('elon-role')||'null');if(r)Object.assign(S,r)}catch(e){}
+// Alte Version: persönliche Daten lagen im gemeinsamen Speicher. Sie gehören der zuletzt angemeldeten Nummer.
+try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&o.cls&&o.nr&&MINE.some(k=>k!=='nick'&&k in o)){const id=meKey(o.school,o.cls,o.nr);if(!localStorage.getItem(id)){const m={};MINE.forEach(k=>{if(k in o)m[k]=o[k]});localStorage.setItem(id,JSON.stringify(m))}}}catch(e){}
+{const nk=S.nick;meLoad();if(S.role==='student'&&!S.nick)S.nick=nk}
 if(BOARD){S.role='board';if(QS.get('tafel'))S.code=QS.get('tafel')}
+else setTimeout(save,0);
 function saveRole(){if(BOARD)return;try{sessionStorage.setItem('elon-role',JSON.stringify({role:S.role,code:S.code,nr:S.nr,nick:S.nick,school:S.school,cls:S.cls}))}catch(e){}save()}
 
 /* ---------- Helpers ---------- */
@@ -1632,13 +1643,19 @@ function initTeacher(){
 }
 // Lernspiel für alle: Tafel spielbar, iPads bekommen das Spiel zum Mitspielen
 function gameLive(g,s){if(!CS)initTeacher();CS.game=g?{g,s,at:Date.now()}:null;pushCS()}
-function pushCS(){if(!CS)return;CS.mission=S.mission;CS.heft=heftFor();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
+let DKBUSY=null;
+function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
+  DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
+    .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
+function pushCS(){if(!CS)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 function updPrev(){const el=$('#tprev');if(!el||!CS)return;const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
 function onStudentMsg(m){
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
   (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
+  if(m.k==='diary'){if(TD.dk&&m.w)dDec(TD.dk.priv,m).then(o=>{if(!o||!/^\d{4}-\d\d-\d\d$/.test(o.d))return;const c=S.cls||'-';TD.diary=TD.diary||{};const B=(TD.diary[c]=TD.diary[c]||{}),P=(B[nr]=B[nr]||{});
+    P[o.d]={t:String(o.t||'').slice(0,8000),at:Date.now(),nick:cleanNick(m.nick)};tsave();if(V.name==='obs'||(V.name==='obs-p'&&V.n===nr))render()}).catch(()=>{});return}
   if(m.av!=null&&ROSTER[nr].av!==m.av){ROSTER[nr].av=m.av;TD.avs=TD.avs||{};TD.avs[nr]=m.av;tsave();if(V.name==='tafel')updTafel()}
   if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(TD.nicks[nr]!==nk){TD.nicks[nr]=nk;tsave()}if(V.name==='tafel')updTafel()}}
   let ch=false;
@@ -1774,9 +1791,27 @@ setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
 let dashSig='';
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;
-  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length).join();if(hs!==S.heftSig){S.heftRecv=p.heft;S.heftSig=hs;save();if(['desk','subject','dash'].includes(V.name))render()}}updBanner();liveOverlay();renderMini();
+  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length).join();if(hs!==S.heftSig){S.heftRecv=p.heft;S.heftSig=hs;save();if(['desk','subject','dash'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
+/* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
+const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
+const b64e=b=>{const u=new Uint8Array(b);let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function dEnc(pub,obj){const C=crypto.subtle,pk=await C.importKey('jwk',pub,DIARY_ALG,false,['encrypt']);
+  const k=await C.generateKey({name:'AES-GCM',length:256},true,['encrypt']),iv=crypto.getRandomValues(new Uint8Array(12));
+  const c=await C.encrypt({name:'AES-GCM',iv},k,new TextEncoder().encode(JSON.stringify(obj)));
+  return {w:b64e(await C.encrypt({name:'RSA-OAEP'},pk,await C.exportKey('raw',k))),iv:b64e(iv),c:b64e(c)}}
+async function dDec(priv,m){const C=crypto.subtle,sk=await C.importKey('jwk',priv,DIARY_ALG,false,['decrypt']);
+  const k=await C.importKey('raw',await C.decrypt({name:'RSA-OAEP'},sk,b64d(m.w)),'AES-GCM',false,['decrypt']);
+  return JSON.parse(new TextDecoder().decode(await C.decrypt({name:'AES-GCM',iv:b64d(m.iv)},k,b64d(m.c))))}
+const dSig=t=>{let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return t.length+':'+h};
+let dBusy=false;
+async function diarySync(){
+  if(dBusy||S.role!=='student'||!RCS||!RCS.dpk||!(window.crypto&&crypto.subtle))return;
+  const D=S.diary||{},fp=String(RCS.dpk.n||'').slice(0,16);S.diarySent=S.diarySent||{};
+  const todo=Object.keys(D).filter(d=>(D[d]||'').trim()&&S.diarySent[d]!==fp+'|'+dSig(D[d])).slice(-5);if(!todo.length)return;
+  dBusy=true;try{for(const d of todo){const t=String(D[d]).slice(0,8000);sendMsg({k:'diary',d,...await dEnc(RCS.dpk,{d,t})});S.diarySent[d]=fp+'|'+dSig(D[d])}save()}catch(e){console.warn(e)}dBusy=false}
 function updBanner(){
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
@@ -2117,7 +2152,7 @@ VIEWS.obs=()=>{
   <span class="label">${esc(className())} · tippe auf einen Schüler</span>
   <div class="pupils">${Array.from({length:S.classSize},(_,i)=>{const k=i+1,L=TD.obs[k]||[];
     return `<button class="pupil" data-act="obs-p" data-n="${k}"><span class="row" style="justify-content:space-between"><b>${k}</b>${on.includes(k)?'<span class="dot" title="online"></span>':''}</span>
-      <small>${esc(nickOf(k)||'noch kein Vorname')}</small><small>${L.length?`${L.length} Notiz${L.length>1?'en':''} · zuletzt ${new Date(L[0].t).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}`:'keine Notizen'}</small></button>`}).join('')}</div>`;
+      <small>${esc(nickOf(k)||'noch kein Vorname')}</small><small>${L.length?`${L.length} Notiz${L.length>1?'en':''} · zuletzt ${new Date(L[0].t).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}`:'keine Notizen'}</small>${diaryOf(k).length?`<small>📔 ${diaryOf(k).length} Tagebuch-Tag${diaryOf(k).length>1?'e':''}</small>`:''}</button>`}).join('')}</div>`;
 };
 VIEWS['obs-p']=()=>{
   const k=V.n,L=TD.obs[k]||[],cat=V.cat||'Mitarbeit',sub=V.subj||curSubj();
@@ -2132,8 +2167,11 @@ VIEWS['obs-p']=()=>{
   <div class="notes">${L.map(o=>`<div class="note"><div class="meta"><span>${new Date(o.t).toLocaleString('de-DE',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
       <span class="chip">${(OBS_CATS.find(c=>c[0]===o.cat)||['','📝'])[1]} ${esc(o.cat)}</span>${SUBJECTS[o.subj]?badge(o.subj):''}<span class="spacer"></span>
       ${V.odel===o.id?`<button class="btn sm red" data-act="obs-del-yes" data-id="${o.id}">Wirklich löschen</button><button class="btn sm" data-act="obs-del-no">Nein</button>`:`<button class="btn sm" data-act="obs-del" data-id="${o.id}">Löschen</button>`}</div>
-    <div style="white-space:pre-wrap">${esc(o.txt)}</div></div>`).join('')||'<div class="empty">Noch keine Beobachtungen zu diesem Schüler.</div>'}</div>`;
+    <div style="white-space:pre-wrap">${esc(o.txt)}</div></div>`).join('')||'<div class="empty">Noch keine Beobachtungen zu diesem Schüler.</div>'}</div>
+  <section class="panel" style="margin-top:16px"><span class="label">📔 Lerntagebuch · nur du und ${esc(nickOf(k)||'die Schülerin / der Schüler')} können es lesen</span>
+    ${diaryOf(k).map(([d,e],i)=>`<details class="dd" ${i?'':'open'}><summary>${new Date(d+'T12:00').toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</summary><div style="white-space:pre-wrap;margin-top:6px">${esc(e.t)}</div></details>`).join('')||'<p class="muted" style="font-weight:700;margin-top:6px">Noch nichts angekommen. Einträge kommen verschlüsselt an, sobald der Schüler oder die Schülerin während deiner Stunde online ist.</p>'}</section>`;
 };
+const diaryOf=k=>Object.entries(((TD.diary||{})[S.cls||'-']||{})[k]||{}).sort((a,b)=>b[0].localeCompare(a[0]));
 function obsQuick(k){
   OQ={n:k,cat:OQ.cat||'Mitarbeit'};
   showOv(`<div class="box" style="text-align:left;max-width:520px;border-color:var(--navy)"><span class="label">Beobachtung · nur für dich</span><h2>${pupilName(k)}</h2>
@@ -3071,7 +3109,7 @@ document.addEventListener('input',e=>{
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.act$/.test(f)&&V.name==='lesson-edit')render()});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
-let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
+let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.id==='lib-file'&&t.files&&t.files.length){const fs=[...t.files];t.value='';libAddFiles(fs,$('#lib-subj').value);return}
@@ -3180,10 +3218,10 @@ document.addEventListener('click',e=>{
     case 'nick-more':V.sugg=suggestNicks();render();break;
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Bitte gib deinen Vornamen ein.';break}
-      setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.av=V.av;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=V.av;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
-    case 'role-reset':$('#umenu').hidden=true;Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'role-reset':$('#umenu').hidden=true;Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'board-open':{const u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'');
       const w=window.open(u,'elio-tafel','popup,width=1280,height=720');if(!w)alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');
