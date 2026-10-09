@@ -2141,7 +2141,8 @@ async function tdOpen(pw){const v=tdVault();
   if(v){const k=await tdDerive(pw,v.salt,v.it);let pt;try{pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(v.iv)},k,b64d(v.ct))}catch(e){return false}
     if(!TDKEY)TD=Object.assign({obs:{},nicks:{}},JSON.parse(new TextDecoder().decode(pt)));TDSALT=v.salt;TDIT=v.it;TDKEY=k}
   else{TDSALT=b64e(crypto.getRandomValues(new Uint8Array(16)));TDKEY=await tdDerive(pw,TDSALT,TDIT)}
-  tdDefaults();TDIDLE=false;TDLAST=Date.now();tsave();return true}
+  tdDefaults();TDIDLE=false;TDLAST=Date.now();tsave();try{if(!PERSIST&&navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(x=>{PERSIST=x})}catch(e){}return true}
+let PERSIST=false;try{navigator.storage&&navigator.storage.persisted&&navigator.storage.persisted().then(x=>{PERSIST=x})}catch(e){}
 function tdClose(){TDKEY=null;TDIDLE=false;TD={obs:{},nicks:{}};tdDefaults()}
 const tdLocked=()=>S.role==='teacher'&&!BOARD&&(!TDKEY||TDIDLE);
 function lockHTML(){const v=tdVault();
@@ -2745,7 +2746,12 @@ VIEWS.akt=()=>akHTML();
 VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein Profil</h1><section class="panel" style="max-width:560px">
     ${Cloud.prof?`<label class="label" for="me-tn">Name (so sehen dich die anderen)</label><div class="row"><input id="me-tn" type="text" value="${esc(Cloud.prof.name||'')}" maxlength="60" style="flex:1"><button class="btn pri" data-act="me-tname">Speichern</button></div>
       <p style="margin-top:12px;font-weight:700">${esc(Cloud.user.email||'')} · Rolle: ${esc({admin:'Admin',teacher:'Lehrkraft',pending:'wartet auf Freigabe'}[Cloud.prof.role]||Cloud.prof.role)}</p>`:'<p style="font-weight:700">Demo-Modus ohne Konto.</p>'}
-    ${V.ok?'<p class="saved">Gespeichert.</p>':''}${V.err?`<p class="err">${esc(V.err)}</p>`:''}<div class="row" style="margin-top:14px"><button class="btn red" data-act="role-reset">Abmelden</button></div></section>`;
+    ${V.ok?'<p class="saved">Gespeichert.</p>':''}${V.err?`<p class="err">${esc(V.err)}</p>`:''}<div class="row" style="margin-top:14px"><button class="btn red" data-act="role-reset">Abmelden</button></div></section>
+    <section class="panel" style="max-width:560px;margin-top:16px"><h2 style="font-size:1.2rem">💾 Sicherung deiner Notizen</h2>
+      <p class="muted" style="font-weight:700">Notizen, Beobachtungen, Akten und Lerntagebücher liegen nur auf diesem Gerät. Lade ab und zu eine Sicherung herunter, zum Beispiel auf einen USB-Stick oder in deinen dienstlichen Speicher. Die Datei ist mit deinem Geräte-Passwort verschlüsselt und ohne Passwort nutzlos.</p>
+      <div class="row" style="margin-top:8px"><button class="btn pri" data-act="bk-down">Sicherung herunterladen</button><button class="btn" data-act="bk-pick">Sicherung einspielen</button><input id="bk-file" type="file" accept=".json,application/json" hidden></div>
+      ${V.bkMsg?`<p class="${V.bkErr?'err':'saved'}">${esc(V.bkMsg)}</p>`:''}${V.bkNew?`<p class="err">Achtung: Das ersetzt alle Lehrer-Notizen auf diesem Gerät durch die Sicherung vom ${esc(new Date(V.bkNew.at).toLocaleString('de-DE'))}.</p><div class="row"><button class="btn red" data-act="bk-yes">Ja, Sicherung einspielen</button><button class="btn" data-act="bk-no">Abbrechen</button></div>`:''}
+      <p class="muted" style="font-size:.85rem;margin-top:8px">${PERSIST?'✓ Der Browser hält diese Daten dauerhaft fest.':'Tipp: Leg ELIO als App auf den Home-Bildschirm, dann löscht der Browser die Daten nicht so schnell.'}</p></section>`;
   if(V.av==null)V.av=S.av!=null?S.av:0;
   return `<h1 style="margin-bottom:14px">Name und Avatar</h1><section class="panel" style="max-width:560px"><label class="label" for="me-n">Dein Vorname</label><input id="me-n" type="text" maxlength="16" value="${esc(S.nick||'')}">
     <p class="label" style="margin-top:14px">Dein Kopf</p><div class="avpick">${AVS.map((_,k)=>`<button class="${k===V.av?'on':''}" data-act="av-pick" data-i="${k}" aria-label="Avatar ${k+1}">${avatar(k,64)}</button>`).join('')}</div>
@@ -3647,6 +3653,13 @@ document.addEventListener('click',e=>{
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
     case 'role-reset':$('#umenu').hidden=true;if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
+    case 'bk-down':{const v=tdVault();if(!v){V.bkMsg='Noch nichts zu sichern.';V.bkErr=1;render();break}
+      const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({elio:'sicherung',v:1,at:new Date().toISOString(),vault:v})],{type:'application/json'}));a.download='elio-sicherung-'+todayISO()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+      TD.bkAt=Date.now();tsave();V.bkMsg='Sicherung heruntergeladen.';V.bkErr=0;render();break}
+    case 'bk-pick':{const f=$('#bk-file');f.onchange=()=>{const fl=f.files&&f.files[0];if(!fl)return;fl.text().then(t=>{let o=null;try{o=JSON.parse(t)}catch(e){}
+        if(!o||o.elio!=='sicherung'||!o.vault||!o.vault.vault||!o.vault.ct){V.bkMsg='Das ist keine ELIO-Sicherung.';V.bkErr=1;V.bkNew=null}else{V.bkNew=o;V.bkMsg=''}render()})};f.click();break}
+    case 'bk-yes':if(V.bkNew){try{localStorage.setItem(TKEY,JSON.stringify(V.bkNew.vault))}catch(e){}tdClose();V={name:'tdash',lkErr:'Sicherung eingespielt. Gib das Geräte-Passwort ein, mit dem sie erstellt wurde.'};render()}break;
+    case 'bk-no':V.bkNew=null;render();break;
     case 'kl-key':V.keyFor=V.keyFor===d.code?null:d.code;render();break;
     case 't-keyqr':CS.keyQr=!CS.keyQr;pushCS();render();break;
     case 'board-open':{const k=myCk(),u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'')+(k?'#k='+k:'');
