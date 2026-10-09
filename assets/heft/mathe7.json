@@ -12,49 +12,105 @@
    {
     "t": "mc",
     "n": "Grundübung",
-    "x": "Welcher Ausdruck ist ein Term?\n+ 3a − 17\n- 8a = 5b + 1\n- x + + 3 (\n\nWas bedeutet 3x?\n+ 3 · x\n- 3 + x\n- x · x · x\n\na + a + a ist gleich …\n+ 3a\n- a³\n- 3 + a\n\nWelche Ausdrücke sind Terme?\n+ 7 + 4x\n+ 5 · (x + 3)\n- 4 > 2"
+    "x": "Welcher Ausdruck ist ein Term?\n+ 3a − 17\n- 8a = 5b + 1\n- x + + 3 (\n\nWas bedeutet 3x?\n+ 3 · x\n- 3 + x\n- x · x · x\n\na + a + a ist gleich …\n+ 3a\n- a³\n- 3 + a\n\nWelche Ausdrücke sind Terme?\n+ 7 + 4x\n+ 5 · (x + 3)\n- 4 > 2",
+    "k": [
+     5
+    ]
    },
    {
     "t": "gap",
     "n": "Lückentext: Fachwörter",
-    "x": "Ein *Term* ist ein Rechenausdruck aus Zahlen, *Variablen* und Rechenzeichen.\nEin Term hat kein *Gleichheitszeichen*.\nEine Variable ist ein *Platzhalter* für eine Zahl.\nZwischen Zahl und Variable steht ein unsichtbarer *Malpunkt*.\n3x bedeutet 3 *mal* x."
+    "x": "Ein *Term* ist ein Rechenausdruck aus Zahlen, *Variablen* und Rechenzeichen.\nEin Term hat kein *Gleichheitszeichen*.\nEine Variable ist ein *Platzhalter* für eine Zahl.\nZwischen Zahl und Variable steht ein unsichtbarer *Malpunkt*.\n3x bedeutet 3 *mal* x.",
+    "k": [
+     6,
+     5
+    ]
    },
    {
     "t": "match",
     "n": "Paare: Kurzschreibweise",
-    "x": "3 · x | 3x\na · a | a²\nx + x + x | 3x\n5 · a · b | 5ab\n1 · y | y\nx · x · x | x³"
+    "x": "3 · x | 3x\na · a | a²\nx + x + x | 3x\n5 · a · b | 5ab\n1 · y | y\nx · x · x | x³",
+    "k": [
+     5
+    ]
    },
    {
     "t": "cw",
     "n": "Kreuzworträtsel: Begriffe",
-    "x": "Variable | Platzhalter für eine Zahl\nTerm | Rechenausdruck ohne =\nGleichung | zwei Terme mit = verbunden\nFaktor | Zahl vor der Variablen, z. B. die 3 in 3x\nSumme | Ergebnis beim Plusrechnen\nKlammer | wird immer zuerst berechnet"
+    "x": "Variable | Platzhalter für eine Zahl\nTerm | Rechenausdruck ohne =\nGleichung | zwei Terme mit = verbunden\nFaktor | Zahl vor der Variablen, z. B. die 3 in 3x\nSumme | Ergebnis beim Plusrechnen\nKlammer | wird immer zuerst berechnet",
+    "k": [
+     6
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Term oder kein Term? Schreibe ab und entscheide: a) 4x + 2  b) 7 = 3 + 4  c) 5 · (a − 1)  d) 2y > 8  e) x",
-    "a": "a) Term  b) kein Term (Gleichung)  c) Term  d) kein Term (Ungleichung)  e) Term"
+    "a": "a) Term  b) kein Term (Gleichung)  c) Term  d) kein Term (Ungleichung)  e) Term",
+    "k": [
+     5
+    ]
    },
    {
     "l": 1,
     "q": "Schreibe ohne Malpunkt: a) 6 · x  b) 2 · a · b  c) 1 · y  d) x · 4",
-    "a": "a) 6x  b) 2ab  c) y  d) 4x (Zahl immer nach vorn)"
+    "a": "a) 6x  b) 2ab  c) y  d) 4x (Zahl immer nach vorn)",
+    "k": [
+     5
+    ]
+   },
+   {
+    "l": 1,
+    "q": "Erkläre deinem Partner in zwei Sätzen, was eine Variable ist. Benutze die Wörter „Platzhalter“ und „Zahl“.",
+    "a": "z. B.: Eine Variable ist ein Platzhalter für eine Zahl. Man kann verschiedene Zahlen für sie einsetzen.",
+    "k": [
+     6
+    ]
    },
    {
     "l": 2,
     "q": "Schreibe kürzer: a) a + a + a + a  b) a · a · a · a  c) x + x + y",
-    "a": "a) 4a  b) a⁴  c) 2x + y. Achtung: 4a und a⁴ sind verschieden!"
+    "a": "a) 4a  b) a⁴  c) 2x + y. Achtung: 4a und a⁴ sind verschieden!",
+    "k": [
+     5,
+     4
+    ]
    },
    {
     "l": 2,
     "q": "Welche Variablen kommen vor? a) 3x + 2y  b) 5ab − c  c) 7",
-    "a": "a) x, y  b) a, b, c  c) keine (nur eine Zahl, auch das ist ein Term)"
+    "a": "a) x, y  b) a, b, c  c) keine (nur eine Zahl, auch das ist ein Term)",
+    "k": [
+     5
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Schreibe einen Term für den Umfang eines Quadrats mit der Seitenlänge a. Zeichne das Quadrat und beschrifte die Seiten.",
+    "a": "a + a + a + a = 4a. Skizze: Quadrat, jede Seite mit a beschriftet.",
+    "k": [
+     3,
+     4
+    ]
    },
    {
     "l": 3,
     "q": "Fehlersuche: Mia schreibt „a + a + a = a³“. Erkläre den Fehler und verbessere.",
-    "a": "a + a + a heißt dreimal a addieren = 3a. a³ = a · a · a (dreimal multiplizieren). Richtig: a + a + a = 3a."
+    "a": "a + a + a heißt dreimal a addieren = 3a. a³ = a · a · a (dreimal multiplizieren). Richtig: a + a + a = 3a.",
+    "k": [
+     1,
+     6
+    ]
+   },
+   {
+    "l": 3,
+    "q": "Finde drei verschiedene Terme, die für x = 2 den Wert 10 haben.",
+    "a": "z. B. 5x, x + 8, 3x + 4 (es gibt viele Lösungen, Probe durch Einsetzen).",
+    "k": [
+     2,
+     1
+    ]
    }
   ]
  },
@@ -71,44 +127,91 @@
    {
     "t": "match",
     "n": "Grundübung",
-    "x": "das Doppelte einer Zahl | 2x\neine Zahl vermehrt um 5 | x + 5\n5 weniger als eine Zahl | x − 5\ndas Dreifache einer Zahl | 3x\ndie Hälfte einer Zahl | x : 2\nverdopple x, addiere 5, nimm das Ergebnis mal 3 | (2x + 5) · 3"
+    "x": "das Doppelte einer Zahl | 2x\neine Zahl vermehrt um 5 | x + 5\n5 weniger als eine Zahl | x − 5\ndas Dreifache einer Zahl | 3x\ndie Hälfte einer Zahl | x : 2\nverdopple x, addiere 5, nimm das Ergebnis mal 3 | (2x + 5) · 3",
+    "k": [
+     5
+    ]
    },
    {
     "t": "mc",
     "n": "Welcher Term passt?",
-    "x": "Das Doppelte einer Zahl, vermehrt um 3\n+ 2x + 3\n- 2 · (x + 3)\n- x² + 3\n\nDie Hälfte einer Zahl\n+ x : 2\n- 2 : x\n- x − 2\n\n5 weniger als eine Zahl\n+ x − 5\n- 5 − x\n- 5x\n\nDie Summe aus einer Zahl und 7, mal 3\n+ (x + 7) · 3\n- x + 7 · 3\n- 3x + 7\n\nEin Heft kostet 2 €. Was kosten x Hefte?\n+ 2x\n- x + 2\n- 2 : x"
+    "x": "Das Doppelte einer Zahl, vermehrt um 3\n+ 2x + 3\n- 2 · (x + 3)\n- x² + 3\n\nDie Hälfte einer Zahl\n+ x : 2\n- 2 : x\n- x − 2\n\n5 weniger als eine Zahl\n+ x − 5\n- 5 − x\n- 5x\n\nDie Summe aus einer Zahl und 7, mal 3\n+ (x + 7) · 3\n- x + 7 · 3\n- 3x + 7\n\nEin Heft kostet 2 €. Was kosten x Hefte?\n+ 2x\n- x + 2\n- 2 : x",
+    "k": [
+     6,
+     3
+    ]
    },
    {
     "t": "gap",
     "n": "Lückentext: Sprache → Term",
-    "x": "das Dreifache einer Zahl: *3x*\neine Zahl vermehrt um 8: *x + 8*\ndie Differenz aus einer Zahl und 4: *x − 4*\nder vierte Teil einer Zahl: *x : 4*\ndas Quadrat einer Zahl: *x²*"
+    "x": "das Dreifache einer Zahl: *3x*\neine Zahl vermehrt um 8: *x + 8*\ndie Differenz aus einer Zahl und 4: *x − 4*\nder vierte Teil einer Zahl: *x : 4*\ndas Quadrat einer Zahl: *x²*",
+    "k": [
+     6,
+     5
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Schreibe als Term (Zahl = x): a) das Fünffache einer Zahl  b) eine Zahl vermindert um 9  c) das Doppelte einer Zahl plus 1",
-    "a": "a) 5x  b) x − 9  c) 2x + 1"
+    "a": "a) 5x  b) x − 9  c) 2x + 1",
+    "k": [
+     5,
+     6
+    ]
    },
    {
     "l": 2,
     "q": "Ein Kinoticket kostet 8 €, Popcorn 4 €. Stelle einen Term für die Kosten von x Tickets und einem Popcorn auf.",
-    "a": "8x + 4"
+    "a": "8x + 4",
+    "k": [
+     3
+    ]
    },
    {
     "l": 2,
     "q": "Achtung Reihenfolge: Schreibe als Term: a) 3 weniger als eine Zahl  b) eine Zahl weniger als 3",
-    "a": "a) x − 3  b) 3 − x. „weniger als“ dreht die Reihenfolge!"
+    "a": "a) x − 3  b) 3 − x. „weniger als“ dreht die Reihenfolge!",
+    "k": [
+     5,
+     6
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Lena sagt: „Das Doppelte einer Zahl plus 3 ist dasselbe wie das Doppelte von (Zahl plus 3).“ Hat sie recht? Begründe mit einem Beispiel.",
+    "a": "Nein. Für x = 1: 2 · 1 + 3 = 5, aber 2 · (1 + 3) = 8.",
+    "k": [
+     1
+    ]
    },
    {
     "l": 3,
     "q": "Streichholz-Quadrate in einer Reihe: 1 Quadrat = 4 Hölzer, 2 Quadrate = 7, 3 Quadrate = 10. Finde einen Term für n Quadrate und prüfe ihn für n = 3.",
-    "a": "3n + 1. Probe: 3 · 3 + 1 = 10 ✓"
+    "a": "3n + 1. Probe: 3 · 3 + 1 = 10 ✓",
+    "k": [
+     2,
+     4
+    ]
    },
    {
     "l": 3,
     "q": "Erfinde zu dem Term 5x + 2 eine kleine Geschichte.",
-    "a": "Zum Beispiel: x Packungen mit je 5 Stiften und 2 lose Stifte."
+    "a": "Zum Beispiel: x Packungen mit je 5 Stiften und 2 lose Stifte.",
+    "k": [
+     3,
+     6
+    ]
+   },
+   {
+    "l": 3,
+    "q": "Zeichne zum Term 2 · (x + 3) ein Rechteck mit den Seiten 2 und x + 3. Erkläre, warum die Fläche zum Term passt.",
+    "a": "Fläche = Breite · Länge = 2 · (x + 3). Das Rechteck zerfällt in 2 · x und 2 · 3, also 2x + 6.",
+    "k": [
+     4,
+     1
+    ]
    }
   ]
  },
@@ -125,44 +228,79 @@
    {
     "t": "mc",
     "n": "Grundübung",
-    "x": "Berechne 5 + 2x für x = 7.\n+ 19\n- 49\n- 57\n\nBerechne 3x + 2 für x = 4.\n+ 14\n- 20\n- 36\n\nBerechne 4 · (x − 1) für x = 3.\n+ 8\n- 11\n- 12\n\nBerechne x · x für x = 5.\n+ 25\n- 10\n- 55"
+    "x": "Berechne 5 + 2x für x = 7.\n+ 19\n- 49\n- 57\n\nBerechne 3x + 2 für x = 4.\n+ 14\n- 20\n- 36\n\nBerechne 4 · (x − 1) für x = 3.\n+ 8\n- 11\n- 12\n\nBerechne x · x für x = 5.\n+ 25\n- 10\n- 55",
+    "k": [
+     5
+    ]
    },
    {
     "t": "numline",
     "n": "Zahlenstrahl: Termwerte",
-    "x": "von 0 bis 30 Schritt 1\n2x + 1 für x = 3 | 7\n3x für x = 4 | 12\n5 + 2x für x = 7 | 19\n4 · (x − 1) für x = 3 | 8\nx · x für x = 5 | 25\n10 − x für x = 4 | 6"
+    "x": "von 0 bis 30 Schritt 1\n2x + 1 für x = 3 | 7\n3x für x = 4 | 12\n5 + 2x für x = 7 | 19\n4 · (x − 1) für x = 3 | 8\nx · x für x = 5 | 25\n10 − x für x = 4 | 6",
+    "k": [
+     4
+    ]
    },
    {
     "t": "match",
     "n": "Paare: Einsetzen",
-    "x": "3x + 2 für x = 4 | 14\n5 + 2x für x = 0 | 5\nx² für x = 3 | 9\n2 · (x + 5) für x = 1 | 12\n20 − 3x für x = 5 | 5\nx : 2 für x = 10 | 5"
+    "x": "3x + 2 für x = 4 | 14\n5 + 2x für x = 0 | 5\nx² für x = 3 | 9\n2 · (x + 5) für x = 1 | 12\n20 − 3x für x = 5 | 5\nx : 2 für x = 10 | 5",
+    "k": [
+     5
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Berechne den Wert von 4x − 3 für a) x = 2  b) x = 5  c) x = 0",
-    "a": "a) 5  b) 17  c) −3"
+    "a": "a) 5  b) 17  c) −3",
+    "k": [
+     5
+    ]
    },
    {
     "l": 1,
     "q": "Lege eine Wertetabelle für 2x + 3 an mit x = 0, 1, 2, 3, 4.",
-    "a": "3, 5, 7, 9, 11 (immer 2 mehr)"
+    "a": "3, 5, 7, 9, 11 (immer 2 mehr)",
+    "k": [
+     4,
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Achtung Punkt vor Strich: Berechne 5 + 3x für x = 4.",
-    "a": "5 + 3 · 4 = 5 + 12 = 17 (nicht 8 · 4 = 32!)"
+    "a": "5 + 3 · 4 = 5 + 12 = 17 (nicht 8 · 4 = 32!)",
+    "k": [
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Berechne 3 · (x + 2) und 3x + 2 für x = 4. Was fällt dir auf?",
-    "a": "3 · 6 = 18 und 12 + 2 = 14. Die Klammer macht einen Unterschied."
+    "a": "3 · 6 = 18 und 12 + 2 = 14. Die Klammer macht einen Unterschied.",
+    "k": [
+     1,
+     5
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Ein Handwerker berechnet 35 € Anfahrt und 40 € pro Stunde: 40x + 35. Was kostet ein Einsatz von 3 Stunden? Was bedeutet die 35 im Term?",
+    "a": "40 · 3 + 35 = 155 €. Die 35 € zahlt man immer, egal wie lange er arbeitet (Anfahrt).",
+    "k": [
+     3,
+     6
+    ]
    },
    {
     "l": 3,
     "q": "Für welche Zahl x hat 2x + 5 den Wert 17? Probiere mit einer Tabelle.",
-    "a": "x = 6, denn 2 · 6 + 5 = 17"
+    "a": "x = 6, denn 2 · 6 + 5 = 17",
+    "k": [
+     2
+    ]
    }
   ]
  },
@@ -179,39 +317,80 @@
    {
     "t": "match",
     "n": "Grundübung",
-    "x": "3 · (x + 4) | 3x + 12\n5 · (2a − 1) | 10a − 5\na − (b + c) | a − b − c\na − (b − c) | a − b + c\n(a + b) + c | a + (b + c)\na · b | b · a"
+    "x": "3 · (x + 4) | 3x + 12\n5 · (2a − 1) | 10a − 5\na − (b + c) | a − b − c\na − (b − c) | a − b + c\n(a + b) + c | a + (b + c)\na · b | b · a",
+    "k": [
+     5
+    ]
    },
    {
     "t": "mc",
     "n": "Klammern auflösen",
-    "x": "Löse auf: 3 · (x + 4)\n+ 3x + 12\n- 3x + 4\n- x + 12\n\nLöse auf: 2 · (5a − 1)\n+ 10a − 2\n- 10a − 1\n- 7a − 2\n\nLöse auf: 8 − (x + 2)\n+ 6 − x\n- 10 − x\n- 6 + x\n\nLöse auf: 10 − (a − 3)\n+ 13 − a\n- 7 − a\n- 7 + a\n\nWelches Gesetz: a · b = b · a\n+ Vertauschungsgesetz\n- Verbindungsgesetz\n- Verteilungsgesetz"
+    "x": "Löse auf: 3 · (x + 4)\n+ 3x + 12\n- 3x + 4\n- x + 12\n\nLöse auf: 2 · (5a − 1)\n+ 10a − 2\n- 10a − 1\n- 7a − 2\n\nLöse auf: 8 − (x + 2)\n+ 6 − x\n- 10 − x\n- 6 + x\n\nLöse auf: 10 − (a − 3)\n+ 13 − a\n- 7 − a\n- 7 + a\n\nWelches Gesetz: a · b = b · a\n+ Vertauschungsgesetz\n- Verbindungsgesetz\n- Verteilungsgesetz",
+    "k": [
+     5
+    ]
    },
    {
     "t": "match",
     "n": "Paare: gleichwertige Terme",
-    "x": "4 · (x + 2) | 4x + 8\n5 · (2a − 3) | 10a − 15\na − (b + c) | a − b − c\na − (b − c) | a − b + c\n6x + 9 | 3 · (2x + 3)\n(x + 3) · 2 | 2x + 6"
+    "x": "4 · (x + 2) | 4x + 8\n5 · (2a − 3) | 10a − 15\na − (b + c) | a − b − c\na − (b − c) | a − b + c\n6x + 9 | 3 · (2x + 3)\n(x + 3) · 2 | 2x + 6",
+    "k": [
+     5,
+     1
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Multipliziere aus: a) 2 · (x + 7)  b) 4 · (3a − 1)  c) (y + 5) · 3",
-    "a": "a) 2x + 14  b) 12a − 4  c) 3y + 15"
+    "a": "a) 2x + 14  b) 12a − 4  c) 3y + 15",
+    "k": [
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Löse die Klammer auf: a) 20 − (x + 4)  b) 20 − (x − 4)",
-    "a": "a) 16 − x  b) 24 − x. Minus vor der Klammer dreht alle Vorzeichen in der Klammer um."
+    "a": "a) 16 − x  b) 24 − x. Minus vor der Klammer dreht alle Vorzeichen in der Klammer um.",
+    "k": [
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Fehlersuche: Tom rechnet 3 · (x + 5) = 3x + 5. Was ist falsch?",
-    "a": "Die 3 muss mit jedem Summanden mal genommen werden: 3x + 15."
+    "a": "Die 3 muss mit jedem Summanden mal genommen werden: 3x + 15.",
+    "k": [
+     1,
+     6
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Zeige mit einer Rechteck-Skizze, dass 3 · (x + 2) = 3x + 6 ist.",
+    "a": "Rechteck 3 breit, x + 2 lang. Zerlegt in 3 · x und 3 · 2: zusammen 3x + 6.",
+    "k": [
+     4,
+     1
+    ]
    },
    {
     "l": 3,
     "q": "Klammere aus: a) 6x + 12  b) 10a − 15",
-    "a": "a) 6 · (x + 2)  b) 5 · (2a − 3)"
+    "a": "a) 6 · (x + 2)  b) 5 · (2a − 3)",
+    "k": [
+     5
+    ]
+   },
+   {
+    "l": 3,
+    "q": "Kino: Erwachsene 9 €, Kinder 6 €. Eine Familie mit 2 Erwachsenen und 2 Kindern. Schreibe zwei verschiedene Terme für den Preis (mit und ohne Klammer) und vergleiche.",
+    "a": "2 · (9 + 6) = 30 € und 2 · 9 + 2 · 6 = 30 €. Gleiches Ergebnis: Verteilungsgesetz.",
+    "k": [
+     3,
+     2
+    ]
    }
   ]
  },
@@ -228,44 +407,89 @@
    {
     "t": "mc",
     "n": "Grundübung",
-    "x": "Fasse zusammen: 4x + 7x\n+ 11x\n- 11x²\n- 28x\n\nFasse zusammen: 3x + 5y\n+ geht nicht weiter\n- 8xy\n- 8x\n\nFasse zusammen: 6x + 4 − 2x + 3\n+ 4x + 7\n- 11x\n- 8x + 7\n\nFasse zusammen: 9a − 3a + a\n+ 7a\n- 5a\n- 6a"
+    "x": "Fasse zusammen: 4x + 7x\n+ 11x\n- 11x²\n- 28x\n\nFasse zusammen: 3x + 5y\n+ geht nicht weiter\n- 8xy\n- 8x\n\nFasse zusammen: 6x + 4 − 2x + 3\n+ 4x + 7\n- 11x\n- 8x + 7\n\nFasse zusammen: 9a − 3a + a\n+ 7a\n- 5a\n- 6a",
+    "k": [
+     5
+    ]
    },
    {
     "t": "match",
     "n": "Paare: zusammenfassen",
-    "x": "5x + 3x | 8x\n7a − 2a + a | 6a\n4x + 3 + 2x | 6x + 3\n9y − 4 − 3y + 6 | 6y + 2\n2x + 5y + x | 3x + 5y\nx + x | 2x"
+    "x": "5x + 3x | 8x\n7a − 2a + a | 6a\n4x + 3 + 2x | 6x + 3\n9y − 4 − 3y + 6 | 6y + 2\n2x + 5y + x | 3x + 5y\nx + x | 2x",
+    "k": [
+     5
+    ]
    },
    {
     "t": "gap",
     "n": "Lückentext: Regeln",
-    "x": "Gleichartige Terme haben dieselbe *Variable*.\nNur gleichartige Terme darf man *zusammenfassen*.\n3x + 5y kann man *nicht* weiter zusammenfassen.\nZahlen fasst man mit *Zahlen* zusammen."
+    "x": "Gleichartige Terme haben dieselbe *Variable*.\nNur gleichartige Terme darf man *zusammenfassen*.\n3x + 5y kann man *nicht* weiter zusammenfassen.\nZahlen fasst man mit *Zahlen* zusammen.",
+    "k": [
+     6,
+     1
+    ]
    },
    {
     "t": "mio",
     "n": "Millionenspiel: Terme vereinfachen",
-    "x": "Fasse zusammen: 2x + 3x\n- 6x\n+ 5x\n- 5x²\n- 23x\n\nFasse zusammen: 4a + 2 + a\n- 7a\n- 6a + 2\n+ 5a + 2\n- 4a + 3\n\nFasse zusammen: 3x + 4y\n- 7xy\n- 7x\n- 7y\n+ geht nicht\n\nFasse zusammen: 8x − 3 − 5x + 7\n+ 3x + 4\n- 13x + 4\n- 3x − 10\n- 7x\n\nFasse zusammen: 2 · (x + 3) + 4x\n- 6x + 3\n+ 6x + 6\n- 2x + 10\n- 10x"
+    "x": "Fasse zusammen: 2x + 3x\n- 6x\n+ 5x\n- 5x²\n- 23x\n\nFasse zusammen: 4a + 2 + a\n- 7a\n- 6a + 2\n+ 5a + 2\n- 4a + 3\n\nFasse zusammen: 3x + 4y\n- 7xy\n- 7x\n- 7y\n+ geht nicht\n\nFasse zusammen: 8x − 3 − 5x + 7\n+ 3x + 4\n- 13x + 4\n- 3x − 10\n- 7x\n\nFasse zusammen: 2 · (x + 3) + 4x\n- 6x + 3\n+ 6x + 6\n- 2x + 10\n- 10x",
+    "k": [
+     5
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Fasse zusammen: a) 3x + 6x  b) 9a − 4a  c) y + y + y + y",
-    "a": "a) 9x  b) 5a  c) 4y"
+    "a": "a) 9x  b) 5a  c) 4y",
+    "k": [
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Fasse zusammen: a) 5x + 4 + 2x + 1  b) 7a + 3b − 2a + b",
-    "a": "a) 7x + 5  b) 5a + 4b"
+    "a": "a) 7x + 5  b) 5a + 4b",
+    "k": [
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Richtig oder falsch? Verbessere: a) 4x + 2 = 6x  b) 3a + 2a = 5a  c) 2x + 3y = 5xy",
-    "a": "a) falsch, bleibt 4x + 2  b) richtig  c) falsch, bleibt 2x + 3y"
+    "a": "a) falsch, bleibt 4x + 2  b) richtig  c) falsch, bleibt 2x + 3y",
+    "k": [
+     1,
+     5
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Ein Rechteck hat die Seiten 2x und x + 3. Zeichne es, stelle den Term für den Umfang auf und vereinfache ihn.",
+    "a": "U = 2x + (x + 3) + 2x + (x + 3) = 6x + 6.",
+    "k": [
+     4,
+     3,
+     5
+    ]
    },
    {
     "l": 3,
     "q": "Vereinfache: 3 · (2x + 1) + 4x − 5",
-    "a": "6x + 3 + 4x − 5 = 10x − 2"
+    "a": "6x + 3 + 4x − 5 = 10x − 2",
+    "k": [
+     5
+    ]
+   },
+   {
+    "l": 3,
+    "q": "Finde zwei verschiedene Terme, die vereinfacht 5x + 2 ergeben. Tauscht mit eurem Partner und prüft gegenseitig.",
+    "a": "z. B. 3x + 2x + 2 oder 7x − 2x + 5 − 3.",
+    "k": [
+     2,
+     6
+    ]
    }
   ]
  },
@@ -282,39 +506,72 @@
    {
     "t": "mc",
     "n": "Grundübung",
-    "x": "Welche Zahl löst 2x + 3 = 11?\n+ 4\n- 7\n- 5\n\nWas ist eine Gleichung?\n+ zwei Terme mit einem = dazwischen\n- ein Rechenausdruck ohne =\n- eine Zahl\n\nWelche Schreibweise ist richtig?\n+ 14 + 21 = 35, dann 35 + 7 = 42\n- 14 + 21 = 35 + 7 = 42\n\nWelche Zahl löst x + 8 = 15?\n+ 7\n- 23\n- 8"
+    "x": "Welche Zahl löst 2x + 3 = 11?\n+ 4\n- 7\n- 5\n\nWas ist eine Gleichung?\n+ zwei Terme mit einem = dazwischen\n- ein Rechenausdruck ohne =\n- eine Zahl\n\nWelche Schreibweise ist richtig?\n+ 14 + 21 = 35, dann 35 + 7 = 42\n- 14 + 21 = 35 + 7 = 42\n\nWelche Zahl löst x + 8 = 15?\n+ 7\n- 23\n- 8",
+    "k": [
+     5
+    ]
    },
    {
     "t": "numline",
     "n": "Zahlenstrahl: Lösungen",
-    "x": "von 0 bis 15 Schritt 1\nx + 5 = 12 | 7\n2x = 18 | 9\n3x + 1 = 13 | 4\nx − 4 = 7 | 11\n10 − x = 8 | 2\nx : 3 = 5 | 15"
+    "x": "von 0 bis 15 Schritt 1\nx + 5 = 12 | 7\n2x = 18 | 9\n3x + 1 = 13 | 4\nx − 4 = 7 | 11\n10 − x = 8 | 2\nx : 3 = 5 | 15",
+    "k": [
+     4,
+     5
+    ]
    },
    {
     "t": "match",
     "n": "Paare: Gleichung und Lösung",
-    "x": "x + 8 = 15 | x = 7\n4x = 28 | x = 7\nx − 6 = 10 | x = 16\n2x + 1 = 9 | x = 4\nx : 2 = 6 | x = 12\n5x = 0 | x = 0"
+    "x": "x + 8 = 15 | x = 7\n4x = 28 | x = 7\nx − 6 = 10 | x = 16\n2x + 1 = 9 | x = 4\nx : 2 = 6 | x = 12\n5x = 0 | x = 0",
+    "k": [
+     5
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Löse durch Überlegen: a) x + 9 = 20  b) 6x = 42  c) x − 3 = 12",
-    "a": "a) x = 11  b) x = 7  c) x = 15"
+    "a": "a) x = 11  b) x = 7  c) x = 15",
+    "k": [
+     5
+    ]
    },
    {
     "l": 1,
     "q": "Prüfe durch Einsetzen, ob x = 4 die Gleichung 3x − 2 = 10 löst.",
-    "a": "3 · 4 − 2 = 10 ✓, x = 4 ist die Lösung"
+    "a": "3 · 4 − 2 = 10 ✓, x = 4 ist die Lösung",
+    "k": [
+     5,
+     1
+    ]
    },
    {
     "l": 2,
     "q": "Welche Zahl aus {2, 3, 5, 6} löst 4x + 3 = 23?",
-    "a": "x = 5, denn 4 · 5 + 3 = 23"
+    "a": "x = 5, denn 4 · 5 + 3 = 23",
+    "k": [
+     2
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Waage: Links liegen 3 gleiche Päckchen und 2 kg, rechts 11 kg. Zeichne die Waage, stelle die Gleichung auf. Wie schwer ist ein Päckchen?",
+    "a": "3x + 2 = 11, also 3x = 9, x = 3. Ein Päckchen wiegt 3 kg.",
+    "k": [
+     4,
+     3
+    ]
    },
    {
     "l": 3,
     "q": "Schreibe die Rechnung richtig auf: Sara notiert „14 + 21 = 35 + 7 = 42“. Warum ist das falsch?",
-    "a": "14 + 21 ist nicht gleich 35 + 7. Richtig: 14 + 21 = 35; 35 + 7 = 42. Das = heißt „ist gleich viel wie“."
+    "a": "14 + 21 ist nicht gleich 35 + 7. Richtig: 14 + 21 = 35; 35 + 7 = 42. Das = heißt „ist gleich viel wie“.",
+    "k": [
+     1,
+     6
+    ]
    }
   ]
  },
@@ -331,44 +588,97 @@
    {
     "t": "mc",
     "n": "Grundübung",
-    "x": "Löse: 3x + 5 = 20\n+ x = 5\n- x = 25 : 3\n- x = 15\n\nWas ist der richtige erste Schritt bei 3x + 5 = 20?\n+ auf beiden Seiten − 5\n- nur links − 5\n- auf beiden Seiten : 5\n\nLöse: 4x − 7 = 13\n+ x = 5\n- x = 1,5\n- x = 6\n\nWie viele Lösungen hat 3x + 5 = 3x + 4?\n+ keine\n- eine\n- unendlich viele"
+    "x": "Löse: 3x + 5 = 20\n+ x = 5\n- x = 25 : 3\n- x = 15\n\nWas ist der richtige erste Schritt bei 3x + 5 = 20?\n+ auf beiden Seiten − 5\n- nur links − 5\n- auf beiden Seiten : 5\n\nLöse: 4x − 7 = 13\n+ x = 5\n- x = 1,5\n- x = 6\n\nWie viele Lösungen hat 3x + 5 = 3x + 4?\n+ keine\n- eine\n- unendlich viele",
+    "k": [
+     5
+    ]
    },
    {
     "t": "mc",
     "n": "Der richtige Schritt",
-    "x": "2x + 6 = 14. Erster Schritt?\n+ auf beiden Seiten − 6\n- auf beiden Seiten : 2, dann x + 6 = 7\n- nur links − 6\n\n5x = 35. Nächster Schritt?\n+ auf beiden Seiten : 5\n- auf beiden Seiten − 5\n- links : 5, rechts · 5\n\nx − 9 = 4. Nächster Schritt?\n+ auf beiden Seiten + 9\n- auf beiden Seiten − 9\n- auf beiden Seiten : 9\n\nLöse: 4x − 3 = 21\n+ x = 6\n- x = 4,5\n- x = 24"
+    "x": "2x + 6 = 14. Erster Schritt?\n+ auf beiden Seiten − 6\n- auf beiden Seiten : 2, dann x + 6 = 7\n- nur links − 6\n\n5x = 35. Nächster Schritt?\n+ auf beiden Seiten : 5\n- auf beiden Seiten − 5\n- links : 5, rechts · 5\n\nx − 9 = 4. Nächster Schritt?\n+ auf beiden Seiten + 9\n- auf beiden Seiten − 9\n- auf beiden Seiten : 9\n\nLöse: 4x − 3 = 21\n+ x = 6\n- x = 4,5\n- x = 24",
+    "k": [
+     5,
+     1
+    ]
    },
    {
     "t": "match",
     "n": "Paare: Gleichung und Lösung",
-    "x": "3x + 5 = 20 | x = 5\n2x − 4 = 10 | x = 7\n5x + 2 = 32 | x = 6\n6x − 6 = 30 | x = 6\n4x + 1 = 13 | x = 3\n7x − 7 = 0 | x = 1"
+    "x": "3x + 5 = 20 | x = 5\n2x − 4 = 10 | x = 7\n5x + 2 = 32 | x = 6\n6x − 6 = 30 | x = 6\n4x + 1 = 13 | x = 3\n7x − 7 = 0 | x = 1",
+    "k": [
+     5
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Löse mit Waagen-Regel und notiere die Umformung: a) x + 7 = 19  b) 4x = 36",
-    "a": "a) | − 7 → x = 12  b) | : 4 → x = 9"
+    "a": "a) | − 7 → x = 12  b) | : 4 → x = 9",
+    "k": [
+     5
+    ]
+   },
+   {
+    "l": 1,
+    "q": "Zeichne die Gleichung 2x + 3 = 11 als Waage und löse sie Schritt für Schritt am Bild.",
+    "a": "Links 2 Päckchen + 3 kg, rechts 11 kg. 3 kg wegnehmen: 2x = 8. Halbieren: x = 4.",
+    "k": [
+     4,
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Löse und mache die Probe: a) 3x + 4 = 25  b) 5x − 8 = 32",
-    "a": "a) | − 4 → 3x = 21 | : 3 → x = 7; Probe 3 · 7 + 4 = 25 ✓  b) | + 8 → 5x = 40 | : 5 → x = 8; Probe 40 − 8 = 32 ✓"
+    "a": "a) | − 4 → 3x = 21 | : 3 → x = 7; Probe 3 · 7 + 4 = 25 ✓  b) | + 8 → 5x = 40 | : 5 → x = 8; Probe 40 − 8 = 32 ✓",
+    "k": [
+     5,
+     1
+    ]
    },
    {
     "l": 2,
     "q": "Fehlersuche: Leon löst 2x + 6 = 14 so: 2x = 20, x = 10. Finde den Fehler.",
-    "a": "Er hat + 6 statt − 6 gerechnet. Richtig: 2x = 8, x = 4. Probe: 2 · 4 + 6 = 14 ✓"
+    "a": "Er hat + 6 statt − 6 gerechnet. Richtig: 2x = 8, x = 4. Probe: 2 · 4 + 6 = 14 ✓",
+    "k": [
+     1,
+     6
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Erkläre einem Mitschüler, der krank war, die Waagen-Regel in 3 Schritten an x + 5 = 12. Schreib so, dass er es allein versteht.",
+    "a": "1. Ziel: x allein. 2. Auf beiden Seiten − 5 rechnen: x = 7. 3. Probe: 7 + 5 = 12 ✓",
+    "k": [
+     6
+    ]
+   },
+   {
+    "l": 2,
+    "q": "Handytarif: 10 € Grundgebühr und 2 € pro GB. Anna zahlt 26 €. Stelle eine Gleichung auf und löse sie.",
+    "a": "10 + 2x = 26, 2x = 16, x = 8. Anna hat 8 GB verbraucht.",
+    "k": [
+     3
+    ]
    },
    {
     "l": 3,
     "q": "Löse: 2 · (x + 3) = 18",
-    "a": "Klammer auflösen: 2x + 6 = 18 | − 6 → 2x = 12 | : 2 → x = 6. Oder erst : 2 → x + 3 = 9 → x = 6"
+    "a": "Klammer auflösen: 2x + 6 = 18 | − 6 → 2x = 12 | : 2 → x = 6. Oder erst : 2 → x + 3 = 9 → x = 6",
+    "k": [
+     5
+    ]
    },
    {
     "l": 3,
     "q": "Löse: 5x + 3 = 2x + 15",
-    "a": "| − 2x → 3x + 3 = 15 | − 3 → 3x = 12 | : 3 → x = 4"
+    "a": "| − 2x → 3x + 3 = 15 | − 3 → 3x = 12 | : 3 → x = 4",
+    "k": [
+     2,
+     5
+    ]
    }
   ]
  },
@@ -385,51 +695,92 @@
    {
     "t": "mc",
     "n": "Grundübung",
-    "x": "„Eine Zahl vermehrt um 4 ergibt 18.“ Welche Gleichung passt?\n+ x + 4 = 18\n- 4x = 18\n- x − 4 = 18\n\nKlaus hat 18 Mückenstiche, 4 mehr als Klara. Wie viele hat Klara?\n+ 14\n- 22\n- 4\n\n3 Hefte und 2 € Porto kosten 8 €. Gleichung?\n+ 3x + 2 = 8\n- 3 + 2x = 8\n- 5x = 8\n\nWas gehört immer ans Ende?\n+ Probe und Antwortsatz\n- nur das Ergebnis\n- eine neue Gleichung"
+    "x": "„Eine Zahl vermehrt um 4 ergibt 18.“ Welche Gleichung passt?\n+ x + 4 = 18\n- 4x = 18\n- x − 4 = 18\n\nKlaus hat 18 Mückenstiche, 4 mehr als Klara. Wie viele hat Klara?\n+ 14\n- 22\n- 4\n\n3 Hefte und 2 € Porto kosten 8 €. Gleichung?\n+ 3x + 2 = 8\n- 3 + 2x = 8\n- 5x = 8\n\nWas gehört immer ans Ende?\n+ Probe und Antwortsatz\n- nur das Ergebnis\n- eine neue Gleichung",
+    "k": [
+     3,
+     5
+    ]
    },
    {
     "t": "match",
     "n": "Paare: Text und Gleichung",
-    "x": "Eine Zahl vermehrt um 6 ergibt 20. | x + 6 = 20\nDas Dreifache einer Zahl ist 27. | 3x = 27\nDas Doppelte einer Zahl minus 4 ergibt 10. | 2x − 4 = 10\nDie Hälfte einer Zahl ist 9. | x : 2 = 9\n5 Hefte und 3 € Porto kosten 13 €. | 5x + 3 = 13"
+    "x": "Eine Zahl vermehrt um 6 ergibt 20. | x + 6 = 20\nDas Dreifache einer Zahl ist 27. | 3x = 27\nDas Doppelte einer Zahl minus 4 ergibt 10. | 2x − 4 = 10\nDie Hälfte einer Zahl ist 9. | x : 2 = 9\n5 Hefte und 3 € Porto kosten 13 €. | 5x + 3 = 13",
+    "k": [
+     3
+    ]
    },
    {
     "t": "mc",
     "n": "Sachaufgaben",
-    "x": "Lisa ist 4 Jahre älter als Ben. Zusammen sind sie 26. Welche Gleichung passt (Ben = x)?\n+ x + x + 4 = 26\n- x + 4 = 26\n- 4x = 26\n\nWie alt ist Ben?\n+ 11\n- 22\n- 13\n\nEin Handyvertrag kostet 5 € Grundgebühr plus 2 € pro GB. Die Rechnung ist 17 €. Wie viele GB?\n+ 6\n- 8,5\n- 11"
+    "x": "Lisa ist 4 Jahre älter als Ben. Zusammen sind sie 26. Welche Gleichung passt (Ben = x)?\n+ x + x + 4 = 26\n- x + 4 = 26\n- 4x = 26\n\nWie alt ist Ben?\n+ 11\n- 22\n- 13\n\nEin Handyvertrag kostet 5 € Grundgebühr plus 2 € pro GB. Die Rechnung ist 17 €. Wie viele GB?\n+ 6\n- 8,5\n- 11",
+    "k": [
+     3,
+     2
+    ]
    }
   ],
   "hx": [
    {
     "l": 1,
     "q": "Stelle eine Gleichung auf und löse: Wenn man zu einer Zahl 15 addiert, erhält man 42.",
-    "a": "x + 15 = 42 → x = 27"
+    "a": "x + 15 = 42 → x = 27",
+    "k": [
+     3,
+     5
+    ]
    },
    {
     "l": 2,
     "q": "Drei gleich teure T-Shirts und eine Mütze für 9 € kosten zusammen 54 €. Was kostet ein T-Shirt?",
-    "a": "3x + 9 = 54 → 3x = 45 → x = 15 €. Antwortsatz!"
+    "a": "3x + 9 = 54 → 3x = 45 → x = 15 €. Antwortsatz!",
+    "k": [
+     3
+    ]
    },
    {
     "l": 2,
     "q": "Klaus hat 18 Mückenstiche, das sind 4 mehr als Klara. Wie viele hat Klara? Achtung, nicht vorschnell rechnen!",
-    "a": "x + 4 = 18 → x = 14 (nicht 22!)"
+    "a": "x + 4 = 18 → x = 14 (nicht 22!)",
+    "k": [
+     2,
+     1
+    ]
    },
    {
     "l": 3,
     "q": "Ein Rechteck ist 3 cm länger als breit. Der Umfang ist 26 cm. Wie lang und wie breit ist es?",
-    "a": "Breite x: 2x + 2(x + 3) = 26 → 4x + 6 = 26 → x = 5. Breite 5 cm, Länge 8 cm"
+    "a": "Breite x: 2x + 2(x + 3) = 26 → 4x + 6 = 26 → x = 5. Breite 5 cm, Länge 8 cm",
+    "k": [
+     3,
+     4,
+     2
+    ]
    },
    {
     "l": 3,
     "q": "Erfinde selbst eine Sachaufgabe zur Gleichung 4x + 2 = 30 und löse sie.",
-    "a": "Zum Beispiel: 4 Kinokarten und 2 € Gebühr kosten 30 €. x = 7 €"
+    "a": "Zum Beispiel: 4 Kinokarten und 2 € Gebühr kosten 30 €. x = 7 €",
+    "k": [
+     3,
+     6
+    ]
+   },
+   {
+    "l": 3,
+    "q": "Zwei Tarife: A kostet 5 € + 1 € pro GB, B kostet 2 € pro GB. Ab wie vielen GB ist A günstiger? Lege eine Tabelle an und begründe.",
+    "a": "Bei 5 GB kosten beide 10 €. Ab 6 GB ist A günstiger (11 € gegen 12 €).",
+    "k": [
+     2,
+     4,
+     1
+    ]
    }
   ]
  },
  {
   "ch": "2 Rationale Zahlen",
   "title": "2.1 Rationale Zahlen und Zahlengerade",
-  "text": "# Positive und negative Zahlen\nRationale Zahlen sind alle positiven und negativen Zahlen, auch Brüche und Dezimalzahlen.\nBeispiele: Temperatur −5 °C, Kontostand −20 €, Höhe unter dem Meer −10 m\n# Zahlengerade\nLinks von 0 liegen die negativen, rechts die positiven Zahlen.\nMerke: Je weiter rechts eine Zahl liegt, desto größer ist sie: −7 < −2 < 0 < 3\nGegenzahlen haben den gleichen Abstand zur 0: 4 und −4",
+  "text": "# Positive und negative Zahlen\nRationale Zahlen sind alle positiven und negativen Zahlen, auch Brüche und Dezimalzahlen.\n[Bild: zahlengerade]\nBeispiele: Temperatur −5 °C, Kontostand −20 €, Höhe unter dem Meer −10 m\n# Zahlengerade\nLinks von 0 liegen die negativen, rechts die positiven Zahlen.\nMerke: Je weiter rechts eine Zahl liegt, desto größer ist sie: −7 < −2 < 0 < 3\nGegenzahlen haben den gleichen Abstand zur 0: 4 und −4",
   "help": "Achtung: Bei negativen Zahlen ist die Zahl mit der größeren Ziffer kleiner.\nFalsch: −7 > −2, weil 7 > 2\nRichtig: −7 < −2, weil −7 weiter links liegt (−7 °C ist kälter als −2 °C)",
   "ub": {
    "t": "mc",
@@ -529,7 +880,7 @@
  {
   "ch": "3 Prozentrechnung",
   "title": "3.7 Diagramme lesen",
-  "text": "# Diagrammarten\n- Säulen- und Balkendiagramm: Größen vergleichen\n- Streifendiagramm: Anteile am Ganzen, der ganze Streifen sind 100 %\n- Kreisdiagramm: Anteile am Ganzen, der ganze Kreis sind 100 % = 360°\nMerke: 1 % im Kreisdiagramm sind 3,6°. 25 % sind also 90°.\nAchte auf die Achsen: Beginnt eine Achse nicht bei 0, wirken Unterschiede größer, als sie sind.",
+  "text": "# Diagrammarten\n- Säulen- und Balkendiagramm: Größen vergleichen\n[Bild: saeulen]\n- Streifendiagramm: Anteile am Ganzen, der ganze Streifen sind 100 %\n- Kreisdiagramm: Anteile am Ganzen, der ganze Kreis sind 100 % = 360°\nMerke: 1 % im Kreisdiagramm sind 3,6°. 25 % sind also 90°.\nAchte auf die Achsen: Beginnt eine Achse nicht bei 0, wirken Unterschiede größer, als sie sind.",
   "help": "Achtung: Prozent sind keine Grad.\nFalsch: 25 % im Kreisdiagramm = 25°\nRichtig: 25 % = 25 · 3,6° = 90°",
   "ub": {
    "t": "mc",
@@ -549,7 +900,7 @@
  {
   "ch": "4 Proportionalität",
   "title": "4.2 Proportionale Zuordnungen",
-  "text": "# Erkennen\n- Doppelte Menge → doppelter Preis, halbe Menge → halber Preis\n- Alle Quotienten sind gleich: Preis : Menge = immer gleich\n- Der Graph ist eine Gerade durch den Ursprung (0 | 0)\n| Menge (kg) | 1 | 2 | 4 |\n|---|---|---|---|\n| Preis (€) | 3 | 6 | 12 |\nMerke: Nicht jede Zuordnung ist proportional. Das Alter und die Körpergröße zum Beispiel nicht.",
+  "text": "# Erkennen\n- Doppelte Menge → doppelter Preis, halbe Menge → halber Preis\n[Bild: propgraph]\n- Alle Quotienten sind gleich: Preis : Menge = immer gleich\n- Der Graph ist eine Gerade durch den Ursprung (0 | 0)\n| Menge (kg) | 1 | 2 | 4 |\n|---|---|---|---|\n| Preis (€) | 3 | 6 | 12 |\nMerke: Nicht jede Zuordnung ist proportional. Das Alter und die Körpergröße zum Beispiel nicht.",
   "help": "# Im Vergleich\n| | proportional | antiproportional |\n|---|---|---|\n| Beispiel | Menge → Preis | Anzahl Pumpen → Zeit |\n| Doppelt so viel | doppelt so viel | halb so viel |\n| Gleich bleibt | der Quotient | das Produkt |\nAchtung: Manche Aufgaben sehen nur so aus, als wären sie proportional.\nFalsch: 5 Wanderer brauchen 3 Stunden, also brauchen 10 Wanderer 1,5 Stunden.\nRichtig: Der Weg wird nicht kürzer, wenn mehr mitgehen. Auch 10 Wanderer brauchen 3 Stunden.",
   "ub": {
    "t": "mc",
@@ -569,7 +920,7 @@
  {
   "ch": "5 Geometrische Figuren und Körper",
   "title": "5.1 Senkrechte und Mittelsenkrechte",
-  "text": "# Senkrechte\nEine Senkrechte schneidet eine Gerade im rechten Winkel (90°). Zeichne sie mit dem Geodreieck.\n# Mittelsenkrechte\nDie Mittelsenkrechte geht durch die Mitte einer Strecke und steht senkrecht auf ihr.\nMerke: Jeder Punkt auf der Mittelsenkrechten ist von beiden Endpunkten der Strecke gleich weit entfernt.\nDer Abstand eines Punktes zu einer Geraden wird immer senkrecht gemessen.",
+  "text": "# Senkrechte\nEine Senkrechte schneidet eine Gerade im rechten Winkel (90°). Zeichne sie mit dem Geodreieck.\n[Bild: senk]\n# Mittelsenkrechte\nDie Mittelsenkrechte geht durch die Mitte einer Strecke und steht senkrecht auf ihr.\nMerke: Jeder Punkt auf der Mittelsenkrechten ist von beiden Endpunkten der Strecke gleich weit entfernt.\nDer Abstand eines Punktes zu einer Geraden wird immer senkrecht gemessen.",
   "help": "# Gerade, Halbgerade, Strecke\n- Gerade: unendlich lang in beide Richtungen\n- Halbgerade: hat einen Anfangspunkt\n- Strecke [AB]: hat zwei Endpunkte A und B\nAchtung: Die Strecke [AB] ist die Linie selbst, ihre Länge ist eine Zahl mit Einheit.\nFalsch: [AB] = 5 cm\nRichtig: Die Strecke [AB] ist 5 cm lang:   AB = 5 cm (mit Strich über AB)",
   "ub": {
    "t": "match",
@@ -589,7 +940,7 @@
  {
   "ch": "5 Geometrische Figuren und Körper",
   "title": "5.3 Dreiecke",
-  "text": "# Beschriften\nEcken A, B, C gegen den Uhrzeigersinn. Die Seite gegenüber von A heißt a. Winkel α bei A, β bei B, γ bei C.\n# Dreiecksarten\n- rechtwinklig: ein Winkel ist 90°\n- gleichschenklig: zwei Seiten sind gleich lang\n- gleichseitig: alle drei Seiten sind gleich lang, alle Winkel 60°\nMerke: Die Innenwinkelsumme im Dreieck beträgt immer 180°: α + β + γ = 180°",
+  "text": "# Beschriften\nEcken A, B, C gegen den Uhrzeigersinn. Die Seite gegenüber von A heißt a. Winkel α bei A, β bei B, γ bei C.\n[Bild: dreiecksarten]\n# Dreiecksarten\n- rechtwinklig: ein Winkel ist 90°\n- gleichschenklig: zwei Seiten sind gleich lang\n- gleichseitig: alle drei Seiten sind gleich lang, alle Winkel 60°\nMerke: Die Innenwinkelsumme im Dreieck beträgt immer 180°: α + β + γ = 180°",
   "help": "Achtung: Die Seite a liegt gegenüber von A, nicht neben A.\nFalsch: a liegt zwischen A und B\nRichtig: a liegt zwischen B und C, gegenüber von A",
   "ub": {
    "t": "mc",
@@ -609,7 +960,7 @@
  {
   "ch": "5 Geometrische Figuren und Körper",
   "title": "5.5 Prismen",
-  "text": "# Was ist ein Prisma?\nEin Prisma hat zwei gleiche, parallele Grundflächen. Die Seitenflächen sind Rechtecke.\nGrundfläche kann ein Rechteck, Parallelogramm oder Dreieck sein.\n# Fachbegriffe\nEcke, Kante, Seitenfläche, Grundfläche, Diagonale, parallel, senkrecht\n# Darstellen\n- Netz: alle Flächen aufgeklappt in der Ebene\n- Schrägbild: nach hinten laufende Kanten schräg (45°) und halb so lang",
+  "text": "# Was ist ein Prisma?\nEin Prisma hat zwei gleiche, parallele Grundflächen. Die Seitenflächen sind Rechtecke.\n[Bild: prisma]\nGrundfläche kann ein Rechteck, Parallelogramm oder Dreieck sein.\n# Fachbegriffe\nEcke, Kante, Seitenfläche, Grundfläche, Diagonale, parallel, senkrecht\n# Darstellen\n- Netz: alle Flächen aufgeklappt in der Ebene\n- Schrägbild: nach hinten laufende Kanten schräg (45°) und halb so lang",
   "help": "Achtung: Die Grundfläche muss nicht unten liegen. Sie ist die Fläche, die es zweimal gleich und parallel gibt.\nFalsch: Ein liegendes Dreiecksprisma hat ein Rechteck als Grundfläche.\nRichtig: Die Grundfläche ist das Dreieck, auch wenn das Prisma liegt.",
   "ub": {
    "t": "mc",
@@ -619,7 +970,7 @@
  {
   "ch": "6 Flächeninhalt",
   "title": "6.1 Parallelogramm",
-  "text": "# Zerlegen zum Rechteck\nSchneidet man ein Dreieck ab und setzt es auf der anderen Seite an, entsteht ein Rechteck mit gleicher Fläche.\nMerke: A = g · h   (Grundseite mal zugehörige Höhe)\nBeispiel: g = 6 cm, h = 4 cm → A = 24 cm²\nDie Höhe steht immer senkrecht auf der Grundseite.",
+  "text": "# Zerlegen zum Rechteck\nSchneidet man ein Dreieck ab und setzt es auf der anderen Seite an, entsteht ein Rechteck mit gleicher Fläche.\n[Bild: para]\nMerke: A = g · h   (Grundseite mal zugehörige Höhe)\nBeispiel: g = 6 cm, h = 4 cm → A = 24 cm²\nDie Höhe steht immer senkrecht auf der Grundseite.",
   "help": "Achtung: Die Höhe ist nicht die schräge Seite.\nFalsch: A = g · Seitenlänge\nRichtig: A = g · h, die Höhe steht senkrecht auf g.\nAchtung: Die Höhe kann auch außerhalb der Figur liegen. Dann verlängerst du die Grundseite und misst von dort senkrecht.",
   "ub": {
    "t": "mc",
@@ -629,7 +980,7 @@
  {
   "ch": "6 Flächeninhalt",
   "title": "6.2 Dreieck",
-  "text": "# Halbes Parallelogramm\nZwei gleiche Dreiecke ergeben zusammen ein Parallelogramm.\nMerke: A = g · h : 2\nBeispiel: g = 8 cm, h = 5 cm → A = 8 · 5 : 2 = 20 cm²\n# Umkehraufgabe\nh = A · 2 : g   und   g = A · 2 : h",
+  "text": "# Halbes Parallelogramm\nZwei gleiche Dreiecke ergeben zusammen ein Parallelogramm.\n[Bild: dreieck]\nMerke: A = g · h : 2\nBeispiel: g = 8 cm, h = 5 cm → A = 8 · 5 : 2 = 20 cm²\n[Bild: hoehen]\n# Umkehraufgabe\nh = A · 2 : g   und   g = A · 2 : h",
   "help": "Achtung: Das „: 2“ vergessen.\nFalsch: A = g · h = 8 · 5 = 40 cm²\nRichtig: A = g · h : 2 = 20 cm²\nAchtung: Beim stumpfwinkligen Dreieck liegt die Höhe außerhalb. Verlängere die Grundseite und zeichne die Höhe von der Spitze senkrecht auf die Verlängerung.",
   "ub": {
    "t": "mc",
@@ -639,7 +990,7 @@
  {
   "ch": "6 Flächeninhalt",
   "title": "6.3 Zusammengesetzte Figuren und Oberfläche",
-  "text": "# Zusammengesetzte Figuren\nZerlege die Figur in Rechtecke, Parallelogramme und Dreiecke. Berechne die Teilflächen und addiere sie.\n# Oberfläche eines Prismas\nMerke: O = 2 · G + M   (zwei Grundflächen + Mantel)\nDer Mantel besteht aus allen Seitenflächen: M = Umfang der Grundfläche · Höhe des Prismas",
+  "text": "# Zusammengesetzte Figuren\nZerlege die Figur in Rechtecke, Parallelogramme und Dreiecke. Berechne die Teilflächen und addiere sie.\n[Bild: zusam]\n# Oberfläche eines Prismas\nMerke: O = 2 · G + M   (zwei Grundflächen + Mantel)\n[Bild: prisma]\nDer Mantel besteht aus allen Seitenflächen: M = Umfang der Grundfläche · Höhe des Prismas",
   "help": "Achtung: Die Grundfläche zweimal zählen.\nFalsch: O = G + M\nRichtig: O = 2 · G + M",
   "ub": {
    "t": "mc",
@@ -649,7 +1000,7 @@
  {
   "ch": "7 Rauminhalt",
   "title": "7.1 Volumen gerader Prismen",
-  "text": "# Grundfläche mal Höhe\nEin Prisma kann man sich aus vielen gleichen Grundflächen gestapelt vorstellen.\nMerke: V = G · h\n- Quader: G = a · b\n- Parallelogramm-Prisma: G = g · h\n- Dreiecksprisma: G = g · h : 2\n# Einheiten\n- 1 dm³ = 1 000 cm³ = 1 Liter\n- 1 m³ = 1 000 dm³",
+  "text": "# Grundfläche mal Höhe\nEin Prisma kann man sich aus vielen gleichen Grundflächen gestapelt vorstellen.\n[Bild: quader]\nMerke: V = G · h\n- Quader: G = a · b\n- Parallelogramm-Prisma: G = g · h\n- Dreiecksprisma: G = g · h : 2\n# Einheiten\n- 1 dm³ = 1 000 cm³ = 1 Liter\n- 1 m³ = 1 000 dm³",
   "help": "Achtung: Flächen und Räume haben verschiedene Einheiten.\nFalsch: 1 m³ = 100 dm³\nRichtig: 1 m³ = 10 dm · 10 dm · 10 dm = 1 000 dm³\nFalsch: V = 2 · G + M\nRichtig: V = G · h (Oberfläche und Volumen nicht verwechseln)",
   "ub": {
    "t": "mc",
@@ -669,7 +1020,7 @@
  {
   "ch": "8 Daten und Diagramme",
   "title": "8.1 Daten darstellen",
-  "text": "# Darstellungsformen\nText, Tabelle, Säulen-, Balken-, Kreis- oder Liniendiagramm\n- Säulen/Balken: Werte vergleichen\n- Kreis: Anteile am Ganzen\n- Linie: Entwicklung über die Zeit\nMerke: Prüfe bei Diagrammen: Beginnt die Achse bei 0? Sind die Abstände gleich? Wie viele wurden befragt?",
+  "text": "# Darstellungsformen\nText, Tabelle, Säulen-, Balken-, Kreis- oder Liniendiagramm\n[Bild: saeulen]\n- Säulen/Balken: Werte vergleichen\n- Kreis: Anteile am Ganzen\n- Linie: Entwicklung über die Zeit\nMerke: Prüfe bei Diagrammen: Beginnt die Achse bei 0? Sind die Abstände gleich? Wie viele wurden befragt?",
   "help": "Achtung: Ein Liniendiagramm passt nur, wenn sich etwas über die Zeit entwickelt.\nFalsch: Lieblingsfächer der Klasse als Liniendiagramm\nRichtig: Lieblingsfächer als Säulen- oder Kreisdiagramm",
   "ub": {
    "t": "match",
