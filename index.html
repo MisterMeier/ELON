@@ -223,7 +223,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .corner b{font-family:var(--f-display);font-size:1.5rem}
 .c1{background:#ffd95e}.c2{background:#ffb57d}.c3{background:#8fe0b5}.c4{background:#9cc2ff}
 [hidden]{display:none!important}
-textarea,input[type=text],input[type=number],input[type=time],input[type=password],select{font:inherit;width:100%;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+textarea,input[type=text],input[type=url],input[type=search],input[type=number],input[type=time],input[type=password],select{font:inherit;width:100%;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
 
 /* Week */
 .wk{overflow-x:auto}
@@ -316,6 +316,7 @@ textarea,input[type=text],input[type=number],input[type=time],input[type=passwor
 .t-side{display:grid;gap:16px;min-width:0}
 .seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:12px}
 .seat{min-height:78px;border-radius:14px;border:2px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px;font-family:var(--f-display);font-weight:800;font-size:1.25rem;color:var(--muted);position:relative;min-width:0;text-align:center}
+button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;background:none;cursor:pointer}
 .seat small{font-family:var(--f-body);font-size:.78rem;font-weight:800;line-height:1.1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .seat.on{border:2px solid var(--line);background:var(--surface-2);color:var(--ink)}
@@ -421,22 +422,74 @@ button.slot{border-style:solid;border-color:var(--sc);background:var(--surface);
 .win{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:18px;padding:16px;border-radius:20px;background:var(--ok-bg)}
 .win p{margin:4px 0 0}
 .gprog{font-weight:800;color:var(--muted)}
+
+/* v9: Lehrerbereich */
+body.teacher .top{border-bottom:3px solid var(--navy)}
+.tchip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;font-size:.85rem}
+.areas.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){.areas.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.areas.four{grid-template-columns:1fr}}
+.a-tafel{--ac:var(--navy)}.a-lib{--ac:var(--orange)}.a-obs{--ac:var(--red)}
+.priv{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:14px;background:var(--warn-bg);font-weight:700;margin-bottom:16px}
+.libbar{display:grid;gap:12px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:760px){.libbar{grid-template-columns:1fr}}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
+.mat{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sc);box-shadow:var(--shadow);min-width:0}
+.mat .nm{display:flex;gap:10px;align-items:center;min-width:0}
+.mat .nm b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mat .ic{font-size:1.8rem;flex:none}
+.matchips{display:flex;flex-wrap:wrap;gap:6px}
+.matchip{display:inline-flex;gap:6px;align-items:center;padding:5px 6px 5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-weight:800;font-size:.85rem;max-width:100%}
+.matchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.matchip button{border:0;background:var(--line);border-radius:50%;width:22px;height:22px;cursor:pointer;font-weight:800;flex:none}
+.ov .box.viewer{max-width:min(1200px,96vw);width:96vw;height:90vh;display:flex;flex-direction:column;gap:10px;text-align:left;border-color:var(--navy)}
+.viewer .vbody{flex:1;min-height:0;display:grid;place-items:center;background:var(--surface-2);border-radius:14px;overflow:auto}
+.viewer img{max-width:100%;max-height:100%;object-fit:contain}
+.viewer iframe{width:100%;height:100%;border:0;border-radius:14px;background:#fff}
+.pupils{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.pupil{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px;border-radius:14px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;font:inherit;color:var(--ink);min-width:0}
+.pupil b{font-family:var(--f-display);font-size:1.3rem}
+.pupil small{color:var(--muted);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pupil .dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.cats button{padding:7px 12px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}
+.cats button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.note{padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:grid;gap:6px}
+.note .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;color:var(--muted);font-weight:700;font-size:.85rem}
+.notes{display:grid;gap:10px;margin-top:12px}
+textarea.obs{width:100%;min-height:90px}
+
+/* v9: Touch-Tafel */
+button,a.btn{touch-action:manipulation}
+body.tboard .mem{gap:14px}
+body.tboard .mc{min-height:150px;font-size:1.5rem}
+body.tboard .mc span{font-size:3rem}
+body.tboard .slot,body.tboard .tile{width:84px;height:92px;font-size:2.6rem;border-radius:16px}
+body.tboard .kbd button{width:68px;height:72px;font-size:1.7rem}
+body.tboard .hintbox{font-size:2.2rem}
+body.tboard .fb{font-size:1.5rem}
+body.tboard .sky{height:260px}
+body.tboard .bal{width:48px;height:60px}
 </style>
 
 <header class="top"><div class="top-in">
   <button class="logo" data-act="dash" aria-label="ELIO Dashboard">EL<span class="on">I<i></i></span></button>
   <nav class="nav" id="nav">
-    <button data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
-    <button data-act="lessons" data-nav="lessons" id="nav-lessons" hidden>Stunden</button>
-    <button data-act="dash" data-nav="dash">Dashboard</button>
-    <button data-act="homework" data-nav="homework">Hausaufgaben</button>
-    <button data-act="practice" data-nav="practice">Üben</button>
-    <button data-act="week" data-nav="week">Stundenplan</button>
-    <button data-act="journal" data-nav="journal" id="nav-journal" hidden>Lerntagebuch</button>
-    <button data-act="board" data-nav="board">Lotsen-Board</button>
+    <button class="tv" data-act="tdash" data-nav="tdash" hidden>Lehrerzimmer</button>
+    <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
+    <button class="tv" data-act="lessons" data-nav="lessons" id="nav-lessons" hidden>Planung</button>
+    <button class="tv" data-act="library" data-nav="library" hidden>Bibliothek</button>
+    <button class="tv" data-act="obs" data-nav="obs" hidden>Beobachtungen</button>
+    <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
+    <button class="sv" data-act="homework" data-nav="homework">Hausaufgaben</button>
+    <button class="sv" data-act="practice" data-nav="practice">Üben</button>
+    <button class="sv" data-act="week" data-nav="week">Stundenplan</button>
+    <button class="sv" data-act="journal" data-nav="journal" id="nav-journal" hidden>Lerntagebuch</button>
+    <button class="sv" data-act="board" data-nav="board">Lotsen-Board</button>
   </nav>
   <span class="spacer"></span>
   <span class="clock" id="clock">--:--</span>
+  <span class="tchip" id="tchip" hidden>Lehrkraft</span>
   <span class="stars" title="Deine Sterne"><span id="star-ico"></span><span id="star-n">0</span></span>
 </div><div id="live" hidden></div></header>
 <main id="view"></main>
@@ -721,8 +774,13 @@ function render(){
   $('#nav').hidden=V.name==='role';
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
   document.body.classList.toggle('wide',V.name==='tafel');
-  $('#nav-tafel').hidden=$('#nav-lessons').hidden=S.role!=='teacher';
+  document.body.classList.toggle('tboard',S.role==='teacher'&&['memory','salad','balloon'].includes(V.name));
+  const isT=S.role==='teacher';
+  document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
+  document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
   $('#nav-journal').hidden=S.role!=='student';
+  document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='lesson-edit'&&b.dataset.nav==='lessons')));
   updBanner();
   if(V.name==='tafel')updTafel();
 }
@@ -763,7 +821,7 @@ VIEWS.dash=()=>{
       <button class="area a-hw" data-act="homework"><span class="ai">📝</span><b>Hausaufgaben</b><small>${open.length?open.length+' offen':'Alles erledigt'}</small></button>
       <button class="area a-play" data-act="practice"><span class="ai">🎮</span><b>Üben</b><small>Level ${L.l} · Lernleitern und Spiele</small><div class="mini"><i style="width:${L.pct}%"></i></div></button>
     </div>`;
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
+  return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
       <span class="muted" style="font-weight:800">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span></div>
     <div style="display:grid;gap:18px;margin-bottom:18px">${now}${areas}</div>
     <div class="dash">
@@ -821,17 +879,18 @@ function lvlInfo(){const l=Math.floor(S.stars/10)+1;return {l,name:LEVELS[Math.m
 function lvlBar(){const L=lvlInfo();
   return `<div class="lvl">${elo('happy',52)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b style="font-size:1.15rem">Level ${L.l} · ${L.name}</b><small class="muted" style="font-weight:700">Noch ${L.left} Stern${L.left>1?'e':''} bis Level ${L.l+1}</small></div>
     <div class="bar"><i style="width:${L.pct}%"></i></div></div></div>`}
-function gameHead(g,s){return `<div class="st-head s-${s}"><button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
+function gameHead(g,s){return `<div class="st-head s-${s}">${S.role==='teacher'?'<button class="btn sm" data-act="tafel">← Tafel</button><span class="chip">An der Tafel · Touch</span>':`<button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
 function finishGame(g){
   const day=new Date().toISOString().slice(0,10);
   if(S.playDay!==day){S.play={};S.playDay=day}
   const key=V.name+'-'+V.s,c=S.play[key]||0;
+  if(S.role==='teacher'){g.star=false;g.win=true;SND.cheer();return}
   g.star=c<3;if(g.star){S.play[key]=c+1;addStars(1)}else save();
   g.win=true;SND.cheer();
 }
 function winBox(g){return `<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b>
-  <p>${g.star?'+1 Stern fürs Dranbleiben.':'Für dieses Spiel hast du heute schon 3 Sterne. Üben lohnt sich trotzdem!'}</p></div>
-  <button class="btn pri" data-act="g-again">Nochmal</button><button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button></div>`}
+  <p>${S.role==='teacher'?'Stark gemacht, Klasse!':g.star?'+1 Stern fürs Dranbleiben.':'Für dieses Spiel hast du heute schon 3 Sterne. Üben lohnt sich trotzdem!'}</p></div>
+  <button class="btn pri" data-act="g-again">Nochmal</button>${S.role==='teacher'?'<button class="btn" data-act="tafel">Zurück zur Tafel</button>':`<button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button>`}</div>`}
 VIEWS.practice=()=>{
   const s=V.s||S.lastPs||'E';
   const lad=[
@@ -1227,14 +1286,14 @@ function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.m
 let CS=null,ROSTER={},TALLY={};
 function initTeacher(){
   CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:false,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
-  CS.poll=null;CS.ready=null;CS.journal=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
+  CS.poll=null;CS.ready=null;CS.journal=null;CS.share=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
 }
 function pushCS(){if(!CS)return;CS.mission=S.mission;S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()})}
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
 function onStudentMsg(m){
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
   (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
-  if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(V.name==='tafel')updTafel()}}
+  if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(TD.nicks[nr]!==nk){TD.nicks[nr]=nk;tsave()}if(V.name==='tafel')updTafel()}}
   let ch=false;
   if(m.k==='help'){const has=CS.help.includes(nr);if(m.on&&!has){CS.help.push(nr);ch=true;SND.right()}if(!m.on&&has){CS.help=CS.help.filter(x=>x!==nr);ch=true}}
   if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true}
@@ -1253,6 +1312,7 @@ VIEWS.tafel=()=>{
         <h1 class="t-big">${esc(ph.name)}</h1><p class="t-txt">${esc(ph.txt)}</p>
         ${ph.sf||ph.method?`<div class="row" style="margin-top:8px">${ph.sf?`<span class="chip">${esc(ph.sf)}</span>`:''}${ph.method?`<span class="chip">${esc(ph.method)}</span>`:''}</div>`:''}
         <p style="margin-top:10px;font-family:var(--f-display);font-size:1.3rem"><span class="label">Mission</span> ${esc(S.mission)}</p>
+        ${tafelMats(L)}
         ${L?`<div class="strip">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}">${i+1}. ${esc(p.name)}</button>`).join('')}</div>
           <div class="row" style="margin-top:12px"><button class="btn" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button><button class="btn pri" data-act="l-go" data-i="${CS.step+1}" ${CS.step>=L.phases.length-1?'disabled':''}>Nächste Phase ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button></div>`
         :`<div class="row" style="margin-top:12px"><button class="btn pri" data-act="lessons">Stunde starten</button></div>`}</div>
@@ -1272,6 +1332,9 @@ VIEWS.tafel=()=>{
   <details class="panel ctrl" open><summary>Steuerung</summary>
     <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
+    <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
+      ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}</div>
+    <div class="grp row"><span class="label">Material</span><button class="btn" data-act="lib-pick">Aus der Bibliothek zeigen</button>${CS.share?`<span class="chip">Auf den iPads: ${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button>`:''}</div>
     <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-set" data-m="${m}">${m} min</button>`).join('')}
       <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
     <div class="grp row"><span class="label">Signale</span>
@@ -1293,7 +1356,7 @@ function updTafel(){
   const on=online(),n=S.classSize;
   $('#t-online').textContent=on.length;
   $('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
-    const nk=ROSTER[k]&&ROSTER[k].nick;return `<div class="seat ${cls}">${k}${nk?`<small>${esc(nk)}</small>`:''}</div>`}).join('');
+    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${k}${nk?`<small>${esc(nk)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||'Nr. '+k)}</b> <span class="muted">Nr. ${k}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   $('#t-ready').innerHTML=CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
@@ -1328,7 +1391,10 @@ function liveOverlay(){
   if(S.role!=='student'||!RCS){el.hidden=true;lastOvSig='';return}
   const ph=phaseOf(RCS.phase),box=h=>`<div class="box">${h}</div>`;
   let sig='',html='',full=false;
-  if(RCS.freeze||ph.look){sig='look'+RCS.freeze+RCS.phaseAt;full=true;
+  if(!RCS.freeze&&RCS.share&&S.shareSeen!==RCS.share.at){sig='sh'+RCS.share.at;
+    html=box(`<span class="label">Von deiner Lehrkraft</span><h2>${esc(RCS.share.name)}</h2>
+      <div class="row" style="justify-content:center;margin-top:16px"><a class="btn pri" href="${esc(RCS.share.url)}" target="_blank" rel="noopener" data-act="share-ok">Öffnen</a><button class="btn" data-act="share-ok">Schließen</button></div>`)}
+  else if(RCS.freeze||ph.look){sig='look'+RCS.freeze+RCS.phaseAt;full=true;
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
   else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null;
     html=box(`<span class="label">Bereit-Check</span><h2>Bist du bereit?</h2>${sub?`<p style="margin-top:8px;font-weight:700">Liegt alles bereit?</p><div class="prep">${SUBJECTS[sub].prep.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>`:''}
@@ -1439,6 +1505,174 @@ function startStep(i){
   if(p.act==='journal')CS.journal={id:'j'+Date.now(),done:[]};
   pushCS();render();
 }
+
+/* =====================================================================
+   LEHRERBEREICH: Lehrerzimmer, Bibliothek, Beobachtungen
+   Alles hier bleibt auf dem Gerät der Lehrkraft und wird nie an iPads gesendet.
+   ===================================================================== */
+const TKEY='elio-teacher';
+let TD;try{TD=Object.assign({obs:{},nicks:{}},JSON.parse(localStorage.getItem(TKEY)||'{}'))}catch(e){TD={obs:{},nicks:{}}}
+function tsave(){try{localStorage.setItem(TKEY,JSON.stringify(TD))}catch(e){}}
+const nickOf=k=>(ROSTER[k]&&ROSTER[k].nick)||TD.nicks[k]||'';
+const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)};
+const today=()=>new Date().toISOString().slice(0,10);
+
+/* --- Bibliothek (IndexedDB auf diesem Gerät) --- */
+const LIB={items:[],ready:false,db:null,msg:''};
+function libOpen(){return new Promise((res,rej)=>{if(LIB.db)return res(LIB.db);const r=indexedDB.open('elio-lib',1);
+  r.onupgradeneeded=()=>{r.result.createObjectStore('meta',{keyPath:'id'});r.result.createObjectStore('blob')};
+  r.onsuccess=()=>{LIB.db=r.result;res(LIB.db)};r.onerror=()=>rej(r.error)})}
+async function idb(store,mode,op){const db=await libOpen();return new Promise((res,rej)=>{const q=op(db.transaction(store,mode).objectStore(store));q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+async function libLoad(){try{LIB.items=(await idb('meta','readonly',st=>st.getAll())).sort((a,b)=>b.added-a.added);LIB.err=0}catch(e){LIB.err=1}
+  LIB.ready=true;if(['library','lesson-edit','tdash','tafel'].includes(V.name))render()}
+const libById=id=>LIB.items.find(m=>m.id===id);
+const newId=()=>'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+async function libAddFiles(files,subj){
+  try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+  let n=0,big=0;
+  for(const f of files){if(f.size>100e6){big++;continue}const id=newId();
+    try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:f.type||'',size:f.size,subject:subj,added:Date.now()}));n++}catch(e){LIB.msg='Speichern fehlgeschlagen: Ist der Speicher voll?'}}
+  LIB.msg=(n?`${n} Datei${n>1?'en':''} gespeichert.`:'')+(big?` ${big} Datei${big>1?'en sind':' ist'} größer als 100 MB und wurde${big>1?'n':''} übersprungen.`:'')||LIB.msg;
+  await libLoad();
+}
+async function libAddLink(url,name,subj){
+  if(!/^https?:\/\/\S+\.\S+/.test(url)){LIB.msg='Bitte eine vollständige Adresse eingeben, die mit https:// beginnt.';render();return}
+  await idb('meta','readwrite',st=>st.put({id:newId(),kind:'link',url,name:name||url.replace(/^https?:\/\//,'').slice(0,60),mime:'link',size:0,subject:subj,added:Date.now()}));
+  LIB.msg='Link gespeichert.';await libLoad();
+}
+async function libDel(id){
+  await idb('meta','readwrite',st=>st.delete(id));try{await idb('blob','readwrite',st=>st.delete(id))}catch(e){}
+  lessons().forEach(L=>L.phases.forEach(p=>{if(p.mats)p.mats=p.mats.filter(x=>x!==id)}));save();
+  if(CS&&CS.share&&CS.share.id===id){CS.share=null;pushCS()}
+  LIB.msg='Gelöscht.';await libLoad();
+}
+function matIcon(m){const n=(m.name||'').toLowerCase(),t=m.mime||'';
+  if(m.kind==='link')return '🔗';if(t.startsWith('image/'))return '🖼️';if(t==='application/pdf'||n.endsWith('.pdf'))return '📄';
+  if(/\.(pptx?|key|odp)$/.test(n))return '📊';if(/\.(docx?|pages|odt|txt|rtf)$/.test(n))return '📝';if(/\.(xlsx?|numbers|ods|csv)$/.test(n))return '📈';
+  if(t.startsWith('audio/'))return '🎧';if(t.startsWith('video/'))return '🎬';return '📁'}
+const fsize=b=>b>=1e6?(b/1e6).toFixed(1).replace('.',',')+' MB':Math.max(1,Math.round(b/1e3))+' KB';
+const canShow=m=>m.kind==='link'||(m.mime||'').startsWith('image/')||m.mime==='application/pdf'||(m.mime||'').startsWith('video/')||(m.mime||'').startsWith('audio/')||/\.pdf$/i.test(m.name);
+function libListHTML(){
+  const f=V.f||'all',q=(V.q||'').toLowerCase().trim();
+  const list=LIB.items.filter(m=>(f==='all'||m.subject===f)&&(!q||m.name.toLowerCase().includes(q)));
+  if(!LIB.ready)return '<div class="empty">Bibliothek lädt …</div>';
+  if(!list.length)return `<div class="empty">${LIB.items.length?'Nichts gefunden.':'Noch keine Materialien. Lade oben deine ersten Dateien hoch.'}</div>`;
+  return `<div class="libgrid">${list.map(m=>`<article class="mat s-${m.subject}"><div class="nm"><span class="ic">${matIcon(m)}</span><div style="min-width:0"><b title="${esc(m.name)}">${esc(m.name)}</b><br>
+      <small class="muted" style="font-weight:700">${SUBJECTS[m.subject]?SUBJECTS[m.subject].name:''} · ${m.kind==='link'?'Link':fsize(m.size)} · ${new Date(m.added).toLocaleDateString('de-DE')}</small></div></div>
+    <div class="row" style="gap:6px">${canShow(m)?`<button class="btn sm pri" data-act="lib-view" data-id="${m.id}">${m.kind==='link'?'Öffnen':'Zeigen'}</button>`:''}
+      ${m.kind==='file'?`<button class="btn sm" data-act="lib-dl" data-id="${m.id}">Herunterladen</button>`:''}
+      ${V.ldel===m.id?`<button class="btn sm red" data-act="lib-del-yes" data-id="${m.id}">Wirklich löschen</button><button class="btn sm" data-act="lib-del-no">Nein</button>`:`<button class="btn sm" data-act="lib-del" data-id="${m.id}">Löschen</button>`}</div></article>`).join('')}</div>`;
+}
+VIEWS.library=()=>{
+  const f=V.f||'all',subjOpts=Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${k===(V.us||'E')?'selected':''}>${v.name}</option>`).join('');
+  const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Bibliothek</h1><span class="chip">${LIB.items.length} Materialien</span></div>
+  <div class="priv">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
+  <div class="libbar">
+    <section class="panel"><span class="label">Dateien hochladen</span><p class="muted" style="font-weight:700;margin:4px 0 10px">PowerPoint, PDF, Bilder, Arbeitsblätter, Audio, Video</p>
+      <div class="row"><select id="lib-subj" aria-label="Fach">${subjOpts}</select><label class="btn pri" style="cursor:pointer">Dateien auswählen<input type="file" id="lib-file" multiple hidden></label></div></section>
+    <section class="panel"><span class="label">Link speichern</span><p class="muted" style="font-weight:700;margin:4px 0 10px">z. B. LearningApps, YouTube, Padlet. Links kannst du an die iPads senden.</p>
+      <div class="row"><input id="lib-url" type="url" placeholder="https://…" style="flex:2;min-width:180px"><input id="lib-title" type="text" placeholder="Titel (freiwillig)" style="flex:1;min-width:130px"><button class="btn" data-act="lib-link">Speichern</button></div></section>
+  </div>
+  ${LIB.msg?`<p class="saved">${esc(LIB.msg)}</p>`:''}${LIB.err?'<p class="err">Die Bibliothek konnte auf diesem Gerät nicht geöffnet werden (privates Surfen?).</p>':''}
+  <div class="row" style="margin-top:18px;justify-content:space-between"><div class="psub" style="margin:0">${['all',...Object.keys(SUBJECTS)].filter(k=>k==='all'||cnt(k)).map(k=>`<button class="${k==='all'?'':'s-'+k} ${f===k?'on':''}" data-act="lib-f" data-f="${k}" ${k==='all'?'style="--sc:var(--navy)"':''}>${k==='all'?'Alle':SUBJECTS[k].name} · ${cnt(k)}</button>`).join('')}</div>
+    <input id="lib-q" type="search" placeholder="Suchen …" value="${esc(V.q||'')}" style="min-width:200px;width:auto"></div>
+  <div id="lib-list">${libListHTML()}</div>`;
+};
+async function libView(id){
+  const m=libById(id);if(!m)return;
+  if(m.kind==='link'){window.open(m.url,'_blank','noopener');return}
+  const b=await idb('blob','readonly',st=>st.get(id));if(!b)return;
+  if(!canShow(m)){dl(b,m.name);return}
+  const u=URL.createObjectURL(b),t=m.mime||'';
+  const body=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls style="max-width:100%;max-height:100%"></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
+  showOv(`<div class="box viewer" role="dialog" aria-label="${esc(m.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${matIcon(m)} ${esc(m.name)}</b>
+    <div class="row"><button class="btn sm" data-act="lib-dl" data-id="${m.id}">Herunterladen</button><button class="btn sm pri" data-act="close-ov">Schließen</button></div></div><div class="vbody">${body}</div></div>`);
+}
+async function libDownload(id){const m=libById(id);if(!m||m.kind!=='file')return;const b=await idb('blob','readonly',st=>st.get(id));if(b)dl(b,m.name)}
+function tafelMats(L){
+  if(!L)return '';const p=L.phases[CS.step];const ms=((p&&p.mats)||[]).map(libById).filter(Boolean);if(!ms.length)return '';
+  return `<div class="row" style="margin-top:10px"><span class="label">Material</span>${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`;
+}
+function phaseMatEditor(p,i,L){
+  const ms=(p.mats||[]).map(libById).filter(Boolean);
+  if(!LIB.ready)return '<p class="muted">Bibliothek lädt …</p>';
+  const avail=LIB.items.filter(m=>!(p.mats||[]).includes(m.id)).sort((a,b)=>(b.subject===L.subject)-(a.subject===L.subject));
+  return `<div class="matchips" style="margin-top:6px">${ms.map(m=>`<span class="matchip">${matIcon(m)} <span>${esc(m.name)}</span><button data-act="ph-mat-del" data-i="${i}" data-m="${m.id}" aria-label="Entfernen">×</button></span>`).join('')}
+    ${LIB.items.length?`<select data-mat="${i}" style="max-width:100%"><option value="">+ Material aus der Bibliothek …</option>${avail.map(m=>`<option value="${m.id}">${SUBJECTS[m.subject]?SUBJECTS[m.subject].short+' · ':''}${esc(m.name)}</option>`).join('')}</select>`
+      :'<button class="btn sm" data-act="library">Erst Material in die Bibliothek hochladen</button>'}</div>`;
+}
+function libPicker(){
+  showOv(`<div class="box" style="text-align:left;max-width:640px"><span class="label">Aus der Bibliothek zeigen</span><h2>Welches Material?</h2>
+    <div style="display:grid;gap:8px;margin-top:12px">${LIB.items.map(m=>`<div class="row" style="justify-content:space-between"><span style="font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis">${matIcon(m)} ${esc(m.name)}</span>
+      <span class="row" style="gap:6px">${canShow(m)?`<button class="btn sm pri" data-act="lib-view" data-id="${m.id}">${m.kind==='link'?'Öffnen':'Zeigen'}</button>`:`<button class="btn sm" data-act="lib-dl" data-id="${m.id}">Herunterladen</button>`}${m.kind==='link'?`<button class="btn sm" data-act="t-share" data-id="${m.id}">An iPads</button>`:''}</span></div>`).join('')||'<div class="empty">Die Bibliothek ist noch leer.</div>'}</div>
+    <div class="row" style="margin-top:16px;justify-content:flex-end"><button class="btn" data-act="close-ov">Schließen</button></div></div>`);
+}
+
+/* --- Beobachtungen (nur Lehrkraft) --- */
+const OBS_CATS=[['Mitarbeit','✋'],['Lernstand','📈'],['Sozialverhalten','🤝'],['Förderbedarf','🧩'],['Lob','⭐'],['Sonstiges','📝']];
+let OQ={n:0,cat:'Mitarbeit'};
+function curSubj(){const L=CS&&CS.lesson&&lessonById(CS.lesson.id);if(L)return L.subject;const sl=slotNow();return sl.kind==='lesson'?sl.l.s:'E'}
+function addObs(n,cat,subj,txt){txt=(txt||'').trim();if(!txt)return false;(TD.obs[n]=TD.obs[n]||[]).unshift({id:newId(),t:Date.now(),cat,subj,txt:txt.slice(0,2000)});tsave();return true}
+const pupilName=k=>nickOf(k)?`${esc(nickOf(k))} <span class="muted">· Nr. ${k}</span>`:`Nr. ${k}`;
+VIEWS.obs=()=>{
+  const on=CS?online():[],all=Object.values(TD.obs).flat(),td=all.filter(o=>new Date(o.t).toISOString().slice(0,10)===today()).length;
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Beobachtungen</h1><div class="row"><span class="chip">${all.length} Notizen · heute ${td}</span><button class="btn sm" data-act="obs-export" ${all.length?'':'disabled'}>Alle als Textdatei sichern</button></div></div>
+  <div class="priv">🔒 Nur für dich. Beobachtungen bleiben auf diesem Gerät und werden nie an die iPads gesendet.</div>
+  <span class="label">${esc(className())} · tippe auf einen Schüler</span>
+  <div class="pupils">${Array.from({length:S.classSize},(_,i)=>{const k=i+1,L=TD.obs[k]||[];
+    return `<button class="pupil" data-act="obs-p" data-n="${k}"><span class="row" style="justify-content:space-between"><b>${k}</b>${on.includes(k)?'<span class="dot" title="online"></span>':''}</span>
+      <small>${esc(nickOf(k)||'noch kein Spitzname')}</small><small>${L.length?`${L.length} Notiz${L.length>1?'en':''} · zuletzt ${new Date(L[0].t).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}`:'keine Notizen'}</small></button>`}).join('')}</div>`;
+};
+VIEWS['obs-p']=()=>{
+  const k=V.n,L=TD.obs[k]||[],cat=V.cat||'Mitarbeit',sub=V.subj||curSubj();
+  return `<div class="st-head"><button class="btn sm" data-act="obs">← Alle Schüler</button><button class="btn sm" data-act="obs-p" data-n="${k>1?k-1:S.classSize}" aria-label="Vorheriger Schüler">◀</button><button class="btn sm" data-act="obs-p" data-n="${k<S.classSize?k+1:1}" aria-label="Nächster Schüler">▶</button></div>
+  <h1 style="margin-bottom:10px">${pupilName(k)}</h1>
+  <div class="priv">🔒 Nur für dich sichtbar.</div>
+  <section class="panel"><span class="label">Neue Beobachtung</span>
+    <div class="cats">${OBS_CATS.map(([c,i])=>`<button class="${c===cat?'on':''}" data-act="obs-cat" data-c="${c}">${i} ${c}</button>`).join('')}</div>
+    <div class="row" style="margin-bottom:8px"><label class="label" for="obs-subj">Fach</label><select id="obs-subj">${Object.entries(SUBJECTS).map(([s,v])=>`<option value="${s}" ${s===sub?'selected':''}>${v.name}</option>`).join('')}</select></div>
+    <textarea id="obs-txt" class="obs" placeholder="Was ist dir aufgefallen?"></textarea>
+    <div class="row" style="margin-top:10px"><button class="btn pri" data-act="obs-save">Speichern</button><span class="err" id="obs-err"></span></div></section>
+  <div class="notes">${L.map(o=>`<div class="note"><div class="meta"><span>${new Date(o.t).toLocaleString('de-DE',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+      <span class="chip">${(OBS_CATS.find(c=>c[0]===o.cat)||['','📝'])[1]} ${esc(o.cat)}</span>${SUBJECTS[o.subj]?badge(o.subj):''}<span class="spacer"></span>
+      ${V.odel===o.id?`<button class="btn sm red" data-act="obs-del-yes" data-id="${o.id}">Wirklich löschen</button><button class="btn sm" data-act="obs-del-no">Nein</button>`:`<button class="btn sm" data-act="obs-del" data-id="${o.id}">Löschen</button>`}</div>
+    <div style="white-space:pre-wrap">${esc(o.txt)}</div></div>`).join('')||'<div class="empty">Noch keine Beobachtungen zu diesem Schüler.</div>'}</div>`;
+};
+function obsQuick(k){
+  OQ={n:k,cat:OQ.cat||'Mitarbeit'};
+  showOv(`<div class="box" style="text-align:left;max-width:520px;border-color:var(--navy)"><span class="label">Beobachtung · nur für dich</span><h2>${pupilName(k)}</h2>
+    <div class="cats" id="oq-cats">${OBS_CATS.map(([c,i])=>`<button class="${c===OQ.cat?'on':''}" data-act="oq-cat" data-c="${c}">${i} ${c}</button>`).join('')}</div>
+    <textarea id="oq-txt" class="obs" placeholder="Was ist dir aufgefallen?"></textarea><p class="err" id="oq-err"></p>
+    <div class="row" style="margin-top:10px;justify-content:space-between"><button class="btn sm" data-act="obs-p" data-n="${k}">Alle Notizen (${(TD.obs[k]||[]).length})</button>
+      <span class="row"><button class="btn" data-act="close-ov">Abbrechen</button><button class="btn pri" data-act="oq-save">Speichern</button></span></div></div>`);
+  setTimeout(()=>{const t=$('#oq-txt');t&&t.focus()},50);
+}
+function obsExport(){
+  const lines=[`ELIO · Beobachtungen · ${className()} · Stand ${new Date().toLocaleString('de-DE')}`,'Vertraulich: nur für die Lehrkraft.',''];
+  Object.keys(TD.obs).map(Number).sort((a,b)=>a-b).forEach(k=>{const L=TD.obs[k];if(!L||!L.length)return;
+    lines.push(`=== Nr. ${k}${nickOf(k)?' ('+nickOf(k)+')':''} ===`);
+    L.slice().reverse().forEach(o=>lines.push(`${new Date(o.t).toLocaleString('de-DE')} · ${o.cat} · ${SUBJECTS[o.subj]?SUBJECTS[o.subj].name:''}\n${o.txt}\n`));});
+  dl(new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'}),`elio-beobachtungen-${S.code||'klasse'}-${today()}.txt`);
+}
+
+/* --- Lehrerzimmer --- */
+VIEWS.tdash=()=>{
+  const L=CS&&CS.lesson&&lessonById(CS.lesson.id),on=CS?online().length:0,all=Object.values(TD.obs).flat();
+  const h=new Date().getHours(),hi=h<11?'Guten Morgen!':h<17?'Hallo!':'Guten Abend!';
+  const ls=lessons();
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1><span class="chip">${esc(className())}</span></div>
+  <div class="areas four">
+    <button class="area a-tafel" data-act="tafel"><span class="ai">🖥️</span><b>Tafel</b><small>${L?`Läuft: ${esc(L.title)} · Phase ${CS.step+1}`:'Keine Stunde aktiv'} · ${on} online</small></button>
+    <button class="area a-plan" data-act="lessons"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
+    <button class="area a-lib" data-act="library"><span class="ai">📚</span><b>Bibliothek</b><small>${LIB.ready?LIB.items.length+' Materialien':'lädt …'}</small></button>
+    <button class="area a-obs" data-act="obs"><span class="ai">📝</span><b>Beobachtungen</b><small>${all.length} Notizen · nur für dich</small></button>
+  </div>
+  <section class="panel" style="margin-top:18px"><div class="row" style="justify-content:space-between"><span class="label">Schnellstart</span><button class="btn sm" data-act="l-new">Neue Stunde</button></div>
+    <div style="display:grid;gap:8px;margin-top:10px">${ls.slice(0,6).map(x=>`<div class="row s-${x.subject}" style="justify-content:space-between"><span class="row">${badge(x.subject)}<b>${esc(x.title)}</b><span class="muted" style="font-weight:700">${x.phases.length} Phasen · ${lessonMin(x)} min</span></span>
+      <span class="row"><button class="btn sm ok" data-act="l-start" data-id="${x.id}">Starten</button><button class="btn sm" data-act="l-edit" data-id="${x.id}">Bearbeiten</button></span></div>`).join('')||'<div class="empty">Noch keine Stunden.</div>'}</div></section>
+  <div class="row" style="margin-top:18px"><button class="btn" data-act="preview">Schüleransicht ansehen</button><button class="btn" data-act="role-reset">Abmelden</button></div>`;
+};
 VIEWS.lessons=()=>{
   const list=lessons();
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div>
@@ -1471,6 +1705,7 @@ VIEWS['lesson-edit']=()=>{
       <label style="grid-column:span 2">Was passiert auf den iPads?<select data-f="ph.${i}.act">${opt(ACTS,p.act||'none')}</select></label>
       ${p.act==='goto'?`<label>Welche Seite?<select data-f="ph.${i}.target">${opt(TARGETS,p.target||'module')}</select></label>`:''}
       ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}
+      <div style="grid-column:1/-1"><span class="label">Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>
     </div></article>`).join('')}</div>
   <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button></div>`;
 };
@@ -1482,6 +1717,12 @@ document.addEventListener('input',e=>{
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.act$/.test(f)&&V.name==='lesson-edit')render()});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='lib-file'&&t.files&&t.files.length){const fs=[...t.files];t.value='';libAddFiles(fs,$('#lib-subj').value);return}
+  if(t.dataset&&t.dataset.mat!=null&&V.name==='lesson-edit'&&t.value){const L=lessonById(V.id),p=L&&L.phases[+t.dataset.mat];if(p){p.mats=p.mats||[];if(!p.mats.includes(t.value))p.mats.push(t.value);save();render()}}
+});
+document.addEventListener('input',e=>{if(e.target.id==='lib-q'){V.q=e.target.value;const l=$('#lib-list');if(l)l.innerHTML=libListHTML()}});
 
 /* =====================================================================
    LERNTAGEBUCH: automatisch 5 Minuten vor Stundenende und per Tafel
@@ -1559,9 +1800,37 @@ document.addEventListener('click',e=>{
       if(!nk||nk.length<3){$('#nick-err').textContent='Dein Nickname braucht 3 bis 16 Zeichen (Buchstaben, Zahlen, - oder _).';break}
       setClass();S.role='student';S.nr=V.nr;S.nick=nk;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);break}
     case 'r-teach':if($('#r-pin').value!==TEACHER_PIN){$('#r-err').textContent='Die PIN stimmt nicht.';break}
-      setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);go('tafel');break;
+      setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'role-reset':Live.stop();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
+    case 'tdash':go('tdash');break;
+    case 'tgame':go(d.g,{s:$('#tg-s').value});break;
+    case 'preview':go('dash');break;
+    case 'library':go('library');break;
+    case 'lib-f':V.f=d.f;render();break;
+    case 'lib-link':libAddLink($('#lib-url').value.trim(),$('#lib-title').value.trim(),$('#lib-subj').value);break;
+    case 'lib-view':libView(d.id);break;
+    case 'lib-dl':libDownload(d.id);break;
+    case 'lib-del':V.ldel=d.id;$('#lib-list').innerHTML=libListHTML();break;
+    case 'lib-del-no':V.ldel=null;$('#lib-list').innerHTML=libListHTML();break;
+    case 'lib-del-yes':V.ldel=null;libDel(d.id);break;
+    case 'lib-pick':libPicker();break;
+    case 't-share':{const m=libById(d.id);if(m&&m.kind==='link'&&CS){CS.share={id:m.id,name:m.name,url:m.url,at:Date.now()};pushCS();$('#ov').hidden=true;render()}break}
+    case 't-share-end':if(CS){CS.share=null;pushCS();render()}break;
+    case 'share-ok':if(RCS&&RCS.share){S.shareSeen=RCS.share.at;save();liveOverlay()}break;
+    case 'ph-mat-del':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&p.mats){p.mats=p.mats.filter(x=>x!==d.m);save();render()}break}
+    case 'obs':go('obs');break;
+    case 'obs-p':$('#ov').hidden=true;go('obs-p',{n:+d.n});break;
+    case 'obs-cat':V.cat=d.c;{const t=$('#obs-txt').value,sj=$('#obs-subj').value;V.subj=sj;render();$('#obs-txt').value=t}break;
+    case 'obs-save':if(addObs(V.n,V.cat||'Mitarbeit',$('#obs-subj').value,$('#obs-txt').value)){V.subj=$('#obs-subj').value;render()}else $('#obs-err').textContent='Bitte etwas eintragen.';break;
+    case 'obs-del':V.odel=d.id;render();break;
+    case 'obs-del-no':V.odel=null;render();break;
+    case 'obs-del-yes':TD.obs[V.n]=(TD.obs[V.n]||[]).filter(o=>o.id!==d.id);tsave();V.odel=null;render();break;
+    case 'obs-export':obsExport();break;
+    case 'obs-quick':obsQuick(+d.n);break;
+    case 'oq-cat':OQ.cat=d.c;document.querySelectorAll('#oq-cats button').forEach(x=>x.classList.toggle('on',x.dataset.c===d.c));break;
+    case 'oq-save':if(addObs(OQ.n,OQ.cat,curSubj(),$('#oq-txt').value)){$('#ov').hidden=true;if(V.name==='tafel')updTafel()}else $('#oq-err').textContent='Bitte etwas eintragen.';break;
+
     case 't-ph':CS.phase=d.p;CS.phaseAt=Date.now();CS.freeze=false;pushCS();render();break;
     case 'tt-set':CS.timer={run:false,total:+d.m*60,left:+d.m*60,endsAt:0};pushCS();render();break;
     case 'tt-go':if(CS.timer.run){CS.timer.left=timerLeft(CS.timer);CS.timer.run=false}else{if(CS.timer.left<=0)CS.timer.left=CS.timer.total;CS.timer.endsAt=Date.now()+CS.timer.left*1000;CS.timer.run=true}pushCS();render();break;
@@ -1582,7 +1851,7 @@ document.addEventListener('click',e=>{
     case 'phase-go':{const ph=phaseOf(RCS.phase);S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';$('#live-ov').hidden=true;
       goTarget(ph.go);
       liveOverlay();break}
-    case 'dash':go('dash');break;
+    case 'dash':go(S.role==='teacher'?'tdash':'dash');break;
     case 'homework':go('homework');break;
     case 'practice':go('practice',d.s?{s:d.s}:{});break;
     case 'ps':S.lastPs=d.s;save();V.s=d.s;render();break;
@@ -1670,8 +1939,9 @@ function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSi
 
 $('#star-ico').innerHTML=STAR;
 if(!S.role)V={name:'role'};
-else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tafel'}}}
+else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
 hdr();tickClock();render();
+if(S.role==='teacher')libLoad();
 try{speechSynthesis.getVoices()}catch(e){}
 let lastMin=-1;
 setInterval(()=>{
