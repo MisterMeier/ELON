@@ -125,6 +125,9 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .page h4{font-family:var(--f-display);font-size:1.1rem;margin:14px 0 4px;color:var(--sc)}
 .page ul{margin:4px 0;padding-left:22px}
 .page li{margin-block:2px}
+.achtung{margin-block:12px;border:3px dashed #d98a00;border-radius:12px;padding:10px 14px;background:#fff6e0;color:#3b2a00}.achtung .l{color:#a86500}
+.vs{display:flex;gap:10px;align-items:baseline;margin:4px 0;padding:6px 12px;border-radius:10px;font-weight:700}.vs b{flex:none;min-width:5.4em;font-size:.85em}
+.vs.no{background:#fde8e8;color:#7a1b1b}.vs.no span{text-decoration:line-through;text-decoration-color:rgba(200,40,40,.6)}.vs.yes{background:#e3f5e6;color:#14532d}
 .merke{margin-block:12px;border:3px solid var(--sc);border-radius:12px;padding:10px 14px;background:var(--surface)}
 .merke b.l{font-family:var(--f-display);color:var(--sc)}
 .tbl{overflow-x:auto;margin-block:8px}
@@ -1352,6 +1355,9 @@ function heftBlocks(t){const out=[];let list=null,tab=null;
     if(!l)return;
     if(/^#+\s*/.test(l))out.push(['h',l.replace(/^#+\s*/,'')]);
     else if(/^merke:?/i.test(l))out.push(['merke',esc(l.replace(/^merke:?\s*/i,''))]);
+    else if(/^achtung:?/i.test(l))out.push(['achtung',esc(l.replace(/^achtung:?\s*/i,''))]);
+    else if(/^(falsch|✗)\s*:?/i.test(l))out.push(['no',esc(l.replace(/^(falsch|✗)\s*:?\s*/i,''))]);
+    else if(/^(richtig|✓)\s*:?/i.test(l))out.push(['yes',esc(l.replace(/^(richtig|✓)\s*:?\s*/i,''))]);
     else out.push(['p',esc(l)])});
   return out}
 const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,date:e.date,o:e.o,title:e.title,blocks:heftBlocks(e.text)})),...((S.heftRecv||[]).some(e=>e.s===k)?[]:(HEFT[k]||[]))];
@@ -1361,6 +1367,9 @@ function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
+    case 'achtung':return `<div class="achtung"><b class="l">⚠️ Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
+    case 'no':return `<div class="vs no"><b>✗ falsch</b><span>${b[1]}</span></div>`;
+    case 'yes':return `<div class="vs yes"><b>✓ richtig</b><span>${b[1]}</span></div>`;
     case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''}).join('')}
 function heftPage(e){
@@ -1369,6 +1378,9 @@ function heftPage(e){
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
+    case 'achtung':return `<div class="achtung"><b class="l">⚠️ Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
+    case 'no':return `<div class="vs no"><b>✗ falsch</b><span>${b[1]}</span></div>`;
+    case 'yes':return `<div class="vs yes"><b>✓ richtig</b><span>${b[1]}</span></div>`;
     case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''};
   const c=!!S.copied[e.id];
@@ -3003,10 +3015,12 @@ VIEWS['kl-cards']=()=>{
 };
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o})=>({id,s,title,text,date,o}));
 async function heftLoadPlan(){try{const r=await fetch('assets/heft/mathe7.json');const L=await r.json();TD.heft=TD.heft||[];let n=0;
-  L.forEach((x,k)=>{const id='m7-'+S.cls+'-'+k;if(TD.heft.some(e=>e.id===id))return;TD.heft.push({id,s:'M',title:x.title,text:x.text,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
-  tsave();V.msg=n?n+' Einträge geladen. Sie sind noch nicht bei den SuS, du veröffentlichst sie Stück für Stück.':'Der Jahresplan ist schon geladen.'}catch(e){V.msg='Laden hat nicht geklappt.'}render()}
+  let up=0;L.forEach((x,k)=>{const id='m7-'+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
+    // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat
+    if(o){if(o.text!==x.text&&x.text.startsWith(o.text.trim())){o.text=x.text;up++}return}TD.heft.push({id,s:'M',title:x.title,text:x.text,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
+  tsave();if(up&&CS)pushCS();V.msg=n?n+' Einträge geladen. Sie sind noch nicht bei den SuS, du veröffentlichst sie Stück für Stück.':up?up+' Einträge auf die neue Fassung gebracht (mit Kontrasten und typischen Fehlern).':'Der Jahresplan ist schon geladen.'}catch(e){V.msg='Laden hat nicht geklappt.'}render()}
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
-const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
+const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\nAchtung: typischer Fehler\nFalsch: 3x + 5y = 8xy\nRichtig: 3x + 5y bleibt so\n| Spalte | Spalte |';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Regelheft · ${esc(className())}</h1></div>
   <section class="panel"><span class="label">Neuer Hefteintrag · erscheint im Regelheft aller SuS</span>
@@ -3016,7 +3030,7 @@ VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice
     <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">So formatierst du: „# “ Überschrift, „- “ Aufzählung, „Merke:“ Merkkasten, „| a | b |“ Tabelle. Text aus Word oder PowerPoint einfach reinkopieren.</p>
     <p class="err" id="hf-err"></p><button class="btn pri" data-act="hf-add" style="margin-top:8px">${V.hedit?'Änderung speichern':'Veröffentlichen'}</button></section>
   ${V.msg?`<p class="saved" style="margin-top:12px">${esc(V.msg)}</p>`:''}
-  <section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Jahresplan Mathematik 7 · nach LehrplanPLUS</span><button class="btn sm" data-act="hf-plan">📚 Alle Einträge fürs Jahr laden</button></div>
+  <section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Jahresplan Mathematik 7 · nach LehrplanPLUS</span><button class="btn sm" data-act="hf-plan">📚 Jahresplan laden oder aktualisieren</button></div>
     <p class="muted" style="font-weight:700;margin-top:6px">34 fertige Einträge von 1.1 Terme bis 8.2 Kennwerte. Sie landen hier als Entwurf, und du veröffentlichst sie, wenn das Thema dran ist.</p></section>
   ${(()=>{const pub=list.filter(e=>e.pub!==false),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
     const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${heftBody(heftBlocks(e.text))}</article>`;
