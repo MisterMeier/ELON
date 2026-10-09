@@ -1,0 +1,14 @@
+{
+ "name": "ELIO",
+ "short_name": "ELIO",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#eef1f8",
+ "theme_color": "#26337a",
+ "lang": "de",
+ "icons": [
+  {"src": "assets/icon/icon-192.png", "sizes": "192x192", "type": "image/png"},
+  {"src": "assets/icon/icon-512.png", "sizes": "512x512", "type": "image/png"}
+ ]
+}

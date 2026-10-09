@@ -112,7 +112,8 @@
      1
     ]
    }
-  ]
+  ],
+  "mt": "Welcher Ausdruck ist ein Term?\n+ 5 · (a − 2)\n- 5a = 10\n- 4x > 12\n\nWas bedeutet 4y?\n+ 4 · y\n- 4 + y\n- y · y · y · y\n\nMia sagt: „a · a · a ist dasselbe wie 3a.“ Hat sie recht?\n- Ja, beides ist dreimal a.\n+ Nein: a · a · a = a³, aber a + a + a = 3a.\n- Nein: a · a · a = 3 + a.\n\nWelche Ausdrücke sind Terme?\n+ 2x + 7\n+ x\n- 3 + 4 = 7\n\nWofür steht eine Variable?\n+ für eine Zahl, die man noch nicht kennt oder die sich ändern kann\n- immer für die Zahl 1\n- für ein Rechenzeichen"
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -213,7 +214,8 @@
      1
     ]
    }
-  ]
+  ],
+  "mt": "Das Doppelte einer Zahl x, vermindert um 5. Welcher Term passt?\n+ 2x − 5\n- 2(x − 5)\n- 5 − 2x\n\nEin Heft kostet x €. Wie viel kosten 6 Hefte?\n+ 6x\n- x + 6\n- 6 : x\n\nDie Summe aus einer Zahl und 4, mal 3. Welcher Term passt?\n+ 3 · (x + 4)\n- 3x + 4\n- x + 4 · 3\n\nEin Rechteck ist a cm lang und b cm breit. Welcher Term gibt den Umfang an?\n+ 2a + 2b\n- a · b\n- a + b\n\nBen schreibt für „5 weniger als x“ den Term 5 − x. Was stimmt?\n- Das ist richtig.\n+ Das ist falsch, richtig ist x − 5.\n- Das ist falsch, richtig ist 5x."
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -302,7 +304,8 @@
      2
     ]
    }
-  ]
+  ],
+  "mt": "Berechne 3x + 2 für x = 4.\n+ 14\n- 36\n- 9\n\nBerechne 2 · (a − 1) für a = 5.\n+ 8\n- 9\n- 10\n\nBerechne x² für x = 6.\n+ 36\n- 12\n- 8\n\nLena rechnet 4 + 3x für x = 2 so: 4 + 3 = 7, dann 7 · 2 = 14. Was ist richtig?\n- 14 stimmt.\n+ Punkt vor Strich: 3 · 2 = 6, dann 4 + 6 = 10.\n- 4 · 3 · 2 = 24\n\nEin Taxi kostet 4 € Grundgebühr und 2 € pro km: 4 + 2x. Was kosten 10 km?\n+ 24 €\n- 60 €\n- 16 €"
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -392,7 +395,8 @@
      2
     ]
    }
-  ]
+  ],
+  "mt": "Welches Gesetz zeigt 7 + x = x + 7?\n+ Vertauschungsgesetz (Kommutativgesetz)\n- Verbindungsgesetz (Assoziativgesetz)\n- Verteilungsgesetz (Distributivgesetz)\n\nWas ist 3 · (x + 5) ausmultipliziert?\n+ 3x + 15\n- 3x + 5\n- 3x + 8\n\nRechne geschickt: 25 · 7 · 4\n+ 700\n- 175\n- 107\n\nTim schreibt: 4 · (a − 2) = 4a − 2. Was stimmt?\n- Das ist richtig.\n+ Falsch: Beide Glieder werden mal 4 genommen, also 4a − 8.\n- Falsch: Es ergibt 4a + 8.\n\nWelche Umformungen sind richtig?\n+ 2 · (x + 3) = 2x + 6\n+ x + 4 + 6 = x + 10\n- 5 · x · 2 = 7x"
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -491,7 +495,8 @@
      6
     ]
    }
-  ]
+  ],
+  "mt": "Fasse zusammen: 4x + 3x\n+ 7x\n- 7x²\n- 12x\n\nFasse zusammen: 5a + 2b + 3a\n+ 8a + 2b\n- 10ab\n- 10a\n\nVereinfache: 3 · 4y\n+ 12y\n- 7y\n- 34y\n\nWelche Terme sind gleichartig?\n+ 2x und 9x\n- 2x und 2y\n- 3a und 3a²\n\nAli schreibt: 6x − x = 6. Was stimmt?\n- Das ist richtig.\n+ Falsch: 6x − 1x = 5x.\n- Falsch: Es ergibt 5."
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -573,7 +578,8 @@
      6
     ]
    }
-  ]
+  ],
+  "mt": "Welcher Ausdruck ist eine Gleichung?\n+ 3x + 1 = 10\n- 3x + 1\n- 3x + 1 > 10\n\nIst x = 4 eine Lösung von 2x + 3 = 11?\n+ Ja, denn 2 · 4 + 3 = 11.\n- Nein, denn 2 · 4 + 3 = 9.\n- Nein, die Lösung ist 7.\n\nWelche Zahl löst x + 9 = 15?\n+ 6\n- 24\n- 9\n\nWelche Gleichung passt? „Eine Zahl wird verdreifacht, das Ergebnis ist 21.“\n+ 3x = 21\n- x + 3 = 21\n- x : 3 = 21\n\nWelche Zahl löst 5x = 35?\n+ 7\n- 30\n- 175"
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -680,7 +686,8 @@
      5
     ]
    }
-  ]
+  ],
+  "mt": "Löse: x + 7 = 19\n+ x = 12\n- x = 26\n- x = 7\n\nLöse: 4x = 28\n+ x = 7\n- x = 24\n- x = 112\n\nLöse: 3x − 5 = 16\n+ x = 7\n- x = 11\n- x = 3\n\nNina rechnet bei x − 6 = 10 auf beiden Seiten „− 6“. Was stimmt?\n- Das ist richtig.\n+ Falsch: Sie muss + 6 rechnen, dann x = 16.\n- Falsch: Sie muss · 6 rechnen.\n\nWas muss bei einer Äquivalenzumformung gelten?\n+ Auf beiden Seiten wird dasselbe gerechnet.\n- Man rechnet nur auf der linken Seite.\n- Man darf mit 0 multiplizieren."
  },
  {
   "ch": "1 Terme und Gleichungen",
@@ -775,7 +782,8 @@
      1
     ]
    }
-  ]
+  ],
+  "mt": "Tom ist 3 Jahre älter als Lisa. Zusammen sind sie 27. Welche Gleichung passt (Lisa = x)?\n+ x + (x + 3) = 27\n- x + 3 = 27\n- 3x = 27\n\nTom ist 3 Jahre älter als Lisa, zusammen sind sie 27. Wie alt ist Lisa?\n+ 12\n- 24\n- 15\n\nEin Kinoticket kostet x €. 4 Tickets und 6 € Popcorn kosten 38 €. Welche Gleichung passt?\n+ 4x + 6 = 38\n- 4 + 6x = 38\n- 4x = 38 + 6\n\n4 Kinotickets und 6 € Popcorn kosten 38 €. Was kostet ein Ticket?\n+ 8 €\n- 11 €\n- 32 €\n\nWas gehört an den Schluss jeder Sachaufgabe?\n+ Probe und ein Antwortsatz\n- nur das Ergebnis ohne Einheit\n- die Gleichung noch einmal abschreiben"
  },
  {
   "ch": "2 Rationale Zahlen",
