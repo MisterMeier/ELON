@@ -1796,7 +1796,7 @@ const Live={bc:null,sb:null,kind:'off',
         // Ist der Schutz noch nicht eingerichtet, geht es wie bisher über den offenen Kanal.
         // Erst anmelden (sonst lehnt Supabase den privaten Kanal ab), dann den Klassenschlüssel vom Server holen
         try{await c.realtime.setAuth()}catch(e){}
-        await ckSync(c,code);
+        await ckSync(c,code);if(S.role==='student')ccPull(true);
         let tries=0;
         const open=priv=>{const ch=c.channel('elon-'+code,{config:{private:priv,broadcast:{self:false}}});this.sb=ch;this.priv=priv;this.st='connecting';
           ['state','msg'].forEach(ev=>ch.on('broadcast',{event:ev},({payload})=>this.recv(payload)));
@@ -1853,7 +1853,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev()}
+function pushCS(){if(!CS||!TDKEY)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2013,8 +2013,13 @@ let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
 // Lotsen-Board nur, wenn die Lehrkraft es im Live-Modus freigibt: für alle (0) oder einzelne Nummern
 function lotsenOk(){if(S.role!=='student')return false;const L=RCS&&Date.now()-rcsAt<90000&&RCS.lotsen;return Array.isArray(L)&&(L.includes(0)||L.includes(+S.nr))}
 let dashSig='';
-function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||S.tpk.n!==p.dpk.n)){S.tpk=p.dpk;save();mbFlush()}
-  if(Array.isArray(p.heft)){const hs=p.heft.map(e=>e.id+':'+e.title.length+':'+e.text.length+':'+(e.help||'').length+':'+(e.mt||'').length).join()+JSON.stringify([p.hw,p.mods,p.modx&&Object.keys(p.modx),p.auf,p.ann]);if(hs!==S.heftSig){S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.heftSig=hs;save();aufNotify();if(['desk','subject','dash','homework','mod','me'].includes(V.name))render()}}diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
+// Freigegebene Inhalte übernehmen: live von der Lehrkraft oder aus der Server-Ablage (wenn die Lehrkraft gerade nicht online ist)
+const strHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=(h*33+t.charCodeAt(i))|0;return t.length+':'+h};
+function applyContent(p){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||S.tpk.n!==p.dpk.n)){S.tpk=p.dpk;save();mbFlush()}
+  if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann]));if(hs===S.heftSig)return;
+  S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.heftSig=hs;save();aufNotify();
+  if(['desk','subject','dash','homework','mod','me'].includes(V.name))render()}
+function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;applyContent(p);diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
@@ -3359,7 +3364,7 @@ function lessonRow(L){const d=Object.assign({},L);['id','owner','cid','shared'].
 let cloudT=null;
 function cloudQueue(){
   if(!CLOUD||!Cloud.prof||Cloud.prof.role==='pending'||S.role!=='teacher')return;
-  clearTimeout(cloudT);cloudT=setTimeout(async()=>{
+  clearTimeout(cloudT);cloudT=setTimeout(async()=>{if(!Cloud.user||S.role!=='teacher')return;
     const uid=Cloud.user.id,rows=[];
     (S.lessons||[]).forEach(L=>{if(L.owner&&L.owner!==uid)return;L.owner=uid;const r=lessonRow(L),sg=JSON.stringify(r);if(Cloud.sig[L.id]!==sg){rows.push(r);Cloud.sig[L.id]=sg}});
     if(rows.length){try{await q(Cloud.sb.from('lessons').upsert(rows))}catch(e){console.warn(e);rows.forEach(r=>delete Cloud.sig[r.id])}}
@@ -3616,6 +3621,17 @@ function updPod(R){if(!BOARD)return;let el=$('#pod-ov');const on=R&&!R.freeze&&R
    die Lehrkraft antwortet mit dem öffentlichen Schlüssel des iPads. Der Server (supabase/mail.sql) sieht nur Zeichensalat.
    Ohne Server-Postfach geht es über den Live-Kanal, sobald beide online sind. */
 const MB={cloud:null,busy:false,tbusy:false};
+// Server-Ablage der Klasseninhalte (supabase/content.sql): verschlüsselt mit dem Klassenschlüssel, Supabase sieht nur Zeichensalat
+const CC={t:0,at:0,sig:'',miss:false};
+const ccOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&!CC.miss;
+function ccPush(){if(S.role!=='teacher'||!CS||!ccOk())return;clearTimeout(CC.t);CC.t=setTimeout(async()=>{try{const k=myCk(S.code);if(!k)return;
+    const snap={heft:CS.heft,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
+    const body=await ckSeal(k,{t:'content',p:snap}),sb=await sbClient();await q(sb.from('class_content').upsert({class_id:S.cls,body,updated_at:new Date().toISOString()}));CC.sig=sg}
+  catch(e){if(mbMissing(e))CC.miss=true;else console.warn('ccPush',e)}},2000)}
+async function ccPull(force){if(S.role!=='student'||!ccOk())return;if(!force&&Date.now()-CC.at<120000)return;CC.at=Date.now();
+  try{const sb=await sbClient();let k=myCk(S.code);if(!k){await ckSync(sb,S.code);k=myCk(S.code)}if(!k)return;
+    const L=await q(sb.from('class_content').select('body').eq('class_id',S.cls).limit(1));if(!L.length)return;const o=await ckOpen(k,L[0].body);if(o&&o.t==='content')applyContent(liveClean(o.p))}
+  catch(e){if(mbMissing(e))CC.miss=true}}
 const mbFp=pub=>String(pub&&pub.n||'').slice(0,16);
 const mbCls=()=>/^[0-9a-f-]{36}$/i.test(S.cls||'');
 const mbCloudOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&MB.cloud!==false;
@@ -3822,8 +3838,8 @@ function susTab(k,tab){const P=susP(k,false)||{chat:[],abg:{}};if((tab==='chat'&
       const t=Math.max(0,...U.map((_,i)=>+ut[e.id+'#'+i]||0)),m=mt[e.id];
       return `<tr><td>${esc(e.title)}</td><td>${U.length?`<span class="bar sm"><i style="width:${Math.round(100*u/U.length)}%"></i></span> ${u}/${U.length} Spiele`:''}${t?`<br><small class="muted">zuletzt ${esc(tsTxt(t))}</small>`:''}</td><td>${H.length?`${x}/${H.length} Heft`:''}</td><td>${m?`<span class="mtr ${mtCls(m)}">🎯 ${mtTxt(m)}</span><br><small class="muted">${esc(tsTxt(m.at))}${m.x>1?' · '+m.x+' Versuche':''}</small>`:e.mt?'<small class="muted">🎯 Minitest offen</small>':''}</td></tr>`}).join('')}</tbody></table>`}).join('')}
     ${hw.length?`<h3 style="margin:14px 0 6px">Hausaufgaben</h3><ul class="st-hw">${hw.slice().sort((a,b)=>b.due.localeCompare(a.due)).map(h=>`<li>${pr.hw.includes(h.id)?'✅':'⬜'} ${esc(h.task)} <small class="muted">· fällig ${fmtDate(h.due)}${pr.ab.includes(h.id)?' · 📤 abgegeben':''}</small></li>`).join('')}</ul>`:''}</section>`}
-setInterval(()=>{try{if(S.role==='teacher'&&TDKEY)mbPullTeacher();if(S.role==='student'){progTick();mbFlush();mbPullStudent();acctSave();aufNotify()}}catch(e){}},60000);
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.role==='student'&&S.acct)acctFlush();if(!document.hidden&&S.role==='student'){aufNotify();if(['dash','homework'].includes(V.name))render()}});
+setInterval(()=>{try{if(S.role==='teacher'&&TDKEY)mbPullTeacher();if(S.role==='student'){progTick();mbFlush();mbPullStudent();ccPull();acctSave();aufNotify()}}catch(e){}},60000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.role==='student'&&S.acct)acctFlush();if(!document.hidden&&S.role==='student'){ccPull();aufNotify();if(['dash','homework'].includes(V.name))render()}});
 /* Skizzen für Hefteinträge: Zeile „[Bild: name]“ im Eintrag. Alles gezeichnet, keine fremden Bilder. */
 const FIGW=(vb,body,cap)=>`<figure class="hfig"><svg viewBox="${vb}" role="img" aria-label="${cap}" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hg" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="currentColor" stroke-opacity=".08"/></pattern></defs><rect width="100%" height="100%" fill="url(#hg)"/>${body}</svg><figcaption>${cap}</figcaption></figure>`;
 const FRA=(x,y,s,dx=1,dy=-1)=>`<path d="M${x+dx*s} ${y}V${y+dy*s}H${x}" fill="none" stroke="currentColor" stroke-width="1.2"/>`;
