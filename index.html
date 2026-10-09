@@ -522,6 +522,35 @@ body.boardwin .bw{height:100vh}
 .bw-timer{font-family:var(--f-display);font-variant-numeric:tabular-nums;font-size:4.4cqh;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.4cqh 2cqw}
 .bw-main{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:0;padding:1cqh 4cqw;text-align:center;gap:2.4cqh}
 .bw-main .slide{gap:2.6cqh;width:100%}
+/* Neue Werkzeuge nach Fabians Mathe-Vorlage: Größen in em, Basis je nach Ort */
+.pres-main .rt{font-size:clamp(13px,1.8vw,28px);flex:1;min-height:60vh}
+.bw-rt{display:block;position:relative;border-top:0}.bw-rt .rt{font-size:3.1cqh;height:100%}
+.rt{position:relative;width:100%;border-radius:1em;overflow:hidden;display:flex;flex-direction:column;text-align:left;color:#172B31}
+.rt h1{font-size:3em;line-height:1.08}
+.rt .band{background:#4D8936;color:#fff;font-weight:800;font-size:1.5em;padding:.5em 1em;border-bottom:.35em solid #42A7D3}
+.rt-start{background:#1d2427;color:#fff;align-items:center;justify-content:center;text-align:center}
+.rt-start .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rt-start .in{position:relative;display:grid;gap:.6em;justify-items:center;text-shadow:0 .1em .6em rgba(0,0,0,.6)}
+.rt-start h1{color:#fff;font-size:3.6em}.rt-start p{font-size:1.6em;font-weight:700;color:#fff}
+.rt-start .hint{background:#4D8936;border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:1.3em;text-shadow:none;margin-top:.6em}
+.rt-cover{background:#f4f2ec;justify-content:center;padding:2em 3em}
+.rt-cover.art{background:#f4f2ec url(assets/mathe/cover.webp) right center/auto 100% no-repeat}
+.rt-cover .in{display:grid;gap:.5em;max-width:52%}
+.rt-cover .kick{letter-spacing:.35em;text-transform:uppercase;font-weight:700;font-size:1.1em;color:#33433f}
+.rt-cover h1{font-size:4em;color:#1d2a2e}.rt-cover .cls{border-left:.2em solid #4D8936;padding-left:.6em;font-size:1.1em;font-weight:700;color:#33433f}
+.rt-q,.rt-task{background:#fff}.rt-q h1{flex:1;display:grid;place-items:center;text-align:center;padding:.4em 1em;font-size:3.4em}
+.rt-q .murmel{display:flex;align-items:center;gap:1em;justify-content:center;padding:0 1em 1em}.rt-q .murmel img{height:7em;border-radius:.4em}
+.rt-q .murmel p,.rt-h .tag{background:#d4edc9;padding:.4em .8em;border-radius:.3em;font-weight:700;font-size:1.3em}
+.rt-h{background:#fff;align-items:center;justify-content:center;gap:1em}.rt-h img{height:9em}
+.rt-task ul{list-style:none;display:grid;gap:1em;padding:1.6em 2.4em;margin:0;align-content:center;flex:1}
+.rt-task li{display:flex;gap:.8em;align-items:flex-start;font-size:1.6em;font-weight:700}.rt-task li i{font-style:normal}
+.rt-h5{flex-direction:row;background:#eceae7}.rt-h5 img{width:45%;object-fit:cover}.rt-h5>div{padding:1.4em 1.8em;display:grid;align-content:center;gap:.8em}
+.rt-h5 h1{font-size:2.6em;font-weight:500}.rt-h5 ol{margin:0;padding-left:1.2em;display:grid;gap:.7em;font-size:1.3em;font-weight:600}
+.rt-c4{background:#fff;padding:1.2em 1.6em;gap:.8em}.rt-c4 h1{font-size:2.4em;text-align:center}.rt-c4>p{text-align:center;font-weight:700;color:var(--muted);font-size:1.1em}
+.rt-c4 .cg{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:.8em}.rt-c4 .cg div{border-radius:.8em;padding:.8em 1em;display:grid;align-content:center;gap:.3em;font-size:1.3em;border:.15em solid var(--line)}
+.rt-c4 .cg b{font-family:var(--f-display);font-size:1.3em}
+.rt-c4 .c1{background:#fde4e1}.rt-c4 .c2{background:#fff1d0}.rt-c4 .c3{background:#dcecff}.rt-c4 .c4{background:#dff3e4}
+.rt-timer{position:absolute;top:2cqh;right:2cqw}
 .bw-main .slide h1{font-size:10cqh}
 .bw-main .slide p{font-size:4.4cqh;max-width:34ch}
 .bw-main .slide .gi{font-size:16cqh}
@@ -1575,22 +1604,24 @@ function stageOf(){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return null;
   const p=L.phases[CS.step]||{},t=p.tool||{},m=t.mat&&typeof libById==='function'?libById(t.mat):null;
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
-    tool:t.id?{id:t.id,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
+    sf:p.sf||'',min:+p.min||0,tool:t.id?{...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
 }
 const boardSig=R=>R?JSON.stringify([R.freeze,R.stage,R.kfb,R.game,R.phase,R.poll&&[R.poll.q,R.poll.voted.length],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
   const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
+  const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
   if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
   else if(R.game&&GAME_INFO[R.game.g])main=`<div class="slide"><span class="gi">${GAME_INFO[R.game.g].icon}</span><h1>${esc(GAME_INFO[R.game.g].name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p></div>`;
+  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&t.id==='kfb')main=`<img src="assets/kfb/logo.webp" alt="Kopfrechnen Fußball" style="max-height:62cqh;max-width:80%;border-radius:2cqh"><p style="font-weight:800;font-size:4cqh">Gleich geht's los!</p>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
     main=`<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${st.act==='mission'&&R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}
       ${t.mat?(mini||!BOARD?`<span class="bw-note">📎 ${esc(t.matName||'Material')} · an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}"></div>`):''}${!t.text&&!t.mat&&st.act!=='mission'?`<p>${esc(st.txt)}</p>`:''}</div>`}
   else{const ph=phaseOf(R.phase);main=`<div class="slide"><h1>${esc(ph.name)}</h1><p>${esc(ph.txt)}</p>${R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}</div>`}
-  const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
   const foot=[R.poll?`<span class="bw-note">🗳️ ${esc(R.poll.q)} · ${R.poll.voted.length} abgestimmt</span>`:'',R.share?`<span class="bw-note">🔗 Auf euren iPads: ${esc(R.share.name)}</span>`:''].join('');
   return `<div class="bw ${st?'s-'+st.subj:''}"><div class="bw-top">${LOGO}<span class="tt">${st?esc(st.title)+' · '+esc(st.name):esc(className())}</span>
     ${st?`<span class="bw-dots">${Array.from({length:st.n},(_,j)=>`<i class="${j===st.step?'on':j<st.step?'past':''}"></i>`).join('')}</span>`:''}
@@ -1657,8 +1688,9 @@ function liveOverlay(){
       if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}}}}
   else if(RCS.freeze||ph.look){sig='look'+RCS.freeze+RCS.phaseAt;full=true;
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
-  else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null;
-    html=box(`<span class="label">Bereit-Check</span><h2>Bist du bereit?</h2>${sub?`<p style="margin-top:8px;font-weight:700">Liegt alles bereit?</p><div class="prep">${SUBJECTS[sub].prep.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>`:''}
+  else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null,its=RCS.ready.items&&RCS.ready.items.length?RCS.ready.items:sub?SUBJECTS[sub].prep:null;
+    if(RCS.ready.msg&&sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate([150,80,150])}catch(e){}}
+    html=box(`<span class="label">${RCS.ready.msg?'Stundenbeginn':'Bereit-Check'}</span><h2>${esc(RCS.ready.msg||'Bist du bereit?')}</h2>${its?`<p style="margin-top:8px;font-weight:700">Liegt alles bereit?</p><div class="prep">${its.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>`:''}
       <button class="btn ok" data-act="ready" style="width:100%;margin-top:16px">Ich bin bereit</button>`)}
   else if(RCS.journal&&!S.journalDone[RCS.journal.id]&&!RCS.journal.done.includes(S.nr)){sig='j'+RCS.journal.id;html=box(journalForm('live',RCS.journal.id))}
   else if(RCS.poll&&!S.voted[RCS.poll.id]&&!RCS.poll.voted.includes(S.nr)){sig='p'+RCS.poll.id;
@@ -1778,7 +1810,12 @@ function startStep(i){
   if(p.act==='poll'){const P=POLLS[p.poll||'thumbs'];CS.poll={id:'p'+Date.now(),type:p.poll||'thumbs',q:P.q,opts:P.opts,voted:[]};TALLY={}}
   if(p.act==='ready')CS.ready={id:'r'+Date.now(),done:[],rewarded:false};
   if(p.act==='journal')CS.journal={id:'j'+Date.now(),done:[]};
-  if(p.tool&&p.tool.id==='kfb'){if(!KF)kfbStart(p.tool.level,true)}else if(KF)kfbStop(true);
+  const T=p.tool||{};
+  if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean)};
+  if(T.id==='task'&&T.text)CS.phase.txt=lines(T.text).join(' · ');
+  if(T.id==='question'&&T.q)CS.phase.txt=T.q;
+  if(T.id==='corners4'){CS.poll={id:'p'+Date.now(),type:'corners',q:T.q||'Wie gut kannst du es schon?',opts:lines(T.opts||C4_OPTS).slice(0,4).map((o,k)=>`Ecke ${k+1}: ${o}`),voted:[]};TALLY={}}
+  if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
   pushCS();render();
 }
 
@@ -1955,25 +1992,29 @@ VIEWS.tdash=()=>{
 /* =====================================================================
    PLANUNG: Lehrer-Stundenplan, Vorlagen, Werkzeug-Pool
    ===================================================================== */
-// Vorläufige Mathe-Vorlage, bis Fabians echte Vorlage da ist
+// Mathe-Vorlage nach Fabians PowerPoint (Abschnitte: Start, Cover, Kopfrechnen, Wiederholung, Problem, Stundenfrage, Vermutungen, Arbeitsauftrag, Sicherung, Anwendung, Reflexion)
+const H5_QS='Was habe ich heute neu gelernt?\nWas kann ich jetzt besser als vor der Stunde?\nWas war heute schwierig für mich?\nWas hat mir beim Lernen besonders geholfen?\nWelche Frage habe ich noch?';
+const C4_OPTS='Ich kann es noch nicht\nMit Hilfe klappt es\nFast alleine\nIch kann es und kann anderen helfen';
 const TEMPLATES={M:[
-  {name:'Begrüßung',goal:'Ankommen, Stundenstart',min:3,sf:'Plenum',method:'Begrüßungsfolie',txt:'Guten Morgen! Leg deine Sachen bereit.',act:'look',tool:{id:'slide',title:'Guten Morgen, 7bG!',text:'',mat:''}},
-  {name:'Ritual / Warm-up',goal:'Kopfrechnen automatisieren, aktivieren',min:10,sf:'Plenum',method:'Kopfrechenfußball',txt:'Kopfrechenfußball! Rechne mit, vielleicht wirst du drangenommen.',act:'none',tool:{id:'kfb',level:'1x1'}},
-  {name:'Vorwissensaktivierung',goal:'An Bekanntes anknüpfen',min:7,sf:'PA',method:'Blitzlicht',txt:'Was weißt du schon zum Thema?',act:'look',tool:{id:'slide',title:'Was wissen wir schon?',text:'',mat:''}},
-  {name:'Problemstellung',goal:'Neugier wecken, Problem erkennen',min:7,sf:'Plenum',method:'Problemfolie',txt:'Schau dir das Problem an. Was fällt dir auf?',act:'look',tool:{id:'slide',title:'Unser Problem heute',text:'',mat:''}},
-  {name:'Zielangabe',goal:'Stundenziel transparent machen',min:3,sf:'Plenum',method:"Elo's Mission Call",txt:'Hör zu: Das ist heute unsere Mission.',act:'mission',tool:{id:'slide',title:'Unsere Mission',text:'',mat:''}},
-  {name:'Erarbeitung',goal:'Lösungswege selbst entdecken',min:18,sf:'EA',method:'Ich – Du – Wir',txt:'Löse die Aufgabe erst allein, dann mit deinem Partner.',act:'none',tool:null},
-  {name:'Sicherung',goal:'Ergebnisse festhalten',min:12,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'goto',target:'heft:M',tool:{id:'slide',title:'Merke',text:'',mat:''}},
-  {name:'Übung / Vertiefung',goal:'Gelerntes anwenden',min:18,sf:'PA',method:'Lernspiele',txt:'Übe mit deinem Partner.',act:'none',tool:{id:'memory',s:'M'}},
-  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:6,sf:'Plenum',method:'Daumen-Abfrage',txt:'Hast du es verstanden? Stimm ab.',act:'poll',poll:'thumbs',tool:null},
-  {name:'Lerntagebuch & Ausblick',goal:'Lernen festhalten, Hausaufgabe',min:6,sf:'EA',method:'Lerntagebuch',txt:'Trag ein, was du heute gelernt hast.',act:'journal',tool:null},
+  {name:'Stundenbeginn',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt:'Hol dein Heft und dein Mathebuch raus.',act:'none',tool:{id:'start',hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch'}},
+  {name:'Sequenz',goal:'Thema der Sequenz zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover',title:'Terme und Gleichungen',sub:''}},
+  {name:'Mathe-Starter',goal:'Kopfrechnen automatisieren, aktivieren',min:8,sf:'Plenum',method:'Kopfrechenfußball',txt:'Kopfrechenfußball! Rechne mit, vielleicht wirst du drangenommen.',act:'none',tool:{id:'kfb',level:'pvs'}},
+  {name:'Wiederholung',goal:'Vorwissen aktivieren',min:5,sf:'Plenum',method:'Vorwissensaktivierung',txt:'Was weißt du schon?',act:'look',tool:{id:'slide',title:'Was ist ein Term?',text:'',mat:''}},
+  {name:'Problemstellung',goal:'Neugier wecken, Problem erkennen',min:4,sf:'Plenum',method:'Problemfolie',txt:'Schau dir das Problem an. Was fällt dir auf?',act:'look',tool:{id:'slide',title:'Problemstellung',text:'',mat:''}},
+  {name:'Stundenfrage',goal:'Frage der Stunde klären',min:3,sf:'PA',method:'Murmelphase',txt:'Überlege dir bereits eine mögliche Antwort auf die Frage!',act:'look',tool:{id:'question',q:'',murmel:true}},
+  {name:'Hypothesen / Vermutungen',goal:'Vermutungen sammeln',min:3,sf:'Plenum',method:'Vermutungen',txt:'Gib eine Vermutung ab! Wir prüfen sie später.',act:'none',tool:{id:'hypo',text:'Gib eine Vermutung ab! Wir prüfen sie später.'}},
+  {name:'Arbeitsauftrag',goal:'Lösungswege selbst erarbeiten',min:8,sf:'PA',method:'Arbeitsblatt',txt:'Bearbeite den Arbeitsauftrag.',act:'none',tool:{id:'task',text:'Untersucht das Problem gemeinsam mithilfe des Arbeitsblattes.'}},
+  {name:'Sicherung',goal:'Ergebnisse festhalten, Vermutungen prüfen',min:7,sf:'Plenum',method:'Überprüfung',txt:'Wir überprüfen nun unsere Vermutungen!',act:'look',tool:{id:'hypo',text:'Wir überprüfen nun unsere Vermutungen!'}},
+  {name:'Anwendung',goal:'Gelerntes anwenden',min:10,sf:'PA',method:'Übungsheft',txt:'Bearbeite die Aufgaben der Reihe nach in deinem Übungsheft.',act:'none',tool:{id:'task',text:'Bearbeite die Aufgaben der Reihe nach in deinem Übungsheft.\nWir kontrollieren anschließend gemeinsam.'}},
+  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:4,sf:'Plenum',method:'High-Five-Feedback',txt:'Denk über deine Stunde nach.',act:'none',tool:{id:'high5',qs:H5_QS}},
 ]};
 function newLessonFrom(subj,min,title){
   const base=clone(TEMPLATES[subj]||SCAFFOLD),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
   base.forEach(p=>{p.min=Math.max(1,Math.round(p.min*f));if(p.target==='heft:M'&&subj!=='M')p.target='heft:'+subj;if(p.tool&&p.tool.s&&GAMES[subj])p.tool.s=subj});
-  const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'vorläufig':''};
+  const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'Vorlage':''};
   lessons().push(L);save();return L;
 }
+const RICH=['start','cover','question','hypo','task','high5','corners4'];
 const TOOLS={
   slide:{name:'Folie',icon:'🖼️',txt:'Große Folie mit Titel, Text und Bild, Video oder PDF aus der Bibliothek.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
@@ -1981,9 +2022,35 @@ const TOOLS={
   salad:{name:'Wortsalat',icon:'🔤',txt:'Buchstaben ordnen, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   balloon:{name:'Ballon-Rätsel',icon:'🎈',txt:'Wort erraten, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   mat:{name:'Material zeigen',icon:'📚',txt:'Eine Datei oder ein Video aus deiner Bibliothek groß zeigen.',fit:/begr|einstieg|problem|erarb|sicherung/i},
+  start:{name:'Startfolie',icon:'🎬',txt:'„Du hast jetzt …“ mit Video, Fach und Datum automatisch. Die iPads zeigen, was rausgelegt wird.',fit:/beginn|begr|start|ankommen/i},
+  cover:{name:'Sequenz-Cover',icon:'📘',txt:'Titelfolie für das aktuelle Thema, z. B. Terme und Gleichungen.',fit:/sequenz|cover|thema|begr/i},
+  question:{name:'Stundenfrage',icon:'❓',txt:'Die Frage der Stunde groß, auf Wunsch mit Murmelphase.',fit:/frage|problem|ziel/i},
+  hypo:{name:'Vermutungen',icon:'💡',txt:'Vermutungen sammeln oder überprüfen.',fit:/hypo|vermut|sicherung|überprüf/i},
+  task:{name:'Arbeitsauftrag',icon:'📝',txt:'Leere Vorlage: Du schreibst den Auftrag, Sozialform und Zeit kommen aus der Phase.',fit:/auftrag|erarb|anwend|übung/i},
+  high5:{name:'High-Five-Feedback',icon:'🙌',txt:'Fünf Reflexionsfragen an der Tafel.',fit:/reflex|feedback|abschluss/i},
+  corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
+const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
+const SF_TXT={EA:'Du arbeitest allein',PA:'Du arbeitest mit deinem Partner',GA:'Ihr arbeitet in der Gruppe',Plenum:'Wir arbeiten gemeinsam'};
+const lines=x=>String(x||'').split('\n').map(v=>v.trim()).filter(Boolean);
+// Neue Werkzeuge: dieselbe Ansicht im Präsentationsmodus und im Tafel-Fenster (rt = rich tool)
+function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
+  if(t.id==='start')return `<div class="rt rt-start">${c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`}
+    <div class="in"><h1>Du hast jetzt ${esc(sn)}</h1><p>${dateDE()}</p>${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}</div></div>`;
+  if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
+  if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel"><img src="${MA}murmel.webp" alt="Murmeltier"><p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
+  if(t.id==='hypo')return `<div class="rt rt-h"><img src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
+  if(t.id==='task'){const ls=lines(t.text);
+    return `<div class="rt rt-task"><div class="band">Arbeitsauftrag</div><ul>${ls.map(x=>`<li><i>📄</i><span>${esc(x)}</span></li>`).join('')||'<li><i>📄</i><span class="muted">Hier steht dein Arbeitsauftrag.</span></li>'}
+      ${SF_TXT[c.sf]?`<li><i>👥</i><span>${SF_TXT[c.sf]}</span></li>`:''}${c.min?`<li><i>⏱️</i><span>Du hast ${c.min} Minuten Zeit</span></li>`:''}</ul></div>`}
+  if(t.id==='high5')return `<div class="rt rt-h5"><img src="${MA}high5.webp" alt="Zwei Hände geben sich High Five"><div><h1>High 5 Feedback</h1><ol>${lines(t.qs||H5_QS).slice(0,5).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div></div>`;
+  if(t.id==='corners4'){const o=lines(t.opts||C4_OPTS).slice(0,4);
+    return `<div class="rt rt-c4"><h1>${esc(t.q||'Wie gut kannst du es schon?')}</h1><div class="cg">${o.map((x,k)=>`<div class="${CORNERS[k].c}"><b>Ecke ${k+1}</b><span>${esc(x)}</span></div>`).join('')}</div><p>Stimm auf deinem iPad ab und geh in deine Ecke.</p></div>`}
+  return '';
+}
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';
-  return {slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+  return {start:{id,hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
+    task:{id,text:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
 function toolEditor(p,i,L){
@@ -1995,6 +2062,14 @@ function toolEditor(p,i,L){
       <label>Bild, Video oder PDF<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
   if(t.id==='mat')cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Material<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):''}</select></label></div>`;
   if(t.id==='kfb')cfg=`<div class="lgrid" style="margin-top:8px"><label>Aufgaben<select data-f="ph.${i}.tool.level">${Object.entries(KFB_LEVELS).filter(([k])=>['pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===(KF_LEGACY[t.level]||t.level)?'selected':''}>${v}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Teamnamen und eigene Aufgaben trägst du beim Start des Spiels ein.</p></div>`;
+  const ta=(k,lab,v,r)=>`<label style="grid-column:1/-1">${lab}<textarea rows="${r||3}" data-f="ph.${i}.tool.${k}">${esc(v||'')}</textarea></label>`,inp=(k,lab,v,ph)=>`<label>${lab}<input type="text" data-f="ph.${i}.tool.${k}" value="${esc(v||'')}" placeholder="${esc(ph||'')}"></label>`;
+  if(t.id==='start')cfg=`<div class="lgrid" style="margin-top:8px">${inp('hint','Hinweis auf den iPads',t.hint)}${inp('items','Zum Abhaken (mit Komma)',t.items,'Heft, Mathebuch')}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Fach und Datum stehen automatisch auf der Folie.</p></div>`;
+  if(t.id==='cover')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Thema der Sequenz',t.title,'Terme und Gleichungen')}${inp('sub','Untertitel',t.sub,className())}</div>`;
+  if(t.id==='question')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Stundenfrage',t.q,'Wie kann Anton seine Kosten planen?')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.murmel" ${t.murmel?'checked':''} style="width:auto"> mit Murmelphase</label></div>`;
+  if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
+  if(t.id==='task')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Arbeitsauftrag (jede Zeile ein Punkt)',t.text,4)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Sozialform und Minuten kommen aus der Phase. Die iPads zeigen den Auftrag auch.</p></div>`;
+  if(t.id==='high5')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fünf Fragen (eine pro Zeile)',t.qs,5)}</div>`;
+  if(t.id==='corners4')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}${ta('opts','Vier Ecken (eine pro Zeile)',t.opts,4)}</div>`;
   if(GAME_INFO[t.id])cfg=`<div class="lgrid" style="margin-top:8px"><label>Inhalte aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div>`;
   return `<div class="toolcard" style="margin-top:6px"><span class="ti">${T.icon}</span><div style="flex:1;min-width:0"><b>${T.name}</b><br><small class="muted" style="font-weight:700">${T.txt}</small></div><button class="btn sm" data-act="tool-pool" data-i="${i}">Ändern</button></div>${cfg}`;
 }
@@ -2240,6 +2315,7 @@ KS.load();
 /* --- Präsentation (Live an der Tafel) --- */
 function toolStage(p,L){
   const t=p.tool||{};
+  if(TOOLS[t.id]&&RICH.includes(t.id))return richTool(t,{subj:L.subject,name:p.name,sf:p.sf,min:+p.min||0});
   if(t.id==='kfb')return renderKfb();
   if(GAME_INFO[t.id])return `<div class="slide"><span style="font-size:5rem">${GAME_INFO[t.id].icon}</span><h1>${GAME_INFO[t.id].name}</h1><p>${esc(p.txt||'')}</p><button class="btn pri" style="font-size:1.6rem;padding:18px 34px" data-act="pgame" data-g="${t.id}" data-s="${t.s||'E'}">Spiel starten</button></div>`;
   if(t.id==='slide'||t.id==='mat'){const title=t.id==='slide'?(t.title||p.name):'';
