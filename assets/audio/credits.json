@@ -306,5 +306,19 @@
   "erzeugt_am": "2026-10-10",
   "bearbeitet": "",
   "loop": false
+ },
+ {
+  "id": "psst",
+  "datei": "assets/audio/psst.mp3",
+  "titel": "Pssst!",
+  "kategorie": "Elo",
+  "stichworte": "leise, Ruhe, Lautstärke, Elo",
+  "dauer": 1.6,
+  "quelle": "tools/gen_psst.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-10",
+  "bearbeitet": "",
+  "loop": false
  }
 ]

@@ -716,6 +716,15 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 @keyframes slin{from{opacity:0;transform:translateY(.6em)}to{opacity:1;transform:none}}
 .sl-elo{position:absolute;right:3%;bottom:4%;width:24%;cursor:pointer;transform-origin:50% 100%}
 .sl-elo img{width:100%;display:block;filter:drop-shadow(0 .3em .5em rgba(0,0,0,.18))}
+.elo-lid{position:absolute;aspect-ratio:1;border-radius:50%;overflow:hidden;pointer-events:none}
+.elo-lid::before{content:'';position:absolute;inset:0;background:var(--c);border-bottom:.18em solid #3730a3;border-radius:0 0 50% 50%/0 0 30% 30%;transform:scaleY(0);transform-origin:50% 0}
+.sl-elo.life-blink .elo-lid::before{animation:eloblk .26s ease-in-out}
+@keyframes eloblk{0%,100%{transform:scaleY(0)}45%,55%{transform:scaleY(1.02)}}
+.sl-elo.life-tilt{animation:elotilt 1.6s ease-in-out}@keyframes elotilt{30%,70%{transform:rotate(-6deg)}}
+.sl-elo.life-scratch{animation:eloscr 1.3s ease-in-out}@keyframes eloscr{0%,100%{transform:none}10%,30%,50%,70%{transform:rotate(3deg) translateY(-1%)}20%,40%,60%,80%{transform:rotate(-3deg)}}
+.sl-elo.life-scratch::after{content:'✨';position:absolute;top:8%;right:8%;font-size:1.6em;animation:elofxup 1.3s ease-out both}
+.sl-elo.life-hop{animation:elohop .7s ease}
+@keyframes elofxup{0%{opacity:0;transform:translateY(20%) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-60%) scale(1.1)}}
 .sl-elo.fx-hop{animation:elohop .55s ease 3}
 .sl-elo.fx-wave{animation:elowave .5s ease-in-out 4}
 .sl-elo.fx-tweet,.sl-elo.fx-hoot{animation:elotw .3s ease-in-out 6}
@@ -1298,9 +1307,15 @@ const SND={
   right(){tone(660,0,.14,'sine',.18);tone(990,.09,.25,'sine',.18)},
   oops(){tone(300,0,.22,'sine',.12)},
 };
+// Beste verfügbare Stimme: natürliche/neuronale Stimmen (Edge „Natural“, Apple „Premium/Erweitert“, Siri, Google) vor einfachen Roboterstimmen
+function bestVoice(lang){let vs=[];try{vs=speechSynthesis.getVoices()}catch(e){}const l2=lang.slice(0,2),reg=lang.slice(3).toUpperCase();
+  const sc=v=>{const n=v.name||'',L=(v.lang||'').replace('_','-');if(!L.toLowerCase().startsWith(l2))return -99;let x=0;
+    if(L.toUpperCase().endsWith(reg))x+=4;if(/natural|neural|premium|enhanced|erweitert|siri|online/i.test(n))x+=10;if(/google/i.test(n))x+=3;
+    if(/compact|eloquence|espeak|grandma|grandpa|rocko|shelley|sandy|reed|flo|eddy|bad news|bells|bubbles|boing|jester|organ|whisper|zarvox|trinoids|albert|cellos|wobble/i.test(n))x-=20;return x};
+  return vs.map(v=>[sc(v),v]).filter(a=>a[0]>-50).sort((a,b)=>b[0]-a[0]).map(a=>a[1])[0]||null}
 function say(t){
   try{const u=new SpeechSynthesisUtterance(t.replace(/[\[\]]/g,''));u.lang='en-GB';u.rate=.88;
-    const v=speechSynthesis.getVoices().find(v=>v.lang==='en-GB')||speechSynthesis.getVoices().find(v=>/^en/.test(v.lang));
+    const v=bestVoice('en-GB');
     if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
 }
 
@@ -2142,6 +2157,15 @@ function updTafel(){
 /* --- Folien wie bei PowerPoint: mehrere Folien pro Phase, fertiges ELIO-Design, Elo als steuerbare Figur --- */
 const SL_BG={allgemein:'ELIO allgemein',start:'ELIO Start (mit Elo)',none:'Ohne Hintergrund (weiß)'};
 const SL_LAY={std:'Überschrift und Text',bild:'Nur Bild (ganze Folie)',frage:'Stundenfrage',murmel:'Stundenfrage mit Murmelphase',hypo:'Vermutungen'};
+// Augen der Elo-Bilder (Mitte x/y und Radius in % der Bildbreite, Lidfarbe) für das Blinzeln
+const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebung:[[32.7,31.4,9.6,'#e6e9fb'],[59.8,37.7,9.8,'#edf0fb']],hilfe:[[41.2,31.4,9.4,'#e4e7fa'],[68.1,37.4,9.6,'#f1f2fc']],fleiss:[[42.9,31.0,9.2,'#e2e4fa'],[69.1,36.5,9.4,'#f2f3fd']]};
+const eloLids=k=>(ELO_EYES[k]||[]).map(([x,y,r,c])=>`<i class="elo-lid" style="left:${x-r}%;top:${y-r}%;width:${2*r}%;--c:${c}"></i>`).join('');
+// Elo lebt: blinzelt, legt den Kopf schief, schüttelt sich (kratzt sich), hüpft. Nur wenn gerade keine andere Animation läuft.
+function eloLife(doc){if(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const tick=()=>{doc.querySelectorAll('.sl-elo').forEach(e=>{if([...e.classList].some(c=>/^fx-|nz-loud|life-/.test(c)))return;
+      const r=Math.random(),a=r<.62?'blink':r<.78?'tilt':r<.92?'scratch':'hop',d={blink:260,tilt:1600,scratch:1300,hop:700}[a];
+      if(a!=='blink'&&Math.random()<.5)e.classList.add('life-blink');e.classList.add('life-'+a);setTimeout(()=>e.classList.remove('life-'+a,'life-blink'),d)});
+    setTimeout(tick,2600+Math.random()*3400)};setTimeout(tick,1500)}
 const SL_ELO={'':'– ohne Elo –',heft:'Elo mit Doktorhut',uebung:'Elo mit Heft',hilfe:'Elo hilft',fleiss:'Elo stark'};
 const ELO_FX={wave:['👋','Winken'],hop:['⤴️','Hüpfen'],tweet:['🎵','Zwitschern'],hoot:['🦉','Rufen'],say:['💬','Sprechblase']};
 function deckSlides(t){if(!t)return [];if(!Array.isArray(t.slides)||!t.slides.length)t.slides=[{layout:'std',bg:'allgemein',title:t.title||'',text:t.text||'',mat:t.mat||'',elo:'',say:'',steps:false}];return t.slides}
@@ -2504,7 +2528,7 @@ function avNames(v){const a=avParse(v),out=new Set();let n=0;
   while(out.size<4&&n++<50){const [w,g]=a[0]==='t'?[AV_T[a[1]][0],AV_G[a[1]]]:pick(AVN_H),adj=pick(AVN_A),end=/^(Funky|Super)$/.test(adj)?'':{m:'er',f:'e',n:'es'}[g];out.add((adj+end+' '+w).slice(0,16))}return [...out]}
 // Der Avatar spricht: Sprechblase und Vorlesen mit eigener Stimmhöhe
 function avSay(t,v){try{const u=new SpeechSynthesisUtterance(String(t));u.lang='de-DE';const a=avParse(v!=null?v:S.av);u.pitch=a[0]==='t'?1.35+(a[1]%3)*.15:1.05;u.rate=1;
-  const vo=speechSynthesis.getVoices().find(x=>x.lang==='de-DE')||speechSynthesis.getVoices().find(x=>/^de/.test(x.lang));if(vo)u.voice=vo;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+  const vo=bestVoice('de-DE');if(vo)u.voice=vo;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
 function avBuilder(v){const a=avParse(v),k=a[0],N=AV_N[k],cat=Math.min(V.avCat||0,N.length-1);
   const opt=i=>{const b=a.slice();b.w=a.w;b[cat+1]=i;return b};
   return `<div class="avb"><div class="avb-prev">${avatar(v,120)}<button class="btn sm" data-act="av-rnd">🎲 Zufall</button></div><div class="avb-r">
@@ -2623,15 +2647,21 @@ const NOISE={on:false,lv:0,sens:5,err:'',st:null,ctx:null,iv:0};window.NOISE=NOI
 async function noiseOn(){NOISE.err='';try{const st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
   const ctx=new (window.AudioContext||window.webkitAudioContext)(),an=ctx.createAnalyser();an.fftSize=2048;ctx.createMediaStreamSource(st).connect(an);const buf=new Float32Array(an.fftSize);
   Object.assign(NOISE,{on:true,st,ctx,lv:0});NOISE.iv=setInterval(()=>{an.getFloatTimeDomainData(buf);let q=0;for(let k=0;k<buf.length;k++)q+=buf[k]*buf[k];
-    const db=20*Math.log10(Math.sqrt(q/buf.length)+1e-7),floor=-48-(NOISE.sens-5)*3,raw=Math.max(0,Math.min(1,(db-floor)/30));NOISE.lv=NOISE.lv*.85+raw*.15;noiseUI(document)},100)}
+    const db=20*Math.log10(Math.sqrt(q/buf.length)+1e-7),floor=-48-(NOISE.sens-5)*3,raw=Math.max(0,Math.min(1,(db-floor)/30));if(Date.now()-shushAt>4500)NOISE.lv=NOISE.lv*.85+raw*.15;noiseUI(document)},100)}
   catch(e){NOISE.on=false;NOISE.err='Kein Zugriff aufs Mikrofon. Erlaube es in der Adresszeile des Browsers.'}render()}
 function noiseOff(){clearInterval(NOISE.iv);try{NOISE.st&&NOISE.st.getTracks().forEach(t=>t.stop());NOISE.ctx&&NOISE.ctx.close()}catch(e){}Object.assign(NOISE,{on:false,lv:0,st:null,ctx:null});render()}
+// Elo sagt „Psst!“: Zischlaut plus Satz in der natürlichsten Stimme des Geräts, höchstens alle 12 Sekunden
+const ELO_SH=['Psst! Bitte wieder leiser.','Pssst! Es ist zu laut.','Psst! Leise, bitte.','Huhu! Ich kann nichts mehr hören. Psst!'];let shushAt=0,shushEl=null;
+function eloShush(lv){if(lv<=.85||Date.now()-shushAt<12000||NOISE.mute)return;shushAt=Date.now();
+  try{if(!shushEl)shushEl=new Audio('assets/audio/psst.mp3');shushEl.currentTime=0;shushEl.play().catch(()=>{})}catch(e){}
+  setTimeout(()=>{try{const u=new SpeechSynthesisUtterance(pick(ELO_SH));u.lang='de-DE';u.rate=.95;u.pitch=1.15;const v=bestVoice('de-DE');if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}},900)}
 function noiseUI(doc,N){N=N||NOISE;const lv=N.on?N.lv:0,b=doc.getElementById('nz-bar');if(b){b.style.width=Math.round(lv*100)+'%';b.style.background=lv>.75?'#dc2626':lv>.45?'#f59e0b':'#16a34a'}
   doc.querySelectorAll('.nz-red').forEach(i=>i.style.opacity=Math.min(1,Math.max(0,(lv-.2)/.65)).toFixed(2));
   // Steht Elo auf der Folie, wird genau dieser Elo rot; sonst der kleine Elo unten links
   const op=Math.min(1,Math.max(0,(lv-.2)/.65)).toFixed(2),se=[...doc.querySelectorAll('.sl-elo')];
   se.forEach(e=>{let r=e.querySelector(':scope>.nz-red');const im=e.querySelector('img');if(!r&&N.on&&im){r=doc.createElement('i');r.className='nz-red';const u=`url("${im.getAttribute('src')}")`;r.style.webkitMaskImage=u;r.style.maskImage=u;e.appendChild(r)}
     if(r)r.style.opacity=N.on?op:0;e.classList.toggle('nz-loud',!!N.on&&lv>.85)});
+  if(doc===document&&!BOARD&&N===NOISE&&N.on)eloShush(lv);
   const z=doc.getElementById('nz');if(z){z.hidden=!N.on||se.some(e=>e.closest('#view'));z.classList.toggle('loud',lv>.85)}}
 function vwDo(k){const v=CS&&CS.vw;if(!v)return;const L=lessonById(CS.lesson.id),n=vwCards(L.phases[CS.step].tool).length;
   if(k==='flip'){v.open=!v.open;v.at=Date.now();if(v.open)audPlay('funkeln',false)}
@@ -3199,7 +3229,7 @@ function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
     ${(sl.imgs||[]).map((m,n)=>`<div class="sl-img sl-abs${on('i'+n)}" data-el="i${n}" style="left:${m.x}%;top:${m.y}%;width:${m.w}%"><img data-libimg="${esc(m.id)}" ${BGURL[m.id]?`src="${BGURL[m.id]}"`:''} alt="" draggable="false">${rz()}</div>`).join('')}
     ${L!=='bild'&&sl.title?`<h1 class="sl-t${ab('t')}${on('t')}" data-el="t" style="${slPos(P,'t')}${fs('t')}">${esc(sl.title)}${rz()}</h1>`:''}
     ${L!=='bild'&&ls.length?`<div class="sl-b${ab('b')}${on('b')}" data-el="b" style="${slPos(P,'b')}${fs('b')}">${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}${rz()}</div>`:''}
-    ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo" draggable="false">${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
+    ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo" draggable="false">${eloLids(sl.elo)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
   if(t.id==='diary')return `<div class="rt rt-diary"><div class="band">📔 Lerntagebuch</div><div class="in"><ol>${lines(t.prompt).map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p>Schreib in dein Lerntagebuch auf dem iPad.</p></div></div>`;
@@ -3466,7 +3496,7 @@ const AKT={
     act:(d,s,a)=>{
       if(a.k==='nav'){sayStop(s);s.i=Math.max(0,Math.min(d.items.length-1,s.i+(+a.i)));s.heard='';s.res=null;s.err='';return}
       if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(d.items[s.i]);u.lang=d.lang;u.rate=a.i==='slow'?.6:.85;
-        const v=speechSynthesis.getVoices().find(x=>x.lang.replace('_','-').startsWith(d.lang.slice(0,2))&&(d.lang==='de-DE'||/GB/i.test(x.lang)))||speechSynthesis.getVoices().find(x=>x.lang.startsWith(d.lang.slice(0,2)));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
+        const v=bestVoice(d.lang==='de-DE'?'de-DE':d.lang.slice(0,2)==='en'?'en-GB':d.lang);if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
       if(a.k==='rec'){if(s.rec){sayStop(s);return}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
         s.res=null;s.heard='';s.err='';const rc=new SR();rc.lang=d.lang;rc.interimResults=false;rc.maxAlternatives=3;s._rc=rc;s.rec=true;const at=s.i;
         rc.onresult=e=>{if(s.i!==at)return;const alts=[...e.results[0]].map(x=>x.transcript.trim());const target=d.items[s.i];
@@ -5195,6 +5225,7 @@ hdr();tickClock();render();
 if(S.role==='teacher')libLoad();
 if(CLOUD&&!BOARD)cloudBoot().then(()=>{if(S.role==='student'&&S.acct&&!Cloud.anon)acctLogin(S.acct.u,S.acct.p,true).then(ok=>{if(ok){Live.start(S.code);acctSave(true)}})});
 try{speechSynthesis.getVoices()}catch(e){}
+eloLife(document);
 let lastMin=-1;
 setInterval(()=>{
   tickClock();
