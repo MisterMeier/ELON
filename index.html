@@ -2045,6 +2045,10 @@ VIEWS.tafel=()=>{
       <div class="t-dots">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}" title="${esc(p.name)}"></button>`).join('')}</div>
       <div class="t-nav"><button class="btn big" data-act="l-nav" data-d="-1" ${CS.step<=0&&!(CS.sub>0)?'disabled':''}>◀ Zurück</button>${CS.step>=L.phases.length-1&&(CS.sub||0)>=phaseFrames(L.phases[CS.step])-1?`<button class="btn big ok" data-act="l-stop">✓ Stunde beenden</button>`:`<button class="btn big pri" data-act="l-nav" data-d="1">Weiter ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button>`}</div>
       ${(()=>{const t=L.phases[CS.step]&&L.phases[CS.step].tool,F=t&&t.id==='slide'?deckFrames(t):[],sl=F.length?deckSlides(t)[F[Math.min(CS.sub||0,F.length-1)].j]:null;
+        if(t&&t.id==='kfb'){if(!KF)kfbStart(t.level,true);const K=KF,dis=K.busy||K.phase!=='play'?'disabled':'';
+          return `<div class="t-elo t-kf"><b>⚽ ${esc(K.names[0])} ${K.score[0]} : ${K.score[1]} ${esc(K.names[1])}</b>${K.phase==='setup'?`<button class="btn sm pri" data-act="kf-kickoff">⚽ Anpfiff</button><button class="btn sm" data-act="tkfb-set">⚙️ Teams und Aufgaben</button>`
+            :K.phase==='end'?`<button class="btn sm ok" data-act="kf-again">Revanche</button><button class="btn sm" data-act="kf-new">Neues Spiel</button>`
+            :`<span class="chip">${esc(K.task?K.task.q:'')} = ${K.task?esc(String(K.task.a).replace('.',',')):''}</span><button class="btn sm ok" data-act="kf-ok" ${dis}>✓ Richtig</button><button class="btn sm" data-act="kf-no" ${dis} style="color:#b91c1c">✗ Falsch</button><button class="btn sm" data-act="kf-skip" ${dis}>↻ Andere Aufgabe</button><button class="btn sm" data-act="kf-end">Abpfiff</button>`}</div>`}
         if(t&&t.id==='vw'&&CS.vw){const v=CS.vw,n=vwCards(t).length,tm=vwTeams(t);return `<div class="t-elo t-vw"><b>🃏 Karte ${Math.min(v.i+1,n)}/${n} · dran: ${esc(tm[v.team])}</b>${v.i<n?`<button class="btn sm pri" data-act="vw" data-k="flip">${v.open?'🙈 Zudecken':'🔄 Karte umdrehen'}</button><button class="btn sm ok" data-act="vw" data-k="ok">✓ Erraten</button><button class="btn sm" data-act="vw" data-k="no" style="color:#b91c1c">✗ Verbotenes Wort</button><button class="btn sm" data-act="vw" data-k="next">⏭ Nächste Karte</button><button class="btn sm" data-act="vw" data-k="team">⇄ Team</button>`:`<button class="btn sm" data-act="vw" data-k="reset">↺ Nochmal</button>`}</div>`}
         return sl&&sl.elo?`<div class="t-elo"><img src="assets/elo/elo-${sl.elo}.png" alt=""><b>Elo:</b>${Object.entries(ELO_FX).filter(([k])=>k!=='say'||sl.say).map(([k,[ic,n]])=>`<button class="btn sm" data-act="elo-fx" data-k="${k}">${ic} ${n}</button>`).join('')}</div>`:''})()}
       <small class="muted t-keys">Tipp: Pfeiltasten oder Presenter funktionieren auch.</small>${tafelMats(L)}`
@@ -3553,11 +3557,11 @@ function kfbStart(level,quiet){const c=kfCfg();level=KF_LEGACY[level]||level;if(
 function kfbStop(quiet){KF=null;if(CS){CS.kfb=null;if(!quiet)pushCS()}}
 function kfbSync(){if(!CS)return;CS.kfb=KF?{phase:KF.phase,names:KF.names,q:KF.task?KF.task.q:'',pos:KF.pos,net:KF.net,score:KF.score.slice(),turn:KF.turn,goal:KF.goal,last:KF.last?{ok:KF.last.ok,team:KF.last.team}:null,
   ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id,name:kidName(KF.ask.nr)}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join(''),at:KF.at||0}:null}
-function kfbPush(){kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}
+function kfbPush(){kfbSync();pushCS();if(['kfb','present','tafel'].includes(V.name))render()}
 function kfbNext(){if(KF.mode==='list'&&KF.list.length){KF.task=KF.list[KF.idx%KF.list.length];KF.idx++}else KF.task=kfbTask(KF.level);KF.ask=null;KF.peek=false}
 function kfKickoff(){
-  const c=kfCfg(),n0=($('#kf-n0')||{}).value,n1=($('#kf-n1')||{}).value;
-  c.names=[(n0||'').trim().slice(0,24)||'Team 1',(n1||'').trim().slice(0,24)||'Team 2'];
+  const c=kfCfg(),f0=$('#kf-n0'),f1=$('#kf-n1');
+  if(f0&&f1)c.names=[f0.value.trim().slice(0,24)||'Team 1',f1.value.trim().slice(0,24)||'Team 2'];
   if(c.mode==='list'){const t=$('#kf-list');if(t)c.list=t.value;const P=kfParseList(c.list);if(!P.ok.length){const e=$('#kf-err');if(e)e.textContent='Keine gültige Aufgabe gefunden. Eine Aufgabe pro Zeile, z. B. 45 + 18 − 20.';return}KF.list=P.ok}
   const lv=$('#kf-lv');if(lv)c.level=lv.value;tsave();
   Object.assign(KF,{names:c.names.slice(),mode:c.mode,level:c.level,idx:0,pos:0,net:false,score:[0,0],turn:0,goal:null,last:null,ask:null,phase:'intro',at:Date.now(),busy:true});
@@ -4461,7 +4465,7 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
         return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
           ${sh?`<div class="fl-a"><b>Lösung:</b> ${esc(f.a)}</div>${T||ok?`<button class="btn sm" data-act="mx-tog" data-k="f${i}" style="margin-top:6px">Lösung verbergen</button>`:''}`:`<button class="btn sm" data-act="mx-tog" data-k="f${i}">👀 Lösung zeigen</button>`}
           ${!T&&sh&&!ok?`<div class="row" style="margin-top:6px"><button class="btn sm ok" data-act="fl-ok" data-k="${esc(key)}" data-p="${f.p}">Hatte ich richtig (+${f.p})</button><button class="btn sm" data-act="mx-tog" data-k="f${i}">Nochmal probieren</button></div>`:ok?'<span class="chip ok">✓ geschafft</span>':''}</div>`}).join('')||'<div class="empty">Kommt noch.</div>'}</section></div></div>`};
-VIEWS.tdesk=()=>{const ks=[...new Set(['M',...tHeft().map(e=>e.s)])];
+VIEWS.tdesk=()=>{const ks=[...new Set(['M','DZ',...tHeft().map(e=>e.s)])];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
   <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
     return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody"><b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
@@ -4918,6 +4922,7 @@ document.addEventListener('click',e=>{
     case 'present':go('present');break;
     case 'pgame':gameLive(d.g,d.s);go(d.g,{s:d.s,back:'present'});break;
     case 't-game-end':gameLive(null);render();break;
+    case 'tkfb-set':go('kfb');break;
     case 'tkfb':if(!CS)initTeacher();kfbStart('');go('kfb');break;
     case 'kfb-seat':{const k=+d.n;if(!KF)break;if(KF.teamEdit){TD.teams=TD.teams||{};TD.teams[k]=teamOf(k)==='A'?'B':'A';tsave();kfbPush()}else if(KF.phase==='play'&&!KF.busy){KF.ask={nr:k,id:'k'+Date.now()};SND.swap();kfbPush()}break}
     case 'kfb-teams':if(KF){KF.teamEdit=!KF.teamEdit;render()}break;
