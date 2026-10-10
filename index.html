@@ -213,7 +213,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .hf-h{stroke:#d33;stroke-width:2;stroke-dasharray:6 4;fill:none}.hf-t{font:600 14px system-ui,sans-serif;fill:currentColor}.hf-t.hf-hl{fill:#d33}.hf-ar{stroke:currentColor;stroke-width:2;fill:none}.hf-dot{fill:#d33}
 .ub-list{display:grid;gap:8px;margin:4px 0 12px}.ub-item{border:1px solid var(--line);border-radius:12px;padding:8px 10px}.ub-item .sub-btns{margin-top:6px}.hx{border-top:1px dashed var(--line);padding-top:8px}.hx-list{margin:0;padding-left:1.4em;display:grid;gap:10px}.hx-list li.dn .hx-q{opacity:.6}.hx-q{line-height:1.45}.hx-list .sub-btns{margin-top:4px}.hx-a{margin-top:6px;padding:6px 10px;border-radius:8px;background:var(--surface-2);font-weight:600}.hxl{color:#c98f00;letter-spacing:-1px;white-space:nowrap}.hxl .off{opacity:.25}
 .sub-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.helpbox{margin-top:10px;border:3px dashed #d98a00;border-radius:14px;padding:10px 14px;background:#fffaf0;color:#2b2110}.helpbox :is(h4,p,li,b,span,small,div,ul,ol){color:inherit}.helpbox .muted{color:#5c4a2a}.helpbox>.l{color:#a86500;display:block;margin-bottom:4px}
+.helpbox{--surface:#fff;--surface-2:#fff3d6;--line:#ead6ac;--ink:#2b2110;--muted:#5c4a2a;--navy:#7a4b00;color-scheme:light;margin-top:10px;border:3px dashed #d98a00;border-radius:14px;padding:10px 14px;background:#fffaf0;color:#2b2110}.helpbox :is(h4,p,li,b,span,small,div,ul,ol,table,td,th,strong,em,code){color:inherit}.helpbox .muted{color:#5c4a2a}.helpbox>.l{color:#a86500;display:block;margin-bottom:4px}
 .hw-form{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:10px;padding:10px;border-radius:12px;background:var(--bg,#f4f6fb)}.hw-form label{display:grid;gap:4px;font-weight:700;font-size:.9rem}
 .mod-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;margin-top:12px}@media(max-width:820px){.mod-grid{grid-template-columns:1fr}}
 .page.sub header{margin-bottom:0}.station h2{font-size:1.25rem;margin-bottom:4px}.station ul{margin:8px 0 8px 18px;display:grid;gap:6px}
@@ -370,12 +370,12 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .t-head{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
 @media (max-width:820px){.tafel,.t-head{grid-template-columns:1fr}}
 .t-big{font-size:clamp(2.4rem,5vw,4rem)}
-.t-top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start;margin-bottom:16px}
-.t-top .t-head{grid-column:auto;padding:16px}
+.t-top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:stretch;margin-bottom:16px}
+.t-top .t-head{grid-column:auto;padding:16px;align-items:start;margin:0}
 .t-top .t-big{font-size:clamp(1.6rem,2.6vw,2.4rem)}
 .t-top .t-txt{font-size:1.02rem}
 .t-top .ring{width:96px;height:96px;align-self:start}.t-top .ring div{width:76px;height:76px;font-size:1.45rem}
-.tprev-w{min-width:0}
+.tprev-w{min-width:0;margin:0;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:8px}.tprev-f{justify-content:space-between;font-weight:700}
 .tprev{aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:2px solid var(--line,var(--surface-2));box-shadow:0 6px 18px rgba(0,0,0,.12);background:var(--bg)}
 .tprev .bw-kf{overflow:auto}.tprev{position:relative}
 .tmir{transform-origin:0 0;pointer-events:none;overflow:hidden;background:var(--bg)}.tmir.tb{padding:24px 32px}.tmir .bw{height:100%}.tmir-ph{display:grid;place-items:center;height:60%;font-size:2rem;font-weight:800;background:#000;color:#fff;border-radius:12px}
@@ -429,6 +429,10 @@ body.wide main,body.wide .top-in{max-width:1760px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* v8: Dashboard-Bereiche + Üben */
+.dk-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}.dk-grid>.panel{margin:0}@media (max-width:820px){.dk-grid{grid-template-columns:1fr}}
+.dk-ps{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}.dk-p{display:grid;justify-items:center;gap:3px;width:74px;padding:6px 2px;border:0;background:none;cursor:pointer;font:inherit;color:var(--ink)}.dk-p>svg,.dk-p>.av-0{border-radius:50%;box-shadow:0 0 0 3px var(--line);opacity:.75}.dk-p.on>svg,.dk-p.on>.av-0{box-shadow:0 0 0 3px var(--green);opacity:1}.dk-p small{font-weight:700;font-size:.78rem;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.todo{list-style:none;margin:10px 0 6px;padding:0;display:grid;gap:4px}.todo li{display:flex;align-items:center;gap:8px;justify-content:space-between}.todo label{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:700}.todo input{width:20px;height:20px;flex:none}.todo li.done span{text-decoration:line-through;color:var(--muted)}.todo .btn{min-height:28px;padding:0 8px;opacity:.6}
+.nx-l{display:grid;gap:8px;margin-top:10px}.nx{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:12px;border:1px solid var(--line)}.nx.first{border:2px solid var(--green);background:var(--ok-bg)}.nx-w{display:grid;min-width:92px}.nx-w small,.nx-t small{font-weight:700}.nx-t{display:grid;flex:1;min-width:0}.nx-now{color:var(--green)}@media (max-width:620px){.nx{flex-wrap:wrap}}
 .areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 @media (max-width:640px){.areas{grid-template-columns:1fr}}
 .area{display:flex;flex-direction:column;gap:6px;text-align:left;padding:18px;border-radius:20px;background:var(--surface);border:1px solid var(--line);border-top:7px solid var(--ac);box-shadow:var(--shadow);cursor:pointer;color:var(--ink);font:inherit}
@@ -858,6 +862,12 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .remind{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-radius:16px;background:var(--late-bg);color:var(--ink);font-weight:700;margin-bottom:12px}
 .free{display:flex;gap:12px;align-items:center;margin-top:22px;padding:14px 16px;border-radius:16px;border:2px dashed var(--line)}.free .ai{font-size:1.6rem}
 .sus-t td{vertical-align:middle}.sus-t tr.off{opacity:.75}.sus-n{display:flex;gap:10px;align-items:center;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left}.sus-n small{display:block}.mono{font-family:ui-monospace,Menlo,monospace;letter-spacing:.12em;font-size:1.05rem}.av-0{display:inline-block;width:34px;height:34px;border-radius:50%;border:2px dashed var(--line)}
+.au-st{margin:6px 0 4px;border-bottom:1px solid var(--line);padding-bottom:8px}.au-st>summary{display:flex;gap:12px;align-items:center;flex-wrap:wrap;cursor:pointer;list-style:none}.au-st>summary::-webkit-details-marker{display:none}
+.au-stk{display:flex;width:min(320px,100%);height:14px;border-radius:8px;overflow:hidden;background:var(--surface-2)}.au-stk i{display:block;height:100%}.au-stk .f,.au-lg .f{background:var(--green);color:var(--green)}.au-stk .b,.au-lg .b{background:var(--blue);color:var(--blue)}.au-stk .n{background:var(--line)}
+.au-lg{display:flex;gap:10px;font-size:.85rem}.au-lg b{background:none!important}.au-lg .n{color:var(--muted)}.au-more{font-weight:800;font-size:.85rem}.au-st[open] .au-more{opacity:.5}
+.au-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:10px}@media (max-width:760px){.au-g{grid-template-columns:1fr}}
+.au-kids{display:grid;gap:4px;margin-top:6px}.au-k{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:center;border:0;background:none;padding:2px 0;font:inherit;color:var(--ink);cursor:pointer;text-align:left}.au-k span:first-child{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.au-k small{font-weight:700;color:var(--muted)}
+.au-g .label{display:block}.au-k .bar.sm{width:100%}.au-ln{width:100%;height:110px;margin-top:6px}.au-ar{fill:var(--blue);opacity:.18}.au-pl{fill:none;stroke:var(--blue);stroke-width:2.5;vector-effect:non-scaling-stroke}.au-ax{justify-content:space-between;font-weight:700;color:var(--muted)}
 .auf-t{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
 .auf-f{margin-bottom:14px;border:2px solid var(--blue)}.auf-f label{display:flex;flex-direction:column;font-weight:800;font-size:.85rem;gap:4px}.auf-f label.row{flex-direction:row;align-items:center;min-height:44px}
 </style>
@@ -1154,7 +1164,7 @@ function mutStar(){if(S.mut<30){S.mut++;addStars(1)}}
 // Menü hinter dem ELIO-Logo: wer bin ich, Profil, Abmelden
 function umenuHTML(){const T=S.role==='teacher',it=(v,l)=>`<button data-act="um-go" data-v="${v}">${l}</button>`;
   const who=T?`<b>${esc(Cloud.prof&&Cloud.prof.name||'Lehrkraft')}</b><small>${esc(Cloud.user&&Cloud.user.email||'Demo-Modus')} · ${esc(className())}</small>`
-    :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||'Nr. '+S.nr)}</b><small>Nr. ${S.nr} · ${esc(className())}</small></span></span>`;
+    :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</b><small>${S.acct&&S.acct.u?esc(S.acct.u)+' · ':''}${esc(className())}</small></span></span>`;
   return `<div class="um-who">${who}</div>${T?it('tdash','🏠 Lehrerzimmer')+it('me','👤 Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','🏫 Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','🔑 Admin'):'')+it('dash','👀 Schüleransicht')+(tkAdmin()?it('inbox','📬 Postfach'):'')
     :it('dash','🏠 Dashboard')+it('desk','🗂️ Schreibtisch')+it('homework','📚 Aufgaben')+it('me','👤 Mein Profil')+it('week','🗓️ Stundenplan')}<button data-act="tk-open">🛠️ Problem melden</button><button data-act="go-legal" data-v="datenschutz">🔒 Datenschutz und Impressum</button><button class="out" data-act="role-reset">🚪 Abmelden</button>`}
 document.addEventListener('click',e=>{const m=$('#umenu');if(m&&!m.hidden&&!e.target.closest('#umenu,.logo'))m.hidden=true},true);
@@ -1445,6 +1455,9 @@ function aufNotify(){if(S.role!=='student')return;const t=todayISO();S.remDay=S.
   annAll().forEach(a=>{if(S.annSeen[a.id])return;S.annSeen[a.id]=1;ch=1;if(notifOk())notify('Nachricht von deiner Lehrkraft',a.t)});
   if(ch)save()}
 // Minitest: Antworten werden gemischt, gezählt wird der erste Versuch und der beste
+// Selbsttest am Ende eines Kapitels: aus jedem freigegebenen Unterkapitel zwei Fragen aus dem Minitest
+const stId=(k,ch)=>'st-'+k+'-'+(String(ch).match(/^\d+/)||['x'])[0];
+function stData(k,ch){const qs=modEntries(k,ch).filter(e=>e.mt).flatMap(e=>{const tag=(String(e.title).match(/^\d+(\.\d+)*/)||[''])[0];return shuffle(AKT.mc.parse(e.mt).qs).slice(0,2).map(q=>({...q,q:(tag?tag+' · ':'')+q.q,opts:shuffle(q.opts)}))});return {qs:qs.slice(0,20)}}
 function mtData(e){const d=AKT.mc.parse(e.mt);d.qs=d.qs.map(q=>({...q,opts:shuffle(q.opts)}));return d}
 function mtDone(id,st,d){if(S.role!=='student')return;S.mt=S.mt||{};const o=S.mt[id],n=d.qs.length,r=+st.score||0,now=Date.now();
   S.mt[id]=o?{...o,b:Math.max(o.b,r),la:now,x:(o.x||1)+1,n}:{f:r,b:r,n,at:now,la:now,x:1};save();progTick(true)}
@@ -1750,8 +1763,8 @@ VIEWS.board=()=>`<div class="st-head"><span class="chip">Für Lehrkraft & Lernlo
       <div class="row" style="margin-top:10px"><label for="cls" class="muted" style="font-weight:800">SuS in der Klasse</label><input id="cls" type="number" min="2" max="40" value="${S.classSize}" style="width:90px"></div>
       <div class="row" style="margin-top:10px"><button class="btn" data-act="mk-pairs">Paare bilden</button><button class="btn" data-act="mk-jobs">Lotsen-Jobs verteilen</button><button class="btn" data-act="coin">Wer beginnt?</button></div>
       <div id="pairs-out">${PAIRS_OUT}</div>
-      ${JOBS_OUT?`<div class="jobs">${JOBS.map((j,i)=>`<div><span><b>${j[0]}</b> <span class="muted">${j[1]}</span></span><b>Nr. ${JOBS_OUT[i]}</b></div>`).join('')}</div>`:''}
-      <p class="muted" style="font-size:.85rem;margin-top:10px">Die Nummern sind eure Klassenlisten-Nummern. Es werden keine Namen gespeichert.</p></section>
+      ${JOBS_OUT?`<div class="jobs">${JOBS.map((j,i)=>`<div><span><b>${j[0]}</b> <span class="muted">${j[1]}</span></span><b>${esc(kidName(JOBS_OUT[i]))}</b></div>`).join('')}</div>`:''}
+      </section>
     <section class="panel"><span class="label">Klassen-Rakete</span>
       <div class="rocket" style="margin-top:10px"><div class="fuel">${Array.from({length:10},(_,i)=>`<i class="${i<S.rocket?'on':''}"></i>`).join('')}</div>
       <div style="flex:1;min-width:0"><p style="font-weight:700">Treibstoff gibt es, wenn die <b>ganze Klasse</b> ein Ritual schafft: z. B. alle in 5 Sekunden still nach dem Freeze-Gong.</p>
@@ -1894,7 +1907,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.k==='hi')mbFlushDown(nr);
   if(m.k==='mb'&&m.r){mbUp({...m.r,nr});return}
   // Podium: wer das Tafel-Spiel auf dem iPad geschafft hat, in der Reihenfolge des Ankommens
-  if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||'Nr. '+nr,av:cleanAv((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
+  if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||kidName(nr),av:cleanAv((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
   if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.rocket=Math.min(10,CS.rocket+1);SND.cheer();ch=true}}
   if(ch)pushCS();
   if(V.name==='tafel')updTafel();
@@ -1913,7 +1926,7 @@ VIEWS.tafel=()=>{
         :`<div class="row" style="margin-top:12px"><button class="btn pri" data-act="lessons">Stunde starten</button></div>`}</div>
       <div class="ring" id="tring"><div id="ttime">${fmt(timerLeft(CS.timer))}</div></div>
     </div>
-    <div class="tprev-w"><div class="row" style="justify-content:space-between;margin-bottom:6px"><span class="label">📺 Gerade an der Tafel</span><button class="btn sm" data-act="board-open">Tafel-Fenster öffnen</button></div><div class="tprev" id="tprev"></div></div>
+    <div class="tprev-w panel"><div class="tprev" id="tprev"></div><div class="row tprev-f"><small class="muted">📺 Gerade an der Tafel</small><button class="btn sm" data-act="board-open">Tafel-Fenster öffnen</button></div></div>
   </div>
   <details class="panel ctrl" open><summary>Steuerung</summary>
     ${Live.kind==='server'&&!Live.dbKey?`<div class="grp row"><span class="label">Verschlüsselt verbunden</span><button class="btn sm ${CS.keyQr?'on':''}" data-act="t-keyqr">🔑 ${CS.keyQr?'Schlüssel-QR ausblenden':'iPads verbinden (Schlüssel-QR an der Tafel)'}</button></div>`:''}
@@ -1921,7 +1934,7 @@ VIEWS.tafel=()=>{
       <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
     <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
       ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}<button class="btn" data-act="tkfb">⚽ Kopfrechenfußball</button>${CS.game&&gInfo(CS.game.g)?`<span class="chip">Läuft: ${esc(CS.game.title||gInfo(CS.game.g).name)} an Tafel und iPads</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button>`:''}</div>
-    <div class="grp row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':'Nr. '+CS.lotsen.join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" inputmode="numeric" placeholder="Nummern, z. B. 3, 12" style="width:170px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}</div>
+    <div class="grp row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}</div>
     <div class="grp row"><span class="label">Material</span><button class="btn" data-act="lib-pick">Aus der Bibliothek zeigen</button>${CS.share?`<span class="chip">Auf den iPads: ${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button>`:''}</div>
     <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-min" data-m="${m}">${m} min</button>`).join('')}
       <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
@@ -1957,7 +1970,7 @@ function updTafel(){
   $('#t-online').textContent=on.length;
   $('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
     const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}${k}${nk?`<small>${esc(nk)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
-  $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||'Nr. '+k)}</b> <span class="muted">Nr. ${k}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
+  $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||kidName(k))}</b> <span class="muted">${esc(kurzOf(k))}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   $('#t-ready').innerHTML=CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
   if(CS.poll){const tot=Math.max(1,CS.poll.voted.length);
@@ -2062,7 +2075,7 @@ function updBanner(){
   const G=!RCS.freeze&&RCS.game&&gInfo(RCS.game.g);
   el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+esc(G.name):esc(ph.name)}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
     ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
-    <span class="chip">${myAv()} ${esc(S.nick||'Nr. '+S.nr)}</span>
+    <span class="chip">${myAv()} ${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</span>
     <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
 }
 function liveOverlay(){
@@ -2146,7 +2159,7 @@ VIEWS.role=()=>{
   if(step==='class')return `<div class="start"><div class="start-head">${back('school')}<span class="label">Schritt 2 von 3 · ${esc(sc.name)}</span></div><h1>Wähle deine Klasse</h1>
     <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.label||c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
   if(step==='nick'){if(V.av==null)V.av=S.av!=null?cleanAv(S.av):avRandom();
-    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl.name)} · Nr. ${V.nr}</span></div><h1>Bau dir deinen Avatar</h1>
+    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl.name)}${S.acct&&S.acct.u?' · '+esc(S.acct.u):''}</span></div><h1>Bau dir deinen Avatar</h1>
     <section class="panel" style="margin-top:16px">${avBuilder(V.av)}${avNameHTML('nick')}
       <p class="err" id="nick-err"></p>
       <button class="btn ok big" data-act="nick-ok" style="width:100%;margin-top:16px">Fertig</button>
@@ -2410,6 +2423,11 @@ document.addEventListener('input',e=>{const t=e.target;if(t.id==='a-u'){t.value=
 ['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
 setInterval(()=>{if(S.role==='teacher'&&TDKEY&&!TDIDLE&&Date.now()-TDLAST>15*60000){TDIDLE=true;render()}},20000);
 const nickOf=k=>TD.nicks[k]||(ROSTER[k]&&ROSTER[k].nick)||'';
+// Kinder heißen überall nach ihrem Namen oder Kürzel. Die Nummer bleibt nur intern.
+const kurzOf=k=>{const L=ZG.cid===S.cls&&ZG.list||null,x=L&&L.find(y=>+y.nr===+k);return x?x.uname:(((TD.unames||{})[S.cls||'-']||{})[k]||'')};
+const kidName=k=>nickOf(k)||kurzOf(k)||'Nr. '+k;
+function kidsFrom(txt){const all=[...new Set([...Object.keys(TD.nicks||{}),...Object.keys(ROSTER),...((ZG.cid===S.cls&&ZG.list)||[]).map(x=>x.nr)].map(Number))];
+  return [...new Set(String(txt).split(/[,;\n]+/).map(t=>t.trim().toLowerCase()).filter(Boolean).map(t=>/^\d+$/.test(t)?+t:all.find(k=>(nickOf(k)||'').toLowerCase()===t||kurzOf(k).toLowerCase()===t)).filter(n=>n>=1&&n<=40))].slice(0,40)}
 const avOf=k=>{const a=ROSTER[k]&&ROSTER[k].av!=null?ROSTER[k].av:(TD.avs||{})[k];return a!=null?avatar(a,30):''};
 const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)};
 const today=()=>new Date().toISOString().slice(0,10);
@@ -2523,7 +2541,7 @@ const OBS_CATS=[['Mitarbeit','✋'],['Lernstand','📈'],['Sozialverhalten','�
 let OQ={n:0,cat:'Mitarbeit'};
 function curSubj(){const L=CS&&CS.lesson&&lessonById(CS.lesson.id);if(L)return L.subject;const sl=slotNow();return sl.kind==='lesson'?sl.l.s:'E'}
 function addObs(n,cat,subj,txt){txt=(txt||'').trim();if(!txt)return false;(TD.obs[n]=TD.obs[n]||[]).unshift({id:newId(),t:Date.now(),cat,subj,txt:txt.slice(0,2000)});tsave();return true}
-const pupilName=k=>nickOf(k)?`${esc(nickOf(k))} <span class="muted">· Nr. ${k}</span>`:`Nr. ${k}`;
+const pupilName=k=>nickOf(k)?`${esc(nickOf(k))}${kurzOf(k)?` <span class="muted">· ${esc(kurzOf(k))}</span>`:''}`:esc(kidName(k));
 VIEWS.obs=()=>{
   const on=CS?online():[],all=Object.values(TD.obs).flat(),td=all.filter(o=>new Date(o.t).toISOString().slice(0,10)===today()).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Beobachtungen</h1><div class="row"><span class="chip">${all.length} Notizen · heute ${td}</span><button class="btn sm" data-act="obs-export" ${all.length?'':'disabled'}>Alle als Textdatei sichern</button><button class="btn sm" data-act="sa-printall">🖨️ Alle Akten drucken</button></div></div>
@@ -2616,7 +2634,7 @@ function saPrintOne(k){const A=saGet(k),yr=saYear(),blank=n=>Array.from({length:
     <p class="sa-leg">Ausprägungsgrad: ++ linkes Merkmal trifft voll zu · + eher links · – eher rechts · – – rechtes Merkmal trifft voll zu</p>
     ${(TD.obs[k]||[]).length?`<div class="sa-brk"></div><table class="sa-t"><thead><tr><th colspan="3" class="hb">4. Notizen aus dem Unterricht</th></tr><tr><th style="width:24mm">Datum</th><th style="width:30mm">Bereich</th><th>Beobachtung</th></tr></thead><tbody>
       ${(TD.obs[k]||[]).slice().reverse().map(o=>`<tr><td>${new Date(o.t).toLocaleDateString('de-DE')}</td><td>${esc(o.cat)}${SUBJECTS[o.subj]?' · '+esc(SUBJECTS[o.subj].name):''}</td><td style="white-space:pre-wrap">${esc(o.txt)}</td></tr>`).join('')}</tbody></table>`:''}</article>`}
-const pupilNameTxt=k=>nickOf(k)?nickOf(k)+' (Nr. '+k+')':'Nr. '+k;
+const pupilNameTxt=k=>nickOf(k)?nickOf(k)+(kurzOf(k)?' ('+kurzOf(k)+')':''):kidName(k);
 VIEWS['sa-print']=()=>{const ks=V.all?Array.from({length:S.classSize},(_,i)=>i+1).filter(k=>{const A=saGet(k);return A.an||A.el.length||A.vk.length||Object.keys(A.v).length||(TD.obs[k]||[]).length}):[V.n];
   return `<div class="row noprint" style="margin-bottom:12px"><button class="btn sm" data-act="${V.all?'obs':'obs-p'}" data-n="${V.n||1}" data-from="${V.all?'':'sus'}">← Zurück</button><button class="btn pri" data-act="kl-print">🖨️ Drucken oder als PDF sichern</button><span class="muted" style="font-weight:700">Im Druckfenster „Als PDF sichern“ wählen.</span></div>
   ${ks.length?ks.map(saPrintOne).join('<div class="sa-brk"></div>'):'<div class="empty">Noch keine Akten angelegt.</div>'}`};
@@ -2646,7 +2664,7 @@ function obsQuick(k){
 function obsExport(){
   const lines=[`ELIO · Beobachtungen · ${className()} · Stand ${new Date().toLocaleString('de-DE')}`,'Vertraulich: nur für die Lehrkraft.',''];
   Object.keys(TD.obs).map(Number).sort((a,b)=>a-b).forEach(k=>{const L=TD.obs[k];if(!L||!L.length)return;
-    lines.push(`=== Nr. ${k}${nickOf(k)?' ('+nickOf(k)+')':''} ===`);
+    lines.push(`=== ${pupilNameTxt(k)} ===`);
     L.slice().reverse().forEach(o=>lines.push(`${new Date(o.t).toLocaleString('de-DE')} · ${o.cat} · ${SUBJECTS[o.subj]?SUBJECTS[o.subj].name:''}\n${o.txt}\n`));});
   dl(new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'}),`elio-beobachtungen-${S.code||'klasse'}-${today()}.txt`);
 }
@@ -2668,6 +2686,40 @@ function dayStrip(){const n=nowInfo(),d=n.day;if(d<0||d>4)return `<section class
   else sug=`<p class="muted" style="font-weight:700;margin-top:8px">${mine.length?'Für heute ist dein Unterricht vorbei.':'Heute stehen keine Stunden in deinem Stundenplan.'}</p>`;
   return `<section class="panel daybar"><div class="row" style="justify-content:space-between"><span class="label">Dein Tag · ${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span>${TD.ttEx?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
     <div class="dstrip">${cells||'<span class="muted">Keine Stunden</span>'}</div>${sug}</section>`}
+// Lehrerzimmer: die nächsten geplanten Stunden (aus der Planung), Klasse auf einen Blick, To-dos
+function planNext(max){const out=[],n=nowInfo(),today=isoD(new Date()),d0=new Date();
+  for(let k=0;k<21&&out.length<max;k++){const dt=new Date(d0);dt.setDate(d0.getDate()+k);const wd=(dt.getDay()+6)%7;if(wd>4)continue;const ds=isoD(dt);
+    PERIODS.forEach((p,i)=>{const lid=TD.plan[ds+'|'+i];if(!lid||out.length>=max)return;if(ds===today&&toMin(p[2])<=n.min)return;
+      const last=out[out.length-1];if(last&&last.ds===ds&&last.lid===lid&&last.i2===i-1){last.i2=i;last.en=p[2];return}
+      const L=lessonById(lid);if(L)out.push({ds,wd,i,i2:i,lid,L,st:p[1],en:p[2],sl:TD.tt[wd+'-'+i]||null,dt})})}
+  return out}
+function dashNext(){const N=planNext(5),today=isoD(new Date()),n=nowInfo();
+  return `<section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Schnellstart · deine nächsten Stunden</span><span class="row"><button class="btn sm" data-act="tplan">Woche planen</button><button class="btn sm" data-act="l-new">Neue Stunde</button></span></div>
+    <div class="nx-l">${N.map((x,j)=>{const now=x.ds===today&&toMin(x.st)<=n.min,sub=x.L.subject||(x.sl&&x.sl.s),cn=x.sl&&x.sl.c||'';
+      const when=x.ds===today?'Heute':new Date(x.dt).toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'numeric'});
+      return `<div class="nx ${j===0?'first':''} s-${sub}"><span class="nx-w"><b>${when}</b><small>${PERIODS[x.i][0]}.${x.i2>x.i?'–'+PERIODS[x.i2][0]+'.':''} Std · ${x.st}</small></span>${badge(sub)}
+        <span class="nx-t"><b>${esc(x.L.title)}</b><small class="muted">${esc(cn)}${cn?' · ':''}${x.L.phases.length} Phasen · ${lessonMin(x.L)} min${now?' · <b class="nx-now">läuft jetzt</b>':''}</small></span>
+        <span class="row"><button class="btn sm ${j===0?'ok':''}" data-act="l-start" data-id="${x.L.id}" data-cid="${esc(x.sl&&x.sl.cid||'')}">▶ Starten</button><button class="btn sm" data-act="l-edit" data-id="${x.L.id}">Ansehen</button></span></div>`}).join('')
+      ||`<div class="empty">Für die nächsten Tage ist noch keine Stunde geplant. Ordne deine Stunden unter „Woche planen“ dem Stundenplan zu, dann erscheinen sie hier der Reihe nach.</div>`}</div></section>`}
+function dashKids(){const c=(Cloud.myClasses||[]).find(x=>x.id===S.cls),size=c&&c.size||0,on=CS?online():[],by={};
+  if(CLOUD&&Cloud.sb&&c&&(ZG.cid!==S.cls||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=S.cls;zgLoad(S.cls)}
+  (ZG.cid===S.cls?ZG.list||[]:[]).forEach(x=>by[x.nr]=x);
+  const nrs=[...new Set([...Array.from({length:size},(_,i)=>i+1),...Object.keys(ROSTER).map(Number),...Object.keys(TD.nicks||{}).map(Number)])].filter(k=>k>=1&&k<=40).sort((a,b)=>a-b)
+    .filter(k=>by[k]||nickOf(k)||(TD.avs||{})[k]!=null||ROSTER[k]);
+  const nOn=nrs.filter(k=>on.includes(k)).length;
+  return `<section class="panel dk-kids"><div class="row" style="justify-content:space-between"><span class="label">${esc(className())} · <span id="dk-on">${nOn}</span> online</span><button class="btn sm" data-act="kl-sus" data-id="${esc(S.cls||'')}">Alle ansehen</button></div>
+    <div class="dk-ps">${nrs.map(k=>{const a=(TD.avs||{})[k]!=null?TD.avs[k]:ROSTER[k]&&ROSTER[k].av,nk=nickOf(k)||'',u=by[k]&&by[k].uname||'';
+      return `<button class="dk-p ${on.includes(k)?'on':''}" data-act="sus-p" data-n="${k}" title="${esc(nk||u)}">${a!=null?avatar(a,44):'<span class="av-0"></span>'}<small>${esc(nk||u||'–')}</small></button>`}).join('')
+      ||'<p class="muted" style="font-weight:700">Noch niemand angemeldet. Erzeuge die Zugänge unter „Alle ansehen“.</p>'}</div>
+    <small class="muted" style="font-weight:700">Grün umrandet heißt: gerade online.</small></section>`}
+function dashTodo(){const T=TD.todo||[];
+  return `<section class="panel dk-todo"><div class="row" style="justify-content:space-between"><span class="label">To-dos und Erinnerungen</span>${T.some(x=>x.done)?'<button class="btn sm" data-act="todo-clr">Erledigte entfernen</button>':''}</div>
+    <form id="todo-f" class="row" style="margin-top:8px;flex-wrap:nowrap"><input id="todo-x" type="text" maxlength="200" placeholder="Was ist noch zu tun?" autocomplete="off"><button class="btn sm pri" type="submit">＋</button></form>
+    <ul class="todo">${T.map(x=>`<li class="${x.done?'done':''}"><label><input type="checkbox" data-act="todo-tog" data-id="${x.id}" ${x.done?'checked':''}><span>${esc(x.t)}</span></label><button class="btn sm" data-act="todo-del" data-id="${x.id}" aria-label="Löschen">✕</button></li>`).join('')||'<li class="muted" style="font-weight:700">Alles erledigt.</li>'}</ul>
+    <small class="muted" style="font-weight:700">Nur für dich, verschlüsselt auf diesem Gerät.</small></section>`}
+function todoAdd(){const el=$('#todo-x'),t=(el&&el.value||'').trim().slice(0,200);if(!t)return;TD.todo=TD.todo||[];TD.todo.unshift({id:'td'+Date.now().toString(36),t,at:Date.now()});tsave();render();setTimeout(()=>{const x=$('#todo-x');if(x)x.focus()},0)}
+document.addEventListener('submit',e=>{if(e.target&&e.target.id==='todo-f'){e.preventDefault();todoAdd()}});
+setInterval(()=>{if(V.name!=='tdash'||S.role!=='teacher')return;const on=CS?online():[];let n=0;document.querySelectorAll('.dk-p[data-n]').forEach(b=>{const o=on.includes(+b.dataset.n);if(o)n++;b.classList.toggle('on',o)});const e=$('#dk-on');if(e)e.textContent=n},4000);
 VIEWS.tdash=()=>{
   const L=CS&&CS.lesson&&lessonById(CS.lesson.id),on=CS?online().length:0,all=Object.values(TD.obs).flat();
   const h=new Date().getHours(),hi=h<11?'Guten Morgen!':h<14?'Guten Mittag!':h<17?'Guten Tag!':'Guten Abend!';
@@ -2676,15 +2728,8 @@ VIEWS.tdash=()=>{
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}${Cloud.prof&&Cloud.prof.name?' '+esc(Cloud.prof.name.split(' ')[0]):''}</h1><span class="chip">${esc(className())}</span></div>
   ${mc.length>1?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</div></div>`:''}
   ${dayStrip()}
-  <div class="areas four">
-    <button class="area a-tafel" data-act="tafel"><span class="ai">🖥️</span><b>Tafel</b><small>${L?`Läuft: ${esc(L.title)} · Phase ${CS.step+1}`:'Keine Stunde aktiv'} · ${on} online</small></button>
-    <button class="area a-plan" data-act="tplan"><span class="ai">🗂️</span><b>Planung</b><small>${ls.length} Stunde${ls.length===1?'':'n'} geplant</small></button>
-    <button class="area a-lib" data-act="library"><span class="ai">📚</span><b>Bibliothek</b><small>${LIB.ready?LIB.items.length+' Materialien':'lädt …'}</small></button>
-    <button class="area a-obs" data-act="obs"><span class="ai">👥</span><b>${CLOUD&&Cloud.prof?'Schüler/innen':'Beobachtungen'}</b><small>${all.length} Notizen · nur für dich</small></button>
-  </div>
-  <section class="panel" style="margin-top:18px"><div class="row" style="justify-content:space-between"><span class="label">Schnellstart</span><button class="btn sm" data-act="l-new">Neue Stunde</button></div>
-    <div style="display:grid;gap:8px;margin-top:10px">${ls.slice(0,6).map(x=>`<div class="row s-${x.subject}" style="justify-content:space-between"><span class="row">${badge(x.subject)}<b>${esc(x.title)}</b><span class="muted" style="font-weight:700">${x.phases.length} Phasen · ${lessonMin(x)} min</span></span>
-      <span class="row"><button class="btn sm ok" data-act="l-start" data-id="${x.id}">Starten</button><button class="btn sm" data-act="l-edit" data-id="${x.id}">Bearbeiten</button></span></div>`).join('')||'<div class="empty">Noch keine Stunden.</div>'}</div></section>
+  ${dashNext()}
+  <div class="dk-grid">${dashKids()}${dashTodo()}</div>
   <div class="row" style="margin-top:18px"><button class="btn" data-act="preview">Schüleransicht ansehen</button><button class="btn" data-act="role-reset">Abmelden</button></div>`;
 };
 
@@ -3132,7 +3177,7 @@ function kfbStart(level,quiet){const c=kfCfg();level=KF_LEGACY[level]||level;if(
   if(!quiet)kfbPush()}
 function kfbStop(quiet){KF=null;if(CS){CS.kfb=null;if(!quiet)pushCS()}}
 function kfbSync(){if(!CS)return;CS.kfb=KF?{phase:KF.phase,names:KF.names,q:KF.task?KF.task.q:'',pos:KF.pos,net:KF.net,score:KF.score.slice(),turn:KF.turn,goal:KF.goal,last:KF.last?{ok:KF.last.ok,team:KF.last.team}:null,
-  ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id,name:nickOf(KF.ask.nr)||'Nr. '+KF.ask.nr}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join(''),at:KF.at||0}:null}
+  ask:KF.ask?{nr:KF.ask.nr,id:KF.ask.id,name:kidName(KF.ask.nr)}:null,teams:Array.from({length:S.classSize},(_,i)=>teamOf(i+1)).join(''),at:KF.at||0}:null}
 function kfbPush(){kfbSync();pushCS();if(['kfb','present'].includes(V.name))render()}
 function kfbNext(){if(KF.mode==='list'&&KF.list.length){KF.task=KF.list[KF.idx%KF.list.length];KF.idx++}else KF.task=kfbTask(KF.level);KF.ask=null;KF.peek=false}
 function kfKickoff(){
@@ -3221,7 +3266,7 @@ function renderKfb(){
     <details class="panel kf-seats"><summary style="font-weight:800;cursor:pointer">iPads: Sitzplan · ${on.length} online · ${KF.teamEdit?'Teams einteilen: Tippe zum Wechseln':`Tippe auf jemanden aus ${esc(KF.names[KF.turn])}, die Aufgabe erscheint auf dem iPad`}</summary>
       <div class="kseats" style="margin-top:10px">${Array.from({length:S.classSize},(_,i)=>{const k=i+1,t=kfTeamIdx(k);return `<button class="kseat kt${t} ${on.includes(k)?'on':''} ${ask&&ask.nr===k?'ask':''}" data-act="kfb-seat" data-n="${k}" ${!KF.teamEdit&&(t!==KF.turn||KF.busy)?'disabled':''}>${k}${nickOf(k)?`<small>${esc(nickOf(k))}</small>`:''}</button>`}).join('')}</div>
       <div class="row" style="margin-top:10px"><button class="btn sm ${KF.teamEdit?'on':''}" data-act="kfb-teams">${KF.teamEdit?'Teams fertig':'Teams für die iPads einteilen'}</button>${ask?'<button class="btn sm" data-act="kfb-cancel">Drannehmen abbrechen</button>':''}
-        <span class="muted" style="font-weight:700">${ask?esc(nickOf(ask.nr)||'Nr. '+ask.nr)+' antwortet gerade am iPad …':''}</span></div></details></div>`;
+        <span class="muted" style="font-weight:700">${ask?esc(kidName(ask.nr))+' antwortet gerade am iPad …':''}</span></div></details></div>`;
 }
 const kfSoundBtn=()=>`<span class="kf-snd"><button class="kf-b sm" data-act="kf-mute" aria-label="${KS.muted?'Ton an':'Ton aus'}">${KS.muted?'🔇':'🔊'}</button><input id="kf-vol" type="range" min="0" max="1" step="0.05" value="${KS.vol}" aria-label="Lautstärke"></span>`;
 VIEWS.kfb=()=>`<div class="st-head"><button class="btn sm" data-act="tafel">← Tafel</button><h1 style="font-size:1.6rem">⚽ Kopfrechenfußball</h1><button class="btn sm" data-act="board-open">📺 Tafel-Fenster</button></div>${renderKfb()}`;
@@ -3817,7 +3862,7 @@ const ZG_C='BDFGKLMNPRSTWZ',ZG_V='AEIOU',ZG_BAD=/^(NAZI|PENI|KAKA|PIPI|POPO|TOTE
 function zgUname(){let u;do{u=Math.random()<.85?[ZG_C,ZG_V,ZG_C,ZG_V].map(x=>x[Math.floor(Math.random()*x.length)]).join(''):Array.from({length:4},()=>'ABDEFGHKLMNPRSTUWZ'[Math.floor(Math.random()*18)]).join('')}while(ZG_BAD.test(u));return u}
 function zgPin(){let p;do{p=String(Math.floor(Math.random()*10000)).padStart(4,'0')}while(/^(\d)\1{3}$|^(0123|1234|2345|3456|4567|5678|6789|9876|8765|7654|4321|1212|2000|2020|1111)$/.test(p));return p}
 const zgStore=cid=>{TD.logins=TD.logins||{};return TD.logins[cid]||(TD.logins[cid]={})};
-async function zgLoad(cid){ZG.cid=cid;ZG.err='';try{ZG.list=await q(Cloud.sb.rpc('pupil_login_list',{p_class:cid}))}catch(e){ZG.list=[];ZG.err=/pupil_login|function|schema|PGRST202/i.test(String(e.message||e.code))?'missing':(e.message||String(e))}render()}
+async function zgLoad(cid){ZG.cid=cid;ZG.err='';try{ZG.list=await q(Cloud.sb.rpc('pupil_login_list',{p_class:cid}));if(TDKEY&&Array.isArray(ZG.list)){TD.unames=TD.unames||{};const m={};ZG.list.forEach(x=>{if(x&&x.uname)m[x.nr]=String(x.uname).slice(0,8)});TD.unames[cid]=m;tsave()}}catch(e){ZG.list=[];ZG.err=/pupil_login|function|schema|PGRST202/i.test(String(e.message||e.code))?'missing':(e.message||String(e))}render()}
 async function zgSet(cid,nr,u){const st=zgStore(cid);for(let i=0;i<8;i++){const un=u||zgUname(),pin=zgPin();const r=await q(Cloud.sb.rpc('pupil_login_set',{p_class:cid,p_nr:nr,p_uname:un,p_pin:pin}));
     if(r==='ok'){st[nr]={u:un,p:pin,at:Date.now()};tsave();return true}if(r!=='taken')throw new Error(r);u=null}return false}
 async function zgDo(f){if(ZG.busy)return;ZG.busy=true;render();try{await f()}catch(e){ZG.err=e.message||String(e)}ZG.busy=false;await zgLoad(ZG.cid)}
@@ -3827,7 +3872,7 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
   if(V.print){setTimeout(fillQR,0);const ks=nrs.filter(k=>by[k]&&st[k]&&st[k].u===by[k].uname);
     return `<div class="st-head noprint"><button class="btn sm" data-act="zg-print-x">← Zurück</button><h1 style="font-size:1.6rem">Zugangskarten · ${esc(c.name)}</h1><button class="btn pri" data-act="kl-print">🖨️ Drucken</button></div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Schneide die Karten aus und gib jedem Kind seine. Der QR-Code öffnet ELIO mit dem Kürzel, die PIN tippt das Kind selbst ein.</p>
-    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
+    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>${esc(nickOf(k)||'')}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
       <div class="zg-c"><span>Kürzel</span><b>${esc(by[k].uname)}</b><span>PIN</span><b>${esc(st[k].p)}</b></div><small>ELIO öffnen → „Schüler/in“ → Kürzel und PIN eingeben.<br>Die PIN verrätst du niemandem.</small></div>`).join('')||'<div class="empty">Noch keine Zugänge mit bekannter PIN.</div>'}</div>`}
   return `<div class="st-head"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">🔑 Zugänge · ${esc(c.name)}</h1>
     <button class="btn pri" data-act="zg-gen" data-id="${c.id}" ${ZG.busy?'disabled':''}>Für alle ohne Zugang erzeugen</button><button class="btn" data-act="zg-print">🖨️ Karten drucken</button></div>
@@ -3844,7 +3889,7 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll(
   const st=cl?zgStore(S.cls):{},by={};(cl&&ZG.cid===S.cls?ZG.list||[]:[]).forEach(r=>by[r.nr]=r);
   const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]||(TD.obs[k]||[]).length),miss=cl?ks.filter(k=>!by[k]):[];
   const row=k=>{const P=B[k],nk=nickOf(k)||(P&&P.nick)||'',pr=P&&P.prog,r=by[k],sv=st[k],pin=r&&sv&&sv.u===r.uname?sv.p:'',seen=Math.max(P&&P.seen||0,r&&r.updated_at?Date.parse(r.updated_at)||0:0);
-    return `<tr class="${nk||P?'':'off'}"><td class="nr">${k}</td><td><button class="sus-n" data-act="sus-p" data-n="${k}">${(TD.avs||{})[k]!=null?avatar(TD.avs[k],34):'<span class="av-0"></span>'}<span><b>${esc(nk||'noch nicht angemeldet')}</b>${on.includes(k)?' <span class="dot" title="gerade online"></span>':''}${seen?`<small class="muted">zuletzt ${new Date(seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}</span></button></td>
+    return `<tr class="${nk||P?'':'off'}">${cl?'':`<td class="nr">${k}</td>`}<td><button class="sus-n" data-act="sus-p" data-n="${k}">${(TD.avs||{})[k]!=null?avatar(TD.avs[k],34):'<span class="av-0"></span>'}<span><b>${esc(nk||'noch nicht angemeldet')}</b>${on.includes(k)?' <span class="dot" title="gerade online"></span>':''}${seen?`<small class="muted">zuletzt ${new Date(seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}</span></button></td>
       ${cl?`<td><b class="mono">${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code class="mono">${esc(pin)}</code>`:'<small class="muted">auf anderem Gerät erzeugt</small>'):''}${r&&r.blocked?' <span class="chip red">gesperrt</span>':''}</td>`:''}
       <td>${pr?`<small>✏️ ${pr.ub.length} · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}" style="display:block">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:''}</td>
       <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<span class="tk-n">💬 ${P.un}</span>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
@@ -3853,16 +3898,29 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll(
     <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err&&cl?`<p class="err">${esc(ZG.err)}</p>`:''}
   <p class="muted" style="font-weight:700;margin-bottom:10px">Jedes Kind meldet sich mit Kürzel und PIN an und gibt sich dann selbst Avatar und Namen. Kürzel und PIN sind sein Zugang, in der Schule und zu Hause. Die PINs liegen nur in deinem Lehrer-Tresor auf diesem Gerät. 🔒 Lernstand, Abgaben und Chat kommen verschlüsselt an.</p>
-  <div class="tbl sus-t"><table><thead><tr><th>Nr.</th><th>Kind</th>${cl?'<th>Kürzel</th><th>PIN</th>':''}<th>Lernstand</th><th>Neu</th><th></th></tr></thead><tbody>${ks.map(row).join('')}</tbody></table></div>
+  <div class="tbl sus-t"><table><thead><tr>${cl?'':'<th>Nr.</th>'}<th>Kind</th>${cl?'<th>Kürzel</th><th>PIN</th>':''}<th>Lernstand</th><th>Neu</th><th></th></tr></thead><tbody>${ks.map(row).join('')}</tbody></table></div>
   <p class="muted" style="font-size:.85rem;margin-top:6px">Mehr Kinder? Ändere die Zahl unter Klassen → Klasse bearbeiten. Neue PIN: Die Sicherung des Kindes auf dem Server wird gelöscht, sein Gerät lädt beim nächsten Anmelden wieder alles hoch.</p>
   <div class="row" style="margin:10px 0 0;gap:8px"><button class="btn sm" data-act="obs-export">📝 Notizen als Textdatei</button><button class="btn sm" data-act="sa-printall">📄 Alle Akten als PDF</button></div>
   ${aufTeachHTML(B,ks,act)}`};
 // Lehrkraft: Übungsaufträge der Klasse mit Stand pro Kind, dazu Mitteilungen aufs Dashboard der SuS
+// Statistik zu einem Übungsauftrag: wer ist fertig, wer hat angefangen, wie weit ist jedes Kind, wie hat sich die Klasse entwickelt
+function aufStats(a,act,pr){const its=aufItems(a),n=its.length||1,R=act.map(k=>{const p=pr(k),q=p?aufProg(a,p):{d:0,n:its.length,done:false};return {k,p,d:q.d,done:q.done}});
+  const fin=R.filter(x=>x.done).length,beg=R.filter(x=>!x.done&&x.d>0).length,non=R.length-fin-beg,W=x=>R.length?(100*x/R.length).toFixed(1):0;
+  const ts=[];R.forEach(x=>{if(!x.p)return;its.forEach(it=>{const t=it.mt?(x.p.mt&&x.p.mt[it.e.id]&&+x.p.mt[it.e.id].at):+(x.p.ut||{})[it.k];if(t>0&&(it.mt||(x.p.ub||[]).includes(it.k)))ts.push(t)})});
+  const day=t=>{const d=new Date(t);d.setHours(0,0,0,0);return +d},t0=day(Math.min(a.at||Date.now(),...ts.length?ts:[Date.now()])),t1=day(Date.now()),nd=Math.min(31,Math.round((t1-t0)/864e5)+1);
+  const cum=Array.from({length:nd},(_,i)=>ts.filter(t=>day(t)<=t0+i*864e5).length),max=Math.max(1,n*R.length),Wd=300,Hd=90;
+  const pts=cum.map((c,i)=>[nd>1?Math.round(i*Wd/(nd-1)):Wd/2,Math.round(Hd-(c/max)*Hd)]),dd=d=>new Date(d).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'});
+  const line=pts.length>1?`<svg class="au-ln" viewBox="-4 -6 ${Wd+8} ${Hd+12}" preserveAspectRatio="none" role="img" aria-label="Erledigte Aufgaben der Klasse pro Tag"><path d="M${pts[0][0]},${Hd} L${pts.map(p=>p.join(',')).join(' L')} L${pts[pts.length-1][0]},${Hd} Z" class="au-ar"/><polyline points="${pts.map(p=>p.join(',')).join(' ')}" class="au-pl"/></svg>
+    <div class="row au-ax"><small>${dd(t0)}</small><small>${Math.round(100*cum[cum.length-1]/max)} % der ganzen Klasse erledigt</small><small>heute</small></div>`:'<small class="muted" style="font-weight:700">Der Verlauf erscheint ab dem zweiten Tag.</small>';
+  return `<details class="au-st" ${act.length?'':'hidden'}><summary><span class="au-stk" title="fertig · angefangen · noch nicht angefangen"><i class="f" style="width:${W(fin)}%"></i><i class="b" style="width:${W(beg)}%"></i><i class="n" style="width:${W(non)}%"></i></span>
+    <span class="au-lg"><b class="f">✓ ${fin} fertig</b><b class="b">◐ ${beg} angefangen</b><b class="n">○ ${non} noch nicht</b></span><span class="muted au-more">📊 Details</span></summary>
+    <div class="au-g"><div><span class="label">Jedes Kind</span><div class="au-kids">${R.slice().sort((x,y)=>y.d-x.d).map(x=>`<button class="au-k" data-act="sus-p" data-n="${x.k}"><span>${esc(kidName(x.k))}</span><span class="bar sm"><i style="width:${Math.round(100*x.d/n)}%;${x.done?'background:var(--green)':''}"></i></span><small>${x.d}/${its.length}</small></button>`).join('')}</div></div>
+      <div><span class="label">Verlauf der Klasse</span>${line}</div></div></details>`}
 function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),N=annAll(),pr=k=>B[k]&&B[k].prog;
   const row=a=>{const P=act.map(k=>[k,pr(k)]).filter(x=>x[1]),fin=P.filter(([,p])=>aufProg(a,p).done),mts=P.flatMap(([,p])=>Object.entries(p.mt||{}).filter(([id])=>aufEntries(a).some(e=>e.id===id)).map(([,m])=>m.f/m.n));
     return `<div class="auf-t"><div style="flex:1;min-width:200px"><b>${esc(a.ch)}</b><small class="muted" style="display:block">bis ${fmtDate(a.due)} · Erinnerung ab ${esc(a.rem||'16:00')} Uhr${a.mt?' · mit Minitests':''}</small></div>
       <span class="chip ${fin.length&&fin.length===P.length?'ok':''}">✓ ${fin.length} von ${act.length} fertig</span>${mts.length?`<span class="chip">🎯 Minitests im Schnitt ${Math.round(100*mts.reduce((x,y)=>x+y,0)/mts.length)} %</span>`:''}
-      <button class="btn sm" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">Modul</button><button class="btn sm red" data-act="auf-del" data-id="${esc(a.id)}">Löschen</button></div>`};
+      <button class="btn sm" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">Modul</button><button class="btn sm red" data-act="auf-del" data-id="${esc(a.id)}">Löschen</button></div>${aufStats(a,act,pr)}`};
   return `<section class="panel" style="margin:12px 0 16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">📚 Übungsaufträge</h2><button class="btn sm" data-act="tdesk">＋ Modul als Auftrag geben</button></div>
     ${A.length?A.map(row).join(''):'<p class="muted" style="font-weight:700">Noch keiner. Öffne im Schreibtisch ein Modul und tippe auf „📚 Als Übungsauftrag“.</p>'}
     <h2 style="font-size:1.15rem;margin-top:16px">📣 Erinnerung an die Klasse</h2><p class="muted" style="font-weight:700;margin:2px 0 8px">Steht ganz oben auf dem Dashboard der SuS, der Avatar liest sie auf Wunsch vor.</p>
@@ -3883,7 +3941,7 @@ function susTab(k,tab){const P=susP(k,false)||{chat:[],abg:{}};if((tab==='chat'&
   const auf=AU.length?`<h3 style="margin:14px 0 6px">📚 Übungsaufträge</h3><table class="st-t"><tbody>${AU.map(a=>{const q=aufProg(a,pr),late=!q.done&&daysUntil(a.due)<0,fin=q.done&&q.last;
     return `<tr><td><b>${esc(a.ch)}</b><br><small class="muted">bis ${fmtDate(a.due)}</small></td><td><span class="bar sm"><i style="width:${q.n?Math.round(100*q.d/q.n):0}%"></i></span> ${q.d}/${q.n}</td><td>${q.done?`<span class="chip ok">✓ fertig ${esc(tsTxt(fin))}</span>${fin&&new Date(fin).toISOString().slice(0,10)>a.due?' <small class="err">nach der Frist</small>':''}`:late?'<span class="err" style="font-weight:800">überfällig</span>':q.last?`<small class="muted">zuletzt ${esc(tsTxt(q.last))}</small>`:'<small class="muted">noch nicht angefangen</small>'}</td></tr>`}).join('')}</tbody></table>`:'';
   return `<section class="panel"><div class="row" style="gap:10px;flex-wrap:wrap"><span class="chip">⭐ ${pr.st} Stern${pr.st===1?'':'e'}</span><span class="chip">💪 ${pr.fl} Fleißpunkte</span><span class="chip">✏️ ${pr.ub.length} Übungen</span><span class="chip">✍️ ${pr.hx.length} Heftaufgaben</span><span class="chip">📌 ${hw.filter(h=>pr.hw.includes(h.id)).length} von ${hw.length} Hausaufgaben</span><small class="muted">Stand ${new Date(pr.at).toLocaleString('de-DE',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</small></div>
-    ${auf}${chs.map(ch=>{const L=es.filter(e=>(e.ch||'Ohne Kapitel')===ch);return `<h3 style="margin:14px 0 6px">${esc(ch)}</h3><table class="st-t"><tbody>${L.map(e=>{const U=ubList(e),H=e.hx||[],u=U.filter((_,i)=>pr.ub.includes(e.id+'#'+i)).length,x=H.filter((_,j)=>pr.hx.includes(e.id+'#'+j)).length;
+    ${auf}${chs.map(ch=>{const L=es.filter(e=>(e.ch||'Ohne Kapitel')===ch),sm=mt[stId(L[0].s,ch)];return `<h3 style="margin:14px 0 6px">${esc(ch)}${sm?` <span class="mtr ${mtCls(sm)}" style="font-size:.85rem">🎓 Selbsttest ${mtTxt(sm)}</span>`:''}</h3><table class="st-t"><tbody>${L.map(e=>{const U=ubList(e),H=e.hx||[],u=U.filter((_,i)=>pr.ub.includes(e.id+'#'+i)).length,x=H.filter((_,j)=>pr.hx.includes(e.id+'#'+j)).length;
       const t=Math.max(0,...U.map((_,i)=>+ut[e.id+'#'+i]||0)),m=mt[e.id];
       return `<tr><td>${esc(e.title)}</td><td>${U.length?`<span class="bar sm"><i style="width:${Math.round(100*u/U.length)}%"></i></span> ${u}/${U.length} Spiele`:''}${t?`<br><small class="muted">zuletzt ${esc(tsTxt(t))}</small>`:''}</td><td>${H.length?`${x}/${H.length} Heft`:''}</td><td>${m?`<span class="mtr ${mtCls(m)}">🎯 ${mtTxt(m)}</span><br><small class="muted">${esc(tsTxt(m.at))}${m.x>1?' · '+m.x+' Versuche':''}</small>`:e.mt?'<small class="muted">🎯 Minitest offen</small>':''}</td></tr>`}).join('')}</tbody></table>`}).join('')}
     ${hw.length?`<h3 style="margin:14px 0 6px">Hausaufgaben</h3><ul class="st-hw">${hw.slice().sort((a,b)=>b.due.localeCompare(a.due)).map(h=>`<li>${pr.hw.includes(h.id)?'✅':'⬜'} ${esc(h.task)} <small class="muted">· fällig ${fmtDate(h.due)}${pr.ab.includes(h.id)?' · 📤 abgegeben':''}</small></li>`).join('')}</ul>`:''}</section>`}
@@ -3936,7 +3994,7 @@ function ubDoneMark(id,i){if(S.role!=='student')return;i=+i||0;S.ubDone=S.ubDone
   hwAll().filter(h=>h.eid===id&&(h.i==null||+h.i===i)&&h.mode!=='hand'&&!S.hwDone[h.id]).forEach(h=>{S.hwDone[h.id]=1;earnOnce('hw_'+h.id)});save();progTick()}
 // Kapitel eines Fachs in Jahresplan-Reihenfolge; on = mindestens ein Unterkapitel bei den SuS
 function modChs(k){if(S.role==='teacher'){const es=tHeft(k).filter(e=>e.ch).sort(heftSort),chs=[...new Set(es.map(e=>e.ch))];
-    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>e.pub!==false).length;return {ch,n:x.length,on:n>0,all:n===x.length}})}
+    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>e.pub!==false).length;return {ch,n:x.length,p:n,on:n>0,all:n===x.length}})}
   if(Array.isArray(S.modsRecv))return S.modsRecv.filter(m=>m.s===k);
   return [...new Set(heftAll(k).filter(e=>e.ch).sort(heftSort).map(e=>e.ch))].map(ch=>({ch,on:true}))}
 function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch).map(e=>e.s))];CS.mods=[];CS.modx={};
@@ -3948,7 +4006,7 @@ function modList(k){const T=S.role==='teacher';
   return `<div class="mods">${modChs(k).map(m=>{const es=m.on||T?modEntries(k,m.ch):[],done=es.filter(e=>S.ubDone&&S.ubDone[e.id]).length;
     return `<div class="mod-card ${m.on||T?'':'locked'}" ${m.on||T?`data-act="mod-open" data-s="${k}" data-ch="${esc(m.ch)}" role="button" tabindex="0"`:''}><span class="mi">${m.on?'📗':'🔒'}</span><span class="t"><span class="label">Modul ${esc(m.ch.split(' ')[0])}</span><b>${esc(m.ch.replace(/^\d+\s*/,''))}</b>
       <span class="muted">${T?`${m.n} Unterkapitel · ${m.all?'freigegeben':m.on?'teilweise freigegeben':'noch gesperrt'}`:m.on?`${es.length} Unterkapitel · ${done} geübt`:'Noch nicht freigegeben'}</span></span>
-      ${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(m.ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(m.ch)}">Freigeben</button>`):''}${m.on||T?'<span class="btn pri">Öffnen</span>':''}</div>`}).join('')}</div>`}
+      ${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(m.ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(m.ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`):''}${m.on||T?'<span class="btn pri">Öffnen</span>':''}</div>`}).join('')}</div>`}
 // Extras pro Unterkapitel: typische Fehler nur auf Knopfdruck, dazu Üben
 function subExtras(e,T){const op=V.op||{},hk='h-'+e.id,done=S.ubDone&&S.ubDone[e.id];
   if(!e.help&&!ubList(e).length)return '';
@@ -3981,12 +4039,14 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
           ${op[lk]?`<div class="hx-a">✓ ${esc(h.a)}</div>`:''}</li>`}).join('')}</ol></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`}
     if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
-    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?'<span class="chip">Entwurf</span>':'<span class="chip ok">bei den SuS</span>'):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
+    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
       <div class="sboxes">${box('heft','📒','Hefteintrag','zum Abschreiben')}${box('ub','✏️','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
-  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">Modul freigeben</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
   <div style="display:grid;gap:16px;align-content:start">
+    ${(()=>{const n=es.filter(e=>e.mt).length,id=stId(k,ch),m=(S.mt||{})[id];return n?`<section class="panel station st-self"><div class="row" style="justify-content:space-between"><div><h2>🎓 Selbsttest zum Kapitel</h2><p class="muted" style="font-weight:700">Wie gut kannst du das ganze Kapitel? Zwei Fragen aus jedem Unterkapitel. Vorne steht, aus welchem sie kommen, so siehst du, was du wiederholen solltest.</p></div>
+      <div class="row">${!T&&m?`<span class="mtr ${mtCls(m)}">${mtTxt(m)}</span>`:''}<button class="btn pri" data-act="st-go" data-s="${k}" data-ch="${esc(ch)}">▶ ${T?'Ansehen':m?'Nochmal':'Starten'}</button></div></div></section>`:''})()}
     <section class="panel station st-fleiss"><h2>💪 Fleiß-Station</h2><p class="muted">Extra-Aufgaben für Schnelle. Jede bringt Fleißpunkte.</p>
       ${(X.fleiss||[]).map((f,i)=>{const key=ch+'#'+i,ok=S.fleiss&&S.fleiss[key],sh=op['f'+i];
         return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
@@ -4259,6 +4319,7 @@ document.addEventListener('click',e=>{
     case 'ub-go':{const x=ubFind(d.id),i=+d.i||0,u=ubList(x)[i];if(!u)break;const A=AKT[u.t],back={...V};AK.G=null;akStart({g:u.t,at:'ub-'+x.id+(i?'-'+i:''),title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:A.parse(u.x),eid:x.id,ei:i,back});go('akt');break}
     case 'ub-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'tdesk':'desk');break}
     case 'ub-tafel':{const x=ubFind(d.id),u=ubList(x)[+d.i||0];if(!u)break;if(!CS)initTeacher();CS.game={g:u.t,at:Date.now(),title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)};pushCS();V.msg='„'+x.title+'“ läuft jetzt an der Tafel und auf den iPads.';render();break}
+    case 'sub-on':case 'sub-off':{const on=d.act==='sub-on',x=(TD.heft||[]).find(y=>y.id===d.id&&(!y.cls||y.cls===S.cls));if(!x)break;if(on&&x.pub===false)x.date=todayISO();x.pub=on;tsave();if(!CS)initTeacher();pushCS();V.msg=on?'„'+x.title+'“ ist freigegeben.':'„'+x.title+'“ ist zurückgenommen.';render();break}
     case 'mod-on':case 'mod-off':{const on=d.act==='mod-on';(TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)){if(on&&x.pub===false)x.date=todayISO();x.pub=on}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
     case 'auf-form':V.auff=!V.auff;render();break;
     case 'auf-add':{const due=($('#auf-due')||{}).value||todayISO(),rem=/^\d\d:\d\d$/.test(($('#auf-rem')||{}).value||'')?$('#auf-rem').value:'16:00',mt=!!(($('#auf-mt')||{}).checked);
@@ -4270,6 +4331,7 @@ document.addEventListener('click',e=>{
     case 'ann-del':TD.ann=(TD.ann||[]).filter(a=>a.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'ann-say':{const a=annAll().find(x=>x.id===d.id);if(a)avSay(a.t);break}
     case 'notif-ok':try{Notification.requestPermission().then(()=>{swReg();aufNotify();render()})}catch(e){}break;
+    case 'st-go':{const sd=stData(d.s,d.ch);if(!sd.qs.length)break;AK.G=null;akStart({g:'mc',at:stId(d.s,d.ch),title:'Selbsttest: '+d.ch,data:sd,eid:stId(d.s,d.ch),mt:1,back:{...V}});go('akt');break}
     case 'mt-go':{const x=ubFind(d.id);if(!x||!x.mt)break;AK.G=null;akStart({g:'mc',at:'mt-'+x.id,title:'Minitest: '+x.title,data:mtData(x),eid:x.id,mt:1,back:{...V}});go('akt');break}
     case 'hw-form':{const k=d.id+'#'+(d.i||0);V.hwf=V.hwf===k?null:k;render();break}
     case 'hw-add':{const x=ubFind(d.id);if(!x)break;const due=($('#hw-due')||{}).value||todayISO(),hx=d.i==='hx';let mode=hx?'hand':($('#hw-mode')||{}).value||'digital';TD.hw=TD.hw||[];
@@ -4278,9 +4340,12 @@ document.addEventListener('click',e=>{
       tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Hausaufgabe gestellt: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
     case 'hw-del':TD.hw=(TD.hw||[]).filter(h=>h.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'hx-ok':S.hxDone=S.hxDone||{};S.hxDone[d.k]=S.hxDone[d.k]?0:1;if(S.hxDone[d.k])SND.right();save();progTick();render();break;
-    case 't-lotsen':if(CS){const v=d.n!=null?d.n:(($('#t-lotsen')||{}).value||'');CS.lotsen=[...new Set(String(v).split(/[^0-9]+/).filter(x=>x!=='').map(Number).filter(n=>n>=0&&n<=40))].slice(0,40);pushCS();render()}break;
+    case 't-lotsen':if(CS){CS.lotsen=d.n==='0'?[0]:d.n!=null?[]:kidsFrom(($('#t-lotsen')||{}).value||'');pushCS();render()}break;
     case 't-pod':if(CS&&CS.game){CS.game.pod=!CS.game.pod;pushCS();render()}break;
     case 'sus':go('sus');mbPull();break;
+    case 'todo-tog':{const x=(TD.todo||[]).find(y=>y.id===d.id);if(x){x.done=!x.done;tsave();render()}break}
+    case 'todo-del':TD.todo=(TD.todo||[]).filter(y=>y.id!==d.id);tsave();render();break;
+    case 'todo-clr':TD.todo=(TD.todo||[]).filter(y=>!y.done);tsave();render();break;
     case 'sus-p':go('obs-p',{n:+d.n,otab:'stat',from:'sus'});break;
     case 'sus-pull':mbPull(true);break;
     case 'chat':go('chat');mbPull();break;
@@ -4546,7 +4611,7 @@ document.addEventListener('click',e=>{
       const n=readClass(),nums=shuffle(Array.from({length:n},(_,i)=>i+1)),out=[];
       for(let i=0;i+1<nums.length;i+=2)out.push([nums[i],nums[i+1]]);
       if(n%2&&out.length)out[out.length-1].push(nums[n-1]);
-      PAIRS_OUT=`<div class="pairs">${out.map(p=>`<span>${p.join(' + ')}</span>`).join('')}</div>`;render();break}
+      PAIRS_OUT=`<div class="pairs">${out.map(p=>`<span>${p.map(k=>esc(kidName(k))).join(' + ')}</span>`).join('')}</div>`;render();break}
     case 'mk-jobs':{const n=readClass();JOBS_OUT=shuffle(Array.from({length:n},(_,i)=>i+1)).slice(0,4);render();break}
     case 'coin':{readClass();const r=pick(['A','B']);PAIRS_OUT=`<div class="pairs"><span style="font-size:1.3rem">${r} beginnt · ${ROLE[r]}</span></div>`;SND.right();render();break}
     case 'rk':S.rocket=Math.max(0,Math.min(10,S.rocket+(+d.d)));save();if(+d.d>0)S.rocket>=10?SND.cheer():SND.right();if(CS){CS.rocket=S.rocket;pushCS()}render();break;
