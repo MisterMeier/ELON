@@ -38,6 +38,9 @@ button{font:inherit;color:inherit}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1;letter-spacing:.02em}
+.lg-e{height:1em;width:auto;margin:0 2px 0 0;display:inline-block}.biglogo .lg-e{height:.82em}
+.si-owl{width:1.6em;height:1.6em;border-radius:50%;background:#fff;object-fit:cover;vertical-align:middle}
+.elo-help{display:flex;gap:12px;align-items:center;margin-bottom:10px}.elo-help img{width:84px;height:84px;border-radius:50%;background:#fff;box-shadow:var(--shadow);flex:none;object-fit:cover}.elo-help .bub{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 12px;font-weight:800}
 .logo .on{display:inline-flex;align-items:center;gap:5px;background:var(--green);color:var(--on-accent);border-radius:999px;padding:2px 4px 0 11px}
 .logo .on i{width:18px;height:18px;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-2px}
 .nav{display:flex;gap:6px;flex-wrap:wrap}
@@ -854,7 +857,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 </style>
 
 <header class="top"><div class="top-in">
-  <button class="logo" data-act="umenu" aria-label="ELIO Menü: Profil und Abmelden" aria-haspopup="true">EL<span class="on">I<i></i></span></button><div id="umenu" class="umenu" hidden></div>
+  <button class="logo" data-act="umenu" aria-label="ELIO Menü: Profil und Abmelden" aria-haspopup="true"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></button><div id="umenu" class="umenu" hidden></div>
   <nav class="nav" id="nav">
     <button class="tv" data-act="tdash" data-nav="tdash" hidden>Lehrerzimmer</button>
     <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
@@ -1199,7 +1202,7 @@ function render(){
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
-  $('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
+  navTBadge();$('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';$('#nav-board').hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk()){V.name='dash';return render()}
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
@@ -1967,7 +1970,7 @@ function stageOf(){
 }
 const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
-  const LOGO='<span class="logo">EL<span class="on">I<i></i></span></span>';
+  const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
   const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
@@ -2109,7 +2112,7 @@ const SCHOOLS=[
 const schoolBy=id=>SCHOOLS.find(x=>x.id===id);
 const classBy=(sid,cid)=>{const sc=schoolBy(sid);return sc&&sc.classes.find(c=>c.id===cid)};
 const className=()=>{const c=classBy(S.school,S.cls);return c?c.name:S.clsName||'Klasse '+S.code};
-const BIGLOGO='<div class="biglogo">EL<span class="on">I<i></i></span></div>';
+const BIGLOGO='<div class="biglogo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></div>';
 VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
@@ -3587,7 +3590,7 @@ VIEWS['kl-cards']=()=>{
   return `<div class="st-head noprint"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">QR-Karten · ${esc(c.name)}</h1>
       <button class="btn pri" data-act="kl-print">🖨️ Drucken</button><button class="btn" data-act="kl-copy">🔗 Links kopieren</button>${V.copied===1?'<span class="chip">Kopiert</span>':V.copied===2?'<span class="chip">Kopieren ging nicht</span>':''}</div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und baut sich nur noch seinen Avatar. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
-    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
+    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
@@ -3672,7 +3675,7 @@ async function mbUp(r){if(!TDKEY||!TD.dk||!r||!r.body||r.fp!==mbFp(TD.dk.pub))re
   if(o.k==='chat'){const id=String(o.id||'').slice(0,20);if(!P.chat.some(c=>c.id===id)){P.chat.push({id,me:0,t:String(o.t||'').slice(0,2000),at:+o.at||Date.now()});P.un=(P.un||0)+1;if(P.chat.length>200)P.chat=P.chat.slice(-200)}}
   if(o.k==='abg'){const hw=String(o.hw||'').slice(0,40);if(hw){const img=typeof o.img==='string'&&IMGRE.test(o.img)&&o.img.length<1500000?o.img:null;P.abg[hw]={title:String(o.title||'').slice(0,200),t:String(o.t||'').slice(0,4000),img,at:+o.at||Date.now()};P.ua=(P.ua||0)+1}}
   if(o.k==='prog'&&o.p&&typeof o.p==='object'){const A=x=>Array.isArray(x)?x.slice(0,600).map(v=>String(v).slice(0,60)):[];P.prog={ub:A(o.p.ub),hx:A(o.p.hx),hw:A(o.p.hw),ab:A(o.p.ab),st:+o.p.st||0,fl:+o.p.fl||0,ut:progObj(o.p.ut,v=>+v>0?+v:null),mt:progObj(o.p.mt,v=>v&&typeof v==='object'&&+v.n>0?{f:+v.f||0,b:+v.b||0,n:+v.n,at:+v.at||0,la:+v.la||0,x:+v.x||0}:null),at:+o.at||Date.now()}}
-  tsave();if(['sus','obs-p','klassen'].includes(V.name))render();return true}
+  tsave();navTBadge();if(['sus','obs-p','klassen'].includes(V.name))render();return true}
 // Zeitstempel und Minitests aus dem Lernstand: nur einfache Schlüssel, nur Zahlen
 function progObj(x,f){const r={};if(x&&typeof x==='object'&&!Array.isArray(x))Object.keys(x).slice(0,600).forEach(k=>{if(!/^[\w#:.-]{1,60}$/.test(k)||k==='__proto__')return;const v=f(x[k]);if(v!=null)r[k]=v});return r}
 async function mbPullTeacher(){if(MB.tbusy||!TDKEY||!TD.dk||!mbCloudOk())return;MB.tbusy=true;
@@ -3703,6 +3706,8 @@ function chatHTML(L,mine){return `<div class="chat" id="chat-l">${L.length?L.map
   <div class="row chat-in"><textarea id="chat-x" rows="2" maxlength="2000" placeholder="${mine}"></textarea><button class="btn pri" data-act="chat-send">Senden</button></div>`}
 VIEWS.chat=()=>{(S.chat||[]).forEach(c=>{if(c.neu)c.neu=0});setTimeout(()=>{const l=$('#chat-l');if(l)l.scrollTop=l.scrollHeight;navBadges()},0);
   return `<h1 style="margin-bottom:6px">💬 Chat mit deiner Lehrkraft</h1><div class="priv">🔒 Verschlüsselt. Nur du und deine Lehrkraft können es lesen.</div>${!S.tpk?'<p class="muted" style="font-weight:700">Deine Nachricht geht los, sobald deine Lehrkraft einmal die Tafel gestartet hat.</p>':''}${chatHTML(S.chat||[],'Schreib deiner Lehrkraft …')}`};
+// Lehrkraft: neue Chat-Nachrichten und Abgaben als Zahl am Reiter Klassen
+function navTBadge(){const b=$('#nav-klassen');if(!b)return;const n=S.role==='teacher'&&TDKEY?susUnread():0;b.innerHTML='Klassen'+(n?` <span class="tk-n" title="neue Nachrichten und Abgaben">${n}</span>`:'')}
 function navBadges(){const b=$('#nav-chat');if(!b)return;const n=(S.chat||[]).filter(c=>c.neu).length;b.innerHTML='💬 Chat'+(n?` <span class="tk-n">${n}</span>`:'')}
 /* ---------- Impressum und Datenschutz (öffentlich, auch ohne Anmeldung) ---------- */
 const LEGAL={name:'Fabian Meier',addr:'',mail:'',stand:'9. Oktober 2026'};
@@ -3785,7 +3790,7 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
   if(V.print){setTimeout(fillQR,0);const ks=nrs.filter(k=>by[k]&&st[k]&&st[k].u===by[k].uname);
     return `<div class="st-head noprint"><button class="btn sm" data-act="zg-print-x">← Zurück</button><h1 style="font-size:1.6rem">Zugangskarten · ${esc(c.name)}</h1><button class="btn pri" data-act="kl-print">🖨️ Drucken</button></div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Schneide die Karten aus und gib jedem Kind seine. Der QR-Code öffnet ELIO mit dem Kürzel, die PIN tippt das Kind selbst ein.</p>
-    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo">EL<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
+    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
       <div class="zg-c"><span>Kürzel</span><b>${esc(by[k].uname)}</b><span>PIN</span><b>${esc(st[k].p)}</b></div><small>ELIO öffnen → „Schüler/in“ → Kürzel und PIN eingeben.<br>Die PIN verrätst du niemandem.</small></div>`).join('')||'<div class="empty">Noch keine Zugänge mit bekannter PIN.</div>'}</div>`}
   return `<div class="st-head"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">🔑 Zugänge · ${esc(c.name)}</h1>
     <button class="btn pri" data-act="zg-gen" data-id="${c.id}" ${ZG.busy?'disabled':''}>Für alle ohne Zugang erzeugen</button><button class="btn" data-act="zg-print">🖨️ Karten drucken</button></div>
@@ -3931,9 +3936,9 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
           <div class="sub-btns"><button class="btn sm ${op[lk]?'on':''}" data-act="mx-tog" data-k="${lk}">${op[lk]?'Lösung verbergen':'👀 Lösung zeigen'}</button>${T?'':`<button class="btn sm ${dn?'ok':''}" data-act="hx-ok" data-k="${hk}">${dn?'✓ gerechnet':'Im Heft gerechnet'}</button>`}</div>
           ${op[lk]?`<div class="hx-a">✓ ${esc(h.a)}</div>`:''}</li>`}).join('')}</ol></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`}
-    if(cur==='help')body=`<div class="sb-pane helpbox"><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
+    if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
     return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?'<span class="chip">Entwurf</span>':'<span class="chip ok">bei den SuS</span>'):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
-      <div class="sboxes">${box('heft','📒','Hefteintrag','zum Abschreiben')}${box('ub','✏️','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','🛟','Hilfestation','Fehler und Tipps')}</div>${body}</article>`};
+      <div class="sboxes">${box('heft','📒','Hefteintrag','zum Abschreiben')}${box('ub','✏️','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">Modul freigeben</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
