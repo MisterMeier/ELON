@@ -433,6 +433,9 @@ body.wide main,body.wide .top-in{max-width:1760px}
 .dk-ps{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}.dk-p{display:grid;justify-items:center;gap:3px;width:74px;padding:6px 2px;border:0;background:none;cursor:pointer;font:inherit;color:var(--ink)}.dk-p>svg,.dk-p>.av-0{border-radius:50%;box-shadow:0 0 0 3px var(--line);opacity:.75}.dk-p.on>svg,.dk-p.on>.av-0{box-shadow:0 0 0 3px var(--green);opacity:1}.dk-p small{font-weight:700;font-size:.78rem;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .todo{list-style:none;margin:10px 0 6px;padding:0;display:grid;gap:4px}.todo li{display:flex;align-items:center;gap:8px;justify-content:space-between}.todo label{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:700}.todo input{width:20px;height:20px;flex:none}.todo li.done span{text-decoration:line-through;color:var(--muted)}.todo .btn{min-height:28px;padding:0 8px;opacity:.6}
 .nx-l{display:grid;gap:8px;margin-top:10px}.nx{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:12px;border:1px solid var(--line)}.nx.first{border:2px solid var(--green);background:var(--ok-bg)}.nx-w{display:grid;min-width:92px}.nx-w small,.nx-t small{font-weight:700}.nx-t{display:grid;flex:1;min-width:0}.nx-now{color:var(--green)}@media (max-width:620px){.nx{flex-wrap:wrap}}
+.au-med{margin-bottom:16px}.au-sum{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer}
+.au-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:6px}.au-it{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:12px}.au-it>div{display:grid;min-width:0}.au-it small{font-weight:700}.au-lic{font-size:.72rem;color:var(--muted);opacity:.8}
+.au-pl{min-width:40px;font-size:1rem}.au-pl.on{background:var(--navy);color:#fff;border-color:var(--navy)}
 .areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 @media (max-width:640px){.areas{grid-template-columns:1fr}}
 .area{display:flex;flex-direction:column;gap:6px;text-align:left;padding:18px;border-radius:20px;background:var(--surface);border:1px solid var(--line);border-top:7px solid var(--ac);box-shadow:var(--shadow);cursor:pointer;color:var(--ink);font:inherit}
@@ -2328,11 +2331,21 @@ function goTarget(t){
 function akLive(T,p){const A=AKT[T.id],L=CS.lesson&&lessonById(CS.lesson.id);CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:A.parse(T.text||(L&&L.subject==='E'&&A.exE)||A.ex)}}
 function quizStart(T,p){CS.poll={id:'p'+Date.now(),type:'quiz',q:T.q||p.name,opts:lines(T.opts).slice(0,8),voted:[],multi:!!T.multi,mat:T.mat||''};if(!CS.poll.opts.length)CS.poll.opts=['Ja','Nein'];TALLY={}}
 const curTool=()=>{const L=CS&&CS.lesson&&lessonById(CS.lesson.id),p=L&&L.phases[CS.step];return p&&p.tool?{p,t:p.tool}:null};
+/* Audio-Mediathek: selbst erzeugte, frei nutzbare Geräusche (tools/gen_audio.py, Nachweis in assets/audio/credits.json) */
+const AUD={list:null,el:null,id:null,busy:false,cat:'Alle'};
+async function audLoad(){if(AUD.list||AUD.busy)return;AUD.busy=true;try{const L=await fetch('assets/audio/credits.json').then(r=>r.json());AUD.list=(Array.isArray(L)?L:[]).filter(x=>x&&/^[\w-]{1,40}$/.test(x.id)&&/^assets\/audio\/[\w-]+\.mp3$/.test(x.datei)&&x.lizenz)}catch(e){AUD.list=[]}AUD.busy=false;render()}
+const audById=id=>(AUD.list||[]).find(x=>x.id===id);
+function audStop(){try{if(AUD.el){AUD.el.pause();AUD.el=null}}catch(e){}const was=AUD.id;AUD.id=null;document.querySelectorAll('[data-act=au-play]').forEach(b=>{b.classList.remove('on');b.textContent='▶'});return was}
+function audPlay(id,toggle=true){const x=audById(id);if(!x){if(!AUD.list)audLoad().then(()=>{if(audById(id))audPlay(id,toggle)});return}const was=audStop();if(toggle&&was===id)return;
+  try{const a=new Audio(x.datei);a.loop=!!x.loop;a.volume=x.loop?.6:.9;a.onended=()=>{if(AUD.el===a)audStop()};a.play().catch(()=>{});AUD.el=a;AUD.id=id;document.querySelectorAll(`[data-act=au-play][data-id="${id}"]`).forEach(b=>{b.classList.add('on');b.textContent='■'})}catch(e){}}
+function audHTML(){if(!AUD.list){audLoad();return '<p class="muted">Lädt …</p>'}const cats=['Alle',...new Set(AUD.list.map(x=>x.kategorie))],L=AUD.list.filter(x=>AUD.cat==='Alle'||x.kategorie===AUD.cat);
+  return `<div class="psub" style="margin:8px 0">${cats.map(c=>`<button class="${AUD.cat===c?'on':''}" data-act="au-cat" data-c="${esc(c)}" style="--sc:var(--navy)">${esc(c)}</button>`).join('')}</div>
+    <div class="au-list">${L.map(x=>`<div class="au-it"><button class="btn sm au-pl ${AUD.id===x.id?'on':''}" data-act="au-play" data-id="${x.id}" aria-label="${esc(x.titel)} abspielen">${AUD.id===x.id?'■':'▶'}</button><div><b>${esc(x.titel)}</b>${x.loop?' <span class="chip">Schleife</span>':''}<small class="muted">${esc(x.stichworte||'')} · ${+x.dauer||0} s</small>${/^Eigene Synthese/.test(x.lizenz)?'':`<small class="au-lic">${esc(x.urheber||'')} · ${esc(x.lizenz)}</small>`}</div></div>`).join('')}</div>`}
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
   i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;CS.media=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
   CS.phase={name:p.name,txt:p.txt||p.goal||'',look:p.act==='look'||p.act==='mission',go:p.act==='goto'?p.target:null,sf:p.sf,method:p.method};
-  CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;
+  CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;if(p.snd&&!BOARD)audPlay(p.snd,false);
   const m=+p.min||0;CS.timer=m?{run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000}:{run:false,total:300,left:300,endsAt:0};
   if(p.act==='mission'){SND.mission();setTimeout(()=>say(S.mission),900)}
   if(p.act==='poll'){const P=POLLS[p.poll||'thumbs'];CS.poll={id:'p'+Date.now(),type:p.poll||'thumbs',q:P.q,opts:P.opts,voted:[]};TALLY={}}
@@ -2485,6 +2498,8 @@ VIEWS.library=()=>{
   const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Bibliothek</h1><span class="chip">${LIB.items.length} Materialien</span></div>
   <div class="priv">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
+  <section class="panel au-med"><button class="au-sum" data-act="au-open" aria-expanded="${V.am?'true':'false'}"><span class="label">🔊 Audio-Mediathek · Akustische Signale</span><span class="muted">${V.am?'▲':'▼'}</span></button>
+    ${V.am?`<p class="muted" style="font-weight:700;margin-top:6px">Geräusche für den Unterricht. In der Planung legst du für jede Phase ein Signal fest, das beim Start der Phase erklingt. Alle Geräusche sind selbst erzeugt und frei nutzbar.</p>${audHTML()}`:''}</section>
   <div class="libbar">
     <section class="panel"><span class="label">Dateien hochladen</span><p class="muted" style="font-weight:700;margin:4px 0 10px">PowerPoint, PDF, Bilder, Arbeitsblätter, Audio, Video</p>
       <div class="row"><select id="lib-subj" aria-label="Fach">${subjOpts}</select><label class="btn pri" style="cursor:pointer">Dateien auswählen<input type="file" id="lib-file" multiple hidden></label></div></section>
@@ -3308,7 +3323,7 @@ const KS={ctx:null,master:null,vol:0.8,muted:false,goalEl:null,
   ohh(){const c=this.ac();if(!c)return;const t=c.currentTime;
     [[800,320,5],[2300,1000,6]].forEach(([f0,f1,q],j)=>{const n=this.noise(c,1.6),bp=c.createBiquadFilter(),g=c.createGain();bp.type='bandpass';bp.Q.value=q;bp.frequency.setValueAtTime(f0,t);bp.frequency.exponentialRampToValueAtTime(f1,t+1.4);
       this.env(c,g,t,.25,.6,.7,j?.25:.6);n.connect(bp);bp.connect(g);g.connect(this.master);n.start(t)})},
-  goal(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio(KFA+'goal.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}this.crowd(5,.4,.2)},
+  goal(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio('assets/audio/jubel.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}this.crowd(5,.4,.2)},
   intro(){this.crowd(4.4,.38);this.whistle(.25,3.0);this.whistle(1,3.35)},
   final(){this.whistle(.28,0);this.whistle(.28,.45);this.whistle(1.3,.9);this.crowd(3.5,.3,.8)},
 };
@@ -4173,6 +4188,7 @@ VIEWS['lesson-edit']=()=>{
       <label>Minuten<input type="number" min="0" max="90" data-f="ph.${i}.min" value="${+p.min||0}"></label>
       <label>Sozialform<select data-f="ph.${i}.sf">${SOZ.map(x=>`<option ${x===p.sf?'selected':''}>${x}</option>`).join('')}</select></label>
       <label>Methode / Ritual<input type="text" data-f="ph.${i}.method" value="${esc(p.method||'')}"></label>
+      <label>🔔 Signal beim Start<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.snd" style="flex:1"><option value="">– kein Signal –</option>${AUD.list?[...new Set(AUD.list.map(x=>x.kategorie))].map(c=>`<optgroup label="${esc(c)}">${AUD.list.filter(x=>x.kategorie===c).map(x=>`<option value="${x.id}" ${p.snd===x.id?'selected':''}>${esc(x.titel)}</option>`).join('')}</optgroup>`).join(''):(audLoad(),p.snd?`<option value="${esc(p.snd)}" selected>${esc(p.snd)}</option>`:'')}</select>${p.snd?`<button class="btn sm au-pl" type="button" data-act="au-play" data-id="${esc(p.snd)}" aria-label="Probe hören">▶</button>`:''}</span></label>
       <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>
       <div style="grid-column:1/-1"><span class="label">Was machen die iPads in dieser Phase?</span>${(()=>{const md=actMode(p.act),M=ACT_MODES[md];
         return `<div class="ipm">${Object.entries(ACT_MODES).map(([k,x])=>`<button class="ipm-b ${k===md?'on':''}" data-act="ph-mode" data-i="${i}" data-m="${k}"><b>${x.l}</b><small>${x.d}</small></button>`).join('')}</div>
@@ -4193,7 +4209,7 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool)p.tool[k[3]]=v}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.act$/.test(f)&&V.name==='lesson-edit')render()});
+document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
@@ -4268,7 +4284,10 @@ document.addEventListener('click',e=>{
       // Stunde gehört zu einer anderen Klasse: erst dorthin wechseln (Live-Kanal, SuS, Hefte), dann starten
       if(d.cid&&d.cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;if(!CS)initTeacher();CS.lesson={id:L2.id,title:L2.title,plan:L2.phases.map(p=>p.name)};if(L2.mission)S.mission=L2.mission;save();$('#ov').hidden=true;go('present');startStep(0)});break}}if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
     case 'l-go':startStep(+d.i);break;
-    case 'l-stop':if(KF)kfbStop(true);CS.game=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'au-play':audPlay(d.id);break;
+    case 'au-cat':AUD.cat=d.c;render();break;
+    case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
+    case 'l-stop':if(KF)kfbStop(true);audStop();CS.game=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
     case 'ph-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&ACT_MODES[d.m]&&actMode(p.act)!==d.m){p.act=ACT_MODES[d.m].acts[0];save()}render();break}
