@@ -362,7 +362,7 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .v-note{background:linear-gradient(135deg,#bfdbfe,#c7d2fe);border:2px solid #6366f1;border-radius:8px;padding:10px 14px;font-weight:800;color:#1e3a8a}
 .v-coin{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:800;color:#78350f;background:radial-gradient(circle at 35% 30%,#fef3c7,#f59e0b);border:2px solid #d97706}.v-coin.cu{background:radial-gradient(circle at 35% 30%,#fed7aa,#c2410c);color:#fff;border-color:#9a3412;width:38px;height:38px}
 .v-prae{width:100%;max-width:110px}
-.v-wide{margin:12px 0;background:#fff;border:2px solid #e0e7ff;border-radius:16px;padding:12px}.v-wide figcaption{font-weight:700;color:#475569;font-size:.9rem;margin-top:6px}.v-wide svg{width:100%;max-width:560px;display:block;margin:0 auto}
+.v-wide{margin:12px 0;background:#fff;border:2px solid #e0e7ff;border-radius:16px;padding:12px}.v-wide figcaption{font-weight:700;color:#475569;font-size:.9rem;margin-top:6px}.v-wide svg{width:100%;max-width:560px;display:block;margin:0 auto}.v-wide svg.v-waage{max-width:380px}
 .v-kach{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}.v-kach i{font-style:normal;font-weight:800;color:#1e3a8a;font-size:1.3rem;padding:0 4px}
 .v-k{display:grid;place-items:center;font-weight:800;color:#fff;border-radius:6px}.v-k.kx{width:26px;height:78px;background:#4f46e5}.v-k.ky{width:26px;height:58px;background:#a855f7}.v-k.k1{width:26px;height:26px;background:#f59e0b}
 .v-proz{max-width:190px}.v-hund{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:150px}.v-hund i{aspect-ratio:1;background:#e0e7ff;border-radius:2px}.v-hund i.on{background:#4f46e5}
@@ -4257,8 +4257,8 @@ VIEWS['kl-cards']=()=>{
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
-const HEFT_V=2;
-async function heftClean(){if((TD.heftV||0)<HEFT_V&&(TD.heft||[]).some(e=>/^m7-/.test(e.id))){try{await heftLoadPlan(true);TD.heftV=HEFT_V;tsave()}catch(e){}}const bad=e=>String(e.text||'').split('\n').some(l=>HELPRE.test(l.trim()));if(!(TD.heft||[]).some(bad))return 0;
+const HEFT_V=3;
+async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.heft||[]).some(e=>e.id.startsWith(PLANS[k].pre))){try{await heftLoadPlan(true,k)}catch(e){}}TD.heftV=HEFT_V;tsave()}const bad=e=>String(e.text||'').split('\n').some(l=>HELPRE.test(l.trim()));if(!(TD.heft||[]).some(bad))return 0;
   if(TD.heft.some(e=>/^m7-/.test(e.id)&&bad(e))){try{await heftLoadPlan(true)}catch(e){}}
   let n=0;TD.heft.forEach(e=>{const ls=String(e.text||'').split('\n'),mv=ls.filter(l=>HELPRE.test(l.trim()));if(!mv.length)return;
     e.text=ls.filter(l=>!HELPRE.test(l.trim())).join('\n').replace(/\n{3,}/g,'\n\n').trim();const h=String(e.help||'');e.help=[h,...mv.filter(l=>!h.includes(l.trim()))].filter(Boolean).join('\n');n++});
@@ -4268,7 +4268,7 @@ const PLANS={M:{f:'mathe7',pre:'m7-',t:'Jahresplan Mathematik 7',d:'8 Module mit
 async function heftLoadPlan(quiet,sk){sk=PLANS[sk]?sk:'M';const PL=PLANS[sk];try{const [L,M]=await Promise.all([PL.f,PL.f+'_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
   let up=0;L.forEach((x,k)=>{const id=PL.pre+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
     // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
-    if(o){let c=0;const ot=o.text.trim();const xb=x.text.split('\n').filter(l=>!/^\[bild:/i.test(l.trim())).join('\n').trim();if(ot!==x.text&&(x.text.startsWith(ot)||ot.startsWith(x.text.trim())||ot===xb)){o.text=x.text;c=1}
+    if(o){let c=0;const ot=o.text.trim();const nb=t=>t.split('\n').filter(l=>!/^\[[a-zäöü]+:/i.test(l.trim())).join('\n').trim(),xb=nb(x.text);if(ot!==x.text&&(x.text.startsWith(ot)||ot.startsWith(x.text.trim())||ot===xb||nb(ot)===xb)){o.text=x.text;c=1}
       if(o.help!==x.help||JSON.stringify([o.ub,o.ubs,o.hx,o.mt])!==JSON.stringify([x.ub,x.ubs,x.hx,x.mt])||o.ch!==x.ch){o.help=x.help;o.ub=x.ub;o.ubs=x.ubs;o.hx=x.hx;o.mt=x.mt;o.ch=x.ch;c=1}up+=c;return}
     TD.heft.push({id,s:sk,title:x.title,text:x.text,help:x.help,ub:x.ub,ubs:x.ubs,hx:x.hx,mt:x.mt,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
   tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in '+new Set(L.map(x=>x.ch)).size+' Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':(sk==='M'?'Der Jahresplan':'Die '+PL.t)+' ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}

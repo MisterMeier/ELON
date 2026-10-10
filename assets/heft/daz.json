@@ -2,7 +2,7 @@
  {
   "ch": "1 Ich und du",
   "title": "1.1 Sich vorstellen",
-  "text": "# Hallo!\nSo begrüßt du andere:\n- Hallo! / Guten Morgen! / Guten Tag!\n- Tschüss! / Auf Wiedersehen!\n# Das bin ich\n- Ich heiße Ali.\n- Ich komme aus Syrien.\n- Ich bin 12 Jahre alt.\n- Ich wohne in Augsburg.\n- Ich spreche Arabisch und ein bisschen Deutsch.\n# So fragst du\n| Frage | Antwort |\n|---|---|\n| Wie heißt du? | Ich heiße Mia. |\n| Woher kommst du? | Ich komme aus der Ukraine. |\n| Wie alt bist du? | Ich bin 13 Jahre alt. |\n| Wo wohnst du? | Ich wohne in Nürnberg. |\n| Welche Sprachen sprichst du? | Ich spreche Ukrainisch und Deutsch. |\n| Wie geht es dir? | Gut, danke! Und dir? |\nMerke: Zu Erwachsenen sagst du Sie: Wie heißen Sie? Woher kommen Sie?",
+  "text": "# Hallo!\n[bilder: 👋 Hallo! | ☀️ Guten Morgen! | 🙂 Guten Tag! | 🖐️ Tschüss!]\nSo begrüßt du andere:\n- Hallo! / Guten Morgen! / Guten Tag!\n- Tschüss! / Auf Wiedersehen!\n# Das bin ich\n- Ich heiße Ali.\n- Ich komme aus Syrien.\n- Ich bin 12 Jahre alt.\n- Ich wohne in Augsburg.\n- Ich spreche Arabisch und ein bisschen Deutsch.\n# So fragst du\n[dialog: 👧 Wie heißt du? | 👦 Ich heiße Ali. | 👧 Woher kommst du? | 👦 Ich komme aus Syrien. | 👧 Wie alt bist du? | 👦 Ich bin 12 Jahre alt.]\n| Frage | Antwort |\n|---|---|\n| Wie heißt du? | Ich heiße Mia. |\n| Woher kommst du? | Ich komme aus der Ukraine. |\n| Wie alt bist du? | Ich bin 13 Jahre alt. |\n| Wo wohnst du? | Ich wohne in Nürnberg. |\n| Welche Sprachen sprichst du? | Ich spreche Ukrainisch und Deutsch. |\n| Wie geht es dir? | Gut, danke! Und dir? |\nMerke: Zu Erwachsenen sagst du Sie: Wie heißen Sie? Woher kommen Sie?",
   "help": "# Alter\nFalsch: Ich bin 12 Jahre.\nFalsch: Ich habe 12 Jahre.\nRichtig: Ich bin 12 Jahre alt.\nAchtung: Im Deutschen sagst du dein Alter mit sein, nicht mit haben. Und am Ende steht alt.\n# Name\nFalsch: Mein Name heißt Yusuf.\nRichtig: Ich heiße Yusuf. Oder: Mein Name ist Yusuf.\n# Land\nFalsch: Ich komme von Syrien.\nRichtig: Ich komme aus Syrien.\nAchtung: Manche Länder haben einen Artikel: aus der Türkei, aus der Ukraine, aus dem Irak, aus dem Iran. Aber ohne Artikel: aus Syrien, aus Afghanistan, aus Polen.",
   "ub": {
    "t": "match",
@@ -62,7 +62,7 @@
  {
   "ch": "1 Ich und du",
   "title": "1.2 Zahlen bis 100",
-  "text": "# Zahlen von 0 bis 20\n- 0 null, 1 eins, 2 zwei, 3 drei, 4 vier, 5 fünf\n- 6 sechs, 7 sieben, 8 acht, 9 neun, 10 zehn\n- 11 elf, 12 zwölf, 13 dreizehn, 14 vierzehn, 15 fünfzehn\n- 16 sechzehn, 17 siebzehn, 18 achtzehn, 19 neunzehn, 20 zwanzig\n# Die Zehner\n- 30 dreißig, 40 vierzig, 50 fünfzig, 60 sechzig\n- 70 siebzig, 80 achtzig, 90 neunzig, 100 hundert\n# Zahlen ab 21\nIm Deutschen sagst du zuerst die Einer, dann die Zehner.\n- 21 einundzwanzig (1 und 20)\n- 34 vierunddreißig (4 und 30)\n- 58 achtundfünfzig (8 und 50)\nMerke: Erst die Einer, dann „und“, dann die Zehner: 47 = sieben-und-vierzig.",
+  "text": "# Zahlen von 0 bis 20\n[bilder: 1 eins | 2 zwei | 3 drei | 10 zehn | 12 zwölf | 20 zwanzig]\n- 0 null, 1 eins, 2 zwei, 3 drei, 4 vier, 5 fünf\n- 6 sechs, 7 sieben, 8 acht, 9 neun, 10 zehn\n- 11 elf, 12 zwölf, 13 dreizehn, 14 vierzehn, 15 fünfzehn\n- 16 sechzehn, 17 siebzehn, 18 achtzehn, 19 neunzehn, 20 zwanzig\n# Die Zehner\n- 30 dreißig, 40 vierzig, 50 fünfzig, 60 sechzig\n- 70 siebzig, 80 achtzig, 90 neunzig, 100 hundert\n# Zahlen ab 21\nIm Deutschen sagst du zuerst die Einer, dann die Zehner.\n[zahl: 21 | 34 | 58 | 47]\n- 21 einundzwanzig (1 und 20)\n- 34 vierunddreißig (4 und 30)\n- 58 achtundfünfzig (8 und 50)\nMerke: Erst die Einer, dann „und“, dann die Zehner: 47 = sieben-und-vierzig.",
   "help": "# Reihenfolge\nAchtung: Viele hören 47 und schreiben 74. Hör genau hin und schreib zuerst die Einer.\nFalsch: 47 = vierzigsieben\nRichtig: 47 = siebenundvierzig\n# Schreibweise\nFalsch: sechszehn, siebenzehn\nRichtig: sechzehn, siebzehn\nFalsch: dreizig\nRichtig: dreißig (mit ß)\nFalsch: einsundzwanzig\nRichtig: einundzwanzig (ohne s)",
   "ub": {
    "t": "numline",
@@ -122,7 +122,7 @@
  {
   "ch": "1 Ich und du",
   "title": "1.3 Verben: ich, du, er, sie",
-  "text": "# Das Verb hat eine Endung\nDie Endung passt zur Person.\n| Person | wohnen | kommen | spielen |\n|---|---|---|---|\n| ich | wohne | komme | spiele |\n| du | wohnst | kommst | spielst |\n| er / sie / es | wohnt | kommt | spielt |\n| wir | wohnen | kommen | spielen |\n| ihr | wohnt | kommt | spielt |\n| sie / Sie | wohnen | kommen | spielen |\nMerke: ich → -e, du → -st, er / sie / es → -t, wir → -en, ihr → -t, sie / Sie → -en\n# Beispiele\n- Ich spiele Fußball.\n- Du wohnst in Ingolstadt.\n- Yusuf kommt aus Somalia.\n- Wir lernen Deutsch.",
+  "text": "# Das Verb hat eine Endung\nDie Endung passt zur Person.\n[satz: Ich | *spiel-e* | Fußball.]\n[satz: Du | *wohn-st* | in Ingolstadt.]\n[satz: Yusuf | *komm-t* | aus Somalia.]\n| Person | wohnen | kommen | spielen |\n|---|---|---|---|\n| ich | wohne | komme | spiele |\n| du | wohnst | kommst | spielst |\n| er / sie / es | wohnt | kommt | spielt |\n| wir | wohnen | kommen | spielen |\n| ihr | wohnt | kommt | spielt |\n| sie / Sie | wohnen | kommen | spielen |\nMerke: ich → -e, du → -st, er / sie / es → -t, wir → -en, ihr → -t, sie / Sie → -en\n# Beispiele\n- Ich spiele Fußball.\n- Du wohnst in Ingolstadt.\n- Yusuf kommt aus Somalia.\n- Wir lernen Deutsch.",
   "help": "# Falsche Endung\nFalsch: Ich wohnen in Fürth.\nRichtig: Ich wohne in Fürth.\nFalsch: Du spielt Fußball.\nRichtig: Du spielst Fußball.\nFalsch: Sara kommen aus Eritrea.\nRichtig: Sara kommt aus Eritrea.\n# Besondere Verben\nAchtung: heißen bekommt bei du nur ein t: du heißt (nicht: du heißst).\nAchtung: arbeiten bekommt ein e dazu, damit man es sprechen kann: du arbeitest, er arbeitet.",
   "ub": {
    "t": "gap",
@@ -182,7 +182,7 @@
  {
   "ch": "1 Ich und du",
   "title": "1.4 W-Fragen",
-  "text": "# Fragen mit W-Wörtern\n| W-Wort | Frage | Antwort |\n|---|---|---|\n| Wer? | Wer ist das? | Das ist Ali. |\n| Was? | Was machst du? | Ich lerne. |\n| Wo? | Wo wohnst du? | In Bamberg. |\n| Woher? | Woher kommst du? | Aus Syrien. |\n| Wie? | Wie heißt du? | Sara. |\n| Wann? | Wann kommst du? | Um 8 Uhr. |\n| Wie alt? | Wie alt bist du? | 12 Jahre. |\n# Satzbau\n- Position 1: das W-Wort\n- Position 2: das Verb\n- danach: die Person (du, er, sie …)\nMerke: In der W-Frage steht das Verb auf Position 2: Wo wohnst du?\n# Ja-Nein-Fragen\nOhne W-Wort steht das Verb ganz vorne:\n- Wohnst du in Bamberg? – Ja. / Nein.",
+  "text": "# Fragen mit W-Wörtern\n[bilder: 👤 Wer? | ❓ Was? | 📍 Wo? | 🌍 Woher? | 🕗 Wann? | 🎂 Wie alt?]\n| W-Wort | Frage | Antwort |\n|---|---|---|\n| Wer? | Wer ist das? | Das ist Ali. |\n| Was? | Was machst du? | Ich lerne. |\n| Wo? | Wo wohnst du? | In Bamberg. |\n| Woher? | Woher kommst du? | Aus Syrien. |\n| Wie? | Wie heißt du? | Sara. |\n| Wann? | Wann kommst du? | Um 8 Uhr. |\n| Wie alt? | Wie alt bist du? | 12 Jahre. |\n# Satzbau\n[satz: Wo | *wohnst* | du?]\n[satz: *Wohnst* | du | in Bamberg?]\n- Position 1: das W-Wort\n- Position 2: das Verb\n- danach: die Person (du, er, sie …)\nMerke: In der W-Frage steht das Verb auf Position 2: Wo wohnst du?\n# Ja-Nein-Fragen\nOhne W-Wort steht das Verb ganz vorne:\n- Wohnst du in Bamberg? – Ja. / Nein.",
   "help": "# Wortstellung\nFalsch: Wo du wohnst?\nRichtig: Wo wohnst du?\nFalsch: Woher du kommst?\nRichtig: Woher kommst du?\n# Wo oder woher?\nAchtung: wo fragt nach dem Ort: In Augsburg. Woher fragt nach der Herkunft: Aus Syrien.\nFalsch: Wo kommst du? – Aus Syrien.\nRichtig: Woher kommst du? – Aus Syrien.\n# Wer oder was?\nAchtung: wer fragt nach Personen, was fragt nach Sachen.\nFalsch: Was ist das? – Das ist Frau Huber.\nRichtig: Wer ist das? – Das ist Frau Huber.",
   "ub": {
    "t": "match",
@@ -242,7 +242,7 @@
  {
   "ch": "2 Schule",
   "title": "2.1 Im Klassenzimmer",
-  "text": "# Das ist in der Klasse\n- der Tisch – die Tische\n- der Stuhl – die Stühle\n- der Stift – die Stifte\n- der Radiergummi – die Radiergummis\n- der Rucksack – die Rucksäcke\n- die Tafel – die Tafeln\n- die Tasche – die Taschen\n- die Schere – die Scheren\n- das Heft – die Hefte\n- das Buch – die Bücher\n- das Lineal – die Lineale\n- das Fenster – die Fenster\nMerke: Lerne jedes Nomen mit Artikel und Plural: der Stuhl – die Stühle.\n# Farben helfen\nIm Heft malst du der blau, die rot und das grün. Im Plural ist der Artikel immer die.\n# Wichtige Sätze im Unterricht\n- Wie heißt das auf Deutsch?\n- Ich verstehe das nicht.\n- Kannst du das bitte wiederholen?\n- Ich bin fertig.",
+  "text": "# Das ist in der Klasse\n[bilder: 🪑 der Stuhl | ✏️ der Stift | 🎒 der Rucksack | 👜 die Tasche | ✂️ die Schere | 📓 das Heft | 📖 das Buch | 📏 das Lineal | 🪟 das Fenster]\n- der Tisch – die Tische\n- der Stuhl – die Stühle\n- der Stift – die Stifte\n- der Radiergummi – die Radiergummis\n- der Rucksack – die Rucksäcke\n- die Tafel – die Tafeln\n- die Tasche – die Taschen\n- die Schere – die Scheren\n- das Heft – die Hefte\n- das Buch – die Bücher\n- das Lineal – die Lineale\n- das Fenster – die Fenster\nMerke: Lerne jedes Nomen mit Artikel und Plural: der Stuhl – die Stühle.\n# Farben helfen\nIm Heft malst du der blau, die rot und das grün. Im Plural ist der Artikel immer die.\n# Wichtige Sätze im Unterricht\n- Wie heißt das auf Deutsch?\n- Ich verstehe das nicht.\n- Kannst du das bitte wiederholen?\n- Ich bin fertig.",
   "help": "# Artikel\nFalsch: die Tisch\nRichtig: der Tisch\nFalsch: der Heft\nRichtig: das Heft\n# Plural\nFalsch: die Buchs\nRichtig: die Bücher\nFalsch: zwei Stuhl\nRichtig: zwei Stühle\nAchtung: Der Plural hat immer den Artikel die: der Stuhl → die Stühle, das Heft → die Hefte.",
   "ub": {
    "t": "match",
@@ -297,7 +297,7 @@
  {
   "ch": "2 Schule",
   "title": "2.2 Der, die, das",
-  "text": "# Drei Artikel\nJedes Nomen hat einen Artikel: der, die oder das.\n| der | die | das |\n|---|---|---|\n| der Lehrer | die Lehrerin | das Kind |\n| der Junge | die Schule | das Mädchen |\n| der Montag | die Zeitung | das Brötchen |\nMerke: Nomen schreibst du groß. Lerne jedes Nomen mit Artikel.\n# Tipps für den Artikel\n- der → Männer und Jungen, Tage, Monate: der Vater, der Montag, der Mai\n- die → Frauen, Wörter auf -ung, -heit, -keit: die Mutter, die Zeitung, die Freiheit\n- das → Wörter auf -chen: das Mädchen, das Brötchen\n- die → im Plural immer: die Kinder, die Bücher",
+  "text": "# Drei Artikel\nJedes Nomen hat einen Artikel: der, die oder das.\n[bilder: 👨‍🏫 der Lehrer | 👩‍🏫 die Lehrerin | 🧒 das Kind | 👦 der Junge | 🏫 die Schule | 👧 das Mädchen]\n| der | die | das |\n|---|---|---|\n| der Lehrer | die Lehrerin | das Kind |\n| der Junge | die Schule | das Mädchen |\n| der Montag | die Zeitung | das Brötchen |\nMerke: Nomen schreibst du groß. Lerne jedes Nomen mit Artikel.\n# Tipps für den Artikel\n- der → Männer und Jungen, Tage, Monate: der Vater, der Montag, der Mai\n- die → Frauen, Wörter auf -ung, -heit, -keit: die Mutter, die Zeitung, die Freiheit\n- das → Wörter auf -chen: das Mädchen, das Brötchen\n- die → im Plural immer: die Kinder, die Bücher",
   "help": "# Typische Fehler\nFalsch: der Mädchen\nRichtig: das Mädchen (Wörter auf -chen haben immer das)\nFalsch: das Zeitung\nRichtig: die Zeitung (Wörter auf -ung haben immer die)\nFalsch: tisch, buch, schule\nRichtig: Tisch, Buch, Schule (Nomen schreibst du groß)\nAchtung: Der Artikel ist oft anders als in deiner Sprache. Lerne ihn immer mit dem Wort zusammen.",
   "ub": {
    "t": "mc",
@@ -352,7 +352,7 @@
  {
   "ch": "2 Schule",
   "title": "2.3 Ein, eine – kein, keine",
-  "text": "# Bestimmt und unbestimmt\n| bestimmt | unbestimmt | Nein |\n|---|---|---|\n| der Stift | ein Stift | kein Stift |\n| die Schere | eine Schere | keine Schere |\n| das Heft | ein Heft | kein Heft |\n| die Stifte (Plural) | Stifte | keine Stifte |\n- Das ist ein Stift. Der Stift ist rot.\n- Das ist eine Schere. Die Schere ist neu.\nMerke: der und das → ein und kein. die → eine und keine.\n# Nein sagen\n- Ist das ein Lineal? – Nein, das ist kein Lineal. Das ist ein Heft.\n- Sind das Stifte? – Nein, das sind keine Stifte.",
+  "text": "# Bestimmt und unbestimmt\n[bilder: ✏️ ein Stift | ✂️ eine Schere | 📓 ein Heft | 🚫 kein Heft]\n| bestimmt | unbestimmt | Nein |\n|---|---|---|\n| der Stift | ein Stift | kein Stift |\n| die Schere | eine Schere | keine Schere |\n| das Heft | ein Heft | kein Heft |\n| die Stifte (Plural) | Stifte | keine Stifte |\n- Das ist ein Stift. Der Stift ist rot.\n- Das ist eine Schere. Die Schere ist neu.\nMerke: der und das → ein und kein. die → eine und keine.\n# Nein sagen\n- Ist das ein Lineal? – Nein, das ist kein Lineal. Das ist ein Heft.\n- Sind das Stifte? – Nein, das sind keine Stifte.",
   "help": "# Falscher Artikel\nFalsch: Das ist eine Stift.\nRichtig: Das ist ein Stift.\nFalsch: Das ist ein Schere.\nRichtig: Das ist eine Schere.\n# Nein sagen\nFalsch: Das ist nicht ein Heft.\nRichtig: Das ist kein Heft.\n# Plural\nFalsch: Das ist ein Hefte.\nRichtig: Das sind Hefte.\nAchtung: Im Plural gibt es kein ein. Aber: keine Hefte, keine Stifte.",
   "ub": {
    "t": "gap",
@@ -407,7 +407,7 @@
  {
   "ch": "2 Schule",
   "title": "2.4 Stundenplan: Verb auf Position 2",
-  "text": "# Die Wochentage\n- der Montag\n- der Dienstag\n- der Mittwoch\n- der Donnerstag\n- der Freitag\n- der Samstag\n- der Sonntag\n# Die Fächer\n- Mathe, Deutsch, Englisch, Sport, Kunst, Musik, Ethik, Natur und Technik\n# Satzbau: Das Verb steht auf Position 2\n| Position 1 | Position 2: Verb | Rest |\n|---|---|---|\n| Ich | habe | am Montag Mathe. |\n| Am Montag | habe | ich Mathe. |\n| Heute | haben | wir Sport. |\n| Mein Lieblingsfach | ist | Kunst. |\nMerke: Im Aussagesatz steht das Verb immer auf Position 2. Am Montag habe ich Mathe.",
+  "text": "# Die Wochentage\n- der Montag\n- der Dienstag\n- der Mittwoch\n- der Donnerstag\n- der Freitag\n- der Samstag\n- der Sonntag\n# Die Fächer\n[bilder: 🔢 Mathe | 📖 Deutsch | 🇬🇧 Englisch | ⚽ Sport | 🎨 Kunst | 🎵 Musik | 🔬 Natur und Technik]\n- Mathe, Deutsch, Englisch, Sport, Kunst, Musik, Ethik, Natur und Technik\n# Satzbau: Das Verb steht auf Position 2\n[satz: Ich | *habe* | am Montag Mathe.]\n[satz: Am Montag | *habe* | ich Mathe.]\n| Position 1 | Position 2: Verb | Rest |\n|---|---|---|\n| Ich | habe | am Montag Mathe. |\n| Am Montag | habe | ich Mathe. |\n| Heute | haben | wir Sport. |\n| Mein Lieblingsfach | ist | Kunst. |\nMerke: Im Aussagesatz steht das Verb immer auf Position 2. Am Montag habe ich Mathe.",
   "help": "# Wortstellung\nFalsch: Am Montag ich habe Mathe.\nRichtig: Am Montag habe ich Mathe.\nFalsch: Heute wir haben Sport.\nRichtig: Heute haben wir Sport.\nAchtung: „Am Montag“ ist zusammen Position 1. Danach kommt sofort das Verb.\n# Tage\nFalsch: in Montag\nRichtig: am Montag\nFalsch: Ich habe mittwoch Sport.\nRichtig: Ich habe am Mittwoch Sport. (Wochentage sind Nomen: groß schreiben)",
   "ub": {
    "t": "mc",
@@ -467,7 +467,7 @@
  {
   "ch": "3 Familie",
   "title": "3.1 Meine Familie",
-  "text": "# Die Familie\n- der Vater – die Väter\n- die Mutter – die Mütter\n- die Eltern (nur Plural)\n- der Bruder – die Brüder\n- die Schwester – die Schwestern\n- die Geschwister (nur Plural)\n- der Sohn – die Söhne\n- die Tochter – die Töchter\n- der Opa – die Opas\n- die Oma – die Omas\n- der Onkel – die Onkel\n- die Tante – die Tanten\n- der Cousin – die Cousins\n- die Cousine – die Cousinen\nMerke: die Eltern = Vater und Mutter. die Geschwister = Brüder und Schwestern.\n# So sprichst du über deine Familie\n- Das ist meine Mutter. Sie heißt Amina.\n- Ich habe zwei Brüder und eine Schwester.\n- Mein Opa wohnt in Afghanistan.\nJede Familie ist anders. Erzähl nur, was du erzählen möchtest.",
+  "text": "# Die Familie\n[bilder: 👨 der Vater | 👩 die Mutter | 👦 der Bruder | 👧 die Schwester | 👴 der Opa | 👵 die Oma | 👶 das Baby]\n- der Vater – die Väter\n- die Mutter – die Mütter\n- die Eltern (nur Plural)\n- der Bruder – die Brüder\n- die Schwester – die Schwestern\n- die Geschwister (nur Plural)\n- der Sohn – die Söhne\n- die Tochter – die Töchter\n- der Opa – die Opas\n- die Oma – die Omas\n- der Onkel – die Onkel\n- die Tante – die Tanten\n- der Cousin – die Cousins\n- die Cousine – die Cousinen\nMerke: die Eltern = Vater und Mutter. die Geschwister = Brüder und Schwestern.\n# So sprichst du über deine Familie\n- Das ist meine Mutter. Sie heißt Amina.\n- Ich habe zwei Brüder und eine Schwester.\n- Mein Opa wohnt in Afghanistan.\nJede Familie ist anders. Erzähl nur, was du erzählen möchtest.",
   "help": "# Plural\nFalsch: Ich habe zwei Bruder.\nRichtig: Ich habe zwei Brüder.\nAchtung: Viele Familienwörter bekommen im Plural zwei Punkte (Umlaut): Vater → Väter, Mutter → Mütter, Bruder → Brüder, Tochter → Töchter.\n# Eltern und Geschwister\nFalsch: der Eltern\nRichtig: die Eltern\nFalsch: Meine Eltern ist nett.\nRichtig: Meine Eltern sind nett. (Eltern ist Plural.)",
   "ub": {
    "t": "match",
@@ -522,7 +522,7 @@
  {
   "ch": "3 Familie",
   "title": "3.2 Das Verb haben",
-  "text": "# haben\n| Person | haben |\n|---|---|\n| ich | habe |\n| du | hast |\n| er / sie / es | hat |\n| wir | haben |\n| ihr | habt |\n| sie / Sie | haben |\n- Ich habe einen Bruder.\n- Hast du Geschwister?\n- Sara hat eine Katze.\n- Wir haben heute Sport.\nMerke: haben ist unregelmäßig: du hast, er hat (ohne b).\n# sein oder haben?\n- Ich bin 12 Jahre alt. (sein)\n- Ich habe zwei Schwestern. (haben)\n- Ich bin müde. Ich habe Hunger.",
+  "text": "# haben\n[bilder: 🐱 Sara hat eine Katze. | 👦 Ich habe einen Bruder. | ⚽ Wir haben heute Sport.]\n| Person | haben |\n|---|---|\n| ich | habe |\n| du | hast |\n| er / sie / es | hat |\n| wir | haben |\n| ihr | habt |\n| sie / Sie | haben |\n- Ich habe einen Bruder.\n- Hast du Geschwister?\n- Sara hat eine Katze.\n- Wir haben heute Sport.\nMerke: haben ist unregelmäßig: du hast, er hat (ohne b).\n# sein oder haben?\n- Ich bin 12 Jahre alt. (sein)\n- Ich habe zwei Schwestern. (haben)\n- Ich bin müde. Ich habe Hunger.",
   "help": "# Falsche Formen\nFalsch: Du habst einen Hund.\nRichtig: Du hast einen Hund.\nFalsch: Er habt eine Schwester.\nRichtig: Er hat eine Schwester.\n# sein oder haben?\nFalsch: Ich habe 12 Jahre.\nRichtig: Ich bin 12 Jahre alt.\nFalsch: Ich bin Hunger.\nRichtig: Ich habe Hunger.\nAchtung: Keine Geschwister? Dann sagst du: Ich habe keine Geschwister.",
   "ub": {
    "t": "gap",
@@ -577,7 +577,7 @@
  {
   "ch": "3 Familie",
   "title": "3.3 Mein, dein, sein, ihr",
-  "text": "# Wem gehört das?\n| Artikel | ich | du |\n|---|---|---|\n| der Bruder | mein Bruder | dein Bruder |\n| die Schwester | meine Schwester | deine Schwester |\n| das Kind | mein Kind | dein Kind |\n| die Eltern (Plural) | meine Eltern | deine Eltern |\nMerke: der und das → mein, dein. die und Plural → meine, deine.\n# Bei er und sie\n- Ali → sein Bruder, seine Schwester\n- Mia → ihr Bruder, ihre Schwester\n- Das ist Ali. Seine Mutter heißt Rana.\n- Das ist Mia. Ihr Vater heißt Jonas.",
+  "text": "# Wem gehört das?\n[bilder: 🙋 mein Bruder | 👉 dein Bruder | 👦 sein Bruder (Ali) | 👧 ihr Bruder (Mia)]\n| Artikel | ich | du |\n|---|---|---|\n| der Bruder | mein Bruder | dein Bruder |\n| die Schwester | meine Schwester | deine Schwester |\n| das Kind | mein Kind | dein Kind |\n| die Eltern (Plural) | meine Eltern | deine Eltern |\nMerke: der und das → mein, dein. die und Plural → meine, deine.\n# Bei er und sie\n- Ali → sein Bruder, seine Schwester\n- Mia → ihr Bruder, ihre Schwester\n- Das ist Ali. Seine Mutter heißt Rana.\n- Das ist Mia. Ihr Vater heißt Jonas.",
   "help": "# Endung\nFalsch: meine Bruder\nRichtig: mein Bruder\nFalsch: mein Eltern\nRichtig: meine Eltern\n# sein oder ihr?\nFalsch: Mia und sein Bruder (Mia ist ein Mädchen.)\nRichtig: Mia und ihr Bruder\nFalsch: Ali und ihre Schwester (Ali ist ein Junge.)\nRichtig: Ali und seine Schwester\nAchtung: Ob du sein oder ihr nimmst, hängt von der Person ab. Ob du ein -e anhängst, hängt vom Nomen ab.",
   "ub": {
    "t": "gap",
@@ -632,7 +632,7 @@
  {
   "ch": "3 Familie",
   "title": "3.4 Plural: einer und viele",
-  "text": "# Viele Endungen\nIm Plural ist der Artikel immer die. Die Endung ist verschieden.\n| Endung | Singular | Plural |\n|---|---|---|\n| -e | der Tisch | die Tische |\n| -e und Umlaut | der Stuhl | die Stühle |\n| -n oder -en | die Schwester | die Schwestern |\n| -er (oft mit Umlaut) | das Buch | die Bücher |\n| -s | das Handy | die Handys |\n| keine Endung | das Fenster | die Fenster |\n| nur Umlaut | der Bruder | die Brüder |\nMerke: Lerne den Plural immer mit: der Tisch – die Tische.\n# Tipps\n- Wörter auf -e: meist -n (die Tasche – die Taschen)\n- Wörter auf -ung: immer -en (die Zeitung – die Zeitungen)\n- Wörter auf -er, -el (der oder das): oft gleich (der Lehrer – die Lehrer)\n- Wörter aus dem Englischen: oft -s (das Handy – die Handys)",
+  "text": "# Viele Endungen\nIm Plural ist der Artikel immer die. Die Endung ist verschieden.\n[bilder: 📕 das Buch | 📚 die Bücher | 🪑 der Stuhl | 🪑🪑 die Stühle]\n| Endung | Singular | Plural |\n|---|---|---|\n| -e | der Tisch | die Tische |\n| -e und Umlaut | der Stuhl | die Stühle |\n| -n oder -en | die Schwester | die Schwestern |\n| -er (oft mit Umlaut) | das Buch | die Bücher |\n| -s | das Handy | die Handys |\n| keine Endung | das Fenster | die Fenster |\n| nur Umlaut | der Bruder | die Brüder |\nMerke: Lerne den Plural immer mit: der Tisch – die Tische.\n# Tipps\n- Wörter auf -e: meist -n (die Tasche – die Taschen)\n- Wörter auf -ung: immer -en (die Zeitung – die Zeitungen)\n- Wörter auf -er, -el (der oder das): oft gleich (der Lehrer – die Lehrer)\n- Wörter aus dem Englischen: oft -s (das Handy – die Handys)",
   "help": "# Plural vergessen\nFalsch: zwei Kind\nRichtig: zwei Kinder\nAchtung: Ab zwei kommt der Plural: ein Buch, zwei Bücher, drei Bücher.\n# Falsche Endung\nFalsch: die Stuhls\nRichtig: die Stühle\nFalsch: die Lehrers\nRichtig: die Lehrer\nFalsch: die Tascher\nRichtig: die Taschen",
   "ub": {
    "t": "match",
@@ -687,7 +687,7 @@
  {
   "ch": "4 Essen und Trinken",
   "title": "4.1 Lebensmittel",
-  "text": "# Obst und Gemüse\n- der Apfel – die Äpfel\n- die Banane – die Bananen\n- die Orange – die Orangen\n- die Tomate – die Tomaten\n- die Kartoffel – die Kartoffeln\n- die Gurke – die Gurken\n# Weitere Lebensmittel\n- das Brot – die Brote\n- das Brötchen – die Brötchen\n- das Ei – die Eier\n- die Nudel – die Nudeln\n- das Hähnchen – die Hähnchen\n- der Käse\n- der Reis\n# Getränke\n- das Wasser\n- die Milch\n- der Saft – die Säfte\n- der Tee – die Tees\nMerke: Manche Wörter haben meist keinen Plural: der Reis, die Milch, das Wasser.",
+  "text": "# Obst und Gemüse\n[bilder: 🍎 der Apfel | 🍌 die Banane | 🍊 die Orange | 🍅 die Tomate | 🥔 die Kartoffel | 🥒 die Gurke]\n- der Apfel – die Äpfel\n- die Banane – die Bananen\n- die Orange – die Orangen\n- die Tomate – die Tomaten\n- die Kartoffel – die Kartoffeln\n- die Gurke – die Gurken\n# Weitere Lebensmittel\n[bilder: 🍞 das Brot | 🥐 das Brötchen | 🥚 das Ei | 🍝 die Nudel | 🍗 das Hähnchen | 🧀 der Käse | 🍚 der Reis]\n- das Brot – die Brote\n- das Brötchen – die Brötchen\n- das Ei – die Eier\n- die Nudel – die Nudeln\n- das Hähnchen – die Hähnchen\n- der Käse\n- der Reis\n# Getränke\n[bilder: 💧 das Wasser | 🥛 die Milch | 🧃 der Saft | 🍵 der Tee]\n- das Wasser\n- die Milch\n- der Saft – die Säfte\n- der Tee – die Tees\nMerke: Manche Wörter haben meist keinen Plural: der Reis, die Milch, das Wasser.",
   "help": "# Artikel und Plural\nFalsch: das Apfel, die Apfels\nRichtig: der Apfel – die Äpfel\nFalsch: die Eis (für mehrere Eier)\nRichtig: die Eier (das Eis ist etwas anderes: Speiseeis!)\n# Kein Plural\nFalsch: Ich esse ein Reis.\nRichtig: Ich esse Reis.\nFalsch: Ich trinke ein Milch.\nRichtig: Ich trinke Milch. Oder: Ich trinke ein Glas Milch.\nAchtung: Für Mengen sagst du: ein Glas Wasser, eine Flasche Saft, ein Kilo Äpfel, eine Tasse Tee.",
   "ub": {
    "t": "cw",
@@ -742,7 +742,7 @@
  {
   "ch": "4 Essen und Trinken",
   "title": "4.2 Ich esse einen Apfel: Akkusativ",
-  "text": "# Was isst du?\nNach Verben wie essen, trinken, möchten, haben, kaufen und brauchen steht oft der Akkusativ.\n| Nominativ | Akkusativ |\n|---|---|\n| der Apfel → ein Apfel | Ich esse einen Apfel. |\n| die Banane → eine Banane | Ich esse eine Banane. |\n| das Brötchen → ein Brötchen | Ich esse ein Brötchen. |\n| die Äpfel (Plural) | Ich esse Äpfel. |\nMerke: Nur bei der ändert sich der Artikel: ein → einen. Bei die und das bleibt alles gleich.\n# Verben\n- essen: ich esse, du isst, er isst\n- trinken: ich trinke, du trinkst, er trinkt\n- möchten: ich möchte, du möchtest, er möchte",
+  "text": "# Was isst du?\n[satz: Ich | *esse* | _einen_ Apfel.]\n[bilder: 🍎 einen Apfel | 🍌 eine Banane | 🥐 ein Brötchen]\nNach Verben wie essen, trinken, möchten, haben, kaufen und brauchen steht oft der Akkusativ.\n| Nominativ | Akkusativ |\n|---|---|\n| der Apfel → ein Apfel | Ich esse einen Apfel. |\n| die Banane → eine Banane | Ich esse eine Banane. |\n| das Brötchen → ein Brötchen | Ich esse ein Brötchen. |\n| die Äpfel (Plural) | Ich esse Äpfel. |\nMerke: Nur bei der ändert sich der Artikel: ein → einen. Bei die und das bleibt alles gleich.\n# Verben\n- essen: ich esse, du isst, er isst\n- trinken: ich trinke, du trinkst, er trinkt\n- möchten: ich möchte, du möchtest, er möchte",
   "help": "# einen, eine, ein\nFalsch: Ich esse ein Apfel.\nRichtig: Ich esse einen Apfel.\nFalsch: Ich möchte einen Banane.\nRichtig: Ich möchte eine Banane.\nFalsch: Ich trinke einen Wasser.\nRichtig: Ich trinke ein Wasser. (das Wasser)\n# Verbformen\nFalsch: Du esst Pizza.\nRichtig: Du isst Pizza.\nAchtung: er möchte (ohne t!): Ali möchte einen Saft.",
   "ub": {
    "t": "gap",
@@ -797,7 +797,7 @@
  {
   "ch": "4 Essen und Trinken",
   "title": "4.3 Was isst du gern?",
-  "text": "# Gern oder nicht gern?\n- Ich esse gern Reis.\n- Ich trinke nicht gern Milch.\n- Ich esse am liebsten Pizza.\n- Mein Lieblingsessen ist Pizza.\nMerke: gern steht nach dem Verb: Ich esse gern Nudeln.\n# Das Verb mögen\n| Person | mögen |\n|---|---|\n| ich | mag |\n| du | magst |\n| er / sie / es | mag |\n| wir | mögen |\n| ihr | mögt |\n| sie / Sie | mögen |\n- Ich mag Bananen.\n- Magst du Fisch? – Nein, ich mag keinen Fisch.\n# Das esse ich nicht\n- Ich esse kein Schweinefleisch.\n- Ich bin Vegetarierin. Ich esse kein Fleisch.\n- Ich habe eine Allergie gegen Nüsse.",
+  "text": "# Gern oder nicht gern?\n[bilder: 😋 Ich esse gern Reis. | 😖 Ich trinke nicht gern Milch. | 🍕 Am liebsten esse ich Pizza.]\n- Ich esse gern Reis.\n- Ich trinke nicht gern Milch.\n- Ich esse am liebsten Pizza.\n- Mein Lieblingsessen ist Pizza.\nMerke: gern steht nach dem Verb: Ich esse gern Nudeln.\n# Das Verb mögen\n| Person | mögen |\n|---|---|\n| ich | mag |\n| du | magst |\n| er / sie / es | mag |\n| wir | mögen |\n| ihr | mögt |\n| sie / Sie | mögen |\n- Ich mag Bananen.\n- Magst du Fisch? – Nein, ich mag keinen Fisch.\n# Das esse ich nicht\n- Ich esse kein Schweinefleisch.\n- Ich bin Vegetarierin. Ich esse kein Fleisch.\n- Ich habe eine Allergie gegen Nüsse.",
   "help": "# Wortstellung mit gern\nFalsch: Ich gern esse Reis.\nRichtig: Ich esse gern Reis.\n# mögen\nFalsch: Ich mage Pizza.\nRichtig: Ich mag Pizza.\nFalsch: Er mögt Tee.\nRichtig: Er mag Tee.\nAchtung: gern und gut sind verschieden. Ich koche gern = es macht mir Spaß. Ich koche gut = ich kann es gut.",
   "ub": {
    "t": "gap",
@@ -852,7 +852,7 @@
  {
   "ch": "4 Essen und Trinken",
   "title": "4.4 In der Mensa: kein, keine, keinen",
-  "text": "# Bestellen\n| Frage | Antwort |\n|---|---|\n| Was möchtest du? | Ich möchte Nudeln mit Tomatensoße, bitte. |\n| Möchtest du einen Salat? | Nein, danke. Ich möchte keinen Salat. |\n| Möchtest du etwas trinken? | Ja, ein Wasser, bitte. |\n| Was kostet das? | Das kostet 3,50 Euro. |\n# kein im Akkusativ\n- der Salat → Ich möchte keinen Salat.\n- die Suppe → Ich möchte keine Suppe.\n- das Ei → Ich möchte kein Ei.\n- die Nudeln (Plural) → Ich möchte keine Nudeln.\nMerke: kein geht wie ein: einen → keinen, eine → keine, ein → kein. Im Plural: keine.\n# Preise\n- 3,50 € = drei Euro fünfzig\n- 2,00 € = zwei Euro",
+  "text": "# Bestellen\n[dialog: 👩‍🍳 Was möchtest du? | 🧒 Ich möchte Nudeln mit Tomatensoße, bitte. | 👩‍🍳 Möchtest du einen Salat? | 🧒 Nein, danke. Ich möchte keinen Salat.]\n| Frage | Antwort |\n|---|---|\n| Was möchtest du? | Ich möchte Nudeln mit Tomatensoße, bitte. |\n| Möchtest du einen Salat? | Nein, danke. Ich möchte keinen Salat. |\n| Möchtest du etwas trinken? | Ja, ein Wasser, bitte. |\n| Was kostet das? | Das kostet 3,50 Euro. |\n# kein im Akkusativ\n- der Salat → Ich möchte keinen Salat.\n- die Suppe → Ich möchte keine Suppe.\n- das Ei → Ich möchte kein Ei.\n- die Nudeln (Plural) → Ich möchte keine Nudeln.\nMerke: kein geht wie ein: einen → keinen, eine → keine, ein → kein. Im Plural: keine.\n# Preise\n[geld: 3,50 | 2,00]\n- 3,50 € = drei Euro fünfzig\n- 2,00 € = zwei Euro",
   "help": "# kein statt nicht\nFalsch: Ich möchte nicht einen Salat.\nRichtig: Ich möchte keinen Salat.\n# Endung bei der\nFalsch: Ich möchte kein Salat.\nRichtig: Ich möchte keinen Salat.\n# Höflich bestellen\nFalsch: Gib mir Wasser!\nRichtig: Ein Wasser, bitte. Oder: Ich möchte ein Wasser, bitte.\nAchtung: bitte und danke machen die Bestellung freundlich.",
   "ub": {
    "t": "match",
@@ -907,7 +907,7 @@
  {
   "ch": "5 Mein Tag und die Uhrzeit",
   "title": "5.1 Die Uhrzeit",
-  "text": "# Wie spät ist es?\n| Uhr | Im Alltag | Offiziell |\n|---|---|---|\n| 8:00 | acht Uhr | acht Uhr |\n| 8:10 | zehn nach acht | acht Uhr zehn |\n| 8:15 | Viertel nach acht | acht Uhr fünfzehn |\n| 8:30 | halb neun | acht Uhr dreißig |\n| 8:45 | Viertel vor neun | acht Uhr fünfundvierzig |\n| 8:50 | zehn vor neun | acht Uhr fünfzig |\nMerke: halb neun = 8:30. Bei halb denkst du schon an die nächste Stunde.\n# Fragen und Antworten\n- Wie spät ist es? – Es ist halb acht.\n- Wie viel Uhr ist es? – Es ist Viertel nach zehn.\n- Um wie viel Uhr beginnt die Schule? – Um Viertel vor acht.",
+  "text": "# Wie spät ist es?\n[uhr: 8:00=acht Uhr | 8:10=zehn nach acht | 8:15=Viertel nach acht | 8:30=halb neun | 8:45=Viertel vor neun | 8:50=zehn vor neun]\n| Uhr | Im Alltag | Offiziell |\n|---|---|---|\n| 8:00 | acht Uhr | acht Uhr |\n| 8:10 | zehn nach acht | acht Uhr zehn |\n| 8:15 | Viertel nach acht | acht Uhr fünfzehn |\n| 8:30 | halb neun | acht Uhr dreißig |\n| 8:45 | Viertel vor neun | acht Uhr fünfundvierzig |\n| 8:50 | zehn vor neun | acht Uhr fünfzig |\nMerke: halb neun = 8:30. Bei halb denkst du schon an die nächste Stunde.\n# Fragen und Antworten\n- Wie spät ist es? – Es ist halb acht.\n- Wie viel Uhr ist es? – Es ist Viertel nach zehn.\n- Um wie viel Uhr beginnt die Schule? – Um Viertel vor acht.",
   "help": "# halb\nFalsch: halb neun = 9:30\nRichtig: halb neun = 8:30\n# Uhr und Uhren\nFalsch: Es ist acht Uhren.\nRichtig: Es ist acht Uhr.\nAchtung: die Uhr an der Wand hat den Plural die Uhren. Bei der Zeit sagst du immer Uhr: acht Uhr, neun Uhr.\n# um\nFalsch: Die Schule beginnt in acht Uhr.\nRichtig: Die Schule beginnt um acht Uhr.\nAchtung: In Bayern hörst du manchmal „viertel neun“. Das heißt 8:15. „Dreiviertel neun“ heißt 8:45.",
   "ub": {
    "t": "match",
@@ -917,7 +917,7 @@
    {
     "t": "match",
     "n": "Paare: Uhrzeit und Wörter",
-    "x": "7:30 | halb acht\n9:15 | Viertel nach neun\n10:45 | Viertel vor elf\n12:00 | zwölf Uhr\n6:30 | halb sieben\n3:10 | zehn nach drei\n4:50 | zehn vor fünf"
+    "x": "[uhr 7:30] | halb acht\n[uhr 9:15] | Viertel nach neun\n[uhr 10:45] | Viertel vor elf\n[uhr 12:00] | zwölf Uhr\n[uhr 6:30] | halb sieben\n[uhr 3:10] | zehn nach drei\n[uhr 4:50] | zehn vor fünf"
    },
    {
     "t": "numline",
@@ -927,7 +927,7 @@
    {
     "t": "mc",
     "n": "Wie spät ist es?",
-    "x": "Es ist 8:30. Was sagst du im Alltag?\n- halb acht\n+ halb neun\n- acht Uhr halb\n\nEs ist 10:15. Was sagst du?\n+ Viertel nach zehn\n- Viertel vor zehn\n- halb zehn\n\nEs ist 5:45. Was sagst du?\n- Viertel nach fünf\n- halb sechs\n+ Viertel vor sechs\n\nWelcher Satz ist richtig?\n- Die Schule beginnt in acht Uhr.\n+ Die Schule beginnt um acht Uhr.\n- Die Schule beginnt am acht Uhr.\n\nEs ist 14:00. Was sagst du offiziell?\n+ vierzehn Uhr\n- vier Uhr\n- zwei Uhr vierzehn"
+    "x": "Es ist [uhr 8:30] 8:30. Was sagst du im Alltag?\n- halb acht\n+ halb neun\n- acht Uhr halb\n\nEs ist [uhr 10:15] 10:15. Was sagst du?\n+ Viertel nach zehn\n- Viertel vor zehn\n- halb zehn\n\nEs ist [uhr 5:45] 5:45. Was sagst du?\n- Viertel nach fünf\n- halb sechs\n+ Viertel vor sechs\n\nWelcher Satz ist richtig?\n- Die Schule beginnt in acht Uhr.\n+ Die Schule beginnt um acht Uhr.\n- Die Schule beginnt am acht Uhr.\n\nEs ist 14:00. Was sagst du offiziell?\n+ vierzehn Uhr\n- vier Uhr\n- zwei Uhr vierzehn"
    }
   ],
   "hx": [
@@ -962,7 +962,7 @@
  {
   "ch": "5 Mein Tag und die Uhrzeit",
   "title": "5.2 Mein Tag",
-  "text": "# Die Tageszeiten\n- der Morgen\n- der Vormittag\n- der Mittag\n- der Nachmittag\n- der Abend\n- die Nacht\nMerke: am Morgen, am Mittag, am Abend. Aber: in der Nacht.\n# Zeitangaben\n- um 7 Uhr (Uhrzeit)\n- am Montag (Tag)\n- am Abend (Tageszeit)\n- im Juli (Monat)\n# Mein Tag\n- Um 7 Uhr frühstücke ich.\n- Um Viertel vor acht gehe ich in die Schule.\n- Am Nachmittag mache ich Hausaufgaben.\n- Am Abend spiele ich mit meiner Schwester.\n- Um 21 Uhr gehe ich ins Bett.",
+  "text": "# Die Tageszeiten\n[bilder: 🌅 der Morgen | 🌤️ der Vormittag | ☀️ der Mittag | 🌇 der Nachmittag | 🌆 der Abend | 🌙 die Nacht]\n- der Morgen\n- der Vormittag\n- der Mittag\n- der Nachmittag\n- der Abend\n- die Nacht\nMerke: am Morgen, am Mittag, am Abend. Aber: in der Nacht.\n# Zeitangaben\n- um 7 Uhr (Uhrzeit)\n- am Montag (Tag)\n- am Abend (Tageszeit)\n- im Juli (Monat)\n# Mein Tag\n[uhr: 7:00=🍳 frühstücken | 7:45=🏫 in die Schule | 15:00=📚 Hausaufgaben | 21:00=🛏️ ins Bett]\n- Um 7 Uhr frühstücke ich.\n- Um Viertel vor acht gehe ich in die Schule.\n- Am Nachmittag mache ich Hausaufgaben.\n- Am Abend spiele ich mit meiner Schwester.\n- Um 21 Uhr gehe ich ins Bett.",
   "help": "# Präposition\nFalsch: am Nacht\nRichtig: in der Nacht\nFalsch: am 7 Uhr\nRichtig: um 7 Uhr\nFalsch: in Montag\nRichtig: am Montag\n# Verb auf Position 2\nFalsch: Am Abend ich spiele Fußball.\nRichtig: Am Abend spiele ich Fußball.\nAchtung: Beginnt der Satz mit einer Zeit, kommt danach sofort das Verb.",
   "ub": {
    "t": "gap",
@@ -1017,7 +1017,7 @@
  {
   "ch": "5 Mein Tag und die Uhrzeit",
   "title": "5.3 Trennbare Verben",
-  "text": "# Verben mit zwei Teilen\nManche Verben haben eine Vorsilbe: auf-stehen, an-fangen, ein-kaufen, fern-sehen, auf-räumen, an-rufen.\n| Verb | Satz |\n|---|---|\n| aufstehen | Ich stehe um 7 Uhr auf. |\n| anfangen | Die Schule fängt um 8 Uhr an. |\n| einkaufen | Mama kauft am Samstag ein. |\n| fernsehen | Am Abend sehe ich fern. |\n| aufräumen | Ali räumt sein Zimmer auf. |\n| anrufen | Ich rufe meine Oma an. |\nMerke: Die Vorsilbe geht ans Satzende. Ich stehe um 7 Uhr auf.\n# Die Satzklammer\n- Das Verb steht auf Position 2, die Vorsilbe am Ende.\n- Ich stehe jeden Tag um 7 Uhr auf.",
+  "text": "# Verben mit zwei Teilen\nManche Verben haben eine Vorsilbe: auf-stehen, an-fangen, ein-kaufen, fern-sehen, auf-räumen, an-rufen.\n[satz: Ich | *stehe* | um 7 Uhr | *auf*.]\n[satz: Am Abend | *sehe* | ich | *fern*.]\n| Verb | Satz |\n|---|---|\n| aufstehen | Ich stehe um 7 Uhr auf. |\n| anfangen | Die Schule fängt um 8 Uhr an. |\n| einkaufen | Mama kauft am Samstag ein. |\n| fernsehen | Am Abend sehe ich fern. |\n| aufräumen | Ali räumt sein Zimmer auf. |\n| anrufen | Ich rufe meine Oma an. |\nMerke: Die Vorsilbe geht ans Satzende. Ich stehe um 7 Uhr auf.\n# Die Satzklammer\n- Das Verb steht auf Position 2, die Vorsilbe am Ende.\n- Ich stehe jeden Tag um 7 Uhr auf.",
   "help": "# Vorsilbe am Ende\nFalsch: Ich aufstehe um 7 Uhr.\nRichtig: Ich stehe um 7 Uhr auf.\nFalsch: Ich stehe auf um 7 Uhr.\nRichtig: Ich stehe um 7 Uhr auf.\nFalsch: Die Schule anfängt um 8 Uhr.\nRichtig: Die Schule fängt um 8 Uhr an.\n# Vokalwechsel\nAchtung: anfangen und fernsehen ändern den Vokal: du fängst an, er fängt an. du siehst fern, er sieht fern.",
   "ub": {
    "t": "match",
@@ -1072,7 +1072,7 @@
  {
   "ch": "5 Mein Tag und die Uhrzeit",
   "title": "5.4 Können und müssen",
-  "text": "# Modalverben\n| Person | können | müssen |\n|---|---|---|\n| ich | kann | muss |\n| du | kannst | musst |\n| er / sie / es | kann | muss |\n| wir | können | müssen |\n| ihr | könnt | müsst |\n| sie / Sie | können | müssen |\n# Satzbau\n| Position 1 | Position 2 | … | Ende |\n|---|---|---|---|\n| Ich | kann | gut | schwimmen. |\n| Du | musst | heute | lernen. |\n| Am Montag | muss | ich früh | aufstehen. |\nMerke: Das Modalverb steht auf Position 2. Das zweite Verb steht im Infinitiv am Ende.\n# Wofür?\n- können: Ich kann Arabisch sprechen. (Das kann ich.)\n- können: Kannst du mir bitte helfen? (Bitte)\n- müssen: Ich muss Hausaufgaben machen. (Das ist Pflicht.)",
+  "text": "# Modalverben\n| Person | können | müssen |\n|---|---|---|\n| ich | kann | muss |\n| du | kannst | musst |\n| er / sie / es | kann | muss |\n| wir | können | müssen |\n| ihr | könnt | müsst |\n| sie / Sie | können | müssen |\n# Satzbau\n[satz: Ich | *kann* | gut | *schwimmen*.]\n[satz: Am Montag | *muss* | ich früh | *aufstehen*.]\n| Position 1 | Position 2 | … | Ende |\n|---|---|---|---|\n| Ich | kann | gut | schwimmen. |\n| Du | musst | heute | lernen. |\n| Am Montag | muss | ich früh | aufstehen. |\nMerke: Das Modalverb steht auf Position 2. Das zweite Verb steht im Infinitiv am Ende.\n# Wofür?\n- können: Ich kann Arabisch sprechen. (Das kann ich.)\n- können: Kannst du mir bitte helfen? (Bitte)\n- müssen: Ich muss Hausaufgaben machen. (Das ist Pflicht.)",
   "help": "# Infinitiv am Ende\nFalsch: Ich kann schwimme.\nRichtig: Ich kann schwimmen.\nFalsch: Ich muss lernen heute.\nRichtig: Ich muss heute lernen.\n# Formen\nFalsch: Er kannt Deutsch sprechen.\nRichtig: Er kann Deutsch sprechen.\nFalsch: Du musst machen Hausaufgaben.\nRichtig: Du musst Hausaufgaben machen.\nAchtung: ich und er / sie / es haben die gleiche Form ohne Endung: ich kann, er kann. ich muss, sie muss.",
   "ub": {
    "t": "gap",
@@ -1132,7 +1132,7 @@
  {
   "ch": "6 Wohnen",
   "title": "6.1 Die Wohnung",
-  "text": "# Wo wohnst du?\n- Ich wohne in einer Wohnung.\n- Ich wohne in einem Haus.\n- Ich wohne in einer Unterkunft.\n# Die Räume\n- das Zimmer – die Zimmer\n- das Wohnzimmer – die Wohnzimmer\n- das Schlafzimmer – die Schlafzimmer\n- das Kinderzimmer – die Kinderzimmer\n- das Bad – die Bäder\n- die Küche – die Küchen\n- die Toilette – die Toiletten\n- der Flur – die Flure\n- der Balkon – die Balkone\n- der Garten – die Gärten\nMerke: Bei langen Wörtern bestimmt das letzte Wort den Artikel: das Zimmer → das Wohnzimmer.\n# Was machst du wo?\n- In der Küche koche ich.\n- Im Bad dusche ich.\n- Im Wohnzimmer sehe ich fern.",
+  "text": "# Wo wohnst du?\n- Ich wohne in einer Wohnung.\n- Ich wohne in einem Haus.\n- Ich wohne in einer Unterkunft.\n# Die Räume\n[bilder: 🛋️ das Wohnzimmer | 🛏️ das Schlafzimmer | 🛁 das Bad | 🍳 die Küche | 🚽 die Toilette | 🚪 der Flur | 🌳 der Garten]\n- das Zimmer – die Zimmer\n- das Wohnzimmer – die Wohnzimmer\n- das Schlafzimmer – die Schlafzimmer\n- das Kinderzimmer – die Kinderzimmer\n- das Bad – die Bäder\n- die Küche – die Küchen\n- die Toilette – die Toiletten\n- der Flur – die Flure\n- der Balkon – die Balkone\n- der Garten – die Gärten\nMerke: Bei langen Wörtern bestimmt das letzte Wort den Artikel: das Zimmer → das Wohnzimmer.\n# Was machst du wo?\n- In der Küche koche ich.\n- Im Bad dusche ich.\n- Im Wohnzimmer sehe ich fern.",
   "help": "# Artikel bei langen Wörtern\nFalsch: der Wohnzimmer\nRichtig: das Wohnzimmer (das Zimmer)\n# in der oder im?\nFalsch: In die Küche koche ich.\nRichtig: In der Küche koche ich.\nFalsch: Im Küche\nRichtig: In der Küche\nAchtung: im = in dem. Das gibt es nur bei der und das: im Bad, im Flur. Bei die sagst du in der: in der Küche.",
   "ub": {
    "t": "cw",
@@ -1187,7 +1187,7 @@
  {
   "ch": "6 Wohnen",
   "title": "6.2 Möbel: Es gibt …",
-  "text": "# Möbel und Dinge\n- der Tisch – die Tische\n- der Stuhl – die Stühle\n- der Schrank – die Schränke\n- der Teppich – die Teppiche\n- der Spiegel – die Spiegel\n- die Lampe – die Lampen\n- die Tür – die Türen\n- das Bett – die Betten\n- das Sofa – die Sofas\n- das Regal – die Regale\n- das Fenster – die Fenster\nMerke: Das Wort Möbel benutzt du meist im Plural: die Möbel.\n# Was gibt es in deinem Zimmer?\n- In meinem Zimmer gibt es ein Bett, einen Schrank und einen Tisch.\n- Es gibt keinen Teppich.\nMerke: Nach es gibt kommt der Akkusativ: einen Schrank, eine Lampe, ein Bett.",
+  "text": "# Möbel und Dinge\n[bilder: 🪑 der Stuhl | 🛏️ das Bett | 🛋️ das Sofa | 💡 die Lampe | 🚪 die Tür | 🪞 der Spiegel | 🪟 das Fenster | 🗄️ der Schrank]\n- der Tisch – die Tische\n- der Stuhl – die Stühle\n- der Schrank – die Schränke\n- der Teppich – die Teppiche\n- der Spiegel – die Spiegel\n- die Lampe – die Lampen\n- die Tür – die Türen\n- das Bett – die Betten\n- das Sofa – die Sofas\n- das Regal – die Regale\n- das Fenster – die Fenster\nMerke: Das Wort Möbel benutzt du meist im Plural: die Möbel.\n# Was gibt es in deinem Zimmer?\n- In meinem Zimmer gibt es ein Bett, einen Schrank und einen Tisch.\n- Es gibt keinen Teppich.\nMerke: Nach es gibt kommt der Akkusativ: einen Schrank, eine Lampe, ein Bett.",
   "help": "# Akkusativ nach es gibt\nFalsch: Es gibt ein Schrank.\nRichtig: Es gibt einen Schrank.\nFalsch: Es gibt kein Teppich.\nRichtig: Es gibt keinen Teppich.\n# Artikel und Plural\nFalsch: das Lampe\nRichtig: die Lampe\nFalsch: zwei Bette\nRichtig: zwei Betten\nAchtung: das Sofa – die Sofas. Der Plural hat ein -s.",
   "ub": {
    "t": "match",
@@ -1242,7 +1242,7 @@
  {
   "ch": "6 Wohnen",
   "title": "6.3 Wo ist die Katze? Präpositionen",
-  "text": "# Wo?\n- Die Katze ist auf dem Tisch.\n- Der Ball ist unter dem Bett.\n- Die Lampe steht neben dem Sofa.\n- Das Heft ist in der Tasche.\n- Der Stuhl steht vor dem Fenster.\n- Der Rucksack liegt hinter der Tür.\n# Der Artikel nach Wo?\n| Artikel | Wo? |\n|---|---|\n| der Tisch | auf dem Tisch |\n| die Tasche | in der Tasche |\n| das Bett | unter dem Bett |\nMerke: Wo? → der wird dem, die wird der, das wird dem. in dem = im: im Regal.\n# Die Präpositionen\n- in, auf, unter, neben, vor, hinter",
+  "text": "# Wo?\n- Die Katze ist auf dem Tisch.\n- Der Ball ist unter dem Bett.\n- Die Lampe steht neben dem Sofa.\n- Das Heft ist in der Tasche.\n- Der Stuhl steht vor dem Fenster.\n- Der Rucksack liegt hinter der Tür.\n# Der Artikel nach Wo?\n| Artikel | Wo? |\n|---|---|\n| der Tisch | auf dem Tisch |\n| die Tasche | in der Tasche |\n| das Bett | unter dem Bett |\nMerke: Wo? → der wird dem, die wird der, das wird dem. in dem = im: im Regal.\n# Die Präpositionen\n[praep: in | auf | unter | neben | vor | hinter]\n- in, auf, unter, neben, vor, hinter",
   "help": "# Artikel nach Wo?\nFalsch: Die Katze ist auf der Tisch.\nRichtig: Die Katze ist auf dem Tisch.\nFalsch: Das Heft ist in die Tasche.\nRichtig: Das Heft ist in der Tasche.\nFalsch: Der Ball ist unter das Bett.\nRichtig: Der Ball ist unter dem Bett.\nAchtung: in dem wird zu im: Das Buch ist im Regal.",
   "ub": {
    "t": "mc",
@@ -1297,7 +1297,7 @@
  {
   "ch": "6 Wohnen",
   "title": "6.4 Mein Zimmer: Adjektive",
-  "text": "# Wie ist dein Zimmer?\n- groß – klein\n- hell – dunkel\n- neu – alt\n- sauber – schmutzig\n- ordentlich – unordentlich\n- schön – hässlich\n- bequem – unbequem\n- laut – leise\n# Sätze mit sein\n- Mein Zimmer ist klein, aber hell.\n- Das Bett ist bequem.\n- Der Schrank ist alt.\n- Die Lampe ist neu.\nMerke: Nach sein hat das Adjektiv keine Endung: Das Bett ist bequem.\n# Verbinden\n- und: Das Zimmer ist groß und hell.\n- aber: Das Zimmer ist klein, aber schön.\n- sehr: Das Zimmer ist sehr ordentlich.",
+  "text": "# Wie ist dein Zimmer?\n[bilder: 🐘 groß | 🐭 klein | ☀️ hell | 🌑 dunkel | ✨ neu | 🏚️ alt | 🔊 laut | 🤫 leise]\n- groß – klein\n- hell – dunkel\n- neu – alt\n- sauber – schmutzig\n- ordentlich – unordentlich\n- schön – hässlich\n- bequem – unbequem\n- laut – leise\n# Sätze mit sein\n- Mein Zimmer ist klein, aber hell.\n- Das Bett ist bequem.\n- Der Schrank ist alt.\n- Die Lampe ist neu.\nMerke: Nach sein hat das Adjektiv keine Endung: Das Bett ist bequem.\n# Verbinden\n- und: Das Zimmer ist groß und hell.\n- aber: Das Zimmer ist klein, aber schön.\n- sehr: Das Zimmer ist sehr ordentlich.",
   "help": "# Keine Endung nach sein\nFalsch: Das Bett ist bequemes.\nRichtig: Das Bett ist bequem.\n# sein nicht vergessen\nFalsch: Mein Zimmer groß.\nRichtig: Mein Zimmer ist groß.\n# Komma vor aber\nFalsch: Mein Zimmer ist klein aber schön.\nRichtig: Mein Zimmer ist klein, aber schön.\nAchtung: un- macht das Gegenteil: ordentlich – unordentlich, bequem – unbequem.",
   "ub": {
    "t": "match",
@@ -1352,7 +1352,7 @@
  {
   "ch": "7 Körper und Gesundheit",
   "title": "7.1 Der Körper",
-  "text": "# Der Kopf\n- der Kopf – die Köpfe\n- das Gesicht – die Gesichter\n- das Auge – die Augen\n- das Ohr – die Ohren\n- die Nase – die Nasen\n- der Mund – die Münder\n- der Zahn – die Zähne\n- der Hals – die Hälse\n# Der Körper\n- der Arm – die Arme\n- die Hand – die Hände\n- der Finger – die Finger\n- der Bauch – die Bäuche\n- der Rücken – die Rücken\n- das Bein – die Beine\n- das Knie – die Knie\n- der Fuß – die Füße\nMerke: Viele Körperteile hast du zweimal. Dann brauchst du den Plural: die Augen, die Ohren, die Hände.",
+  "text": "# Der Kopf\n[bilder: 👁️ das Auge | 👂 das Ohr | 👃 die Nase | 👄 der Mund | 🦷 der Zahn]\n- der Kopf – die Köpfe\n- das Gesicht – die Gesichter\n- das Auge – die Augen\n- das Ohr – die Ohren\n- die Nase – die Nasen\n- der Mund – die Münder\n- der Zahn – die Zähne\n- der Hals – die Hälse\n# Der Körper\n[bilder: 💪 der Arm | ✋ die Hand | ☝️ der Finger | 🦵 das Bein | 🦶 der Fuß]\n- der Arm – die Arme\n- die Hand – die Hände\n- der Finger – die Finger\n- der Bauch – die Bäuche\n- der Rücken – die Rücken\n- das Bein – die Beine\n- das Knie – die Knie\n- der Fuß – die Füße\nMerke: Viele Körperteile hast du zweimal. Dann brauchst du den Plural: die Augen, die Ohren, die Hände.",
   "help": "# Artikel\nFalsch: die Kopf\nRichtig: der Kopf\nFalsch: der Knie\nRichtig: das Knie – die Knie\n# Plural\nFalsch: zwei Hand, die Hands\nRichtig: zwei Hände\nFalsch: die Fuße\nRichtig: die Füße\nAchtung: Viele Körperteile haben im Plural einen Umlaut: Hand → Hände, Fuß → Füße, Zahn → Zähne, Bauch → Bäuche.",
   "ub": {
    "t": "cw",
@@ -1407,7 +1407,7 @@
  {
   "ch": "7 Körper und Gesundheit",
   "title": "7.2 Mir geht es nicht gut",
-  "text": "# Wie geht es dir?\n- Mir geht es gut.\n- Mir geht es nicht gut. / Mir geht es schlecht.\n- Was hast du? / Was fehlt dir?\n# Schmerzen\n| Ich habe … | … tut weh. |\n|---|---|\n| Ich habe Kopfschmerzen. | Mein Kopf tut weh. |\n| Ich habe Bauchschmerzen. | Mein Bauch tut weh. |\n| Ich habe Halsschmerzen. | Mein Hals tut weh. |\n| Ich habe Zahnschmerzen. | Mein Zahn tut weh. |\n| Meine Füße tun weh. | (Plural: tun) |\nMerke: Ein Körperteil: … tut weh. Mehrere Körperteile: … tun weh.\n# Krank sein\n- Ich habe Fieber.\n- Ich habe Husten und Schnupfen.\n- Mir ist schlecht.\n- Ich bin krank. Ich bleibe heute zu Hause.\n- Im Sekretariat: Mir geht es nicht gut. Ich möchte meine Eltern anrufen.",
+  "text": "# Wie geht es dir?\n- Mir geht es gut.\n- Mir geht es nicht gut. / Mir geht es schlecht.\n- Was hast du? / Was fehlt dir?\n# Schmerzen\n| Ich habe … | … tut weh. |\n|---|---|\n| Ich habe Kopfschmerzen. | Mein Kopf tut weh. |\n| Ich habe Bauchschmerzen. | Mein Bauch tut weh. |\n| Ich habe Halsschmerzen. | Mein Hals tut weh. |\n| Ich habe Zahnschmerzen. | Mein Zahn tut weh. |\n| Meine Füße tun weh. | (Plural: tun) |\nMerke: Ein Körperteil: … tut weh. Mehrere Körperteile: … tun weh.\n# Krank sein\n[bilder: 🤒 Ich habe Fieber. | 🤧 Ich habe Schnupfen. | 😷 Ich habe Husten. | 🤕 Mein Kopf tut weh. | 🤢 Mir ist schlecht.]\n- Ich habe Fieber.\n- Ich habe Husten und Schnupfen.\n- Mir ist schlecht.\n- Ich bin krank. Ich bleibe heute zu Hause.\n- Im Sekretariat: Mir geht es nicht gut. Ich möchte meine Eltern anrufen.",
   "help": "# weh tun\nFalsch: Ich habe Kopf weh.\nRichtig: Mein Kopf tut weh. Oder: Ich habe Kopfschmerzen.\nFalsch: Meine Füße tut weh.\nRichtig: Meine Füße tun weh.\n# sein oder haben?\nFalsch: Ich bin Fieber.\nRichtig: Ich habe Fieber.\nFalsch: Ich bin schlecht.\nRichtig: Mir ist schlecht. Oder: Mir geht es schlecht.\nAchtung: „Ich bin schlecht“ heißt: Ich bin ein schlechter Mensch oder ich kann etwas nicht gut. Wenn du dich krank fühlst, sagst du: Mir ist schlecht.",
   "ub": {
    "t": "match",
@@ -1462,7 +1462,7 @@
  {
   "ch": "7 Körper und Gesundheit",
   "title": "7.3 Perfekt mit haben",
-  "text": "# Was hast du gestern gemacht?\nÜber gestern sprichst du meist im Perfekt: haben + Partizip.\n| Infinitiv | Partizip | Satz |\n|---|---|---|\n| machen | gemacht | Ich habe Hausaufgaben gemacht. |\n| spielen | gespielt | Du hast Fußball gespielt. |\n| kaufen | gekauft | Mia hat Brot gekauft. |\n| lernen | gelernt | Wir haben Deutsch gelernt. |\n| essen | gegessen | Ali hat Reis gegessen. |\n| trinken | getrunken | Ich habe Tee getrunken. |\n| schlafen | geschlafen | Ich habe lange geschlafen. |\n| sehen | gesehen | Hast du den Film gesehen? |\nMerke: haben steht auf Position 2, das Partizip steht am Ende: Ich habe Tee getrunken.\n# So bildest du das Partizip\n- regelmäßig: ge + Stamm + t (machen → gemacht)\n- unregelmäßig: ge + … + en (essen → gegessen). Diese Formen lernst du auswendig.",
+  "text": "# Was hast du gestern gemacht?\nÜber gestern sprichst du meist im Perfekt: haben + Partizip.\n[satz: Ich | *habe* | gestern Tee | *getrunken*.]\n| Infinitiv | Partizip | Satz |\n|---|---|---|\n| machen | gemacht | Ich habe Hausaufgaben gemacht. |\n| spielen | gespielt | Du hast Fußball gespielt. |\n| kaufen | gekauft | Mia hat Brot gekauft. |\n| lernen | gelernt | Wir haben Deutsch gelernt. |\n| essen | gegessen | Ali hat Reis gegessen. |\n| trinken | getrunken | Ich habe Tee getrunken. |\n| schlafen | geschlafen | Ich habe lange geschlafen. |\n| sehen | gesehen | Hast du den Film gesehen? |\nMerke: haben steht auf Position 2, das Partizip steht am Ende: Ich habe Tee getrunken.\n# So bildest du das Partizip\n- regelmäßig: ge + Stamm + t (machen → gemacht)\n- unregelmäßig: ge + … + en (essen → gegessen). Diese Formen lernst du auswendig.",
   "help": "# Partizip am Ende\nFalsch: Ich habe gemacht Hausaufgaben.\nRichtig: Ich habe Hausaufgaben gemacht.\n# haben vergessen\nFalsch: Ich gespielt Fußball.\nRichtig: Ich habe Fußball gespielt.\n# Falsches Partizip\nFalsch: Ich habe geesst.\nRichtig: Ich habe gegessen.\nFalsch: Ich habe getrinkt.\nRichtig: Ich habe getrunken.\nAchtung: Verben wie gehen, fahren und kommen bilden das Perfekt mit sein: Ich bin nach Hause gegangen. Das lernst du später.",
   "ub": {
    "t": "match",
@@ -1522,7 +1522,7 @@
  {
   "ch": "7 Körper und Gesundheit",
   "title": "7.4 Tipps für die Gesundheit: Imperativ",
-  "text": "# Der Imperativ mit du\nMit dem Imperativ gibst du einen Rat oder bittest um etwas.\n| Infinitiv | du-Form | Imperativ |\n|---|---|---|\n| trinken | du trinkst | Trink viel Wasser! |\n| schlafen | du schläfst | Schlaf genug! |\n| bleiben | du bleibst | Bleib im Bett! |\n| gehen | du gehst | Geh zum Arzt! |\n| nehmen | du nimmst | Nimm die Tablette! |\n| essen | du isst | Iss Obst und Gemüse! |\nMerke: Nimm die du-Form, lass du und -st weg: du trinkst → Trink! Aus ä wird wieder a: du schläfst → Schlaf!\n# Gesund leben\n- Beweg dich jeden Tag!\n- Putz zweimal am Tag die Zähne!\n- Trink bitte viel Wasser!",
+  "text": "# Der Imperativ mit du\nMit dem Imperativ gibst du einen Rat oder bittest um etwas.\n| Infinitiv | du-Form | Imperativ |\n|---|---|---|\n| trinken | du trinkst | Trink viel Wasser! |\n| schlafen | du schläfst | Schlaf genug! |\n| bleiben | du bleibst | Bleib im Bett! |\n| gehen | du gehst | Geh zum Arzt! |\n| nehmen | du nimmst | Nimm die Tablette! |\n| essen | du isst | Iss Obst und Gemüse! |\nMerke: Nimm die du-Form, lass du und -st weg: du trinkst → Trink! Aus ä wird wieder a: du schläfst → Schlaf!\n# Gesund leben\n[bilder: 💧 Trink viel Wasser! | 😴 Schlaf genug! | 🍎 Iss Obst! | 🏃 Beweg dich! | 🪥 Putz die Zähne!]\n- Beweg dich jeden Tag!\n- Putz zweimal am Tag die Zähne!\n- Trink bitte viel Wasser!",
   "help": "# du weglassen\nFalsch: Du trink Wasser!\nRichtig: Trink Wasser!\n# Umlaut\nFalsch: Schläf viel!\nRichtig: Schlaf viel!\n# Vokal e → i\nFalsch: Esse Obst!\nRichtig: Iss Obst!\nFalsch: Nehm die Tablette!\nRichtig: Nimm die Tablette!\nAchtung: Zu Erwachsenen sagst du: Trinken Sie viel Wasser! Gehen Sie zum Arzt!",
   "ub": {
    "t": "match",
@@ -1577,7 +1577,7 @@
  {
   "ch": "8 Einkaufen und Kleidung",
   "title": "8.1 Kleidung",
-  "text": "# Kleidung\n- der Pullover – die Pullover\n- der Rock – die Röcke\n- der Schuh – die Schuhe\n- der Schal – die Schals\n- die Hose – die Hosen\n- die Jeans – die Jeans\n- die Jacke – die Jacken\n- die Mütze – die Mützen\n- die Socke – die Socken\n- das T-Shirt – die T-Shirts\n- das Hemd – die Hemden\n- das Kleid – die Kleider\n- das Kopftuch – die Kopftücher\nMerke: eine Hose ist ein Stück. Zwei Stück sind zwei Hosen.\n# Was trägst du?\n- Im Winter trage ich eine Jacke und eine Mütze.\n- Im Sommer trage ich ein T-Shirt.\n- Heute trägt Lena einen Rock.\n- tragen: ich trage, du trägst, er trägt",
+  "text": "# Kleidung\n[bilder: 🧥 die Jacke | 👖 die Hose | 👕 das T-Shirt | 👗 das Kleid | 👔 das Hemd | 🧣 der Schal | 🧦 die Socke | 👟 der Schuh | 🧢 die Mütze]\n- der Pullover – die Pullover\n- der Rock – die Röcke\n- der Schuh – die Schuhe\n- der Schal – die Schals\n- die Hose – die Hosen\n- die Jeans – die Jeans\n- die Jacke – die Jacken\n- die Mütze – die Mützen\n- die Socke – die Socken\n- das T-Shirt – die T-Shirts\n- das Hemd – die Hemden\n- das Kleid – die Kleider\n- das Kopftuch – die Kopftücher\nMerke: eine Hose ist ein Stück. Zwei Stück sind zwei Hosen.\n# Was trägst du?\n- Im Winter trage ich eine Jacke und eine Mütze.\n- Im Sommer trage ich ein T-Shirt.\n- Heute trägt Lena einen Rock.\n- tragen: ich trage, du trägst, er trägt",
   "help": "# Singular und Plural\nFalsch: Ich trage eine Hosen.\nRichtig: Ich trage eine Hose.\nAchtung: die Jeans ist im Singular und im Plural gleich: eine Jeans, zwei Jeans.\n# Artikel\nFalsch: das Jacke\nRichtig: die Jacke\nFalsch: die Pullover (für ein Stück)\nRichtig: der Pullover\n# tragen\nFalsch: Er tragt einen Pullover.\nRichtig: Er trägt einen Pullover.",
   "ub": {
    "t": "cw",
@@ -1632,7 +1632,7 @@
  {
   "ch": "8 Einkaufen und Kleidung",
   "title": "8.2 Farben: Das gefällt mir",
-  "text": "# Die Farben\n- rot, blau, grün, gelb, orange\n- schwarz, weiß, grau, braun\n- lila, rosa\n# Gefällt dir das?\n- Der Pullover gefällt mir.\n- Die Schuhe gefallen mir.\n- Wie gefällt dir die Jacke? – Sie gefällt mir gut.\n- Das T-Shirt gefällt mir nicht.\nMerke: Ein Ding: gefällt. Mehrere Dinge: gefallen.\n# er, sie, es\n| Nomen | Pronomen |\n|---|---|\n| der Pullover | er |\n| die Jacke | sie |\n| das T-Shirt | es |\n| die Schuhe (Plural) | sie |\n- Wie ist der Pullover? – Er ist blau.",
+  "text": "# Die Farben\n[farben: rot=#dc2626 | blau=#2563eb | grün=#16a34a | gelb=#facc15 | orange=#f97316 | schwarz=#111827 | weiß=#ffffff | grau=#9ca3af | braun=#92400e | lila=#9333ea | rosa=#f9a8d4]\n- rot, blau, grün, gelb, orange\n- schwarz, weiß, grau, braun\n- lila, rosa\n# Gefällt dir das?\n- Der Pullover gefällt mir.\n- Die Schuhe gefallen mir.\n- Wie gefällt dir die Jacke? – Sie gefällt mir gut.\n- Das T-Shirt gefällt mir nicht.\nMerke: Ein Ding: gefällt. Mehrere Dinge: gefallen.\n# er, sie, es\n| Nomen | Pronomen |\n|---|---|\n| der Pullover | er |\n| die Jacke | sie |\n| das T-Shirt | es |\n| die Schuhe (Plural) | sie |\n- Wie ist der Pullover? – Er ist blau.",
   "help": "# gefällt oder gefallen?\nFalsch: Die Schuhe gefällt mir.\nRichtig: Die Schuhe gefallen mir.\n# Wer gefällt wem?\nFalsch: Ich gefalle die Jacke.\nRichtig: Die Jacke gefällt mir.\nAchtung: Bei gefallen ist das Ding das Subjekt: Die Jacke gefällt mir. Die Person ist mir oder dir.\n# Pronomen\nFalsch: Der Pullover? Sie ist blau.\nRichtig: Der Pullover? Er ist blau.",
   "ub": {
    "t": "match",
@@ -1687,7 +1687,7 @@
  {
   "ch": "8 Einkaufen und Kleidung",
   "title": "8.3 Im Geschäft",
-  "text": "# Im Kleidungsgeschäft\n| Kundin oder Kunde | Verkäuferin oder Verkäufer |\n|---|---|\n| Entschuldigung, ich suche eine Jacke. | Welche Größe brauchen Sie? |\n| Größe M, bitte. | Hier ist eine Jacke in M. |\n| Kann ich die Jacke anprobieren? | Ja, die Kabine ist dort hinten. |\n| Was kostet die Jacke? | Sie kostet 39,99 Euro. |\n| Das ist zu teuer. | Diese Jacke kostet nur 25 Euro. |\n| Gut, die nehme ich. | Zahlen Sie bar oder mit Karte? |\nMerke: Im Geschäft sagst du Sie: Haben Sie …? Können Sie mir helfen?\n# Preise\n- 4,50 € = vier Euro fünfzig\n- 12,99 € = zwölf Euro neunundneunzig\n- 0,80 € = achtzig Cent\n- teuer = viel Geld, billig = wenig Geld",
+  "text": "# Im Kleidungsgeschäft\n[dialog: 🧑 Entschuldigung, ich suche eine Jacke. | 👩‍💼 Welche Größe brauchen Sie? | 🧑 Größe M, bitte. Was kostet die Jacke? | 👩‍💼 Sie kostet 39,99 Euro.]\n| Kundin oder Kunde | Verkäuferin oder Verkäufer |\n|---|---|\n| Entschuldigung, ich suche eine Jacke. | Welche Größe brauchen Sie? |\n| Größe M, bitte. | Hier ist eine Jacke in M. |\n| Kann ich die Jacke anprobieren? | Ja, die Kabine ist dort hinten. |\n| Was kostet die Jacke? | Sie kostet 39,99 Euro. |\n| Das ist zu teuer. | Diese Jacke kostet nur 25 Euro. |\n| Gut, die nehme ich. | Zahlen Sie bar oder mit Karte? |\nMerke: Im Geschäft sagst du Sie: Haben Sie …? Können Sie mir helfen?\n# Preise\n[geld: 4,50 | 12,99 | 0,80]\n- 4,50 € = vier Euro fünfzig\n- 12,99 € = zwölf Euro neunundneunzig\n- 0,80 € = achtzig Cent\n- teuer = viel Geld, billig = wenig Geld",
   "help": "# du oder Sie?\nFalsch: Hast du die Jacke in M? (zur Verkäuferin)\nRichtig: Haben Sie die Jacke in M?\n# Singular und Plural\nFalsch: Was kostet die Schuhe?\nRichtig: Was kosten die Schuhe?\n# Preise\nFalsch: vier Komma fünfzig Euro\nRichtig: vier Euro fünfzig",
   "ub": {
    "t": "match",
@@ -1742,7 +1742,7 @@
  {
   "ch": "8 Einkaufen und Kleidung",
   "title": "8.4 Ich nehme den Pullover: Akkusativ",
-  "text": "# Wen oder was?\n| Nominativ | Akkusativ | Pronomen |\n|---|---|---|\n| der Pullover | den Pullover | ihn |\n| die Jacke | die Jacke | sie |\n| das Hemd | das Hemd | es |\n| die Schuhe (Plural) | die Schuhe | sie |\n- Der Pullover ist schön. Ich kaufe den Pullover. Ich kaufe ihn.\n- Die Jacke ist warm. Ich nehme sie.\n- Das Hemd ist zu klein. Ich nehme es nicht.\nMerke: Im Akkusativ ändert sich nur der: der → den, er → ihn.\n# Verben mit Akkusativ\n- kaufen, nehmen, suchen, brauchen, tragen, anprobieren\n- nehmen: ich nehme, du nimmst, er nimmt",
+  "text": "# Wen oder was?\n[satz: Ich | *kaufe* | _den_ Pullover.]\n[satz: Ich | *kaufe* | _ihn_.]\n| Nominativ | Akkusativ | Pronomen |\n|---|---|---|\n| der Pullover | den Pullover | ihn |\n| die Jacke | die Jacke | sie |\n| das Hemd | das Hemd | es |\n| die Schuhe (Plural) | die Schuhe | sie |\n- Der Pullover ist schön. Ich kaufe den Pullover. Ich kaufe ihn.\n- Die Jacke ist warm. Ich nehme sie.\n- Das Hemd ist zu klein. Ich nehme es nicht.\nMerke: Im Akkusativ ändert sich nur der: der → den, er → ihn.\n# Verben mit Akkusativ\n- kaufen, nehmen, suchen, brauchen, tragen, anprobieren\n- nehmen: ich nehme, du nimmst, er nimmt",
   "help": "# der wird den\nFalsch: Ich kaufe der Pullover.\nRichtig: Ich kaufe den Pullover.\nFalsch: Ich nehme den Jacke.\nRichtig: Ich nehme die Jacke. (Bei die bleibt alles gleich.)\n# er wird ihn\nFalsch: Der Rock ist schön. Ich nehme er.\nRichtig: Der Rock ist schön. Ich nehme ihn.\nAchtung: Frag dich: Wen oder was kaufe ich? Dann brauchst du den Akkusativ.",
   "ub": {
    "t": "gap",
