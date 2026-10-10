@@ -3049,26 +3049,72 @@ VIEWS.tdash=()=>{
 /* =====================================================================
    PLANUNG: Lehrer-Stundenplan, Vorlagen, Werkzeug-Pool
    ===================================================================== */
-// Mathe-Vorlage nach Fabians PowerPoint (Abschnitte: Start, Cover, Kopfrechnen, Wiederholung, Problem, Stundenfrage, Vermutungen, Arbeitsauftrag, Sicherung, Anwendung, Reflexion)
 const H5_QS='Was habe ich heute neu gelernt?\nWas kann ich jetzt besser als vor der Stunde?\nWas war heute schwierig für mich?\nWas hat mir beim Lernen besonders geholfen?\nWelche Frage habe ich noch?';
 const C4_OPTS='Ich kann es noch nicht\nMit Hilfe klappt es\nFast alleine\nIch kann es und kann anderen helfen';
-const TEMPLATES={M:[
-  {name:'Stundenbeginn',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt:'Hol dein Heft und dein Mathebuch raus.',act:'none',tool:{id:'start',hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch'}},
-  {name:'Sequenz',goal:'Thema der Sequenz zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover',title:'Terme und Gleichungen',sub:''}},
-  {name:'Mathe-Starter',goal:'Kopfrechnen automatisieren, aktivieren',min:8,sf:'Plenum',method:'Kopfrechenfußball',txt:'Kopfrechenfußball! Rechne mit, vielleicht wirst du drangenommen.',act:'none',tool:{id:'kfb',level:'pvs'}},
-  {name:'Wiederholung',goal:'Vorwissen aktivieren',min:5,sf:'Plenum',method:'Vorwissensaktivierung',txt:'Was weißt du schon?',act:'look',tool:{id:'slide',title:'Was ist ein Term?',text:'',mat:''}},
-  {name:'Problemstellung',goal:'Neugier wecken, Problem erkennen',min:4,sf:'Plenum',method:'Problemfolie',txt:'Schau dir das Problem an. Was fällt dir auf?',act:'look',tool:{id:'slide',title:'Problemstellung',text:'',mat:''}},
-  {name:'Stundenfrage',goal:'Frage der Stunde klären',min:3,sf:'PA',method:'Murmelphase',txt:'Überlege dir bereits eine mögliche Antwort auf die Frage!',act:'look',tool:{id:'question',q:'',murmel:true}},
-  {name:'Hypothesen / Vermutungen',goal:'Vermutungen sammeln',min:3,sf:'Plenum',method:'Vermutungen',txt:'Gib eine Vermutung ab! Wir prüfen sie später.',act:'none',tool:{id:'hypo',text:'Gib eine Vermutung ab! Wir prüfen sie später.'}},
-  {name:'Arbeitsauftrag',goal:'Lösungswege selbst erarbeiten',min:8,sf:'PA',method:'Arbeitsblatt',txt:'Bearbeite den Arbeitsauftrag.',act:'none',tool:{id:'task',text:'Untersucht das Problem gemeinsam mithilfe des Arbeitsblattes.'}},
-  {name:'Sicherung',goal:'Ergebnisse festhalten, Vermutungen prüfen',min:7,sf:'Plenum',method:'Überprüfung',txt:'Wir überprüfen nun unsere Vermutungen!',act:'look',tool:{id:'hypo',text:'Wir überprüfen nun unsere Vermutungen!'}},
-  {name:'Anwendung',goal:'Gelerntes anwenden',min:10,sf:'PA',method:'Übungsheft',txt:'Bearbeite die Aufgaben der Reihe nach in deinem Übungsheft.',act:'none',tool:{id:'task',text:'Bearbeite die Aufgaben der Reihe nach in deinem Übungsheft.\nWir kontrollieren anschließend gemeinsam.'}},
-  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:4,sf:'Plenum',method:'High-Five-Feedback',txt:'Denk über deine Stunde nach.',act:'none',tool:{id:'high5',qs:H5_QS}},
+// Fach-Gerüste nach Fabians Stundenverläufen (TUV Mathe, Englisch, DaZ nach Zimmermann, Kunst)
+const TEMPLATES={
+M:[
+  {name:'Begrüßung',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt:'Hol dein Heft und dein Mathebuch raus.',act:'none',tool:{id:'start',hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch',bg:'start',date:true,title:''}},
+  {name:'Sequenz',goal:'Thema der Sequenz zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover',title:'',sub:''}},
+  {name:'Warm-Up',goal:'Kopfrechnen automatisieren, aktivieren',min:8,sf:'Plenum',method:'Kopfrechenfußball',txt:'Kopfrechenfußball! Rechne mit, vielleicht wirst du drangenommen.',act:'none',tool:{id:'kfb',level:'lms'}},
+  {name:'Wiederholung',goal:'Vorwissen aktivieren',min:5,sf:'Plenum',method:'Mathe-Experten',txt:'Erkläre deinen Begriff als Mathe-Experte.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Mathe-Experten',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Problemstellung',goal:'Neugier wecken, Problem erkennen',min:4,sf:'Plenum',method:'Bild-/Text-Impuls',txt:'Schau dir das Problem an. Was fällt dir auf?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Problemstellung',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Stundenfrage',goal:'Frage der Stunde klären',min:2,sf:'PA',method:'Murmelphase',txt:'Überlege dir bereits eine mögliche Antwort auf die Frage!',act:'look',tool:{id:'question',q:'',murmel:true}},
+  {name:'Vermutungen',goal:'Vermutungen sammeln',min:3,sf:'Plenum',method:'Hypothesen-Prüfer',txt:'Gib eine Vermutung ab! Wir prüfen sie später.',act:'none',tool:{id:'hypo',text:'Gib eine Vermutung ab! Wir prüfen sie später.'}},
+  {name:'Erarbeitung',goal:'Lösungswege selbst erarbeiten',min:8,sf:'PA',method:'Forscherauftrag',txt:'Bearbeite den Forscherauftrag.',act:'none',tool:{id:'task',text:'Untersucht das Problem gemeinsam mithilfe des Arbeitsblattes.'}},
+  {name:'Sicherung',goal:'Ergebnisse präsentieren und festhalten',min:5,sf:'Plenum',method:'Schüler-Präsentation',txt:'Wir präsentieren unsere Ergebnisse.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Sicherung',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Hypothesenüberprüfung',goal:'Vermutungen prüfen',min:2,sf:'Plenum',method:'Rückbezug',txt:'Wir überprüfen nun unsere Vermutungen!',act:'look',tool:{id:'hypo',text:'Wir überprüfen nun unsere Vermutungen!'}},
+  {name:'Übung / Anwendung',goal:'Gelerntes übertragen',min:8,sf:'EA',method:'3-fach-Differenzierung',txt:'Bearbeite die Aufgaben auf deinem Niveau.',act:'none',tool:{id:'task',text:'Bearbeite die Aufgaben der Reihe nach in deinem Übungsheft.\nWir kontrollieren anschließend gemeinsam.'}},
+  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:2,sf:'Plenum',method:'5er-Feedback',txt:'Denk über deine Stunde nach.',act:'none',tool:{id:'high5',qs:H5_QS}},
+],
+E:[
+  {name:'Begrüßung',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt:'Good morning, class!',act:'none',tool:{id:'start',hint:'Good morning! Get your things ready.',items:'Englischbuch, Heft, Vokabelheft',bg:'start',date:true,title:''}},
+  {name:'Warm-Up',goal:'Sprache aktivieren',min:5,sf:'Bewegung',method:'Swap & Talk',txt:'Find a partner and talk!',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Swap & Talk',text:'Find a partner and talk!\nSwap your card and find a new partner.',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Einstieg',goal:'Einstimmung, Neugier wecken',min:3,sf:'Plenum',method:'Bildimpuls',txt:'What do you see in the picture?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'What do you see?',text:'In the picture, I can see …',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Stundenthema',goal:'Thema der Stunde zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Our topic today.',act:'look',tool:{id:'cover',title:'',sub:''}},
+  {name:'Präsentation',goal:'Arbeitsauftrag und neue Sprache einführen',min:5,sf:'Plenum',method:'Lehrervortrag mit Schülerinteraktion',txt:'Listen carefully.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Your task',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Erarbeitung',goal:'Selbstständig erarbeiten',min:15,sf:'EA',method:'Kooperative Einzelarbeit',txt:'Work on your task.',act:'none',tool:{id:'task',text:''}},
+  {name:'Ergebnissicherung',goal:'Ergebnisse austauschen und festhalten',min:7,sf:'Bewegung',method:'Peer Learning',txt:'Walk around and read your classmates’ work.',act:'none',tool:{id:'task',text:'Walk around and read your classmates’ work.'}},
+  {name:'Übung / Anwendung',goal:'Frei sprechen',min:3,sf:'Plenum',method:'Mini-Präsentation',txt:'Present your results.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Present your results',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Reflexion',goal:'Lernprozess bewusst machen',min:2,sf:'Plenum',method:'Reflexionsgespräch',txt:'What did you learn today?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Reflection',text:'What did you learn today?\nWhat was new for you?',mat:'',elo:'',say:'',steps:false}]}},
+],
+DZ:[
+  {name:'Warm-Up',goal:'Begrüßung und Ritual',min:3,sf:'Plenum',method:'Begrüßungsritual',txt:'Guten Morgen, Klasse!',act:'none',tool:{id:'start',hint:'Guten Morgen! Leg deine Sachen bereit.',items:'DaZ-Heft, Wörterheft',bg:'start',date:true,title:''}},
+  {name:'Initialphase',goal:'Bekannte Strukturen wiederholen',min:5,sf:'Bewegung',method:'Ballspiel',txt:'Wir stehen im Kreis und stellen Fragen.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Ballspiel',text:'Wie heißt du?\nWoher kommst du?\nWelche Sprachen sprichst du?\nWie geht es dir?',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Situativer Rahmen',goal:'Hinführung zum Thema',min:5,sf:'Plenum',method:'Bildimpuls',txt:'Schau dir das Bild an. Was siehst du?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Was siehst du?',text:'Ich sehe …',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Sprachdarbietung',goal:'Neuen Wortschatz einführen',min:8,sf:'PA',method:'Wort-Bild-Karten',txt:'Ordne Bild und Wort richtig zu.',act:'none',tool:{id:'match'}},
+  {name:'Sprachverarbeitung',goal:'Wortschatz im Text anwenden',min:10,sf:'EA',method:'Lesetext',txt:'Lies den Text. Finde die Nomen und markiere sie.',act:'none',tool:{id:'task',text:'Lies den Text. Finde die Nomen und markiere sie.\nTrage sie mit Artikel in die Tabelle ein.'}},
+  {name:'Hefteintrag',goal:'Wortschatz sichern',min:4,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft.',act:'look',tool:{id:'heftlink',eid:''}},
+  {name:'Sprachanwendung',goal:'Wortschatz im Wettbewerb anwenden',min:7,sf:'GA',method:'Quiz',txt:'Jetzt kommt das Quiz!',act:'none',tool:{id:'quiz'}},
+  {name:'Reflexion und Abschluss',goal:'Selbsteinschätzung, Verabschiedung',min:3,sf:'Plenum',method:'Daumen-Feedback',txt:'Wie bist du heute zurechtgekommen?',act:'none',tool:{id:'thumbs',q:'Wie bist du heute zurechtgekommen?'}},
+],
+K:[
+  {name:'Begrüßung',goal:'Ankommen, Datum aktualisieren',min:1,sf:'Plenum',method:'Startfolie',txt:'Guten Morgen, Klasse!',act:'none',tool:{id:'start',hint:'Leg deine Kunstsachen bereit!',items:'Zeichenblock, Bleistift und Radiergummi, Farbkasten und Pinsel',bg:'start',date:true,title:''}},
+  {name:'Einstieg',goal:'Bild wahrnehmen und beschreiben',min:5,sf:'Plenum',method:'Bildimpuls',txt:'Beschreibe, was du siehst.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Beschreibe, was du siehst',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Vorwissensaktivierung',goal:'Begriffe aus der Vorstunde aktivieren',min:4,sf:'Plenum',method:'Lehrergespräch',txt:'Was weißt du noch?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Was weißt du noch?',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Stundenthema',goal:'Thema der Stunde zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover',title:'',sub:''}},
+  {name:'Explorationsphase',goal:'Arbeitsauftrag und Gruppen',min:5,sf:'GA',method:'Arbeitsauftrag',txt:'Hör gut zu: So arbeitet ihr heute.',act:'look',tool:{id:'task',text:''}},
+  {name:'Zwischenreflexion',goal:'Arbeitsauftrag klären',min:2,sf:'Plenum',method:'Daumen-Methode',txt:'Ist der Arbeitsauftrag klar?',act:'none',tool:{id:'thumbs',q:'Ist der Arbeitsauftrag klar?'}},
+  {name:'Erarbeitung',goal:'Selbst gestalten',min:20,sf:'GA',method:'Gruppenarbeit',txt:'Arbeitet in euren Gruppen.',act:'none',tool:{id:'task',text:'Arbeitet in euren Gruppen.'}},
+  {name:'Präsentation',goal:'Ergebnisse vorstellen, Rückmeldung geben',min:5,sf:'Plenum',method:'Präsentation',txt:'Wir schauen uns eure Ergebnisse an.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Präsentation',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Reflexion',goal:'Erkenntnisse sichern',min:2,sf:'Plenum',method:'Reflexionsgespräch',txt:'Was hast du heute gelernt?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Reflexion',text:'Was hast du heute gelernt?',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Ausblick',goal:'Verabschiedung',min:1,sf:'Plenum',method:'Lehrergespräch',txt:'Nächste Stunde machen wir weiter.',act:'look'},
 ]};
+function genTpl(subj){const it=(SUBJECTS[subj]&&SUBJECTS[subj].prep||['Heft']).join(', ');return [
+  {name:'Begrüßung',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt:'Leg deine Sachen bereit.',act:'none',tool:{id:'start',hint:'Leg deine Sachen bereit!',items:it,bg:'start',date:true,title:''}},
+  {name:'Einstieg',goal:'Neugier wecken',min:5,sf:'Plenum',method:'Bildimpuls',txt:'Augen zur Tafel.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Einstieg',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Vorwissensaktivierung',goal:'Vorwissen aktivieren',min:4,sf:'Plenum',method:'Unterrichtsgespräch',txt:'Was weißt du schon?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Was weißt du schon?',text:'',mat:'',elo:'',say:'',steps:false}]}},
+  {name:'Stundenthema',goal:'Thema der Stunde zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover',title:'',sub:''}},
+  {name:'Erarbeitung',goal:'Neues entdecken und verstehen',min:14,sf:'EA',method:'Arbeitsauftrag',txt:'Bearbeite den Arbeitsauftrag.',act:'none',tool:{id:'task',text:''}},
+  {name:'Sicherung',goal:'Ergebnisse festhalten',min:6,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'look',tool:{id:'heftlink',eid:''}},
+  {name:'Übung / Anwendung',goal:'Gelerntes anwenden',min:10,sf:'PA',method:'Partnerarbeit',txt:'Arbeitet zu zweit.',act:'none',tool:{id:'task',text:'Arbeitet zu zweit.'}},
+  {name:'Reflexion',goal:'Lernstand einschätzen',min:3,sf:'Plenum',method:'Daumen-Abfrage',txt:'Wie gut kannst du es schon?',act:'none',tool:{id:'thumbs',q:'Hast du es verstanden?'}}]}
+const tplOwn=subj=>S.tpls&&Array.isArray(S.tpls[subj])&&S.tpls[subj].length?S.tpls[subj]:null;
+const tplFor=subj=>clone(tplOwn(subj)||TEMPLATES[subj]||genTpl(subj));
 function newLessonFrom(subj,min,title){
-  const base=clone(TEMPLATES[subj]||SCAFFOLD),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
-  base.forEach(p=>{p.min=Math.max(1,Math.round(p.min*f));if(p.target==='heft:M'&&subj!=='M')p.target='heft:'+subj;if(p.tool&&p.tool.s&&GAMES[subj])p.tool.s=subj});
-  const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:TEMPLATES[subj]?'Vorlage':''};
+  const own=!!tplOwn(subj),base=tplFor(subj),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
+  if(!own)base.forEach(p=>{p.min=Math.max(1,Math.round(p.min*f))});base.forEach(p=>{if(p.tool&&Object.keys(p.tool).length===1)p.tool=toolDefaults(p.tool.id,p,{subject:subj,title});if(p.target==='heft:M'&&subj!=='M')p.target='heft:'+subj;if(p.tool&&p.tool.s&&GAMES[subj])p.tool.s=subj});
+  const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:'Vorlage'};
   lessons().push(L);save();return L;
 }
 const RICH=['heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
@@ -3504,7 +3550,7 @@ function tpCell(d,i,date){
   const others=lessons().filter(x=>x.subject===sl.s);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
-    <button class="btn pri" style="width:100%;margin-top:12px" data-act="tp-new" data-d="${d}" data-i="${i}" data-date="${date}">Neue Stunde aus der ${TEMPLATES[sl.s]?SUBJECTS[sl.s].name+'-':''}Vorlage</button>
+    <button class="btn pri" style="width:100%;margin-top:12px" data-act="tp-new" data-d="${d}" data-i="${i}" data-date="${date}">Neue Stunde aus der ${SUBJECTS[sl.s].name}-Vorlage</button>
     ${others.length?`<div class="row" style="margin-top:12px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div>`:''}
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
 }
@@ -4594,7 +4640,8 @@ VIEWS['lesson-edit']=()=>{
       ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}`}
       ${(p.mats||[]).length?`<div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>`:''}
     </div></article>`).join('')}</div>
-  <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button></div>${qcHTML(L)}`;
+  <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button><span class="spacer"></span><button class="btn" data-act="tpl-save">📐 Als ${esc(SUBJECTS[L.subject].name)}-Gerüst speichern</button>${tplOwn(L.subject)?`<button class="btn sm" data-act="tpl-reset">↺ Standard-Gerüst</button>`:''}</div>
+  <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">${V.tplMsg?esc(V.tplMsg):`Jede neue ${esc(SUBJECTS[L.subject].name)}-Stunde startet mit dem ${tplOwn(L.subject)?'Gerüst, das du gespeichert hast':'Standard-Gerüst'}. Phasen, die du in einer Stunde nicht brauchst, löschst du einfach dort.`}</p>${qcHTML(L)}`;
 };
 document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
@@ -4670,7 +4717,7 @@ document.addEventListener('click',e=>{
   const a=b.dataset.act,d=b.dataset;ctx();
   switch(a){
     case 'lessons':go('lessons');break;
-    case 'l-new':{const L={id:lid(),cid:S.cls,title:'Neue Stunde',subject:'E',mission:'',phases:clone(SCAFFOLD)};lessons().push(L);save();go('lesson-edit',{id:L.id});break}
+    case 'l-new':{const L=newLessonFrom(curSubj()||'M',45,'Neue Stunde');go('lesson-edit',{id:L.id});break}
     case 'l-edit':go('lesson-edit',{id:d.id});break;
     case 'l-dup':{const L=clone(lessonById(d.id));L.id=lid();delete L.owner;delete L.shared;L.title+=' (Kopie)';lessons().push(L);save();render();break}
     case 'l-del':V.del=d.id;render();break;
@@ -4715,6 +4762,8 @@ document.addEventListener('click',e=>{
     case 'au-cat':AUD.cat=d.c;render();break;
     case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
     case 'l-stop':if(KF)kfbStop(true);audStop();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=false;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'tpl-save':{const L=lessonById(V.id);if(!L)break;S.tpls=S.tpls||{};S.tpls[L.subject]=clone(L.phases).map(p=>{if(p.tool&&p.tool.id==='cover')p.tool.title='';if(p.tool&&p.tool.id==='heftlink')p.tool.eid='';return p});save();V.tplMsg='Gespeichert. Jede neue '+SUBJECTS[L.subject].name+'-Stunde startet jetzt mit diesen '+L.phases.length+' Phasen.';render();break}
+    case 'tpl-reset':{const L=lessonById(V.id);if(!L||!S.tpls)break;delete S.tpls[L.subject];save();V.tplMsg='Neue '+SUBJECTS[L.subject].name+'-Stunden starten wieder mit dem Standard-Gerüst.';render();break}
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
     case 'ph-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&ACT_MODES[d.m]&&actMode(p.act)!==d.m){p.act=ACT_MODES[d.m].acts[0];save()}render();break}
