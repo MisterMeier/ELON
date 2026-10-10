@@ -805,6 +805,8 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .vw-w{display:block;width:100%;text-align:center;background:#1e3a8a;color:#fff;font-weight:800;font-size:1.7em;border-radius:.4em;padding:.4em .2em;word-break:break-word}
 .vw-back ul{list-style:none;margin:0;padding:0;display:grid;gap:.4em;width:100%}.vw-back li{text-align:center;font-weight:800;font-size:1.25em;color:#b91c1c;background:#fee2e2;border-radius:.4em;padding:.25em;text-decoration:line-through;text-decoration-thickness:.1em}
 .vw-h{font-weight:700;color:#334155;margin:0}.vw-end{display:grid;justify-items:center;gap:.3em;text-align:center}.vw-end img{width:9em}.vw-end h1{color:#1e3a8a}.vw-end p{font-size:1.6em;font-weight:800}
+.sl-elo>.nz-red{position:absolute;left:0;top:0;width:100%;aspect-ratio:1;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;pointer-events:none}
+.sl-elo.nz-loud{animation:nzsh .25s linear infinite}.sl-elo.nz-loud::after{content:'Psst! Zu laut!';position:absolute;bottom:100%;right:10%;background:#dc2626;color:#fff;font-weight:800;font-size:1.4em;padding:.3em .7em;border-radius:.8em;white-space:nowrap}
 .nz-t{display:flex;align-items:center;gap:8px}.nz-e{position:relative;display:inline-block;width:44px;height:44px}.nz-e img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .nz-red{position:absolute;inset:0;opacity:0;background:#ef2b2b;-webkit-mask:url(assets/elo/elo-heft-512.png) center/contain no-repeat;mask:url(assets/elo/elo-heft-512.png) center/contain no-repeat;mix-blend-mode:color;transition:opacity .2s}
 .nz-m{width:140px;height:12px;border-radius:9px;background:var(--surface-2);overflow:hidden;display:inline-block}.nz-m i{display:block;height:100%;width:0;transition:width .1s,background .3s}
@@ -2153,12 +2155,12 @@ function boardHTML(R,mini){
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
   if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
+  else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
+  else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;
   else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">📺 Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}"></div>`}</div>`;
   else if(R.game&&gInfo(R.game.g))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>🏆 ${R.game.fin.length} geschafft</p>`:''}</div>`;
   else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='slide'&&t.cur)return `<div class="bw bw-rt s-${st.subj}">${slideHTML(t.cur,{subj:st.subj,mini,fx:R.fx})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
-  else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
-  else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;
   else if(st&&['thumbs','exit','mood'].includes(t.id)){const I=TOOLS[t.id],n=t.id==='thumbs'?(R.poll?R.poll.voted.length:0):t.id==='exit'?(R.exit?R.exit.done.length:0):(R.ready?R.ready.done.length:0);
     return `<div class="bw bw-rt s-${st.subj}"><div class="rt rt-ask" ${bgAttr('allgemein')}><span class="ask-i">${t.id==='thumbs'?'👍 👌 👎':t.id==='mood'?MOOD5.join(' '):'🎟️'}</span><h1>${esc(t.id==='exit'?'Exit-Ticket':t.q||I.name)}</h1>${t.id==='exit'&&R.exit?`<ol>${R.exit.qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`:''}<p>Tippe auf deinem iPad.</p><b class="ask-n">${n} / ${Math.max(R.onN||0,n)||'–'} fertig</b><img class="ask-e" src="assets/elo/elo-uebung-512.png" alt=""></div>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`}
   else if(st&&t.id==='vw')return `<div class="bw bw-rt s-${st.subj}">${vwHTML(t,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
@@ -2563,7 +2565,11 @@ async function noiseOn(){NOISE.err='';try{const st=await navigator.mediaDevices.
 function noiseOff(){clearInterval(NOISE.iv);try{NOISE.st&&NOISE.st.getTracks().forEach(t=>t.stop());NOISE.ctx&&NOISE.ctx.close()}catch(e){}Object.assign(NOISE,{on:false,lv:0,st:null,ctx:null});render()}
 function noiseUI(doc,N){N=N||NOISE;const lv=N.on?N.lv:0,b=doc.getElementById('nz-bar');if(b){b.style.width=Math.round(lv*100)+'%';b.style.background=lv>.75?'#dc2626':lv>.45?'#f59e0b':'#16a34a'}
   doc.querySelectorAll('.nz-red').forEach(i=>i.style.opacity=Math.min(1,Math.max(0,(lv-.2)/.65)).toFixed(2));
-  const z=doc.getElementById('nz');if(z){z.hidden=!N.on;z.classList.toggle('loud',lv>.85)}}
+  // Steht Elo auf der Folie, wird genau dieser Elo rot; sonst der kleine Elo unten links
+  const op=Math.min(1,Math.max(0,(lv-.2)/.65)).toFixed(2),se=[...doc.querySelectorAll('.sl-elo')];
+  se.forEach(e=>{let r=e.querySelector(':scope>.nz-red');const im=e.querySelector('img');if(!r&&N.on&&im){r=doc.createElement('i');r.className='nz-red';const u=`url("${im.getAttribute('src')}")`;r.style.webkitMaskImage=u;r.style.maskImage=u;e.appendChild(r)}
+    if(r)r.style.opacity=N.on?op:0;e.classList.toggle('nz-loud',!!N.on&&lv>.85)});
+  const z=doc.getElementById('nz');if(z){z.hidden=!N.on||se.some(e=>e.closest('#view'));z.classList.toggle('loud',lv>.85)}}
 function vwDo(k){const v=CS&&CS.vw;if(!v)return;const L=lessonById(CS.lesson.id),n=vwCards(L.phases[CS.step].tool).length;
   if(k==='flip'){v.open=!v.open;v.at=Date.now();if(v.open)audPlay('funkeln',false)}
   if(k==='ok'){v.sc[v.team]=(v.sc[v.team]||0)+1;audPlay('erfolg',false);k='next'}
