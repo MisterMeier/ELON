@@ -338,6 +338,13 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .dot.off{background:var(--muted);box-shadow:none}
 .ph-txt{color:var(--muted);font-weight:700;min-width:0}
 .ltimer{font-family:var(--f-display);font-weight:800;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.srail{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;gap:10px}
+.srail[hidden]{display:none}
+.sr-b{width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:var(--surface);box-shadow:0 4px 14px rgba(15,23,42,.18);display:grid;place-content:center;justify-items:center;gap:0;cursor:pointer;font:inherit;color:var(--ink);padding:0}
+.sr-b span{font-size:1.5rem;line-height:1}.sr-b small{font-size:.62rem;font-weight:800;line-height:1.1;margin-top:2px}
+.sr-b.on{background:#dc2626;border-color:#dc2626;color:#fff;animation:srp 1.6s ease-in-out infinite}.sr-b.ok{background:#16a34a;border-color:#16a34a;color:#fff}
+@keyframes srp{50%{box-shadow:0 0 0 8px rgba(220,38,38,.25)}}
+body.boardwin .srail{display:none!important}
 .lov{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(8px)}
 .lov[hidden]{display:none}
 .lov .box{max-width:480px;width:100%;background:var(--surface);border-radius:24px;border:3px solid var(--navy);padding:24px;box-shadow:var(--shadow);animation:pop .4s;max-height:100%;overflow:auto}
@@ -2242,7 +2249,7 @@ async function diarySync(){
   const todo=Object.keys(D).filter(d=>(D[d]||'').trim()&&S.diarySent[d]!==fp+'|'+dSig(D[d])).slice(-5);if(!todo.length)return;
   dBusy=true;try{for(const d of todo){const t=String(D[d]).slice(0,8000);sendMsg({k:'diary',d,...await dEnc(DK,{d,t})});S.diarySent[d]=fp+'|'+dSig(D[d])}save()}catch(e){console.warn(e)}dBusy=false}
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='abg-f'&&e.target.files&&e.target.files[0])imgShrink(e.target.files[0],1400,.72).then(u=>{V.abgImg=u;render()}).catch(()=>{V.abgErr='Das Bild ging nicht.';render()})});
-function updBanner(){
+function updBanner(){updRail();
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
   el.hidden=false;
@@ -2253,7 +2260,14 @@ function updBanner(){
     ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
     <span class="chip">${myAv()} ${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</span>
     <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
-}
+updRail()}
+// Knopfleiste am Rand: immer erreichbar, auch wenn ein Tafel-Hinweis den Bildschirm verdeckt
+function updRail(){let el=$('#srail');
+  if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000||V.name==='role'){if(el)el.hidden=true;return}
+  if(!el){el=document.createElement('div');el.id='srail';el.className='srail';document.body.appendChild(el)}
+  const inHelp=RCS.help.includes(S.nr),rd=RCS.ready&&!(S.readyDone&&S.readyDone[RCS.ready.id]);
+  const h=`<button class="sr-b ${inHelp?'on':''}" data-act="help" aria-pressed="${inHelp}"><span>🙋</span><small>${inHelp?'Gemeldet':'Hilfe'}</small></button>${rd?`<button class="sr-b ok" data-act="sr-ready"><span>✋</span><small>Bereit</small></button>`:''}`;
+  if(el.dataset.sig!==h){el.innerHTML=h;el.dataset.sig=h}el.hidden=false}
 function liveOverlay(){
   const el=$('#live-ov');
   if(S.role!=='student'||!RCS){el.hidden=true;lastOvSig='';return}
@@ -5039,6 +5053,7 @@ document.addEventListener('click',e=>{
     case 't-rk':CS.rocket=Math.max(0,Math.min(10,CS.rocket+(+d.d)));if(+d.d>0)CS.rocket>=10?SND.cheer():SND.right();pushCS();updTafel();break;
     case 't-cls':{const n=parseInt($('#t-cls').value,10);if(n>=2&&n<=40){S.classSize=n;save();updTafel()}break}
     case 'help':if(RCS)sendMsg({k:'help',on:!RCS.help.includes(S.nr)});break;
+    case 'sr-ready':{const b=$('#live-ov [data-act=ready]');if(b){if(b.disabled){b.closest('.box')&&b.closest('.box').animate([{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}],{duration:400})}else b.click()}else if(RCS&&RCS.ready&&prepGate(0)){S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id});SND.right();liveOverlay()}updRail();break}
     case 'ready':if(RCS&&RCS.ready){if(!prepGate(+d.n||0))break;S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id,...(RCS.ready.mood?{mood:MOODSEL}:{})});MOODSEL=null;SND.right();liveOverlay()}break;
     case 'vote':if(RCS&&RCS.poll){const qz=RCS.poll.type==='quiz';S.voted[RCS.poll.id]=qz?[+d.o]:1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
     case 'qz-tog':{const o=+d.o;QSEL=QSEL.includes(o)?QSEL.filter(x=>x!==o):[...QSEL,o].sort();liveOverlay();break}
