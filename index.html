@@ -2040,11 +2040,13 @@ function lotsenOk(){if(S.role!=='student')return false;const L=RCS&&Date.now()-r
 let dashSig='';
 // Freigegebene Inhalte übernehmen: live von der Lehrkraft oder aus der Server-Ablage (wenn die Lehrkraft gerade nicht online ist)
 const strHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=(h*33+t.charCodeAt(i))|0;return t.length+':'+h};
-function applyContent(p){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||S.tpk.n!==p.dpk.n)){S.tpk=p.dpk;save();mbFlush()}
+// Schlüssel der Lehrkraft (dpk): Ein Wechsel zählt nur aus der Datenbank oder aus dem geschützten privaten Kanal,
+// damit niemand im offenen Kanal einen fremden Schlüssel unterschieben kann.
+function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||(S.tpk.n!==p.dpk.n&&trusted))){S.tpk=p.dpk;save();mbFlush()}
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann]));if(hs===S.heftSig)return;
   S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me'].includes(V.name))render()}
-function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;applyContent(p);diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
+function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
@@ -2061,10 +2063,10 @@ async function dDec(priv,m){const C=crypto.subtle,sk=await C.importKey('jwk',pri
 const dSig=t=>{let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return t.length+':'+h};
 let dBusy=false;
 async function diarySync(){
-  if(dBusy||S.role!=='student'||!RCS||!RCS.dpk||!(window.crypto&&crypto.subtle))return;
-  const D=S.diary||{},fp=String(RCS.dpk.n||'').slice(0,16);S.diarySent=S.diarySent||{};
+  if(dBusy||S.role!=='student'||!RCS||!(S.tpk||RCS.dpk)||!(window.crypto&&crypto.subtle))return;const DK=S.tpk||RCS.dpk;
+  const D=S.diary||{},fp=String(DK.n||'').slice(0,16);S.diarySent=S.diarySent||{};
   const todo=Object.keys(D).filter(d=>(D[d]||'').trim()&&S.diarySent[d]!==fp+'|'+dSig(D[d])).slice(-5);if(!todo.length)return;
-  dBusy=true;try{for(const d of todo){const t=String(D[d]).slice(0,8000);sendMsg({k:'diary',d,...await dEnc(RCS.dpk,{d,t})});S.diarySent[d]=fp+'|'+dSig(D[d])}save()}catch(e){console.warn(e)}dBusy=false}
+  dBusy=true;try{for(const d of todo){const t=String(D[d]).slice(0,8000);sendMsg({k:'diary',d,...await dEnc(DK,{d,t})});S.diarySent[d]=fp+'|'+dSig(D[d])}save()}catch(e){console.warn(e)}dBusy=false}
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='abg-f'&&e.target.files&&e.target.files[0])imgShrink(e.target.files[0],1400,.72).then(u=>{V.abgImg=u;render()}).catch(()=>{V.abgErr='Das Bild ging nicht.';render()})});
 function updBanner(){
   const el=$('#live');
