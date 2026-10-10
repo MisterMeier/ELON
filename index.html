@@ -347,6 +347,31 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .land-st{position:absolute;left:1.2%;bottom:2%;background:rgba(255,255,255,.92);border-radius:999px;padding:.5cqw 1.6cqw;font-weight:800;font-size:clamp(.6rem,1.6cqw,1rem);color:#1e3a8a}
 @media (prefers-reduced-motion:reduce){.land-elo{animation:none;transition:none}}
 .bw-idle{position:relative;background:#eef2ff;overflow:hidden}.bw-idle>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.v-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.v-card{margin:0;background:#fff;border:2px solid #e0e7ff;border-radius:16px;padding:10px;display:grid;justify-items:center;gap:6px;min-width:96px;max-width:150px;flex:1 1 96px;text-align:center;box-shadow:0 2px 8px rgba(30,58,138,.06)}
+.v-card figcaption{display:grid;gap:2px;font-weight:700;font-size:.9rem;color:#1e3a8a;line-height:1.2}.v-card figcaption span{color:#475569;font-weight:700;font-size:.85rem}
+.v-clock{width:100%;max-width:110px;height:auto;display:block}
+.v-pic{font-size:2.6rem;line-height:1.1}.v-pic.v-txt{font-family:var(--f-display);font-size:1.7rem;color:#4f46e5}
+.v-sw{width:56px;height:56px;border-radius:50%;border:2px solid #cbd5e1;display:block}
+.v-dlg{display:grid;gap:8px;margin:10px 0;max-width:560px}.v-msg{display:flex;gap:8px;align-items:flex-end}.v-msg.r{flex-direction:row-reverse}
+.v-who{font-size:1.8rem;line-height:1}.v-bub{background:#eef2ff;border:2px solid #c7d2fe;border-radius:16px 16px 16px 4px;padding:8px 12px;font-weight:700;color:#1e3a8a}.v-msg.r .v-bub{background:#4f46e5;border-color:#4f46e5;color:#fff;border-radius:16px 16px 4px 16px}
+.v-satz{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.v-blk{position:relative;background:#e0f2fe;border:2px solid #7dd3fc;border-radius:12px;padding:12px 14px 8px;font-weight:800;color:#1e3a8a}.v-blk small{position:absolute;top:1px;left:6px;font-size:.62rem;color:#64748b}
+.v-blk.vb{background:#4f46e5;border-color:#4f46e5;color:#fff}.v-blk.vb small{color:#c7d2fe}.v-vb{color:inherit}.v-blk:not(.vb) .v-vb{color:#4f46e5}.v-ar{color:#c2410c;background:#ffedd5;border-radius:6px;padding:0 4px}
+.v-zahl figcaption{grid-auto-flow:column;gap:4px;align-items:center}.v-e{background:#e0f2fe;border-radius:8px;padding:2px 6px}.v-z{background:#ede9fe;border-radius:8px;padding:2px 6px}.v-u{color:#64748b}
+.v-geld{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}.v-geld b{color:#1e3a8a;font-size:1.05rem;margin-left:6px}
+.v-note{background:linear-gradient(135deg,#bfdbfe,#c7d2fe);border:2px solid #6366f1;border-radius:8px;padding:10px 14px;font-weight:800;color:#1e3a8a}
+.v-coin{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:800;color:#78350f;background:radial-gradient(circle at 35% 30%,#fef3c7,#f59e0b);border:2px solid #d97706}.v-coin.cu{background:radial-gradient(circle at 35% 30%,#fed7aa,#c2410c);color:#fff;border-color:#9a3412;width:38px;height:38px}
+.v-prae{width:100%;max-width:110px}
+.v-wide{margin:12px 0;background:#fff;border:2px solid #e0e7ff;border-radius:16px;padding:12px}.v-wide figcaption{font-weight:700;color:#475569;font-size:.9rem;margin-top:6px}.v-wide svg{width:100%;max-width:560px;display:block;margin:0 auto}
+.v-kach{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}.v-kach i{font-style:normal;font-weight:800;color:#1e3a8a;font-size:1.3rem;padding:0 4px}
+.v-k{display:grid;place-items:center;font-weight:800;color:#fff;border-radius:6px}.v-k.kx{width:26px;height:78px;background:#4f46e5}.v-k.ky{width:26px;height:58px;background:#a855f7}.v-k.k1{width:26px;height:26px;background:#f59e0b}
+.v-proz{max-width:190px}.v-hund{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:150px}.v-hund i{aspect-ratio:1;background:#e0e7ff;border-radius:2px}.v-hund i.on{background:#4f46e5}
+.v-gw-bar{height:44px;background:#e0e7ff;border:2px solid #1e3a8a;border-radius:10px;overflow:hidden}.v-gw-bar i{display:grid;place-items:center;height:100%;background:#4f46e5;color:#fff;font-weight:800;font-style:normal}
+.v-gw-l span{display:block;text-align:center;font-weight:800;color:#4f46e5;font-size:.85rem;margin-top:4px;min-width:90px}.v-gw-all{text-align:center;font-weight:800;color:#1e3a8a;margin-top:2px;border-top:2px dashed #1e3a8a;padding-top:4px}
+.v-ds{display:grid;gap:4px;max-width:420px;margin:0 auto}.v-ds-row{display:flex;gap:10px;justify-content:center;align-items:center}.v-ds-row b{background:#eef2ff;border:2px solid #c7d2fe;border-radius:10px;padding:6px 12px;color:#1e3a8a;min-width:110px;text-align:center}.v-ds-row i{font-style:normal;color:#64748b}
+.v-ds-op{display:flex;justify-content:space-between;padding:0 30px;color:#f59e0b;font-weight:800}
+.ak-c .v-clock,.qz-pick .v-clock,.ak-mc h2 .v-clock{width:4.2em;display:inline-block;vertical-align:middle}
+.clsbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#eef2ff;border:2px solid #c7d2fe;border-radius:14px;padding:8px 12px;margin:0 0 12px;font-weight:700;color:#334155}.clsbar>b{background:#4f46e5;color:#fff;border-radius:999px;padding:3px 12px}
 .srail{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;gap:10px}
 .srail[hidden]{display:none}
 .sr-b{width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:var(--surface);box-shadow:0 4px 14px rgba(15,23,42,.18);display:grid;place-content:center;justify-items:center;gap:0;cursor:pointer;font:inherit;color:var(--ink);padding:0}
@@ -1686,6 +1711,7 @@ function heftBlocks(t){const out=[];let list=null,tab=null;
     else if(/^achtung:?/i.test(l))out.push(['achtung',esc(l.replace(/^achtung:?\s*/i,''))]);
     else if(/^(falsch|✗)\s*:?/i.test(l))out.push(['no',esc(l.replace(/^(falsch|✗)\s*:?\s*/i,''))]);
     else if(/^(richtig|✓)\s*:?/i.test(l))out.push(['yes',esc(l.replace(/^(richtig|✓)\s*:?\s*/i,''))]);
+    else if(VISRE.test(l)){const m=VISRE.exec(l);out.push(['vis',m[1].toLowerCase(),m[2]])}
     else if(/^\[bild:\s*[a-z]+\s*\]$/i.test(l))out.push(['fig',l.replace(/^\[bild:\s*|\s*\]$/gi,'').toLowerCase()]);
     else out.push(['p',esc(l)])});
   return out}
@@ -1693,9 +1719,64 @@ const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,s:e.s,
 const heftSort=(a,b)=>a.o!=null&&b.o!=null?a.o-b.o:a.o!=null?-1:b.o!=null?1:b.date.localeCompare(a.date);
 // DaZ: Artikel in Farbe (der blau, die rot, das grün), nur wenn die Zeile mit dem Artikel beginnt
 const artC=x=>{const m=/^(der|die|das)\s/.exec(x);return m?`<span class="art-${m[1]}">${m[1]}</span>`+esc(x.slice(3)):esc(x)};
+// ===== Anschauung im Heft: Zeilen wie [uhr: 8:30=halb neun | 8:45] werden zu Bildern =====
+// Farben aus dem ELIO-Design: Navy, Indigo, Himmelblau, dazu Orange als Hervorhebung
+const VC={n:'#1e3a8a',i:'#4f46e5',b:'#38bdf8',o:'#f59e0b',l:'#eef2ff',g:'#16a34a',r:'#dc2626'};
+const vSplit=a=>String(a||'').split('|').map(x=>x.trim()).filter(Boolean);
+// Analoge Uhr mit Zeigern
+function clockSVG(h,m,sz){h=+h||0;m=+m||0;const ha=((h%12)+m/60)*30,ma=m*6,P=(a,r)=>[50+r*Math.sin(a*Math.PI/180),50-r*Math.cos(a*Math.PI/180)].map(v=>v.toFixed(1)).join(' ');
+  let t='';for(let k=0;k<60;k++){const big=k%5===0,a=k*6;t+=`<line x1="${P(a,big?38:41).split(' ')[0]}" y1="${P(a,big?38:41).split(' ')[1]}" x2="${P(a,44).split(' ')[0]}" y2="${P(a,44).split(' ')[1]}" stroke="${VC.n}" stroke-width="${big?2.2:.8}" stroke-linecap="round"/>`}
+  for(let k=1;k<=12;k++){const [x,y]=P(k*30,31).split(' ');t+=`<text x="${x}" y="${+y+3.6}" text-anchor="middle" font-size="10" font-weight="800" fill="${VC.n}">${k}</text>`}
+  return `<svg class="v-clock" ${sz?`style="width:${sz}"`:''} viewBox="0 0 100 100" role="img" aria-label="Uhr: ${h}:${String(m).padStart(2,'0')}"><circle cx="50" cy="50" r="47" fill="#fff" stroke="${VC.n}" stroke-width="4"/>${t}
+    <line x1="50" y1="50" x2="${P(ha,22).split(' ')[0]}" y2="${P(ha,22).split(' ')[1]}" stroke="${VC.n}" stroke-width="5.5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="${P(ma,35).split(' ')[0]}" y2="${P(ma,35).split(' ')[1]}" stroke="${VC.i}" stroke-width="3.2" stroke-linecap="round"/><circle cx="50" cy="50" r="3.6" fill="${VC.o}"/></svg>`}
+// Zahlwörter (für Zahlen-Bausteine)
+const ZW=['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'],ZZ={2:'zwanzig',3:'dreißig',4:'vierzig',5:'fünfzig',6:'sechzig',7:'siebzig',8:'achtzig',9:'neunzig'};
+// Geld: Scheine und Münzen
+function geldHTML(a){const c=Math.round(parseFloat(String(a).replace(',','.'))*100);if(!(c>0))return '';let r=c,out=[];
+  [[5000,'50 €','n'],[2000,'20 €','n'],[1000,'10 €','n'],[500,'5 €','n'],[200,'2 €','c'],[100,'1 €','c'],[50,'50 ct','c'],[20,'20 ct','c'],[10,'10 ct','c'],[5,'5 ct','k'],[2,'2 ct','k'],[1,'1 ct','k']].forEach(([v,l,k])=>{while(r>=v){r-=v;out.push(`<span class="v-${k==='n'?'note':'coin'} ${k==='k'?'cu':''}">${l}</span>`)}});
+  return `<div class="v-geld">${out.join('')}<b>= ${(c/100).toFixed(2).replace('.',',')} €</b></div>`}
+// Satzbau-Bausteine: *Verb* indigo, _Artikel_ orange
+const vMark=x=>esc(x).replace(/\*([^*]+)\*/g,'<b class="v-vb">$1</b>').replace(/_([^_]+)_/g,'<b class="v-ar">$1</b>');
+const VIS={
+  uhr:a=>`<div class="v-row">${vSplit(a).map(x=>{const [t,cap]=x.split('=');const [h,m]=t.trim().split(':');return `<figure class="v-card">${clockSVG(h,m)}<figcaption><b>${esc(t.trim())}</b>${cap?`<span>${esc(cap.trim())}</span>`:''}</figcaption></figure>`}).join('')}</div>`,
+  bilder:a=>`<div class="v-row v-pics">${vSplit(a).map(x=>{const sp=x.indexOf(' '),p=sp>0?x.slice(0,sp):x,l=sp>0?x.slice(sp+1):'';return `<figure class="v-card"><span class="v-pic ${/^[\p{L}\d]+$/u.test(p)?'v-txt':''}">${esc(p)}</span>${l?`<figcaption>${artC(l)}</figcaption>`:''}</figure>`}).join('')}</div>`,
+  farben:a=>`<div class="v-row v-pics">${vSplit(a).map(x=>{const [n,c]=x.split('=').map(s=>s.trim());return `<figure class="v-card"><span class="v-sw" style="background:${/^#[0-9a-f]{3,6}$/i.test(c||'')?c:'#ccc'}"></span><figcaption>${esc(n)}</figcaption></figure>`}).join('')}</div>`,
+  dialog:a=>`<div class="v-dlg">${vSplit(a).map((x,i)=>{const sp=x.indexOf(' ');const who=x.slice(0,sp),t=x.slice(sp+1);return `<div class="v-msg ${i%2?'r':''}"><span class="v-who">${esc(who)}</span><span class="v-bub">${esc(t)}</span></div>`}).join('')}</div>`,
+  satz:a=>`<div class="v-satz">${vSplit(a).map((x,i)=>`<span class="v-blk ${/^\*[^*]+\*$/.test(x)?'vb':''}"><small>${i+1}</small>${vMark(x)}</span>`).join('')}</div>`,
+  zahl:a=>`<div class="v-row">${vSplit(a).map(x=>{const n=+x;if(!(n>=21&&n<=99)||n%10===0)return `<figure class="v-card"><span class="v-pic v-txt">${esc(x)}</span></figure>`;const e=n%10,z=Math.floor(n/10);
+    return `<figure class="v-card v-zahl"><span class="v-pic v-txt">${n}</span><figcaption><span class="v-e">① ${e===1?'ein':ZW[e]}</span><span class="v-u">und</span><span class="v-z">② ${ZZ[z]}</span></figcaption></figure>`}).join('')}</div>`,
+  geld:a=>vSplit(a).map(geldHTML).join(''),
+  praep:a=>{const S=k=>{const box='<rect x="30" y="38" width="40" height="30" rx="3" fill="#c7d2fe" stroke="'+VC.n+'" stroke-width="2"/>',P={in:[50,56],auf:[50,30],unter:[50,80],neben:[84,58],vor:[42,62],hinter:[60,40]}[k]||[50,30];
+      const cat=`<text x="${P[0]}" y="${P[1]}" font-size="20" text-anchor="middle" dominant-baseline="middle">🐱</text>`;
+      return `<figure class="v-card"><svg viewBox="0 0 100 92" class="v-prae">${k==='hinter'?cat+box:k==='in'?box.replace('fill="#c7d2fe"','fill="#e0e7ff"')+cat+'<rect x="30" y="38" width="40" height="12" fill="#c7d2fe" opacity=".9"/>':box+cat}</svg><figcaption><b>${esc(k)}</b></figcaption></figure>`};
+    return `<div class="v-row">${vSplit(a).map(S).join('')}</div>`},
+  waage:a=>{const [l,r]=vSplit(a);return `<figure class="v-wide"><svg viewBox="0 0 360 170" class="v-waage" role="img" aria-label="Waage: ${esc(l)} = ${esc(r)}"><polygon points="180,60 160,160 200,160" fill="${VC.n}"/><rect x="40" y="52" width="280" height="8" rx="4" fill="${VC.i}"/><circle cx="180" cy="56" r="7" fill="${VC.o}"/>
+    <path d="M70 60 L50 100 H130 L110 60" fill="none" stroke="${VC.n}" stroke-width="2"/><path d="M250 60 L230 100 H310 L290 60" fill="none" stroke="${VC.n}" stroke-width="2"/><rect x="30" y="100" width="120" height="34" rx="10" fill="#e0e7ff" stroke="${VC.n}" stroke-width="2"/><rect x="210" y="100" width="120" height="34" rx="10" fill="#e0e7ff" stroke="${VC.n}" stroke-width="2"/>
+    <text x="90" y="123" text-anchor="middle" font-size="18" font-weight="800" fill="${VC.n}">${esc(l||'')}</text><text x="270" y="123" text-anchor="middle" font-size="18" font-weight="800" fill="${VC.n}">${esc(r||'')}</text><text x="180" y="40" text-anchor="middle" font-size="22" font-weight="800" fill="${VC.o}">=</text></svg>
+    <figcaption>Beide Seiten sind gleich schwer. Was du links tust, tust du auch rechts.</figcaption></figure>`},
+  kacheln:a=>{const t=String(a).replace(/\s/g,''),cx=+(/(\d*)x/.exec(t)||[])[1]||(/x/.test(t)?1:0),cy=+(/(\d*)y/.exec(t)||[])[1]||(/y/.test(t)?1:0),c=+(/(?:^|\+)(\d+)(?![xy\d])/.exec(t)||[])[1]||0;
+    const k=(n,cl,l)=>Array.from({length:Math.min(n,12)},()=>`<span class="v-k ${cl}">${l}</span>`).join('');
+    return `<figure class="v-wide"><div class="v-kach">${k(cx,'kx','x')}${cy?'<i>+</i>'+k(cy,'ky','y'):''}${c?'<i>+</i>'+k(c,'k1','1'):''}</div><figcaption><b>${esc(a)}</b> · lange Streifen = x${cy?', lila Streifen = y':''}, kleine Quadrate = 1</figcaption></figure>`},
+  prozent:a=>vSplit(a).map(x=>{const p=Math.max(0,Math.min(100,Math.round(+String(x).replace(',','.'))));return `<figure class="v-card v-proz"><div class="v-hund">${Array.from({length:100},(_,i)=>`<i class="${i<p?'on':''}"></i>`).join('')}</div><figcaption><b>${p} %</b><span>= ${p}/100${p===50?' = 1/2':p===25?' = 1/4':p===75?' = 3/4':p===10?' = 1/10':p===20?' = 1/5':''}</span></figcaption></figure>`}).join(''),
+  grundwert:a=>{const [p,pw,gw]=vSplit(a),q=Math.max(0,Math.min(100,+String(p).replace(/[^\d,.]/g,'').replace(',','.')));return `<figure class="v-wide"><div class="v-gw"><div class="v-gw-bar"><i style="width:${q}%"><span>${esc(pw||'')}</span></i></div>
+    <div class="v-gw-l"><span style="width:${q}%">Prozentwert · ${esc(p)}</span></div><div class="v-gw-all">Grundwert · ${esc(gw||'')} · 100 %</div></div><figcaption>Der ganze Streifen ist der Grundwert (100 %). Der farbige Teil ist der Prozentwert.</figcaption></figure>`},
+  strahl:a=>{const [lo,hi,mk]=vSplit(a),A=+String(lo).replace(',','.'),B=+String(hi).replace(',','.'),M=String(mk||'').split(/[;,]\s*(?=-?\d)/).map(x=>+x.replace(',','.')).filter(x=>!isNaN(x));if(!(B>A))return '';
+    const X=v=>20+(v-A)/(B-A)*520;let t='';for(let v=Math.ceil(A);v<=B;v++)t+=`<line x1="${X(v)}" y1="${v===0?32:36}" x2="${X(v)}" y2="${v===0?64:56}" stroke="${VC.n}" stroke-width="${v===0?3:1.6}"/><text x="${X(v)}" y="80" text-anchor="middle" font-size="14" font-weight="800" fill="${v<0?VC.r:v>0?VC.i:VC.n}">${v}</text>`;
+    return `<figure class="v-wide"><svg viewBox="0 0 560 96" class="v-strahl"><line x1="10" y1="46" x2="550" y2="46" stroke="${VC.n}" stroke-width="2.5"/><polygon points="552,46 540,40 540,52" fill="${VC.n}"/>${t}${M.map(v=>`<circle cx="${X(v)}" cy="46" r="7" fill="${VC.o}" stroke="#fff" stroke-width="2"/><text x="${X(v)}" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="${VC.o}">${String(v).replace('.',',')}</text>`).join('')}</svg>
+    <figcaption>Links von 0: negative Zahlen (rot) · rechts von 0: positive Zahlen</figcaption></figure>`},
+  bruch:a=>`<div class="v-row">${vSplit(a).map(x=>{const [z,n]=x.split('/').map(Number);if(!(n>0&&z>=0&&z<=n))return '';let p='';for(let k=0;k<n;k++){const a0=k/n*2*Math.PI-Math.PI/2,a1=(k+1)/n*2*Math.PI-Math.PI/2,lg=1/n>.5?1:0;
+      p+=n===1?`<circle cx="50" cy="50" r="44" fill="${k<z?VC.i:'#fff'}" stroke="${VC.n}" stroke-width="2"/>`:`<path d="M50 50 L${50+44*Math.cos(a0)} ${50+44*Math.sin(a0)} A44 44 0 ${lg} 1 ${50+44*Math.cos(a1)} ${50+44*Math.sin(a1)}Z" fill="${k<z?VC.i:'#fff'}" stroke="${VC.n}" stroke-width="2"/>`}
+    return `<figure class="v-card"><svg viewBox="0 0 100 100" class="v-clock">${p}</svg><figcaption><b>${z}/${n}</b><span>= ${Math.round(z/n*1000)/10} %</span></figcaption></figure>`}).join('')}</div>`,
+  dreisatz:a=>{const R=vSplit(a);return `<figure class="v-wide"><div class="v-ds">${R.map((x,i)=>i%2?`<div class="v-ds-op"><span>${esc(x)}</span><span>${esc(x)}</span></div>`:`<div class="v-ds-row">${x.split('=').map(s=>`<b>${esc(s.trim())}</b>`).join('<i>→</i>')}</div>`).join('')}</div><figcaption>Was du links rechnest, rechnest du auch rechts.</figcaption></figure>`},
+};
+const VISRE=/^\[(uhr|bilder|farben|dialog|satz|zahl|geld|praep|waage|kacheln|prozent|grundwert|strahl|bruch|dreisatz):\s*(.*)\]$/i;
+// Bilder auch mitten im Übungstext: [uhr 8:30] wird eine kleine Uhr
+const vesc=x=>esc(x).replace(/\[uhr (\d{1,2}):(\d\d)\]/g,(_,h,m)=>clockSVG(h,m,'4.2em'));
 function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
     case 'fig':return FIGS[b[1]]?FIGS[b[1]]():'';
+    case 'vis':try{return VIS[b[1]](b[2])}catch(e){return ''}
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
@@ -2018,7 +2099,14 @@ function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.m
 
 /* --- Teacher side: holds the class state and sends it to all iPads --- */
 let CS=null,ROSTER={},TALLY={};
-function initTeacher(){
+// Schülerbezogene Lehrerdaten gehören immer zu einer Klasse: Spitznamen, Avatare, Beobachtungen, Teams.
+// Oben in TD liegen nur die Daten der aktiven Klasse, die anderen Klassen warten in TD.cd[Klasse].
+const TD_PER=['nicks','avs','obs','teams'];let ROSTER_CLS=null;
+function tdCls(){if(!TD||S.role!=='teacher')return;const now=S.cls||'-';TD.cd=TD.cd||{};
+  if(TD._cls===undefined){TD._cls=now;return}
+  if(TD._cls===now)return;const old={};TD_PER.forEach(k=>{old[k]=TD[k]||{}});TD.cd[TD._cls]=old;
+  const nw=TD.cd[now]||{};TD_PER.forEach(k=>{TD[k]=nw[k]||{}});delete TD.cd[now];TD._cls=now;if(TDKEY)tsave()}
+function initTeacher(){tdCls();if(ROSTER_CLS!==(S.cls||'-')){ROSTER={};TALLY={};ROSTER_CLS=S.cls||'-'}
   CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:false,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
   CS.poll=null;CS.ready=null;CS.journal=null;CS.share=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
 }
@@ -2651,7 +2739,8 @@ async function noiseOn(){NOISE.err='';try{const st=await navigator.mediaDevices.
   catch(e){NOISE.on=false;NOISE.err='Kein Zugriff aufs Mikrofon. Erlaube es in der Adresszeile des Browsers.'}render()}
 function noiseOff(){clearInterval(NOISE.iv);try{NOISE.st&&NOISE.st.getTracks().forEach(t=>t.stop());NOISE.ctx&&NOISE.ctx.close()}catch(e){}Object.assign(NOISE,{on:false,lv:0,st:null,ctx:null});render()}
 // Elo sagt „Psst!“: Zischlaut plus Satz in der natürlichsten Stimme des Geräts, höchstens alle 12 Sekunden
-const ELO_SH=['Psst! Bitte wieder leiser.','Pssst! Es ist zu laut.','Psst! Leise, bitte.','Huhu! Ich kann nichts mehr hören. Psst!'];let shushAt=0,shushEl=null;
+// Den Zischlaut spielt psst.mp3, die Stimme sagt nur ganze Wörter (sonst buchstabiert sie „P-S-S-T“)
+const ELO_SH=['Bitte wieder leiser.','Es ist zu laut.','Leise, bitte.','Huhu! Ich kann nichts mehr hören.','Pause für die Ohren, bitte leiser.'];let shushAt=0,shushEl=null;
 function eloShush(lv){if(lv<=.85||Date.now()-shushAt<12000||NOISE.mute)return;shushAt=Date.now();
   try{if(!shushEl)shushEl=new Audio('assets/audio/psst.mp3');shushEl.currentTime=0;shushEl.play().catch(()=>{})}catch(e){}
   setTimeout(()=>{try{const u=new SpeechSynthesisUtterance(pick(ELO_SH));u.lang='de-DE';u.rate=.95;u.pitch=1.15;const v=bestVoice('de-DE');if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}},900)}
@@ -2727,7 +2816,7 @@ function tsave(){if(!TDKEY||!(window.crypto&&crypto.subtle))return;const n=++TDS
   crypto.subtle.encrypt({name:'AES-GCM',iv},TDKEY,new TextEncoder().encode(JSON.stringify(TD))).then(ct=>{if(n!==TDSEQ)return;try{localStorage.setItem(TKEY,JSON.stringify({vault:1,salt,it,iv:b64e(iv),ct:b64e(ct)}))}catch(e){console.warn(e)}})}
 async function tdDerive(pw,salt,it){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
   return crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(salt),iterations:it,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
-function tdDefaults(){TD.obs=TD.obs||{};TD.nicks=TD.nicks||{};if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}TD.plan=TD.plan||{}}
+function tdDefaults(){tdCls();TD.obs=TD.obs||{};TD.nicks=TD.nicks||{};if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}TD.plan=TD.plan||{}}
 // Passwörter ändern: Geräte-Passwort (Tresor neu verschlüsseln) und Konto-Passwort (Supabase)
 async function pwDevice(){const o=$('#pw-old').value||'',n=$('#pw-new').value||'',n2=$('#pw-new2').value||'',v=tdVault();V.pwErr=1;
   if(n.length<4){V.pwMsg='Das neue Passwort braucht mindestens 4 Zeichen.';render();return}if(n!==n2){V.pwMsg='Die neuen Passwörter sind nicht gleich.';render();return}
@@ -3379,8 +3468,8 @@ const AKT={
     parse:t=>({pairs:akLines(t).map(akSplit).filter(Boolean).slice(0,10)}),
     count:d=>d.pairs.length+' Paare',
     init:d=>({L:shuffle(d.pairs.map((_,i)=>i)),R:shuffle(d.pairs.map((_,i)=>i)),sel:null,dl:{},dr:{},bad:null,tries:0}),
-    view:(d,s)=>`<p class="ak-hint">Tippe links auf einen Begriff und dann rechts auf den passenden Partner.</p><div class="ak-match"><div>${s.L.map(i=>`<button class="ak-c ${s.dl[i]?'ok':''} ${s.sel===i?'on':''}" data-act="ak" data-k="l" data-i="${i}" ${s.dl[i]?'disabled':''}>${esc(d.pairs[i][0])}</button>`).join('')}</div>
-      <div>${s.R.map(i=>`<button class="ak-c r ${s.dr[i]?'ok':''} ${s.bad===i?'no':''}" data-act="ak" data-k="r" data-i="${i}" ${s.dr[i]?'disabled':''}>${esc(d.pairs[i][1])}</button>`).join('')}</div></div>`,
+    view:(d,s)=>`<p class="ak-hint">Tippe links auf einen Begriff und dann rechts auf den passenden Partner.</p><div class="ak-match"><div>${s.L.map(i=>`<button class="ak-c ${s.dl[i]?'ok':''} ${s.sel===i?'on':''}" data-act="ak" data-k="l" data-i="${i}" ${s.dl[i]?'disabled':''}>${vesc(d.pairs[i][0])}</button>`).join('')}</div>
+      <div>${s.R.map(i=>`<button class="ak-c r ${s.dr[i]?'ok':''} ${s.bad===i?'no':''}" data-act="ak" data-k="r" data-i="${i}" ${s.dr[i]?'disabled':''}>${vesc(d.pairs[i][1])}</button>`).join('')}</div></div>`,
     act:(d,s,a)=>{const i=+a.i;if(a.k==='l'){s.sel=i;s.bad=null;return}if(s.sel==null)return;
       if(d.pairs[s.sel][1]===d.pairs[i][1]){s.dl[s.sel]=1;s.dr[i]=1;s.sel=null;s.bad=null;SND.right();if(Object.keys(s.dl).length>=d.pairs.length)s.win=true}
       else{s.bad=i;s.tries++;SND.oops()}}},
@@ -3404,8 +3493,8 @@ const AKT={
     parse:t=>({qs:akQs(t).slice(0,20)}),count:d=>d.qs.length+' Fragen',
     init:d=>({i:0,sel:[],fb:null,score:0}),
     view:(d,s)=>{const q=d.qs[s.i];if(!q)return '';const multi=q.opts.filter(o=>o.ok).length>1;
-      return `<div class="ak-mc"><span class="label">Frage ${s.i+1} von ${d.qs.length}${multi?' · mehrere Antworten richtig':''}</span><h2>${esc(q.q)}</h2>
-        <div class="qz-pick">${q.opts.map((o,j)=>`<button class="${s.sel.includes(j)?'on':''} ${s.fb?(o.ok?'ok':s.sel.includes(j)?'no':''):''}" style="--qc:${QZ_C[j%8]}" data-act="ak" data-k="o" data-i="${j}" ${s.fb?'disabled':''}><b>${ABC(j)}</b><span>${esc(o.t)}</span></button>`).join('')}</div>
+      return `<div class="ak-mc"><span class="label">Frage ${s.i+1} von ${d.qs.length}${multi?' · mehrere Antworten richtig':''}</span><h2>${vesc(q.q)}</h2>
+        <div class="qz-pick">${q.opts.map((o,j)=>`<button class="${s.sel.includes(j)?'on':''} ${s.fb?(o.ok?'ok':s.sel.includes(j)?'no':''):''}" style="--qc:${QZ_C[j%8]}" data-act="ak" data-k="o" data-i="${j}" ${s.fb?'disabled':''}><b>${ABC(j)}</b><span>${vesc(o.t)}</span></button>`).join('')}</div>
         <div class="row" style="justify-content:center;margin-top:12px">${s.fb?`<span class="fb ${s.fb}">${s.fb==='ok'?'Richtig!':'Leider nicht. Die grünen sind richtig.'}</span><button class="btn pri" data-act="ak" data-k="next">${s.i+1<d.qs.length?'Weiter':'Fertig'}</button>`:`<button class="btn pri" data-act="ak" data-k="chk" ${s.sel.length?'':'disabled'}>Prüfen</button>`}</div></div>`},
     act:(d,s,a)=>{const q=d.qs[s.i],multi=q.opts.filter(o=>o.ok).length>1;
       if(a.k==='o'){const j=+a.i;s.sel=multi?(s.sel.includes(j)?s.sel.filter(x=>x!==j):[...s.sel,j]):[j];return}
@@ -4567,7 +4656,7 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
     return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
       <div class="sboxes">${box('heft','<img class="si-owl" src="assets/elo/elo-heft.png" alt="">','Hefteintrag','zum Abschreiben')}${box('ub','<img class="si-owl" src="assets/elo/elo-uebung.png" alt="">','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo-hilfe.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
-  ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
+  ${T?clsBar():''}${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
   <div style="display:grid;gap:16px;align-content:start">
     ${(()=>{const n=es.filter(e=>e.mt).length,id=stId(k,ch),m=(S.mt||{})[id];return n?`<section class="panel station st-self"><div class="row" style="justify-content:space-between"><div><h2>🎓 Selbsttest zum Kapitel</h2><p class="muted" style="font-weight:700">Wie gut kannst du das ganze Kapitel? Zwei Fragen aus jedem Unterkapitel. Vorne steht, aus welchem sie kommen, so siehst du, was du wiederholen solltest.</p></div>
@@ -4577,13 +4666,15 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
         return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
           ${sh?`<div class="fl-a"><b>Lösung:</b> ${esc(f.a)}</div>${T||ok?`<button class="btn sm" data-act="mx-tog" data-k="f${i}" style="margin-top:6px">Lösung verbergen</button>`:''}`:`<button class="btn sm" data-act="mx-tog" data-k="f${i}">👀 Lösung zeigen</button>`}
           ${!T&&sh&&!ok?`<div class="row" style="margin-top:6px"><button class="btn sm ok" data-act="fl-ok" data-k="${esc(key)}" data-p="${f.p}">Hatte ich richtig (+${f.p})</button><button class="btn sm" data-act="mx-tog" data-k="f${i}">Nochmal probieren</button></div>`:ok?'<span class="chip ok">✓ geschafft</span>':''}</div>`}).join('')||'<div class="empty">Kommt noch.</div>'}</section></div></div>`};
+// Für welche Klasse gilt das hier? Immer sichtbar, mit Umschalter, damit nichts in der falschen Klasse landet
+function clsBar(){const mc=CLOUD&&Cloud.myClasses||[];return `<div class="clsbar"><span>Alles hier gilt nur für</span><b>${esc(className())}</b>${mc.length>1?`<span class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</span>`:''}</div>`}
 VIEWS.tdesk=()=>{const ks=[...new Set(['M','DZ',...tHeft().map(e=>e.s)])];
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>${clsBar()}
   <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
     return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody"><b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
     <button class="folder" data-act="theft"><span class="tab"></span><span class="fbody"><b>+ Neuer Eintrag</b><small>Hefteintrag für ein Fach schreiben</small></span></button></div>`};
 VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
-  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>${clsBar()}
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='M'?'Jahresplan':'Lernlandschaft'} laden</button></div></section>`:''}
@@ -4592,7 +4683,7 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
 const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
-  return `<div class="subj-head"><button class="btn sm" data-act="tdesk">← Schreibtisch</button><h1>Regelheft · ${esc(className())}</h1></div>
+  return `<div class="subj-head"><button class="btn sm" data-act="tdesk">← Schreibtisch</button><h1>Regelheft · ${esc(className())}</h1></div>${clsBar()}
   <section class="panel"><span class="label">Neuer Hefteintrag · erscheint im Regelheft aller SuS</span>
     <div class="lgrid" style="margin-top:8px"><label>Fach<select id="hf-s">${Object.keys(SUBJECTS).map(x=>`<option value="${x}" ${x===k?'selected':''}>${SUBJECTS[x].name}</option>`).join('')}</select></label>
       <label>Titel<input id="hf-t" type="text" maxlength="80" placeholder="z. B. Terme vereinfachen"></label>
