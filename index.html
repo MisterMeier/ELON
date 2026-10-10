@@ -38,11 +38,14 @@ button{font:inherit;color:inherit}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1;letter-spacing:.02em}
+:root{--brand-g:linear-gradient(120deg,#1f7bff 0%,#3d55f0 55%,#6b4cf6 100%);--brand-ink:#2c3ad6}
+.logo,.biglogo{color:var(--brand-ink)}@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .logo,:root:not([data-theme=light]) .biglogo{color:#a9b6ff}}:root[data-theme=dark] .logo,:root[data-theme=dark] .biglogo{color:#a9b6ff}
+.lg-t{letter-spacing:.04em}
 .lg-e{height:1em;width:auto;margin:0 2px 0 0;display:inline-block}.biglogo .lg-e{height:.82em}
 .si-owl{width:1.6em;height:1.6em;border-radius:50%;background:#fff;object-fit:cover;vertical-align:middle}
 .elo-help{display:flex;gap:12px;align-items:center;margin-bottom:10px}.elo-help img{width:84px;height:84px;border-radius:50%;background:#fff;box-shadow:var(--shadow);flex:none;object-fit:cover}.elo-help .bub{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 12px;font-weight:800}
-.logo .on{display:inline-flex;align-items:center;gap:5px;background:var(--green);color:var(--on-accent);border-radius:999px;padding:2px 4px 0 11px}
-.logo .on i{width:18px;height:18px;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-2px}
+.logo .on{display:inline-flex;align-items:center;gap:5px;background:var(--brand-g);color:#fff;border-radius:999px;padding:2px 4px 0 11px}
+.logo .on i{width:18px;height:18px;border-radius:50%;background:#fff;display:inline-block;margin-top:-2px}
 .nav{display:flex;gap:6px;flex-wrap:wrap}
 .nav button{border:0;background:none;padding:8px 12px;border-radius:12px;font-weight:800;cursor:pointer;color:var(--muted);min-height:42px}
 .nav button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
@@ -71,7 +74,8 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .empty{padding:22px;border:2px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);font-weight:700}
 
 /* Subject colours: fixed, white text works in both themes */
-.s-WK{--sc:#b0521a}.s-ES{--sc:#c2477f}.s-T{--sc:#55606e}.s-S{--sc:#1f8f4e}.s-GS{--sc:#8d6b12}.s-ET{--sc:#5b57b8}.s-R{--sc:#7a4a2a}.s-GD{--sc:#3d6f8f}
+.s-WK{--sc:#b0521a}.s-ES{--sc:#c2477f}.s-T{--sc:#55606e}.s-S{--sc:#1f8f4e}.s-GS{--sc:#8d6b12}.s-ET{--sc:#5b57b8}.s-R{--sc:#7a4a2a}.s-GD{--sc:#3d6f8f}.s-DZ{--sc:#0f7c9c}
+.art-der{color:#2f63c8;font-weight:800}.art-die{color:#cf3a2c;font-weight:800}.art-das{color:#1f8f5d;font-weight:800}
 .s-E{--sc:#c8402f}.s-M{--sc:#2f63c8}.s-K{--sc:#8a4fc1}.s-D{--sc:#0e8577}.s-G{--sc:#a8650f}.s-N{--sc:#3f8a2b}.s-I{--sc:#4a5d78}.s-W{--sc:#c03a74}
 .sbadge{flex:none;width:44px;height:44px;border-radius:12px;background:var(--sc);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.05rem}
 
@@ -343,8 +347,9 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .legal-f{text-align:center;font-size:.85rem;padding:18px 0 28px;color:var(--muted)}.legal-f a{color:inherit}.legal-p{max-width:760px;display:grid;gap:10px}.legal-p h2{font-size:1.15rem;margin-top:10px}.legal-p ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
 .splash{min-height:70vh;display:grid;place-content:center;justify-items:center;gap:18px;text-align:center}
 .biglogo{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:800;font-size:clamp(4rem,14vw,8rem);line-height:1;letter-spacing:.02em}
-.biglogo .on{display:inline-flex;align-items:center;gap:.14em;background:var(--green);color:var(--on-accent);border-radius:999px;padding:.06em .1em 0 .32em}
-.biglogo .on i{width:.62em;height:.62em;border-radius:50%;background:var(--on-accent);display:inline-block;margin-top:-.08em}
+.biglogo .on{display:inline-flex;align-items:center;gap:.14em;background:var(--brand-g);color:#fff;border-radius:999px;padding:.06em .1em 0 .32em}
+.biglogo .on i{width:.62em;height:.62em;border-radius:50%;background:#fff;display:inline-block;margin-top:-.08em}
+.splash-elo{width:clamp(120px,22vw,180px);height:auto;aspect-ratio:1;border-radius:50%;background:#fff;object-fit:cover;box-shadow:var(--shadow);margin-bottom:-6px;animation:elo-bob 3.2s ease-in-out infinite}@keyframes elo-bob{50%{transform:translateY(-6px)}}@media (prefers-reduced-motion:reduce){.splash-elo{animation:none}}
 .tagline{font-size:1.2rem;font-weight:800;color:var(--muted);letter-spacing:.04em}
 .btn.big{min-height:64px;padding:12px 40px;font-size:1.3rem;border-radius:18px}
 .start{max-width:860px;margin:0 auto}
@@ -852,12 +857,13 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .ann{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:18px;background:var(--surface);border:2px solid var(--yellow);box-shadow:var(--shadow)}.ann p{font-weight:800;font-size:1.05rem;margin-top:2px}.ann .ai{font-size:1.8rem}
 .remind{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-radius:16px;background:var(--late-bg);color:var(--ink);font-weight:700;margin-bottom:12px}
 .free{display:flex;gap:12px;align-items:center;margin-top:22px;padding:14px 16px;border-radius:16px;border:2px dashed var(--line)}.free .ai{font-size:1.6rem}
+.sus-t td{vertical-align:middle}.sus-t tr.off{opacity:.75}.sus-n{display:flex;gap:10px;align-items:center;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left}.sus-n small{display:block}.mono{font-family:ui-monospace,Menlo,monospace;letter-spacing:.12em;font-size:1.05rem}.av-0{display:inline-block;width:34px;height:34px;border-radius:50%;border:2px dashed var(--line)}
 .auf-t{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
 .auf-f{margin-bottom:14px;border:2px solid var(--blue)}.auf-f label{display:flex;flex-direction:column;font-weight:800;font-size:.85rem;gap:4px}.auf-f label.row{flex-direction:row;align-items:center;min-height:44px}
 </style>
 
 <header class="top"><div class="top-in">
-  <button class="logo" data-act="umenu" aria-label="ELIO Menü: Profil und Abmelden" aria-haspopup="true"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></button><div id="umenu" class="umenu" hidden></div>
+  <button class="logo" data-act="umenu" aria-label="ELIO Menü: Profil und Abmelden" aria-haspopup="true"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></button><div id="umenu" class="umenu" hidden></div>
   <nav class="nav" id="nav">
     <button class="tv" data-act="tdash" data-nav="tdash" hidden>Lehrerzimmer</button>
     <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
@@ -905,6 +911,7 @@ const SUBJECTS={
   GS:{name:'GmS',short:'GmS',prep:['GmS-Heft']},
   ET:{name:'Ethik',short:'Eth',prep:['Ethik-Heft']},
   R:{name:'Religion',short:'Rel',prep:['Religions-Heft']},
+  DZ:{name:'Deutsch als Zweitsprache',short:'DaZ',prep:['DaZ-Heft','Wörterheft','iPad mit Kopfhörern']},
   GD:{name:'Gebundener Ganztag',short:'GD',prep:['Hausaufgabenheft','Federmäppchen']},
 };
 let TIMETABLE_EXAMPLE=true;
@@ -1523,28 +1530,30 @@ function heftBlocks(t){const out=[];let list=null,tab=null;
   return out}
 const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,s:e.s,date:e.date,o:e.o,title:e.title,ch:e.ch,help:e.help,ub:e.ub,ubs:e.ubs,hx:e.hx,mt:e.mt,blocks:heftBlocks(e.text)})),...((S.heftRecv||[]).some(e=>e.s===k)?[]:(HEFT[k]||[]))];
 const heftSort=(a,b)=>a.o!=null&&b.o!=null?a.o-b.o:a.o!=null?-1:b.o!=null?1:b.date.localeCompare(a.date);
+// DaZ: Artikel in Farbe (der blau, die rot, das grün), nur wenn die Zeile mit dem Artikel beginnt
+const artC=x=>{const m=/^(der|die|das)\s/.exec(x);return m?`<span class="art-${m[1]}">${m[1]}</span>`+esc(x.slice(3)):esc(x)};
 function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
     case 'fig':return FIGS[b[1]]?FIGS[b[1]]():'';
     case 'p':return `<p>${b[1]}</p>`;
-    case 'list':return `<ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+    case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
     case 'achtung':return `<div class="achtung"><b class="l">⚠️ Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
     case 'no':return `<div class="vs no"><b>✗ falsch</b><span>${b[1]}</span></div>`;
     case 'yes':return `<div class="vs yes"><b>✓ richtig</b><span>${b[1]}</span></div>`;
-    case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${artC(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''}).join('')}
 function heftPage(e){
   const blk=b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
     case 'fig':return FIGS[b[1]]?FIGS[b[1]]():'';
     case 'p':return `<p>${b[1]}</p>`;
-    case 'list':return `<ul>${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+    case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
     case 'achtung':return `<div class="achtung"><b class="l">⚠️ Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
     case 'no':return `<div class="vs no"><b>✗ falsch</b><span>${b[1]}</span></div>`;
     case 'yes':return `<div class="vs yes"><b>✓ richtig</b><span>${b[1]}</span></div>`;
-    case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${artC(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''};
   const c=!!S.copied[e.id];
   return `<article class="page"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span></span></header>
@@ -1970,7 +1979,7 @@ function stageOf(){
 }
 const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
 function boardHTML(R,mini){
-  const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></span>';
+  const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
   const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
@@ -2112,23 +2121,24 @@ const SCHOOLS=[
 const schoolBy=id=>SCHOOLS.find(x=>x.id===id);
 const classBy=(sid,cid)=>{const sc=schoolBy(sid);return sc&&sc.classes.find(c=>c.id===cid)};
 const className=()=>{const c=classBy(S.school,S.cls);return c?c.name:S.clsName||'Klasse '+S.code};
-const BIGLOGO='<div class="biglogo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></div>';
+const BIGLOGO='<div class="biglogo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></div>';
 VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
-  if(step==='splash')return `<div class="splash">${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
-    ${CLOUD&&!Cloud.err?`<div class="roles"><button class="btn pri" data-act="st-step" data-step="join">🎒 Schüler/in<small>mit Klassencode</small></button>
+  if(step==='splash')return `<div class="splash"><img class="splash-elo" src="assets/elo/elo.png" alt="Elo, die Eule von ELIO">${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
+    ${CLOUD&&!Cloud.err?`<div class="roles"><button class="btn pri" data-act="st-step" data-step="join">🎒 Schüler/in<small>mit Kürzel und PIN</small></button>
       <button class="btn" data-act="login">👩‍🏫 Lehrkraft<small>mit eigenem Konto</small></button><button class="btn" data-act="login" data-admin="1">🔑 Admin<small>Schule verwalten</small></button></div>`
     :`<button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button>`}</div>`;
   if(step==='join')return `<div class="start"><div class="start-head">${back('splash')}</div><h1>Anmelden als Schüler/in</h1>
-    <section class="panel" style="max-width:460px"><p style="font-weight:700">🔑 Mit deinem Kürzel und deiner PIN</p>
-      <div class="row" style="gap:10px;margin-top:10px;align-items:end"><label class="label" style="flex:1">Kürzel<input id="a-u" type="text" autocomplete="off" autocapitalize="characters" maxlength="4" value="${esc(V.u||'')}" placeholder="z. B. BOMU" style="font-size:1.6rem;letter-spacing:.15em;text-transform:uppercase"></label>
-        <label class="label" style="flex:1">PIN<input id="a-p" type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="••••" style="font-size:1.6rem;letter-spacing:.3em"></label></div>
-      <p class="err" id="a-err">${esc(V.err||'')}</p><button class="btn ok big" data-act="acct-login" style="width:100%;margin-top:8px" ${V.busy?'disabled':''}>${V.busy?'Einen Moment …':'Los geht\'s'}</button></section>
-    <details class="panel" style="max-width:460px;margin-top:14px" ${V.u?'':''}><summary style="font-weight:800;cursor:pointer">Noch kein Kürzel? Mit Klassencode anmelden</summary><p style="font-weight:700;margin-top:10px">Deine Lehrkraft gibt dir den Klassencode und das Passwort.</p>
+    <form class="panel" id="a-f" method="post" action="#" style="max-width:460px"><p style="font-weight:700">🔑 Mit deinem Kürzel und deiner PIN</p>
+      <div class="row" style="gap:10px;margin-top:10px;align-items:end"><label class="label" style="flex:1">Kürzel<input id="a-u" name="username" type="text" autocomplete="username" autocapitalize="characters" maxlength="4" value="${esc(V.u||'')}" placeholder="z. B. BOMU" style="font-size:1.6rem;letter-spacing:.15em;text-transform:uppercase"></label>
+        <label class="label" style="flex:1">PIN<input id="a-p" name="password" type="password" inputmode="numeric" autocomplete="current-password" maxlength="4" placeholder="••••" style="font-size:1.6rem;letter-spacing:.3em"></label></div>
+      <p class="err" id="a-err">${esc(V.err||'')}</p><button class="btn ok big" type="submit" data-act="acct-login" style="width:100%;margin-top:8px" ${V.busy?'disabled':''}>${V.busy?'Einen Moment …':'Los geht\'s'}</button></form>
+    ${V.legacy?`<details class="panel" style="max-width:460px;margin-top:14px"><summary style="font-weight:800;cursor:pointer">Noch kein Kürzel? Mit Klassencode anmelden</summary><p style="font-weight:700;margin-top:10px">Deine Lehrkraft gibt dir den Klassencode und das Passwort.</p>
       <p class="muted" style="font-weight:700;margin-top:6px">📷 Hast du eine Karte mit QR-Code? Scanne ihn einfach mit der Kamera.</p><label class="label" for="j-code" style="display:block;margin-top:12px">Klassencode</label><input id="j-code" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="z. B. 4821" style="font-size:1.6rem;letter-spacing:.1em">
       <label class="label" for="j-pw" style="display:block;margin-top:12px">Passwort</label><input id="j-pw" type="password" inputmode="numeric" autocomplete="off" maxlength="20" style="font-size:1.6rem;letter-spacing:.1em">
-      <p class="err" id="j-err"></p><button class="btn big" data-act="join" style="width:100%;margin-top:12px">Weiter</button></details></div>`;
+      <p class="err" id="j-err"></p><button class="btn big" data-act="join" style="width:100%;margin-top:12px">Weiter</button></details>`:''}
+    <p class="muted" style="max-width:460px;margin-top:14px;font-weight:700">Kürzel und PIN bekommst du von deiner Lehrkraft. Merk sie dir gut: Damit kommst du überall in dein ELIO, in der Schule und zu Hause.</p></div>`;
   if(step==='school'&&CLOUD&&!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
   if(step==='school'&&!SCHOOLS.length)return `<div class="start"><div class="start-head">${back('splash')}</div><div class="empty">Hier ist noch keine Schule eingetragen. ${Cloud.err?esc(Cloud.err):'Deine Lehrkraft richtet das gerade ein.'}</div></div>`;
   if(step==='school')return `<div class="start"><div class="start-head">${back('splash')}<span class="label">Schritt 1 von 3</span></div><h1>Wähle deine Schule</h1>
@@ -2342,6 +2352,21 @@ function tsave(){if(!TDKEY||!(window.crypto&&crypto.subtle))return;const n=++TDS
 async function tdDerive(pw,salt,it){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
   return crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(salt),iterations:it,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
 function tdDefaults(){TD.obs=TD.obs||{};TD.nicks=TD.nicks||{};if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}TD.plan=TD.plan||{}}
+// Passwörter ändern: Geräte-Passwort (Tresor neu verschlüsseln) und Konto-Passwort (Supabase)
+async function pwDevice(){const o=$('#pw-old').value||'',n=$('#pw-new').value||'',n2=$('#pw-new2').value||'',v=tdVault();V.pwErr=1;
+  if(n.length<8){V.pwMsg='Das neue Passwort braucht mindestens 8 Zeichen.';render();return}if(n!==n2){V.pwMsg='Die neuen Passwörter sind nicht gleich.';render();return}
+  if(v){const k=await tdDerive(o,v.salt,v.it);try{await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(v.iv)},k,b64d(v.ct))}catch(e){V.pwMsg='Das bisherige Geräte-Passwort stimmt nicht.';render();return}}
+  TDSALT=b64e(crypto.getRandomValues(new Uint8Array(16)));TDKEY=await tdDerive(n,TDSALT,TDIT);tsave();V.pwErr=0;V.pwMsg='Geräte-Passwort geändert. Ab jetzt entsperrst du ELIO auf diesem Gerät mit dem neuen Passwort.';render()}
+async function pwAccount(){const n=$('#pw-acc').value||'',n2=$('#pw-acc2').value||'';V.pwErr=1;
+  if(n.length<8){V.pwMsg='Das neue Konto-Passwort braucht mindestens 8 Zeichen.';render();return}if(n!==n2){V.pwMsg='Die neuen Passwörter sind nicht gleich.';render();return}
+  try{const sb=await sbClient();const r=await sb.auth.updateUser({password:n});if(r&&r.error)throw r.error;V.pwErr=0;V.pwMsg='Konto-Passwort geändert.'}catch(e){V.pwMsg='Ging nicht: '+(e.message||e)}render()}
+// Link „Passwort neu setzen“ aus der E-Mail: neues Konto-Passwort festlegen
+let PWREC=/type=recovery/.test(location.hash);
+async function pwRecover(){const n=$('#pr-pw').value||'',n2=$('#pr-pw2').value||'';if(n.length<8||n!==n2){V.err=n.length<8?'Mindestens 8 Zeichen.':'Die Passwörter sind nicht gleich.';render();return}
+  try{const sb=await sbClient();const r=await sb.auth.updateUser({password:n});if(r&&r.error)throw r.error;PWREC=false;try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}V.err='';V.msg='Neues Passwort gespeichert. Melde dich jetzt damit an.';try{await sb.auth.signOut()}catch(e){}go('login')}catch(e){V.err='Ging nicht: '+(e.message||e)+'. Lass dir vom Admin einen neuen Link schicken.';render()}}
+VIEWS.pwrec=()=>`<div class="start"><h1>Neues Passwort festlegen</h1><form class="panel" id="pr-f" method="post" action="#" style="max-width:460px"><input type="text" name="username" autocomplete="username" hidden>
+  <input id="pr-pw" type="password" autocomplete="new-password" placeholder="Neues Passwort (mind. 8 Zeichen)"><input id="pr-pw2" type="password" autocomplete="new-password" placeholder="Wiederholen" style="margin-top:8px">
+  <p class="err">${esc(V.err||'')}</p><button class="btn pri" type="submit" data-act="pw-rec" style="width:100%">Speichern</button></form></div>`;
 // Entsperren (oder beim ersten Mal: Passwort festlegen und vorhandene Daten verschlüsseln)
 async function tdOpen(pw){const v=tdVault();
   if(v){const k=await tdDerive(pw,v.salt,v.it);let pt;try{pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(v.iv)},k,b64d(v.ct))}catch(e){return false}
@@ -2368,8 +2393,8 @@ const tdLocked=()=>S.role==='teacher'&&!BOARD&&(!TDKEY||TDIDLE);
 function lockHTML(){const v=tdVault();
   return `<div class="lock"><section class="panel">${elo('think',72)}<h1>${v?'🔒 Lehrerbereich gesperrt':'🔐 Geräte-Passwort festlegen'}</h1>
     <p class="muted" style="font-weight:700">${v?(TDIDLE?'Nach 15 Minuten ohne Eingabe gesperrt. ':'')+'Gib dein Geräte-Passwort ein.':'Es schützt deine Notizen, Beobachtungen und die Lerntagebücher auf diesem Gerät. Sie werden damit verschlüsselt. Nimm ein anderes Passwort als für dein Konto, mindestens 8 Zeichen.'}</p>
-    <input id="lk-pw" type="password" autocomplete="${v?'current-password':'new-password'}" placeholder="Geräte-Passwort">${v?'':'<input id="lk-pw2" type="password" autocomplete="new-password" placeholder="Passwort wiederholen" style="margin-top:8px">'}
-    <p class="err" id="lk-err">${esc(V.lkErr||'')}</p><button class="btn pri" data-act="lk-go" style="width:100%;margin-top:8px">${v?'Entsperren':'Festlegen und weiter'}</button>
+    <form id="lk-f" method="post" action="#"><input type="text" name="username" autocomplete="username" value="ELIO Geräte-Passwort" readonly hidden><input id="lk-pw" name="password" type="password" autocomplete="${v?'current-password':'new-password'}" placeholder="Geräte-Passwort">${v?'':'<input id="lk-pw2" type="password" autocomplete="new-password" placeholder="Passwort wiederholen" style="margin-top:8px">'}
+    <p class="err" id="lk-err">${esc(V.lkErr||'')}</p><button class="btn pri" type="submit" data-act="lk-go" style="width:100%;margin-top:8px">${v?'Entsperren':'Festlegen und weiter'}</button></form>
     ${v?'':'<p class="muted" style="font-size:.85rem;margin-top:10px">Wichtig: Vergisst du das Passwort, kann niemand die Notizen wiederherstellen, auch der Admin nicht.</p>'}
     <div class="row" style="justify-content:space-between;margin-top:14px"><button class="btn sm" data-act="role-reset">Abmelden</button>${v?`<button class="btn sm ${V.lkForget?'red':''}" data-act="lk-forget">${V.lkForget?'Wirklich alle Lehrer-Notizen auf diesem Gerät löschen':'Passwort vergessen?'}</button>`:''}</div></section></div>`}
 async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
@@ -2379,6 +2404,7 @@ async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
   const ok=await tdOpen(pw);if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
   TDFAIL=0;V.lkErr='';V.lkForget=false;if(HK.ck){const i=HK.ck.lastIndexOf('.'),c=HK.ck.slice(0,i),k=HK.ck.slice(i+1);if(c&&ckOk(k)){TD.ck=TD.ck||{};TD.ck[c]=k;tsave();V.msg='Klassenschlüssel für '+c+' übernommen.'}HK.ck=null}if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render();heftClean()}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&/^lk-pw/.test(e.target.id)){e.preventDefault();lockGo()}});
+document.addEventListener('submit',e=>{if(e.target&&['lg-f','lk-f','a-f','pw-f','pr-f'].includes(e.target.id))e.preventDefault()});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&(e.target.id==='a-p'||e.target.id==='a-u')){e.preventDefault();acctLogin($('#a-u').value,$('#a-p').value)}});
 document.addEventListener('input',e=>{const t=e.target;if(t.id==='a-u'){t.value=cleanU(t.value);if(t.value.length===4){const p=$('#a-p');p&&p.focus()}}if(t.id==='a-p')t.value=cleanPin(t.value)});
 ['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
@@ -2988,6 +3014,16 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
     ${Cloud.prof?`<label class="label" for="me-tn">Name (so sehen dich die anderen)</label><div class="row"><input id="me-tn" type="text" value="${esc(Cloud.prof.name||'')}" maxlength="60" style="flex:1"><button class="btn pri" data-act="me-tname">Speichern</button></div>
       <p style="margin-top:12px;font-weight:700">${esc(Cloud.user.email||'')} · Rolle: ${esc({admin:'Admin',teacher:'Lehrkraft',pending:'wartet auf Freigabe'}[Cloud.prof.role]||Cloud.prof.role)}</p>`:'<p style="font-weight:700">Demo-Modus ohne Konto.</p>'}
     ${V.ok?'<p class="saved">Gespeichert.</p>':''}${V.err?`<p class="err">${esc(V.err)}</p>`:''}<div class="row" style="margin-top:14px"><button class="btn red" data-act="role-reset">Abmelden</button></div></section>
+    <section class="panel" style="max-width:560px;margin-top:16px"><h2 style="font-size:1.2rem">🔑 Passwörter ändern</h2>
+      <form id="pw-f" method="post" action="#"><input type="text" name="username" autocomplete="username" value="${esc(Cloud.user&&Cloud.user.email||'')}" readonly hidden>
+      <p class="muted" style="font-weight:700;margin:4px 0 8px"><b>Geräte-Passwort</b> (schützt deinen Tresor auf diesem Gerät)</p>
+      <input id="pw-old" type="password" autocomplete="current-password" placeholder="Bisheriges Geräte-Passwort"><input id="pw-new" type="password" autocomplete="new-password" placeholder="Neues Geräte-Passwort (mind. 8 Zeichen)" style="margin-top:8px"><input id="pw-new2" type="password" autocomplete="new-password" placeholder="Neues Passwort wiederholen" style="margin-top:8px">
+      <div class="row" style="margin-top:8px"><button class="btn pri" type="button" data-act="pw-dev">Geräte-Passwort ändern</button></div></form>
+      ${Cloud.user?`<p class="muted" style="font-weight:700;margin:14px 0 8px"><b>Konto-Passwort</b> (zum Anmelden mit ${esc(Cloud.user.email||'')})</p>
+      <input id="pw-acc" type="password" autocomplete="new-password" placeholder="Neues Konto-Passwort (mind. 8 Zeichen)"><input id="pw-acc2" type="password" autocomplete="new-password" placeholder="Wiederholen" style="margin-top:8px">
+      <div class="row" style="margin-top:8px"><button class="btn" type="button" data-act="pw-acc">Konto-Passwort ändern</button></div>`:''}
+      ${V.pwMsg?`<p class="${V.pwErr?'err':'saved'}">${esc(V.pwMsg)}</p>`:''}
+      <p class="muted" style="font-size:.85rem;margin-top:8px">Hinweis: Sicherungen, die du vorher heruntergeladen hast, öffnest du weiter mit dem alten Geräte-Passwort. Lade nach dem Ändern am besten gleich eine neue Sicherung herunter.</p></section>
     ${ttOwnHTML()}
     <section class="panel" style="max-width:560px;margin-top:16px"><h2 style="font-size:1.2rem">💾 Sicherung deiner Notizen</h2>
       <p class="muted" style="font-weight:700">Notizen, Beobachtungen, Akten und Lerntagebücher liegen nur auf diesem Gerät. Lade ab und zu eine Sicherung herunter, zum Beispiel auf einen USB-Stick oder in deinen dienstlichen Speicher. Die Datei ist mit deinem Geräte-Passwort verschlüsselt und ohne Passwort nutzlos.</p>
@@ -3286,7 +3322,8 @@ const SB_SRC='assets/vendor/supabase-2.79.0.js';
 const CLOUD=LIVE_SERVER&&!!LIVE_CFG.supabaseUrl;
 const Cloud={sb:null,user:null,prof:null,myClasses:[],ready:false,err:'',sig:{},busy:false};
 const lid=()=>'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-async function sbClient(){if(Cloud.sb)return Cloud.sb;if(!window.supabase)await loadScript(SB_SRC);Cloud.sb=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);return Cloud.sb}
+async function sbClient(){if(Cloud.sb)return Cloud.sb;if(!window.supabase)await loadScript(SB_SRC);Cloud.sb=window.supabase.createClient(LIVE_CFG.supabaseUrl,LIVE_CFG.supabaseKey);
+  try{Cloud.sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY'){PWREC=true;go('pwrec')}})}catch(e){}if(PWREC)setTimeout(()=>go('pwrec'),0);return Cloud.sb}
 const CLS_COLS='id,school_id,name,size,code';
 async function q(p){const r=await p;if(r.error)throw r.error;return r.data}
 function buildSchools(sc,cl){SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}));if(typeof addJoined==='function')addJoined()}
@@ -3395,12 +3432,12 @@ VIEWS.login=()=>{
     <div class="row" style="margin-top:12px"><button class="btn" data-act="lg-klassen">Klassen verwalten / neue Klasse anlegen</button></div>
     <div class="row" style="margin-top:16px">${Cloud.prof.role==='admin'?'<button class="btn pri" data-act="lg-admin">Zum Admin-Bereich</button>':''}<button class="btn" data-act="lg-out">Abmelden</button></div></div>`}
   return `<div class="start"><div class="start-head">${back}</div><h1>Anmelden als Lehrkraft</h1>
-    <section class="panel" style="max-width:520px">
-      <label class="label" for="lg-mail" style="display:block">E-Mail</label><input id="lg-mail" type="text" inputmode="email" autocomplete="username" autocapitalize="off">
-      <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" type="password" autocomplete="current-password">
+    <form class="panel" id="lg-f" method="post" action="#" style="max-width:520px">
+      <label class="label" for="lg-mail" style="display:block">E-Mail</label><input id="lg-mail" name="email" type="email" autocomplete="username" autocapitalize="off">
+      <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" name="password" type="password" autocomplete="current-password">
       <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
-      <div class="row" style="margin-top:14px"><button class="btn pri" data-act="lg-in">Anmelden</button><button class="btn" data-act="lg-up">Konto erstellen</button></div>
-      <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></section></div>`;
+      <div class="row" style="margin-top:14px"><button class="btn pri" type="submit" data-act="lg-in">Anmelden</button><button class="btn" type="button" data-act="lg-up">Konto erstellen</button></div>
+      <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></form></div>`;
 };
 async function lgIn(up){
   const em=($('#lg-mail').value||'').trim(),pw=$('#lg-pw').value||'';
@@ -3525,7 +3562,7 @@ VIEWS.admin=()=>{
         <td style="text-align:right"><button class="btn sm" data-act="ad-staff-del" data-id="${x.id}">Löschen</button></td></tr>`).join('')}</table>
       <div class="row" style="margin-top:8px"><input id="ad-st-${sc.id}" type="text" value="${st.length?'':STAFF_SEED}" placeholder="Kürzel, mit Komma getrennt" style="max-width:420px"><button class="btn sm pri" data-act="ad-staff-add" data-id="${sc.id}">Kürzel anlegen</button></div></div>`}).join('')||'<p class="muted">Erst eine Schule anlegen.</p>'}</section>
   <section class="panel"><span class="label">Lehrkräfte</span><p class="muted" style="font-weight:700;margin-top:4px">Neue Lehrkräfte erstellen selbst ein Konto (Startseite → „Für Lehrkräfte: Anmelden“). Hier schaltest du sie frei und ordnest Klassen zu.</p>
-    <table><tr><th>Konto</th><th>Name</th><th>Rolle</th><th>Klassen</th></tr>${A.profiles.map(p=>`<tr><td>${esc(p.email||'')}</td>
+    <table><tr><th>Konto</th><th>Name</th><th>Rolle</th><th>Klassen</th></tr>${A.profiles.map(p=>`<tr><td>${esc(p.email||'')}${p.email?`<br><button class="btn sm" data-act="ad-pwmail" data-m="${esc(p.email)}" style="margin-top:4px">🔑 Passwort-Link schicken</button>${A.pwSent===p.email?' <small class="saved">gesendet</small>':''}`:''}</td>
       <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
       <td><select data-adrole="${p.id}" ${p.id===uid?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
       <td><div class="cls-chk">${cls.map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">erst Klasse anlegen</span>'}</div></td></tr>`).join('')}</table></section>
@@ -3567,17 +3604,15 @@ VIEWS.klassen=()=>{
   <div class="kl">${mc.map(c=>{const lead=isLead(c.id),ac=K.access.find(a=>a.class_id===c.id),ts=K.ct.filter(x=>x.class_id===c.id),sc=SCHOOLS.find(x=>x.id===c.school_id)||{};
     return `<section class="panel"><div class="row" style="justify-content:space-between"><div><h2 style="font-size:1.5rem">${esc(c.name)}</h2><span class="muted" style="font-weight:700">${esc(sc.name||'')} · ${c.size} SuS</span>
       ${(Cloud.lead||[]).includes(c.id)?'<span class="chip" style="margin-left:8px">Klassenleitung</span>':''}</div>
-      <div class="row">${S.cls===c.id?`<button class="btn pri" data-act="sus">👥 Schüler/innen${susCount()?' · '+susCount()+' angemeldet':''}${susUnread()?' · '+susUnread()+' neu':''}</button>`:''}<button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls!==c.id?`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`:'<span class="chip">aktiv</span>'}</div></div>
-      <div class="acc"><span class="label">Schüler-Zugang</span>${ac?`<span>Klassencode <b>${esc(ac.join_code)}</b></span><span>Passwort <b>${esc(ac.pw)}</b></span>`:'<span class="muted" style="font-weight:700">noch keiner</span>'}
-        ${lead?`<button class="btn sm" data-act="kl-access" data-id="${c.id}">${ac?'Neu erzeugen':'Zugang erzeugen'}</button>`:''}<button class="btn sm pri" data-act="zug" data-id="${c.id}">🔑 Zugänge mit Kürzel und PIN</button>${ac?`<button class="btn sm pri" data-act="kl-cards" data-id="${c.id}">🔳 QR-Karten für alle SuS</button>`:''}<button class="btn sm" data-act="kl-key" data-code="${esc(c.code)}">🔑 Schlüssel für Kolleg:innen</button></div>
+      <div class="row"><button class="btn pri" data-act="kl-sus" data-id="${c.id}">👥 Schüler/innen und Zugänge${S.cls===c.id&&susUnread()?' · '+susUnread()+' neu':''}</button><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls===c.id?'<span class="chip">aktiv</span>':`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`}</div></div>
       ${V.keyFor===c.code?`<div class="panel" style="margin-top:8px"><b>Klassenschlüssel teilen</b><p class="muted" style="font-weight:700">Schick diesen Link nur an Lehrkräfte dieser Klasse, am besten über den Dienst-Messenger. Sie öffnen ihn auf ihrem Gerät und entsperren dort ELIO. Dann können sie mit denselben iPads arbeiten.</p><textarea rows="2" readonly onclick="this.select()">${esc(location.origin+location.pathname+'#ck='+c.code+'.'+myCk(c.code))}</textarea></div>`:''}
       <div style="margin-top:12px"><span class="label">Lehrkräfte</span><div class="row" style="margin-top:6px">${ts.map(x=>`<span class="chip">${x.lead?'★ ':''}${esc(pName(K.profiles,x.teacher_id))}${lead&&x.teacher_id!==uid&&!x.lead?` <button class="btn sm" data-act="kl-rm" data-id="${c.id}" data-t="${x.teacher_id}" aria-label="Entfernen" style="min-height:26px;padding:0 8px">✕</button>`:''}</span>`).join('')}</div>
-        ${lead?`<div class="row" style="margin-top:8px"><select id="kl-add-${c.id}" style="width:auto"><option value="">Lehrkraft dazuholen …</option>${ok.filter(p=>!ts.some(x=>x.teacher_id===p.id)).map(p=>`<option value="${p.id}">${esc(p.name||p.email)}</option>`).join('')}</select><button class="btn sm" data-act="kl-add" data-id="${c.id}">Dazuholen</button></div>`:''}</div>
+<small class="muted" style="font-weight:700">Lehrkräfte kommen automatisch dazu, sobald du sie im Stundenplan der Klasse einträgst.</small></div>
       ${lead?`<details style="margin-top:12px"><summary style="font-weight:800;cursor:pointer">Klasse bearbeiten</summary><div class="row" style="margin-top:8px">
         <input id="kl-en-${c.id}" type="text" value="${esc(c.name)}" maxlength="20" style="max-width:200px"><input id="kl-ez-${c.id}" type="number" min="2" max="40" value="${c.size}" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="kl-save" data-id="${c.id}">Speichern</button>
-        ${V.kdel===c.id?`<button class="btn sm red" data-act="kl-del" data-id="${c.id}">Klasse wirklich löschen</button><button class="btn sm" data-act="kl-del-no">Nein</button>`:`<button class="btn sm" data-act="kl-del-ask" data-id="${c.id}">Klasse löschen</button>`}</div></details>`:''}
+        ${V.kdel===c.id?`<button class="btn sm red" data-act="kl-del" data-id="${c.id}">Klasse wirklich löschen</button><button class="btn sm" data-act="kl-del-no">Nein</button>`:`<button class="btn sm" data-act="kl-del-ask" data-id="${c.id}">Klasse löschen</button>`}<button class="btn sm" data-act="kl-key" data-code="${esc(c.code)}">🔑 Schlüssel für Kolleg:innen</button></div></details>`:''}
     </section>`}).join('')||'<div class="empty">Du bist noch keiner Klasse zugeordnet. Leg oben eine neue Klasse an.</div>'}</div>
-  <p class="muted" style="margin-top:14px;font-size:.9rem">Die SuS wählen auf der Startseite „Schüler/in“ und geben Klassencode und Passwort ein. Den Stundenplan können alle Lehrkräfte der Klasse ändern.</p>`;
+  <p class="muted" style="margin-top:14px;font-size:.9rem">Jedes Kind meldet sich mit seinem Kürzel und seiner PIN an. Die Zugänge erzeugst du unter „Schüler/innen und Zugänge“, so viele, wie die Klasse Kinder hat (änderbar unter „Klasse bearbeiten“). Den Stundenplan können alle Lehrkräfte der Klasse ändern.</p>`;
 };
 
 VIEWS['kl-cards']=()=>{
@@ -3590,10 +3625,10 @@ VIEWS['kl-cards']=()=>{
   return `<div class="st-head noprint"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">QR-Karten · ${esc(c.name)}</h1>
       <button class="btn pri" data-act="kl-print">🖨️ Drucken</button><button class="btn" data-act="kl-copy">🔗 Links kopieren</button>${V.copied===1?'<span class="chip">Kopiert</span>':V.copied===2?'<span class="chip">Kopieren ging nicht</span>':''}</div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und baut sich nur noch seinen Avatar. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
-    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
+    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
-const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-60).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
+const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
 const HEFT_V=2;
@@ -3602,13 +3637,15 @@ async function heftClean(){if((TD.heftV||0)<HEFT_V&&(TD.heft||[]).some(e=>/^m7-/
   let n=0;TD.heft.forEach(e=>{const ls=String(e.text||'').split('\n'),mv=ls.filter(l=>HELPRE.test(l.trim()));if(!mv.length)return;
     e.text=ls.filter(l=>!HELPRE.test(l.trim())).join('\n').replace(/\n{3,}/g,'\n\n').trim();const h=String(e.help||'');e.help=[h,...mv.filter(l=>!h.includes(l.trim()))].filter(Boolean).join('\n');n++});
   tsave();if(CS)pushCS();if(['tdesk','tsubj','mod','theft'].includes(V.name))render();return n}
-async function heftLoadPlan(quiet){try{const [L,M]=await Promise.all(['mathe7','mathe7_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
-  let up=0;L.forEach((x,k)=>{const id='m7-'+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
+// Fertige Lernlandschaften pro Fach: Einträge, Übungen und Modul-Extras
+const PLANS={M:{f:'mathe7',pre:'m7-',t:'Jahresplan Mathematik 7',d:'8 Module mit 34 Unterkapiteln'},DZ:{f:'daz',pre:'dz-',t:'Lernlandschaft Deutsch als Zweitsprache',d:'Themenmodule mit Wortschatz, Dialogen und Grammatik'}};
+async function heftLoadPlan(quiet,sk){sk=PLANS[sk]?sk:'M';const PL=PLANS[sk];try{const [L,M]=await Promise.all([PL.f,PL.f+'_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
+  let up=0;L.forEach((x,k)=>{const id=PL.pre+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
     // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
     if(o){let c=0;const ot=o.text.trim();const xb=x.text.split('\n').filter(l=>!/^\[bild:/i.test(l.trim())).join('\n').trim();if(ot!==x.text&&(x.text.startsWith(ot)||ot.startsWith(x.text.trim())||ot===xb)){o.text=x.text;c=1}
       if(o.help!==x.help||JSON.stringify([o.ub,o.ubs,o.hx,o.mt])!==JSON.stringify([x.ub,x.ubs,x.hx,x.mt])||o.ch!==x.ch){o.help=x.help;o.ub=x.ub;o.ubs=x.ubs;o.hx=x.hx;o.mt=x.mt;o.ch=x.ch;c=1}up+=c;return}
-    TD.heft.push({id,s:'M',title:x.title,text:x.text,help:x.help,ub:x.ub,ubs:x.ubs,hx:x.hx,mt:x.mt,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
-  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in 8 Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':'Der Jahresplan ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
+    TD.heft.push({id,s:sk,title:x.title,text:x.text,help:x.help,ub:x.ub,ubs:x.ubs,hx:x.hx,mt:x.mt,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
+  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in '+new Set(L.map(x=>x.ch)).size+' Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':'Der Jahresplan ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
 /* ---------- Podium an der Tafel: Avatare der SuS, die das Spiel geschafft haben ---------- */
 function liveWin(at){if(S.role!=='student'||!RCS||!RCS.game||RCS.game.at!==at)return;S.gwin=S.gwin||{};if(S.gwin[at])return;S.gwin={[at]:1};save();sendMsg({k:'gwin',at})}
 function podHTML(G,mini){const F=(G.fin||[]).slice(0,40),top=[F[1],F[0],F[2]],H=['p2','p1','p3'],N=[2,1,3];
@@ -3648,11 +3685,11 @@ async function mbInsert(row){if(!mbCloudOk())return false;try{const sb=await sbC
 // SuS: Warteschlange abarbeiten (Server-Postfach, sonst Live-Kanal, wenn die Lehrkraft gerade da ist)
 async function mbFlush(){if(MB.busy||S.role!=='student'||!S.tpk||!(window.crypto&&crypto.subtle))return;const Q=S.mbq||[];if(!Q.length)return;MB.busy=true;
   try{const K=await myKeys();const live=RCS&&Date.now()-rcsAt<15000&&RCS.dpk&&RCS.dpk.n===S.tpk.n;
-    while((S.mbq||[]).length){const it=S.mbq[0],body=await dEnc(S.tpk,{...it,pk:K.pub,nick:S.nick||''}),row={class_id:mbCls()?S.cls:null,dir:'up',nr:+S.nr,fp:mbFp(S.tpk),body};
+    while((S.mbq||[]).length){const it=S.mbq[0],body=await dEnc(S.tpk,{...it,pk:K.pub,nick:S.nick||'',av:S.av}),row={class_id:mbCls()?S.cls:null,dir:'up',nr:+S.nr,fp:mbFp(S.tpk),body};
       let ok=await mbInsert(row);if(!ok&&live){sendMsg({k:'mb',r:{fp:row.fp,body}});ok=true}
       if(!ok)break;S.mbq.shift();if(it.k==='chat'){const c=(S.chat||[]).find(x=>x.id===it.id);if(c)c.st='ok'}if(it.k==='abg'&&S.abg&&S.abg[it.hw])S.abg[it.hw].st='ok'}
     save()}catch(e){console.warn(e)}MB.busy=false;if(['chat','homework'].includes(V.name))render()}
-function mbQueue(it){S.mbq=S.mbq||[];if(it.k==='prog')S.mbq=S.mbq.filter(x=>x.k!=='prog');S.mbq.push(it);if(S.mbq.length>60)S.mbq=S.mbq.slice(-60);save();mbFlush()}
+function mbQueue(it){S.mbq=S.mbq||[];if(it.k==='prog'||it.k==='hi')S.mbq=S.mbq.filter(x=>x.k!==it.k);S.mbq.push(it);if(S.mbq.length>60)S.mbq=S.mbq.slice(-60);save();mbFlush()}
 function chatSend(t){const id='c'+Date.now().toString(36);S.chat=S.chat||[];S.chat.push({id,me:1,t,at:Date.now(),st:'q'});mbQueue({k:'chat',id,t,at:Date.now()})}
 function progSnap(){return {ub:Object.keys(S.ubDone||{}).filter(k=>k.includes('#')),hx:Object.keys(S.hxDone||{}).filter(k=>S.hxDone[k]),hw:Object.keys(S.hwDone||{}).filter(k=>S.hwDone[k]),
   st:+S.stars||0,fl:Object.values(S.fleiss||{}).reduce((a,b)=>a+(+b||0),0),ab:Object.keys(S.abg||{}),ut:S.ubAt||{},mt:S.mt||{}}}
@@ -3671,7 +3708,7 @@ async function mbUp(r){if(!TDKEY||!TD.dk||!r||!r.body||r.fp!==mbFp(TD.dk.pub))re
   let o;try{o=await dDec(TD.dk.priv,r.body)}catch(e){return false}if(!o||typeof o!=='object')return true;
   const P=susP(nr);if(r.sender){if(!P.uid)P.uid=r.sender;else if(P.uid!==r.sender)P.warn=1}
   if(o.pk&&o.pk.n&&o.pk.e)P.pk={kty:'RSA',n:String(o.pk.n),e:String(o.pk.e),alg:'RSA-OAEP-256',ext:true,key_ops:['encrypt']};
-  const nk=cleanNick(o.nick);if(nk){P.nick=nk;if(!TD.nicks[nr])TD.nicks[nr]=nk}P.seen=Math.max(P.seen||0,+o.at||Date.now());
+  const nk=cleanNick(o.nick);if(nk){P.nick=nk;TD.nicks[nr]=nk}if(o.av!=null){TD.avs=TD.avs||{};TD.avs[nr]=cleanAv(o.av)}P.seen=Math.max(P.seen||0,+o.at||Date.now());
   if(o.k==='chat'){const id=String(o.id||'').slice(0,20);if(!P.chat.some(c=>c.id===id)){P.chat.push({id,me:0,t:String(o.t||'').slice(0,2000),at:+o.at||Date.now()});P.un=(P.un||0)+1;if(P.chat.length>200)P.chat=P.chat.slice(-200)}}
   if(o.k==='abg'){const hw=String(o.hw||'').slice(0,40);if(hw){const img=typeof o.img==='string'&&IMGRE.test(o.img)&&o.img.length<1500000?o.img:null;P.abg[hw]={title:String(o.title||'').slice(0,200),t:String(o.t||'').slice(0,4000),img,at:+o.at||Date.now()};P.ua=(P.ua||0)+1}}
   if(o.k==='prog'&&o.p&&typeof o.p==='object'){const A=x=>Array.isArray(x)?x.slice(0,600).map(v=>String(v).slice(0,60)):[];P.prog={ub:A(o.p.ub),hx:A(o.p.hx),hw:A(o.p.hw),ab:A(o.p.ab),st:+o.p.st||0,fl:+o.p.fl||0,ut:progObj(o.p.ut,v=>+v>0?+v:null),mt:progObj(o.p.mt,v=>v&&typeof v==='object'&&+v.n>0?{f:+v.f||0,b:+v.b||0,n:+v.n,at:+v.at||0,la:+v.la||0,x:+v.x||0}:null),at:+o.at||Date.now()}}
@@ -3772,7 +3809,7 @@ async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p
     if(r.prof&&r.prof.ct){try{const o=await acctOpen(u,p,r.prof);if(o&&(+o.acctAt||0)>=(+S.acctAt||0))ACCT_KEYS.concat('acctAt').forEach(k=>{if(k in o)S[k]=o[k]})}catch(e){console.warn('acct open',e)}}
     S.acct={u,p};S.phaseSeen='';V.busy=0;ACCT.sig='';
     if(!S.nick||S.av==null){V.nr=S.nr;V.only='student';V.step='nick';V.av=null;saveRole();render();return true}
-    saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);acctSave(true);cloudLoadWeek(S.cls).then(render);return true}
+    saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});acctSave(true);cloudLoadWeek(S.cls).then(render);return true}
   catch(e){if(quiet)return false;V.busy=0;V.err=/pupil_login|function|schema|404|PGRST202/i.test(String(e&&(e.message||e.code)))?'Die persönlichen Zugänge sind noch nicht eingerichtet. Melde dich mit Klassencode an.':'ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';V.step='join';render();return false}}
 // Lehrkraft: Zugänge der Klasse verwalten. PINs liegen nur im Lehrer-Tresor (zum Nachdrucken).
 const ZG={list:null,err:'',busy:false,cid:null};
@@ -3790,7 +3827,7 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
   if(V.print){setTimeout(fillQR,0);const ks=nrs.filter(k=>by[k]&&st[k]&&st[k].u===by[k].uname);
     return `<div class="st-head noprint"><button class="btn sm" data-act="zg-print-x">← Zurück</button><h1 style="font-size:1.6rem">Zugangskarten · ${esc(c.name)}</h1><button class="btn pri" data-act="kl-print">🖨️ Drucken</button></div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Schneide die Karten aus und gib jedem Kind seine. Der QR-Code öffnet ELIO mit dem Kürzel, die PIN tippt das Kind selbst ein.</p>
-    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E">L<span class="on">I<i></i></span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
+    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
       <div class="zg-c"><span>Kürzel</span><b>${esc(by[k].uname)}</b><span>PIN</span><b>${esc(st[k].p)}</b></div><small>ELIO öffnen → „Schüler/in“ → Kürzel und PIN eingeben.<br>Die PIN verrätst du niemandem.</small></div>`).join('')||'<div class="empty">Noch keine Zugänge mit bekannter PIN.</div>'}</div>`}
   return `<div class="st-head"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">🔑 Zugänge · ${esc(c.name)}</h1>
     <button class="btn pri" data-act="zg-gen" data-id="${c.id}" ${ZG.busy?'disabled':''}>Für alle ohne Zugang erzeugen</button><button class="btn" data-act="zg-print">🖨️ Karten drucken</button></div>
@@ -3802,17 +3839,24 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
       <td class="row" style="gap:6px">${r?`<button class="btn sm" data-act="zg-pin" data-id="${c.id}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>${V.zgDel===k?`<button class="btn sm red" data-act="zg-del" data-id="${c.id}" data-n="${k}">Wirklich löschen</button>`:`<button class="btn sm" data-act="zg-del-ask" data-n="${k}">Löschen</button>`}`:`<button class="btn sm" data-act="zg-one" data-id="${c.id}" data-n="${k}" ${ZG.busy?'disabled':''}>Erzeugen</button>`}</td></tr>`}).join('')}</tbody></table></div>
   <p class="muted" style="font-size:.85rem;margin-top:8px">Neue PIN: Die alte Sicherung des Kindes auf dem Server wird gelöscht. Sein iPad lädt beim nächsten Anmelden wieder alles hoch, was es noch hat.</p>`};
 // Übersicht aller SuS der Klasse
-VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll().filter(a=>daysUntil(a.due)>=-14);
-  const card=k=>{const P=B[k],nk=nickOf(k)||(P&&P.nick)||'',act=!!(P||TD.nicks[k]),pr=P&&P.prog;
-    return `<button class="pupil ${act?'':'off'}" data-act="sus-p" data-n="${k}"><span class="row" style="justify-content:space-between"><span class="row" style="gap:6px">${avatar((TD.avs||{})[k]||0,30)}<b>${k}</b></span>${on.includes(k)?'<span class="dot" title="online"></span>':''}</span>
-      <small><b>${esc(nk||'noch nicht angemeldet')}</b></small>${pr?`<small>✏️ ${pr.ub.length} Übungen · ✍️ ${pr.hx.length} Heft · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:act?'<small class="muted">noch keine Daten</small>':''}
-      ${P&&(P.ua||P.un)?`<small>${P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P.un?`<span class="tk-n">💬 ${P.un}</span>`:''}</small>`:''}${P&&P.seen?`<small class="muted">zuletzt ${new Date(P.seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}${(TD.obs[k]||[]).length?`<small>📝 ${(TD.obs[k]||[]).length} Notiz${(TD.obs[k]||[]).length>1?'en':''}</small>`:''}${P&&P.warn?'<small class="err">⚠️ anderes Gerät</small>':''}</button>`};
-  const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]||(TD.obs[k]||[]).length);
-  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>Schüler/innen · ${esc(className())}</h1></div><div class="row"><button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button><button class="btn sm" data-act="obs-export">📝 Notizen als Textdatei</button><button class="btn sm pri" data-act="sa-printall">📄 Alle Akten als PDF</button></div></div>
-  ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}<div class="priv">🔒 Lernstand, Abgaben und Chat kommen verschlüsselt an und liegen nur in deinem Lehrer-Tresor.</div>
-  ${aufTeachHTML(B,ks,act)}
-  <span class="label">Angemeldet · ${act.length} von ${ks.length}</span><div class="pupils">${act.map(card).join('')||'<div class="empty">Noch hat sich niemand angemeldet.</div>'}</div>
-  ${act.length<ks.length?`<details style="margin-top:14px"><summary class="label" style="cursor:pointer">Noch nicht angemeldet · ${ks.length-act.length}</summary><div class="pupils" style="margin-top:8px">${ks.filter(k=>!act.includes(k)).map(card).join('')}</div></details>`:''}`};
+VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll().filter(a=>daysUntil(a.due)>=-14),cl=mbCls();
+  if(cl&&CLOUD&&Cloud.sb&&(ZG.cid!==S.cls||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=S.cls;zgLoad(S.cls)}
+  const st=cl?zgStore(S.cls):{},by={};(cl&&ZG.cid===S.cls?ZG.list||[]:[]).forEach(r=>by[r.nr]=r);
+  const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]||(TD.obs[k]||[]).length),miss=cl?ks.filter(k=>!by[k]):[];
+  const row=k=>{const P=B[k],nk=nickOf(k)||(P&&P.nick)||'',pr=P&&P.prog,r=by[k],sv=st[k],pin=r&&sv&&sv.u===r.uname?sv.p:'',seen=Math.max(P&&P.seen||0,r&&r.updated_at?Date.parse(r.updated_at)||0:0);
+    return `<tr class="${nk||P?'':'off'}"><td class="nr">${k}</td><td><button class="sus-n" data-act="sus-p" data-n="${k}">${(TD.avs||{})[k]!=null?avatar(TD.avs[k],34):'<span class="av-0"></span>'}<span><b>${esc(nk||'noch nicht angemeldet')}</b>${on.includes(k)?' <span class="dot" title="gerade online"></span>':''}${seen?`<small class="muted">zuletzt ${new Date(seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}</span></button></td>
+      ${cl?`<td><b class="mono">${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code class="mono">${esc(pin)}</code>`:'<small class="muted">auf anderem Gerät erzeugt</small>'):''}${r&&r.blocked?' <span class="chip red">gesperrt</span>':''}</td>`:''}
+      <td>${pr?`<small>✏️ ${pr.ub.length} · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}" style="display:block">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:''}</td>
+      <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<span class="tk-n">💬 ${P.un}</span>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
+      <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>${esc(className())}</h1></div>
+    <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
+  ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err&&cl?`<p class="err">${esc(ZG.err)}</p>`:''}
+  <p class="muted" style="font-weight:700;margin-bottom:10px">Jedes Kind meldet sich mit Kürzel und PIN an und gibt sich dann selbst Avatar und Namen. Kürzel und PIN sind sein Zugang, in der Schule und zu Hause. Die PINs liegen nur in deinem Lehrer-Tresor auf diesem Gerät. 🔒 Lernstand, Abgaben und Chat kommen verschlüsselt an.</p>
+  <div class="tbl sus-t"><table><thead><tr><th>Nr.</th><th>Kind</th>${cl?'<th>Kürzel</th><th>PIN</th>':''}<th>Lernstand</th><th>Neu</th><th></th></tr></thead><tbody>${ks.map(row).join('')}</tbody></table></div>
+  <p class="muted" style="font-size:.85rem;margin-top:6px">Mehr Kinder? Ändere die Zahl unter Klassen → Klasse bearbeiten. Neue PIN: Die Sicherung des Kindes auf dem Server wird gelöscht, sein Gerät lädt beim nächsten Anmelden wieder alles hoch.</p>
+  <div class="row" style="margin:10px 0 0;gap:8px"><button class="btn sm" data-act="obs-export">📝 Notizen als Textdatei</button><button class="btn sm" data-act="sa-printall">📄 Alle Akten als PDF</button></div>
+  ${aufTeachHTML(B,ks,act)}`};
 // Lehrkraft: Übungsaufträge der Klasse mit Stand pro Kind, dazu Mitteilungen aufs Dashboard der SuS
 function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),N=annAll(),pr=k=>B[k]&&B[k].prog;
   const row=a=>{const P=act.map(k=>[k,pr(k)]).filter(x=>x[1]),fin=P.filter(([,p])=>aufProg(a,p).done),mts=P.flatMap(([,p])=>Object.entries(p.mt||{}).filter(([id])=>aufEntries(a).some(e=>e.id===id)).map(([,m])=>m.f/m.n));
@@ -3957,7 +4001,7 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
-  ${k==='M'&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade den Jahresplan Mathematik 7, dann erscheinen hier 8 Module mit 34 Unterkapiteln.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan">📚 Jahresplan laden</button></div></section>`:''}
+  ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='M'?'Jahresplan':'Lernlandschaft'} laden</button></div></section>`:''}
   <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
   <h2 style="margin:18px 0 8px">Hausaufgaben · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Hausaufgaben gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
@@ -4184,17 +4228,22 @@ document.addEventListener('click',e=>{
     case 'umenu':{const m=$('#umenu');if(!S.role){go('role',{step:'splash'});break}if(!m.hidden){m.hidden=true;break}m.innerHTML=umenuHTML();const lg=$('.top .logo');m.style.top=(lg.offsetTop+lg.offsetHeight+6)+'px';m.hidden=false;break}
     case 'acct-login':acctLogin($('#a-u').value,$('#a-p').value);break;
     case 'zug':ZG.list=null;go('zug',{cid:d.id});break;
+    case 'pw-dev':pwDevice();break;
+    case 'pw-acc':pwAccount();break;
+    case 'pw-rec':pwRecover();break;
+    case 'ad-pwmail':(async()=>{try{const sb=await sbClient();const r=await sb.auth.resetPasswordForEmail(d.m,{redirectTo:location.origin+location.pathname});if(r&&r.error)throw r.error;A.pwSent=d.m;A.msg='Link zum neuen Passwort an '+d.m+' geschickt. Er gilt eine Stunde.'}catch(e){A.msg='Ging nicht: '+(e.message||e)}render()})();break;
+    case 'kl-sus':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(!c)break;if(S.cls!==c.id){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS)}ZG.list=null;go('sus');mbPull();break}
     case 'zg-gen':zgDo(async()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===d.id),have=new Set((ZG.list||[]).map(r=>r.nr));for(let k=1;k<=(c&&c.size||24);k++)if(!have.has(k))await zgSet(d.id,k)});break;
     case 'zg-one':zgDo(()=>zgSet(d.id,+d.n));break;
     case 'zg-pin':zgDo(()=>zgSet(d.id,+d.n,d.u));break;
     case 'zg-del-ask':V.zgDel=+d.n;render();break;
     case 'zg-del':V.zgDel=null;zgDo(async()=>{const r=await q(Cloud.sb.rpc('pupil_login_del',{p_class:d.id,p_nr:+d.n}));if(r!=='ok')throw new Error(r);delete zgStore(d.id)[+d.n];tsave()});break;
-    case 'zg-print':V.print=1;render();break;
-    case 'zg-print-x':V.print=0;render();break;
+    case 'zg-print':go('zug',{cid:d.id||S.cls,print:1});break;
+    case 'zg-print-x':go('sus');break;
     case 'go-legal':e.preventDefault();$('#umenu').hidden=true;go(d.v,{back:V.name==='impressum'||V.name==='datenschutz'?V.back:{...V}});break;
     case 'legal-back':{const b=V.back;if(b&&b.name)go(b.name,b);else go(S.role?(S.role==='teacher'?'tdash':'dash'):'role',S.role?{}:{step:'splash'})}break;
     case 'um-go':$('#umenu').hidden=true;if(d.v==='week'&&S.role==='student'){go('me',{tt:1});break}go(d.v);break;
-    case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Gib deinem Avatar einen Namen.';break}S.nick=nk;S.av=cleanAv(V.av);V.nd=null;acctSave();saveRole();sendMsg({k:'hi'});V.ok=1;render();break}
+    case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Gib deinem Avatar einen Namen.';break}S.nick=nk;S.av=cleanAv(V.av);V.nd=null;acctSave();saveRole();sendMsg({k:'hi'});mbQueue({k:'hi',at:Date.now()});V.ok=1;render();break}
     case 'me-tname':if(Cloud.sb&&Cloud.user){const n=$('#me-tn').value.trim().slice(0,60);Cloud.sb.from('profiles').update({name:n}).eq('id',Cloud.user.id).then(r=>{if(!r.error){Cloud.prof.name=n;V.ok=1}else V.err=r.error.message;render()})}break;
     case 'ak':akAct(d,e);break;
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
@@ -4244,7 +4293,7 @@ document.addEventListener('click',e=>{
     case 'fl-ok':S.fleiss=S.fleiss||{};S.fleiss[d.k]=+d.p||1;SND.right();earnOnce('fl_'+d.k);save();render();break;
     case 'hf-add':{const t=$('#hf-t').value.trim(),k=$('#hf-s').value,xl=$('#hf-x').value.trim().split('\n'),x=xl.filter(l=>!HELPRE.test(l.trim())).join('\n').trim(),hl=[$('#hf-h').value.trim(),...xl.filter(l=>HELPRE.test(l.trim()))].filter(Boolean).join('\n');if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
       if(!CS)initTeacher();if(V.hedit){const y=(TD.heft||[]).find(z=>z.id===V.hedit);if(y){Object.assign(y,{s:k,title:t,text:x,help:hl});tsave();pushCS()}V.hedit=null}else heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x,help:hl});V.hs=k;render();break}
-    case 'hf-plan':heftLoadPlan();break;
+    case 'hf-plan':heftLoadPlan(false,d.s||'M');break;
     case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){e.pub=a==='hf-pub';if(e.pub)e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
     case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(x.pub===false&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){x.pub=true;x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
     case 'hf-edit':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x){V.hedit=x.id;render();setTimeout(()=>{$('#hf-s').value=x.s;$('#hf-t').value=x.title;$('#hf-x').value=x.text;$('#hf-h').value=x.help||'';window.scrollTo(0,0)},0)}break}
@@ -4256,7 +4305,7 @@ document.addEventListener('click',e=>{
     case 'nick-more':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;V.sugg=Object.assign(avNames(V.av),{av:V.av});render();break}
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Gib deinem Avatar einen Namen.';break}
-      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=cleanAv(V.av);V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=cleanAv(V.av);V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
