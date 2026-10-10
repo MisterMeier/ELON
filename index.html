@@ -338,6 +338,15 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .dot.off{background:var(--muted);box-shadow:none}
 .ph-txt{color:var(--muted);font-weight:700;min-width:0}
 .ltimer{font-family:var(--f-display);font-weight:800;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.land{position:relative;aspect-ratio:1671/941;border-radius:22px;overflow:hidden;margin:0 0 16px;box-shadow:0 10px 30px rgba(30,58,138,.18);container-type:inline-size}
+.land-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.land-i{position:absolute;transform:translate(-50%,-50%);width:15.5%;min-height:6.4%;border:0;border-radius:1.2cqw;background:#fff;color:#1e3a8a;font:inherit;font-size:clamp(.55rem,1.7cqw,1.05rem);line-height:1.1;padding:.6cqw .8cqw;cursor:pointer;box-shadow:0 .4cqw 1cqw rgba(0,0,0,.18);display:grid;place-items:center;text-align:center}
+.land-i.done{background:#dcfce7;color:#166534}.land-i.locked{background:#e5e7eb;color:#6b7280;cursor:default}.land-i.cur{outline:.35cqw solid #4f46e5}
+.land-elo{position:absolute;width:10%;transform:translate(-50%,-112%);transition:left 1s cubic-bezier(.3,1.4,.5,1),top 1s cubic-bezier(.3,1.4,.5,1);filter:drop-shadow(0 .6cqw .6cqw rgba(0,0,0,.3));animation:landb 2.2s ease-in-out infinite;pointer-events:none}
+@keyframes landb{50%{transform:translate(-50%,-120%)}}
+.land-st{position:absolute;left:1.2%;bottom:2%;background:rgba(255,255,255,.92);border-radius:999px;padding:.5cqw 1.6cqw;font-weight:800;font-size:clamp(.6rem,1.6cqw,1rem);color:#1e3a8a}
+@media (prefers-reduced-motion:reduce){.land-elo{animation:none;transition:none}}
+.bw-idle{position:relative;background:#eef2ff;overflow:hidden}.bw-idle>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .srail{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;gap:10px}
 .srail[hidden]{display:none}
 .sr-b{width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:var(--surface);box-shadow:0 4px 14px rgba(15,23,42,.18);display:grid;place-content:center;justify-items:center;gap:0;cursor:pointer;font:inherit;color:var(--ink);padding:0}
@@ -1630,14 +1639,14 @@ function weekView(){
   </tbody></table></div>`;
 }
 VIEWS.subject=()=>{
-  const k=V.s,sub=SUBJECTS[k],tab=V.tab||(k==='E'&&!V.desk?'module':'heft');
+  const k=V.s,sub=SUBJECTS[k],tab=V.tab||((k==='E'&&!V.desk)||LANDS[k]?'module':'heft');
   const entries=heftAll(k).sort(heftSort);
   const hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   let body='';
   if(tab==='heft')body=entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
     :`<div class="empty">Noch keine Einträge in ${sub.name}. Sobald es einen Tafelanschrieb gibt, erscheint er hier.</div>`;
   if(tab==='hw')body=hws.length?`<div class="hw-list">${hws.map(hwRow).join('')}</div>`:'<div class="empty">Keine Hausaufgaben in diesem Fach.</div>';
-  if(tab==='module'&&modChs(k).length)body=modList(k);
+  if(tab==='module'&&modChs(k).length)body=landHTML(k)+modList(k);
   else if(tab==='module')body=k==='E'?`<button class="mod-card" data-act="module">${elo('happy',64)}<span class="t"><span class="label">Lernleiter · 7 Stufen</span><b>Shopping in London</b>
       <span class="muted">${STATIONS.filter(s=>S.done[s.id]).length} von ${STATIONS.length} Stufen geschafft</span></span><span class="btn pri">Öffnen</span></button>`
     :`<div class="empty">Für ${sub.name} gibt es noch keine Lernmodule.${k==='M'||k==='K'?' Kommt als Nächstes!':''}</div>`;
@@ -2188,6 +2197,7 @@ function boardHTML(R,mini){
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
     main=`<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${st.act==='mission'&&R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}
       ${t.mat?(mini||!BOARD?`<span class="bw-note">📎 ${esc(t.matName||'Material')} · an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}"></div>`):''}${!t.text&&!t.mat&&st.act!=='mission'?`<p>${esc(st.txt)}</p>`:''}</div>`}
+  else if(!R.poll&&!R.share)return `<div class="bw bw-idle"><img src="assets/folien/idle.webp" alt="ELIO">${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else{const ph=phaseOf(R.phase);main=`<div class="slide"><h1>${esc(ph.name)}</h1><p>${esc(ph.txt)}</p>${R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}</div>`}
   const foot=[R.poll?`<span class="bw-note">🗳️ ${esc(R.poll.q)} · ${R.poll.voted.length} abgestimmt</span>`:'',R.share?`<span class="bw-note">🔗 Auf euren iPads: ${esc(R.share.name)}</span>`:''].join('');
   return `<div class="bw ${st?'s-'+st.subj:''}"><div class="bw-top">${LOGO}<span class="tt">${st?esc(st.title)+' · '+esc(st.name):esc(className())}</span>
@@ -4475,6 +4485,17 @@ function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch).map(e=>e.s))];CS
   CS.hw=(TD.hw||[]).filter(h=>h.cls===S.cls);CS.auf=(TD.auf||[]).filter(a=>a.cls===S.cls);CS.ann=(TD.ann||[]).filter(a=>a.cls===S.cls&&a.until>=todayISO());CS.games=gamesOn()}
 function modEntries(k,ch){return (S.role==='teacher'?tHeft(k).map(e=>({...e,blocks:heftBlocks(e.text)})):heftAll(k)).filter(e=>e.ch===ch).sort(heftSort)}
 const modX=ch=>(S.role==='teacher'?(TD.modx||{}):(S.modxRecv||{}))[ch]||{tipps:[],fleiss:[]};
+// Lernlandschaft: Inselkarte über den Modulen, Elo steht auf dem ersten noch offenen Modul
+const LANDS={DZ:{img:'assets/lern/daz.webp',bonus:5,pos:{1:[20,30.5],2:[48.8,29.4],3:[78.2,30.8],4:[84.1,53.7],5:[24.7,54.2],6:[52.2,58.7],7:[28.1,80.8],8:[73.1,81]}}};
+function modDone(k,ch){const es=modEntries(k,ch);return es.length>0&&es.every(e=>(S.ubDone&&S.ubDone[e.id])||(!ubList(e).length&&!(e.hx||[]).length))}
+function landHTML(k){const Ld=LANDS[k];if(!Ld)return '';const T=S.role==='teacher',ms=modChs(k);if(!ms.length)return '';
+  const st=ms.map(m=>({...m,nr:+m.ch.split(' ')[0]||0,done:!T&&m.on&&modDone(k,m.ch)}));
+  let won=0;if(!T){S.earned=S.earned||{};st.forEach(m=>{if(m.done&&!S.earned['land_'+m.ch]){S.earned['land_'+m.ch]=1;won+=Ld.bonus}});if(won){S.stars+=won;save();setTimeout(()=>{hdr();SND.right()},0)}}
+  const cur=st.find(m=>!m.done)||st[st.length-1],ep=Ld.pos[cur.nr]||[50,50],nd=st.filter(m=>m.done).length;
+  return `<div class="land"><img class="land-bg" src="${Ld.img}" alt="Lernlandschaft mit ${st.length} Inseln">
+    ${st.map(m=>{const P=Ld.pos[m.nr];if(!P)return '';return `<button class="land-i ${m.done?'done':''} ${m.on||T?'':'locked'} ${m===cur?'cur':''}" style="left:${P[0]}%;top:${P[1]}%" ${m.on||T?`data-act="mod-open" data-s="${k}" data-ch="${esc(m.ch)}"`:'disabled'}><b>${m.done?'✓ ':m.on||T?'':'🔒 '}${esc(m.ch.replace(/^\d+\s*/,''))}</b></button>`}).join('')}
+    <img class="land-elo" src="assets/elo/elo-uebung-512.png" alt="Elo" style="left:${ep[0]}%;top:${ep[1]}%">
+    ${T?'':`<div class="land-st">⭐ ${nd} von ${st.length} Inseln geschafft · +${Ld.bonus} Sterne pro Insel${won?` · <b>Neu: +${won} ⭐</b>`:''}</div>`}</div>`}
 function modList(k){const T=S.role==='teacher';
   return `<div class="mods">${modChs(k).map(m=>{const es=m.on||T?modEntries(k,m.ch):[],done=es.filter(e=>S.ubDone&&S.ubDone[e.id]).length;
     return `<div class="mod-card ${m.on||T?'':'locked'}" ${m.on||T?`data-act="mod-open" data-s="${k}" data-ch="${esc(m.ch)}" role="button" tabindex="0"`:''}><span class="mi">${m.on?'📗':'🔒'}</span><span class="t"><span class="label">Modul ${esc(m.ch.split(' ')[0])}</span><b>${esc(m.ch.replace(/^\d+\s*/,''))}</b>
@@ -4535,7 +4556,7 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='M'?'Jahresplan':'Lernlandschaft'} laden</button></div></section>`:''}
-  <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
+  <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
   <h2 style="margin:18px 0 8px">Hausaufgaben · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Hausaufgaben gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
 const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
