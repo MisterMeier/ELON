@@ -1,0 +1,175 @@
+{
+ "1 Ich und du": {
+  "tipps": [
+   "Laut sprechen: Sprich neue Sätze laut. Auch allein zu Hause. So merkst du sie besser.",
+   "Satzbausteine: Lerne ganze Sätze, nicht nur Wörter: Ich heiße … Ich komme aus …",
+   "Eigene Sprache: Schreib schwierige Wörter auch in deiner Sprache daneben. Das ist erlaubt und hilft.",
+   "Nachfragen: Du verstehst etwas nicht? Sag: Kannst du das bitte wiederholen?",
+   "Zahlen hören: Bei Zahlen ab 21 zuerst die Einer schreiben, dann die Zehner davor."
+  ],
+  "fleiss": [
+   {
+    "q": "Schreib einen Steckbrief über dich mit 6 Sätzen: Name, Alter, Land, Wohnort, Sprachen, Hobby.",
+    "a": "Zum Beispiel: Ich heiße Ahmad. Ich bin 13 Jahre alt. Ich komme aus Afghanistan. Ich wohne in Augsburg. Ich spreche Dari, Paschtu und ein bisschen Deutsch. Ich spiele gern Fußball.",
+    "p": 2
+   },
+   {
+    "q": "Zahlenrätsel: Ich bin eine Zahl zwischen 40 und 50. Meine Einer und Zehner zusammen ergeben 13. Wie heiße ich? Schreib die Zahl als Wort.",
+    "a": "49, neunundvierzig (4 + 9 = 13).",
+    "p": 2
+   },
+   {
+    "q": "Stell eine Person aus deiner Klasse in 5 Sätzen vor, ohne den Namen zu sagen. Die anderen raten.",
+    "a": "Zum Beispiel: Sie ist 12 Jahre alt. Sie kommt aus der Ukraine. Sie wohnt in Nürnberg. Sie spricht drei Sprachen. Sie spielt gern Volleyball.",
+    "p": 3
+   }
+  ]
+ },
+ "2 Schule": {
+  "tipps": [
+   "Farben: Male der blau, die rot und das grün. Dein Kopf merkt sich die Farbe.",
+   "Wortkarten: Vorne das Nomen mit Artikel, hinten der Plural und ein Bild. Jeden Tag 5 Karten üben.",
+   "Zettel kleben: Klebe Zettel mit Artikel auf Sachen zu Hause: der Tisch, die Tür, das Fenster.",
+   "Verb auf Position 2: Zeichne im Satz einen Kreis um das Verb. Steht es an zweiter Stelle?",
+   "Stundenplan: Schreib deinen Stundenplan auf Deutsch und lies ihn jeden Morgen laut."
+  ],
+  "fleiss": [
+   {
+    "q": "Finde 10 Nomen im Klassenzimmer, die nicht im Hefteintrag stehen. Schreib sie mit Artikel und Plural.",
+    "a": "Zum Beispiel: die Uhr – die Uhren, der Mülleimer – die Mülleimer, das Waschbecken – die Waschbecken, der Schrank – die Schränke, die Lampe – die Lampen …",
+    "p": 3
+   },
+   {
+    "q": "Schreib 5 Sätze über deine Schulwoche. Jeder Satz beginnt anders (Am Montag …, Heute …, Mein Lieblingsfach …).",
+    "a": "Zum Beispiel: Am Montag habe ich Mathe. Heute haben wir Sport. Mein Lieblingsfach ist Kunst. Am Freitag schreiben wir einen Test. Nach der Schule spiele ich Fußball.",
+    "p": 2
+   }
+  ]
+ },
+ "3 Familie": {
+  "tipps": [
+   "Familienbaum: Zeichne deinen Familienbaum und schreib die Wörter mit Artikel dazu.",
+   "Plural mitlernen: Lerne immer zwei Wörter: der Bruder – die Brüder.",
+   "mein oder meine: Frag dich: Ist das Nomen der, die oder das? Bei die kommt ein -e: meine.",
+   "Privat: Du musst nicht alles über deine Familie erzählen. Du kannst auch eine Familie erfinden.",
+   "sein und haben: Alter mit sein (Ich bin 12 Jahre alt), Hunger mit haben (Ich habe Hunger)."
+  ],
+  "fleiss": [
+   {
+    "q": "Schreib einen Text über eine Familie (echt oder ausgedacht) mit 8 Sätzen. Benutze mein, meine, sein, seine, ihr, ihre.",
+    "a": "Zum Beispiel: Das ist meine Familie. Mein Vater heißt Karim. Seine Schwester ist meine Tante. Meine Mutter heißt Lina. Ihr Bruder wohnt in Syrien. Ich habe zwei Brüder. Meine Brüder sind 8 und 15. Unsere Familie ist groß.",
+    "p": 3
+   },
+   {
+    "q": "Finde 6 Wörter mit Plural auf -er (wie das Kind – die Kinder). Schau im Wörterbuch nach.",
+    "a": "Zum Beispiel: das Buch – die Bücher, das Haus – die Häuser, das Bild – die Bilder, das Kleid – die Kleider, das Ei – die Eier, das Glas – die Gläser.",
+    "p": 2
+   }
+  ]
+ },
+ "4 Essen und Trinken": {
+  "tipps": [
+   "Einkaufszettel: Schreib den Einkaufszettel für deine Familie auf Deutsch, mit Artikel.",
+   "einen bei der: Nur bei der-Wörtern wird ein zu einen. Male das -en rot an.",
+   "Im Supermarkt: Lies die Schilder und sag die Wörter leise mit.",
+   "Höflich bestellen: Ich möchte …, bitte. Danke! So klingt es freundlich.",
+   "Deine Küche: Lerne die Wörter für das Essen aus deinem Land auf Deutsch. Erzähl davon."
+  ],
+  "fleiss": [
+   {
+    "q": "Schreib ein Rezept für dein Lieblingsessen: Zutaten mit Artikel und 4 Schritte mit Imperativ (Schneid …, Koch …).",
+    "a": "Zum Beispiel: die Nudeln, die Tomaten, die Zwiebel, das Salz. Koch die Nudeln. Schneid die Zwiebel. Brat die Tomaten und die Zwiebel. Misch alles.",
+    "p": 3
+   },
+   {
+    "q": "Schreib einen Dialog in der Mensa mit 8 Sätzen. Benutze einen, keinen und einen Preis.",
+    "a": "Zum Beispiel: – Was möchtest du? – Ich möchte Reis mit Gemüse. – Möchtest du einen Salat? – Nein, ich möchte keinen Salat. – Möchtest du etwas trinken? – Ja, einen Apfelsaft, bitte. – Das kostet vier Euro zwanzig. – Danke!",
+    "p": 2
+   }
+  ]
+ },
+ "5 Mein Tag und die Uhrzeit": {
+  "tipps": [
+   "Uhr lesen: Schau jeden Tag dreimal auf die Uhr und sag die Zeit laut auf Deutsch.",
+   "halb: Bei halb denkst du an die nächste Stunde: halb acht = 7:30.",
+   "Satzklammer: Bei trennbaren Verben male eine Klammer vom Verb bis zur Vorsilbe am Ende.",
+   "Modalverb: können oder müssen auf Platz 2, das zweite Verb ganz am Ende.",
+   "Tagebuch: Schreib jeden Abend zwei Sätze über deinen Tag."
+  ],
+  "fleiss": [
+   {
+    "q": "Schreib deinen Tagesablauf mit 8 Sätzen und Uhrzeiten. Benutze mindestens 3 trennbare Verben.",
+    "a": "Zum Beispiel: Um 6:30 Uhr stehe ich auf. Um 7 Uhr frühstücke ich. Um Viertel vor acht fängt die Schule an. Um eins komme ich nach Hause. Am Nachmittag räume ich mein Zimmer auf. Dann rufe ich meinen Freund an. Am Abend sehe ich fern. Um neun gehe ich ins Bett.",
+    "p": 3
+   },
+   {
+    "q": "Was kannst du gut? Was musst du jeden Tag machen? Schreib je 4 Sätze mit können und müssen.",
+    "a": "Zum Beispiel: Ich kann gut zeichnen. Ich kann drei Sprachen sprechen. … Ich muss früh aufstehen. Ich muss Hausaufgaben machen. …",
+    "p": 2
+   }
+  ]
+ },
+ "6 Wohnen": {
+  "tipps": [
+   "Rundgang: Geh zu Hause durch die Wohnung und nenne jeden Raum und jedes Möbel mit Artikel.",
+   "Wo?: Nach Wo? wird der zu dem, die zu der, das zu dem. Lerne: auf dem Tisch, in der Tasche.",
+   "Bild beschreiben: Nimm ein Foto von einem Zimmer und sag, wo die Dinge sind.",
+   "Gegenteile: Lerne Adjektive immer zu zweit: groß – klein, hell – dunkel.",
+   "Lange Wörter: Das letzte Wort bestimmt den Artikel: das Zimmer → das Wohnzimmer."
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne dein Traumzimmer und beschreibe es mit 8 Sätzen: Was gibt es? Wo steht es? Wie ist es?",
+    "a": "Zum Beispiel: In meinem Traumzimmer gibt es ein großes Bett. Das Bett steht neben dem Fenster. Auf dem Tisch steht eine Lampe. Unter dem Bett liegt ein Teppich. Das Zimmer ist hell und ordentlich. …",
+    "p": 3
+   },
+   {
+    "q": "Versteckspiel: Schreib 5 Rätsel: Ich bin unter dem Bett. Ich bin rund. Man spielt mit mir. Was bin ich?",
+    "a": "Zum Beispiel: der Ball. Eigene Rätsel mit auf, in, unter, neben, vor, hinter und dem richtigen Artikel.",
+    "p": 2
+   }
+  ]
+ },
+ "7 Körper und Gesundheit": {
+  "tipps": [
+   "Zeigen und sagen: Zeig auf einen Körperteil und sag ihn laut mit Artikel.",
+   "Notfall-Sätze: Lerne auswendig: Mir geht es nicht gut. Ich habe Schmerzen. Ich brauche Hilfe.",
+   "Partizip: Lerne unregelmäßige Partizipien in Paaren: essen – gegessen, trinken – getrunken.",
+   "Perfekt: haben auf Platz 2, das Partizip am Ende. Male eine Klammer dazwischen.",
+   "Imperativ: du-Form nehmen, du und -st weglassen: du trinkst → Trink!"
+  ],
+  "fleiss": [
+   {
+    "q": "Schreib einen Text: Mein letztes Wochenende. Benutze 6 Verben im Perfekt mit haben.",
+    "a": "Zum Beispiel: Am Samstag habe ich lange geschlafen. Ich habe mit meiner Familie gefrühstückt. Dann habe ich Hausaufgaben gemacht. Am Nachmittag habe ich Fußball gespielt. Am Abend haben wir Reis gegessen. Am Sonntag habe ich einen Film gesehen.",
+    "p": 3
+   },
+   {
+    "q": "Mach ein Plakat „Gesund in der Schule“ mit 6 Tipps im Imperativ.",
+    "a": "Zum Beispiel: Trink viel Wasser! Iss ein gesundes Pausenbrot! Beweg dich in der Pause! Wasch dir die Hände! Schlaf genug! Mach Pausen beim Lernen!",
+    "p": 2
+   }
+  ]
+ },
+ "8 Einkaufen und Kleidung": {
+  "tipps": [
+   "Kleiderschrank: Sag jeden Morgen, was du anziehst: Heute trage ich …",
+   "Sie im Geschäft: Zu Verkäufern sagst du Sie: Haben Sie …? Können Sie …?",
+   "Preise: Erst die Euro, dann die Cent: 4,50 € = vier Euro fünfzig.",
+   "den bei der: Im Akkusativ wird nur der zu den und er zu ihn.",
+   "Prospekt: Lies Werbeprospekte und sag die Preise laut."
+  ],
+  "fleiss": [
+   {
+    "q": "Schreib einen langen Dialog im Kleidungsgeschäft (10 Sätze): suchen, Größe, Farbe, anprobieren, Preis, kaufen.",
+    "a": "Zum Beispiel: – Guten Tag, kann ich Ihnen helfen? – Ja, ich suche einen Pullover. – Welche Farbe? – Blau, bitte. – Welche Größe? – Größe M. – Hier, bitte. – Kann ich ihn anprobieren? – Ja, die Kabine ist dort. – Was kostet er? – 25 Euro. – Gut, ich nehme ihn.",
+    "p": 3
+   },
+   {
+    "q": "Du hast 50 Euro. Kauf Kleidung aus einem Prospekt (echt oder ausgedacht). Schreib: Ich kaufe den / die / das … für … Euro. Wie viel Geld bleibt übrig?",
+    "a": "Zum Beispiel: Ich kaufe den Schal für 8 Euro, die Mütze für 6 Euro und das T-Shirt für 12 Euro. Das sind 26 Euro. Es bleiben 24 Euro übrig.",
+    "p": 2
+   }
+  ]
+ }
+}

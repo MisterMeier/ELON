@@ -668,6 +668,7 @@ body.boardwin .bw{height:100vh}
 .rt-c4 .cg b{font-family:var(--f-display);font-size:1.3em}
 .rt-c4 .c1{background:#fde4e1}.rt-c4 .c2{background:#fff1d0}.rt-c4 .c3{background:#dcecff}.rt-c4 .c4{background:#dff3e4}
 .rt-timer{position:absolute;top:2cqh;right:2cqw}
+.bw-timer.btimer{font-size:9cqh;font-weight:800;background:#1e3a8a;color:#fff;border:0;padding:.6cqh 3cqw;box-shadow:0 .6cqh 2cqh rgba(30,58,138,.35);z-index:5}
 .rt-quiz{background:#fff}.qz-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:.9em;padding:.8em 1.2em;min-height:0}.bw .rt-quiz .qz-o{font-size:1.6em}.rt-quiz h1{font-size:2.2em;text-align:center}
 .rt-quiz .slide-media{flex:1;min-height:0;max-height:none}.rt-quiz .slide-media img,.rt-quiz .slide-media video{max-height:38vh;object-fit:contain}.bw .rt-quiz .slide-media img,.bw .rt-quiz .slide-media video{max-height:40cqh}
 .qz-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:.5em}
@@ -804,6 +805,30 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .vw-w{display:block;width:100%;text-align:center;background:#1e3a8a;color:#fff;font-weight:800;font-size:1.7em;border-radius:.4em;padding:.4em .2em;word-break:break-word}
 .vw-back ul{list-style:none;margin:0;padding:0;display:grid;gap:.4em;width:100%}.vw-back li{text-align:center;font-weight:800;font-size:1.25em;color:#b91c1c;background:#fee2e2;border-radius:.4em;padding:.25em;text-decoration:line-through;text-decoration-thickness:.1em}
 .vw-h{font-weight:700;color:#334155;margin:0}.vw-end{display:grid;justify-items:center;gap:.3em;text-align:center}.vw-end img{width:9em}.vw-end h1{color:#1e3a8a}.vw-end p{font-size:1.6em;font-weight:800}
+.nz-t{display:flex;align-items:center;gap:8px}.nz-e{position:relative;display:inline-block;width:44px;height:44px}.nz-e img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.nz-red{position:absolute;inset:0;opacity:0;background:#ef2b2b;-webkit-mask:url(assets/elo/elo-heft-512.png) center/contain no-repeat;mask:url(assets/elo/elo-heft-512.png) center/contain no-repeat;mix-blend-mode:color;transition:opacity .2s}
+.nz-m{width:140px;height:12px;border-radius:9px;background:var(--surface-2);overflow:hidden;display:inline-block}.nz-m i{display:block;height:100%;width:0;transition:width .1s,background .3s}
+.nz{position:fixed;left:2vw;bottom:2vh;z-index:50;display:flex;align-items:center;gap:1vw;pointer-events:none}.nz[hidden]{display:none}
+.nz .nz-e{width:min(16vh,16vw);height:min(16vh,16vw);filter:drop-shadow(0 .5vh 1vh rgba(0,0,0,.25))}
+.nz-b{opacity:0;background:#dc2626;color:#fff;font-weight:800;font-size:3.2vh;padding:.6vh 1.4vh;border-radius:2vh;transition:opacity .3s}
+.nz.loud .nz-b{opacity:1}.nz.loud .nz-e{animation:nzsh .25s linear infinite}
+@keyframes nzsh{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.mood5,.amp3{display:flex;gap:8px;justify-content:center;margin:8px 0}.mood5 button,.amp3 button{font-size:2.2rem;border:3px solid var(--line);background:var(--surface);border-radius:16px;padding:6px 10px;cursor:pointer;display:grid;justify-items:center}
+.amp3 button{font-size:1.8rem;min-width:84px}.amp3 small{font-size:.8rem;font-weight:800;color:var(--ink)}.mood5 button.on,.amp3 button.on{border-color:#4f46e5;background:#eef2ff;transform:scale(1.08)}
+.ex-l{display:grid;gap:8px;margin-top:6px;max-height:320px;overflow:auto}.ex-l>div{border:1px solid var(--line);border-radius:10px;padding:6px 10px}.ex-l p{margin:2px 0}
+.rt-ask{background:#f6f8fc center/cover no-repeat;align-items:center;justify-content:center;text-align:center;gap:.4em}.ask-i{font-size:4em}.rt-ask h1{color:#1e3a8a}.rt-ask ol{text-align:left;font-size:1.4em;font-weight:700}.rt-ask p{font-size:1.4em;font-weight:700}
+.ask-n{background:#1e3a8a;color:#fff;border-radius:2em;padding:.3em 1em;font-size:1.3em}.ask-e{position:absolute;right:3%;bottom:4%;width:18%}
+.rt-wh{background:#f6f8fc center/cover no-repeat;align-items:center;justify-content:center}.wh{position:relative;height:84%;aspect-ratio:1}.wh-s{width:100%;height:100%;filter:drop-shadow(0 .4em 1em rgba(30,58,138,.3))}
+.wh-s.spin{animation:whs 5s cubic-bezier(.12,.6,.15,1) both}@keyframes whs{from{transform:rotate(0)}to{transform:rotate(var(--rot))}}
+.wh-p{position:absolute;top:-2%;left:50%;transform:translateX(-50%);border:1.2em solid transparent;border-top:2.2em solid #1e3a8a;border-bottom:0}
+.wh-r{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.5em;opacity:0;animation:whr .6s ease forwards}.wh-r img{width:16%}.wh-r span{background:#fff;border:.15em solid #1e3a8a;border-radius:.6em;padding:.3em .8em;font-size:3.4em;font-weight:800;color:#1e3a8a;box-shadow:0 .3em 1em rgba(0,0,0,.2)}
+@keyframes whr{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.rt-gr{background:#f6f8fc center/cover no-repeat;padding:1em 1.4em;gap:.5em}.rt-gr h1{color:#1e3a8a;font-size:2.4em}.gr{display:grid;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));gap:.6em;flex:1;align-content:start}
+.gr-c{background:#fff;border-radius:.6em;border-top:.4em solid var(--c);padding:.5em .7em;display:grid;gap:.15em;box-shadow:0 .2em .6em rgba(0,0,0,.08)}.gr-c b{color:var(--c);font-size:1.2em}.gr-c span{font-weight:700;font-size:1.15em}
+.st-lov{position:absolute;inset:0;background:#f6f8fc center/cover no-repeat;display:flex;align-items:center;padding:16px 4vw;overflow:auto}
+.st-card{width:min(440px,62%);display:grid;gap:4px}.st-card h1{color:#1e3a8a;font-size:clamp(1.8rem,5vw,3rem);line-height:1.05}.st-d{font-weight:700;color:#334155}.st-card h2{font-size:1.1rem;margin-top:6px;color:#172B31}
+.st-card .prep button{background:rgba(255,255,255,.9)}
+@media(max-width:600px){.st-card{width:100%;background:rgba(255,255,255,.88);border-radius:18px;padding:14px}}
 .jr-elo{margin:8px 0}.jr-elo-b{display:flex;align-items:center;gap:10px;border:2px dashed #a5b4fc;background:#eef2ff;border-radius:14px;padding:6px 12px 6px 6px;font:inherit;cursor:pointer;color:var(--ink);text-align:left}
 .jr-elo-b img{width:44px;height:44px;object-fit:contain}.jr-elo-b small{display:block;color:var(--muted);font-weight:600}
 .jr-st{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.jr-st .chip{cursor:pointer;border:1px solid var(--line);font:inherit;font-weight:700;font-size:.9rem}
@@ -830,7 +855,9 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .mt.off{width:auto;border:0;background:none;box-shadow:none;overflow:visible}
 .mt-bar{display:flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;font-weight:800;font-size:.85rem}
 .mt-bar b{flex:1}.mt-bar button{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;font:inherit;font-size:.8rem;font-weight:800;padding:4px 10px;cursor:pointer;min-height:32px}
-.mt-frame{aspect-ratio:16/9;cursor:pointer}.mt.big{right:12px;bottom:auto;top:50%;transform:translateY(-50%);grid-template-rows:auto auto}.mt.big .mt-frame{width:min(100%,calc((100vh - 90px)*16/9));justify-self:center;cursor:default}
+.mt-frame{aspect-ratio:16/9;cursor:pointer;position:relative}
+/* Safari: Prozent-Höhe in einer Box mit aspect-ratio wird 0, deshalb füllt die Tafel ihren Rahmen absolut */
+.mt-frame>.bw,.tprev>.bw{position:absolute;inset:0;height:auto}.sl-pv>.rt,.sl-big>.rt{position:absolute;inset:0;height:auto}.mt.big{right:12px;bottom:auto;top:50%;transform:translateY(-50%);grid-template-rows:auto auto}.mt.big .mt-frame{width:min(100%,calc((100vh - 90px)*16/9));justify-self:center;cursor:default}
 .mt-pill{border:0;background:var(--navy);color:#fff;font:inherit;font-weight:800;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer;min-height:44px}
 .slide{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
 .slide h1{font-size:clamp(2.6rem,6vw,5.5rem);line-height:1.05}
@@ -1005,7 +1032,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
   <span class="tchip" id="tchip" hidden>Lehrkraft</span>
   <span class="stars" title="Deine Sterne"><span id="star-ico"></span><span id="star-n">0</span></span>
 </div><div id="live" hidden></div></header>
-<main id="view"></main><footer id="legal-f" class="legal-f"><a href="#" data-act="go-legal" data-v="impressum">Impressum</a> · <a href="#" data-act="go-legal" data-v="datenschutz">Datenschutz</a> · <a href="#" data-act="go-legal" data-v="umzug">Umzug</a></footer>
+<main id="view"></main><footer id="legal-f" class="legal-f"><a href="#" data-act="go-legal" data-v="impressum">Impressum</a> · <a href="#" data-act="go-legal" data-v="datenschutz">Datenschutz</a></footer>
 <div id="ov" class="ov" hidden></div>
 <div id="live-ov" class="lov" hidden></div><div id="tk-m" class="tk-m" hidden></div><button id="tk-fab" class="tk-fab" data-act="tk-open" title="Problem melden" aria-label="Problem melden" hidden>🛠️</button><div id="miniT" class="mt" hidden></div>
 
@@ -1196,22 +1223,8 @@ const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6
 const SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
 const badge=k=>`<span class="sbadge s-${k}">${SUBJECTS[k].short}</span>`;
 
-function elo(mood='happy',size=56){
-  const mouth=mood==='cheer'?'<path d="M38 65 Q50 82 62 65 Z" fill="#18203d"/><path d="M43 71 Q50 77 57 71" fill="#e5546a"/>'
-    :mood==='think'?'<circle cx="55" cy="69" r="3.6" fill="#18203d"/>'
-    :'<path d="M40 65 Q50 74 60 65" stroke="#18203d" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
-  const brow=mood==='think'?'<path d="M56 40 L68 37" stroke="#18203d" stroke-width="3" stroke-linecap="round"/>':'';
-  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true">
-    <path d="M17 44 L21 9 L44 27 Z" fill="#e8743b"/><path d="M83 44 L79 9 L56 27 Z" fill="#e8743b"/>
-    <path d="M23 36 L25 17 L37 27 Z" fill="#ffd2b8"/><path d="M77 36 L75 17 L63 27 Z" fill="#ffd2b8"/>
-    <circle cx="50" cy="56" r="34" fill="#e8743b"/>
-    <ellipse cx="50" cy="69" rx="23" ry="17" fill="#fff4ea"/>
-    <circle cx="38" cy="51" r="5.2" fill="#18203d"/><circle cx="62" cy="51" r="5.2" fill="#18203d"/>
-    <circle cx="39.8" cy="49.3" r="1.7" fill="#fff"/><circle cx="63.8" cy="49.3" r="1.7" fill="#fff"/>
-    ${brow}<ellipse cx="50" cy="60" rx="5.5" ry="3.8" fill="#18203d"/>${mouth}
-    <path d="M20 33 Q50 4 80 33 Q50 25 20 33 Z" fill="#1f8f5d"/><path d="M58 31 Q78 25 90 35 Q74 38 58 34 Z" fill="#17734a"/>
-    <circle cx="50" cy="14" r="3.5" fill="#f2b51d"/>
-  </svg>`;
+function elo(mood='happy',size=56){const f={cheer:'fleiss',think:'hilfe'}[mood]||'uebung';
+  return `<img class="elo-i" src="assets/elo/elo-${f}-512.png" width="${size}" height="${size}" alt="" aria-hidden="true" style="object-fit:contain">`;
 }
 
 /* ---------- Time & timetable ---------- */
@@ -1996,7 +2009,12 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   let ch=false;
   if(m.k==='kfb'){kfbAnswer(nr,m);return}
   if(m.k==='help'){const has=CS.help.includes(nr);if(m.on&&!has){CS.help.push(nr);ch=true;SND.right()}if(!m.on&&has){CS.help=CS.help.filter(x=>x!==nr);ch=true}}
-  if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true}
+  if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true;
+    if(CS.ready.mood&&m.mood!=null&&MOOD5[+m.mood]){const dd=todayISO(),c=S.cls||'-';TD.moods=TD.moods||{};const B=(TD.moods[c]=TD.moods[c]||{});(B[dd]=B[dd]||{})[nr]=+m.mood;tsave()}}
+  if(m.k==='exit'&&CS.exit&&m.id===CS.exit.id&&!CS.exit.done.includes(nr)){const X=CS.exit,put=o=>{if(!o||!CS.exit||CS.exit.id!==X.id)return;TD.exits=TD.exits||{};
+      const E=(TD.exits[X.id]=TD.exits[X.id]||{at:Date.now(),cls:S.cls,lesson:CS.lesson&&CS.lesson.title||'',qs:X.qs,ans:{}});
+      E.ans[nr]={a:[].concat(o.a||[]).slice(0,4).map(x=>String(x||'').slice(0,600)),m:AMP3[+o.m]?+o.m:null,nick:cleanNick(m.nick)||nickOf(nr)};tsave();if(V.name==='tafel')updTafel()};
+    X.done.push(nr);ch=true;if(m.w&&TD.dk)dDec(TD.dk.priv,m).then(put).catch(()=>{});else put(m.p)}
   if(m.k==='vote'&&CS.poll&&m.id===CS.poll.id&&!CS.poll.voted.includes(nr)){CS.poll.voted.push(nr);[].concat(m.o).forEach(o=>{o=+o;if(o>=0&&o<CS.poll.opts.length)TALLY[o]=(TALLY[o]||0)+1});ch=true;if(V.name==='present'&&CS.poll.type==='quiz')updQuiz()}
   if(m.k==='journal'&&CS.journal&&m.id===CS.journal.id&&!CS.journal.done.includes(nr)){CS.journal.done.push(nr);ch=true}
   if(m.k==='hi'&&!ROSTER[nr].known){ROSTER[nr].known=1;ch=true}
@@ -2041,6 +2059,11 @@ VIEWS.tafel=()=>{
       <button class="btn ${CS.freeze?'on':''} red" data-act="t-frz">${CS.freeze?'❄️ Freeze beenden':'❄️ Freeze: alle iPads sperren'}</button>
       <button class="btn ${CS.ready?'on':''}" data-act="t-rdy">${CS.ready?'✅ Bereit-Check beenden':'✅ Bereit-Check'}</button>
       ${CS.poll?'<button class="btn red" data-act="t-poll-end">🗳️ Abstimmung beenden</button>':`<button class="btn ${pf?'on':''}" data-act="t-poll-f">🗳️ Abstimmung</button>`}</div>
+    <div class="grp row"><span class="label">🎲 Zufall</span><button class="btn" data-act="z-wheel">🎡 Glücksrad drehen</button>
+      <span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn" data-act="z-groups" style="white-space:nowrap">👥 Gruppen bilden</button><select id="z-n" aria-label="Personen pro Gruppe">${[2,3,4,5,6].map(k=>`<option value="${k}" ${k===(V.zn||4)?'selected':''}>je ${k}</option>`).join('')}</select></span>
+      ${CS.wheel||CS.groups?`<button class="btn sm red" data-act="z-off">${CS.wheel?'Glücksrad':'Gruppen'} ausblenden</button>`:''}</div>
+    <div class="grp row"><span class="label">🔊 Lautstärke</span><button class="btn ${NOISE.on?'on':''}" data-act="nz-tog">${NOISE.on?'🔇 Lautstärke-Ampel aus':'🎤 Lautstärke-Ampel an'}</button>
+      ${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><span class="nz-m"><i id="nz-bar"></i></span></span><label class="row" style="gap:6px;font-weight:700;font-size:.85rem">leise<input id="nz-sens" type="range" min="1" max="10" value="${NOISE.sens}" style="width:110px">empfindlich</label>`:`<small class="muted">${esc(NOISE.err||'Das Mikrofon misst, wie laut es ist. Elo an der Tafel wird immer röter.')}</small>`}</div>
     ${pf?`<div class="grp"><span class="label">Abstimmung (anonym)</span>
       <div class="row" style="margin-top:6px"><button class="btn" data-act="t-poll" data-t="thumbs">👍 Daumen: verstanden?</button><button class="btn" data-act="t-poll" data-t="corners">4 Ecken</button></div>
       <div class="row" style="margin-top:8px"><input id="cp-q" type="text" placeholder="Eigene Frage, z. B. Which word fits?" style="flex:2;min-width:220px">
@@ -2070,7 +2093,10 @@ function updTafel(){
   $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
     const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||kidName(k))}</b> <span class="muted">${esc(kurzOf(k))}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
-  $('#t-ready').innerHTML=CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
+  const md=CS.ready&&CS.ready.mood?((TD.moods||{})[S.cls||'-']||{})[todayISO()]||{}:null,EX=CS.exit?(TD.exits||{})[CS.exit.id]:null;
+  $('#t-ready').innerHTML=CS.exit?`<span class="label">🎟️ Exit-Ticket · ${CS.exit.done.length} / ${on.length||'–'} abgegeben · nur für dich</span>${EX?`<div class="ex-l">${Object.entries(EX.ans).map(([k,x])=>`<div><b>${x.m!=null?AMP3[x.m][0]+' ':''}${esc(x.nick||kidName(+k))}</b>${x.a.map((y,j)=>y?`<p><small class="muted">${esc(EX.qs[j]||'')}</small> ${esc(y)}</p>`:'').join('')}</div>`).join('')}</div>`:'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}`
+    :md?`<span class="label">${CS.ready.only?'Stimmungsbarometer':'Bereit-Check mit Stimmung'} · ${CS.ready.done.length} / ${on.length||'–'} · nur für dich</span><p style="font-size:1.6rem;margin-top:4px">${MOOD5.map((e,k)=>{const c=Object.values(md).filter(v=>v===k).length;return c?`${e} ${c}`:''}).filter(Boolean).join(' &nbsp; ')||'–'}</p>${Object.entries(md).filter(([,v])=>v>=3).map(([k,v])=>`<span class="chip">${MOOD5[v]} ${esc(kidName(+k))}</span>`).join(' ')}`
+    :CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
   if(CS.poll){const tot=Math.max(1,CS.poll.voted.length);
     $('#t-poll').innerHTML=`<span class="label">Abstimmung · ${CS.poll.voted.length} / ${on.length||'–'} abgestimmt</span><h3 style="margin-top:4px">${esc(CS.poll.q)}</h3>
@@ -2118,7 +2144,7 @@ function stageTool(t,L){const m=t.mat&&typeof libById==='function'?libById(t.mat
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
   if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
   return o}
-const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&R.ready.msg&&[R.ready.done.length,R.onN],R.fx&&R.fx.at]):'';
+const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&[R.ready.done.length,R.onN],R.fx&&R.fx.at,R.wheel&&R.wheel.at,R.groups&&R.groups.at,R.exit&&R.exit.done.length]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
@@ -2130,9 +2156,13 @@ function boardHTML(R,mini){
   else if(R.game&&gInfo(R.game.g))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>🏆 ${R.game.fin.length} geschafft</p>`:''}</div>`;
   else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='slide'&&t.cur)return `<div class="bw bw-rt s-${st.subj}">${slideHTML(t.cur,{subj:st.subj,mini,fx:R.fx})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
+  else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;
+  else if(st&&['thumbs','exit','mood'].includes(t.id)){const I=TOOLS[t.id],n=t.id==='thumbs'?(R.poll?R.poll.voted.length:0):t.id==='exit'?(R.exit?R.exit.done.length:0):(R.ready?R.ready.done.length:0);
+    return `<div class="bw bw-rt s-${st.subj}"><div class="rt rt-ask" ${bgAttr('allgemein')}><span class="ask-i">${t.id==='thumbs'?'👍 👌 👎':t.id==='mood'?MOOD5.join(' '):'🎟️'}</span><h1>${esc(t.id==='exit'?'Exit-Ticket':t.q||I.name)}</h1>${t.id==='exit'&&R.exit?`<ol>${R.exit.qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`:''}<p>Tippe auf deinem iPad.</p><b class="ask-n">${n} / ${Math.max(R.onN||0,n)||'–'} fertig</b><img class="ask-e" src="assets/elo/elo-uebung-512.png" alt=""></div>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`}
   else if(st&&t.id==='vw')return `<div class="bw bw-rt s-${st.subj}">${vwHTML(t,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='heftlink')return `<div class="bw bw-rt s-${st.subj}">${richTool({id:'heft',title:t.title,text:t.text},{subj:st.subj,name:st.name,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
-  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&R.ready.msg?{d:R.ready.done.length,n:Math.max(R.onN||0,R.ready.done.length)}:null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&(R.ready.msg||t.id==='start')?{d:R.ready.done.length,n:Math.max(R.onN||0,R.ready.done.length)}:null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='kfb')main=`<img src="assets/kfb/logo.webp" alt="Kopfrechnen Fußball" style="max-height:62cqh;max-width:80%;border-radius:2cqh"><p style="font-weight:800;font-size:4cqh">Gleich geht's los!</p>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
@@ -2238,8 +2268,18 @@ function liveOverlay(){
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
   else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null,its=RCS.ready.items&&RCS.ready.items.length?RCS.ready.items:sub?SUBJECTS[sub].prep:null;
     if(RCS.ready.msg&&sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate([150,80,150])}catch(e){}}
-    html=box(`<span class="label">${RCS.ready.msg?'Stundenbeginn':'Bereit-Check'}</span><h2>${esc(RCS.ready.msg||'Bist du bereit?')}</h2>${its?`<p style="margin-top:8px;font-weight:700">Liegt alles bereit?</p><div class="prep">${its.map(p=>`<button data-act="prep"><i></i>${esc(p)}</button>`).join('')}</div>`:''}
-      <button class="btn ok" data-act="ready" style="width:100%;margin-top:16px">Ich bin bereit</button>`)}
+    const md=RCS.ready.mood?`<p style="margin-top:10px;font-weight:800">${RCS.ready.only?'':'Wie geht\'s dir heute?'}</p><div class="mood5">${MOOD5.map((m,k)=>`<button data-act="mood-pick" data-v="${k}" class="${MOODSEL===k?'on':''}">${m}</button>`).join('')}</div><small class="muted">Das sieht nur deine Lehrkraft.</small>`:'';
+    if(!PREPON||PREPON.id!==RCS.ready.id)PREPON={id:RCS.ready.id,on:[]};const pi=RCS.ready.only?[]:its||[],gate=prepGate(pi.length);
+    const inner=`<h2>${esc(RCS.ready.msg||'Bist du bereit?')}</h2>${md}${pi.length?`<p style="margin-top:8px;font-weight:700">Hak ab, was bereitliegt:</p><div class="prep">${pi.map((p,k)=>`<button data-act="prep" data-k="${k}" class="${PREPON.on.includes(k)?'on':''}"><i>${PREPON.on.includes(k)?'✓':''}</i>${esc(p)}</button>`).join('')}</div>`:''}
+      <button class="btn ok" data-act="ready" data-n="${pi.length}" style="width:100%;margin-top:16px" ${gate?'':'disabled'}>${RCS.ready.only?'Abschicken':'Ich bin bereit 🚀'}</button>`;
+    const stT=RCS.stage&&RCS.stage.tool&&RCS.stage.tool.id==='start'?RCS.stage.tool:null;
+    if(stT){full=true;const bg=SL_BG[stT.bg||'start']?(stT.bg||'start'):'start',sn=(SUBJECTS[RCS.stage.subj]||{}).name||'';
+      html=`<div class="st-lov" style="background-image:url(assets/folien/${bg==='none'?'allgemein':bg}.webp)"><div class="st-card"><h1>${esc(stT.title||'Du hast jetzt '+sn)}</h1>${stT.date!==false?`<p class="st-d">${dateDE()}</p>`:''}${inner}</div></div>`}
+    else html=box(`<span class="label">${RCS.ready.only?'Stimmungsbarometer':RCS.ready.msg?'Stundenbeginn':'Bereit-Check'}</span>${inner}`)}
+  else if(RCS.exit&&!S.readyDone[RCS.exit.id]&&!RCS.exit.done.includes(S.nr)){const X=RCS.exit;sig='x'+X.id;
+    html=box(`<span class="label">🎟️ Exit-Ticket</span><h2>Bevor du gehst …</h2>${X.qs.map((q,k)=>`<label class="label" for="ex-a${k}" style="display:block;margin-top:12px">${esc(q)}</label><textarea id="ex-a${k}" rows="2"></textarea>`).join('')}
+      ${X.amp?`<p class="label" style="margin-top:12px">Wie gut kannst du es schon?</p><div class="amp3">${AMP3.map(([e,l],k)=>`<button data-act="exit-amp" data-v="${k}" class="${EXAMP===k?'on':''}">${e}<small>${l}</small></button>`).join('')}</div>`:''}
+      <p class="err" id="ex-err"></p><button class="btn ok" data-act="exit-send" style="width:100%;margin-top:12px">Abgeben</button><small class="muted">Nur deine Lehrkraft sieht deine Antworten.</small>`)}
   else if(RCS.journal&&!S.journalDone[RCS.journal.id]&&!RCS.journal.done.includes(S.nr)){sig='j'+RCS.journal.id;html=box(journalForm('live',RCS.journal.id))}
   else if(RCS.poll&&RCS.poll.type==='quiz'&&!RCS.poll.res&&!S.voted[RCS.poll.id]&&!RCS.poll.voted.includes(S.nr)){const P=RCS.poll;sig='q'+P.id+(P.multi?JSON.stringify(QSEL):'');
     html=box(`<span class="label">Abstimmung${P.multi?' · mehrere Antworten möglich':''}</span><h2>${esc(P.q)}</h2><div class="qz-pick">${P.opts.map((o,i)=>`<button class="${QSEL.includes(i)?'on':''}" style="--qc:${QZ_C[i%8]}" data-act="${P.multi?'qz-tog':'vote'}" data-o="${i}"><b>${ABC(i)}</b><span>${esc(o)}</span></button>`).join('')}</div>
@@ -2492,7 +2532,37 @@ document.addEventListener('pointerdown',e=>{const box=e.target.closest&&e.target
 document.addEventListener('pointermove',e=>{if(!SLD)return;const D=SLD,dx=(e.clientX-D.x0)/D.B.width*100,dy=(e.clientY-D.y0)/D.B.height*100,r=x=>Math.round(x*10)/10;
   if(D.rz){D.P.w=r(Math.max(4,Math.min(100-D.x,D.w+dx)));D.el.style.width=D.P.w+'%'}
   else{D.P.x=r(Math.max(-20,Math.min(95,D.x+dx)));D.P.y=r(Math.max(-20,Math.min(95,D.y+dy)));D.el.style.left=D.P.x+'%';D.el.style.top=D.P.y+'%'}});
+document.addEventListener('input',e=>{if(e.target.id==='nz-sens')NOISE.sens=+e.target.value});
 document.addEventListener('pointerup',()=>{if(!SLD)return;const k=SLD.k;SLD=null;if(V.sle)V.sle.sel=k;save();render()});
+const THUMBS=['👍 Ja, alles klar','👌 Teilweise','👎 Noch nicht'],MOOD5=['😄','🙂','😐','😕','😢'],AMP3=[['🟢','Kann ich'],['🟡','Fast'],['🔴','Noch nicht']];
+let MOODSEL=null,EXAMP=null,PREPON=null;
+// „Ich bin bereit“ erst, wenn alles abgehakt ist (und, falls gefragt, die Stimmung gewählt)
+const prepGate=n=>(!RCS||!RCS.ready||!RCS.ready.mood||MOODSEL!=null)&&(!n||(PREPON&&PREPON.on.length>=n));
+function prepUpd(){const b=$('#live-ov [data-act=ready]');if(b)b.disabled=!prepGate(+b.dataset.n||0)}
+// Zufall: Glücksrad und Gruppen, nur Fantasienamen oder Nummern an der Tafel
+const zName=k=>nickOf(k)||'Nr. '+k;
+function zPool(){const on=online().sort((a,b)=>a-b);return on.length?on:Array.from({length:S.classSize},(_,i)=>i+1)}
+function wheelSpin(){const P=zPool().slice(0,40);CS.wheel={at:Date.now(),names:P.map(zName),pick:Math.floor(Math.random()*P.length)};CS.groups=null;pushCS();render();audPlay('trommelwirbel',false)}
+function groupsMake(n){n=Math.max(2,Math.min(8,n||4));const P=shuffle(zPool()),G=[],k=Math.max(1,Math.round(P.length/n));for(let i=0;i<k;i++)G.push([]);P.forEach((x,i)=>G[i%k].push(zName(x)));CS.groups={at:Date.now(),g:G,n};CS.wheel=null;pushCS();render()}
+const WCOL=['#4f46e5','#0ea5e9','#16a34a','#f59e0b','#ef4444','#a855f7','#14b8a6','#f97316'];
+function wheelHTML(W,mini){const n=W.names.length,seg=360/n,el=Date.now()-W.at,end=360*6+(360-(W.pick+.5)*seg),r=50,
+    pt=a=>[50+r*Math.sin(a*Math.PI/180),50-r*Math.cos(a*Math.PI/180)];
+  const segs=W.names.map((nm,i)=>{const [x1,y1]=pt(i*seg),[x2,y2]=pt((i+1)*seg),mid=(i+.5)*seg;
+    return `<path d="M50 50 L${x1.toFixed(2)} ${y1.toFixed(2)} A50 50 0 ${seg>180?1:0} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${WCOL[i%WCOL.length]}"/>${n<=30?`<text x="50" y="${n>16?8:10}" transform="rotate(${mid} 50 50)" text-anchor="middle" font-size="${n>16?2.6:n>8?3.6:4.6}" fill="#fff" font-weight="800">${esc(nm.slice(0,12))}</text>`:''}`}).join('');
+  return `<div class="rt rt-wh" ${bgAttr('allgemein')}><div class="wh"><svg viewBox="0 0 100 100" class="wh-s ${el<5000&&!mini?'spin':''}" style="--rot:${end}deg;animation-delay:-${Math.min(el,5000)}ms;${el>=5000||mini?`transform:rotate(${end}deg)`:''}">${n===1?`<circle cx="50" cy="50" r="50" fill="${WCOL[0]}"/>`:segs}<circle cx="50" cy="50" r="6" fill="#fff"/></svg><i class="wh-p"></i></div>
+    <div class="wh-r" style="animation-delay:${mini?0:Math.max(0,5000-el)}ms"><img src="assets/elo/elo-fleiss-512.png" alt=""><span>${esc(W.names[W.pick]||'')}</span></div></div>`}
+function groupsHTML(G){return `<div class="rt rt-gr" ${bgAttr('allgemein')}><h1>👥 Eure Gruppen</h1><div class="gr">${G.g.map((g,i)=>`<div class="gr-c" style="--c:${WCOL[i%WCOL.length]}"><b>Gruppe ${i+1}</b>${g.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`).join('')}</div></div>`}
+// Lautstärke-Ampel: Mikrofon am Lehrer-Gerät, nichts wird aufgenommen oder gesendet; nur der Pegel geht ans Tafel-Fenster
+const NOISE={on:false,lv:0,sens:5,err:'',st:null,ctx:null,iv:0};window.NOISE=NOISE;
+async function noiseOn(){NOISE.err='';try{const st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+  const ctx=new (window.AudioContext||window.webkitAudioContext)(),an=ctx.createAnalyser();an.fftSize=2048;ctx.createMediaStreamSource(st).connect(an);const buf=new Float32Array(an.fftSize);
+  Object.assign(NOISE,{on:true,st,ctx,lv:0});NOISE.iv=setInterval(()=>{an.getFloatTimeDomainData(buf);let q=0;for(let k=0;k<buf.length;k++)q+=buf[k]*buf[k];
+    const db=20*Math.log10(Math.sqrt(q/buf.length)+1e-7),floor=-48-(NOISE.sens-5)*3,raw=Math.max(0,Math.min(1,(db-floor)/30));NOISE.lv=NOISE.lv*.85+raw*.15;noiseUI(document)},100)}
+  catch(e){NOISE.on=false;NOISE.err='Kein Zugriff aufs Mikrofon. Erlaube es in der Adresszeile des Browsers.'}render()}
+function noiseOff(){clearInterval(NOISE.iv);try{NOISE.st&&NOISE.st.getTracks().forEach(t=>t.stop());NOISE.ctx&&NOISE.ctx.close()}catch(e){}Object.assign(NOISE,{on:false,lv:0,st:null,ctx:null});render()}
+function noiseUI(doc,N){N=N||NOISE;const lv=N.on?N.lv:0,b=doc.getElementById('nz-bar');if(b){b.style.width=Math.round(lv*100)+'%';b.style.background=lv>.75?'#dc2626':lv>.45?'#f59e0b':'#16a34a'}
+  doc.querySelectorAll('.nz-red').forEach(i=>i.style.opacity=Math.min(1,Math.max(0,(lv-.2)/.65)).toFixed(2));
+  const z=doc.getElementById('nz');if(z){z.hidden=!N.on;z.classList.toggle('loud',lv>.85)}}
 function vwDo(k){const v=CS&&CS.vw;if(!v)return;const L=lessonById(CS.lesson.id),n=vwCards(L.phases[CS.step].tool).length;
   if(k==='flip'){v.open=!v.open;v.at=Date.now();if(v.open)audPlay('funkeln',false)}
   if(k==='ok'){v.sc[v.team]=(v.sc[v.team]||0)+1;audPlay('erfolg',false);k='next'}
@@ -2518,13 +2588,16 @@ function startStep(i){
   i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.sub=0;CS.fx=null;CS.game=null;CS.media=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
   CS.phase={name:p.name,txt:p.txt||p.goal||'',look:p.act==='look'||p.act==='mission',go:p.act==='goto'?p.target:null,sf:p.sf,method:p.method};
   CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;if(p.snd&&!BOARD)audPlay(p.snd,false);
-  const m=+p.min||0;CS.timer=m?{run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000}:{run:false,total:300,left:300,endsAt:0};
+  const m=+p.min||0;CS.timer=m?{run:false,total:m*60,left:m*60,endsAt:0}:{run:false,total:300,left:300,endsAt:0};// Timer startet nur von Hand in der Steuerung
   if(p.act==='mission'){SND.mission();setTimeout(()=>say(S.mission),900)}
   if(p.act==='poll'){const P=POLLS[p.poll||'thumbs'];CS.poll={id:'p'+Date.now(),type:p.poll||'thumbs',q:P.q,opts:P.opts,voted:[]};TALLY={}}
   if(p.act==='ready')CS.ready={id:'r'+Date.now(),done:[],rewarded:false};
   if(p.act==='journal')CS.journal={id:'j'+Date.now(),done:[]};
   const T=p.tool||{};
-  if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean)};
+  if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean),mood:!!T.mood};
+  if(T.id==='mood'){CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.q||'Wie geht\'s dir heute?',items:[],mood:true,only:true};CS.phase.look=false}
+  if(T.id==='thumbs'){CS.poll={id:'p'+Date.now(),type:'thumbs',q:T.q||'Hast du es verstanden?',opts:THUMBS,voted:[],hide:true};TALLY={};CS.phase.look=false}
+  if(T.id==='exit'){CS.exit={id:'x'+Date.now(),qs:lines(T.qs).slice(0,4),amp:T.amp!==false,done:[]};CS.phase.look=false}else CS.exit=null;
   if(T.id==='task'&&T.text)CS.phase.txt=lines(T.text).join(' · ');
   if(T.id==='question'&&T.q)CS.phase.txt=T.q;
   if(T.id==='quiz'||T.id==='corners4'||T.id==='diary')CS.phase.look=false;
@@ -2967,6 +3040,9 @@ const TOOLS={
   hypo:{name:'Vermutungen',icon:'💡',txt:'Vermutungen sammeln oder überprüfen.',fit:/hypo|vermut|sicherung|überprüf/i},
   task:{name:'Arbeitsauftrag',icon:'📝',txt:'Leere Vorlage: Du schreibst den Auftrag, Sozialform und Zeit kommen aus der Phase.',fit:/auftrag|erarb|anwend|übung/i},
   high5:{name:'High-Five-Feedback',icon:'🙌',txt:'Fünf Reflexionsfragen an der Tafel.',fit:/reflex|feedback|abschluss/i},
+  thumbs:{name:'Daumen-Abfrage',icon:'👍',txt:'„Hast du es verstanden?“ Die SuS tippen 👍 👌 👎 auf dem iPad. Du siehst das Ergebnis sofort, die Tafel nur, wie viele schon abgestimmt haben.',fit:/verstand|sicherung|abschluss|reflex|daumen/i},
+  exit:{name:'Exit-Ticket',icon:'🎟️',txt:'Zum Schluss beantworten die SuS kurze Fragen auf dem iPad und schätzen sich mit der Ampel ein. Nur du siehst die Antworten.',fit:/exit|abschluss|reflex|ausblick|sicherung/i},
+  mood:{name:'Stimmungsbarometer',icon:'🌤️',txt:'„Wie geht\'s dir heute?“ Die SuS tippen ein Gesicht auf dem iPad. Nur du siehst die Antworten.',fit:/begr|ankommen|start|stimmung/i},
   vw:{name:'Verbotene Wörter',icon:'🃏',txt:'Eine Person steht mit dem Rücken zur Tafel. Die Klasse erklärt das Wort, ohne die verbotenen Wörter zu sagen. Die Karte dreht sich auf Knopfdruck.',fit:/warm|ritual|wiederhol|wortschatz|begriff|spiel|tabu/i},
   heftlink:{name:'Hefteintrag zeigen',icon:'📖',txt:'Einen fertigen Hefteintrag an Tafel und iPads zeigen. Die SuS schreiben ihn ins Heft ab.',fit:/sicherung|merke|heft|regel|abschreib/i},
   heft:{name:'Hefteintrag',icon:'📒',txt:'Groß an der Tafel und automatisch im Regelheft aller SuS. Text einfach reinkopieren.',fit:/sicherung|merke|heft|regel/i},
@@ -2976,7 +3052,7 @@ const TOOLS={
 };
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
-const TOOL_IPAD={vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Du nimmst Kinder dran, sie tippen ihr Ergebnis auf dem iPad ein.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
+const TOOL_IPAD={thumbs:'Die SuS stimmen mit 👍 👌 👎 ab. Das Ergebnis siehst nur du.',exit:'Die SuS füllen das Exit-Ticket auf dem iPad aus. Die Antworten siehst nur du.',mood:'Die SuS tippen, wie es ihnen geht. Das siehst nur du.',vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Du nimmst Kinder dran, sie tippen ihr Ergebnis auf dem iPad ein.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
   quiz:'Die SuS stimmen auf dem iPad ab.',corners4:'Die SuS stimmen auf dem iPad ab.',diary:'Die SuS schreiben in ihr Lerntagebuch.'};
 const IPAD_OFF=['start','kfb','heftlink'];
 const SF_TXT={EA:'Du arbeitest allein',PA:'Du arbeitest mit deinem Partner',GA:'Ihr arbeitet in der Gruppe',Plenum:'Wir arbeiten gemeinsam'};
@@ -3027,7 +3103,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   return '';
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
-  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:'start',date:true,title:''},heftlink:{id,eid:''},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
+  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:'start',date:true,title:''},heftlink:{id,eid:''},thumbs:{id,q:'Hast du es verstanden?'},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
     task:{id,text:''},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
@@ -3059,7 +3135,9 @@ function toolEditor(p,i,L){
   if(t.id==='start')cfg=`<div class="st-ed"><div class="sl-pv">${richTool(t,{subj:L.subject,mini:1})}</div><div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'Du hast jetzt '+((SUBJECTS[L.subject]||{}).name||''))}
     <label>Hintergrund<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.tool.bg" style="flex:1">${[['start','ELIO Start (mit Elo)'],['allgemein','ELIO allgemein'],['video','Mathe-Tafel (Video)']].map(([k,n])=>`<option value="${k}" ${k===(t.bg||'start')?'selected':''}>${n}</option>`).join('')}${LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===t.bg?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''}</select><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Bild</button></span></label>
     ${inp('hint','Anweisung (Tafel und iPad)',t.hint)}${inp('items','Liste zum Abhaken (mit Komma)',t.items,'Mathebuch, Heft, Regelheft')}
-    <label class="cbl" style=""><input type="checkbox" data-f="ph.${i}.tool.date" ${t.date!==false?'checked':''} style="width:auto"> Heutiges Datum zeigen</label><input type="file" id="sl-file" accept="image/*" hidden></div></div>`;
+    <label class="cbl" style=""><input type="checkbox" data-f="ph.${i}.tool.date" ${t.date!==false?'checked':''} style="width:auto"> Heutiges Datum zeigen</label><label class="cbl"><input type="checkbox" data-f="ph.${i}.tool.mood" ${t.mood?'checked':''}> Stimmungsbarometer dazu („Wie geht's dir heute?“)</label><input type="file" id="sl-file" accept="image/*" hidden></div></div>`;
+  if(t.id==='thumbs'||t.id==='mood')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}</div>`;
+  if(t.id==='exit')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fragen (eine pro Zeile, höchstens 4)',t.qs,3)}<label class="cbl" style="grid-column:1/-1"><input type="checkbox" data-f="ph.${i}.tool.amp" ${t.amp!==false?'checked':''}> Dazu die Ampel: Kann ich / Fast / Noch nicht</label></div>`;
   if(t.id==='vw'){const n=vwCards(t).length;cfg=`<div class="lgrid" style="margin-top:8px">${inp('teams','Teams (mit Komma)',t.teams,'Team A, Team B')}${ta('cards','Karten: pro Zeile „Wort: verboten, verboten, verboten“',t.cards,8)}<p class="muted" style="grid-column:1/-1;font-weight:700;margin:0">${n} Karten erkannt. An der Tafel drehst du jede Karte mit einem Klick um und vergibst die Punkte.</p></div>`}
   if(t.id==='heftlink'){const H=tHeft(L.subject).filter(e=>e.title);cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Welcher Hefteintrag?<select data-f="ph.${i}.tool.eid"><option value="">– bitte wählen –</option>${H.map(e=>`<option value="${esc(e.id)}" ${e.id===t.eid?'selected':''}>${esc((e.ch?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</option>`).join('')}</select></label>${H.length?'':'<p class="muted" style="grid-column:1/-1;font-weight:700">In diesem Fach gibt es noch keine Hefteinträge. Lege sie im Schreibtisch an.</p>'}</div>`}
   if(t.id==='cover')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Thema der Sequenz',t.title,'Terme und Gleichungen')}${inp('sub','Untertitel',t.sub,className())}</div>`;
@@ -3949,7 +4027,7 @@ async function heftLoadPlan(quiet,sk){sk=PLANS[sk]?sk:'M';const PL=PLANS[sk];try
     if(o){let c=0;const ot=o.text.trim();const xb=x.text.split('\n').filter(l=>!/^\[bild:/i.test(l.trim())).join('\n').trim();if(ot!==x.text&&(x.text.startsWith(ot)||ot.startsWith(x.text.trim())||ot===xb)){o.text=x.text;c=1}
       if(o.help!==x.help||JSON.stringify([o.ub,o.ubs,o.hx,o.mt])!==JSON.stringify([x.ub,x.ubs,x.hx,x.mt])||o.ch!==x.ch){o.help=x.help;o.ub=x.ub;o.ubs=x.ubs;o.hx=x.hx;o.mt=x.mt;o.ch=x.ch;c=1}up+=c;return}
     TD.heft.push({id,s:sk,title:x.title,text:x.text,help:x.help,ub:x.ub,ubs:x.ubs,hx:x.hx,mt:x.mt,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
-  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in '+new Set(L.map(x=>x.ch)).size+' Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':'Der Jahresplan ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
+  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in '+new Set(L.map(x=>x.ch)).size+' Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':(sk==='M'?'Der Jahresplan':'Die '+PL.t)+' ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
 /* ---------- Podium an der Tafel: Avatare der SuS, die das Spiel geschafft haben ---------- */
 function liveWin(at){if(S.role!=='student'||!RCS||!RCS.game||RCS.game.at!==at)return;S.gwin=S.gwin||{};if(S.gwin[at])return;S.gwin={[at]:1};save();sendMsg({k:'gwin',at})}
 function podHTML(G,mini){const F=(G.fin||[]).slice(0,40),top=[F[1],F[0],F[2]],H=['p2','p1','p3'],N=[2,1,3];
@@ -4550,6 +4628,15 @@ document.addEventListener('click',e=>{
     case 'l-go':startStep(+d.i);break;
     case 'l-nav':lNav(+d.d);break;
     case 'vw':vwDo(d.k);break;
+    case 'z-wheel':wheelSpin();break;
+    case 'z-groups':{const n=+($('#z-n')||{}).value||4;V.zn=n;groupsMake(n);break}
+    case 'z-off':CS.wheel=null;CS.groups=null;pushCS();render();break;
+    case 'mood-pick':MOODSEL=+d.v;document.querySelectorAll('.mood5 button').forEach(b=>b.classList.toggle('on',+b.dataset.v===MOODSEL));prepUpd();break;
+    case 'exit-amp':EXAMP=+d.v;document.querySelectorAll('.amp3 button').forEach(b=>b.classList.toggle('on',+b.dataset.v===EXAMP));break;
+    case 'exit-send':{if(!RCS||!RCS.exit)break;const X=RCS.exit,a=X.qs.map((_,k)=>(($('#ex-a'+k)||{}).value||'').trim().slice(0,600));if(!a.some(Boolean)&&EXAMP==null){const e=$('#ex-err');if(e)e.textContent='Schreib mindestens eine Antwort.';break}
+      const body={a,m:EXAMP},plain=()=>sendMsg({k:'exit',id:X.id,p:body});if(RCS.dpk&&window.crypto&&crypto.subtle)dEnc(RCS.dpk,body).then(o=>sendMsg({k:'exit',id:X.id,...o})).catch(plain);else plain();
+      S.readyDone[X.id]=1;save();EXAMP=null;SND.right();liveOverlay();break}
+    case 'nz-tog':NOISE.on?noiseOff():noiseOn();break;
     case 'sl-add':case 'sl-del':case 'sl-mv':case 'sl-dup':{const L=lessonById(V.id),t=L&&L.phases[+d.i]&&L.phases[+d.i].tool;if(!t)break;const A=deckSlides(t),j=+d.j;
       if(a==='sl-add')A.push({layout:'std',bg:(A[A.length-1]||{}).bg||'allgemein',title:'',text:'',mat:'',elo:'',say:'',steps:false});
       if(a==='sl-del')A.splice(j,1);if(a==='sl-dup')A.splice(j+1,0,clone(A[j]));
@@ -4844,7 +4931,7 @@ document.addEventListener('click',e=>{
     case 't-rk':CS.rocket=Math.max(0,Math.min(10,CS.rocket+(+d.d)));if(+d.d>0)CS.rocket>=10?SND.cheer():SND.right();pushCS();updTafel();break;
     case 't-cls':{const n=parseInt($('#t-cls').value,10);if(n>=2&&n<=40){S.classSize=n;save();updTafel()}break}
     case 'help':if(RCS)sendMsg({k:'help',on:!RCS.help.includes(S.nr)});break;
-    case 'ready':if(RCS&&RCS.ready){S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id});SND.right();liveOverlay()}break;
+    case 'ready':if(RCS&&RCS.ready){if(!prepGate(+d.n||0))break;S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id,...(RCS.ready.mood?{mood:MOODSEL}:{})});MOODSEL=null;SND.right();liveOverlay()}break;
     case 'vote':if(RCS&&RCS.poll){const qz=RCS.poll.type==='quiz';S.voted[RCS.poll.id]=qz?[+d.o]:1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
     case 'qz-tog':{const o=+d.o;QSEL=QSEL.includes(o)?QSEL.filter(x=>x!==o):[...QSEL,o].sort();liveOverlay();break}
     case 'qz-send':if(RCS&&RCS.poll&&QSEL.length){S.voted[RCS.poll.id]=QSEL.slice();save();sendMsg({k:'vote',id:RCS.poll.id,o:QSEL.slice()});QSEL=[];SND.right();liveOverlay()}break;
@@ -4877,7 +4964,7 @@ document.addEventListener('click',e=>{
     case 'tab':V.tab=d.t;render();break;
     case 'module':go('module');break;
     case 'close-ov':$('#ov').hidden=true;if(d.to==='subject')go('subject',{s:d.s});else if(d.to)go(d.to);break;
-    case 'prep':b.classList.toggle('on');b.querySelector('i').textContent=b.classList.contains('on')?'✓':'';SND.right();break;
+    case 'prep':{b.classList.toggle('on');const on=b.classList.contains('on');b.querySelector('i').textContent=on?'✓':'';if(PREPON&&d.k!=null){const k=+d.k;PREPON.on=PREPON.on.filter(x=>x!==k);if(on)PREPON.on.push(k)}SND.right();prepUpd();break}
     case 'recheck':{const sl=slotNow();if(sl.kind==='lesson')lessonPopup(sl,null);break}
     case 'hw':S.hwDone[d.id]=!S.hwDone[d.id];if(S.hwDone[d.id]){SND.right();earnOnce('hw_'+d.id)}save();progTick();render();break;
     case 'copied':S.copied[d.id]=!S.copied[d.id];if(S.copied[d.id]){SND.right();earnOnce('cp_'+d.id)}save();render();break;
@@ -4946,6 +5033,8 @@ function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSi
 
 $('#star-ico').innerHTML=STAR;
 if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};Live.start(S.code);libLoad();
+  {const z=document.createElement('div');z.id='nz';z.className='nz';z.hidden=true;z.innerHTML='<span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><b class="nz-b">Psst! Zu laut!</b>';document.body.appendChild(z);
+   setInterval(()=>{let N=null;try{N=window.opener&&!window.opener.closed&&window.opener.NOISE}catch(e){}noiseUI(document,N||{on:false,lv:0})},120)}
   // Spiegel für den Mini-Bildschirm der Lehrkraft (gleiches Gerät): schickt, was gerade im Tafel-Fenster zu sehen ist
   try{const mc=new BroadcastChannel('elio-mirror-'+S.code);let mt=0,last='';const send=()=>{mt=0;const v=$('#view');if(!v)return;const h=v.innerHTML;
       mc.postMessage({html:h,cls:document.body.className,w:innerWidth,h:innerHeight,at:Date.now(),same:h===last});last=h};
