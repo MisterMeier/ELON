@@ -195,7 +195,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk.erledigt .tk-body p{text-decoration:line-through}
 .ib{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:14px;align-items:start}.ib-l{display:grid;gap:6px}
 .ib-t{display:flex;gap:10px;align-items:center;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:8px 10px;cursor:pointer;color:var(--ink);font:inherit}
-.ib-t.on{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}.ib-t span:not(.tk-n){display:flex;flex-direction:column;flex:1;min-width:0}.ib-t small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib-t.on{border-color:var(--brand-ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-ink) 20%,transparent)}.ib-t span:not(.tk-n){display:flex;flex-direction:column;flex:1;min-width:0}.ib-t small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ib-go{border:0;cursor:pointer;font:inherit;font-size:.75rem}@media(max-width:720px){.ib{grid-template-columns:1fr}}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
 @media print{.tk-fab{display:none}}
 .keyqr{position:fixed;right:3vw;bottom:4vh;z-index:40;background:#fff;color:#111;border-radius:22px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:min(30vw,340px);text-align:center;display:grid;gap:6px}.keyqr .qr svg{width:100%;height:auto}.keyqr p{font-size:.9rem;font-weight:700;color:#555}
@@ -396,7 +396,13 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .seat.on{border:2px solid var(--line);background:var(--surface-2);color:var(--ink)}
 .seat.ready{background:var(--ok-bg);border-color:var(--green)}
 .seat.voted::after{content:"";position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
-.seat.help{background:var(--late-bg);border-color:var(--red);color:var(--red);animation:pulse 1.4s infinite}
+.seat.help{background:#e3edff;border-color:#2f6fe4;color:#2f6fe4;animation:pulse 1.4s infinite}
+.seats.frz .seat.on{background:#ffe1e1;border-color:#d33;color:#b22}.seats.frz .seat.on.help{background:#e3edff;border-color:#2f6fe4;color:#2f6fe4}
+.t-subj{display:flex;align-items:center;gap:8px;font-size:1.05rem}.t-subj .badge{width:34px;height:34px;font-size:.9rem}
+.t-ph{margin-top:8px;font-size:1.05rem}.t-dots{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.t-dots button{width:26px;height:10px;border-radius:5px;border:0;background:var(--line);cursor:pointer;padding:0}.t-dots .past{background:color-mix(in srgb,var(--brand-ink) 40%,var(--line))}.t-dots .on{background:var(--brand-ink);width:40px}
+.t-nav{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}.btn.big{min-height:58px;padding:0 26px;font-size:1.2rem;border-radius:16px}.t-keys{display:block;margin-top:8px}
+.lb-t{float:right;border:1.5px solid var(--line);background:var(--surface-2);color:var(--muted);border-radius:999px;padding:4px 12px;font:800 .82rem var(--f-body);cursor:pointer;margin:-4px -4px 6px 8px}.lb-t.on{background:var(--ok-bg);border-color:var(--green);color:var(--green)}
+.b-fs{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(10,14,30,.55);color:#fff;border:0;font:800 2rem var(--f-display);cursor:pointer}.b-fs small{display:block;font:700 1rem var(--f-body);opacity:.85;margin-top:8px}
 @keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--red) 25%,transparent)}}
 .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:.85rem;font-weight:700;color:var(--muted)}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:4px;vertical-align:-1px;border:2px solid var(--line)}
@@ -633,6 +639,14 @@ body.boardwin .bw{height:100vh}
 .rt .band{background:#4D8936;color:#fff;font-weight:800;font-size:1.5em;padding:.5em 1em;border-bottom:.35em solid #42A7D3}
 .rt-start{background:#1d2427;color:#fff;align-items:center;justify-content:center;text-align:center}
 .rt-start .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rk{position:absolute;right:5%;bottom:8%;top:10%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.4em;z-index:2}
+.rk-r{font-size:4.2em;line-height:1;display:block;transform:rotate(-45deg);filter:drop-shadow(0 .1em .3em rgba(0,0,0,.5))}
+.rk-tube{width:1.6em;flex:1;max-height:60%;border-radius:1em;background:rgba(255,255,255,.18);border:.15em solid rgba(255,255,255,.75);display:flex;align-items:flex-end;overflow:hidden}
+.rk-tube i{display:block;width:100%;background:linear-gradient(0deg,#ff7a1a,#ffd23f);transition:height .6s ease}
+.rk b{font-size:1.3em;font-weight:800;color:#fff;text-shadow:0 .1em .4em rgba(0,0,0,.6);white-space:nowrap}
+.rk.go .rk-r{animation:rkfly 2.4s cubic-bezier(.5,0,.9,.4) .3s forwards}
+@keyframes rkfly{0%{transform:translateY(0) rotate(-45deg)}12%{transform:translateY(.15em) rotate(-45deg)}100%{transform:translateY(-140cqh) rotate(-45deg)}}
+@media (prefers-reduced-motion:reduce){.rk.go .rk-r{animation:none}}
 .rt-start .in{position:relative;display:grid;gap:.6em;justify-items:center;text-shadow:0 .1em .6em rgba(0,0,0,.6)}
 .rt-start h1{color:#fff;font-size:3.6em}.rt-start p{font-size:1.6em;font-weight:700;color:#fff}
 .rt-start .hint{background:#4D8936;border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:1.3em;text-shadow:none;margin-top:.6em}
@@ -902,6 +916,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="obs" data-nav="obs" id="nav-obs" hidden>Beobachtungen</button>
     <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
+    <button class="tv" data-act="board" data-nav="board" id="nav-tboard" hidden>Lotsen-Board</button>
     <button class="tv" data-act="inbox" data-nav="inbox" id="nav-inbox" hidden>Postfach</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
     <button class="sv" data-act="desk" data-nav="desk">Schreibtisch</button>
@@ -1742,48 +1757,50 @@ STV.reflect=()=>{
 };
 
 /* --- Lotsen-Board (Lehrkraft & Lernlotsen) --- */
+const LB_DEF=['mission','timer','sig','pairs','rocket','rituals'];
+function lbOn(){return S.role==='teacher'?(TD.lotsenFx||LB_DEF):(RCS&&Array.isArray(RCS.lotsenFx)?RCS.lotsenFx:LB_DEF)}
+function lbS(k,cls){const on=lbOn().includes(k),T=S.role==='teacher';return `<section class="${cls}" ${!T&&!on?'hidden':''}>${T?`<button class="lb-t ${on?'on':''}" data-act="lb-tog" data-k="${k}">${on?'👁️ Lotsen sehen das':'🚫 nur für dich'}</button>`:''}`}
 let T={total:180,left:180,run:false,id:null},PAIRS_OUT='',JOBS_OUT=null,ASK=false;
-VIEWS.board=()=>`<div class="st-head"><span class="chip">Für Lehrkraft & Lernlotsen</span></div>
-  <h1 style="margin-bottom:16px">Lotsen-Board</h1>
+VIEWS.board=()=>`<h1 style="margin-bottom:6px">🧭 Lotsen-Board</h1>${S.role==='teacher'?'<p class="muted" style="font-weight:700;margin-bottom:16px">Leg hier fest, welche Werkzeuge deine Lernlotsen auf dem iPad bekommen. Freigeben kannst du das Board an der Tafel unter „Steuerung“.</p>':'<p class="muted" style="font-weight:700;margin-bottom:16px">Deine Lehrkraft hat dir das Board freigegeben.</p>'}
   <div class="board">
-    <section class="panel wide"><span class="label">Mission der Stunde</span>
+    ${lbS('mission','panel wide')}<span class="label">Mission der Stunde</span>
       <p style="font-family:var(--f-display);font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.15;margin-block:6px 12px">${esc(S.mission)}</p>
       <div class="row"><button class="btn pri" data-act="mission-call">Mission vorlesen</button>
       <input id="mission-in" type="text" value="${esc(S.mission)}" style="flex:1;min-width:200px" aria-label="Mission bearbeiten"><button class="btn sm" data-act="mission-save">Speichern</button></div></section>
-    <section class="panel"><span class="label">Timer · Time Keeper</span>
+    ${lbS('timer','panel')}<span class="label">Timer · Time Keeper</span>
       <div class="timer" style="margin-top:10px"><div class="ring" id="ring" style="--p:${T.left/T.total}"><div id="tdisp">${fmt(T.left)}</div></div>
       <div style="display:grid;gap:8px;flex:1;min-width:160px">
         <div class="row">${[1,2,3,5,10].map(m=>`<button class="btn sm" data-act="t-set" data-m="${m}">${m} min</button>`).join('')}</div>
         <div class="row"><button class="btn pri" data-act="t-go" id="t-go">${T.run?'Pause':'Start'}</button><button class="btn" data-act="t-reset">Zurück</button></div>
         <span class="muted" style="font-size:.85rem">Am Ende schlägt Big Ben.</span></div></div></section>
-    <section class="panel"><span class="label">Signale · Sound Master</span>
+    ${lbS('sig','panel')}<span class="label">Signale · Sound Master</span>
       <div class="sig" style="margin-top:10px">
         <button class="btn red" data-act="snd" data-s="freeze">Freeze<small>Hände hoch, Mund zu</small></button>
         <button class="btn pri" data-act="snd" data-s="swap">Swap<small>Partner wechseln</small></button>
         <button class="btn" data-act="snd" data-s="seats">Back to seats<small>Zurück an den Platz</small></button>
         <button class="btn ok" data-act="snd" data-s="cheer">Well done<small>Applaus-Signal</small></button>
       </div></section>
-    <section class="panel"><span class="label">Partner & Jobs</span>
+    ${lbS('pairs','panel')}<span class="label">Partner & Jobs</span>
       <div class="row" style="margin-top:10px"><label for="cls" class="muted" style="font-weight:800">SuS in der Klasse</label><input id="cls" type="number" min="2" max="40" value="${S.classSize}" style="width:90px"></div>
       <div class="row" style="margin-top:10px"><button class="btn" data-act="mk-pairs">Paare bilden</button><button class="btn" data-act="mk-jobs">Lotsen-Jobs verteilen</button><button class="btn" data-act="coin">Wer beginnt?</button></div>
       <div id="pairs-out">${PAIRS_OUT}</div>
       ${JOBS_OUT?`<div class="jobs">${JOBS.map((j,i)=>`<div><span><b>${j[0]}</b> <span class="muted">${j[1]}</span></span><b>${esc(kidName(JOBS_OUT[i]))}</b></div>`).join('')}</div>`:''}
       </section>
-    <section class="panel"><span class="label">Klassen-Rakete</span>
+    ${lbS('rocket','panel')}<span class="label">Klassen-Rakete</span>
       <div class="rocket" style="margin-top:10px"><div class="fuel">${Array.from({length:10},(_,i)=>`<i class="${i<S.rocket?'on':''}"></i>`).join('')}</div>
       <div style="flex:1;min-width:0"><p style="font-weight:700">Treibstoff gibt es, wenn die <b>ganze Klasse</b> ein Ritual schafft: z. B. alle in 5 Sekunden still nach dem Freeze-Gong.</p>
         <p style="font-family:var(--f-display);font-size:1.6rem;margin-top:6px">${S.rocket} / 10</p>
         <div class="row" style="margin-top:8px"><button class="btn ok" data-act="rk" data-d="1">+1 Treibstoff</button><button class="btn sm" data-act="rk" data-d="-1">−1</button></div>
         ${S.rocket>=10?`<div class="mission" style="margin-top:12px"><span class="label">Rakete voll! Die Klasse wählt:</span><ul style="margin:6px 0 0;padding-left:20px;font-weight:700">${REWARDS.map(r=>`<li>${r}</li>`).join('')}</ul><button class="btn sm" style="margin-top:8px" data-act="rk0">Neue Rakete starten</button></div>`:''}
       </div></div></section>
-    <section class="panel"><span class="label">Stundenwechsel testen</span>
+    ${lbS('sim','panel')}<span class="label">Stundenwechsel testen</span>
       <p class="muted" style="margin-top:6px;font-size:.9rem">Simuliert eine Uhrzeit auf diesem Gerät, z. B. zum Ausprobieren. Die Uhr oben wird dann orange.</p>
       <div class="row" style="margin-top:10px"><select id="sim-day" style="width:auto">${DAYS.map((d,i)=>`<option value="${i}">${d}</option>`).join('')}</select>
         <input id="sim-time" type="time" value="08:45" style="width:auto"></div>
       <div class="row" style="margin-top:10px"><button class="btn pri" data-act="sim">Simulieren</button><button class="btn" data-act="sim-off" ${SIM?'':'disabled'}>Echte Zeit</button></div></section>
-    <section class="panel wide"><span class="label">Ritual-Bibliothek</span>
+    ${lbS('rituals','panel wide')}<span class="label">Ritual-Bibliothek</span>
       <div class="lib">${RITUALS.map(r=>`<article><span class="tag">${r.tag}</span><h3>${r.t}</h3><p class="muted">${r.d}</p></article>`).join('')}</div></section>
-    <section class="panel wide"><span class="label">Dieses iPad</span>
+    ${lbS('ipad','panel wide')}<span class="label">Dieses iPad</span>
       <div class="row" style="margin-top:8px">${ASK?'<span style="font-weight:800">Wirklich alle Sterne, Häkchen und Postkarten auf diesem iPad löschen?</span><button class="btn red" data-act="reset-yes">Ja, löschen</button><button class="btn" data-act="reset-no">Abbrechen</button>':'<button class="btn" data-act="reset-ask">Fortschritt zurücksetzen</button>'}<button class="btn" data-act="role-reset">Rolle wechseln${S.role==='student'?` (jetzt: ${esc(S.nick||'Nr. '+S.nr)}, ${esc(className())})`:S.role==='teacher'?' (jetzt: Lehrkraft)':''}</button></div></section>
   </div>`;
 function fmt(s){return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`}
@@ -1798,7 +1815,7 @@ function tStop(){clearInterval(T.id);T.run=false}
    ===================================================================== */
 // Supabase (Region Frankfurt). Der Publishable Key ist zum Veröffentlichen gedacht; der Server leitet nur Nachrichten weiter, es wird nichts gespeichert.
 const LIVE_CFG={supabaseUrl:'https://yljzqjnvfoxzkhjsnawn.supabase.co',supabaseKey:'sb_publishable_OOT7PbMKgjKuxYslJOC95A_fZKeWf7N',
-  hosts:['mistermeier.github.io']};
+  hosts:['mistermeier.github.io','elio.schule','www.elio.schule']};
 const LIVE_SERVER=LIVE_CFG.hosts.includes(location.hostname)||/[?&]live=1/.test(location.search);
 const PHASES=[
   {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELIO.'},
@@ -1882,7 +1899,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;CS.mission=S.mission;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -1916,50 +1933,50 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(ch)pushCS();
   if(V.name==='tafel')updTafel();
 }
+// Stunde, die an der Tafel bereitliegt: im Lehrerzimmer gewählt, sonst die nächste geplante
+function tafelPick(){if(!CS)return null;if(CS.pick){const L=lessonById(CS.pick);if(L)return {L,auto:false};CS.pick=null}
+  const N=typeof planNext==='function'?planNext(1):[];return N[0]&&N[0].L?{L:N[0].L,auto:true}:null}
 VIEWS.tafel=()=>{
-  const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id);
+  const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id),P=L?null:tafelPick(),sb=k=>`<div class="t-subj">${badge(k)}<b>${esc((SUBJECTS[k]||{}).name||'')}</b><span class="muted">· ${esc(className())}</span></div>`;
+  const head=L?`${sb(L.subject)}<h1 class="t-big">${esc(L.title)}</h1>
+      <p class="t-ph"><span class="chip">Folie ${CS.step+1} von ${L.phases.length}</span> <b>${esc(ph.name)}</b>${ph.txt?` · <span class="muted">${esc(ph.txt)}</span>`:''}</p>
+      <div class="t-dots">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}" title="${esc(p.name)}"></button>`).join('')}</div>
+      <div class="t-nav"><button class="btn big" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button>${CS.step>=L.phases.length-1?`<button class="btn big ok" data-act="l-stop">✓ Stunde beenden</button>`:`<button class="btn big pri" data-act="l-go" data-i="${CS.step+1}">Weiter ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button>`}</div>
+      <small class="muted t-keys">Tipp: Pfeiltasten oder Presenter funktionieren auch.</small>${tafelMats(L)}`
+    :P?`${sb(P.L.subject)}<span class="label" style="margin-top:6px">${P.auto?'Nächste geplante Stunde':'Ausgewählte Stunde'}</span><h1 class="t-big">${esc(P.L.title)}</h1>
+      <p class="muted" style="font-weight:700">${P.L.phases.length} Folien · ${lessonMin(P.L)} min</p>
+      <div class="t-nav"><button class="btn big pri" data-act="t-begin" data-id="${P.L.id}" ${P.L.phases.length?'':'disabled'}>▶ Stunde starten</button><button class="btn sm" data-act="lessons">Andere Stunde</button></div>`
+    :`<span class="label">${esc(className())}</span><h1 class="t-big">Keine Stunde ausgewählt</h1><p class="muted" style="font-weight:700">Wähle im Lehrerzimmer oder in der Planung eine Stunde aus.</p>
+      <div class="t-nav"><button class="btn big pri" data-act="lessons">Stunde auswählen</button></div>`;
+  const pf=V.pollF&&!CS.poll;
   return `<div class="t-top">
-    <div class="t-head panel">
-      <div style="min-width:0"><span class="label">${L?`${esc(L.title)} · Phase ${CS.step+1} von ${L.phases.length}`:`Phase · ${esc(className())}`}</span>
-        <h1 class="t-big">${esc(ph.name)}</h1><p class="t-txt">${esc(ph.txt)}</p>
-        ${ph.sf||ph.method?`<div class="row" style="margin-top:8px">${ph.sf?`<span class="chip">${esc(ph.sf)}</span>`:''}${ph.method?`<span class="chip">${esc(ph.method)}</span>`:''}</div>`:''}
-        <p style="margin-top:10px;font-family:var(--f-display);font-size:1.3rem"><span class="label">Mission</span> ${esc(S.mission)}</p>
-        ${tafelMats(L)}
-        ${L?`<div class="strip">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}">${i+1}. ${esc(p.name)}</button>`).join('')}</div>
-          <div class="row" style="margin-top:12px"><button class="btn" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button><button class="btn pri" data-act="l-go" data-i="${CS.step+1}" ${CS.step>=L.phases.length-1?'disabled':''}>Nächste Phase ▶</button><button class="btn sm" data-act="present">Präsentation</button><button class="btn sm" data-act="l-stop">Stunde beenden</button></div>`
-        :`<div class="row" style="margin-top:12px"><button class="btn pri" data-act="lessons">Stunde starten</button></div>`}</div>
+    <div class="t-head panel"><div style="min-width:0">${head}</div>
       <div class="ring" id="tring"><div id="ttime">${fmt(timerLeft(CS.timer))}</div></div>
     </div>
-    <div class="tprev-w panel"><div class="tprev" id="tprev"></div><div class="row tprev-f"><small class="muted">📺 Gerade an der Tafel</small><button class="btn sm" data-act="board-open">Tafel-Fenster öffnen</button></div></div>
+    <div class="tprev-w panel"><div class="tprev" id="tprev"></div><div class="row tprev-f"><small class="muted">📺 Gerade an der Tafel</small><button class="btn sm" data-act="board-open">🖥️ Tafel-Fenster öffnen (Vollbild)</button></div></div>
   </div>
   <details class="panel ctrl" open><summary>Steuerung</summary>
     ${Live.kind==='server'&&!Live.dbKey?`<div class="grp row"><span class="label">Verschlüsselt verbunden</span><button class="btn sm ${CS.keyQr?'on':''}" data-act="t-keyqr">🔑 ${CS.keyQr?'Schlüssel-QR ausblenden':'iPads verbinden (Schlüssel-QR an der Tafel)'}</button></div>`:''}
-    <div class="grp"><span class="label">Spontane Phase (ohne Stundenplanung)</span>
-      <div class="phbtns">${PHASES.map(p=>`<button class="btn ${CS.phase===p.id?'on':''}" data-act="t-ph" data-p="${p.id}">${p.name}</button>`).join('')}</div></div>
-    <div class="grp row"><span class="label">Spiele an der Tafel (Touch)</span><select id="tg-s" style="width:auto">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===(GAMES[curSubj()]?curSubj():'E')?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select>
-      ${Object.keys(GAME_INFO).map(g=>`<button class="btn" data-act="tgame" data-g="${g}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</button>`).join('')}<button class="btn" data-act="tkfb">⚽ Kopfrechenfußball</button>${CS.game&&gInfo(CS.game.g)?`<span class="chip">Läuft: ${esc(CS.game.title||gInfo(CS.game.g).name)} an Tafel und iPads</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button>`:''}</div>
-    <div class="grp row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}</div>
-    <div class="grp row"><span class="label">Material</span><button class="btn" data-act="lib-pick">Aus der Bibliothek zeigen</button>${CS.share?`<span class="chip">Auf den iPads: ${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button>`:''}</div>
-    <div class="grp row"><span class="label">Timer</span>${[1,2,3,5,10,15].map(m=>`<button class="btn sm" data-act="tt-min" data-m="${m}">${m} min</button>`).join('')}
-      <button class="btn pri" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Start'}</button><button class="btn" data-act="tt-reset">Zurück</button></div>
+    <div class="grp row"><span class="label">⏱️ Timer</span><input id="tt-m" type="number" min="1" max="90" value="${Math.max(1,Math.round((CS.timer.total||300)/60))}" style="width:80px" aria-label="Minuten"><span style="font-weight:800">min</span>
+      <button class="btn pri" data-act="tt-start">Start</button>${CS.timer.run||timerLeft(CS.timer)<CS.timer.total?`<button class="btn" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Weiter'}</button><button class="btn" data-act="tt-reset">Stopp</button>`:''}<small class="muted">Läuft auf der Folie und auf allen iPads.</small></div>
     <div class="grp row"><span class="label">Signale</span>
-      <button class="btn ${CS.freeze?'on':''} red" data-act="t-frz">${CS.freeze?'Freeze beenden':'Freeze: alle iPads sperren'}</button>
-      <button class="btn" data-act="t-rdy">${CS.ready?'Bereit-Check beenden':'Bereit-Check'}</button>
-      <button class="btn" data-act="t-jr">${CS.journal?'Lerntagebuch beenden':'Lerntagebuch für alle'}</button><button class="btn" data-act="snd" data-s="swap">Swap-Ton</button><button class="btn" data-act="mission-call">Mission vorlesen</button></div>
-    <div class="grp"><span class="label">Abstimmung (anonym)</span>
-      <div class="row" style="margin-top:6px"><button class="btn" data-act="t-poll" data-t="thumbs">Daumen: verstanden?</button><button class="btn" data-act="t-poll" data-t="corners">4 Ecken</button>${CS.poll?'<button class="btn red" data-act="t-poll-end">Abstimmung beenden</button>':''}</div>
+      <button class="btn ${CS.freeze?'on':''} red" data-act="t-frz">${CS.freeze?'❄️ Freeze beenden':'❄️ Freeze: alle iPads sperren'}</button>
+      <button class="btn ${CS.ready?'on':''}" data-act="t-rdy">${CS.ready?'✅ Bereit-Check beenden':'✅ Bereit-Check'}</button>
+      ${CS.poll?'<button class="btn red" data-act="t-poll-end">🗳️ Abstimmung beenden</button>':`<button class="btn ${pf?'on':''}" data-act="t-poll-f">🗳️ Abstimmung</button>`}</div>
+    ${pf?`<div class="grp"><span class="label">Abstimmung (anonym)</span>
+      <div class="row" style="margin-top:6px"><button class="btn" data-act="t-poll" data-t="thumbs">👍 Daumen: verstanden?</button><button class="btn" data-act="t-poll" data-t="corners">4 Ecken</button></div>
       <div class="row" style="margin-top:8px"><input id="cp-q" type="text" placeholder="Eigene Frage, z. B. Which word fits?" style="flex:2;min-width:220px">
         ${[1,2,3,4].map(i=>`<input id="cp-o${i}" type="text" placeholder="Antwort ${i}" style="flex:1;min-width:110px">`).join('')}
-        <button class="btn pri" data-act="t-poll" data-t="custom">Starten</button></div></div>
-    <div class="grp row"><label for="t-cls" class="label">SuS in der Klasse</label><input id="t-cls" type="number" min="2" max="40" value="${S.classSize}" style="width:90px">
-      <button class="btn sm" data-act="t-cls">Übernehmen</button>
-      <span class="muted" style="font-weight:700">So kommen die SuS rein: ELIO öffnen → Schule → <b>${esc(className())}</b> → „Ich bin Schüler/in“ → eigene Nummer.</span></div>
+        <button class="btn pri" data-act="t-poll" data-t="custom">Starten</button></div></div>`:''}
+    ${CS.game&&gInfo(CS.game.g)?`<div class="grp row"><span class="label">🎮 Spiel läuft</span><span class="chip">${esc(CS.game.title||gInfo(CS.game.g).name)}</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button></div>`:''}
+    ${CS.share?`<div class="grp row"><span class="label">🔗 Auf den iPads</span><span class="chip">${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button></div>`:''}
+    <div class="grp row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}<button class="btn sm" data-act="board">Funktionen festlegen</button></div>
   </details>
   <div class="tafel">
     <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0</span> online</span>
       <span class="chip conn">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 Live geschützt · verbunden':'⚠️ Live offen · verbunden'):Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
       <div class="seats" id="seats"></div>
-      <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit / eingetragen</span><span><i style="background:var(--late-bg);border-color:var(--red)"></i>braucht Hilfe</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
+      <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit</span><span><i style="background:#e3edff;border-color:#2f6fe4"></i>braucht Hilfe</span><span><i style="background:#ffe1e1;border-color:#d33"></i>Freeze</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
     <div class="t-side">
       <section class="panel"><span class="label">Hilfe-Warteschlange</span><div class="helpq" id="helpq"></div></section>
       <section class="panel" id="t-ready"></section>
@@ -1972,8 +1989,8 @@ function updTafel(){
   if(!CS||!$('#seats'))return;updPrev();
   const on=online(),n=S.classSize;
   $('#t-online').textContent=on.length;
-  $('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
-    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}${k}${nk?`<small>${esc(nk)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
+  $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
+    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||kidName(k))}</b> <span class="muted">${esc(kurzOf(k))}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   $('#t-ready').innerHTML=CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${on.length||'–'} eingetragen</p>`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${on.length||'–'} bereit</p>${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
@@ -1994,7 +2011,7 @@ function stageOf(){
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
     sf:p.sf||'',min:+p.min||0,tool:t.id?{...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
 }
-const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total]]):'';
+const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&R.ready.msg&&[R.ready.done.length,R.onN]]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
@@ -2005,7 +2022,7 @@ function boardHTML(R,mini){
   else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">📺 Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}"></div>`}</div>`;
   else if(R.game&&gInfo(R.game.g))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>🏆 ${R.game.fin.length} geschafft</p>`:''}</div>`;
   else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
-  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&R.ready.msg?{d:R.ready.done.length,n:Math.max(R.onN||0,R.ready.done.length)}:null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='kfb')main=`<img src="assets/kfb/logo.webp" alt="Kopfrechnen Fußball" style="max-height:62cqh;max-width:80%;border-radius:2cqh"><p style="font-weight:800;font-size:4cqh">Gleich geht's los!</p>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
@@ -2343,6 +2360,23 @@ function audPlay(id,toggle=true){const x=audById(id);if(!x){if(!AUD.list)audLoad
 function audHTML(){if(!AUD.list){audLoad();return '<p class="muted">Lädt …</p>'}const cats=['Alle',...new Set(AUD.list.map(x=>x.kategorie))],L=AUD.list.filter(x=>AUD.cat==='Alle'||x.kategorie===AUD.cat);
   return `<div class="psub" style="margin:8px 0">${cats.map(c=>`<button class="${AUD.cat===c?'on':''}" data-act="au-cat" data-c="${esc(c)}" style="--sc:var(--navy)">${esc(c)}</button>`).join('')}</div>
     <div class="au-list">${L.map(x=>`<div class="au-it"><button class="btn sm au-pl ${AUD.id===x.id?'on':''}" data-act="au-play" data-id="${x.id}" aria-label="${esc(x.titel)} abspielen">${AUD.id===x.id?'■':'▶'}</button><div><b>${esc(x.titel)}</b>${x.loop?' <span class="chip">Schleife</span>':''}<small class="muted">${esc(x.stichworte||'')} · ${+x.dauer||0} s</small>${/^Eigene Synthese/.test(x.lizenz)?'':`<small class="au-lic">${esc(x.urheber||'')} · ${esc(x.lizenz)}</small>`}</div></div>`).join('')}</div>`}
+// Wie bei PowerPoint: Mit der Fenster-Erlaubnis von Chrome geht das Tafel-Fenster direkt im Vollbild auf dem Beamer auf,
+// sonst bildschirmfüllend, und ein Tipp im Fenster schaltet Vollbild ein
+async function boardWin(u){let s=null,ok=false;
+  try{if(window.getScreenDetails){const pm=await navigator.permissions.query({name:'window-management'}).catch(()=>null);if(pm&&pm.state!=='denied'){const sd=await getScreenDetails();s=sd.screens.find(x=>x!==sd.currentScreen)||sd.currentScreen;ok=true}}}catch(e){}
+  const f=s?`left=${s.availLeft},top=${s.availTop},width=${s.availWidth},height=${s.availHeight}`:`left=0,top=0,width=${screen.availWidth},height=${screen.availHeight}`;
+  const w=window.open(u,'elio-tafel','popup,'+f+(ok?',fullscreen':''));if(!w){alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');return}
+  try{if(s){w.moveTo(s.availLeft,s.availTop);w.resizeTo(s.availWidth,s.availHeight)}}catch(e){}}
+function tafelSet(L){if(!CS)initTeacher();if(CS.lesson&&CS.lesson.id!==L.id){CS.lesson=null;CS.ready=null;CS.poll=null;CS.journal=null;CS.phase='arrive'}if(!CS.lesson||CS.lesson.id!==L.id)CS.pick=L.id;if(L.mission)S.mission=L.mission;save();pushCS();$('#ov').hidden=true;go('tafel')}
+// Vor und zurück mit Tastatur oder Presenter, auch aus dem Tafel-Fenster
+function tafelKey(dir){if(!CS||S.role!=='teacher')return false;const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return false;const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(V.name==='tafel')render();return true}
+window.tafelKey=tafelKey;
+document.addEventListener('keydown',e=>{if(e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.altKey||e.ctrlKey||e.metaKey)return;
+  const dir=['ArrowRight','PageDown',' '].includes(e.key)?1:['ArrowLeft','PageUp'].includes(e.key)?-1:0;
+  if(BOARD){if(e.key==='f'||e.key==='F'){boardFs();return}if(dir&&window.opener&&!window.opener.closed&&window.opener.tafelKey){e.preventDefault();try{window.opener.tafelKey(dir)}catch(x){}}return}
+  if(dir&&V.name==='tafel'&&tafelKey(dir))e.preventDefault()});
+if(BOARD)setTimeout(()=>{if(document.fullscreenElement||innerHeight>=screen.height-2)return;const b=document.createElement('button');b.id='b-fs';b.className='b-fs';b.dataset.act='b-fs';b.innerHTML='⛶ Vollbild<small>Einmal tippen. Weiter geht es mit den Pfeiltasten oder im Lehrer-Fenster.</small>';document.body.appendChild(b)},600);
+function boardFs(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
   i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;CS.media=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
@@ -2815,7 +2849,8 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
   if(t.id==='diary')return `<div class="rt rt-diary"><div class="band">📔 Lerntagebuch</div><div class="in"><ol>${lines(t.prompt).map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p>Schreib in dein Lerntagebuch auf dem iPad.</p></div></div>`;
   if(t.id==='start')return `<div class="rt rt-start">${c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`}
-    <div class="in"><h1>Du hast jetzt ${esc(sn)}</h1><p>${dateDE()}</p>${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}</div></div>`;
+    <div class="in"><h1>Du hast jetzt ${esc(sn)}</h1><p>${dateDE()}</p>${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}</div>${c.rd?(()=>{const full=c.rd.n>0&&c.rd.d>=c.rd.n,pc=c.rd.n?Math.round(100*c.rd.d/c.rd.n):0;
+      return `<div class="rk ${full?'go':''}"><span class="rk-r">🚀</span><div class="rk-tube"><i style="height:${pc}%"></i></div><b>${full?'Alle bereit!':c.rd.d+' / '+(c.rd.n||'–')+' bereit'}</b></div>`})():''}</div>`;
   if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
   if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel"><img src="${MA}murmel.webp" alt="Murmeltier"><p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
   if(t.id==='hypo')return `<div class="rt rt-h"><img src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
@@ -3604,8 +3639,8 @@ function ibMsgHTML(){const T=ibThreads(),n=V.ibn!=null&&T.some(x=>x.k===V.ibn)?V
   const P=susP(n,false)||{chat:[]};
   return `<div class="ib"><div class="ib-l">${T.map(x=>`<button class="ib-t ${x.k===n?'on':''}" data-act="ib-open" data-n="${x.k}">${(TD.avs||{})[x.k]!=null?avatar(TD.avs[x.k],34):'<span class="av-0"></span>'}<span><b>${esc(kidName(x.k))}</b><small>${esc(String(x.last.t||'').slice(0,60))}</small></span>${x.P.un&&x.k!==n?`<span class="tk-n">${x.P.un}</span>`:''}</button>`).join('')}</div>
     <section class="panel ib-r"><div class="row" style="justify-content:space-between"><b>💬 ${esc(kidName(n))}</b><button class="btn sm" data-act="sus-p" data-n="${n}">Akte öffnen</button></div>${P.pk?'':'<p class="muted" style="font-weight:700">Antworten gehen raus, sobald dieses Kind einmal etwas geschickt hat.</p>'}${chatHTML(P.chat||[],'Antwort an '+kidName(n)+' …')}</section></div>`}
-VIEWS.inbox=()=>{const adm=tkAdmin(),tab=adm&&V.ib==='tk'?'tk':'msg';if(adm&&!TK.ok)tkLoad();
-  const all=[...TK.list,...tkLocal().slice().reverse()],f=V.tf||'offen',isOpen=t=>t.status!=='erledigt'||TK.done[String(t.id)];
+VIEWS.inbox=()=>{const adm=tkAdmin();if(adm&&!TK.ok)tkLoad();
+  const all=[...TK.list,...tkLocal().slice().reverse()],tab=adm&&(V.ib==='tk'||(V.ib==null&&!ibThreads().length&&all.length))?'tk':'msg',f=V.tf||'offen',isOpen=t=>t.status!=='erledigt'||TK.done[String(t.id)];
   const L=all.filter(t=>f==='alle'||(f==='offen'?isOpen(t):t.status==='erledigt'));const ST={neu:'🆕 neu',dran:'🔧 in Arbeit',erledigt:'✅ erledigt'};
   const un=susUnread('chat'),tn=all.filter(t=>t.status==='neu').length;
   const top=`<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>📬 Postfach</h1><div class="row">${adm?`<div class="tabs" style="margin:0"><button class="${tab==='msg'?'on':''}" data-act="ib-tab" data-t="msg">💬 Nachrichten${un?' · '+un:''}</button><button class="${tab==='tk'?'on':''}" data-act="ib-tab" data-t="tk">🛠️ Meldungen${tn?' · '+tn:''}</button></div>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}`;
@@ -4305,12 +4340,12 @@ document.addEventListener('click',e=>{
     case 'l-del-yes':cloudDelLesson(d.id);S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
     case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;
       // Stunde gehört zu einer anderen Klasse: erst dorthin wechseln (Live-Kanal, SuS, Hefte), dann starten
-      if(d.cid&&d.cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;if(!CS)initTeacher();CS.lesson={id:L2.id,title:L2.title,plan:L2.phases.map(p=>p.name)};if(L2.mission)S.mission=L2.mission;save();$('#ov').hidden=true;go('present');startStep(0)});break}}if(!CS)initTeacher();CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();$('#ov').hidden=true;go('present');startStep(0);break}
+      if(d.cid&&d.cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;tafelSet(L2)});break}}tafelSet(L);break}
     case 'l-go':startStep(+d.i);break;
     case 'au-play':audPlay(d.id);break;
     case 'au-cat':AUD.cat=d.c;render();break;
     case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
-    case 'l-stop':if(KF)kfbStop(true);audStop();CS.game=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'l-stop':if(KF)kfbStop(true);audStop();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=false;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
     case 'ph-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&ACT_MODES[d.m]&&actMode(p.act)!==d.m){p.act=ACT_MODES[d.m].acts[0];save()}render();break}
@@ -4432,8 +4467,7 @@ document.addEventListener('click',e=>{
     case 'kl-key':V.keyFor=V.keyFor===d.code?null:d.code;render();break;
     case 't-keyqr':CS.keyQr=!CS.keyQr;pushCS();render();break;
     case 'board-open':{const k=myCk(),u=location.pathname+'?tafel='+encodeURIComponent(S.code)+(QS.has('live')?'&live=1':'')+(k?'#k='+k:'');
-      const w=window.open(u,'elio-tafel','popup,width=1280,height=720');if(!w)alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');
-      [800,2000,4000].forEach(t=>setTimeout(pushCS,t));break}
+      boardWin(u);[800,2000,4000].forEach(t=>setTimeout(pushCS,t));break}
     case 'mt':MINI=d.m;renderMini(true);break;
     case 'tdash':go('tdash');break;
     case 'login':V.err='';go('login',d.admin?{asAdmin:1}:{});break;
@@ -4562,6 +4596,11 @@ document.addEventListener('click',e=>{
 
     case 't-ph':CS.game=null;CS.phase=d.p;CS.phaseAt=Date.now();CS.freeze=false;pushCS();render();break;
     case 'tt-min':CS.timer={run:false,total:+d.m*60,left:+d.m*60,endsAt:0};pushCS();render();break;
+    case 'tt-start':{const m=Math.max(1,Math.min(90,Math.round(+($('#tt-m')||{}).value||5)));CS.timer={run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000};pushCS();render();break}
+    case 'lb-tog':{const L=(TD.lotsenFx||LB_DEF).slice(),i=L.indexOf(d.k);if(i>=0)L.splice(i,1);else L.push(d.k);TD.lotsenFx=L;tsave();if(CS)pushCS();render();break}
+    case 'b-fs':boardFs();{const x=$('#b-fs');if(x)x.remove()}break;
+    case 't-poll-f':V.pollF=!V.pollF;render();break;
+    case 't-begin':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.pick=null;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();startStep(0);render();break}
     case 'tt-go':if(CS.timer.run){CS.timer.left=timerLeft(CS.timer);CS.timer.run=false}else{if(CS.timer.left<=0)CS.timer.left=CS.timer.total;CS.timer.endsAt=Date.now()+CS.timer.left*1000;CS.timer.run=true}pushCS();render();break;
     case 'tt-reset':CS.timer={run:false,total:CS.timer.total,left:CS.timer.total,endsAt:0};pushCS();render();break;
     case 't-frz':CS.freeze=!CS.freeze;if(CS.freeze)SND.freeze();pushCS();render();break;
