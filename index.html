@@ -832,6 +832,11 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .st-card .prep button{background:rgba(255,255,255,.9)}
 @media(max-width:600px){.st-card{width:100%;background:rgba(255,255,255,.88);border-radius:18px;padding:14px}}
 .rt-kfl{background:#fff;align-items:center;justify-content:center;gap:1em}.rt-kfl img{max-height:78%;max-width:88%}.rt-kfl p{font-weight:800;font-size:1.8em;color:#1e3a8a;margin:0}
+.stars[data-act]{cursor:pointer}.shop-bal{font-weight:800;background:#fef3c7;border-radius:999px;padding:6px 14px;display:inline-flex;align-items:center;gap:6px}.shop-bal svg{width:20px;height:20px}
+.shop-top{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.shop-av{flex:none}
+.shop-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.shop-i{border:2px solid var(--line);border-radius:16px;background:var(--surface);padding:10px;display:grid;justify-items:center;gap:6px;text-align:center}
+.shop-tabs{--sc:#4f46e5}
+.shop-i.on{border-color:#4f46e5;background:#eef2ff}.shop-i .btn svg{width:16px;height:16px;vertical-align:-3px}
 .jr-elo{margin:8px 0}.jr-elo-b{display:flex;align-items:center;gap:10px;border:2px dashed #a5b4fc;background:#eef2ff;border-radius:14px;padding:6px 12px 6px 6px;font:inherit;cursor:pointer;color:var(--ink);text-align:left}
 .jr-elo-b img{width:44px;height:44px;object-fit:contain}.jr-elo-b small{display:block;color:var(--muted);font-weight:600}
 .jr-st{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.jr-st .chip{cursor:pointer;border:1px solid var(--line);font:inherit;font-weight:700;font-size:.9rem}
@@ -1033,7 +1038,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
   <span class="spacer"></span>
   <span class="clock" id="clock">--:--</span>
   <span class="tchip" id="tchip" hidden>Lehrkraft</span>
-  <span class="stars" title="Deine Sterne"><span id="star-ico"></span><span id="star-n">0</span></span>
+  <span class="stars" title="Deine Sterne · Tippen: Avatar-Shop" data-act="shop" role="button" tabindex="0"><span id="star-ico"></span><span id="star-n">0</span></span>
 </div><div id="live" hidden></div></header>
 <main id="view"></main><footer id="legal-f" class="legal-f"><a href="#" data-act="go-legal" data-v="impressum">Impressum</a> · <a href="#" data-act="go-legal" data-v="datenschutz">Datenschutz</a></footer>
 <div id="ov" class="ov" hidden></div>
@@ -1200,7 +1205,7 @@ const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
 // Klassenschlüssel kommt nur im #-Teil der Adresse (QR-Karte, Tafel-QR): der wird nie an einen Server geschickt
 const HK=(()=>{const h=new URLSearchParams(location.hash.slice(1));const o={k:h.get('k'),ck:h.get('ck'),u:(h.get('u')||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,4)};if(o.k||o.ck||o.u){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}return o})();
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
-const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen'];
+const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
 const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
 function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
@@ -1293,7 +1298,8 @@ function umenuHTML(){const T=S.role==='teacher',ic=n=>`<img class="um-ic" src="a
   return `<div class="um-who">${who}</div>${T?it('tdash','lehrerzimmer','Lehrerzimmer')+it('me','profil','Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','klassen','Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','admin','Admin'):'')+it('inbox','postfach','Postfach')
     :it('dash','dashboard','Dashboard')+it('desk','schreibtisch','Schreibtisch')+it('homework','aufgaben','Aufgaben')+it('me','profil','Mein Profil')+it('week','stundenplan','Stundenplan')}<button data-act="tk-open">${ic('problem')}Problem melden</button><button data-act="go-legal" data-v="datenschutz">${ic('datenschutz')}Datenschutz und Impressum</button><button class="out" data-act="role-reset">${ic('abmelden')}Abmelden</button>`}
 document.addEventListener('click',e=>{const m=$('#umenu');if(m&&!m.hidden&&!e.target.closest('#umenu,.logo'))m.hidden=true},true);
-function hdr(){$('#star-n').textContent=S.stars}
+function hdr(){$('#star-n').textContent=S.role==='student'?starBal():S.stars}
+const starBal=()=>Math.max(0,(+S.stars||0)-(+S.spent||0));
 function complete(id){
   const st=STATIONS.find(s=>s.id===id),first=!S.done[id];
   S.done[id]=true;if(first)addStars(3);save();SND.cheer();
@@ -2387,9 +2393,14 @@ const AV_T=[['Fuchs',['#e8792f','#c95a1f','#f0a050']],['Katze',['#9aa0a8','#e0a0
 const AV_N={h:[['Haut',6],['Haarfarbe',8],['Frisur',9],['Augen',5],['Mund',5],['Extra',9],['Hintergrund',10]],t:[['Wesen',10],['Farbe',3],['Augen',5],['Mund',5],['Extra',9],['Hintergrund',10]]};
 const AVS=[[1,0,0,0],[2,2,1,1],[3,0,2,2],[4,0,0,3],[1,3,4,4],[2,1,3,5],[3,4,1,1],[1,2,6,2],[4,0,7,0],[2,0,8,3],[3,3,0,4],[1,1,1,5]];
 // Alles auf erlaubte Zahlen zurechtstutzen: kommt auch von anderen Geräten
-function avParse(v){if(typeof v==='number'||/^\d+$/.test(String(v))){const a=AVS[(+v||0)%AVS.length];return ['h',a[0],a[1],a[2],0,0,0,a[3]]}
-  const p=String(v||'').split('.'),k=p[0]==='t'?'t':'h',N=AV_N[k];return [k,...N.map(([,n],i)=>{const x=parseInt(p[i+1],10);return x>=0?x%n:0})]}
-const avCode=a=>a.join('.');
+// Garderobe: gekaufte Teile hängen hinten am Avatar-Code (~id-id), je Platz höchstens eines
+function avWear(x){const W={};String(x||'').split('-').forEach(id=>{const it=WEAR[id];if(it&&!W[it.s])W[it.s]=id});return W}
+function avParse(v){const sv=String(v==null?'':v),ti=sv.indexOf('~'),base=ti>=0?sv.slice(0,ti):sv,W=avWear(ti>=0?sv.slice(ti+1):'');let a;
+  if(typeof v==='number'||/^\d+$/.test(base)){const q=AVS[(+base||0)%AVS.length];a=['h',q[0],q[1],q[2],0,0,0,q[3]]}
+  else{const p=base.split('.'),k=p[0]==='t'?'t':'h',N=AV_N[k];a=[k,...N.map(([,n],i)=>{const x=parseInt(p[i+1],10);return x>=0?x%n:0})]}
+  a.w=W;return a}
+const avCode=a=>a.join('.')+(a.w&&Object.keys(a.w).length?'~'+WEAR_S.map(k=>a.w[k]).filter(Boolean).join('-'):'');
+const avWith=(v,W)=>{const a=avParse(v);a.w=W||{};return avCode(a)};
 function avRandom(k){k=k||(Math.random()<.5?'h':'t');const N=AV_N[k];return avCode([k,...N.map(([,n],i)=>k==='h'&&i===5||k==='t'&&i===4?(Math.random()<.5?0:Math.floor(Math.random()*n)):Math.floor(Math.random()*n))])}
 const cleanAv=v=>v==null||v===''?null:avCode(avParse(v));
 function avEyes(e,y,c){c=c||'#222';const L=25,R=39;
@@ -2414,13 +2425,36 @@ function avAcc(a,ey,top){
   if(a===7)return `<path d="M14 ${top+9} Q32 ${top} 50 ${top+9}" stroke="#e0453a" stroke-width="4" fill="none" stroke-linecap="round"/>`;
   if(a===8)return `<g fill="#b9774d" opacity=".7">${[[21,43],[24,45],[27,43],[37,43],[40,45],[43,43]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1"/>`).join('')}</g>`;
   return ''}
-function avatar(v,sz){const a=avParse(v),bg=AV_BG[a[a.length-1]];let body='';
+const WEAR_S=['top','neck','gl','hat'],WEAR_L={hat:'🧢 Mützen und Hüte',gl:'🕶️ Brillen',neck:'📿 Schmuck',top:'👕 Outfits'};
+const shirt=(c,x='')=>`<path d="M4 64 Q6 51 22 50 Q32 56 42 50 Q58 51 60 64Z" fill="${c}"/>${x}`;
+const WEAR={
+  cap:{s:'hat',n:'Rote Cap',p:8,g:t=>`<path d="M14 ${t+12} Q14 ${t-4} 32 ${t-4} Q50 ${t-4} 50 ${t+12}Z" fill="#e0453a"/><rect x="30" y="${t+8}" width="26" height="5" rx="2.5" fill="#b8322a"/><circle cx="32" cy="${t-4}" r="2" fill="#b8322a"/>`},
+  beanie:{s:'hat',n:'Bommelmütze',p:10,g:t=>`<path d="M13 ${t+12} Q13 ${t-8} 32 ${t-8} Q51 ${t-8} 51 ${t+12}Z" fill="#4f46e5"/><rect x="12" y="${t+7}" width="40" height="6" rx="3" fill="#3730a3"/><circle cx="32" cy="${t-10}" r="4.5" fill="#c7d2fe"/>`},
+  doc:{s:'hat',n:'Doktorhut wie Elo',p:20,g:t=>`<rect x="21" y="${t-1}" width="22" height="9" rx="2" fill="#1e1b4b"/><path d="M8 ${t} L32 ${t-9} L56 ${t} L32 ${t+8}Z" fill="#312e81"/><path d="M50 ${t+1} V${t+13}" stroke="#f2c230" stroke-width="1.6"/><circle cx="50" cy="${t+14}" r="2.2" fill="#f2c230"/>`},
+  party:{s:'hat',n:'Partyhut',p:12,g:t=>`<path d="M22 ${t+6} L32 ${t-20} L42 ${t+6}Z" fill="#ec4899"/><path d="M25 ${t-2} L39 ${t-2} M28 ${t-10} L36 ${t-10}" stroke="#fde047" stroke-width="2.4"/><circle cx="32" cy="${t-21}" r="3" fill="#fde047"/>`},
+  wizard:{s:'hat',n:'Zauberhut',p:25,g:t=>`<path d="M16 ${t+8} L34 ${t-24} L48 ${t+8}Z" fill="#6d28d9"/><rect x="9" y="${t+6}" width="46" height="5" rx="2.5" fill="#4c1d95"/><path d="M30 ${t-6} l1.5 3 3.2.4-2.4 2.2.7 3.2-3-1.6-3 1.6.7-3.2-2.4-2.2 3.2-.4z" fill="#fde047"/>`},
+  crown:{s:'hat',n:'Goldkrone',p:40,g:t=>`<path d="M17 ${t+6} L19 ${t-10} L25 ${t-2} L32 ${t-13} L39 ${t-2} L45 ${t-10} L47 ${t+6}Z" fill="#f2c230" stroke="#c99a10" stroke-width="1"/><circle cx="32" cy="${t-1}" r="2.2" fill="#e0453a"/><circle cx="24" cy="${t+2}" r="1.6" fill="#3b82f6"/><circle cx="40" cy="${t+2}" r="1.6" fill="#16a34a"/>`},
+  flower:{s:'hat',n:'Blumenkranz',p:14,g:t=>`<g>${[[15,9],[21,4],[28,1],[36,1],[43,4],[49,9]].map(([x,y],i)=>`<circle cx="${x}" cy="${t+y}" r="3.6" fill="${['#f472b6','#facc15','#a78bfa','#fb923c','#34d399','#f472b6'][i]}"/><circle cx="${x}" cy="${t+y}" r="1.3" fill="#fff"/>`).join('')}</g>`},
+  stars:{s:'gl',n:'Sternbrille',p:10,g:(t,e)=>`<g fill="#f472b6" stroke="#be185d" stroke-width=".8">${[25,39].map(x=>`<path d="M${x} ${e-6} l1.9 3.9 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6z"/>`).join('')}</g><path d="M30 ${e} H34" stroke="#be185d" stroke-width="1.4"/>`},
+  hearts:{s:'gl',n:'Herzbrille',p:10,g:(t,e)=>`<g fill="#ef4444" opacity=".9">${[25,39].map(x=>`<path d="M${x} ${e+5} L${x-5.5} ${e-.5} Q${x-6} ${e-6} ${x-2.5} ${e-5} Q${x} ${e-4.5} ${x} ${e-2.5} Q${x} ${e-4.5} ${x+2.5} ${e-5} Q${x+6} ${e-6} ${x+5.5} ${e-.5}Z"/>`).join('')}</g><path d="M30 ${e-1} H34" stroke="#b91c1c" stroke-width="1.4"/>`},
+  shades:{s:'gl',n:'Coole Sonnenbrille',p:15,g:(t,e)=>`<path d="M17 ${e-4} H47 V${e-1} Q47 ${e+5} 40 ${e+5} Q34 ${e+5} 33.5 ${e} H30.5 Q30 ${e+5} 24 ${e+5} Q17 ${e+5} 17 ${e-1}Z" fill="#0ea5e9"/><path d="M20 ${e-2} L24 ${e-2}" stroke="#fff" stroke-width="1.2" opacity=".8"/>`},
+  gold:{s:'gl',n:'Goldene Brille',p:12,g:(t,e)=>`<g fill="rgba(255,255,255,.25)" stroke="#d4a017" stroke-width="1.6"><circle cx="25" cy="${e}" r="5.5"/><circle cx="39" cy="${e}" r="5.5"/></g><path d="M30.5 ${e} H33.5" stroke="#d4a017" stroke-width="1.6"/>`},
+  chain:{s:'neck',n:'Goldkette',p:12,g:()=>`<path d="M20 52 Q32 62 44 52" stroke="#f2c230" stroke-width="1.8" fill="none"/><circle cx="32" cy="58.5" r="2.8" fill="#f2c230" stroke="#c99a10" stroke-width=".6"/>`},
+  pearls:{s:'neck',n:'Perlenkette',p:14,g:()=>`<g fill="#fff" stroke="#d6d3d1" stroke-width=".5">${[20,23,26,29,32,35,38,41,44].map((x,i)=>`<circle cx="${x}" cy="${52+Math.sin(i/8*Math.PI)*5}" r="1.7"/>`).join('')}</g>`},
+  bow:{s:'neck',n:'Fliege',p:8,g:()=>`<path d="M32 55 L24 50 L24 60Z M32 55 L40 50 L40 60Z" fill="#dc2626"/><circle cx="32" cy="55" r="2.2" fill="#991b1b"/>`},
+  medal:{s:'neck',n:'Goldmedaille',p:30,g:()=>`<path d="M26 50 L32 58 L38 50" stroke="#3b82f6" stroke-width="3" fill="none"/><circle cx="32" cy="59" r="4" fill="#f2c230" stroke="#c99a10" stroke-width=".8"/><text x="32" y="61" font-size="4.5" text-anchor="middle" font-weight="800" fill="#92400e">1</text>`},
+  tshirt:{s:'top',n:'Blaues T-Shirt',p:6,g:()=>shirt('#3b82f6')},
+  hoodie:{s:'top',n:'Lila Hoodie',p:12,g:()=>shirt('#8b5cf6','<path d="M26 52 V60 M38 52 V60" stroke="#ede9fe" stroke-width="1.4"/>')},
+  jersey:{s:'top',n:'Fußballtrikot',p:15,g:()=>shirt('#fff','<path d="M18 50 V64 M46 50 V64" stroke="#16a34a" stroke-width="4"/><text x="32" y="63" font-size="7" text-anchor="middle" font-weight="900" fill="#16a34a">10</text>')},
+  hero:{s:'top',n:'Superheldenanzug',p:25,g:()=>shirt('#dc2626','<path d="M32 55 l3 4-3 4-3-4z" fill="#fde047"/>')},
+  elio:{s:'top',n:'ELIO-Shirt',p:18,g:()=>shirt('#1e3a8a','<text x="32" y="62.5" font-size="5.2" text-anchor="middle" font-weight="900" fill="#fff">ELIO</text>')}};
+function avatar(v,sz){const a=avParse(v),bg=AV_BG[a[a.length-1]],W=a.w||{},wg=(k,t,e)=>W[k]?WEAR[W[k]].g(t,e):'';let body='';
   if(a[0]==='h'){const [,s,h,st,e,m,ac]=a,sk=AV_SKIN[s],hc=AV_HAIR[h];
     const back=st===1?`<path d="M12 54 Q8 14 32 12 Q56 14 52 54 Z" fill="${hc}"/>`:st===2?`<circle cx="32" cy="29" r="24" fill="${hc}"/>`:st===3?`<circle cx="32" cy="9" r="7" fill="${hc}"/>`:st===6?`<circle cx="14" cy="18" r="7" fill="${hc}"/><circle cx="50" cy="18" r="7" fill="${hc}"/>`:'';
     const top=st===0||st===3||st===6?`<path d="M14 34 Q13 14 32 14 Q51 14 50 34 Q46 22 32 21 Q18 22 14 34Z" fill="${hc}"/>`:st===1?`<path d="M14 34 Q14 16 32 15 Q50 16 50 34 Q44 22 32 22 Q20 22 14 34Z" fill="${hc}"/>`
       :st===4?`<path d="M14 32 L16 18 L22 24 L26 12 L32 21 L38 11 L42 23 L48 17 L50 32 Q44 23 32 23 Q20 23 14 32Z" fill="${hc}"/>`:st===2?`<path d="M14 32 Q16 18 32 18 Q48 18 50 32 Q44 24 32 24 Q20 24 14 32Z" fill="${hc}"/>`
       :st===7?`<g fill="${hc}">${[17,23,29,35,41,47].map((x,i)=>`<circle cx="${x}" cy="${24-(i%2)*3}" r="6"/>`).join('')}</g>`:st===8?`<path d="M27 26 Q27 8 32 6 Q37 8 37 26Z" fill="${hc}"/>`:'';
-    body=`${back}<circle cx="32" cy="36" r="18" fill="${sk}"/>${top}${avEyes(e,37)}<circle cx="22" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/><circle cx="42" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/>${avMouth(m,44)}${avAcc(ac,37,st===2||st===8?14:17)}`}
+    const tt=st===2||st===8?14:17;body=`${wg('top')}${back}<circle cx="32" cy="36" r="18" fill="${sk}"/>${top}${avEyes(e,37)}<circle cx="22" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/><circle cx="42" cy="43" r="2.6" fill="#f19a9a" opacity=".55"/>${avMouth(m,44)}${avAcc(ac,37,tt)}${wg('neck')}${wg('gl',tt,37)}${wg('hat',tt,37)}`}
   else{const [,t,c,e,m,ac]=a,f=AV_T[t][1][c],lt='#fff7ec',ec=t===7?'#1d2433':'#222';let ears='',face=`<circle cx="32" cy="37" r="19" fill="${f}"/>`,extra='',my=46,ey=36,tp=19;
     if(t===0){ears=`<path d="M13 30 L15 9 L28 21Z M51 30 L49 9 L36 21Z" fill="${f}"/><path d="M16 24 L17 13 L24 21Z M48 24 L47 13 L40 21Z" fill="#3a2418"/>`;extra=`<path d="M17 40 Q32 60 47 40 Q40 47 32 47 Q24 47 17 40Z" fill="${lt}"/><circle cx="32" cy="42" r="2.4" fill="#222"/>`}
     if(t===1){ears=`<path d="M14 28 L16 12 L27 20Z M50 28 L48 12 L37 20Z" fill="${f}"/><path d="M17 24 L18 16 L23 20Z M47 24 L46 16 L41 20Z" fill="#f4a6b4"/>`;extra=`<path d="M30 41 H34 L32 43Z" fill="#e07a8a"/><g stroke="#555" stroke-width=".9"><path d="M12 42 H22 M12 46 H22 M42 42 H52 M42 46 H52"/></g>`}
@@ -2432,7 +2466,7 @@ function avatar(v,sz){const a=avParse(v),bg=AV_BG[a[a.length-1]];let body='';
     if(t===7){face=`<rect x="13" y="19" width="38" height="36" rx="9" fill="${f}"/>`;ears=`<path d="M32 19 V9" stroke="#556" stroke-width="2.2"/><circle cx="32" cy="8" r="3.2" fill="#e0453a"/><rect x="9" y="32" width="5" height="10" rx="2" fill="#778"/><rect x="50" y="32" width="5" height="10" rx="2" fill="#778"/>`;extra=`<rect x="19" y="30" width="26" height="12" rx="5" fill="#1d2433" opacity=".12"/>`;tp=19}
     if(t===8){face=`<ellipse cx="32" cy="36" rx="21" ry="19" fill="${f}"/>`;ears=`<path d="M22 20 L16 7 M42 20 L48 7" stroke="${f}" stroke-width="2.4"/><circle cx="16" cy="7" r="3" fill="${f}"/><circle cx="48" cy="7" r="3" fill="${f}"/>`}
     if(t===9){ears=`<path d="M17 24 Q12 12 20 6 Q20 16 25 20Z M47 24 Q52 12 44 6 Q44 16 39 20Z" fill="#fff4d6"/>`;extra=`<path d="M27 46 L29 50 L31 46Z M33 46 L35 50 L37 46Z" fill="#fff"/>`}
-    body=`${ears}${face}${extra}${avEyes(e,ey,ec)}${t===3||t===6?'':`<circle cx="21" cy="${ey+7}" r="2.4" fill="#f19a9a" opacity=".5"/><circle cx="43" cy="${ey+7}" r="2.4" fill="#f19a9a" opacity=".5"/>`}${avMouth(m,my)}${avAcc(ac,ey,tp)}`}
+    body=`${wg('top')}${ears}${face}${extra}${avEyes(e,ey,ec)}${t===3||t===6?'':`<circle cx="21" cy="${ey+7}" r="2.4" fill="#f19a9a" opacity=".5"/><circle cx="43" cy="${ey+7}" r="2.4" fill="#f19a9a" opacity=".5"/>`}${avMouth(m,my)}${avAcc(ac,ey,tp)}${wg('neck')}${wg('gl',tp,ey)}${wg('hat',tp,ey)}`}
   return `<svg class="av" viewBox="0 0 64 64" width="${sz||40}" height="${sz||40}" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="${bg}"/><clipPath id="avclip"><circle cx="32" cy="32" r="32"/></clipPath><g clip-path="url(#avclip)">${body}</g></svg>`}
 // Namensvorschläge passend zum Avatar: Fantasienamen statt Vornamen
 const AVN_A=['Schlau','Flink','Mutig','Fröhlich','Cool','Schnell','Wild','Lustig','Stark','Klug','Funky','Super'],AV_G=['m','f','m','m','m','m','f','m','n','n'];
@@ -2443,7 +2477,7 @@ function avNames(v){const a=avParse(v),out=new Set();let n=0;
 function avSay(t,v){try{const u=new SpeechSynthesisUtterance(String(t));u.lang='de-DE';const a=avParse(v!=null?v:S.av);u.pitch=a[0]==='t'?1.35+(a[1]%3)*.15:1.05;u.rate=1;
   const vo=speechSynthesis.getVoices().find(x=>x.lang==='de-DE')||speechSynthesis.getVoices().find(x=>/^de/.test(x.lang));if(vo)u.voice=vo;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
 function avBuilder(v){const a=avParse(v),k=a[0],N=AV_N[k],cat=Math.min(V.avCat||0,N.length-1);
-  const opt=i=>{const b=a.slice();b[cat+1]=i;return b};
+  const opt=i=>{const b=a.slice();b.w=a.w;b[cat+1]=i;return b};
   return `<div class="avb"><div class="avb-prev">${avatar(v,120)}<button class="btn sm" data-act="av-rnd">🎲 Zufall</button></div><div class="avb-r">
     <div class="psub avb-kind"><button class="${k==='h'?'on':''}" data-act="av-kind" data-k="h">🙂 Mensch</button><button class="${k==='t'?'on':''}" data-act="av-kind" data-k="t">🦊 Fantasiewesen</button></div>
     <div class="psub avb-cat">${N.map(([l],i)=>`<button class="${i===cat?'on':''}" data-act="av-cat" data-i="${i}">${l}</button>`).join('')}</div>
@@ -3378,6 +3412,15 @@ function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Ke
   const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${G.mt?'<span class="chip">🎯 Minitest</span>':S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
   return `<div class="ak akg-${G.g}">${head}${s.win?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`:''}${A.view(G.data,s)}</div>`}
 VIEWS.akt=()=>akHTML();
+/* --- Avatar-Shop: Sterne aus Übungen gegen Kleidung und Schmuck tauschen; Level zählt alle je verdienten Sterne --- */
+VIEWS.shop=()=>{if(S.role!=='student')return '<div class="empty">Den Shop gibt es für Schülerinnen und Schüler.</div>';const own=S.owned||[],bal=starBal(),a=avParse(S.av),W=a.w||{},cat=V.shc||'hat';
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>🛍️ Avatar-Shop</h1><span class="shop-bal">${STAR} ${bal} zum Einlösen</span></div>
+  <div class="shop-top"><div class="shop-av">${avatar(S.av,150)}</div><div><p style="font-weight:700">Für jede Übung bekommst du Sterne. Hier tauschst du sie gegen Mützen, Brillen, Schmuck und Outfits. Was du kaufst, gehört dir für immer.</p><p class="muted" style="font-weight:700;margin-top:6px">Dein Level bleibt gleich, auch wenn du einkaufst.</p></div></div>
+  <div class="psub shop-tabs" style="margin:14px 0 10px">${WEAR_S.slice().reverse().map(k=>`<button class="${k===cat?'on':''}" data-act="shop-cat" data-k="${k}">${WEAR_L[k]}</button>`).join('')}</div>
+  <div class="shop-g">${Object.entries(WEAR).filter(([,it])=>it.s===cat).map(([id,it])=>{const has=own.includes(id),on=W[it.s]===id,tw={...W,[it.s]:id};
+    return `<div class="shop-i ${on?'on':''}"><div>${avatar(avWith(S.av,tw),84)}</div><b>${esc(it.n)}</b>${has?(on?`<button class="btn sm" data-act="shop-off" data-id="${id}">Ausziehen</button>`:`<button class="btn sm pri" data-act="shop-on" data-id="${id}">Anziehen</button>`)
+      :`<button class="btn sm ${bal>=it.p?'ok':''}" data-act="shop-buy" data-id="${id}" ${bal>=it.p?'':'disabled'}>${STAR} ${it.p} kaufen</button>${bal<it.p?`<small class="muted">Noch ${it.p-bal} Sterne</small>`:''}`}</div>`}).join('')}</div>`};
+function avSave(v){S.av=v;save();if(typeof Live!=='undefined'&&RCS)try{sendMsg({k:'hi'})}catch(e){}render()}
 VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein Profil</h1><section class="panel" style="max-width:560px">
     ${Cloud.prof?`<label class="label" for="me-tn">Name (so sehen dich die anderen)</label><div class="row"><input id="me-tn" type="text" value="${esc(Cloud.prof.name||'')}" maxlength="60" style="flex:1"><button class="btn pri" data-act="me-tname">Speichern</button></div>
       <p style="margin-top:12px;font-weight:700">${esc(Cloud.user.email||'')} · Rolle: ${esc({admin:'Admin',teacher:'Lehrkraft',pending:'wartet auf Freigabe'}[Cloud.prof.role]||Cloud.prof.role)}</p>`:'<p style="font-weight:700">Demo-Modus ohne Konto.</p>'}
@@ -4643,6 +4686,10 @@ document.addEventListener('click',e=>{
     case 'exit-send':{if(!RCS||!RCS.exit)break;const X=RCS.exit,a=X.qs.map((_,k)=>(($('#ex-a'+k)||{}).value||'').trim().slice(0,600));if(!a.some(Boolean)&&EXAMP==null){const e=$('#ex-err');if(e)e.textContent='Schreib mindestens eine Antwort.';break}
       const body={a,m:EXAMP},plain=()=>sendMsg({k:'exit',id:X.id,p:body});if(RCS.dpk&&window.crypto&&crypto.subtle)dEnc(RCS.dpk,body).then(o=>sendMsg({k:'exit',id:X.id,...o})).catch(plain);else plain();
       S.readyDone[X.id]=1;save();EXAMP=null;SND.right();liveOverlay();break}
+    case 'shop':if(S.role==='student')go('shop');break;
+    case 'shop-cat':V.shc=d.k;render();break;
+    case 'shop-buy':{const it=WEAR[d.id];if(!it||S.role!=='student')break;S.owned=S.owned||[];if(S.owned.includes(d.id)||starBal()<it.p)break;S.owned.push(d.id);S.spent=(+S.spent||0)+it.p;const W=avParse(S.av).w;W[it.s]=d.id;SND.right();hdr();avSave(avWith(S.av,W));break}
+    case 'shop-on':case 'shop-off':{const it=WEAR[d.id];if(!it||!(S.owned||[]).includes(d.id))break;const W=avParse(S.av).w;if(a==='shop-on')W[it.s]=d.id;else delete W[it.s];avSave(avWith(S.av,W));break}
     case 'nz-tog':NOISE.on?noiseOff():noiseOn();break;
     case 'sl-add':case 'sl-del':case 'sl-mv':case 'sl-dup':{const L=lessonById(V.id),t=L&&L.phases[+d.i]&&L.phases[+d.i].tool;if(!t)break;const A=deckSlides(t),j=+d.j;
       if(a==='sl-add')A.push({layout:'std',bg:(A[A.length-1]||{}).bg||'allgemein',title:'',text:'',mat:'',elo:'',say:'',steps:false});
@@ -4679,7 +4726,7 @@ document.addEventListener('click',e=>{
     case 'st-class':V.cls=d.id;V.step='role';render();break;
     case 'r-nr':V.nr=+d.n;V.step='nick';render();break;
     case 'av-set':case 'av-kind':case 'av-cat':case 'av-rnd':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;
-      if(d.act==='av-set')V.av=cleanAv(d.v);if(d.act==='av-kind'){V.av=avRandom(d.k);V.avCat=0}if(d.act==='av-cat')V.avCat=+d.i;if(d.act==='av-rnd')V.av=avRandom(avParse(V.av)[0]);render();break}
+      if(d.act==='av-set')V.av=cleanAv(d.v);const w0=avParse(V.av).w;if(d.act==='av-kind'){V.av=avWith(avRandom(d.k),w0);V.avCat=0}if(d.act==='av-cat')V.avCat=+d.i;if(d.act==='av-rnd')V.av=avWith(avRandom(avParse(V.av)[0]),w0);render();break}
     case 'av-hi':{const f=$('#'+d.f),n=cleanNick(f&&f.value)||'dein Avatar';avSay('Hallo! Ich bin '+n+'.',V.av);break}
     case 'desk':go('desk');break;
     case 'umenu':{const m=$('#umenu');if(!S.role){go('role',{step:'splash'});break}if(!m.hidden){m.hidden=true;break}m.innerHTML=umenuHTML();const lg=$('.top .logo');m.style.top=(lg.offsetTop+lg.offsetHeight+6)+'px';m.hidden=false;break}
