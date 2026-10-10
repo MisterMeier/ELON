@@ -42,8 +42,8 @@ button{font:inherit;color:inherit}
 .logo,.biglogo{color:var(--brand-ink)}@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .logo,:root:not([data-theme=light]) .biglogo{color:#a9b6ff}}:root[data-theme=dark] .logo,:root[data-theme=dark] .biglogo{color:#a9b6ff}
 .lg-t{letter-spacing:.04em}
 .lg-e{height:1em;width:auto;margin:0 2px 0 0;display:inline-block}.biglogo .lg-e{height:.82em}
-.si-owl{width:1.6em;height:1.6em;border-radius:50%;background:#fff;object-fit:cover;vertical-align:middle}
-.elo-help{display:flex;gap:12px;align-items:center;margin-bottom:10px}.elo-help img{width:84px;height:84px;border-radius:50%;background:#fff;box-shadow:var(--shadow);flex:none;object-fit:cover}.elo-help .bub{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 12px;font-weight:800}
+.si-owl{width:2.6rem;height:2.6rem;object-fit:contain;vertical-align:middle;filter:drop-shadow(0 2px 3px rgba(44,58,214,.18))}.st-h{display:flex;align-items:center;gap:8px}.st-h img{width:52px;height:52px;margin:-8px 0}
+.elo-help{display:flex;gap:12px;align-items:center;margin-bottom:10px}.elo-help img{width:84px;height:84px;flex:none;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(44,58,214,.2))}.elo-help .bub{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 12px;font-weight:800}
 .logo .on{display:inline-flex;align-items:center;gap:5px;background:var(--brand-g);color:#fff;border-radius:999px;padding:2px 4px 0 11px}
 .logo .on i{width:18px;height:18px;border-radius:50%;background:#fff;display:inline-block;margin-top:-2px}
 .nav{display:flex;gap:6px;flex-wrap:wrap}
@@ -192,7 +192,11 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .tk-prev{display:flex;gap:10px;align-items:flex-start}.tk-prev img{max-width:60%;max-height:200px;border-radius:10px;border:1px solid var(--line)}.tk-warn{font-size:.85rem;font-weight:700;color:#a86500}
 .tk-fab{position:fixed;left:14px;bottom:14px;z-index:55;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);font-size:1.25rem;cursor:pointer;opacity:.75}.tk-fab:hover{opacity:1}.tk-fab[hidden]{display:none}
 .tk-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--red,#d33);color:#fff;font-size:.75rem;margin-left:4px}
-.tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
+.tk-list{display:grid;gap:10px}.tk.erledigt{opacity:.65}.tk.erledigt .tk-body p{text-decoration:line-through}
+.ib{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:14px;align-items:start}.ib-l{display:grid;gap:6px}
+.ib-t{display:flex;gap:10px;align-items:center;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:8px 10px;cursor:pointer;color:var(--ink);font:inherit}
+.ib-t.on{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}.ib-t span:not(.tk-n){display:flex;flex-direction:column;flex:1;min-width:0}.ib-t small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib-go{border:0;cursor:pointer;font:inherit;font-size:.75rem}@media(max-width:720px){.ib{grid-template-columns:1fr}}.tk-body{display:flex;gap:12px;align-items:flex-start;margin-top:8px}.tk-body p{white-space:pre-wrap;flex:1}.tk-th{border:0;padding:0;background:none;cursor:zoom-in}.tk-th img{width:160px;max-height:220px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
 @media print{.tk-fab{display:none}}
 .keyqr{position:fixed;right:3vw;bottom:4vh;z-index:40;background:#fff;color:#111;border-radius:22px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:min(30vw,340px);text-align:center;display:grid;gap:6px}.keyqr .qr svg{width:100%;height:auto}.keyqr p{font-size:.9rem;font-weight:700;color:#555}
 .ttown table{width:100%;table-layout:fixed}.ttown td{padding:3px;vertical-align:top}.ttown select,.ttown input{width:100%;font-size:.78rem;padding:4px 5px;min-width:0}.ttown input{margin-top:3px}.ttown td.has{border-radius:8px}
@@ -349,7 +353,7 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .biglogo{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-weight:800;font-size:clamp(4rem,14vw,8rem);line-height:1;letter-spacing:.02em}
 .biglogo .on{display:inline-flex;align-items:center;gap:.14em;background:var(--brand-g);color:#fff;border-radius:999px;padding:.06em .1em 0 .32em}
 .biglogo .on i{width:.62em;height:.62em;border-radius:50%;background:#fff;display:inline-block;margin-top:-.08em}
-.splash-elo{width:clamp(120px,22vw,180px);height:auto;aspect-ratio:1;border-radius:50%;background:#fff;object-fit:cover;box-shadow:var(--shadow);margin-bottom:-6px;animation:elo-bob 3.2s ease-in-out infinite}@keyframes elo-bob{50%{transform:translateY(-6px)}}@media (prefers-reduced-motion:reduce){.splash-elo{animation:none}}
+.splash-glow{display:grid;place-items:center;width:clamp(170px,30vw,240px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 55%,rgba(107,76,246,.28),rgba(31,123,255,.12) 48%,transparent 70%);margin-bottom:-14px}.splash-elo{width:88%;height:auto;aspect-ratio:1;filter:drop-shadow(0 10px 18px rgba(44,58,214,.25));animation:elo-bob 3.2s ease-in-out infinite}@keyframes elo-bob{50%{transform:translateY(-6px)}}@media (prefers-reduced-motion:reduce){.splash-elo{animation:none}}
 .tagline{font-size:1.2rem;font-weight:800;color:var(--muted);letter-spacing:.04em}
 .btn.big{min-height:64px;padding:12px 40px;font-size:1.3rem;border-radius:18px}
 .start{max-width:860px;margin:0 auto}
@@ -436,6 +440,13 @@ body.wide main,body.wide .top-in{max-width:1760px}
 .au-med{margin-bottom:16px}.au-sum{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer}
 .au-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:6px}.au-it{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:12px}.au-it>div{display:grid;min-width:0}.au-it small{font-weight:700}.au-lic{font-size:.72rem;color:var(--muted);opacity:.8}
 .au-pl{min-width:40px;font-size:1rem}.au-pl.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.subj-grid.main3{grid-template-columns:repeat(3,minmax(0,1fr))}@media (max-width:620px){.subj-grid.main3{grid-template-columns:1fr}}
+.subj-more{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.subj-more button{font:inherit;font-weight:700;font-size:.88rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;border-left:4px solid var(--sc,var(--line))}.subj-more button:hover{color:var(--ink)}
+button.dcell{font:inherit;color:inherit;cursor:pointer;text-align:left}
+.tb-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.tb-g{display:inline-flex;gap:4px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:4px 4px 4px 0}.tb-g.on{border-color:var(--green);background:var(--ok-bg)}
+.tb-t{display:grid;text-align:left;background:none;border:0;font:inherit;font-weight:800;color:var(--ink);cursor:pointer;padding:2px 10px}.tb-t small{font-weight:700;color:var(--muted);font-size:.78rem}.tb-g.on .tb-t small{color:var(--green)}
+.tb-tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}.tb-tool{display:flex;gap:10px;align-items:center;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:8px 10px;cursor:pointer;opacity:.6}.tb-tool.on{opacity:1;border-color:var(--green)}.tb-tool span:last-child{display:grid}.tb-tool small{font-weight:700;color:var(--muted)}.tb-tool .gi{font-size:1.5rem}
 .areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 @media (max-width:640px){.areas{grid-template-columns:1fr}}
 .area{display:flex;flex-direction:column;gap:6px;text-align:left;padding:18px;border-radius:20px;background:var(--surface);border:1px solid var(--line);border-top:7px solid var(--ac);box-shadow:var(--shadow);cursor:pointer;color:var(--ink);font:inherit}
@@ -555,7 +566,12 @@ body.tboard .bal{width:48px;height:60px}
 .wk tr.pause td,.tp tr.pause td{text-align:center;font-weight:800;font-size:.8rem;color:var(--muted);background:repeating-linear-gradient(45deg,var(--surface-2) 0 8px,transparent 8px 16px);border-radius:8px;padding:4px;border:0}
 .kl{display:grid;gap:16px}.kl .acc{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:10px}
 .kl .acc b{font-family:var(--f-display);font-size:1.6rem;letter-spacing:.08em;background:var(--surface-2);border-radius:10px;padding:4px 12px}
-.splash .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;width:min(640px,100%);margin-top:8px}
+.splash .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;width:620px;max-width:calc(100vw - 32px);margin-top:8px}
+.rcard{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 18px 12px 10px;border-radius:24px;border:0;cursor:pointer;font:inherit;color:#fff;background:var(--brand-g);box-shadow:0 10px 26px rgba(44,58,214,.28);transition:transform .15s,box-shadow .15s}
+.rcard:hover,.rcard:focus-visible{transform:translateY(-2px);box-shadow:0 14px 30px rgba(44,58,214,.36)}
+.rcard img{width:76px;height:76px;flex:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.18))}.rcard span{display:grid;flex:1}.rcard b{font-family:var(--f-display);font-size:1.45rem;line-height:1.1}.rcard small{font-weight:700;opacity:.9}.rcard i{font-style:normal;font-size:1.5rem;font-weight:800;opacity:.85}
+.rcard.rc-t{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px var(--brand-ink),0 8px 22px rgba(44,58,214,.14)}.rcard.rc-t i{color:var(--brand-ink)}
+.adm-link{background:none;border:0;font:inherit;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer;margin-top:6px;padding:6px 10px;border-radius:10px}.adm-link:hover{color:var(--ink);background:var(--surface-2)}
 .splash .roles .btn{min-height:84px;font-size:1.25rem;flex-direction:column;gap:4px}.splash .roles .btn small{font-size:.85rem;font-weight:700;opacity:.8}
 .tp td.tm{font-size:.8rem;font-weight:800;color:var(--muted);width:90px;vertical-align:top}
 .tpc{min-height:74px;border-radius:12px;border:2px dashed var(--line);padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted)}
@@ -654,7 +670,7 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 .folder:hover .fbody{transform:translateY(-3px)}
 .diary{position:relative;border:0;cursor:pointer;font:inherit;min-height:150px;border-radius:8px 16px 16px 8px;background:#3b4a8a;color:#fff;display:grid;align-content:center;justify-items:center;gap:6px;padding:16px 16px 16px 30px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
 .diary .spine{position:absolute;left:0;top:0;bottom:0;width:16px;border-radius:8px 0 0 8px;background:#2a3566}.diary b{font-family:var(--f-display);font-size:1.5rem}
-.diary-today textarea{margin-top:8px;font-size:1.1rem;line-height:1.6;background:repeating-linear-gradient(#fff 0 1.55em,#e3e8f2 1.55em 1.6em);min-height:200px}
+.diary-today textarea{color:#1e2340;caret-color:#1e2340;margin-top:8px;font-size:1.1rem;line-height:1.6;background:repeating-linear-gradient(#fff 0 1.55em,#e3e8f2 1.55em 1.6em);min-height:200px}
 details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1.2em;font-weight:700}
 .rt-heft{background:#eef1f6;padding-bottom:1em}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
 .rt-diary{background:#fff}.rt-diary .in{flex:1;display:grid;align-content:center;gap:1em;padding:1em 2.4em}.rt-diary ol{font-size:2em;font-weight:700;display:grid;gap:.5em;padding-left:1.2em}.rt-diary p{font-size:1.3em;color:var(--muted);font-weight:700}
@@ -1168,7 +1184,7 @@ function mutStar(){if(S.mut<30){S.mut++;addStars(1)}}
 function umenuHTML(){const T=S.role==='teacher',it=(v,l)=>`<button data-act="um-go" data-v="${v}">${l}</button>`;
   const who=T?`<b>${esc(Cloud.prof&&Cloud.prof.name||'Lehrkraft')}</b><small>${esc(Cloud.user&&Cloud.user.email||'Demo-Modus')} · ${esc(className())}</small>`
     :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</b><small>${S.acct&&S.acct.u?esc(S.acct.u)+' · ':''}${esc(className())}</small></span></span>`;
-  return `<div class="um-who">${who}</div>${T?it('tdash','🏠 Lehrerzimmer')+it('me','👤 Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','🏫 Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','🔑 Admin'):'')+it('dash','👀 Schüleransicht')+(tkAdmin()?it('inbox','📬 Postfach'):'')
+  return `<div class="um-who">${who}</div>${T?it('tdash','🏠 Lehrerzimmer')+it('me','👤 Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','🏫 Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','🔑 Admin'):'')+it('dash','👀 Schüleransicht')+it('inbox','📬 Postfach')
     :it('dash','🏠 Dashboard')+it('desk','🗂️ Schreibtisch')+it('homework','📚 Aufgaben')+it('me','👤 Mein Profil')+it('week','🗓️ Stundenplan')}<button data-act="tk-open">🛠️ Problem melden</button><button data-act="go-legal" data-v="datenschutz">🔒 Datenschutz und Impressum</button><button class="out" data-act="role-reset">🚪 Abmelden</button>`}
 document.addEventListener('click',e=>{const m=$('#umenu');if(m&&!m.hidden&&!e.target.closest('#umenu,.logo'))m.hidden=true},true);
 function hdr(){$('#star-n').textContent=S.stars}
@@ -1222,7 +1238,7 @@ function render(){
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
-  navTBadge();$('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{const b=$('#nav-inbox'),n=tkLocal().filter(t=>t.status==='neu').length+(TK.n||0);b.hidden=!(isT&&tkAdmin());$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
+  navTBadge();$('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);ibBadge()}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';$('#nav-board').hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk()){V.name='dash';return render()}
   document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
@@ -1251,38 +1267,29 @@ VIEWS.dash=()=>{
       <div class="row" style="margin-top:14px"><button class="btn" data-act="subject" data-s="${sl.l.s}">Zum Fach</button><button class="btn sm ghost" data-act="recheck">Check-in zeigen</button></div>${liveStrip()}</div>`;
   }else{
     const nx=sl.next?`${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'';
-    const msg={weekend:'Schönes Wochenende! Schau in deine Hausaufgaben.',free:'Heute ist kein Unterricht.',after:'Der Unterricht ist für heute vorbei. Denk an deine Hausaufgaben!',
+    const msg={weekend:'Schönes Wochenende! Schau in deine Aufgaben.',free:'Heute ist kein Unterricht.',after:'Der Unterricht ist für heute vorbei. Denk an deine Aufgaben!',
       before:`Gleich geht's los: ${nx}`,break:`Pause! Danach: ${nx}`}[sl.kind];
     now=`<div class="now idle"><span class="elo">${elo(sl.kind==='break'?'cheer':'happy',58)}</span><span class="k" style="color:var(--muted)">${sl.kind==='break'?'Pause':'Jetzt'}</span>
       <h2 style="font-size:clamp(1.5rem,4vw,2.2rem)">${esc(msg)}</h2>${liveStrip()}</div>`;
   }
   const dayIdx=n.day>=0&&n.day<=4?n.day:null;
-  const today=dayIdx==null?'<p class="muted" style="margin-top:8px">Heute ist kein Schultag.</p>'
-    :`<div class="today">${PERIODS.map((p,i)=>{const s=WEEK[dayIdx][i];if(!s)return '';
-      const st=toMin(p[1]),en=toMin(p[2]),cls=n.min>=en?'past':(n.min>=st?'cur':'');
-      return `<div class="slot-row s-${s} ${cls}"><span class="tm">${p[0]}. ${p[1]}–${p[2]}</span>${badge(s)}<b>${SUBJECTS[s].name}</b></div>`}).join('')}</div>`;
-  const open=hwAll().filter(h=>!S.hwDone[h.id]).sort((a,b)=>a.due.localeCompare(b.due));
+  // Tagesbalken wie im Lehrerzimmer: welche Stunde gerade läuft und was als Nächstes kommt
+  const today=dayIdx==null?'':`<section class="panel daybar"><div class="row" style="justify-content:space-between"><span class="label">Dein Tag · ${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>
+    <div class="dstrip">${PERIODS.map((p,i)=>{const s=WEEK[dayIdx][i];const st=toMin(p[1]),en=toMin(p[2]),cur=n.min>=st&&n.min<en;if(!s&&!cur)return '';const cls=n.min>=en?'past':cur?'cur':'';
+      return `<button class="dcell ${cls} ${s?'s-'+s:'free'}" ${s?`data-act="subject" data-s="${s}"`:''}><small>${p[0]}. · ${p[1]}</small><b>${s?esc(SUBJECTS[s].name):'frei'}</b>${cur?'<span class="dnow">jetzt</span>':''}</button>`}).join('')}</div></section>`;
   const L=lvlInfo(),planTxt=sl.kind==='lesson'?`Jetzt: ${SUBJECTS[sl.l.s].name}`:sl.next?`Als Nächstes: ${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'Deine Woche im Überblick';
   const areas=`<div class="areas">
-      <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${open.length+aufOpen().length?[aufOpen().length?aufOpen().length+' Übungsauftrag'+(aufOpen().length>1?'e':''):'',open.length?open.length+' Hausaufgabe'+(open.length>1?'n':''):''].filter(Boolean).join(' · ')+' offen':'Alles erledigt'}</small></button>
+      <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${aufOpen().length?aufOpen().length+' Übungsauftrag'+(aufOpen().length>1?'e':'')+' offen':'Alles erledigt'}</small></button>
       <button class="area a-play" data-act="practice"><span class="ai">🎮</span><b>Freies Üben</b><small>Level ${L.l} · Lernspiele</small><div class="mini"><i style="width:${L.pct}%"></i></div></button>
       <button class="area a-plan" data-act="week"><span class="ai">🗓️</span><b>Stundenplan</b><small>${esc(planTxt)}</small></button>
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
       <span class="muted" style="font-weight:800">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span></div>
-    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${remindHTML()}${now}${aufOpen().map(a=>aufCard(a)).join('')}${areas}</div>
-    <div class="dash">
-      <div style="display:grid;gap:18px;min-width:0">
-        <section><span class="label">Meine Fächer</span>
-          <div class="subj-grid">${Object.keys(SUBJECTS).filter(k=>WEEK.some(r=>r.includes(k))||heftAll(k).length).map(subjTile).join('')}</div></section>
-      </div>
-      <div style="display:grid;gap:18px;min-width:0">
-        <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Heute</span>${TIMETABLE_EXAMPLE?'<span class="chip ex">Beispiel-Stundenplan</span>':''}</div>${today}</section>
-        <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Hausaufgaben · ${open.length} offen</span><button class="btn sm" data-act="homework">Alle Aufgaben</button></div>
-          ${open.length?`<div class="hw-list">${open.slice(0,3).map(hwRow).join('')}</div>`:'<div class="empty" style="margin-top:10px">Alles erledigt. Stark!</div>'}</section>
-      </div>
-    </div>
-    <p class="foot">Dein Fortschritt bleibt nur auf diesem iPad. Kein Login, keine Namen, keine Rangliste.</p>`;
+    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${areas}</div>
+    ${(()=>{const MAIN=['E','M','K'],rest=Object.keys(SUBJECTS).filter(k=>!MAIN.includes(k)&&(WEEK.some(r=>r.includes(k))||heftAll(k).length));
+      return `<section><span class="label">Meine Fächer</span><div class="subj-grid main3">${MAIN.map(subjTile).join('')}</div>
+        ${rest.length?`<div class="subj-more">${rest.map(k=>`<button class="s-${k}" data-act="subject" data-s="${k}">${esc(SUBJECTS[k].name)}</button>`).join('')}</div>`:''}</section>`})()}
+    <p class="foot">Dein Fortschritt ist mit deinem Kürzel gesichert. Keine Rangliste.</p>`;
 };
 // Schreibtisch: Fachordner mit Regelheft, Hausaufgaben, Lernmodulen + Lerntagebuch
 const DESK=['M','E','D'];
@@ -1305,11 +1312,11 @@ function liveStrip(){
 }
 function subjTile(k){
   const list=heftAll(k),copied=list.filter(e=>S.copied[e.id]).length;
-  const hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+  const au=aufOpen().filter(a=>a.s===k).length;
   let pct=list.length?copied/list.length*100:0,meta=`${list.length} Hefteinträge`;
   if(k==='E'){const d=STATIONS.filter(s=>S.done[s.id]).length;pct=d/STATIONS.length*100;meta=`Lernleiter ${d}/${STATIONS.length} · ${list.length} Einträge`}
   return `<button class="subj s-${k}" data-act="subject" data-s="${k}"><div class="row" style="gap:10px">${badge(k)}<b>${SUBJECTS[k].name}</b></div>
-    <div><small>${meta}</small><small>${hw?hw+' Hausaufgabe'+(hw>1?'n':'')+' offen':'Keine Hausaufgaben'}</small></div><div class="mini"><i style="width:${pct}%"></i></div></button>`;
+    <div><small>${meta}</small>${au?`<small>📚 ${au} Übungsauftrag${au>1?'e':''} offen</small>`:''}</div><div class="mini"><i style="width:${pct}%"></i></div></button>`;
 }
 function hwRow(h){
   const [c,l]=dueLabel(h.due),done=!!S.hwDone[h.id];
@@ -1333,6 +1340,9 @@ const GAME_INFO={
   salad:{name:'Wortsalat',icon:'🔤',txt:'Bring die Buchstaben in die richtige Reihenfolge.'},
   balloon:{name:'Ballon-Rätsel',icon:'🎈',txt:'Rate das Wort Buchstabe für Buchstabe. Elo landet immer weich.'},
 };
+// Welche Lernspiele die Lehrkraft für Freies Üben freigegeben hat (pro Klasse, im Werkzeugkasten)
+function gamesOn(){if(S.role==='teacher'){const G=((TD.games||{})[S.cls||'-'])||{};const o={};Object.keys(GAMES).forEach(k=>{const L=(G[k]||[]).filter(g=>GAME_INFO[g]);if(L.length)o[k]=L});return o}
+  const G=S.gamesRecv||{},o={};Object.keys(GAMES).forEach(k=>{const L=(Array.isArray(G[k])?G[k]:[]).filter(g=>GAME_INFO[g]);if(L.length)o[k]=L});return o}
 const LEVELS=['Starter','Entdecker','Kletterer','Profi','Lernlotse','Meister'];
 function lvlInfo(){const l=Math.floor(S.stars/10)+1;return {l,name:LEVELS[Math.min(LEVELS.length-1,Math.floor((l-1)/2))],pct:(S.stars%10)*10,left:10-S.stars%10}}
 function lvlBar(){const L=lvlInfo();
@@ -1352,19 +1362,13 @@ function winBox(g){return `<div class="win">${elo('cheer',64)}<div style="flex:1
   <button class="btn pri" data-act="g-again">Nochmal</button>${BOARD?'':S.role==='teacher'?`<button class="btn" data-act="${V.back||'tafel'}">Zurück</button>`:`<button class="btn" data-act="practice" data-s="${V.s}">Andere Spiele</button>`}</div>`}
 VIEWS.practice=()=>{
   const s=V.s||S.lastPs||'E';
-  const lad=[
-    {s:'E',t:'Shopping in London',n:STATIONS.length,d:STATIONS.filter(x=>S.done[x.id]).length,act:'module'},
-    {s:'M',t:'Lernleiter Mathe',soon:1},{s:'K',t:'Lernleiter Kunst',soon:1}];
+  const G=gamesOn(),ks=Object.keys(G),s2=G[s]?s:ks[0];
   return `<div class="row" style="margin-bottom:14px"><button class="btn sm" data-act="homework">← Aufgaben</button><h1>Freies Üben</h1></div>${lvlBar()}
-    <span class="label">Lernleitern · Schritt für Schritt</span>
-    <div class="games" style="margin:8px 0 22px">${lad.map(l=>`<button class="gcard s-${l.s}" style="border-top:7px solid var(--sc)" ${l.soon?'disabled':`data-act="${l.act}"`}>
-      <div class="row" style="gap:8px">${badge(l.s)}<small>${SUBJECTS[l.s].name}</small></div><b>${esc(l.t)}</b>
-      ${l.soon?'<small>Kommt bald</small>':`<small>${l.d} von ${l.n} Stufen geschafft</small><div class="mini"><i style="width:${l.d/l.n*100}%"></i></div>`}</button>`).join('')}</div>
-    <span class="label">Lernspiele</span>
-    <div class="psub">${Object.keys(GAMES).map(k=>`<button class="s-${k} ${k===s?'on':''}" data-act="ps" data-s="${k}">${SUBJECTS[k].name}</button>`).join('')}</div>
-    ${GAMES[s].ex?'<p class="muted" style="margin:-6px 0 12px"><span class="chip ex">Beispiel-Inhalte</span> Die echten Inhalte kommen von deinem Lehrer.</p>':''}
-    <div class="games s-${s}">${Object.keys(GAME_INFO).map(g=>`<button class="gcard" style="border-top:7px solid var(--sc)" data-act="game" data-g="${g}" data-s="${s}">
-      <span class="gi">${GAME_INFO[g].icon}</span><b>${GAME_INFO[g].name}</b><small>${GAME_INFO[g].txt}</small></button>`).join('')}</div>
+    <span class="label">Lernspiele nach Fächern</span>
+    ${ks.length?`<div class="psub">${ks.map(k=>`<button class="s-${k} ${k===s2?'on':''}" data-act="ps" data-s="${k}">${SUBJECTS[k].name}</button>`).join('')}</div>
+    <div class="games s-${s2}">${G[s2].map(g=>`<button class="gcard" style="border-top:7px solid var(--sc)" data-act="game" data-g="${g}" data-s="${s2}">
+      <span class="gi">${GAME_INFO[g].icon}</span><b>${GAME_INFO[g].name}</b><small>${GAME_INFO[g].txt}</small></button>`).join('')}</div>`
+    :'<div class="empty" style="margin-top:10px">Gerade sind keine Lernspiele freigegeben. Deine Lehrkraft schaltet sie frei.</div>'}
     <p class="foot">Keine Rangliste. Sterne gibt es fürs Dranbleiben, auch wenn mal etwas schiefgeht.</p>`;
 };
 function newMemory(s){const P=shuffle(GAMES[s].pairs).slice(0,6);
@@ -1478,7 +1482,7 @@ function aufCard(a,full){const p=aufProg(a),[c,l]=dueLabel(a.due),es=aufEntries(
         const u=ubList(e)[it.i],A=AKT[u.t],ok=(S.ubDone||{})[it.k];return `<button class="ait ${ok?'ok':''}" data-act="ub-go" data-id="${esc(e.id)}" data-i="${it.i}">${A.icon} ${esc(u.n&&u.n!=='Übung'?u.n:A.name)}${ok?' ✓':''}</button>`}).join('')}
       <button class="ait ghost" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">📒 Hefteintrag und Hilfe</button></div></details>`}).join('')}</div></section>`}
 function annHTML(){const L=annAll();if(!L.length)return '';
-  return L.map(a=>`<div class="ann">${S.role==='student'&&S.av!=null?avatar(S.av,44):'<span class="ai">📣</span>'}<div style="flex:1;min-width:0"><span class="label">📣 Von deiner Lehrkraft</span><p>${esc(a.t)}</p></div>${'speechSynthesis' in window?`<button class="btn sm" data-act="ann-say" data-id="${esc(a.id)}" aria-label="Vorlesen">🔊</button>`:''}</div>`).join('')}
+  return L.map(a=>`<div class="ann">${S.role==='student'&&S.av!=null?avatar(S.av,44):'<span class="ai">📣</span>'}<div style="flex:1;min-width:0"><span class="label">📣 Von deiner Lehrkraft</span><p>${esc(a.t)}</p></div></div>`).join('')}
 function remindHTML(){const L=aufOpen().filter(aufRemNow);if(!L.length)return '';
   return `<div class="remind">⏰ <span style="flex:1"><b>Erinnerung:</b> ${L.map(a=>{const p=aufProg(a);return `noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${esc(chName(a.ch))}“ ${daysUntil(a.due)<0?'(Frist vorbei)':'bis '+dayLabel(a.due)}`}).join(', ').replace(/\.$/,'')}.</span>${V.name==='homework'?'':'<button class="btn sm pri" data-act="homework">Los geht’s</button>'}</div>`}
 function notifHTML(){if(!aufAll().length)return '';if(!('Notification' in window))return `<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Mitteilungen gehen auf dem iPad erst, wenn ELIO auf dem Home-Bildschirm liegt (Teilen → „Zum Home-Bildschirm“). Die Erinnerung hier in ELIO kommt trotzdem.</p>`;
@@ -1491,12 +1495,9 @@ VIEWS.homework=()=>{
   return `<h1 style="margin-bottom:14px">Aufgaben</h1>${remindHTML()}${notifHTML()}
     <span class="label">📚 Übungsaufträge · ${Ao.length} offen</span>
     ${Ao.length?Ao.map(a=>aufCard(a,1)).join(''):`<div class="empty" style="margin:10px 0 0">${A.length?'Alle Übungsaufträge erledigt. Stark!':'Gerade kein Übungsauftrag. Deine Lehrkraft gibt die Übungen frei.'}</div>`}
-    <div style="margin-top:22px"><span class="label">📝 Hausaufgaben · ${open.length} offen</span>
-    ${open.length?`<div class="hw-list">${open.map(hwRow).join('')}</div>`:'<div class="empty" style="margin-top:10px">Alles erledigt. Stark!</div>'}</div>
     ${Ad.length?`<details style="margin-top:18px"><summary class="label" style="cursor:pointer">✓ Erledigte Übungsaufträge · ${Ad.length}</summary>${Ad.map(a=>aufCard(a,1)).join('')}</details>`:''}
-    ${done.length?`<details style="margin-top:12px"><summary class="label" style="cursor:pointer">✓ Erledigte Hausaufgaben · ${done.length}</summary><div class="hw-list">${done.map(hwRow).join('')}</div></details>`:''}
     <div class="free"><span class="ai">🎮</span><div style="flex:1"><b>Freies Üben</b><small class="muted" style="display:block">Lernspiele, wenn alles erledigt ist</small></div><button class="btn sm" data-act="practice">Öffnen</button></div>
-    <p class="muted" style="margin-top:16px;font-size:.9rem">Hake Hausaufgaben ab, wenn du sie erledigt hast. Übungen und Minitests hakt ELIO selbst ab.</p>`;
+    <p class="muted" style="margin-top:16px;font-size:.9rem">Übungen und Minitests hakt ELIO selbst ab.</p>`;
 };
 {const _d=VIEWS.dash;VIEWS.dash=()=>splitPanel(true)+_d()}
 VIEWS.week=()=>splitPanel(false)+weekView();
@@ -2046,9 +2047,9 @@ const strHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=(h*33+t.charCodeAt(i))
 // Schlüssel der Lehrkraft (dpk): Ein Wechsel zählt nur aus der Datenbank oder aus dem geschützten privaten Kanal,
 // damit niemand im offenen Kanal einen fremden Schlüssel unterschieben kann.
 function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||(S.tpk.n!==p.dpk.n&&trusted))){S.tpk=p.dpk;save();mbFlush()}
-  if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann]));if(hs===S.heftSig)return;
-  S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.heftSig=hs;save();aufNotify();
-  if(['desk','subject','dash','homework','mod','me'].includes(V.name))render()}
+  if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games]));if(hs===S.heftSig)return;
+  S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
+  if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name))render()}
 function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
@@ -2143,9 +2144,10 @@ const BIGLOGO='<div class="biglogo"><img class="lg-e" src="assets/elo/e.png" alt
 VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
-  if(step==='splash')return `<div class="splash"><img class="splash-elo" src="assets/elo/elo.png" alt="Elo, die Eule von ELIO">${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
-    ${CLOUD&&!Cloud.err?`<div class="roles"><button class="btn pri" data-act="st-step" data-step="join">🎒 Schüler/in<small>mit Kürzel und PIN</small></button>
-      <button class="btn" data-act="login">👩‍🏫 Lehrkraft<small>mit eigenem Konto</small></button><button class="btn" data-act="login" data-admin="1">🔑 Admin<small>Schule verwalten</small></button></div>`
+  if(step==='splash')return `<div class="splash"><span class="splash-glow"><img class="splash-elo" src="assets/elo/elo-heft-512.png" alt="Elo, die Eule von ELIO"></span>${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
+    ${CLOUD&&!Cloud.err?`<div class="roles"><button class="rcard rc-s" data-act="st-step" data-step="join"><img src="assets/elo/elo-uebung.png" alt=""><span><b>Schüler/in</b><small>mit Kürzel und PIN</small></span><i aria-hidden="true">→</i></button>
+      <button class="rcard rc-t" data-act="login"><img src="assets/elo/elo-hilfe.png" alt=""><span><b>Lehrkraft</b><small>mit eigenem Konto</small></span><i aria-hidden="true">→</i></button></div>
+      <button class="adm-link" data-act="login" data-admin="1">🔑 Admin · Schule verwalten</button>`
     :`<button class="btn pri big" data-act="st-step" data-step="school">Los geht's</button>`}</div>`;
   if(step==='join')return `<div class="start"><div class="start-head">${back('splash')}</div><h1>Anmelden als Schüler/in</h1>
     <form class="panel" id="a-f" method="post" action="#" style="max-width:460px"><p style="font-weight:700">🔑 Mit deinem Kürzel und deiner PIN</p>
@@ -2861,11 +2863,11 @@ function toolEditor(p,i,L){
 function toolPool(i){
   const L=lessonById(V.id),p=L&&L.phases[i];if(!p)return;
   const fits=id=>TOOLS[id].fit.test(p.name+' '+(p.goal||''))&&(!TOOLS[id].subj||TOOLS[id].subj===L.subject);
-  const ids=Object.keys(TOOLS).sort((a,b)=>fits(b)-fits(a));
+  const off=TD.toolsOff||[],ids=Object.keys(TOOLS).filter(id=>!off.includes(id)||(p.tool&&p.tool.id===id)).sort((a,b)=>fits(b)-fits(a));
   showOv(`<div class="box" style="max-width:820px;text-align:left"><span class="label">Werkzeug-Pool · Phase ${i+1}</span><h2>${esc(p.name)}: Was soll an die Tafel?</h2>
     <div class="pool">${ids.map(id=>`<button class="${fits(id)?'fit':''} ${p.tool&&p.tool.id===id?'cur':''}" data-act="tool-pick" data-i="${i}" data-t="${id}">${fits(id)?'<span class="fit-tag">Passt zu dieser Phase</span>':''}<span class="gi">${TOOLS[id].icon}</span><b>${TOOLS[id].name}</b><small>${TOOLS[id].txt}</small></button>`).join('')}
       <button data-act="tool-pick" data-i="${i}" data-t=""><span class="gi">➖</span><b>Kein Werkzeug</b><small>Nur Phase und Anweisung an der Tafel.</small></button></div>
-    <p class="muted" style="margin-top:12px;font-weight:700">Der Pool wächst: Neue Werkzeuge (z. B. aus deinen PowerPoints) kommen hier dazu.</p>
+    <p class="muted" style="margin-top:12px;font-weight:700">Welche Werkzeuge hier stehen, stellst du im <button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button> ein.</p>
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Schließen</button></div></div>`);
 }
 
@@ -3108,6 +3110,14 @@ TD.plan=TD.plan||{};
 function monday(off){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7)+7*off);return d}
 const isoD=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x.toISOString().slice(0,10)};
 function weekOff(){if(V.w!=null)return V.w;const n=new Date(),g=n.getDay();return g===0||g===6||(g===5&&n.getHours()>=13)?1:0}
+// Werkzeugkasten der Lehrkraft: Lernspiele für die Klasse freigeben, Werkzeuge für die Planung ein- und ausblenden
+VIEWS.toolbox=()=>{const G=((TD.games||{})[S.cls||'-'])||{},off=TD.toolsOff||[];
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row"><button class="btn sm" data-act="tplan">← Planung</button><h1>🧰 Werkzeugkasten</h1></div><span class="chip">${esc(className())}</span></div>
+  <section class="panel"><h2 style="font-size:1.2rem">🎮 Lernspiele für „Freies Üben“</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Nur was du hier freigibst, sehen die SuS dieser Klasse.</p>
+    ${Object.keys(GAMES).map(k=>`<div class="tb-row s-${k}"><span class="row" style="gap:8px;min-width:150px">${badge(k)}<b>${esc(SUBJECTS[k].name)}</b>${GAMES[k].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</span>
+      <span class="row" style="gap:8px;flex:1">${Object.keys(GAME_INFO).map(g=>{const on=(G[k]||[]).includes(g);return `<span class="tb-g ${on?'on':''}"><button class="tb-t" data-act="tb-game" data-s="${k}" data-g="${g}" aria-pressed="${on}">${GAME_INFO[g].icon} ${GAME_INFO[g].name}<small>${on?'✓ freigegeben':'aus'}</small></button><button class="btn sm" data-act="game" data-g="${g}" data-s="${k}">Ansehen</button></span>`}).join('')}</span></div>`).join('')}</section>
+  <section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">🛠️ Werkzeuge für die Planung</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Ausgeblendete Werkzeuge erscheinen nicht mehr im Werkzeug-Pool, wenn du eine Stunde planst.</p>
+    <div class="tb-tools">${Object.keys(TOOLS).map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}"><span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div></section>`};
 VIEWS.tplan=()=>{
   const off=weekOff(),mo=monday(off),days=[0,1,2,3,4].map(d=>{const x=new Date(mo);x.setDate(mo.getDate()+d);return x});
   const td=isoD(new Date()),ed=!!V.ttEdit;
@@ -3118,7 +3128,7 @@ VIEWS.tplan=()=>{
       <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span></span>
       ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):'<span class="add">+ Stunde planen</span>'}</div>`};
   return `<div class="row" style="justify-content:space-between;margin-bottom:10px"><h1>Planung</h1>
-    <div class="row"><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
+    <div class="row"><button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
   ${TD.ttEx&&!(CLOUD&&Cloud.prof)?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
   ${ed?'<div class="priv">✏️ Tippe auf ein Feld, um Fach und Klasse einzutragen. Das gilt für jede Woche.</div>':''}
   <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
@@ -3529,7 +3539,7 @@ async function cloudBoot0(){try{buildSchools(A.schools,A.classes)}catch(e){}}
 const ELIO_VER='2026-10-09';
 const ERRLOG=[];window.addEventListener('error',e=>{ERRLOG.push((e.message||'Fehler')+(e.lineno?' (Zeile '+e.lineno+')':''));if(ERRLOG.length>8)ERRLOG.shift()});
 window.addEventListener('unhandledrejection',e=>{ERRLOG.push('Promise: '+String(e.reason&&e.reason.message||e.reason).slice(0,200));if(ERRLOG.length>8)ERRLOG.shift()});
-const TKEYS='elio-tickets';let TKF=null;const TK={list:[],ok:false,n:0,msg:''};
+const TKEYS='elio-tickets';let TKF=null;const TK={list:[],ok:false,n:0,msg:'',done:{}};
 const tkAdmin=()=>S.role==='teacher'&&(Cloud.prof?Cloud.prof.role==='admin':true);
 const tkLocal=()=>{try{return JSON.parse(localStorage.getItem(TKEYS)||'[]')}catch(e){return []}};
 const tkLocalSave=L=>{try{localStorage.setItem(TKEYS,JSON.stringify(L.slice(-60)))}catch(e){}};
@@ -3568,10 +3578,10 @@ async function tkLoad(){TK.ok=true;TK.msg='';TK.err=0;if(!(CLOUD&&Cloud.prof&&Cl
   catch(e){const m=String(e&&(e.message||e.code)||e);ERRLOG.push('Postfach: '+m);
     TK.msg=/42P01|does not exist|PGRST20[05]|schema cache/i.test(m+(e&&e.code||''))?'Das Postfach in der Cloud ist noch nicht eingerichtet. Führe einmal supabase/tickets.sql im Supabase SQL Editor aus.':'Das Postfach konnte gerade nicht laden ('+m.slice(0,120)+'). Tippe auf „Neu laden“.';TK.err=1;if(!TK.retry&&!/eingerichtet/.test(TK.msg)){TK.retry=1;setTimeout(()=>{if(TK.err){TK.ok=false;tkLoad()}},2000)}}
   if(V.name==='inbox')render()}
-async function tkSet(id,ch){if(String(id)[0]==='L'){const L=tkLocal(),t=L.find(x=>x.id===id);if(t)Object.assign(t,ch);tkLocalSave(L);render();return}
-  try{const sb=await sbClient();await q(sb.from('tickets').update(ch).eq('id',id));const t=TK.list.find(x=>x.id===id);if(t)Object.assign(t,ch);TK.n=TK.list.filter(t=>t.status==='neu').length}catch(e){TK.msg='Ändern hat nicht geklappt.'}render()}
+async function tkSet(id,ch){if(String(id)[0]==='L'){const L=tkLocal(),t=L.find(x=>x.id===id);if(t)Object.assign(t,ch);tkLocalSave(L);navTBadge();render();return}
+  try{const sb=await sbClient();const r=await q(sb.from('tickets').update(ch).eq('id',id).select('id'));if(!r||!r.length)throw new Error('0');const t=TK.list.find(x=>String(x.id)===String(id));if(t)Object.assign(t,ch);TK.n=TK.list.filter(t=>t.status==='neu').length;TK.msg=''}catch(e){TK.msg='Ändern hat nicht geklappt. Bist du als Admin angemeldet?'}render()}
 async function tkDel(id){if(String(id)[0]==='L'){tkLocalSave(tkLocal().filter(x=>x.id!==id));render();return}
-  try{const sb=await sbClient();await q(sb.from('tickets').delete().eq('id',id));TK.list=TK.list.filter(x=>x.id!==id)}catch(e){TK.msg='Löschen hat nicht geklappt.'}render()}
+  try{const sb=await sbClient();await q(sb.from('tickets').delete().eq('id',id));TK.list=TK.list.filter(x=>String(x.id)!==String(id))}catch(e){TK.msg='Löschen hat nicht geklappt.'}render()}
 function tkText(t){const c=t.ctx||{};
   return `ELIO Problem-Ticket ${t.id} vom ${new Date(t.at).toLocaleString('de-DE')}
 Gemeldet von: ${t.role==='teacher'?'Lehrkraft'+(t.who?' ('+t.who+')':''):'Schüler/in'}${t.cls||c.cls?', '+(t.cls||c.cls):''}
@@ -3586,9 +3596,21 @@ async function tkCopy(id){const t=tkFind(id);if(!t)return;const tx=tkText(t);let
   const m=$('#tk-m');m.innerHTML=`<div class="tk-box"><h2>🤖 Für Claude</h2><p class="muted">${ok?'Der Text ist kopiert.':'Markiere den Text und kopiere ihn.'} Füge ihn im ELIO-Projekt bei Claude ein${t.shot?' und häng das Bild dazu':''}. Claude kennt dort den ganzen Code und kann das Problem direkt lösen.</p>
     <textarea rows="10" readonly onclick="this.select()">${esc(tx)}</textarea><div class="row" style="justify-content:flex-end;margin-top:8px">${t.shot?`<a class="btn" href="${t.shot}" download="elio-ticket-${t.id}.jpg">Bild speichern</a>`:''}<button class="btn pri" data-act="tk-close">Fertig</button></div></div>`;m.hidden=false;
   if(t.status==='neu')tkSet(id,{status:'dran'})}
-VIEWS.inbox=()=>{if(!TK.ok)tkLoad();const all=[...TK.list,...tkLocal().slice().reverse()],f=V.tf||'offen';
-  const L=all.filter(t=>f==='alle'||(f==='offen'?t.status!=='erledigt':t.status==='erledigt'));const ST={neu:'🆕 neu',dran:'🔧 in Arbeit',erledigt:'✅ erledigt'};
-  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Postfach · Problem-Meldungen</h1><div class="tabs" style="margin:0">${['offen','erledigt','alle'].map(x=>`<button class="${f===x?'on':''}" data-act="tf" data-t="${x}">${x[0].toUpperCase()+x.slice(1)} · ${all.filter(t=>x==='alle'||(x==='offen'?t.status!=='erledigt':t.status==='erledigt')).length}</button>`).join('')}</div></div>
+// Postfach: Nachrichten der SuS (verschlüsselt, aus dem Lehrer-Tresor) und für den Admin die Problem-Meldungen
+function ibThreads(){const B=(TD.sus||{})[S.cls||'-']||{};return Object.keys(B).map(Number).filter(k=>(B[k].chat||[]).length).map(k=>({k,P:B[k],last:B[k].chat[B[k].chat.length-1]})).sort((x,y)=>(y.last.at||0)-(x.last.at||0))}
+function ibMsgHTML(){const T=ibThreads(),n=V.ibn!=null&&T.some(x=>x.k===V.ibn)?V.ibn:T.length?T[0].k:null;
+  if(n!=null){V.n=n;const P=susP(n,false);if(P&&P.un){P.un=0;setTimeout(()=>{tsave();navTBadge()},0)}setTimeout(()=>{const l=$('#chat-l');if(l)l.scrollTop=l.scrollHeight},0)}
+  if(!T.length)return `<div class="empty">Noch keine Nachrichten von SuS aus ${esc(className())}. Sie schreiben dir über „💬 Chat“ auf ihrem Dashboard.</div>`;
+  const P=susP(n,false)||{chat:[]};
+  return `<div class="ib"><div class="ib-l">${T.map(x=>`<button class="ib-t ${x.k===n?'on':''}" data-act="ib-open" data-n="${x.k}">${(TD.avs||{})[x.k]!=null?avatar(TD.avs[x.k],34):'<span class="av-0"></span>'}<span><b>${esc(kidName(x.k))}</b><small>${esc(String(x.last.t||'').slice(0,60))}</small></span>${x.P.un&&x.k!==n?`<span class="tk-n">${x.P.un}</span>`:''}</button>`).join('')}</div>
+    <section class="panel ib-r"><div class="row" style="justify-content:space-between"><b>💬 ${esc(kidName(n))}</b><button class="btn sm" data-act="sus-p" data-n="${n}">Akte öffnen</button></div>${P.pk?'':'<p class="muted" style="font-weight:700">Antworten gehen raus, sobald dieses Kind einmal etwas geschickt hat.</p>'}${chatHTML(P.chat||[],'Antwort an '+kidName(n)+' …')}</section></div>`}
+VIEWS.inbox=()=>{const adm=tkAdmin(),tab=adm&&V.ib==='tk'?'tk':'msg';if(adm&&!TK.ok)tkLoad();
+  const all=[...TK.list,...tkLocal().slice().reverse()],f=V.tf||'offen',isOpen=t=>t.status!=='erledigt'||TK.done[String(t.id)];
+  const L=all.filter(t=>f==='alle'||(f==='offen'?isOpen(t):t.status==='erledigt'));const ST={neu:'🆕 neu',dran:'🔧 in Arbeit',erledigt:'✅ erledigt'};
+  const un=susUnread('chat'),tn=all.filter(t=>t.status==='neu').length;
+  const top=`<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>📬 Postfach</h1><div class="row">${adm?`<div class="tabs" style="margin:0"><button class="${tab==='msg'?'on':''}" data-act="ib-tab" data-t="msg">💬 Nachrichten${un?' · '+un:''}</button><button class="${tab==='tk'?'on':''}" data-act="ib-tab" data-t="tk">🛠️ Meldungen${tn?' · '+tn:''}</button></div>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}`;
+  if(tab==='msg')return top+ibMsgHTML();
+  return top+`<div class="row" style="justify-content:space-between;margin-bottom:12px"><h2 style="font-size:1.2rem">Problem-Meldungen</h2><div class="tabs" style="margin:0">${['offen','erledigt','alle'].map(x=>`<button class="${f===x?'on':''}" data-act="tf" data-t="${x}">${x[0].toUpperCase()+x.slice(1)} · ${all.filter(t=>x==='alle'||(x==='offen'?t.status!=='erledigt':t.status==='erledigt')).length}</button>`).join('')}</div></div>
   ${TK.msg?`<p class="err">${esc(TK.msg)} ${TK.err?'<button class="btn sm" data-act="tk-reload">↻ Neu laden</button>':''}</p>`:''}
   <p class="muted" style="font-weight:700;margin-bottom:10px">Lehrkräfte und SuS melden hier Probleme über „🛠️ Problem melden“ (Menü oben links und der Knopf unten links). Mit „🤖 Für Claude“ kopierst du alles, was Claude zum Lösen braucht.</p>
   <div class="tk-list">${L.map(t=>`<article class="panel tk ${t.status}"><div class="row" style="justify-content:space-between;gap:8px"><span class="row" style="gap:6px"><span class="chip">${ST[t.status]||t.status}</span><b>${t.role==='teacher'?'👩‍🏫 Lehrkraft'+(t.who?' · '+esc(t.who):''):'🧒 Schüler/in'}</b><span class="muted">${esc(t.cls||(t.ctx&&t.ctx.cls)||'')} · ${new Date(t.at).toLocaleString('de-DE',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</span>${String(t.id)[0]==='L'?'<span class="chip">nur auf diesem Gerät</span>':''}</span><span class="muted" style="font-size:.85rem">Seite: ${esc(t.view||'')}</span></div>
@@ -3666,7 +3688,7 @@ VIEWS.klassen=()=>{
   <div class="kl">${mc.map(c=>{const lead=isLead(c.id),ac=K.access.find(a=>a.class_id===c.id),ts=K.ct.filter(x=>x.class_id===c.id),sc=SCHOOLS.find(x=>x.id===c.school_id)||{};
     return `<section class="panel"><div class="row" style="justify-content:space-between"><div><h2 style="font-size:1.5rem">${esc(c.name)}</h2><span class="muted" style="font-weight:700">${esc(sc.name||'')} · ${c.size} SuS</span>
       ${(Cloud.lead||[]).includes(c.id)?'<span class="chip" style="margin-left:8px">Klassenleitung</span>':''}</div>
-      <div class="row"><button class="btn pri" data-act="kl-sus" data-id="${c.id}">👥 Schüler/innen und Zugänge${S.cls===c.id&&susUnread()?' · '+susUnread()+' neu':''}</button><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls===c.id?'<span class="chip">aktiv</span>':`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`}</div></div>
+      <div class="row"><button class="btn pri" data-act="kl-sus" data-id="${c.id}">👥 Schüler/innen und Zugänge${S.cls===c.id&&susUnread('abg')?' · '+susUnread('abg')+' neu':''}</button><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls===c.id?'<span class="chip">aktiv</span>':`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`}</div></div>
       ${V.keyFor===c.code?`<div class="panel" style="margin-top:8px"><b>Klassenschlüssel teilen</b><p class="muted" style="font-weight:700">Schick diesen Link nur an Lehrkräfte dieser Klasse, am besten über den Dienst-Messenger. Sie öffnen ihn auf ihrem Gerät und entsperren dort ELIO. Dann können sie mit denselben iPads arbeiten.</p><textarea rows="2" readonly onclick="this.select()">${esc(location.origin+location.pathname+'#ck='+c.code+'.'+myCk(c.code))}</textarea></div>`:''}
       <div style="margin-top:12px"><span class="label">Lehrkräfte</span><div class="row" style="margin-top:6px">${ts.map(x=>`<span class="chip">${x.lead?'★ ':''}${esc(pName(K.profiles,x.teacher_id))}${lead&&x.teacher_id!==uid&&!x.lead?` <button class="btn sm" data-act="kl-rm" data-id="${c.id}" data-t="${x.teacher_id}" aria-label="Entfernen" style="min-height:26px;padding:0 8px">✕</button>`:''}</span>`).join('')}</div>
 <small class="muted" style="font-weight:700">Lehrkräfte kommen automatisch dazu, sobald du sie im Stundenplan der Klasse einträgst.</small></div>
@@ -3727,7 +3749,7 @@ const MB={cloud:null,busy:false,tbusy:false};
 const CC={t:0,at:0,sig:'',miss:false};
 const ccOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&!CC.miss;
 function ccPush(){if(S.role!=='teacher'||!CS||!ccOk())return;clearTimeout(CC.t);CC.t=setTimeout(async()=>{try{const k=myCk(S.code);if(!k)return;
-    const snap={heft:CS.heft,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
+    const snap={heft:CS.heft,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,games:CS.games,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
     const body=await ckSeal(k,{t:'content',p:snap}),sb=await sbClient();await q(sb.from('class_content').upsert({class_id:S.cls,body,updated_at:new Date().toISOString()}));CC.sig=sg}
   catch(e){if(mbMissing(e))CC.miss=true;else console.warn('ccPush',e)}},2000)}
 async function ccPull(force){if(S.role!=='student'||!ccOk())return;if(!force&&Date.now()-CC.at<120000)return;CC.at=Date.now();
@@ -3764,7 +3786,7 @@ async function mbPullStudent(){if(!mbCloudOk()||!S.pk)return;try{const sb=await 
 // Lehrkraft: Daten pro Klasse und Nummer, nur im Lehrer-Tresor
 function susP(nr,mk=true){const c=S.cls||'-';TD.sus=TD.sus||{};const B=TD.sus[c]||(mk?(TD.sus[c]={}):null);if(!B)return null;return B[nr]||(mk?(B[nr]={chat:[],abg:{},un:0,ua:0}):null)}
 function susCount(){const B=(TD.sus||{})[S.cls||'-']||{};return Object.keys(B).length}
-function susUnread(){const B=(TD.sus||{})[S.cls||'-']||{};return Object.values(B).reduce((a,P)=>a+(P.un||0)+(P.ua||0),0)}
+function susUnread(t){const B=(TD.sus||{})[S.cls||'-']||{};return Object.values(B).reduce((a,P)=>a+(t!=='abg'?P.un||0:0)+(t!=='chat'?P.ua||0:0),0)}
 function susRead(nr,t){const P=susP(nr,false);if(!P)return;if(t==='chat')P.un=0;if(t==='abg')P.ua=0;tsave()}
 async function mbUp(r){if(!TDKEY||!TD.dk||!r||!r.body||r.fp!==mbFp(TD.dk.pub))return false;const nr=+r.nr;if(!(nr>=1&&nr<=40))return false;
   let o;try{o=await dDec(TD.dk.priv,r.body)}catch(e){return false}if(!o||typeof o!=='object')return true;
@@ -3774,7 +3796,7 @@ async function mbUp(r){if(!TDKEY||!TD.dk||!r||!r.body||r.fp!==mbFp(TD.dk.pub))re
   if(o.k==='chat'){const id=String(o.id||'').slice(0,20);if(!P.chat.some(c=>c.id===id)){P.chat.push({id,me:0,t:String(o.t||'').slice(0,2000),at:+o.at||Date.now()});P.un=(P.un||0)+1;if(P.chat.length>200)P.chat=P.chat.slice(-200)}}
   if(o.k==='abg'){const hw=String(o.hw||'').slice(0,40);if(hw){const img=typeof o.img==='string'&&IMGRE.test(o.img)&&o.img.length<1500000?o.img:null;P.abg[hw]={title:String(o.title||'').slice(0,200),t:String(o.t||'').slice(0,4000),img,at:+o.at||Date.now()};P.ua=(P.ua||0)+1}}
   if(o.k==='prog'&&o.p&&typeof o.p==='object'){const A=x=>Array.isArray(x)?x.slice(0,600).map(v=>String(v).slice(0,60)):[];P.prog={ub:A(o.p.ub),hx:A(o.p.hx),hw:A(o.p.hw),ab:A(o.p.ab),st:+o.p.st||0,fl:+o.p.fl||0,ut:progObj(o.p.ut,v=>+v>0?+v:null),mt:progObj(o.p.mt,v=>v&&typeof v==='object'&&+v.n>0?{f:+v.f||0,b:+v.b||0,n:+v.n,at:+v.at||0,la:+v.la||0,x:+v.x||0}:null),at:+o.at||Date.now()}}
-  tsave();navTBadge();if(['sus','obs-p','klassen'].includes(V.name))render();return true}
+  tsave();navTBadge();if(['sus','obs-p','klassen','inbox'].includes(V.name))render();return true}
 // Zeitstempel und Minitests aus dem Lernstand: nur einfache Schlüssel, nur Zahlen
 function progObj(x,f){const r={};if(x&&typeof x==='object'&&!Array.isArray(x))Object.keys(x).slice(0,600).forEach(k=>{if(!/^[\w#:.-]{1,60}$/.test(k)||k==='__proto__')return;const v=f(x[k]);if(v!=null)r[k]=v});return r}
 async function mbPullTeacher(){if(MB.tbusy||!TDKEY||!TD.dk||!mbCloudOk())return;MB.tbusy=true;
@@ -3806,7 +3828,8 @@ function chatHTML(L,mine){return `<div class="chat" id="chat-l">${L.length?L.map
 VIEWS.chat=()=>{(S.chat||[]).forEach(c=>{if(c.neu)c.neu=0});setTimeout(()=>{const l=$('#chat-l');if(l)l.scrollTop=l.scrollHeight;navBadges()},0);
   return `<h1 style="margin-bottom:6px">💬 Chat mit deiner Lehrkraft</h1><div class="priv">🔒 Verschlüsselt. Nur du und deine Lehrkraft können es lesen.</div>${!S.tpk?'<p class="muted" style="font-weight:700">Deine Nachricht geht los, sobald deine Lehrkraft einmal die Tafel gestartet hat.</p>':''}${chatHTML(S.chat||[],'Schreib deiner Lehrkraft …')}`};
 // Lehrkraft: neue Chat-Nachrichten und Abgaben als Zahl am Reiter Klassen
-function navTBadge(){const b=$('#nav-klassen');if(!b)return;const n=S.role==='teacher'&&TDKEY?susUnread():0;b.innerHTML='Klassen'+(n?` <span class="tk-n" title="neue Nachrichten und Abgaben">${n}</span>`:'')}
+function navTBadge(){const b=$('#nav-klassen');if(!b)return;const n=S.role==='teacher'&&TDKEY?susUnread('abg'):0;b.innerHTML='Klassen'+(n?` <span class="tk-n" title="neue Abgaben">${n}</span>`:'');ibBadge()}
+function ibBadge(){const b=$('#nav-inbox');if(!b)return;const isT=S.role==='teacher',n=isT?(tkAdmin()?tkLocal().filter(t=>t.status==='neu').length+(TK.n||0):0)+(TDKEY?susUnread('chat'):0):0;b.hidden=!isT;b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}
 function navBadges(){const b=$('#nav-chat');if(!b)return;const n=(S.chat||[]).filter(c=>c.neu).length;b.innerHTML='💬 Chat'+(n?` <span class="tk-n">${n}</span>`:'')}
 /* ---------- Impressum und Datenschutz (öffentlich, auch ohne Anmeldung) ---------- */
 const LEGAL={name:'Fabian Meier',addr:'',mail:'',stand:'9. Oktober 2026'};
@@ -3909,7 +3932,7 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll(
     return `<tr class="${nk||P?'':'off'}">${cl?'':`<td class="nr">${k}</td>`}<td><button class="sus-n" data-act="sus-p" data-n="${k}">${(TD.avs||{})[k]!=null?avatar(TD.avs[k],34):'<span class="av-0"></span>'}<span><b>${esc(nk||'noch nicht angemeldet')}</b>${on.includes(k)?' <span class="dot" title="gerade online"></span>':''}${seen?`<small class="muted">zuletzt ${new Date(seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}</span></button></td>
       ${cl?`<td><b class="mono">${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code class="mono">${esc(pin)}</code>`:'<small class="muted">auf anderem Gerät erzeugt</small>'):''}${r&&r.blocked?' <span class="chip red">gesperrt</span>':''}</td>`:''}
       <td>${pr?`<small>✏️ ${pr.ub.length} · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}" style="display:block">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:''}</td>
-      <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<span class="tk-n">💬 ${P.un}</span>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
+      <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<button class="tk-n ib-go" data-act="ib-go" data-n="${k}" title="Nachricht im Postfach öffnen">💬 ${P.un}</button>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
       <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>${esc(className())}</h1></div>
     <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
@@ -4016,7 +4039,7 @@ function modChs(k){if(S.role==='teacher'){const es=tHeft(k).filter(e=>e.ch).sort
   return [...new Set(heftAll(k).filter(e=>e.ch).sort(heftSort).map(e=>e.ch))].map(ch=>({ch,on:true}))}
 function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch).map(e=>e.s))];CS.mods=[];CS.modx={};
   ks.forEach(k=>modChs(k).forEach(m=>{CS.mods.push({s:k,ch:m.ch,on:m.on,n:m.n});if(m.on&&TD.modx&&TD.modx[m.ch])CS.modx[m.ch]=TD.modx[m.ch]}));
-  CS.hw=(TD.hw||[]).filter(h=>h.cls===S.cls);CS.auf=(TD.auf||[]).filter(a=>a.cls===S.cls);CS.ann=(TD.ann||[]).filter(a=>a.cls===S.cls&&a.until>=todayISO())}
+  CS.hw=(TD.hw||[]).filter(h=>h.cls===S.cls);CS.auf=(TD.auf||[]).filter(a=>a.cls===S.cls);CS.ann=(TD.ann||[]).filter(a=>a.cls===S.cls&&a.until>=todayISO());CS.games=gamesOn()}
 function modEntries(k,ch){return (S.role==='teacher'?tHeft(k).map(e=>({...e,blocks:heftBlocks(e.text)})):heftAll(k)).filter(e=>e.ch===ch).sort(heftSort)}
 const modX=ch=>(S.role==='teacher'?(TD.modx||{}):(S.modxRecv||{}))[ch]||{tipps:[],fleiss:[]};
 function modList(k){const T=S.role==='teacher';
@@ -4055,16 +4078,16 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
           <div class="sub-btns"><button class="btn sm ${op[lk]?'on':''}" data-act="mx-tog" data-k="${lk}">${op[lk]?'Lösung verbergen':'👀 Lösung zeigen'}</button>${T?'':`<button class="btn sm ${dn?'ok':''}" data-act="hx-ok" data-k="${hk}">${dn?'✓ gerechnet':'Im Heft gerechnet'}</button>`}</div>
           ${op[lk]?`<div class="hx-a">✓ ${esc(h.a)}</div>`:''}</li>`}).join('')}</ol></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`}
-    if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
+    if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo-hilfe.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
     return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
-      <div class="sboxes">${box('heft','📒','Hefteintrag','zum Abschreiben')}${box('ub','✏️','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
+      <div class="sboxes">${box('heft','<img class="si-owl" src="assets/elo/elo-heft.png" alt="">','Hefteintrag','zum Abschreiben')}${box('ub','<img class="si-owl" src="assets/elo/elo-uebung.png" alt="">','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo-hilfe.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
   <div style="display:grid;gap:16px;align-content:start">
     ${(()=>{const n=es.filter(e=>e.mt).length,id=stId(k,ch),m=(S.mt||{})[id];return n?`<section class="panel station st-self"><div class="row" style="justify-content:space-between"><div><h2>🎓 Selbsttest zum Kapitel</h2><p class="muted" style="font-weight:700">Wie gut kannst du das ganze Kapitel? Zwei Fragen aus jedem Unterkapitel. Vorne steht, aus welchem sie kommen, so siehst du, was du wiederholen solltest.</p></div>
       <div class="row">${!T&&m?`<span class="mtr ${mtCls(m)}">${mtTxt(m)}</span>`:''}<button class="btn pri" data-act="st-go" data-s="${k}" data-ch="${esc(ch)}">▶ ${T?'Ansehen':m?'Nochmal':'Starten'}</button></div></div></section>`:''})()}
-    <section class="panel station st-fleiss"><h2>💪 Fleiß-Station</h2><p class="muted">Extra-Aufgaben für Schnelle. Jede bringt Fleißpunkte.</p>
+    <section class="panel station st-fleiss"><h2 class="st-h"><img src="assets/elo/elo-fleiss.png" alt="">Fleiß-Station</h2><p class="muted">Extra-Aufgaben für Schnelle. Jede bringt Fleißpunkte.</p>
       ${(X.fleiss||[]).map((f,i)=>{const key=ch+'#'+i,ok=S.fleiss&&S.fleiss[key],sh=op['f'+i];
         return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
           ${sh?`<div class="fl-a"><b>Lösung:</b> ${esc(f.a)}</div>${T||ok?`<button class="btn sm" data-act="mx-tog" data-k="f${i}" style="margin-top:6px">Lösung verbergen</button>`:''}`:`<button class="btn sm" data-act="mx-tog" data-k="f${i}">👀 Lösung zeigen</button>`}
@@ -4441,15 +4464,18 @@ document.addEventListener('click',e=>{
     case 'lg-cls':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c)teacherEnter(c);break}
     case 'lg-admin':S.role='teacher';saveRole();if(!CS)initTeacher();A.ok=false;go('admin');break;
     case 'admin':A.ok=false;A.msg='';go('admin');break;
-    case 'inbox':TK.ok=false;go('inbox');break;
-    case 'tf':V.tf=d.t;render();break;
+    case 'inbox':TK.ok=false;TK.done={};V.msg='';go('inbox');mbPull();break;
+    case 'tf':V.tf=d.t;TK.done={};render();break;
+    case 'ib-go':V.ib='msg';V.ibn=+d.n;V.msg='';go('inbox');break;
+    case 'ib-tab':V.ib=d.t;TK.done={};render();break;
+    case 'ib-open':V.ibn=+d.n;render();setTimeout(()=>{const x=$('#chat-x');if(x)x.focus()},0);break;
     case 'tk-open':$('#umenu').hidden=true;TKF={shot:null,msg:'',view:tkView()};tkShow();break;
     case 'tk-close':$('#tk-m').hidden=true;break;
     case 'tk-snap':tkSnap();break;
     case 'tk-pick':$('#tk-file').click();break;
     case 'tk-noshot':TKF.body=$('#tk-x').value;TKF.shot=null;tkShow();break;
     case 'tk-send':tkSend();break;
-    case 'tk-st':tkSet(d.id,{status:d.v});break;
+    case 'tk-st':if(d.v==='erledigt')TK.done[String(d.id)]=1;else delete TK.done[String(d.id)];tkSet(d.id,{status:d.v});break;
     case 'tk-del':if(V.tdel!==d.id){V.tdel=d.id;render();break}V.tdel=null;tkDel(d.id);break;
     case 'tk-copy':tkCopy(d.id);break;
     case 'tk-img':{const t=tkFind(d.id);if(t&&t.shot){const m=$('#tk-m');m.innerHTML=`<div class="tk-box tk-big"><img src="${t.shot}" alt="Screenshot"><div class="row" style="justify-content:flex-end;margin-top:8px"><a class="btn" href="${t.shot}" download="elio-ticket-${t.id}.jpg">Bild speichern</a><button class="btn pri" data-act="tk-close">Schließen</button></div></div>`;m.hidden=false}break}
@@ -4564,6 +4590,9 @@ document.addEventListener('click',e=>{
     case 'homework':go('homework');break;
     case 'practice':go('practice',d.s?{s:d.s}:{});break;
     case 'ps':S.lastPs=d.s;save();V.s=d.s;render();break;
+    case 'toolbox':$('#ov').hidden=true;go('toolbox');break;
+    case 'tb-game':{TD.games=TD.games||{};const c=S.cls||'-',G=(TD.games[c]=TD.games[c]||{}),L=G[d.s]=G[d.s]||[];if(L.includes(d.g))G[d.s]=L.filter(x=>x!==d.g);else L.push(d.g);tsave();if(!CS)initTeacher();pushCS();render();break}
+    case 'tb-tool':{TD.toolsOff=TD.toolsOff||[];TD.toolsOff=TD.toolsOff.includes(d.t)?TD.toolsOff.filter(x=>x!==d.t):[...TD.toolsOff,d.t];tsave();render();break}
     case 'game':go(d.g,{s:d.s});break;
     case 'g-again':go(V.name,{s:V.s,back:V.back});break;
     case 'mem':memClick(+d.i);break;
