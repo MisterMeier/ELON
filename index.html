@@ -995,7 +995,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
   <span class="tchip" id="tchip" hidden>Lehrkraft</span>
   <span class="stars" title="Deine Sterne"><span id="star-ico"></span><span id="star-n">0</span></span>
 </div><div id="live" hidden></div></header>
-<main id="view"></main><footer id="legal-f" class="legal-f"><a href="#" data-act="go-legal" data-v="impressum">Impressum</a> · <a href="#" data-act="go-legal" data-v="datenschutz">Datenschutz</a></footer>
+<main id="view"></main><footer id="legal-f" class="legal-f"><a href="#" data-act="go-legal" data-v="impressum">Impressum</a> · <a href="#" data-act="go-legal" data-v="datenschutz">Datenschutz</a> · <a href="#" data-act="go-legal" data-v="umzug">Umzug</a></footer>
 <div id="ov" class="ov" hidden></div>
 <div id="live-ov" class="lov" hidden></div><div id="tk-m" class="tk-m" hidden></div><button id="tk-fab" class="tk-fab" data-act="tk-open" title="Problem melden" aria-label="Problem melden" hidden>🛠️</button><div id="miniT" class="mt" hidden></div>
 
@@ -1307,9 +1307,9 @@ function lessonPopup(sl,prev){
 let V={name:'dash'},stops=[];
 function go(name,arg={}){stops.forEach(f=>f());stops=[];if(typeof KF!=='undefined'&&KF&&V.name==='kfb'&&name!=='kfb')kfbStop();V={name,...arg};render();window.scrollTo(0,0)}
 function render(){
-  $('#view').innerHTML=tdLocked()?lockHTML():VIEWS[V.name]();
+  $('#view').innerHTML=tdLocked()&&V.name!=='umzug'?lockHTML():VIEWS[V.name]();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name));
-  $('#nav').hidden=V.name==='role'||tdLocked()||!S.role;{const f=$('#legal-f');if(f)f.hidden=BOARD||['present','beamer','tafel','kfb'].includes(V.name)||['impressum','datenschutz'].includes(V.name)}
+  $('#nav').hidden=V.name==='role'||tdLocked()||!S.role;{const f=$('#legal-f');if(f)f.hidden=BOARD||['present','beamer','tafel','kfb'].includes(V.name)||['impressum','datenschutz','umzug'].includes(V.name)}
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
   document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
   document.body.classList.toggle('pres',V.name==='present');
@@ -2532,7 +2532,7 @@ async function tdDerive(pw,salt,it){const km=await crypto.subtle.importKey('raw'
 function tdDefaults(){TD.obs=TD.obs||{};TD.nicks=TD.nicks||{};if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}TD.plan=TD.plan||{}}
 // Passwörter ändern: Geräte-Passwort (Tresor neu verschlüsseln) und Konto-Passwort (Supabase)
 async function pwDevice(){const o=$('#pw-old').value||'',n=$('#pw-new').value||'',n2=$('#pw-new2').value||'',v=tdVault();V.pwErr=1;
-  if(n.length<8){V.pwMsg='Das neue Passwort braucht mindestens 8 Zeichen.';render();return}if(n!==n2){V.pwMsg='Die neuen Passwörter sind nicht gleich.';render();return}
+  if(n.length<4){V.pwMsg='Das neue Passwort braucht mindestens 4 Zeichen.';render();return}if(n!==n2){V.pwMsg='Die neuen Passwörter sind nicht gleich.';render();return}
   if(v){const k=await tdDerive(o,v.salt,v.it);try{await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(v.iv)},k,b64d(v.ct))}catch(e){V.pwMsg='Das bisherige Geräte-Passwort stimmt nicht.';render();return}}
   TDSALT=b64e(crypto.getRandomValues(new Uint8Array(16)));TDKEY=await tdDerive(n,TDSALT,TDIT);tsave();V.pwErr=0;V.pwMsg='Geräte-Passwort geändert. Ab jetzt entsperrst du ELIO auf diesem Gerät mit dem neuen Passwort.';render()}
 async function pwAccount(){const n=$('#pw-acc').value||'',n2=$('#pw-acc2').value||'';V.pwErr=1;
@@ -2579,7 +2579,7 @@ function lockHTML(){const v=tdVault();
 function insecureMsg(){return location.protocol==='http:'&&!/^(localhost|127\.)/.test(location.hostname)?'Diese Adresse ist noch nicht sicher (http statt https). Öffne ELIO mit https:// vorne, zum Beispiel https://'+location.host+'. Wenn das noch nicht geht, nimm solange https://mistermeier.github.io/ELON/':'Dein Browser kann hier nicht verschlüsseln. Nimm einen aktuellen Browser (Chrome, Safari, Edge, Firefox).'}
 async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
   if(Date.now()<TDWAIT){V.lkErr='Zu viele Versuche. Warte kurz.';render();return}
-  if(p2){if(pw.length<8){V.lkErr='Mindestens 8 Zeichen.';render();return}if(pw!==p2.value){V.lkErr='Die beiden Passwörter sind nicht gleich.';render();return}}
+  if(p2){if(pw.length<4){V.lkErr='Mindestens 4 Zeichen.';render();return}if(pw!==p2.value){V.lkErr='Die beiden Passwörter sind nicht gleich.';render();return}}
   const b=$('[data-act=lk-go]');if(b){b.disabled=true;b.textContent='Prüfe …'}
   if(!(window.crypto&&crypto.subtle)){V.lkErr=insecureMsg();render();return}
   let ok=false;try{ok=await tdOpen(pw)}catch(e){console.warn(e);V.lkErr='Das hat nicht geklappt ('+String(e&&e.message||e).slice(0,80)+'). Lade die Seite neu und versuch es noch einmal.';render();return}if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
@@ -3265,7 +3265,7 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
     <section class="panel" style="max-width:560px;margin-top:16px"><h2 style="font-size:1.2rem">🔑 Passwörter ändern</h2>
       <form id="pw-f" method="post" action="#"><input type="text" name="username" autocomplete="username" value="${esc(Cloud.user&&Cloud.user.email||'')}" readonly hidden>
       <p class="muted" style="font-weight:700;margin:4px 0 8px"><b>Geräte-Passwort</b> (schützt deinen Tresor auf diesem Gerät)</p>
-      <input id="pw-old" type="password" autocomplete="current-password" placeholder="Bisheriges Geräte-Passwort"><input id="pw-new" type="password" autocomplete="new-password" placeholder="Neues Geräte-Passwort (mind. 8 Zeichen)" style="margin-top:8px"><input id="pw-new2" type="password" autocomplete="new-password" placeholder="Neues Passwort wiederholen" style="margin-top:8px">
+      <input id="pw-old" type="password" autocomplete="current-password" placeholder="Bisheriges Geräte-Passwort"><input id="pw-new" type="password" autocomplete="new-password" placeholder="Neues Geräte-Passwort (mind. 4 Zeichen)" style="margin-top:8px"><input id="pw-new2" type="password" autocomplete="new-password" placeholder="Neues Passwort wiederholen" style="margin-top:8px">
       <div class="row" style="margin-top:8px"><button class="btn pri" type="button" data-act="pw-dev">Geräte-Passwort ändern</button></div></form>
       ${Cloud.user?`<p class="muted" style="font-weight:700;margin:14px 0 8px"><b>Konto-Passwort</b> (zum Anmelden mit ${esc(Cloud.user.email||'')})</p>
       <input id="pw-acc" type="password" autocomplete="new-password" placeholder="Neues Konto-Passwort (mind. 8 Zeichen)"><input id="pw-acc2" type="password" autocomplete="new-password" placeholder="Wiederholen" style="margin-top:8px">
@@ -4020,6 +4020,27 @@ function navBadges(){const b=$('#nav-chat');if(!b)return;const n=(S.chat||[]).fi
 const LEGAL={name:'Fabian Meier',addr:'',mail:'hallo@elio.schule',stand:'9. Oktober 2026'};
 const legalTodo=t=>`<span class="chip ex">${t}</span>`;
 function legalBack(){return `<button class="btn sm" data-act="legal-back">← Zurück</button>`}
+/* ---------- Umzug: alle ELIO-Daten dieses Browsers in eine Datei und auf einer neuen Adresse wieder einspielen ---------- */
+const UZ={file:null,msg:'',err:0,busy:0};
+const uzKeys=()=>{const o=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(/^(elon|elio)/.test(k))o.push(k)}return o};
+const b64of=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(String(f.result).split(',')[1]||'');f.readAsDataURL(b)});
+async function uzDown(){UZ.busy=1;UZ.msg='Packe …';UZ.err=0;render();try{const ls={};uzKeys().forEach(k=>ls[k]=localStorage.getItem(k));
+  let meta=[],blob={};try{meta=await idb('meta','readonly',st=>st.getAll());for(const m of meta){const b=await idb('blob','readonly',st=>st.get(m.id));if(b)blob[m.id]={type:b.type||m.mime||'',d:await b64of(b)}}}catch(e){}
+  const o={elio:'umzug',v:1,at:Date.now(),from:location.host,ls,lib:{meta,blob}};dl(new Blob([JSON.stringify(o)],{type:'application/json'}),'elio-umzug-'+today()+'.json');
+  UZ.msg=`Fertig: ${Object.keys(ls).length} Speicher-Einträge und ${meta.length} Dateien aus der Bibliothek sind in der Datei.`}catch(e){UZ.msg='Das hat nicht geklappt: '+e.message;UZ.err=1}UZ.busy=0;render()}
+function uzPick(){const f=$('#uz-file');f.onchange=()=>{const fl=f.files&&f.files[0];if(!fl)return;fl.text().then(t=>{let o=null;try{o=JSON.parse(t)}catch(e){}
+  if(!o||o.elio!=='umzug'||!o.ls){UZ.file=null;UZ.msg='Das ist keine ELIO-Umzugsdatei.';UZ.err=1}else{UZ.file=o;UZ.msg='';UZ.err=0}render()})};f.value='';f.click()}
+async function uzApply(){const o=UZ.file;if(!o)return;UZ.busy=1;render();try{Object.entries(o.ls).forEach(([k,v])=>{if(/^(elon|elio)/.test(k)&&typeof v==='string')localStorage.setItem(k,v)});
+  const L=o.lib||{};for(const m of L.meta||[]){const b=L.blob&&L.blob[m.id];if(!b)continue;const bin=atob(b.d),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    await idb('blob','readwrite',st=>st.put(new Blob([u],{type:b.type}),m.id));await idb('meta','readwrite',st=>st.put(m))}
+  UZ.file=null;sessionStorage.clear();location.hash='';location.reload()}catch(e){UZ.busy=0;UZ.msg='Das hat nicht geklappt: '+e.message;UZ.err=1;render()}}
+VIEWS.umzug=()=>{const o=UZ.file,n=o?Object.keys(o.ls).length:0,nm=o&&o.lib&&o.lib.meta?o.lib.meta.length:0;return `<div class="legal-p">${legalBack()}<h1>📦 Umzug</h1>
+  <p>Deine ELIO-Daten liegen im Browser, und zwar getrennt für jede Internet-Adresse. Wenn ELIO eine neue Adresse bekommt, nimmst du sie so mit:</p>
+  <ol><li>Auf der <b>alten Adresse</b>: „Alles einpacken“ tippen. Eine Datei wird heruntergeladen.</li><li>Auf der <b>neuen Adresse</b> (elio.schule): hier „Umzugsdatei einspielen“ tippen und die Datei wählen.</li><li>Danach mit deinem bisherigen Geräte-Passwort anmelden.</li></ol>
+  <p class="muted">Die Notizen bleiben dabei mit deinem Geräte-Passwort verschlüsselt. Die Datei enthält aber auch Bibliothek, Stunden und Einstellungen: Gib sie nicht weiter und lösche sie nach dem Umzug.</p>
+  <div class="row" style="margin-top:12px"><button class="btn pri" data-act="uz-down" ${UZ.busy?'disabled':''}>⬇️ Alles einpacken</button><button class="btn" data-act="uz-pick" ${UZ.busy?'disabled':''}>⬆️ Umzugsdatei einspielen</button><input id="uz-file" type="file" accept=".json,application/json" hidden></div>
+  ${UZ.msg?`<p class="${UZ.err?'err':'saved'}">${esc(UZ.msg)}</p>`:''}
+  ${o?`<p class="err">Die Datei ist vom ${esc(new Date(o.at).toLocaleString('de-DE'))} (${esc(o.from||'')}) mit ${n} Speicher-Einträgen und ${nm} Dateien. Gleiche Einträge auf diesem Gerät werden ersetzt.</p><div class="row"><button class="btn red" data-act="uz-yes">Jetzt einspielen</button><button class="btn" data-act="uz-no">Abbrechen</button></div>`:''}</div>`};
 VIEWS.impressum=()=>`<div class="legal-p">${legalBack()}<h1>Impressum</h1>
   <h2>Angaben gemäß § 5 DDG</h2><p>${esc(LEGAL.name)}<br>${LEGAL.addr?esc(LEGAL.addr).replace(/\n/g,'<br>'):legalTodo('Anschrift folgt')}</p>
   <h2>Kontakt</h2><p>E-Mail: ${LEGAL.mail?`<a href="mailto:${esc(LEGAL.mail)}">${esc(LEGAL.mail)}</a>`:legalTodo('E-Mail-Adresse folgt')}</p>
@@ -4395,7 +4416,6 @@ VIEWS['lesson-edit']=()=>{
       <label>Phase<input type="text" data-f="ph.${i}.name" value="${esc(p.name)}"></label>
       <label>Minuten<input type="number" min="0" max="90" data-f="ph.${i}.min" value="${+p.min||0}"></label>
       <label>Sozialform<select data-f="ph.${i}.sf">${SOZ.map(x=>`<option ${x===p.sf?'selected':''}>${x}</option>`).join('')}</select></label>
-      <label>Methode / Ritual<input type="text" data-f="ph.${i}.method" value="${esc(p.method||'')}"></label>
       <label>🔔 Signal beim Start<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.snd" style="flex:1"><option value="">– kein Signal –</option>${AUD.list?[...new Set(AUD.list.map(x=>x.kategorie))].map(c=>`<optgroup label="${esc(c)}">${AUD.list.filter(x=>x.kategorie===c).map(x=>`<option value="${x.id}" ${p.snd===x.id?'selected':''}>${esc(x.titel)}</option>`).join('')}</optgroup>`).join(''):(audLoad(),p.snd?`<option value="${esc(p.snd)}" selected>${esc(p.snd)}</option>`:'')}</select>${p.snd?`<button class="btn sm au-pl" type="button" data-act="au-play" data-id="${esc(p.snd)}" aria-label="Probe hören">▶</button>`:''}</span></label>
       <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>
       <div style="grid-column:1/-1"><span class="label">An der Tafel (Werkzeug)</span>${toolEditor(p,i,L)}</div>
@@ -4406,8 +4426,6 @@ VIEWS['lesson-edit']=()=>{
       ${p.tool&&(TOOL_IPAD[p.tool.id]||AKT[p.tool.id]||GAME_INFO[p.tool.id])?'':`${p.act==='goto'?`<label>Welche Seite?<select data-f="ph.${i}.target">${opt(TARGETS,p.target||'module')}</select></label>`:''}
       ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}`}
       ${(p.mats||[]).length?`<div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>`:''}
-      <details style="grid-column:1/-1" ${p.goal?'':''}><summary class="label" style="cursor:pointer">Erweiterte Informationen (nur für dich)</summary>
-        <label style="margin-top:6px">Didaktische Funktion<input type="text" data-f="ph.${i}.goal" value="${esc(p.goal||'')}"></label></details>
     </div></article>`).join('')}</div>
   <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button></div>${qcHTML(L)}`;
 };
@@ -4542,7 +4560,11 @@ document.addEventListener('click',e=>{
     case 'zg-del':V.zgDel=null;zgDo(async()=>{const r=await q(Cloud.sb.rpc('pupil_login_del',{p_class:d.id,p_nr:+d.n}));if(r!=='ok')throw new Error(r);delete zgStore(d.id)[+d.n];tsave()});break;
     case 'zg-print':go('zug',{cid:d.id||S.cls,print:1});break;
     case 'zg-print-x':go('sus');break;
-    case 'go-legal':e.preventDefault();$('#umenu').hidden=true;go(d.v,{back:V.name==='impressum'||V.name==='datenschutz'?V.back:{...V}});break;
+    case 'go-legal':e.preventDefault();$('#umenu').hidden=true;go(d.v,{back:['impressum','datenschutz','umzug'].includes(V.name)?V.back:{...V}});break;
+    case 'uz-down':uzDown();break;
+    case 'uz-pick':uzPick();break;
+    case 'uz-yes':uzApply();break;
+    case 'uz-no':UZ.file=null;render();break;
     case 'legal-back':{const b=V.back;if(b&&b.name)go(b.name,b);else go(S.role?(S.role==='teacher'?'tdash':'dash'):'role',S.role?{}:{step:'splash'})}break;
     case 'um-go':$('#umenu').hidden=true;if(d.v==='week'&&S.role==='student'){go('me',{tt:1});break}go(d.v);break;
     case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Gib deinem Avatar einen Namen.';break}S.nick=nk;S.av=cleanAv(V.av);V.nd=null;acctSave();saveRole();sendMsg({k:'hi'});mbQueue({k:'hi',at:Date.now()});V.ok=1;render();break}
@@ -4916,4 +4938,5 @@ setInterval(()=>{
   }
   if(S.role==='student'&&RCS){const t=$('#ltimer');if(t)t.textContent=fmt(timerLeft(RCS.timer,OFF))}
 },1000);
+{const uz=()=>{if(location.hash==="#umzug"&&!BOARD&&V.name!=="umzug")go("umzug",{back:{...V}})};setTimeout(uz,0);addEventListener("hashchange",uz)}
 </script>
