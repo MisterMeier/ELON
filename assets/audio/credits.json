@@ -292,5 +292,19 @@
   "erzeugt_am": "2026-10-10",
   "bearbeitet": "",
   "loop": false
+ },
+ {
+  "id": "tor",
+  "datei": "assets/audio/tor.mp3",
+  "titel": "Tor! (Goooal)",
+  "kategorie": "Belohnung",
+  "stichworte": "Tor, Fußball, Kopfrechenfußball, Jubel",
+  "dauer": 4.2,
+  "quelle": "tools/gen_tor.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-10",
+  "bearbeitet": "",
+  "loop": false
  }
 ]

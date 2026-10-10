@@ -3731,7 +3731,7 @@ const KS={ctx:null,master:null,vol:0.8,muted:false,goalEl:null,
   ohh(){const c=this.ac();if(!c)return;const t=c.currentTime;
     [[800,320,5],[2300,1000,6]].forEach(([f0,f1,q],j)=>{const n=this.noise(c,1.6),bp=c.createBiquadFilter(),g=c.createGain();bp.type='bandpass';bp.Q.value=q;bp.frequency.setValueAtTime(f0,t);bp.frequency.exponentialRampToValueAtTime(f1,t+1.4);
       this.env(c,g,t,.25,.6,.7,j?.25:.6);n.connect(bp);bp.connect(g);g.connect(this.master);n.start(t)})},
-  goal(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio('assets/audio/jubel.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}this.crowd(5,.4,.2)},
+  goal(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio('assets/audio/tor.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}},
   intro(){this.crowd(4.4,.38);this.whistle(.25,3.0);this.whistle(1,3.35)},
   final(){this.whistle(.28,0);this.whistle(.28,.45);this.whistle(1.3,.9);this.crowd(3.5,.3,.8)},
 };
