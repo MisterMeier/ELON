@@ -2161,7 +2161,7 @@ const BIGLOGO='<div class="biglogo"><img class="lg-e" src="assets/elo/e.png" alt
 VIEWS.role=()=>{
   const step=V.step||'splash',sc=schoolBy(V.school),cl=sc&&classBy(sc.id,V.cls);
   const back=to=>`<button class="btn sm" data-act="st-step" data-step="${to}">← Zurück</button>`;
-  if(step==='splash')return `<div class="splash"><span class="splash-glow"><img class="splash-elo" src="assets/elo/elo-heft-512.png" alt="Elo, die Eule von ELIO"></span>${BIGLOGO}<p class="tagline">Lernen. Gemeinsam. Digital.</p>
+  if(step==='splash')return `<div class="splash"><span class="splash-glow"><img class="splash-elo" src="assets/elo/elo-heft-512.png" alt="Elo, die Eule von ELIO"></span>${BIGLOGO}<p class="tagline">lernen.individuell.online</p>
     ${CLOUD&&!Cloud.err?`<div class="roles"><button class="rcard rc-s" data-act="st-step" data-step="join"><img src="assets/elo/elo-uebung.png" alt=""><span><b>Schüler/in</b><small>mit Kürzel und PIN</small></span><i aria-hidden="true">→</i></button>
       <button class="rcard rc-t" data-act="login"><img src="assets/elo/elo-hilfe.png" alt=""><span><b>Lehrkraft</b><small>mit eigenem Konto</small></span><i aria-hidden="true">→</i></button></div>
       <button class="adm-link" data-act="login" data-admin="1">🔑 Admin · Schule verwalten</button>`
