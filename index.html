@@ -687,6 +687,52 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 .diary-today textarea{color:#1e2340;caret-color:#1e2340;margin-top:8px;font-size:1.1rem;line-height:1.6;background:repeating-linear-gradient(#fff 0 1.55em,#e3e8f2 1.55em 1.6em);min-height:200px}
 details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1.2em;font-weight:700}
 .rt-heft{background:#eef1f6;padding-bottom:1em}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
+.rt-sl{background:#f6f8fc center/cover no-repeat;padding:1.4em 2em;gap:.6em;justify-content:center}
+.rt-sl.sl-white{background:#fff}
+.rt-sl.sl-pic{padding:0}
+.sl-t{font-size:3em;font-weight:800;color:#1e3a8a;max-width:72%;position:relative}
+.sl-b{display:grid;gap:.4em;font-size:1.6em;font-weight:600;max-width:70%;position:relative}
+.sl-b p{margin:0;background:rgba(255,255,255,.75);padding:.25em .6em;border-radius:.4em;transition:opacity .4s,transform .4s}
+.sl-b p.sl-hid{opacity:0;transform:translateY(.4em)}
+.sl-b p.sl-new{animation:slin .5s ease}
+@keyframes slin{from{opacity:0;transform:translateY(.6em)}to{opacity:1;transform:none}}
+.sl-elo{position:absolute;right:3%;bottom:4%;width:24%;cursor:pointer;transform-origin:50% 100%}
+.sl-elo img{width:100%;display:block;filter:drop-shadow(0 .3em .5em rgba(0,0,0,.18))}
+.sl-elo.fx-hop{animation:elohop .55s ease 3}
+.sl-elo.fx-wave{animation:elowave .5s ease-in-out 4}
+.sl-elo.fx-tweet,.sl-elo.fx-hoot{animation:elotw .3s ease-in-out 6}
+@keyframes elohop{0%,100%{transform:none}40%{transform:translateY(-18%) scaleY(1.04)}70%{transform:translateY(0) scaleY(.94)}}
+@keyframes elowave{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+@keyframes elotw{0%,100%{transform:scale(1)}50%{transform:scale(1.05) rotate(-2deg)}}
+.fx-i{position:absolute;top:8%;left:-12%;font-size:3em;font-style:normal;animation:fxw .5s ease-in-out 6;transform-origin:70% 90%}
+.fx-i.fx-n{font-size:1.8em;color:#7c3aed;font-weight:800;top:-6%;left:10%;animation:fxn 1.4s ease-out 3}
+@keyframes fxw{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(20deg)}}
+@keyframes fxn{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-1.5em)}}
+.sl-bub{position:absolute;bottom:92%;right:40%;background:#fff;border:.12em solid #1e3a8a;border-radius:1em;padding:.5em .9em;font-weight:800;font-size:1.25em;min-width:7em;max-width:14em;color:#172B31;box-shadow:0 .2em .6em rgba(0,0,0,.12);animation:slin .4s ease}
+.sl-bub::after{content:'';position:absolute;right:1.2em;bottom:-.6em;border:.6em solid transparent;border-top-color:#1e3a8a;border-bottom:0}
+.rt-start.st-elio{background:#f6f8fc center/cover no-repeat;color:#172B31;align-items:flex-start;justify-content:center;text-align:left;padding:0 2.4em}
+.rt-start.st-elio .in{justify-items:start;text-shadow:none;max-width:62%}
+.rt-start.st-elio h1{color:#1e3a8a;font-size:3.6em}
+.rt-start.st-elio p{color:#334155}
+.st-items{list-style:none;margin:.4em 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.5em;font-size:1.3em;font-weight:700}
+.st-items li{background:rgba(255,255,255,.85);border:.08em solid #c7d2fe;border-radius:.5em;padding:.3em .7em}
+.rt-start.st-elio .rk{left:auto;right:30%}
+.rt-start.st-elio .rk b{color:#1e3a8a;text-shadow:none}
+.rt-start.st-elio .rk-tube{background:rgba(30,58,138,.08);border-color:#1e3a8a}
+.sl-eds{display:grid;gap:12px}
+.sl-ed{display:grid;grid-template-columns:minmax(200px,300px) 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--surface)}
+@media(max-width:640px){.sl-ed{grid-template-columns:1fr}}
+.st-ed .sl-pv{max-width:420px}
+label.cbl{display:flex!important;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:14px;font-weight:600;color:var(--ink)}
+label.cbl input{width:auto!important;margin:0}
+.sl-pv{position:relative;aspect-ratio:16/9;container-type:size;border-radius:8px;overflow:hidden;border:1px solid var(--line);pointer-events:none}
+.sl-pv .rt{font-size:3.1cqh;height:100%;min-height:0;border-radius:0}
+.sl-pv .chip{position:absolute;left:6px;top:6px;font-size:11px}
+.ipad-auto{border:2px solid #86c06f;background:#eef8e9;color:#1f3d14;border-radius:12px;padding:10px 12px;display:grid;gap:4px;margin-top:6px}
+.ipad-auto.off{border-color:var(--line);background:var(--surface);color:var(--ink)}
+.ipad-auto small{font-weight:600;opacity:.85}
+.t-elo{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.t-elo img{height:34px}
 .rt-diary{background:#fff}.rt-diary .in{flex:1;display:grid;align-content:center;gap:1em;padding:1em 2.4em}.rt-diary ol{font-size:2em;font-weight:700;display:grid;gap:.5em;padding-left:1.2em}.rt-diary p{font-size:1.3em;color:var(--muted);font-weight:700}
 .say{display:grid;gap:12px;max-width:620px;margin:0 auto}.say-warn{background:#fff6e0;border:2px solid #d98a00;border-radius:12px;padding:10px 14px;font-weight:700;color:#5a3d00}
 .say-prog{height:10px;border-radius:6px;background:var(--surface-2);overflow:hidden}.say-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s}
@@ -733,6 +779,25 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .top-in{position:relative}.umenu{position:absolute;top:60px;left:12px;z-index:60;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);min-width:260px;padding:8px;display:grid;gap:2px}
 .umenu .um-who{padding:10px 12px 12px;border-bottom:1px solid var(--line);margin-bottom:4px;display:grid}.umenu .um-who small{display:block;color:var(--muted);font-weight:700}
 .umenu button{border:0;background:none;text-align:left;font:inherit;font-weight:700;padding:10px 12px;border-radius:12px;cursor:pointer;color:var(--ink)}.umenu button:hover{background:var(--surface-2)}.umenu .out{color:var(--red);border-top:1px solid var(--line);border-radius:0 0 12px 12px;margin-top:4px}
+.rt-vw{background:#f6f8fc center/cover no-repeat;align-items:center;justify-content:center;gap:.5em;padding:1em}
+.vw-sc{position:absolute;top:.6em;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.5em;font-size:1.2em}
+.vw-sc span{display:flex;align-items:center;gap:.4em;background:#fff;border:.1em solid #c7d2fe;border-radius:2em;padding:.2em .3em .2em .8em;opacity:.65}
+.vw-sc span.on{opacity:1;border-color:#4f46e5;box-shadow:0 0 0 .15em #c7d2fe}.vw-sc i{font-style:normal;background:#1e3a8a;color:#fff;border-radius:2em;min-width:1.8em;text-align:center;font-weight:800;padding:.05em .4em}.vw-sc em{font-style:normal;font-weight:800}
+.vw-n{position:absolute;top:.9em;left:1em;font-weight:800;color:#475569}
+.vw-card{width:min(17em,40%);aspect-ratio:3/4;perspective:60em;margin-top:1.4em}
+.vw-in{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+.vw-card.open .vw-in{transform:rotateY(180deg)}.vw-card.flip .vw-in{animation:vwflip .9s ease}
+@keyframes vwflip{from{transform:rotateY(0)}to{transform:rotateY(180deg)}}
+.vw-f{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:1em;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 .4em 1.2em rgba(30,58,138,.25)}
+.vw-cover{background:linear-gradient(150deg,#4f46e5,#2563eb 55%,#7c3aed);color:#fff;gap:.2em}.vw-cover img{width:55%}.vw-cover b{font-size:3em;line-height:1}.vw-cover small{font-weight:700;font-size:.8em;opacity:.9;text-align:center;padding:0 1em}
+.vw-back{transform:rotateY(180deg);background:#fff;border:.25em solid #4f46e5;justify-content:flex-start;padding:.8em;gap:.6em}
+.vw-w{display:block;width:100%;text-align:center;background:#1e3a8a;color:#fff;font-weight:800;font-size:1.7em;border-radius:.4em;padding:.4em .2em;word-break:break-word}
+.vw-back ul{list-style:none;margin:0;padding:0;display:grid;gap:.4em;width:100%}.vw-back li{text-align:center;font-weight:800;font-size:1.25em;color:#b91c1c;background:#fee2e2;border-radius:.4em;padding:.25em;text-decoration:line-through;text-decoration-thickness:.1em}
+.vw-h{font-weight:700;color:#334155;margin:0}.vw-end{display:grid;justify-items:center;gap:.3em;text-align:center}.vw-end img{width:9em}.vw-end h1{color:#1e3a8a}.vw-end p{font-size:1.6em;font-weight:800}
+.jr-elo{margin:8px 0}.jr-elo-b{display:flex;align-items:center;gap:10px;border:2px dashed #a5b4fc;background:#eef2ff;border-radius:14px;padding:6px 12px 6px 6px;font:inherit;cursor:pointer;color:var(--ink);text-align:left}
+.jr-elo-b img{width:44px;height:44px;object-fit:contain}.jr-elo-b small{display:block;color:var(--muted);font-weight:600}
+.jr-st{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.jr-st .chip{cursor:pointer;border:1px solid var(--line);font:inherit;font-weight:700;font-size:.9rem}
+.umenu button{display:flex;align-items:center;gap:10px;padding:6px 12px}.um-ic{width:32px;height:32px;flex:none;object-fit:contain}
 .qz-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .qz-pick button{background:var(--qc);color:#fff;border:4px solid transparent;border-radius:16px;min-height:84px;font:inherit;font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;padding:10px;text-align:left;cursor:pointer}
 .qz-pick button b{font-family:var(--f-display);font-size:1.6rem}.qz-pick button.on{border-color:#172B31;box-shadow:inset 0 0 0 3px #fff}
@@ -1196,11 +1261,11 @@ function addStars(n){S.stars+=n;save();hdr()}
 function earnOnce(key){if(!S.earned[key]){S.earned[key]=1;addStars(1)}}
 function mutStar(){if(S.mut<30){S.mut++;addStars(1)}}
 // Menü hinter dem ELIO-Logo: wer bin ich, Profil, Abmelden
-function umenuHTML(){const T=S.role==='teacher',it=(v,l)=>`<button data-act="um-go" data-v="${v}">${l}</button>`;
+function umenuHTML(){const T=S.role==='teacher',ic=n=>`<img class="um-ic" src="assets/icons/${n}.webp" alt="">`,it=(v,n,l)=>`<button data-act="um-go" data-v="${v}">${ic(n)}${l}</button>`;
   const who=T?`<b>${esc(Cloud.prof&&Cloud.prof.name||'Lehrkraft')}</b><small>${esc(Cloud.user&&Cloud.user.email||'Demo-Modus')} · ${esc(className())}</small>`
     :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</b><small>${S.acct&&S.acct.u?esc(S.acct.u)+' · ':''}${esc(className())}</small></span></span>`;
-  return `<div class="um-who">${who}</div>${T?it('tdash','🏠 Lehrerzimmer')+it('me','👤 Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','🏫 Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','🔑 Admin'):'')+it('dash','👀 Schüleransicht')+it('inbox','📬 Postfach')
-    :it('dash','🏠 Dashboard')+it('desk','🗂️ Schreibtisch')+it('homework','📚 Aufgaben')+it('me','👤 Mein Profil')+it('week','🗓️ Stundenplan')}<button data-act="tk-open">🛠️ Problem melden</button><button data-act="go-legal" data-v="datenschutz">🔒 Datenschutz und Impressum</button><button class="out" data-act="role-reset">🚪 Abmelden</button>`}
+  return `<div class="um-who">${who}</div>${T?it('tdash','lehrerzimmer','Lehrerzimmer')+it('me','profil','Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','klassen','Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','admin','Admin'):'')+it('inbox','postfach','Postfach')
+    :it('dash','dashboard','Dashboard')+it('desk','schreibtisch','Schreibtisch')+it('homework','aufgaben','Aufgaben')+it('me','profil','Mein Profil')+it('week','stundenplan','Stundenplan')}<button data-act="tk-open">${ic('problem')}Problem melden</button><button data-act="go-legal" data-v="datenschutz">${ic('datenschutz')}Datenschutz und Impressum</button><button class="out" data-act="role-reset">${ic('abmelden')}Abmelden</button>`}
 document.addEventListener('click',e=>{const m=$('#umenu');if(m&&!m.hidden&&!e.target.closest('#umenu,.logo'))m.hidden=true},true);
 function hdr(){$('#star-n').textContent=S.stars}
 function complete(id){
@@ -1939,9 +2004,12 @@ function tafelPick(){if(!CS)return null;if(CS.pick){const L=lessonById(CS.pick);
 VIEWS.tafel=()=>{
   const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id),P=L?null:tafelPick(),sb=k=>`<div class="t-subj">${badge(k)}<b>${esc((SUBJECTS[k]||{}).name||'')}</b><span class="muted">· ${esc(className())}</span></div>`;
   const head=L?`${sb(L.subject)}<h1 class="t-big">${esc(L.title)}</h1>
-      <p class="t-ph"><span class="chip">Folie ${CS.step+1} von ${L.phases.length}</span> <b>${esc(ph.name)}</b>${ph.txt?` · <span class="muted">${esc(ph.txt)}</span>`:''}</p>
+      <p class="t-ph"><span class="chip">Phase ${CS.step+1} von ${L.phases.length}</span>${phaseFrames(L.phases[CS.step])>1?` <span class="chip">Folie ${(CS.sub||0)+1} von ${phaseFrames(L.phases[CS.step])}</span>`:''} <b>${esc(ph.name)}</b>${ph.txt?` · <span class="muted">${esc(ph.txt)}</span>`:''}</p>
       <div class="t-dots">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}" title="${esc(p.name)}"></button>`).join('')}</div>
-      <div class="t-nav"><button class="btn big" data-act="l-go" data-i="${CS.step-1}" ${CS.step<=0?'disabled':''}>◀ Zurück</button>${CS.step>=L.phases.length-1?`<button class="btn big ok" data-act="l-stop">✓ Stunde beenden</button>`:`<button class="btn big pri" data-act="l-go" data-i="${CS.step+1}">Weiter ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button>`}</div>
+      <div class="t-nav"><button class="btn big" data-act="l-nav" data-d="-1" ${CS.step<=0&&!(CS.sub>0)?'disabled':''}>◀ Zurück</button>${CS.step>=L.phases.length-1&&(CS.sub||0)>=phaseFrames(L.phases[CS.step])-1?`<button class="btn big ok" data-act="l-stop">✓ Stunde beenden</button>`:`<button class="btn big pri" data-act="l-nav" data-d="1">Weiter ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button>`}</div>
+      ${(()=>{const t=L.phases[CS.step]&&L.phases[CS.step].tool,F=t&&t.id==='slide'?deckFrames(t):[],sl=F.length?deckSlides(t)[F[Math.min(CS.sub||0,F.length-1)].j]:null;
+        if(t&&t.id==='vw'&&CS.vw){const v=CS.vw,n=vwCards(t).length,tm=vwTeams(t);return `<div class="t-elo t-vw"><b>🃏 Karte ${Math.min(v.i+1,n)}/${n} · dran: ${esc(tm[v.team])}</b>${v.i<n?`<button class="btn sm pri" data-act="vw" data-k="flip">${v.open?'🙈 Zudecken':'🔄 Karte umdrehen'}</button><button class="btn sm ok" data-act="vw" data-k="ok">✓ Erraten</button><button class="btn sm" data-act="vw" data-k="no" style="color:#b91c1c">✗ Verbotenes Wort</button><button class="btn sm" data-act="vw" data-k="next">⏭ Nächste Karte</button><button class="btn sm" data-act="vw" data-k="team">⇄ Team</button>`:`<button class="btn sm" data-act="vw" data-k="reset">↺ Nochmal</button>`}</div>`}
+        return sl&&sl.elo?`<div class="t-elo"><img src="assets/elo/elo-${sl.elo}.png" alt=""><b>Elo:</b>${Object.entries(ELO_FX).filter(([k])=>k!=='say'||sl.say).map(([k,[ic,n]])=>`<button class="btn sm" data-act="elo-fx" data-k="${k}">${ic} ${n}</button>`).join('')}</div>`:''})()}
       <small class="muted t-keys">Tipp: Pfeiltasten oder Presenter funktionieren auch.</small>${tafelMats(L)}`
     :P?`${sb(P.L.subject)}<span class="label" style="margin-top:6px">${P.auto?'Nächste geplante Stunde':'Ausgewählte Stunde'}</span><h1 class="t-big">${esc(P.L.title)}</h1>
       <p class="muted" style="font-weight:700">${P.L.phases.length} Folien · ${lessonMin(P.L)} min</p>
@@ -2005,13 +2073,42 @@ function updTafel(){
 
 /* --- Student side --- */
 /* --- Tafel-Fenster (Beamer) und Mini-Tafel der SuS: zeigen nur, was alle sehen sollen --- */
+/* --- Folien wie bei PowerPoint: mehrere Folien pro Phase, fertiges ELIO-Design, Elo als steuerbare Figur --- */
+const SL_BG={allgemein:'ELIO allgemein',start:'ELIO Start (mit Elo)',none:'Ohne Hintergrund (weiß)'};
+const SL_LAY={std:'Überschrift und Text',bild:'Nur Bild (ganze Folie)',frage:'Stundenfrage',murmel:'Stundenfrage mit Murmelphase',hypo:'Vermutungen'};
+const SL_ELO={'':'– ohne Elo –',heft:'Elo mit Doktorhut',uebung:'Elo mit Heft',hilfe:'Elo hilft',fleiss:'Elo stark'};
+const ELO_FX={wave:['👋','Winken'],hop:['⤴️','Hüpfen'],tweet:['🎵','Zwitschern'],hoot:['🦉','Rufen'],say:['💬','Sprechblase']};
+function deckSlides(t){if(!t)return [];if(!Array.isArray(t.slides)||!t.slides.length)t.slides=[{layout:'std',bg:'allgemein',title:t.title||'',text:t.text||'',mat:t.mat||'',elo:'',say:'',steps:false}];return t.slides}
+function deckFrames(t){const F=[];deckSlides(t).forEach((sl,j)=>{const n=sl.steps?lines(sl.text).length:0;if(n>1)for(let k=1;k<=n;k++)F.push({j,k});else F.push({j,k:-1})});return F}
+const phaseFrames=p=>p&&p.tool&&p.tool.id==='slide'?deckFrames(p.tool).length:1;
+// Weiter/Zurück: erst durch die Folien der Phase, dann zur nächsten Phase
+function lNav(dir){const L=CS&&CS.lesson&&lessonById(CS.lesson.id);if(!L)return false;const p=L.phases[CS.step],s=(CS.sub||0)+dir;
+  if(s>=0&&s<phaseFrames(p)){CS.sub=s;CS.fx=null;pushCS();if(V.name==='tafel')render();return true}
+  const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(dir<0){const n=phaseFrames(L.phases[i]);if(n>1){CS.sub=n-1;pushCS()}}if(V.name==='tafel')render();return true}
+/* --- Verbotene Wörter: eine Person dreht der Tafel den Rücken zu, die Klasse erklärt das Wort ohne die verbotenen Wörter --- */
+function vwCards(t){return lines(t&&t.cards).map(x=>{const m=x.split(/\s*[:|]\s*/);const w=m.shift().trim();return {w,no:m.join(',').split(/\s*[,|;]\s*/).map(y=>y.trim()).filter(Boolean).slice(0,5)}}).filter(c=>c.w)}
+const vwTeams=t=>{const a=String(t&&t.teams||'').split(',').map(x=>x.trim()).filter(Boolean);return [a[0]||'Team A',a[1]||'Team B']};
+function vwHTML(t,c){c=c||{};const V2=t.vw||{i:0,open:false,sc:[0,0],team:0},C=t.cards||[],tm=t.tnames||['Team A','Team B'],card=C[V2.i];
+  const score=`<div class="vw-sc">${tm.map((n,k)=>`<span class="${k===V2.team?'on':''}"><b>${esc(n)}</b><i>${V2.sc[k]||0}</i></span>`).join('<em>:</em>')}</div>`;
+  if(!card)return `<div class="rt rt-vw" ${bgAttr('allgemein')}>${score}<div class="vw-end"><img src="assets/elo/elo-fleiss-512.png" alt=""><h1>${C.length?'Alle Karten gespielt!':'Noch keine Karten'}</h1>${C.length?`<p>${V2.sc[0]===V2.sc[1]?'Unentschieden!':'🏆 '+esc(tm[V2.sc[0]>V2.sc[1]?0:1])+' gewinnt!'}</p>`:''}</div></div>`;
+  const anim=V2.open&&Date.now()-(V2.at||0)<1500&&!c.mini;
+  return `<div class="rt rt-vw" ${bgAttr('allgemein')}>${score}<span class="vw-n">Karte ${V2.i+1} von ${C.length}</span>
+    <div class="vw-card ${V2.open?'open':''} ${anim?'flip':''}"><div class="vw-in">
+      <div class="vw-f vw-cover"><img src="assets/elo/elo-hilfe-512.png" alt=""><b>?</b><small>Die Person vorne dreht sich um.</small></div>
+      <div class="vw-f vw-back"><span class="vw-w">${esc(card.w)}</span><ul>${card.no.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>
+    <p class="vw-h">Erklärt das Wort, ohne die <b>verbotenen Wörter</b> zu sagen!</p></div>`}
 function stageOf(){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return null;
   const p=L.phases[CS.step]||{},t=p.tool||{},m=t.mat&&typeof libById==='function'?libById(t.mat):null;
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
-    sf:p.sf||'',min:+p.min||0,tool:t.id?{...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''}:null};
+    sf:p.sf||'',min:+p.min||0,sub:CS.sub||0,tool:t.id?stageTool(t,L):null};
 }
-const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&R.ready.msg&&[R.ready.done.length,R.onN]]):'';
+function stageTool(t,L){const m=t.mat&&typeof libById==='function'?libById(t.mat):null,o={...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''};
+  if(t.id==='slide'){const F=deckFrames(t),f=F[Math.min(CS.sub||0,F.length-1)]||{j:0,k:-1};o.cur={...deckSlides(t)[f.j],shown:f.k};o.nf=F.length;delete o.slides}
+  if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
+  if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
+  return o}
+const boardSig=R=>R?JSON.stringify([R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&R.ready.msg&&[R.ready.done.length,R.onN],R.fx&&R.fx.at]):'';
 function boardHTML(R,mini){
   const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
@@ -2022,6 +2119,9 @@ function boardHTML(R,mini){
   else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">📺 Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}"></div>`}</div>`;
   else if(R.game&&gInfo(R.game.g))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>🏆 ${R.game.fin.length} geschafft</p>`:''}</div>`;
   else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&t.id==='slide'&&t.cur)return `<div class="bw bw-rt s-${st.subj}">${slideHTML(t.cur,{subj:st.subj,mini,fx:R.fx})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&t.id==='vw')return `<div class="bw bw-rt s-${st.subj}">${vwHTML(t,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&t.id==='heftlink')return `<div class="bw bw-rt s-${st.subj}">${richTool({id:'heft',title:t.title,text:t.text},{subj:st.subj,name:st.name,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&R.ready.msg?{d:R.ready.done.length,n:Math.max(R.onN||0,R.ready.done.length)}:null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='kfb')main=`<img src="assets/kfb/logo.webp" alt="Kopfrechnen Fußball" style="max-height:62cqh;max-width:80%;border-radius:2cqh"><p style="font-weight:800;font-size:4cqh">Gleich geht's los!</p>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
@@ -2367,9 +2467,20 @@ async function boardWin(u){let s=null,ok=false;
   const f=s?`left=${s.availLeft},top=${s.availTop},width=${s.availWidth},height=${s.availHeight}`:`left=0,top=0,width=${screen.availWidth},height=${screen.availHeight}`;
   const w=window.open(u,'elio-tafel','popup,'+f+(ok?',fullscreen':''));if(!w){alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');return}
   try{if(s){w.moveTo(s.availLeft,s.availTop);w.resizeTo(s.availWidth,s.availHeight)}}catch(e){}}
+// Elo an der Tafel: Bewegung und Geräusch auf Knopfdruck
+function vwDo(k){const v=CS&&CS.vw;if(!v)return;const L=lessonById(CS.lesson.id),n=vwCards(L.phases[CS.step].tool).length;
+  if(k==='flip'){v.open=!v.open;v.at=Date.now();if(v.open)audPlay('funkeln',false)}
+  if(k==='ok'){v.sc[v.team]=(v.sc[v.team]||0)+1;audPlay('erfolg',false);k='next'}
+  if(k==='no'){v.sc[1-v.team]=(v.sc[1-v.team]||0)+1;audPlay('hoppla',false)}
+  if(k==='next'){if(v.i<n){v.i++;v.open=false;v.team=1-v.team}if(v.i>=n)audPlay('fanfare',false)}
+  if(k==='team')v.team=1-v.team;
+  if(k==='reset'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0}}
+  pushCS();if(V.name==='tafel')render()}
+function eloFx(k){if(!CS||!ELO_FX[k])return;CS.fx={k,at:Date.now()};pushCS();if(k==='tweet')audPlay('zwitschern',false);if(k==='hoot')audPlay('eule',false);if(k==='wave')audPlay('zwitschern',false);setTimeout(()=>{if(CS&&CS.fx&&Date.now()-CS.fx.at>=5900){pushCS()}},6000)}
+window.eloFx=eloFx;
 function tafelSet(L){if(!CS)initTeacher();if(CS.lesson&&CS.lesson.id!==L.id){CS.lesson=null;CS.ready=null;CS.poll=null;CS.journal=null;CS.phase='arrive'}if(!CS.lesson||CS.lesson.id!==L.id)CS.pick=L.id;if(L.mission)S.mission=L.mission;save();pushCS();$('#ov').hidden=true;go('tafel')}
 // Vor und zurück mit Tastatur oder Presenter, auch aus dem Tafel-Fenster
-function tafelKey(dir){if(!CS||S.role!=='teacher')return false;const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return false;const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(V.name==='tafel')render();return true}
+function tafelKey(dir){if(!CS||S.role!=='teacher')return false;return lNav(dir)}
 window.tafelKey=tafelKey;
 document.addEventListener('keydown',e=>{if(e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.altKey||e.ctrlKey||e.metaKey)return;
   const dir=['ArrowRight','PageDown',' '].includes(e.key)?1:['ArrowLeft','PageUp'].includes(e.key)?-1:0;
@@ -2379,7 +2490,7 @@ if(BOARD)setTimeout(()=>{if(document.fullscreenElement||innerHeight>=screen.heig
 function boardFs(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
-  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.game=null;CS.media=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
+  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.sub=0;CS.fx=null;CS.game=null;CS.media=null;const p=L.phases[i];CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
   CS.phase={name:p.name,txt:p.txt||p.goal||'',look:p.act==='look'||p.act==='mission',go:p.act==='goto'?p.target:null,sf:p.sf,method:p.method};
   CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;if(p.snd&&!BOARD)audPlay(p.snd,false);
   const m=+p.min||0;CS.timer=m?{run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000}:{run:false,total:300,left:300,endsAt:0};
@@ -2398,6 +2509,9 @@ function startStep(i){
   if(AKT[T.id]){akLive(T,p);CS.phase.look=false}
   if(T.id==='corners4'){CS.poll={id:'p'+Date.now(),type:'corners',q:T.q||'Wie gut kannst du es schon?',opts:lines(T.opts||C4_OPTS).slice(0,4).map((o,k)=>`Ecke ${k+1}: ${o}`),voted:[]};TALLY={}}
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
+  if(T.id==='vw'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0};CS.phase.look=true}else CS.vw=null;
+  if(T.id==='heftlink'&&!p.noipad){CS.phase.go='heft:'+L.subject;CS.phase.look=false}
+  if(p.noipad&&TOOL_IPAD[T.id]){CS.ready=null;CS.phase.go=null;CS.phase.look=true}
   pushCS();render();
 }
 
@@ -2786,7 +2900,7 @@ VIEWS.tdash=()=>{
   ${dayStrip()}
   ${dashNext()}
   <div class="dk-grid">${dashKids()}${dashTodo()}</div>
-  <div class="row" style="margin-top:18px"><button class="btn" data-act="preview">Schüleransicht ansehen</button><button class="btn" data-act="role-reset">Abmelden</button></div>`;
+  <div class="row" style="margin-top:18px"><button class="btn" data-act="role-reset">Abmelden</button></div>`;
 };
 
 /* =====================================================================
@@ -2816,24 +2930,30 @@ function newLessonFrom(subj,min,title){
 }
 const RICH=['heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
 const TOOLS={
-  slide:{name:'Folie',icon:'🖼️',txt:'Große Folie mit Titel, Text und Bild, Video oder PDF aus der Bibliothek.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
+  slide:{name:'Folien',icon:'🖼️',txt:'Eine oder mehrere Folien im ELIO-Design: Überschrift, Text, eigenes Hintergrundbild, Elo als Figur. Weiter wie bei PowerPoint.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
   memory:{name:'Memory',icon:'🃏',txt:'Paare finden, groß an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   salad:{name:'Wortsalat',icon:'🔤',txt:'Buchstaben ordnen, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   balloon:{name:'Ballon-Rätsel',icon:'🎈',txt:'Wort erraten, an der Tafel per Touch.',fit:/übung|vertief|warm|wiederhol/i},
   mat:{name:'Material zeigen',icon:'📚',txt:'Eine Datei oder ein Video aus deiner Bibliothek groß zeigen.',fit:/begr|einstieg|problem|erarb|sicherung/i},
-  start:{name:'Startfolie',icon:'🎬',txt:'„Du hast jetzt …“ mit Video, Fach und Datum automatisch. Die iPads zeigen, was rausgelegt wird.',fit:/beginn|begr|start|ankommen/i},
+  start:{name:'Startfolie',icon:'🎬',txt:'„Du hast jetzt …“ mit Elo, Datum und Liste zum Abhaken. Die SuS tippen auf „Bereit“, die Rakete startet.',fit:/beginn|begr|start|ankommen/i},
   cover:{name:'Sequenz-Cover',icon:'📘',txt:'Titelfolie für das aktuelle Thema, z. B. Terme und Gleichungen.',fit:/sequenz|cover|thema|begr/i},
   question:{name:'Stundenfrage',icon:'❓',txt:'Die Frage der Stunde groß, auf Wunsch mit Murmelphase.',fit:/frage|problem|ziel/i},
   hypo:{name:'Vermutungen',icon:'💡',txt:'Vermutungen sammeln oder überprüfen.',fit:/hypo|vermut|sicherung|überprüf/i},
   task:{name:'Arbeitsauftrag',icon:'📝',txt:'Leere Vorlage: Du schreibst den Auftrag, Sozialform und Zeit kommen aus der Phase.',fit:/auftrag|erarb|anwend|übung/i},
   high5:{name:'High-Five-Feedback',icon:'🙌',txt:'Fünf Reflexionsfragen an der Tafel.',fit:/reflex|feedback|abschluss/i},
+  vw:{name:'Verbotene Wörter',icon:'🃏',txt:'Eine Person steht mit dem Rücken zur Tafel. Die Klasse erklärt das Wort, ohne die verbotenen Wörter zu sagen. Die Karte dreht sich auf Knopfdruck.',fit:/warm|ritual|wiederhol|wortschatz|begriff|spiel|tabu/i},
+  heftlink:{name:'Hefteintrag zeigen',icon:'📖',txt:'Einen fertigen Hefteintrag an Tafel und iPads zeigen. Die SuS schreiben ihn ins Heft ab.',fit:/sicherung|merke|heft|regel|abschreib/i},
   heft:{name:'Hefteintrag',icon:'📒',txt:'Groß an der Tafel und automatisch im Regelheft aller SuS. Text einfach reinkopieren.',fit:/sicherung|merke|heft|regel/i},
   diary:{name:'Lerntagebuch',icon:'📔',txt:'Leitfragen an der Tafel, die SuS schreiben in ihr Lerntagebuch auf dem iPad.',fit:/tagebuch|reflex|abschluss|ausblick/i},
   quiz:{name:'Abstimmung / Quiz',icon:'🗳️',txt:'Eigene Frage mit A, B, C … wie bei Kahoot. Eine oder mehrere richtige Antworten, auf Wunsch mit Folie. Du löst auf, wann du willst.',fit:/vorwissen|wiederhol|abstimm|quiz|hypo|vermut|sicherung|überprüf/i},
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
+// Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
+const TOOL_IPAD={vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Du nimmst Kinder dran, sie tippen ihr Ergebnis auf dem iPad ein.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
+  quiz:'Die SuS stimmen auf dem iPad ab.',corners4:'Die SuS stimmen auf dem iPad ab.',diary:'Die SuS schreiben in ihr Lerntagebuch.'};
+const IPAD_OFF=['start','kfb','heftlink'];
 const SF_TXT={EA:'Du arbeitest allein',PA:'Du arbeitest mit deinem Partner',GA:'Ihr arbeitet in der Gruppe',Plenum:'Wir arbeiten gemeinsam'};
 const lines=x=>String(x||'').split('\n').map(v=>v.trim()).filter(Boolean);
 // Abstimmung/Quiz: Lösung kennt nur das Gerät der Lehrkraft, bis sie auflöst
@@ -2848,12 +2968,25 @@ function quizHTML(P,c){const res=P.res||(c.tally?P.opts.map((_,i)=>c.tally[i]||0
     <div class="qz-body"><h1>${esc(P.q)}</h1>${P.mat?(c.mini||!(BOARD||c.teacher)?'':`<div class="slide-media" id="slide-media" data-id="${esc(P.mat)}"></div>`):''}
     <div class="qz-opts">${P.opts.map((o,i)=>`<div class="qz-o ${P.res&&R.length?(R.includes(i)?'ok':'no'):''}" style="--qc:${QZ_C[i%8]}"><b>${ABC(i)}</b><span>${esc(o)}</span>${show&&res?`<em>${res[i]}</em><i style="width:${res[i]/tot*100}%"></i>`:''}${P.res&&R.includes(i)?'<u>✓</u>':''}</div>`).join('')}</div></div></div>`}
 // Neue Werkzeuge: dieselbe Ansicht im Präsentationsmodus und im Tafel-Fenster (rt = rich tool)
+// Hintergründe aus der Bibliothek (auf diesem Gerät) nachladen
+const BGURL={};let bgT=0;
+function bgAttr(bg){if(!bg||bg==='none')return '';if(SL_BG[bg])return `style="background-image:url(assets/folien/${bg}.webp)"`;return `data-bglib="${esc(bg)}"${BGURL[bg]?` style="background-image:url(${BGURL[bg]})"`:''}`}
+function fillBg(){clearTimeout(bgT);bgT=setTimeout(async()=>{for(const el of document.querySelectorAll('[data-bglib]')){const id=el.dataset.bglib;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id));if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id])el.style.backgroundImage=`url(${BGURL[id]})`}},0)}
+function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
+  if(L==='frage'||L==='murmel')return richTool({id:'question',q:sl.title,murmel:L==='murmel'},c);
+  if(L==='hypo')return richTool({id:'hypo',text:sl.text},c);
+  const fx=c.fx&&Date.now()-c.fx.at<6000?c.fx.k:'',ls=lines(sl.text),sh=sl.shown>=0?sl.shown:ls.length;
+  return `<div class="rt rt-sl ${L==='bild'?'sl-pic':''} ${sl.bg==='none'?'sl-white':''}" ${bgAttr(sl.bg||'allgemein')}>
+    ${L!=='bild'&&sl.title?`<h1 class="sl-t">${esc(sl.title)}</h1>`:''}
+    ${L!=='bild'&&ls.length?`<div class="sl-b">${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}</div>`:''}
+    ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}" ${c.mini?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo">${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}</div>`:''}</div>`}
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
   if(t.id==='diary')return `<div class="rt rt-diary"><div class="band">📔 Lerntagebuch</div><div class="in"><ol>${lines(t.prompt).map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p>Schreib in dein Lerntagebuch auf dem iPad.</p></div></div>`;
-  if(t.id==='start')return `<div class="rt rt-start">${c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`}
-    <div class="in"><h1>Du hast jetzt ${esc(sn)}</h1><p>${dateDE()}</p>${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}</div>${c.rd?(()=>{const full=c.rd.n>0&&c.rd.d>=c.rd.n,pc=c.rd.n?Math.round(100*c.rd.d/c.rd.n):0;
-      return `<div class="rk ${full?'go':''}"><span class="rk-r">🚀</span><div class="rk-tube"><i style="height:${pc}%"></i></div><b>${full?'Alle bereit!':c.rd.d+' / '+(c.rd.n||'–')+' bereit'}</b></div>`})():''}</div>`;
+  if(t.id==='start'){const bg=t.bg||'start',vid=bg==='video';fillBg();
+    return `<div class="rt rt-start ${vid?'':'st-elio'}" ${vid?'':bgAttr(bg)}>${vid?(c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`):''}
+    <div class="in"><h1>${esc(t.title||'Du hast jetzt '+sn)}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}${t.items?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li>☐ ${esc(x)}</li>`).join('')}</ul>`:''}</div>${c.rd?(()=>{const full=c.rd.n>0&&c.rd.d>=c.rd.n,pc=c.rd.n?Math.round(100*c.rd.d/c.rd.n):0;
+      return `<div class="rk ${full?'go':''}"><span class="rk-r">🚀</span><div class="rk-tube"><i style="height:${pc}%"></i></div><b>${full?'Alle bereit!':c.rd.d+' / '+(c.rd.n||'–')+' bereit'}</b></div>`})():''}</div>`}
   if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
   if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel"><img src="${MA}murmel.webp" alt="Murmeltier"><p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
   if(t.id==='hypo')return `<div class="rt rt-h"><img src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
@@ -2866,21 +2999,34 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   return '';
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
-  return {start:{id,hint:'Hol dein Heft und dein Mathebuch raus!',items:'Heft, Mathebuch'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
-    task:{id,text:''},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,title:p.name,text:'',mat:''},kfb:{id,level:'pvs'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:'start',date:true,title:''},heftlink:{id,eid:''},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
+    task:{id,text:''},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
 function toolEditor(p,i,L){
   const t=p.tool,T=t&&TOOLS[t.id];
   if(!T)return `<div class="toolcard" style="margin-top:6px"><span class="ti">➕</span><div style="flex:1"><b>Kein Werkzeug</b><br><small class="muted" style="font-weight:700">Die Tafel zeigt Phase und Anweisung.</small></div><button class="btn pri sm" data-act="tool-pool" data-i="${i}">Aus dem Pool wählen</button></div>`;
   let cfg='';
-  if(t.id==='slide')cfg=`<div class="lgrid" style="margin-top:8px"><label>Titel auf der Folie<input type="text" data-f="ph.${i}.tool.title" value="${esc(t.title||'')}"></label>
-      <label>Text (freiwillig)<input type="text" data-f="ph.${i}.tool.text" value="${esc(t.text||'')}"></label>
-      <label>Bild, Video oder PDF<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
+  if(t.id==='slide'){const SL=deckSlides(t),bgo=v=>Object.entries(SL_BG).map(([k,n])=>`<option value="${k}" ${k===v?'selected':''}>${n}</option>`).join('')+(LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===v?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''),f=(j,k)=>`ph.${i}.tool.slides.${j}.${k}`;
+    cfg=`<div class="sl-eds">${SL.map((sl,j)=>`<div class="sl-ed"><div class="sl-pv">${slideHTML(sl,{subj:L.subject,mini:1})}<span class="chip">Folie ${j+1}</span></div><div class="lgrid">
+      <label>Art<select data-f="${f(j,'layout')}">${Object.entries(SL_LAY).map(([k,n])=>`<option value="${k}" ${k===(sl.layout||'std')?'selected':''}>${n}</option>`).join('')}</select></label>
+      ${['frage','murmel','hypo'].includes(sl.layout)?'':`<label>Hintergrund<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="${f(j,'bg')}" style="flex:1">${bgo(sl.bg||'allgemein')}</select><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="${j}" title="Eigenes Bild hochladen">📤 Bild</button></span></label>`}
+      ${sl.layout==='bild'||sl.layout==='hypo'?'':`<label style="grid-column:1/-1">${sl.layout==='frage'||sl.layout==='murmel'?'Stundenfrage (leer = großes Fragezeichen)':'Überschrift'}<input type="text" data-f="${f(j,'title')}" value="${esc(sl.title||'')}"></label>`}
+      ${['bild','frage','murmel'].includes(sl.layout)?'':`<label style="grid-column:1/-1">${sl.layout==='hypo'?'Text':'Text (jede Zeile ein Absatz)'}<textarea rows="3" data-f="${f(j,'text')}">${esc(sl.text||'')}</textarea></label>`}
+      ${['frage','murmel','hypo'].includes(sl.layout)?'':`<label>Elo auf der Folie<select data-f="${f(j,'elo')}">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select></label>
+      ${sl.elo?`<label>Elo sagt (Sprechblase)<input type="text" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="z. B. Hallo 7bG!"></label>`:''}
+      ${sl.layout==='bild'?'':`<label class="cbl" style=";grid-column:1/-1"><input type="checkbox" data-f="${f(j,'steps')}" ${sl.steps?'checked':''} style="width:auto"> Zeilen nacheinander einblenden (bei jedem „Weiter“ eine)</label>`}`}
+      </div><div class="row" style="gap:6px;margin-top:6px"><button class="btn sm" data-act="sl-mv" data-i="${i}" data-j="${j}" data-d="-1" ${j?'':'disabled'}>↑</button><button class="btn sm" data-act="sl-mv" data-i="${i}" data-j="${j}" data-d="1" ${j<SL.length-1?'':'disabled'}>↓</button><button class="btn sm" data-act="sl-dup" data-i="${i}" data-j="${j}">Kopieren</button>${SL.length>1?`<button class="btn sm red" data-act="sl-del" data-i="${i}" data-j="${j}">Löschen</button>`:''}</div></div>`).join('')}
+      <button class="btn" data-act="sl-add" data-i="${i}">＋ Folie hinzufügen</button><input type="file" id="sl-file" accept="image/*" hidden></div>`}
   if(t.id==='mat')cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Material<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):''}</select></label></div>`;
-  if(t.id==='kfb')cfg=`<div class="lgrid" style="margin-top:8px"><label>Aufgaben<select data-f="ph.${i}.tool.level">${Object.entries(KFB_LEVELS).filter(([k])=>['pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===(KF_LEGACY[t.level]||t.level)?'selected':''}>${v}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Teamnamen und eigene Aufgaben trägst du beim Start des Spiels ein.</p></div>`;
+  if(t.id==='kfb')cfg=`<div class="lgrid" style="margin-top:8px"><label>Aufgaben<select data-f="ph.${i}.tool.level">${Object.entries(KFB_LEVELS).filter(([k])=>['lms','pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===(KF_LEGACY[t.level]||t.level)?'selected':''}>${v}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Teamnamen und eigene Aufgaben trägst du beim Start des Spiels ein.</p></div>`;
   const ta=(k,lab,v,r)=>`<label style="grid-column:1/-1">${lab}<textarea rows="${r||3}" data-f="ph.${i}.tool.${k}">${esc(v||'')}</textarea></label>`,inp=(k,lab,v,ph)=>`<label>${lab}<input type="text" data-f="ph.${i}.tool.${k}" value="${esc(v||'')}" placeholder="${esc(ph||'')}"></label>`;
-  if(t.id==='start')cfg=`<div class="lgrid" style="margin-top:8px">${inp('hint','Hinweis auf den iPads',t.hint)}${inp('items','Zum Abhaken (mit Komma)',t.items,'Heft, Mathebuch')}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Fach und Datum stehen automatisch auf der Folie.</p></div>`;
+  if(t.id==='start')cfg=`<div class="st-ed"><div class="sl-pv">${richTool(t,{subj:L.subject,mini:1})}</div><div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'Du hast jetzt '+((SUBJECTS[L.subject]||{}).name||''))}
+    <label>Hintergrund<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.tool.bg" style="flex:1">${[['start','ELIO Start (mit Elo)'],['allgemein','ELIO allgemein'],['video','Mathe-Tafel (Video)']].map(([k,n])=>`<option value="${k}" ${k===(t.bg||'start')?'selected':''}>${n}</option>`).join('')}${LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===t.bg?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''}</select><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Bild</button></span></label>
+    ${inp('hint','Anweisung (Tafel und iPad)',t.hint)}${inp('items','Liste zum Abhaken (mit Komma)',t.items,'Mathebuch, Heft, Regelheft')}
+    <label class="cbl" style=""><input type="checkbox" data-f="ph.${i}.tool.date" ${t.date!==false?'checked':''} style="width:auto"> Heutiges Datum zeigen</label><input type="file" id="sl-file" accept="image/*" hidden></div></div>`;
+  if(t.id==='vw'){const n=vwCards(t).length;cfg=`<div class="lgrid" style="margin-top:8px">${inp('teams','Teams (mit Komma)',t.teams,'Team A, Team B')}${ta('cards','Karten: pro Zeile „Wort: verboten, verboten, verboten“',t.cards,8)}<p class="muted" style="grid-column:1/-1;font-weight:700;margin:0">${n} Karten erkannt. An der Tafel drehst du jede Karte mit einem Klick um und vergibst die Punkte.</p></div>`}
+  if(t.id==='heftlink'){const H=tHeft(L.subject).filter(e=>e.title);cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Welcher Hefteintrag?<select data-f="ph.${i}.tool.eid"><option value="">– bitte wählen –</option>${H.map(e=>`<option value="${esc(e.id)}" ${e.id===t.eid?'selected':''}>${esc((e.ch?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</option>`).join('')}</select></label>${H.length?'':'<p class="muted" style="grid-column:1/-1;font-weight:700">In diesem Fach gibt es noch keine Hefteinträge. Lege sie im Schreibtisch an.</p>'}</div>`}
   if(t.id==='cover')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Thema der Sequenz',t.title,'Terme und Gleichungen')}${inp('sub','Untertitel',t.sub,className())}</div>`;
   if(t.id==='question')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Stundenfrage',t.q,'Wie kann Anton seine Kosten planen?')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.murmel" ${t.murmel?'checked':''} style="width:auto"> mit Murmelphase</label></div>`;
   if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
@@ -3204,7 +3350,7 @@ function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.
    3 Felder Richtung Tor = Tor. Lösung sieht nur die Lehrkraft.
    ===================================================================== */
 const KFA='assets/kfb/';
-const KFB_LEVELS={pvs:'Punkt vor Strich (wie Vorlage)',pm:'Plus und Minus bis 100',x:'Einmaleins (· und :)',mix:'Gemischt, schwerer',
+const KFB_LEVELS={lms:'Leicht, mittel und schwer gemischt',pvs:'Punkt vor Strich (wie Vorlage)',pm:'Plus und Minus bis 100',x:'Einmaleins (· und :)',mix:'Gemischt, schwerer',
   '1x1':'Kleines Einmaleins','plus':'Plus bis 100','minus':'Minus bis 100','quad':'Quadratzahlen bis 20','proz':'Einfache Prozente'};
 const KFB_EXAMPLES=['45 + 18 − 20','70 − 25 − 15','56 : 7 + 9','8 · 7 − 16','45 − 6 · 5','72 : 8 · 4','63 − 18 − 12','36 : 6 + 7 · 4','80 − 24 : 6','9 · 6 − 24 : 4'];
 // Ballstationen aus Folie 5 (Anteil von Breite/Höhe des Spielfelds), von der Mitte Richtung Tor
@@ -3220,6 +3366,7 @@ function kfEval(s){
 }
 function kfParseList(txt){const ok=[],bad=[];String(txt||'').split(/\n|;/).map(x=>x.trim()).filter(Boolean).forEach(l=>{const a=kfEval(l);a==null?bad.push(l):ok.push({q:kfPretty(l),a})});return {ok,bad}}
 function kfbTask(lv){const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  if(lv==='lms'){const k=['pm','pvs','mix'][r(0,2)],o=kfbTask(k);return {...o,lv:['leicht','mittel','schwer'][['pm','pvs','mix'].indexOf(k)]}}
   if(lv==='plus'){const a=r(11,89),b=r(5,100-a);return {q:`${a} + ${b}`,a:a+b}}
   if(lv==='minus'){const a=r(20,100),b=r(5,a-1);return {q:`${a} − ${b}`,a:a-b}}
   if(lv==='quad'){const a=r(2,20);return {q:`${a}²`,a:a*a}}
@@ -3318,7 +3465,7 @@ function renderKfb(){
         ${c.mode==='list'?`<textarea id="kf-list" rows="6" placeholder="Eine Aufgabe pro Zeile, z. B. 45 + 18 − 20">${esc(c.list||'')}</textarea>
           <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="kf-ex">Beispiele aus der Vorlage einfügen</button><span class="muted" id="kf-chk" style="font-weight:700">${P.ok.length} Aufgaben erkannt${P.bad.length?` · ${P.bad.length} nicht lesbar`:''}</span></div>
           <p class="muted" style="font-size:.9rem;font-weight:700">Mal: · oder * · Geteilt: : · Punkt vor Strich wird beachtet. Die Lösungen rechnet ELIO aus.</p>`
-        :`<label class="label" for="kf-lv">Schwierigkeit</label><select id="kf-lv">${Object.entries(KFB_LEVELS).filter(([k])=>['pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===c.level?'selected':''}>${v}</option>`).join('')}</select>`}
+        :`<label class="label" for="kf-lv">Schwierigkeit</label><select id="kf-lv">${Object.entries(KFB_LEVELS).filter(([k])=>['lms','pvs','pm','x','mix'].includes(k)).map(([k,v])=>`<option value="${k}" ${k===c.level?'selected':''}>${v}</option>`).join('')}</select>`}
         <p class="err" id="kf-err"></p></div>
       <button class="kf-go" data-act="kf-kickoff">⚽ Anpfiff</button>
       ${kfSoundBtn()}</div>`}
@@ -3870,7 +4017,7 @@ function navTBadge(){const b=$('#nav-klassen');if(!b)return;const n=S.role==='te
 function ibBadge(){const b=$('#nav-inbox');if(!b)return;const isT=S.role==='teacher',n=isT?(tkAdmin()?tkLocal().filter(t=>t.status==='neu').length+(TK.n||0):0)+(TDKEY?susUnread('chat'):0):0;b.hidden=!isT;b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}
 function navBadges(){const b=$('#nav-chat');if(!b)return;const n=(S.chat||[]).filter(c=>c.neu).length;b.innerHTML='💬 Chat'+(n?` <span class="tk-n">${n}</span>`:'')}
 /* ---------- Impressum und Datenschutz (öffentlich, auch ohne Anmeldung) ---------- */
-const LEGAL={name:'Fabian Meier',addr:'',mail:'',stand:'9. Oktober 2026'};
+const LEGAL={name:'Fabian Meier',addr:'',mail:'hallo@elio.schule',stand:'9. Oktober 2026'};
 const legalTodo=t=>`<span class="chip ex">${t}</span>`;
 function legalBack(){return `<button class="btn sm" data-act="legal-back">← Zurück</button>`}
 VIEWS.impressum=()=>`<div class="legal-p">${legalBack()}<h1>Impressum</h1>
@@ -4251,13 +4398,14 @@ VIEWS['lesson-edit']=()=>{
       <label>Methode / Ritual<input type="text" data-f="ph.${i}.method" value="${esc(p.method||'')}"></label>
       <label>🔔 Signal beim Start<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.snd" style="flex:1"><option value="">– kein Signal –</option>${AUD.list?[...new Set(AUD.list.map(x=>x.kategorie))].map(c=>`<optgroup label="${esc(c)}">${AUD.list.filter(x=>x.kategorie===c).map(x=>`<option value="${x.id}" ${p.snd===x.id?'selected':''}>${esc(x.titel)}</option>`).join('')}</optgroup>`).join(''):(audLoad(),p.snd?`<option value="${esc(p.snd)}" selected>${esc(p.snd)}</option>`:'')}</select>${p.snd?`<button class="btn sm au-pl" type="button" data-act="au-play" data-id="${esc(p.snd)}" aria-label="Probe hören">▶</button>`:''}</span></label>
       <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>
-      <div style="grid-column:1/-1"><span class="label">Was machen die iPads in dieser Phase?</span>${(()=>{const md=actMode(p.act),M=ACT_MODES[md];
+      <div style="grid-column:1/-1"><span class="label">An der Tafel (Werkzeug)</span>${toolEditor(p,i,L)}</div>
+      <div style="grid-column:1/-1"><span class="label">Was machen die iPads in dieser Phase?</span>${p.tool&&(TOOL_IPAD[p.tool.id]||AKT[p.tool.id]||GAME_INFO[p.tool.id])?`<div class="ipad-auto ${p.noipad?'off':''}"><b>${p.noipad?'🔒 Ohne iPads: alle schauen nach vorne.':'✨ Läuft automatisch mit dem Werkzeug'}</b>${p.noipad?'':`<small>${esc(TOOL_IPAD[p.tool.id]||'Die SuS spielen auf dem iPad mit.')}</small>`}
+        ${IPAD_OFF.includes(p.tool.id)?`<label class="cbl" style="margin-top:6px"><input type="checkbox" data-f="ph.${i}.noipad" ${p.noipad?'checked':''} style="width:auto"> Ohne iPads (z. B. Klasse ohne iPads)</label>`:''}</div>`:(()=>{const md=actMode(p.act),M=ACT_MODES[md];
         return `<div class="ipm">${Object.entries(ACT_MODES).map(([k,x])=>`<button class="ipm-b ${k===md?'on':''}" data-act="ph-mode" data-i="${i}" data-m="${k}"><b>${x.l}</b><small>${x.d}</small></button>`).join('')}</div>
         ${M.acts.length>1?`<label style="margin-top:8px">Genauer<select data-f="ph.${i}.act">${opt(Object.fromEntries(M.acts.map(a=>[a,ACTS[a]])),p.act||M.acts[0])}</select></label>`:''}`})()}</div>
-      ${p.act==='goto'?`<label>Welche Seite?<select data-f="ph.${i}.target">${opt(TARGETS,p.target||'module')}</select></label>`:''}
-      ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}
-      <div style="grid-column:1/-1"><span class="label">An der Tafel (Werkzeug)</span>${toolEditor(p,i,L)}</div>
-      <div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>
+      ${p.tool&&(TOOL_IPAD[p.tool.id]||AKT[p.tool.id]||GAME_INFO[p.tool.id])?'':`${p.act==='goto'?`<label>Welche Seite?<select data-f="ph.${i}.target">${opt(TARGETS,p.target||'module')}</select></label>`:''}
+      ${p.act==='poll'?`<label>Welche Abstimmung?<select data-f="ph.${i}.poll">${opt({thumbs:'Daumen: verstanden?',corners:'4 Ecken'},p.poll||'thumbs')}</select></label>`:''}`}
+      ${(p.mats||[]).length?`<div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>`:''}
       <details style="grid-column:1/-1" ${p.goal?'':''}><summary class="label" style="cursor:pointer">Erweiterte Informationen (nur für dich)</summary>
         <label style="margin-top:6px">Didaktische Funktion<input type="text" data-f="ph.${i}.goal" value="${esc(p.goal||'')}"></label></details>
     </div></article>`).join('')}</div>
@@ -4267,10 +4415,10 @@ document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
   const v=e.target.type==='checkbox'?e.target.checked:e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
-  const k=f.split('.');if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool)p.tool[k[3]]=v}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
+  const k=f.split('.');if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool)p.tool[k[3]]=v}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|title|items|hint|eid)/.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
@@ -4283,11 +4431,13 @@ document.addEventListener('input',e=>{if(e.target.id==='lib-q'){V.q=e.target.val
 /* =====================================================================
    LERNTAGEBUCH: automatisch 5 Minuten vor Stundenende und per Tafel
    ===================================================================== */
+const JR_ST=['Heute habe ich gelernt, dass …','Heute fiel mir leicht, …','Heute fiel mir schwer, …','Ich habe noch eine Frage: …','Das möchte ich mir merken: …','Besonders gut fand ich …','Nächstes Mal möchte ich …','Ich bin stolz auf mich, weil …'];
+function jrStarters(tg){return `<div class="jr-elo"><button class="jr-elo-b" data-act="jr-elo" type="button"><img src="assets/elo/elo-hilfe-512.png" alt=""><span><b>Elo hilft dir</b><small>Satzanfänge, wenn dir nichts einfällt</small></span></button><div class="jr-st" hidden>${JR_ST.map(x=>`<button class="chip" type="button" data-act="jr-st" data-tg="${tg}" data-s="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`}
 const MOODS=[['😀','super'],['🙂','gut'],['😐','geht so'],['😕','schwer']];
 let JM=null;
 function journalForm(src,id=''){JM=null;const pr=src==='live'&&RCS&&RCS.journal&&RCS.journal.prompt?lines(RCS.journal.prompt):null;
   return `<span class="label">Lerntagebuch</span><h2>${pr?'Schreib in dein Lerntagebuch':'Was hast du heute gelernt?'}</h2>${pr?`<ul class="jr-prompts">${pr.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
-  <label class="label" for="jr-learned" style="display:block;margin-top:12px">${pr?'Mein Eintrag':'Heute habe ich gelernt …'}</label><textarea id="jr-learned" rows="${pr?6:3}"></textarea>
+  <label class="label" for="jr-learned" style="display:block;margin-top:12px">${pr?'Mein Eintrag':'Heute habe ich gelernt …'}</label>${jrStarters('jr-learned')}<textarea id="jr-learned" rows="${pr?6:3}"></textarea>
   <label class="label" for="jr-hard" style="display:block;margin-top:10px">Das war noch schwer … (freiwillig)</label><textarea id="jr-hard" rows="2"></textarea>
   <p class="label" style="margin-top:12px">So ging es mir</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood" data-act="jr-mood" data-i="${i}">${m[0]}<small>${m[1]}</small></button>`).join('')}</div>
   <p class="err" id="jr-err"></p>
@@ -4319,7 +4469,7 @@ VIEWS.journal=()=>{
   const days=Object.keys(D).filter(d=>d!==td&&D[d].trim()).sort().reverse();
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Lerntagebuch</h1>${V.form?'':'<button class="btn" data-act="jr-new">Kurz-Eintrag mit Stimmung</button>'}</div>
   <section class="panel diary-today"><span class="label">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span>
-    <textarea id="jr-day" rows="7" placeholder="Liebes Lerntagebuch, heute …">${esc(D[td]||'')}</textarea><p class="muted" id="jr-day-st" style="font-weight:700;font-size:.85rem">Wird automatisch gespeichert.</p></section>
+    ${jrStarters('jr-day')}<textarea id="jr-day" rows="7" placeholder="Liebes Lerntagebuch, heute …">${esc(D[td]||'')}</textarea><p class="muted" id="jr-day-st" style="font-weight:700;font-size:.85rem">Wird automatisch gespeichert.</p></section>
   ${days.length?`<span class="label" style="display:block;margin:16px 0 6px">Frühere Tage</span><div class="entries">${days.map(d=>`<details class="page"><summary><b>${fmtDate(d)}</b> <span class="muted">${esc(D[d].slice(0,60))}${D[d].length>60?' …':''}</span></summary><p style="white-space:pre-wrap;margin-top:8px">${esc(D[d])}</p></details>`).join('')}</div>`:''}
   ${V.form?`<section class="panel" style="margin:16px 0">${journalForm('free')}</section>`:''}
   ${list.length?`<div class="entries">${list.map(e=>`<article class="page ${e.subj?'s-'+e.subj:''}"><header><h3>${e.subj?SUBJECTS[e.subj].name:'Eintrag'}</h3>
@@ -4345,6 +4495,16 @@ document.addEventListener('click',e=>{
       // Stunde gehört zu einer anderen Klasse: erst dorthin wechseln (Live-Kanal, SuS, Hefte), dann starten
       if(d.cid&&d.cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;tafelSet(L2)});break}}tafelSet(L);break}
     case 'l-go':startStep(+d.i);break;
+    case 'l-nav':lNav(+d.d);break;
+    case 'vw':vwDo(d.k);break;
+    case 'sl-add':case 'sl-del':case 'sl-mv':case 'sl-dup':{const L=lessonById(V.id),t=L&&L.phases[+d.i]&&L.phases[+d.i].tool;if(!t)break;const A=deckSlides(t),j=+d.j;
+      if(a==='sl-add')A.push({layout:'std',bg:(A[A.length-1]||{}).bg||'allgemein',title:'',text:'',mat:'',elo:'',say:'',steps:false});
+      if(a==='sl-del')A.splice(j,1);if(a==='sl-dup')A.splice(j+1,0,clone(A[j]));
+      if(a==='sl-mv'){const k=j+(+d.d);if(k>=0&&k<A.length)[A[j],A[k]]=[A[k],A[j]]}save();render();break}
+    case 'sl-up':{const fi=$('#sl-file');if(!fi)break;fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f)return;const id=newId();
+        try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:f.type||'image/png',size:f.size,subject:(lessonById(V.id)||{}).subject||'',added:Date.now()}));await libLoad()}catch(e){alert('Speichern ging nicht. Ist der Speicher voll?');return}
+        const L=lessonById(V.id),t=L&&L.phases[+d.i]&&L.phases[+d.i].tool;if(!t)return;if(d.j==='start')t.bg=id;else{const sl=deckSlides(t)[+d.j];if(sl){sl.bg=id;if(!sl.layout||sl.layout==='std'&&!sl.title&&!sl.text)sl.layout='bild'}}save();render()};fi.click();break}
+    case 'elo-fx':if(S.role!=='teacher'&&!BOARD)break;if(BOARD){try{window.opener&&window.opener.eloFx&&window.opener.eloFx(d.k)}catch(e){}break}eloFx(d.k);break;
     case 'au-play':audPlay(d.id);break;
     case 'au-cat':AUD.cat=d.c;render();break;
     case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
@@ -4570,6 +4730,8 @@ document.addEventListener('click',e=>{
 
     case 'tgame':gameLive(d.g,$('#tg-s').value);go(d.g,{s:$('#tg-s').value});break;
     case 'preview':go('dash');break;
+    case 'jr-elo':{const w=b.closest('.jr-elo').querySelector('.jr-st');w.hidden=!w.hidden;break}
+    case 'jr-st':{const ta=document.getElementById(d.tg);if(!ta)break;const v=ta.value,add=(v&&!/\n$/.test(v)?'\n':'')+d.s.replace(/…$/,'');ta.value=v+add;ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);ta.dispatchEvent(new Event('input',{bubbles:true}));break}
     case 'library':go('library');break;
     case 'lib-f':V.f=d.f;render();break;
     case 'lib-link':libAddLink($('#lib-url').value.trim(),$('#lib-title').value.trim(),$('#lib-subj').value);break;

@@ -76,6 +76,14 @@ def chirp(f0):
 birds = mix(*[(o + k * .2, chirp(f)) for o, f in [(rng.uniform(0, D - 2), rng.uniform(2500, 5000)) for _ in range(70)] for k in range(rng.integers(1, 4))], d=D)
 S['wald'] = fade_loop(birds + lp(noise(D), 80) * .5)
 
+# Eule: weiches „Huu – hu-hu – huuu“ mit leichtem Vibrato
+def hoot(d, f=410):
+    x = t(d); fm = f * (1 - .06 * x / d) * (1 + .012 * np.sin(2 * np.pi * 5.5 * x))
+    return .5 * (np.sin(2 * np.pi * np.cumsum(fm) / SR) + .25 * np.sin(4 * np.pi * np.cumsum(fm) / SR)) * env(len(x), .06, .18)
+S['eule'] = mix((0, hoot(.55)), (.85, hoot(.16, 430)), (1.08, hoot(.16, 430)), (1.35, hoot(.8, 400)), d=2.4)
+# Zwitschern: kurze helle Triller
+S['zwitschern'] = mix(*[(o, chirp(f)) for o, f in [(.0, 3800), (.12, 4300), (.24, 4000), (.55, 4600), (.66, 4200), (.78, 4800), (.9, 4400)]], d=1.3)
+
 META = {
  'gong': ('Gong', 'Signale', 'Start, Stundenbeginn, Ruhe'), 'klangschale': ('Klangschale', 'Signale', 'Ruhe, Konzentration, Achtsamkeit'),
  'glocke': ('Schulglocke', 'Signale', 'Pause, Ende'), 'triangel': ('Triangel', 'Signale', 'Aufmerksamkeit, Wechsel'),
@@ -87,6 +95,7 @@ META = {
  'trommelwirbel': ('Trommelwirbel', 'Spannung', 'Auflösung, Gewinner, Ergebnis'), 'spannung': ('Spannung', 'Spannung', 'Problemstellung, Rätsel, Krimi'),
  'regen': ('Regen', 'Atmosphäre', 'Stillarbeit, Lesen, Wetter'), 'meer': ('Meeresrauschen', 'Atmosphäre', 'Entspannung, Reise, Urlaub'),
  'wald': ('Wald mit Vögeln', 'Atmosphäre', 'Natur, Frühling, N&T'),
+ 'eule': ('Eule ruft', 'Elo', 'Elo, Eule, Aufmerksamkeit, Nacht'), 'zwitschern': ('Zwitschern', 'Elo', 'Elo, Vogel, fröhlich, Hallo'),
 }
 os.makedirs(OUT, exist_ok=True); credits = []
 for k, y in S.items():

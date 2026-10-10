@@ -264,5 +264,33 @@
   "erzeugt_am": "2026-10-10",
   "bearbeitet": "",
   "loop": true
+ },
+ {
+  "id": "eule",
+  "datei": "assets/audio/eule.mp3",
+  "titel": "Eule ruft",
+  "kategorie": "Elo",
+  "stichworte": "Elo, Eule, Aufmerksamkeit, Nacht",
+  "dauer": 2.4,
+  "quelle": "tools/gen_audio.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-10",
+  "bearbeitet": "",
+  "loop": false
+ },
+ {
+  "id": "zwitschern",
+  "datei": "assets/audio/zwitschern.mp3",
+  "titel": "Zwitschern",
+  "kategorie": "Elo",
+  "stichworte": "Elo, Vogel, fröhlich, Hallo",
+  "dauer": 1.3,
+  "quelle": "tools/gen_audio.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-10",
+  "bearbeitet": "",
+  "loop": false
  }
 ]
