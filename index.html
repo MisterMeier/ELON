@@ -656,16 +656,17 @@ body.boardwin .bw{height:100vh}
 .rt-start{background:#1d2427;color:#fff;align-items:center;justify-content:center;text-align:center}
 .rt-start .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .rk{position:absolute;right:5%;bottom:8%;top:10%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.4em;z-index:2}
-.rk-r{font-size:4.2em;line-height:1;display:block;transform:rotate(-45deg);filter:drop-shadow(0 .1em .3em rgba(0,0,0,.5))}
-.rk-tube{width:1.6em;flex:1;max-height:60%;border-radius:1em;background:rgba(255,255,255,.18);border:.15em solid rgba(255,255,255,.75);display:flex;align-items:flex-end;overflow:hidden}
-.rk-tube i{display:block;width:100%;background:linear-gradient(0deg,#ff7a1a,#ffd23f);transition:height .6s ease}
+.rk-sky{position:relative;width:9em;flex:1;max-height:72%;order:-1}.rk-r{position:absolute;left:50%;width:8.5em;transform:translateX(-50%);transition:bottom 1s cubic-bezier(.3,1.3,.5,1);filter:drop-shadow(0 .3em .5em rgba(30,58,138,.35))}
+.rk:not(.go) .rk-r{animation:rkhov 2.4s ease-in-out infinite}@keyframes rkhov{50%{transform:translateX(-50%) translateY(-.25em)}}
+.rk-tube{width:1.2em;height:22%;flex:none;border-radius:1em;background:rgba(255,255,255,.18);border:.15em solid rgba(255,255,255,.75);display:flex;align-items:flex-end;overflow:hidden}
+.rk-tube i{display:block;width:100%;background:linear-gradient(0deg,#4f46e5,#38bdf8);transition:height .6s ease}
 .rk b{font-size:1.3em;font-weight:800;color:#fff;text-shadow:0 .1em .4em rgba(0,0,0,.6);white-space:nowrap}
 .rk.go .rk-r{animation:rkfly 2.4s cubic-bezier(.5,0,.9,.4) .3s forwards}
-@keyframes rkfly{0%{transform:translateY(0) rotate(-45deg)}12%{transform:translateY(.15em) rotate(-45deg)}100%{transform:translateY(-140cqh) rotate(-45deg)}}
+@keyframes rkfly{0%{transform:translateX(-50%) translateY(0)}12%{transform:translateX(-50%) translateY(.3em)}100%{transform:translateX(-50%) translateY(-160cqh)}}
 @media (prefers-reduced-motion:reduce){.rk.go .rk-r{animation:none}}
 .rt-start .in{position:relative;display:grid;gap:.6em;justify-items:center;text-shadow:0 .1em .6em rgba(0,0,0,.6)}
 .rt-start h1{color:#fff;font-size:3.6em}.rt-start p{font-size:1.6em;font-weight:700;color:#fff}
-.rt-start .hint{background:#4D8936;border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:1.3em;text-shadow:none;margin-top:.6em}
+.rt-start .hint{background:linear-gradient(90deg,#4f46e5,#2563eb);color:#fff;border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:1.3em;text-shadow:none;margin-top:.6em}
 .rt-cover{background:#f4f2ec;justify-content:center;padding:2em 3em}
 .rt-cover.art{background:#f4f2ec url(assets/mathe/cover.webp) right center/auto 100% no-repeat}
 .rt-cover .in{display:grid;gap:.5em;max-width:52%}
@@ -3205,7 +3206,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   if(t.id==='start'){const bg=t.bg||'start',vid=bg==='video';fillBg();
     return `<div class="rt rt-start ${vid?'':'st-elio'}" ${vid?'':bgAttr(bg)}>${vid?(c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`):''}
     <div class="in"><h1>${esc(t.title||'Du hast jetzt '+sn)}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}${t.items?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li>☐ ${esc(x)}</li>`).join('')}</ul>`:''}</div>${c.rd?(()=>{const full=c.rd.n>0&&c.rd.d>=c.rd.n,pc=c.rd.n?Math.round(100*c.rd.d/c.rd.n):0;
-      return `<div class="rk ${full?'go':''}"><span class="rk-r">🚀</span><div class="rk-tube"><i style="height:${pc}%"></i></div><b>${full?'Alle bereit!':c.rd.d+' / '+(c.rd.n||'–')+' bereit'}</b></div>`})():''}</div>`}
+      return `<div class="rk ${full?'go':''}"><div class="rk-sky"><img class="rk-r" src="assets/folien/rakete.webp" alt="Rakete" style="bottom:${Math.round(pc*.62)}%"></div><div class="rk-tube"><i style="height:${pc}%"></i></div><b>${full?'Alle bereit!':c.rd.d+' / '+(c.rd.n||'–')+' bereit'}</b></div>`})():''}</div>`}
   if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
   if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel"><img src="${MA}murmel.webp" alt="Murmeltier"><p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
   if(t.id==='hypo')return `<div class="rt rt-h"><img src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
@@ -5075,7 +5076,7 @@ document.addEventListener('click',e=>{
     case 't-cls':{const n=parseInt($('#t-cls').value,10);if(n>=2&&n<=40){S.classSize=n;save();updTafel()}break}
     case 'help':if(RCS)sendMsg({k:'help',on:!RCS.help.includes(S.nr)});break;
     case 'sr-ready':{const b=$('#live-ov [data-act=ready]');if(b){if(b.disabled){b.closest('.box')&&b.closest('.box').animate([{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}],{duration:400})}else b.click()}else if(RCS&&RCS.ready&&prepGate(0)){S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id});SND.right();liveOverlay()}updRail();break}
-    case 'ready':if(RCS&&RCS.ready){if(!prepGate(+d.n||0))break;S.readyDone[RCS.ready.id]=1;save();sendMsg({k:'ready',id:RCS.ready.id,...(RCS.ready.mood?{mood:MOODSEL}:{})});MOODSEL=null;SND.right();liveOverlay()}break;
+    case 'ready':if(RCS&&RCS.ready){if(!prepGate(+d.n||0))break;S.readyDone[RCS.ready.id]=1;save();READY_LAST={k:'ready',id:RCS.ready.id,...(RCS.ready.mood?{mood:MOODSEL}:{})};sendMsg(READY_LAST);MOODSEL=null;SND.right();liveOverlay()}break;
     case 'vote':if(RCS&&RCS.poll){const qz=RCS.poll.type==='quiz';S.voted[RCS.poll.id]=qz?[+d.o]:1;save();sendMsg({k:'vote',id:RCS.poll.id,o:+d.o});SND.right();liveOverlay()}break;
     case 'qz-tog':{const o=+d.o;QSEL=QSEL.includes(o)?QSEL.filter(x=>x!==o):[...QSEL,o].sort();liveOverlay();break}
     case 'qz-send':if(RCS&&RCS.poll&&QSEL.length){S.voted[RCS.poll.id]=QSEL.slice();save();sendMsg({k:'vote',id:RCS.poll.id,o:QSEL.slice()});QSEL=[];SND.right();liveOverlay()}break;
@@ -5204,8 +5205,11 @@ setTimeout(checkSlot,400);
 // Live heartbeat: teacher re-sends the class state, students say hello
 setInterval(()=>{
   if(S.role==='teacher'&&CS){pushCS();if(V.name==='tafel')updTafel()}
-  if(S.role==='student'){sendMsg({k:'hi'});updBanner()}
+  if(S.role==='student'){sendMsg({k:'hi'});updBanner();
+    // Bereit-Meldung wiederholen, bis die Tafel sie bestätigt (Funknachrichten können verloren gehen)
+    const R=RCS&&RCS.ready;if(R&&S.readyDone&&S.readyDone[R.id]&&!(R.done||[]).includes(+S.nr))sendMsg(READY_LAST&&READY_LAST.id===R.id?READY_LAST:{k:'ready',id:R.id})}
 },3000);
+let READY_LAST=null;
 setInterval(()=>{
   if(S.role==='teacher'&&CS){
     if(CS.timer.run&&timerLeft(CS.timer)<=0){CS.timer.run=false;CS.timer.left=0;SND.bigben();pushCS();if(V.name==='tafel')render()}
