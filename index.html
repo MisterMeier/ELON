@@ -748,6 +748,17 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .rt-heft{background:#eef1f6;padding-bottom:1em}
 .rt-dlg{background:#eef1f6}.rt-dlg .dl{display:flex;flex-direction:column;gap:.7em;padding:1.2em 2em;max-width:60em;margin:0 auto}.rt-dlg .b{align-self:flex-start;max-width:72%;padding:.6em 1.1em;border-radius:1.1em 1.1em 1.1em .3em;background:#fff;color:#0f172a;border:2px solid #c7d2fe;font:inherit;font-size:1.35em;font-weight:700;text-align:left;cursor:pointer;box-shadow:0 .15em .5em rgba(30,58,138,.12)}
 .rt-dlg .b small{display:block;font-size:.62em;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.06em}.rt-dlg .b.r{align-self:flex-end;background:#1e3a8a;color:#fff;border-color:#1e3a8a;border-radius:1.1em 1.1em .3em 1.1em}.rt-dlg .b.r small{color:#38bdf8}.rt-dlg .b.on{outline:.2em solid #f59e0b}.rt-dlg .dl-all{text-align:center;padding-bottom:1em}
+.gl-bar{height:14px;border-radius:99px;background:#e0e7ff;overflow:hidden;margin-top:6px}.gl-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#4f46e5,#38bdf8);transition:width .8s}
+.gl-bar.big{height:4.5cqh;max-width:70cqw;width:70cqw;margin:2cqh auto;background:rgba(255,255,255,.2)}.gl-bar.big i{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.bw-goal{grid-template-rows:1fr;background:radial-gradient(circle at 50% 20%,#4f46e5,#1e3a8a 70%);color:#fff;display:grid;place-items:center;container-type:size;overflow:hidden;position:relative;text-align:center}
+.gl-in{display:grid;justify-items:center;gap:1cqh;padding:4cqh 4cqw}.gl-in .logo{transform:scale(.9)}.gl-k{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#bae6fd;font-size:2.6cqh}
+.gl-in h1{font-family:var(--f-display);font-size:9cqh;line-height:1.05;margin:0;color:#fff}.gl-n{font-family:var(--f-display);font-size:11cqh;color:#f59e0b;line-height:1}.gl-in p{font-weight:700;font-size:3cqh;max-width:60cqw;margin:0;color:#e0e7ff}
+.gl-star{width:1em;height:1em;vertical-align:-.12em}.gl-elo{position:absolute;right:3cqw;bottom:2cqh}
+.rt-start.st-rk{overflow:hidden}.rt-start.st-rk .in{position:relative;z-index:2;max-width:54%}
+.rp-sc{position:absolute;top:0;bottom:0;left:25%;width:100%;z-index:1;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 26%);mask-image:linear-gradient(90deg,transparent 0,#000 26%)}
+.rp-sc .rp-st{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.rp-sc-c{position:absolute;left:62%;top:5%;width:26%;z-index:2;text-align:center;color:#1e3a8a;padding:.4em .9em;border-radius:1em;background:rgba(255,255,255,.55);backdrop-filter:blur(4px)}.rp-sc-c .rp-tank{margin:.1em 0 .3em}.rp-sc-c b{font-size:1.25em;font-weight:800}
+.st-box{display:inline-block;width:.85em;height:.85em;border:.14em solid #1e3a8a;border-radius:.2em;margin-right:.45em;vertical-align:-.08em;background:#fff}
 .bw-fz{background:#bcd6f5;display:grid;place-items:center;container-type:size;overflow:hidden}.fz-st{position:relative;width:min(100cqw,177.78cqh);aspect-ratio:16/9;background:url(assets/folien/freeze.webp) center/cover;container-type:inline-size}
 .fz-elo{position:absolute;inset:0;background:url(assets/folien/freeze.webp) center/cover;clip-path:ellipse(15.5% 29% at 49.5% 58%);animation:fzShiver .16s linear infinite}
 @keyframes fzShiver{0%{transform:translate(0,0)}25%{transform:translate(.25cqw,-.08cqw)}50%{transform:translate(-.2cqw,.06cqw)}75%{transform:translate(.18cqw,.1cqw)}100%{transform:translate(0,0)}}
@@ -1538,7 +1549,7 @@ VIEWS.dash=()=>{
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
       <span class="muted" style="font-weight:800">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span></div>
-    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${areas}</div>
+    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${S.goalL?`<section class="panel gl-p"><span class="label">🎯 Unser Klassenziel · ${esc(S.goalL.t)}</span>${goalBar(S.goalL)}<p style="font-weight:800;margin-top:6px">${S.goalL.done?'Geschafft!':S.goalL.c+' / '+S.goalL.n+' Sterne · deine Sterne zählen mit'}</p></section>`:''}${areas}</div>
     ${(()=>{const MAIN=['E','M','K'],rest=Object.keys(SUBJECTS).filter(k=>!MAIN.includes(k)&&(WEEK.some(r=>r.includes(k))||heftAll(k).length));
       return `<section><span class="label">Meine Fächer</span><div class="subj-grid main3">${MAIN.map(subjTile).join('')}</div>
         ${rest.length?`<div class="subj-more">${rest.map(k=>`<button class="s-${k}" data-act="subject" data-s="${k}">${esc(SUBJECTS[k].name)}</button>`).join('')}</div>`:''}</section>`})()}
@@ -1706,7 +1717,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261011-2100';let verTold=false;
+const BUILD='20261011-2115';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2221,7 +2232,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2411,7 +2422,7 @@ function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof li
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
   if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
   return o}
-const boardSig=R=>R?JSON.stringify([R.lay,R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&[R.ready.done.length,R.onN,R.ready.cloud],R.cloud,R.fx&&R.fx.at,R.wheel&&R.wheel.at,R.groups&&R.groups.at,R.exit&&R.exit.done.length]):'';
+const boardSig=R=>R?JSON.stringify([R.lay,R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&[R.ready.done.length,R.onN,R.ready.cloud],R.cloud,R.fx&&R.fx.at,R.wheel&&R.wheel.at,R.groups&&R.groups.at,R.exit&&R.exit.done.length,R.goal]):'';
 // Bildschirm anordnen: Die Lehrkraft schiebt den Timer in der Vorschau an eine andere Stelle und macht ihn größer
 function layStyle(o){return o?`style="position:absolute;left:${o.x}%;top:${o.y}%;right:auto;bottom:auto;transform:translate(-50%,-50%);font-size:${(9*o.s).toFixed(1)}cqh;z-index:6"`:''}
 function boardHTML(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL.big):'';
@@ -2425,7 +2436,8 @@ function boardHTML0(R,mini){
   if(R.freeze)return `<div class="bw bw-fz"><div class="fz-st"><i class="fz-elo"></i><div class="fz-t"><b>Freeze!</b></div><p class="fz-p">Hände weg vom iPad. Augen nach vorne.</p></div></div>`;
   else if(R.ready&&!R.ready.msg&&!R.ready.only&&t.id!=='start'){const n=Math.max(R.onN||0,R.ready.done.length),d=R.ready.done.length,full=n>0&&d>=n;
     return `<div class="bw bw-rp"><div class="rp-st ${full?'go':''}" style="--pc:${n?Math.min(1,d/n):0};--gd:${full?(.5-Math.max(0,(Date.now()-(R.ready.goAt||R.now||Date.now()))/1000)).toFixed(2):0}s"><i class="rp-gl"></i><div class="rp-rw"><i class="rp-fl"></i><img class="rp-r" src="assets/folien/rampe-rakete.webp" alt="Rakete"></div>
-      <div class="rp-in">${LOGO}<h1>${full?'Alle sind bereit!':'Bist du bereit?'}</h1><p>${full?'Die Rakete hebt ab. Los geht\'s!':'Tippe auf deinem iPad auf „Bereit“. Jedes Kind füllt den Tank.'}</p><div class="rp-tank"><i></i></div><b>${full?'🚀 Start!':d+' / '+(n||'–')+' bereit'}</b></div></div></div>`}
+      <div class="rp-in">${LOGO}<h1>${full?'Alle sind bereit!':'Bist du bereit?'}</h1><p>${full?'Die Rakete hebt ab. Los geht\'s!':'Tippe auf deinem iPad auf „Bereit“. Jedes Kind füllt den Tank.'}</p><div class="rp-tank"><i></i></div><b>${full?'Start!':d+' / '+(n||'–')+' bereit'}</b></div></div></div>`}
+  else if(R.goal&&R.goal.show)return goalBoard(R.goal,mini);
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
   else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
   else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;
@@ -2487,7 +2499,7 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){RCS=p;rcsAt=Date.now();
+function onClassState(p){RCS=p;rcsAt=Date.now();if(S.role==='student'){nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
   OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
@@ -3441,7 +3453,8 @@ VIEWS.tdash=()=>{
   ${dayStrip()}
   ${dashNext()}
   <div class="dk-grid">${dashKids()}${dashTodo()}</div>
-  <div class="row" style="margin-top:18px"><button class="btn" data-act="role-reset">Abmelden</button></div>`;
+  <div style="margin-top:18px">${dashGoal()}</div>
+  <div class="row" style="margin-top:18px"><button class="btn" data-act="role-reset">Abmelden</button><button class="btn ghost" data-act="ny-open">Neues Schuljahr</button></div>`;
 };
 
 /* =====================================================================
@@ -3595,7 +3608,10 @@ function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
 // Klassen-Rakete: jedes Kind, das „Bereit“ drückt, füllt den Tank. Sind alle bereit, hebt sie ab.
 // Startplattform wie beim Bereit-Check, als Ausschnitt in der Ecke der Startfolie
 function rpPad(d,n,g){const full=n>0&&d>=n,gd=full?(.5-Math.max(0,(Date.now()-(g||Date.now()))/1000)).toFixed(2):0;
-  return `<div class="rp-pad"><div class="rp-win"><div class="rp-st ${full?'go':''}" style="--pc:${n?Math.min(1,d/n):0};--gd:${gd}s"><i class="rp-gl"></i><div class="rp-rw"><i class="rp-fl"></i><img class="rp-r" src="assets/folien/rampe-rakete.webp" alt="Rakete"></div></div></div><div class="rp-cnt" style="--pc:${n?Math.min(1,d/n):0}"><div class="rp-tank"><i></i></div><b>${full?'🚀 Alle bereit!':d+' / '+(n||'–')+' bereit'}</b></div></div>`}
+  return `<div class="rp-pad"><div class="rp-win"><div class="rp-st ${full?'go':''}" style="--pc:${n?Math.min(1,d/n):0};--gd:${gd}s"><i class="rp-gl"></i><div class="rp-rw"><i class="rp-fl"></i><img class="rp-r" src="assets/folien/rampe-rakete.webp" alt="Rakete"></div></div></div><div class="rp-cnt" style="--pc:${n?Math.min(1,d/n):0}"><div class="rp-tank"><i></i></div><b>${full?'Alle bereit!':d+' / '+(n||'–')+' bereit'}</b></div></div>`}
+// Startfolie: Startplattform mit Rakete füllt die rechte Seite und läuft weich in die Folie aus
+function rpScene(rd){const d=rd?rd.d:0,n=rd?rd.n:0,full=n>0&&d>=n,gd=full?(.5-Math.max(0,(Date.now()-(rd.g||Date.now()))/1000)).toFixed(2):0;
+  return `<div class="rp-sc"><div class="rp-st ${full?'go':''}" style="--pc:${n?Math.min(1,d/n):0};--gd:${gd}s"><i class="rp-gl"></i><div class="rp-rw"><i class="rp-fl"></i><img class="rp-r" src="assets/folien/rampe-rakete.webp" alt="Rakete"></div></div></div>${rd?`<div class="rp-sc-c" style="--pc:${n?Math.min(1,d/n):0}"><div class="rp-tank"><i></i></div><b>${full?'Alle bereit!':d+' / '+(n||'–')+' bereit'}</b></div>`:''}`}
 function rkHTML(d,n){const full=n>0&&d>=n,pc=n?Math.round(100*Math.min(d,n)/n):0;
   return `<div class="rk ${full?'go':''}"><div class="rk-sky"><img class="rk-r" src="assets/folien/rakete.webp" alt="Rakete" style="bottom:${Math.round(pc*.62)}%"></div><div class="rk-tube"><i style="height:${pc}%"></i></div><b>${full?'Alle bereit!':d+' / '+(n||'–')+' bereit'}</b></div>`}
 const MURMEL_SVG='<svg class="mm-svg" viewBox="0 0 120 120" role="img" aria-label="Murmeltier"><ellipse cx="60" cy="112" rx="38" ry="6" fill="#1e3a8a" opacity=".12"/><path d="M28 108c-4-30 6-62 32-62s36 32 32 62z" fill="#f2b15a" stroke="#1e3a8a" stroke-width="3" stroke-linejoin="round"/><path d="M44 108c-2-20 4-38 16-38s18 18 16 38z" fill="#fde7c2"/><circle cx="38" cy="30" r="8" fill="#f2b15a" stroke="#1e3a8a" stroke-width="3"/><circle cx="82" cy="30" r="8" fill="#f2b15a" stroke="#1e3a8a" stroke-width="3"/><circle cx="38" cy="30" r="3.5" fill="#e48a3c"/><circle cx="82" cy="30" r="3.5" fill="#e48a3c"/><ellipse cx="60" cy="46" rx="26" ry="23" fill="#f2b15a" stroke="#1e3a8a" stroke-width="3"/><ellipse cx="60" cy="54" rx="13" ry="10" fill="#fde7c2"/><circle cx="50" cy="42" r="4" fill="#1e3a8a"/><circle cx="70" cy="42" r="4" fill="#1e3a8a"/><circle cx="51.3" cy="40.6" r="1.3" fill="#fff"/><circle cx="71.3" cy="40.6" r="1.3" fill="#fff"/><ellipse cx="60" cy="50" rx="4.5" ry="3.2" fill="#1e3a8a"/><path d="M57 57h6v5h-6z" fill="#fff" stroke="#1e3a8a" stroke-width="1.5"/><line x1="60" y1="57" x2="60" y2="62" stroke="#1e3a8a" stroke-width="1.2"/><circle cx="42" cy="52" r="3.5" fill="#f59e0b" opacity=".45"/><circle cx="78" cy="52" r="3.5" fill="#f59e0b" opacity=".45"/><path d="M44 78c4 4 10 5 14 2M76 78c-4 4-10 5-14 2" fill="none" stroke="#1e3a8a" stroke-width="3" stroke-linecap="round"/><ellipse cx="47" cy="80" rx="7" ry="5" fill="#f2b15a" stroke="#1e3a8a" stroke-width="3"/><ellipse cx="73" cy="80" rx="7" ry="5" fill="#f2b15a" stroke="#1e3a8a" stroke-width="3"/><ellipse cx="44" cy="108" rx="9" ry="4.5" fill="#e48a3c" stroke="#1e3a8a" stroke-width="2.5"/><ellipse cx="76" cy="108" rx="9" ry="4.5" fill="#e48a3c" stroke="#1e3a8a" stroke-width="2.5"/></svg>';
@@ -3609,8 +3625,9 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   if(t.id==='diary')return `<div class="rt rt-diary"><div class="band">📔 Lerntagebuch</div><div class="in"><ol>${lines(t.prompt).map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p>Schreib in dein Lerntagebuch auf dem iPad.</p></div></div>`;
   if(t.id==='start'){const bg=t.bg||'start',vid=bg==='video';fillBg();
     const cw=cloudHTML(c.cw);
-    return `<div class="rt rt-start ${vid?'':'st-elio'} ${cw?'has-cw':''}" ${vid?'':bgAttr(bg)}>${vid?(c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`):''}
-    <div class="in"><h1>${esc(t.title||'Du hast jetzt '+sn)}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">🎒 ${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li>☐ ${esc(x)}</li>`).join('')}</ul>`:''}</div>${cw}${c.rd?rpPad(c.rd.d,c.rd.n,c.rd.g):''}</div>`}
+    const rk=bg==='start';
+    return `<div class="rt rt-start ${vid?'':'st-elio'} ${rk?'st-rk':''} ${cw?'has-cw':''}" ${vid?'':rk?bgAttr('allgemein'):bgAttr(bg)}>${rk?rpScene(c.rd):''}${vid?(c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`):''}
+    <div class="in"><h1>${esc(t.title||'Du hast jetzt '+sn)}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}</div>${cw}${c.rd&&!rk?rpPad(c.rd.d,c.rd.n,c.rd.g):''}</div>`}
   if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
   if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel">${MURMEL_SVG}<p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
   if(t.id==='hypo')return `<div class="rt rt-h"><img class="hy-i" src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
@@ -4835,7 +4852,51 @@ async function mbUp(r){if(!TDKEY||!TD.dk||!r||!r.body||r.fp!==mbFp(TD.dk.pub))re
   if(o.k==='chat'){const id=String(o.id||'').slice(0,20);if(!P.chat.some(c=>c.id===id)){P.chat.push({id,me:0,t:String(o.t||'').slice(0,2000),at:+o.at||Date.now()});P.un=(P.un||0)+1;if(P.chat.length>200)P.chat=P.chat.slice(-200)}}
   if(o.k==='abg'){const hw=String(o.hw||'').slice(0,40);if(hw){const img=typeof o.img==='string'&&IMGRE.test(o.img)&&o.img.length<1500000?o.img:null;P.abg[hw]={title:String(o.title||'').slice(0,200),t:String(o.t||'').slice(0,4000),img,at:+o.at||Date.now()};P.ua=(P.ua||0)+1}}
   if(o.k==='prog'&&o.p&&typeof o.p==='object'){const A=x=>Array.isArray(x)?x.slice(0,600).map(v=>String(v).slice(0,60)):[];P.prog={ub:A(o.p.ub),hx:A(o.p.hx),hw:A(o.p.hw),ab:A(o.p.ab),st:+o.p.st||0,fl:+o.p.fl||0,ut:progObj(o.p.ut,v=>+v>0?+v:null),mt:progObj(o.p.mt,v=>v&&typeof v==='object'&&+v.n>0?{f:+v.f||0,b:+v.b||0,n:+v.n,at:+v.at||0,la:+v.la||0,x:+v.x||0}:null),at:+o.at||Date.now()}}
-  tsave();navTBadge();if(['sus','obs-p','klassen','inbox'].includes(V.name))render();return true}
+  if(o.k==='prog'&&goalOf()){goalChk();if(CS)pushCS()}
+  tsave();navTBadge();if(['sus','obs-p','klassen','inbox','tdash'].includes(V.name))render();return true}
+/* Klassenziel: Die Klasse sammelt gemeinsam Sterne. Gezählt wird nur die Summe, keine Rangliste. */
+function goalOf(){return (TD.goals||{})[S.cls||'-']||null}
+function goalCur(g){if(!g)return 0;const B=(TD.sus||{})[S.cls||'-']||{},bs=g.base||{};let n=+g.plus||0;Object.keys(B).forEach(k=>{const st=B[k].prog?+B[k].prog.st||0:0;n+=Math.max(0,st-(+bs[k]||0))});return n}
+function goalChk(){const g=goalOf();if(!g||g.done)return;if(goalCur(g)>=g.target){g.done=Date.now();g.show=true;tsave();try{eloVoice('super')}catch(e){}setTimeout(()=>{try{SND.cheer()}catch(e){}},1600)}}
+function goalCS(){const g=goalOf();return g?{t:g.title,n:g.target,c:Math.min(goalCur(g),g.target),show:!!g.show,done:g.done||0}:null}
+const GL_STAR='<svg class="gl-star" viewBox="0 0 24 24" aria-label="Sterne"><path d="M12 2.6l2.9 6 6.5.9-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.1 1.1-6.5L2.6 9.5l6.5-.9z" fill="#f59e0b" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+function goalBar(G,big){const pc=G.n?Math.round(G.c/G.n*100):0;return `<div class="gl-bar${big?' big':''}"><i style="width:${pc}%"></i></div>`}
+function dashGoal(){const g=goalOf();
+  if(!g)return `<section class="panel gl-p"><span class="label">Klassenziel</span><p class="muted" style="font-weight:700;margin:6px 0 10px">Die ganze Klasse sammelt Sterne für eine gemeinsame Belohnung. Es zählt nur die Summe, keine Rangliste.</p>
+    <div class="row"><input id="gl-t" type="text" maxlength="60" placeholder="Belohnung, z. B. Spielestunde" style="flex:1;min-width:180px"><input id="gl-n" type="number" min="10" max="99999" value="500" style="width:110px" aria-label="Sterne"><button class="btn pri" data-act="gl-set">Ziel setzen</button></div></section>`;
+  const G=goalCS();
+  return `<section class="panel gl-p"><div class="row" style="justify-content:space-between"><span class="label">Klassenziel</span>${G.done?'<span class="chip ok">Geschafft!</span>':''}</div>
+    <h3 style="margin:6px 0">${esc(G.t)}</h3>${goalBar(G)}<p style="font-family:var(--f-display);font-size:1.5rem;margin-top:6px">${G.c} / ${G.n} ${GL_STAR}</p>
+    <div class="row" style="margin-top:8px"><button class="btn ${G.show?'':'pri'}" data-act="gl-show">${G.show?'An der Tafel ausblenden':'An der Tafel zeigen'}</button><button class="btn sm" data-act="gl-plus" title="Für etwas, das die ganze Klasse geschafft hat">+10 für alle</button>
+    ${V.glEnd?'<button class="btn sm red" data-act="gl-end">Wirklich beenden</button>':'<button class="btn sm" data-act="gl-end">Ziel beenden</button>'}</div></section>`}
+function goalBoard(G,mini){const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
+  return `<div class="bw bw-goal"><div class="gl-in"><span class="gl-k">Unser Klassenziel</span><h1>${esc(G.t)}</h1>${goalBar(G,true)}<b class="gl-n">${G.c} / ${G.n} ${GL_STAR}</b>
+    <p>${G.done?'Geschafft! Das habt ihr zusammen erreicht.':'Noch '+(G.n-G.c)+' Sterne. Jeder Stern aus euren Übungen zählt für die ganze Klasse.'}</p></div><div class="gl-elo">${elo(G.done?'cheer':'happy',mini?60:220)}</div></div>`}
+/* Neues Schuljahr: alles auf null, Stunden und Vorlagen bleiben */
+const NY_F=[['st','Sterne und Shop-Käufe'],['ueb','Übungsstände und Abgaben'],['tb','Lerntagebücher'],['goal','Klassenziel'],['obs','Meine Notizen und Beobachtungen zu dieser Klasse']];
+const promoName=n=>String(n||'').replace(/^(\d+)/,x=>String(+x+1));
+VIEWS.jahr=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===S.cls),bk=TD.bkAt&&Date.now()-TD.bkAt<3600000,lead=c&&CLOUD&&typeof isLead==='function'&&isLead(c.id);
+  if(V.nyDone)return `<div class="row" style="margin-bottom:12px"><button class="btn sm" data-act="tdash">← Lehrerzimmer</button><h1>Neues Schuljahr</h1></div><section class="panel"><p style="font-weight:800">✓ Erledigt. ${esc(V.nyDone)}</p><p class="muted" style="font-weight:700;margin-top:6px">Die iPads setzen sich zurück, sobald sie sich das nächste Mal mit der Klasse verbinden.</p></section>`;
+  return `<div class="row" style="margin-bottom:12px"><button class="btn sm" data-act="tdash">← Lehrerzimmer</button><h1>Neues Schuljahr · ${esc(className())}</h1></div>
+  <section class="panel"><span class="label">Schritt 1 · Sicherung</span><p class="muted" style="font-weight:700;margin:6px 0 10px">Lade vorher eine verschlüsselte Sicherung herunter. Du öffnest sie nur mit deinem Geräte-Passwort.</p>
+    <div class="row"><button class="btn ${bk?'':'pri'}" data-act="bk-down">Sicherung herunterladen</button>${bk?'<span class="chip ok">✓ Sicherung gemacht</span>':''}</div></section>
+  <section class="panel" style="margin-top:14px"><span class="label">Schritt 2 · Was wird auf null gesetzt?</span>
+    <div style="display:grid;gap:6px;margin-top:8px">${NY_F.map(([k,t])=>`<label class="row" style="gap:8px;font-weight:700"><input type="checkbox" class="ny-f" value="${k}" checked style="width:auto"> ${t}</label>`).join('')}</div>
+    <p class="muted" style="font-size:.9rem;margin-top:8px">Bleiben erhalten: deine Stunden, Vorlagen, Hefteinträge, die Stundenbörse, Kürzel und PINs der Kinder.</p></section>
+  ${lead?`<section class="panel" style="margin-top:14px"><span class="label">Schritt 3 · Klasse hochstufen (freiwillig)</span><div class="row" style="margin-top:8px"><label class="row" style="gap:8px;font-weight:700"><input type="checkbox" id="ny-up" style="width:auto"> Neuer Name:</label><input id="ny-n" type="text" maxlength="20" value="${esc(promoName(c.name))}" style="max-width:160px"></div></section>`:''}
+  <section class="panel" style="margin-top:14px"><span class="label">${lead?'Schritt 4':'Schritt 3'} · Starten</span><div class="row" style="margin-top:8px">${V.nyAsk?`<span style="font-weight:800">Wirklich zurücksetzen? Das lässt sich nur mit der Sicherung rückgängig machen.</span><button class="btn red" data-act="ny-go">Ja, neues Schuljahr</button><button class="btn" data-act="ny-no">Abbrechen</button>`:`<button class="btn pri" data-act="ny-ask" ${bk?'':'title="Am besten erst die Sicherung herunterladen"'}>Neues Schuljahr starten</button>`}</div></section>`};
+function nyApply(f){const c=S.cls||'-',B=(TD.sus||{})[c]||{};
+  Object.values(B).forEach(P=>{if(f.includes('st')||f.includes('ueb'))delete P.prog;if(f.includes('ueb')){P.abg={};P.ua=0}});
+  if(f.includes('tb')&&TD.diary)delete TD.diary[c];
+  if(f.includes('goal')&&TD.goals)delete TD.goals[c];
+  if(f.includes('obs')){TD.obs={};if(TD.moods)delete TD.moods[c]}
+  TD.yr=TD.yr||{};TD.yr[c]={id:Math.random().toString(36).slice(2,10),f,at:Date.now()};tsave()}
+// SuS-Seite: Reset kommt über den Klassenzustand und wird genau einmal ausgeführt
+function nyStudent(Y){if(S.role!=='student'||!Y||!Y.id)return;if(!S.yr){S.yr=Y.id;save();return}if(S.yr===Y.id)return;S.yr=Y.id;const f=Array.isArray(Y.f)?Y.f:[];
+  if(f.includes('st')){S.stars=0;S.spent=0;S.owned=[];S.earned={};S.mut=0;if(S.av!=null)S.av=avWith(S.av,{})}
+  if(f.includes('ueb')){['ubDone','ubAt','hxDone','hwDone','mt','done','abg','fleiss','kfbDone','gwin','readyDone','voted','cloudDone','copied'].forEach(k=>S[k]={})}
+  if(f.includes('tb')){S.journal=[];S.journalDone={};S.diary={};S.diarySent={};S.reflect=null}
+  save();try{progTick(true)}catch(e){}if(V.name==='dash')render()}
 // Zeitstempel und Minitests aus dem Lernstand: nur einfache Schlüssel, nur Zahlen
 function progObj(x,f){const r={};if(x&&typeof x==='object'&&!Array.isArray(x))Object.keys(x).slice(0,600).forEach(k=>{if(!/^[\w#:.-]{1,60}$/.test(k)||k==='__proto__')return;const v=f(x[k]);if(v!=null)r[k]=v});return r}
 async function mbPullTeacher(){if(MB.tbusy||!TDKEY||!TD.dk||!mbCloudOk())return;MB.tbusy=true;
@@ -5704,6 +5765,18 @@ document.addEventListener('click',e=>{
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
     case 'role-reset':$('#umenu').hidden=true;if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
+    case 'gl-set':{const t=($('#gl-t').value||'').trim().slice(0,60)||'Klassen-Belohnung',n=Math.max(10,Math.min(99999,+$('#gl-n').value||500)),B=(TD.sus||{})[S.cls||'-']||{},base={};Object.keys(B).forEach(k=>base[k]=B[k].prog?+B[k].prog.st||0:0);
+      TD.goals=TD.goals||{};TD.goals[S.cls||'-']={title:t,target:n,base,plus:0,at:Date.now(),show:false,done:0};tsave();if(CS)pushCS();render();break}
+    case 'gl-show':{const g=goalOf();if(g){g.show=!g.show;tsave();if(CS)pushCS();render()}break}
+    case 'gl-plus':{const g=goalOf();if(g){g.plus=(+g.plus||0)+10;goalChk();tsave();if(CS)pushCS();render()}break}
+    case 'gl-end':{if(!V.glEnd){V.glEnd=1;render();break}V.glEnd=0;if(TD.goals)delete TD.goals[S.cls||'-'];tsave();if(CS)pushCS();render();break}
+    case 'ny-open':go('jahr');break;
+    case 'ny-ask':V.nyAsk=1;render();break;
+    case 'ny-no':V.nyAsk=0;render();break;
+    case 'ny-go':{const f=[...document.querySelectorAll('.ny-f:checked')].map(x=>x.value),up=$('#ny-up'),nn=($('#ny-n')&&$('#ny-n').value||'').trim().slice(0,20);
+      nyApply(f);if(CS)pushCS();let msg='Zurückgesetzt: '+(NY_F.filter(x=>f.includes(x[0])).map(x=>x[1]).join(', ')||'nichts')+'.';
+      if(up&&up.checked&&nn&&CLOUD&&Cloud.sb){Cloud.sb.from('classes').update({name:nn}).eq('id',S.cls).then(r=>{if(!r.error){const c=(Cloud.myClasses||[]).find(x=>x.id===S.cls);if(c)c.name=nn;V.nyDone=msg+' Die Klasse heißt jetzt '+nn+'.'}else V.nyDone=msg+' Umbenennen hat nicht geklappt.';render()});msg+=' Die Klasse wird umbenannt …'}
+      V.nyDone=msg;V.nyAsk=0;render();break}
     case 'tt-clear':TD.tt={};TD.ttOwn={};TD.ttEx=false;tsave();render();break;
     case 'bk-down':{const v=tdVault();if(!v){V.bkMsg='Noch nichts zu sichern.';V.bkErr=1;render();break}
       const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({elio:'sicherung',v:1,at:new Date().toISOString(),vault:v})],{type:'application/json'}));a.download='elio-sicherung-'+todayISO()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
