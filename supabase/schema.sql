@@ -374,7 +374,7 @@ grant execute on function public.bind_class(text, text) to authenticated;
 
 create or replace function public.live_class(t text) returns uuid
 language sql stable security definer set search_path = public as $$
-  select id from public.classes where 'elon-' || code = t limit 1;
+  select id from public.classes where 'elon-' || code = t or 'elon-' || code || '-up' = t limit 1;
 $$;
 create or replace function public.live_teacher(t text) returns boolean
 language sql stable security definer set search_path = public as $$
@@ -395,7 +395,8 @@ drop policy if exists elio_live_send on realtime.messages;
 create policy elio_live_send on realtime.messages for insert to authenticated
   with check (realtime.messages.extension = 'broadcast'
               and (public.live_teacher(realtime.topic())
-                   or (realtime.messages.event = 'msg' and public.live_member(realtime.topic()))));
+                   or ((realtime.messages.event = 'msg' or realtime.topic() like '%-up')
+                       and public.live_member(realtime.topic()))));
 
 -- ELIO · Klassenschlüssel automatisch verteilen
 -- Einmal im Supabase „SQL Editor“ ausführen (Run). Schadet nicht, es mehrfach auszuführen.
