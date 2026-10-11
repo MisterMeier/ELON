@@ -1685,10 +1685,10 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261011-2000';let verTold=false;
+const BUILD='20261011-2010';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
-function swReg(){try{if('serviceWorker' in navigator&&location.protocol==='https:'&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
+function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
 swReg();
 function notify(t,b){const o={body:b,icon:'assets/icon/icon-192.png',tag:'elio'};
   try{if(navigator.serviceWorker&&navigator.serviceWorker.controller){navigator.serviceWorker.ready.then(r=>r.showNotification(t,o)).catch(()=>{});return}new Notification(t,o)}catch(e){}}
@@ -2116,6 +2116,8 @@ let LIVE_REB=null;
 async function liveRelink(){if(S.role!=='student'||!S.code)return;Live.relinking=true;updBanner();
   try{if(S.acct&&S.acct.u&&S.acct.p)await acctLogin(S.acct.u,S.acct.p,true);else{const sb=await sbClient();await acctAnon(sb)}}catch(e){console.warn('relink',e)}
   Live.relinking=false;Live.start(S.code)}
+// Tafel-Fenster auf demselben Gerät bekommt den Zustand immer auch direkt (ohne Internet, ohne Server)
+let LBC=null,LBCc='';function localBC(code,d){try{if(!LBC||LBCc!==code){try{LBC&&LBC.close()}catch(e){}LBC=new BroadcastChannel('elio-local-'+code);LBCc=code;if(BOARD)LBC.onmessage=e=>{if(e.data&&e.data.t==='state')Live.recv2(e.data)}}if(d)LBC.postMessage(d)}catch(e){}}
 const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
   async start(code){
     this.stop();
@@ -2148,7 +2150,7 @@ const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
     try{this.bc=new BroadcastChannel('elon-'+code);this.bc.onmessage=e=>this.recv(e.data);this.kind='demo'}catch(e){this.kind='off'}
   },
   stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;const ch=this.sb;this.sb=null;try{ch&&ch.unsubscribe()}catch(e){}const up=this.up;this.up=null;try{up&&up.unsubscribe()}catch(e){}this.kind='off'},
-  post(t,p){const d={t,p,m:t==='msg'?Date.now().toString(36)+Math.random().toString(36).slice(2,8):undefined};try{if(this.sb){const k=myCk(this.code);if(!k){if(S.role==='student'){this.needKey=true;updBanner()}return}
+  post(t,p){const d={t,p,m:t==='msg'?Date.now().toString(36)+Math.random().toString(36).slice(2,8):undefined};if(t==='state'&&S.role==='teacher'&&!BOARD)localBC(this.code||S.code,d);try{if(this.sb){const k=myCk(this.code);if(!k){if(S.role==='student'){this.needKey=true;updBanner()}return}
       ckSeal(k,d).then(e=>{if(this.sb)this.sb.send({type:'broadcast',event:t,payload:{t,e}});if(t==='msg')this.stat.sent++;if(t==='msg'&&S.role==='student'&&this.up)this.up.send({type:'broadcast',event:t,payload:{t,e}})}).catch(e=>console.warn(e));return}else if(this.bc)this.bc.postMessage(d)}catch(e){}},
   recv(d){if(!d||!d.t)return;
     if(this.kind==='server'){const k=myCk(this.code);if(!d.e||!k){if(S.role==='student'&&!k){this.needKey=true;updBanner()}return}
@@ -5970,7 +5972,7 @@ document.addEventListener('click',e=>{
 function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSize;if(!(n>=2&&n<=40))n=S.classSize;S.classSize=n;save();return n}
 
 $('#star-ico').innerHTML=STAR;
-if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};Live.start(S.code);libLoad();
+if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};localBC(S.code);Live.start(S.code);libLoad();
   {const z=document.createElement('div');z.id='nz';z.className='nz';z.hidden=true;z.innerHTML='<span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><b class="nz-b">Psst! Zu laut!</b>';document.body.appendChild(z);
    setInterval(()=>{let N=null;try{N=window.opener&&!window.opener.closed&&window.opener.NOISE}catch(e){}noiseUI(document,N||{on:false,lv:0})},120)}
   // Spiegel für den Mini-Bildschirm der Lehrkraft (gleiches Gerät): schickt, was gerade im Tafel-Fenster zu sehen ist
