@@ -759,6 +759,9 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .rp-sc .rp-st{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
 .rp-sc-c{position:absolute;left:62%;top:5%;width:26%;z-index:2;text-align:center;color:#1e3a8a;padding:.4em .9em;border-radius:1em;background:rgba(255,255,255,.55);backdrop-filter:blur(4px)}.rp-sc-c .rp-tank{margin:.1em 0 .3em}.rp-sc-c b{font-size:1.25em;font-weight:800}
 .st-box{display:inline-block;width:.85em;height:.85em;border:.14em solid #1e3a8a;border-radius:.2em;margin-right:.45em;vertical-align:-.08em;background:#fff}
+.rd-b{display:inline-flex;align-items:center;gap:.25em;border:2px solid #c7d2fe;background:#fff;color:#4f46e5;border-radius:999px;padding:.15em .55em .15em .2em;cursor:pointer;font-weight:800;font-size:.9rem;line-height:1;vertical-align:middle}
+.rd-b img{width:1.9em;height:1.9em;object-fit:contain}.rd-b .rd-ic{width:1.2em;height:1.2em}.rd-b:hover{border-color:#4f46e5}.rd-b.on{background:#4f46e5;color:#fff;border-color:#4f46e5;animation:rdp 1s ease-in-out infinite}
+@keyframes rdp{50%{box-shadow:0 0 0 .35em rgba(79,70,229,.2)}}.srail .rd-r .rd-ic{width:1.6em;height:1.6em;color:#4f46e5}.srail .rd-r.on .rd-ic{color:#fff}
 .bw-fz{background:#bcd6f5;display:grid;place-items:center;container-type:size;overflow:hidden}.fz-st{position:relative;width:min(100cqw,177.78cqh);aspect-ratio:16/9;background:url(assets/folien/freeze.webp) center/cover;container-type:inline-size}
 .fz-elo{position:absolute;inset:0;background:url(assets/folien/freeze.webp) center/cover;clip-path:ellipse(15.5% 29% at 49.5% 58%);animation:fzShiver .16s linear infinite}
 @keyframes fzShiver{0%{transform:translate(0,0)}25%{transform:translate(.25cqw,-.08cqw)}50%{transform:translate(-.2cqw,.06cqw)}75%{transform:translate(.18cqw,.1cqw)}100%{transform:translate(0,0)}}
@@ -1434,6 +1437,58 @@ function bestVoice(lang){let vs=[];try{vs=speechSynthesis.getVoices()}catch(e){}
     if(L.toUpperCase().endsWith(reg))x+=4;if(/natural|neural|premium|enhanced|erweitert|siri|online/i.test(n))x+=10;if(/google/i.test(n))x+=3;
     if(/compact|eloquence|espeak|grandma|grandpa|rocko|shelley|sandy|reed|flo|eddy|bad news|bells|bubbles|boing|jester|organ|whisper|zarvox|trinoids|albert|cellos|wobble/i.test(n))x-=20;return x};
   return vs.map(v=>[sc(v),v]).filter(a=>a[0]>-50).sort((a,b)=>b[0]-a[0]).map(a=>a[1])[0]||null}
+/* =====================================================================
+   ELO LIEST VOR: Browserstimme, auf Deutsch oder in der Erstsprache des Kindes.
+   Die Erstsprache bleibt nur auf dem iPad. Feste Arbeitsanweisungen sind übersetzt,
+   freie Texte der Lehrkraft liest Elo vorerst auf Deutsch (Übersetzen kommt später).
+   ===================================================================== */
+const LANGS=[['de','Deutsch','de-DE'],['tr','Türkisch','tr-TR'],['ar','Arabisch','ar-SA'],['uk','Ukrainisch','uk-UA'],['ru','Russisch','ru-RU'],['ro','Rumänisch','ro-RO'],['pl','Polnisch','pl-PL'],['hr','Kroatisch','hr-HR'],['sq','Albanisch','sq-AL'],['fa','Farsi/Dari','fa-IR'],['en','Englisch','en-GB'],['bg','Bulgarisch','bg-BG'],['it','Italienisch','it-IT'],['es','Spanisch','es-ES'],['ku','Kurdisch','ku'],['so','Somali','so-SO'],['ti','Tigrinya','ti-ER'],['x','Andere Sprache','']];
+const RD_DE=['Verbinde, was zusammengehört.','Zieh die Wörter in die Lücken.','Wähle die richtige Antwort.','Ordne die Zahlen auf dem Zahlenstrahl ein.','Löse das Kreuzworträtsel.','Finde die Wörter im Gitter.','Hör gut zu und sprich nach.','Schreib den Hefteintrag in dein Heft ab.','Bearbeite die Aufgaben in deinem Heft.','Tippe auf Bereit, wenn du fertig bist.','Arbeitet jetzt zu zweit.','Wenn du Hilfe brauchst, tippe auf Hilfe.'];
+// Vorbereitete Übersetzungen der festen Sätze, gleiche Reihenfolge wie RD_DE. Bitte von Muttersprachler/innen gegenlesen lassen.
+const RD_TR={
+tr:['Birbirine ait olanları eşleştir.','Kelimeleri boşluklara sürükle.','Doğru cevabı seç.','Sayıları sayı doğrusuna yerleştir.','Bulmacayı çöz.','Kelimeleri tabloda bul.','İyi dinle ve tekrar et.','Defter notunu defterine yaz.','Alıştırmaları defterinde yap.','Bitirince „Bereit“ düğmesine dokun.','Şimdi ikili çalışın.','Yardıma ihtiyacın olursa „Hilfe“ düğmesine dokun.'],
+ar:['صِل بين الأشياء التي تنتمي إلى بعضها.','اسحب الكلمات إلى الفراغات.','اختر الإجابة الصحيحة.','ضع الأعداد على خط الأعداد.','حُلّ الكلمات المتقاطعة.','ابحث عن الكلمات في الشبكة.','استمع جيدًا وكرّر.','انسخ الملخص في دفترك.','حُلّ التمارين في دفترك.','اضغط على „Bereit“ عندما تنتهي.','اعملوا الآن في أزواج.','إذا احتجت إلى مساعدة، اضغط على „Hilfe“.'],
+uk:['Поєднай те, що підходить одне до одного.','Перетягни слова в пропуски.','Вибери правильну відповідь.','Розташуй числа на числовій прямій.','Розв’яжи кросворд.','Знайди слова в сітці.','Уважно слухай і повторюй.','Перепиши запис у свій зошит.','Виконай завдання у своєму зошиті.','Натисни «Bereit», коли закінчиш.','Тепер працюйте в парах.','Якщо потрібна допомога, натисни «Hilfe».'],
+ru:['Соедини то, что подходит друг к другу.','Перетащи слова в пропуски.','Выбери правильный ответ.','Расположи числа на числовой прямой.','Разгадай кроссворд.','Найди слова в сетке.','Внимательно слушай и повторяй.','Перепиши запись в свою тетрадь.','Выполни задания в своей тетради.','Нажми «Bereit», когда закончишь.','Теперь работайте в парах.','Если нужна помощь, нажми «Hilfe».'],
+ro:['Unește ce se potrivește.','Trage cuvintele în spațiile libere.','Alege răspunsul corect.','Așază numerele pe axa numerelor.','Rezolvă rebusul.','Găsește cuvintele în grilă.','Ascultă cu atenție și repetă.','Copiază notița în caietul tău.','Rezolvă exercițiile în caietul tău.','Apasă pe „Bereit” când ai terminat.','Acum lucrați în perechi.','Dacă ai nevoie de ajutor, apasă pe „Hilfe”.'],
+pl:['Połącz to, co do siebie pasuje.','Przeciągnij słowa w luki.','Wybierz poprawną odpowiedź.','Umieść liczby na osi liczbowej.','Rozwiąż krzyżówkę.','Znajdź słowa w siatce.','Słuchaj uważnie i powtarzaj.','Przepisz notatkę do zeszytu.','Rozwiąż zadania w zeszycie.','Kliknij „Bereit”, gdy skończysz.','Teraz pracujcie w parach.','Jeśli potrzebujesz pomocy, kliknij „Hilfe”.'],
+hr:['Spoji ono što pripada zajedno.','Povuci riječi u praznine.','Odaberi točan odgovor.','Smjesti brojeve na brojevni pravac.','Riješi križaljku.','Pronađi riječi u mreži.','Pažljivo slušaj i ponovi.','Prepiši zapis u svoju bilježnicu.','Riješi zadatke u svojoj bilježnici.','Dodirni „Bereit” kad završiš.','Sada radite u parovima.','Ako trebaš pomoć, dodirni „Hilfe”.'],
+sq:['Lidh ato që shkojnë bashkë.','Tërhiq fjalët në vendet bosh.','Zgjidh përgjigjen e saktë.','Vendos numrat në boshtin numerik.','Zgjidh fjalëkryqin.','Gjej fjalët në rrjetë.','Dëgjo me vëmendje dhe përsërit.','Kopjo shënimin në fletoren tënde.','Zgjidh ushtrimet në fletoren tënde.','Prek „Bereit” kur të mbarosh.','Tani punoni në çifte.','Nëse të duhet ndihmë, prek „Hilfe”.'],
+fa:['چیزهایی را که به هم مربوط‌اند، به هم وصل کن.','کلمه‌ها را به جاهای خالی بکش.','جواب درست را انتخاب کن.','عددها را روی محور اعداد قرار بده.','جدول کلمات متقاطع را حل کن.','کلمه‌ها را در جدول پیدا کن.','خوب گوش کن و تکرار کن.','یادداشت را در دفترت بنویس.','تمرین‌ها را در دفترت حل کن.','وقتی تمام شد، روی «Bereit» بزن.','حالا دو نفری کار کنید.','اگر کمک لازم داری، روی «Hilfe» بزن.'],
+en:['Match what belongs together.','Drag the words into the gaps.','Choose the right answer.','Place the numbers on the number line.','Solve the crossword.','Find the words in the grid.','Listen carefully and repeat.','Copy the notes into your exercise book.','Do the tasks in your exercise book.','Tap „Bereit“ when you are finished.','Now work in pairs.','If you need help, tap „Hilfe“.']};
+// Arbeitsanweisung pro Übungsart (für die SuS)
+const AK_HOW={match:0,gap:1,mc:2,numline:3,cw:4,wg:5,mio:2,say:6,quiz:2,memory:0};
+const rdLang=()=>LANGS.find(l=>l[0]===S.l1)||null;
+const rdUseL1=()=>S.rd==='l1'&&S.l1&&S.l1!=='de'&&S.l1!=='x';
+function rdHasVoice(bcp){if(!bcp)return false;try{return !!bestVoice(bcp)}catch(e){return false}}
+const RD_SPK='<svg viewBox="0 0 24 24" class="rd-ic" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+// Knopf „Elo liest vor“: i = Index der festen Anweisung (RD_DE), t = freier Text; ohne t liest Elo den Text des umgebenden [data-rdc]
+function rdBtn(i,t,lbl){if(S.role!=='student'&&S.role!=='teacher')return '';return `<button class="rd-b rd-x" data-act="elo-read"${i!=null&&i!==''?` data-i="${i}"`:''}${t?` data-t="${esc(t)}"`:''} title="Elo liest vor" aria-label="Elo liest vor"><img src="assets/elo/elo-uebung-512.png" alt="" aria-hidden="true">${RD_SPK}${lbl?`<span>${esc(lbl)}</span>`:''}</button>`}
+let RDQ=[];
+function rdStop(){RDQ=[];try{speechSynthesis.cancel()}catch(e){}document.querySelectorAll('.rd-b.on').forEach(b=>b.classList.remove('on'))}
+function rdSpeak(parts,btn){rdStop();if(!('speechSynthesis' in window)){toast('Dieses Gerät kann leider nicht vorlesen.');return}
+  RDQ=parts.filter(p=>p&&p.t&&p.t.trim());if(!RDQ.length)return;if(btn)btn.classList.add('on');
+  const next=()=>{const p=RDQ.shift();if(!p){if(btn)btn.classList.remove('on');return}try{const u=new SpeechSynthesisUtterance(p.t);u.lang=p.l;u.rate=p.l.startsWith('de')?.9:.85;const v=bestVoice(p.l);if(v)u.voice=v;u.onend=()=>setTimeout(next,250);u.onerror=()=>{if(btn)btn.classList.remove('on')};speechSynthesis.speak(u)}catch(e){}};next()}
+function rdParts(i,txt){const L=rdLang(),l1=rdUseL1()&&L,ok=l1&&rdHasVoice(L[2]),out=[];let miss=false;
+  if(i!=null&&RD_DE[i]){const tr=l1&&RD_TR[L[0]]&&RD_TR[L[0]][i];if(tr&&ok)out.push({t:tr,l:L[2]});else{out.push({t:RD_DE[i],l:'de-DE'});if(l1)miss=true}}
+  if(txt&&txt.trim()){out.push({t:txt.replace(/\s+\n/g,'\n').trim(),l:'de-DE'});if(l1)miss=true}
+  if(l1&&!ok)toast(`Auf diesem iPad gibt es keine Stimme für ${L[1]}. Elo liest auf Deutsch.`);
+  else if(miss)toast('Den Text der Lehrkraft liest Elo noch auf Deutsch. Übersetzen kommt bald.');
+  return out}
+function rdText(btn){if(btn.dataset.t)return btn.dataset.t;const c=btn.closest('[data-rdc]');if(!c)return '';const hid=[...c.querySelectorAll('.rd-x,button,input,textarea,select,.chip,.date')].map(x=>[x,x.style.display]);hid.forEach(([x])=>x.style.display='none');const tx=(c.innerText||'').trim();hid.forEach(([x,v])=>x.style.display=v);return tx}
+// Live-Stunde: aktuelle Aufgabe an der Tafel vorlesen
+function rdLive(){const st=RCS&&RCS.stage,t=st&&st.tool||{},g=RCS&&RCS.game;let i=null,tx='';
+  if(g&&AK_HOW[g.g]!=null){i=AK_HOW[g.g];tx=g.title||''}
+  else if(t.id==='slide'&&t.cur)tx=[t.cur.title,t.cur.text].filter(Boolean).join('\n');
+  else if(t.id==='heft'){i=7;tx=[t.title,t.text].filter(Boolean).join('\n')}
+  else tx=[t.title,t.q,t.text,t.hint,t.prompt].filter(x=>typeof x==='string'&&x).join('\n');
+  if(!tx&&st&&st.txt)tx=st.txt;return {i,tx}}
+function rdProfile(){const L=rdLang(),l1=L&&L[0]!=='de',hv=l1&&L[0]!=='x'&&rdHasVoice(L[2]);
+  return `<section class="panel" style="max-width:760px;margin-top:16px" id="me-rd"><h2 style="font-size:1.2rem;margin-bottom:8px">Elo liest vor</h2>
+    <label class="label" for="me-l1">Erstsprache</label><select id="me-l1" style="width:auto;min-width:220px"><option value="">Bitte wählen</option>${LANGS.map(l=>`<option value="${l[0]}" ${S.l1===l[0]?'selected':''}>${l[1]}</option>`).join('')}</select>
+    <p class="label" style="margin-top:14px">Elo liest mir vor auf</p><div class="row" style="margin-top:6px"><button class="pill ${S.rd!=='l1'?'on':''}" data-act="rd-lang" data-v="de">Deutsch</button><button class="pill ${S.rd==='l1'?'on':''}" data-act="rd-lang" data-v="l1" ${l1?'':'disabled'}>${l1?esc(L[1]):'meine Erstsprache'}</button>${rdBtn(9,'','Probehören')}</div>
+    ${l1&&L[0]!=='x'?`<p class="muted" style="font-weight:700;margin-top:8px">${hv?`Auf diesem iPad gibt es eine Stimme für ${esc(L[1])}.`:`Auf diesem iPad gibt es noch keine Stimme für ${esc(L[1])}. Elo liest dann auf Deutsch. Stimmen lassen sich in den iPad-Einstellungen unter Bedienungshilfen, Gesprochene Inhalte, Stimmen nachladen.`}${RD_TR[L[0]]?'':' Für diese Sprache gibt es noch keine übersetzten Anweisungen.'}</p>`:''}
+    <p class="muted" style="font-size:.85rem;margin-top:8px">Die Erstsprache bleibt nur auf diesem iPad. Arbeitsanweisungen liest Elo in deiner Sprache, Texte deiner Lehrkraft vorerst auf Deutsch. <button class="btn sm" disabled>Übersetzen (bald)</button></p></section>`}
 function say(t){
   try{const u=new SpeechSynthesisUtterance(t.replace(/[\[\]]/g,''));u.lang='en-GB';u.rate=.88;
     const v=bestVoice('en-GB');
@@ -1900,9 +1955,9 @@ function heftPage(e){
     case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${artC(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''};
   const c=!!S.copied[e.id];
-  return `<article class="page"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span></span></header>
-    ${heftBody(e.blocks)}${subExtras(e)}
-    <footer><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button></footer></article>`;
+  return `<article class="page" data-rdc><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span>${rdBtn(7)}</span></header>
+    ${heftBody(e.blocks)}<div class="rd-x">${subExtras(e)}</div>
+    <footer class="rd-x"><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button></footer></article>`;
 }
 
 VIEWS.module=()=>{
@@ -2541,7 +2596,7 @@ function updRail(){let el=$('#srail');
   if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000||V.name==='role'){if(el)el.hidden=true;return}
   if(!el){el=document.createElement('div');el.id='srail';el.className='srail';document.body.appendChild(el)}
   const inHelp=helpOn(),rd=RCS.ready&&!(S.readyDone&&S.readyDone[RCS.ready.id]);
-  const h=`<button class="sr-b tv ${MINI==='big'?'on':''}" data-act="mt" data-m="${MINI==='big'?'off':'big'}" aria-pressed="${MINI==='big'}"><span>📺</span><small>Tafel</small></button><button class="sr-b ${inHelp?'on':''}" data-act="help" aria-pressed="${inHelp}"><span>🙋</span><small>${inHelp?'Gemeldet':'Hilfe'}</small></button>${rd?`<button class="sr-b ok" data-act="sr-ready"><span>✋</span><small>Bereit</small></button>`:''}`;
+  const h=`<button class="sr-b tv ${MINI==='big'?'on':''}" data-act="mt" data-m="${MINI==='big'?'off':'big'}" aria-pressed="${MINI==='big'}"><span>📺</span><small>Tafel</small></button><button class="sr-b rd-r" data-act="elo-read" data-live="1" aria-label="Elo liest vor">${RD_SPK}<small>Vorlesen</small></button><button class="sr-b ${inHelp?'on':''}" data-act="help" aria-pressed="${inHelp}"><span>🙋</span><small>${inHelp?'Gemeldet':'Hilfe'}</small></button>${rd?`<button class="sr-b ok" data-act="sr-ready"><span>✋</span><small>Bereit</small></button>`:''}`;
   if(el.dataset.sig!==h){el.innerHTML=h;el.dataset.sig=h}el.hidden=false}
 function liveOverlay(){
   const el=$('#live-ov');
@@ -3935,7 +3990,7 @@ Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt
 const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
 function akStart(G){if(!AK.G||AK.G.at!==G.at){AK.G=G;AK.st=AKT[G.g].init(G.data)}}
 function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Kein Spiel aktiv.</div>';const s=AK.st;
-  const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${G.mt?'<span class="chip">🎯 Minitest</span>':S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
+  const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${!BOARD&&S.role==='student'?rdBtn(AK_HOW[G.g],G.title||''):''}${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${G.mt?'<span class="chip">🎯 Minitest</span>':S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
   return `<div class="ak akg-${G.g}">${head}${s.win?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`:''}${A.view(G.data,s)}</div>`}
 VIEWS.akt=()=>akHTML();
 /* --- Avatar-Shop: Sterne aus Übungen gegen Kleidung und Schmuck tauschen; Level zählt alle je verdienten Sterne --- */
@@ -3971,7 +4026,7 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
   if(V.tt)setTimeout(()=>{const t=$('#me-tt');if(t)t.scrollIntoView({block:'start'});V.tt=0},0);
   return `<h1 style="margin-bottom:14px">Mein Profil</h1><section class="panel" style="max-width:760px"><h2 style="font-size:1.2rem;margin-bottom:8px">Dein Avatar</h2>${avBuilder(V.av)}${avNameHTML('me-n')}
     <p class="err" id="me-err"></p>${V.ok?'<p class="saved">Gespeichert.</p>':''}<div class="row" style="margin-top:14px"><button class="btn ok" data-act="me-save">Speichern</button><button class="btn red" data-act="role-reset">Abmelden</button></div></section>
-    <section class="panel" id="me-tt" style="margin-top:16px;scroll-margin-top:80px">${weekView()}</section><div style="margin-top:16px">${splitPanel(false)}</div>`};
+    ${rdProfile()}<section class="panel" id="me-tt" style="margin-top:16px;scroll-margin-top:80px">${weekView()}</section><div style="margin-top:16px">${splitPanel(false)}</div>`};
 document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.cw;if(!k||!AK.st)return;const v=e.target.value.toUpperCase().replace(/[^A-ZÄÖÜ]/g,'').slice(-1);e.target.value=v;AK.st.v[k]=v;AK.st.chk=false;
   if(v){const [r,c]=k.split(',').map(Number);const nx=document.querySelector(`[data-cw="${r},${c+1}"]`)||document.querySelector(`[data-cw="${r+1},${c}"]`);if(nx)nx.focus()}});
 function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}if(G.mt)mtDone(G.eid,AK.st,G.data);else if(G.eid)ubDoneMark(G.eid,G.ei);liveWin(G.at)}render()}
@@ -4340,6 +4395,7 @@ document.addEventListener('input',e=>{
   if(e.target.id==='kf-list'){const c=kfCfg();c.list=e.target.value;tsave();const P=kfParseList(c.list),el=$('#kf-chk');if(el)el.textContent=`${P.ok.length} Aufgaben erkannt${P.bad.length?` · ${P.bad.length} nicht lesbar: ${P.bad.slice(0,3).join(', ')}`:''}`}
   if(e.target.id==='kf-n0'||e.target.id==='kf-n1'){const c=kfCfg();c.names[+e.target.id.slice(-1)]=e.target.value.slice(0,24);tsave()}
 });
+document.addEventListener('change',e=>{if(e.target.id==='me-l1'&&S.role==='student'){S.l1=e.target.value||'';if(!S.l1||S.l1==='de')S.rd='de';save();acctSave();render()}});
 document.addEventListener('change',e=>{if(e.target.id==='kf-lv'){kfCfg().level=e.target.value;tsave()}});
 document.addEventListener('keydown',e=>{if(!KF||KF.phase!=='play'||!['kfb','present'].includes(V.name)||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))return;
   if(e.key==='r'||e.key==='R')kfJudge(true);if(e.key==='f'||e.key==='F')kfJudge(false)});
@@ -5206,7 +5262,7 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
       body=`<div class="sb-pane">${T?kCover(e):''}${L.length?`<span class="label">🎮 Interaktiv · ${L.length}</span><div class="ub-list">${L.map(row).join('')}</div>`:'<p class="muted">Interaktive Übungen kommen noch.</p>'}${e.mt?`<div class="ub-item"><div class="ub-row"><span class="si">🎯</span><div style="flex:1;min-width:0"><b>Minitest</b><small class="muted" style="display:block">${AKT.mc.parse(e.mt).qs.length} Fragen zum Abschluss${T?' · Ergebnis kommt in den Lernstand':''}</small></div>${!T&&(S.mt||{})[e.id]?`<span class="mtr ${mtCls(S.mt[e.id])}">${mtTxt(S.mt[e.id])}</span>`:''}</div><div class="sub-btns"><button class="btn sm pri" data-act="mt-go" data-id="${e.id}">▶ ${T?'Ansehen':'Starten'}</button></div></div>`:''}
       ${H.length?`<div class="hx"><div class="row" style="justify-content:space-between;gap:6px"><span class="label">✍️ Fürs Übungsheft · ${H.length} Aufgaben</span>${T?`<button class="btn sm ${V.hwf===e.id+'#hx'?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="hx">📌 Als HA (von Hand)</button>`:''}</div>${hwf('hx',0)}
         <p class="muted" style="font-size:.85rem;margin:2px 0 6px">Schreib Datum und Aufgabe ab, rechne im Heft. Erst danach die Lösung aufdecken.</p>
-        <ol class="hx-list">${H.map((h,j)=>{const lk='hx-'+e.id+'-'+j,hk=e.id+'#'+j,dn=S.hxDone&&S.hxDone[hk];return `<li class="${dn?'dn':''}"><div class="hx-q"><span class="hxl" title="Stufe ${h.l}">${st(h.l)}</span>${T?kChips(h.k):''} ${esc(h.q)}</div>
+        <ol class="hx-list">${H.map((h,j)=>{const lk='hx-'+e.id+'-'+j,hk=e.id+'#'+j,dn=S.hxDone&&S.hxDone[hk];return `<li class="${dn?'dn':''}"><div class="hx-q"><span class="hxl" title="Stufe ${h.l}">${st(h.l)}</span>${T?kChips(h.k):''} ${esc(h.q)} ${T?'':rdBtn(null,h.q)}</div>
           <div class="sub-btns"><button class="btn sm ${op[lk]?'on':''}" data-act="mx-tog" data-k="${lk}">${op[lk]?'Lösung verbergen':'👀 Lösung zeigen'}</button>${T?'':`<button class="btn sm ${dn?'ok':''}" data-act="hx-ok" data-k="${hk}">${dn?'✓ gerechnet':'Im Heft gerechnet'}</button>`}</div>
           ${op[lk]?`<div class="hx-a">✓ ${esc(h.a)}</div>`:''}</li>`}).join('')}</ol></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`}
@@ -5221,7 +5277,7 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
       <div class="row">${!T&&m?`<span class="mtr ${mtCls(m)}">${mtTxt(m)}</span>`:''}<button class="btn pri" data-act="st-go" data-s="${k}" data-ch="${esc(ch)}">▶ ${T?'Ansehen':m?'Nochmal':'Starten'}</button></div></div></section>`:''})()}
     <section class="panel station st-fleiss"><h2 class="st-h"><img src="assets/elo/elo-fleiss.png" alt="">Fleiß-Station</h2><p class="muted">Extra-Aufgaben für Schnelle. Jede bringt Fleißpunkte.</p>
       ${(X.fleiss||[]).map((f,i)=>{const key=ch+'#'+i,ok=S.fleiss&&S.fleiss[key],sh=op['f'+i];
-        return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
+        return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1} ${S.role==='student'?rdBtn(null,f.q):''}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
           ${sh?`<div class="fl-a"><b>Lösung:</b> ${esc(f.a)}</div>${T||ok?`<button class="btn sm" data-act="mx-tog" data-k="f${i}" style="margin-top:6px">Lösung verbergen</button>`:''}`:`<button class="btn sm" data-act="mx-tog" data-k="f${i}">👀 Lösung zeigen</button>`}
           ${!T&&sh&&!ok?`<div class="row" style="margin-top:6px"><button class="btn sm ok" data-act="fl-ok" data-k="${esc(key)}" data-p="${f.p}">Hatte ich richtig (+${f.p})</button><button class="btn sm" data-act="mx-tog" data-k="f${i}">Nochmal probieren</button></div>`:ok?'<span class="chip ok">✓ geschafft</span>':''}</div>`}).join('')||'<div class="empty">Kommt noch.</div>'}</section></div></div>`};
 /* ---------- Vokabelheft (Englisch): Karteikasten wie bei Phase 6.
@@ -5765,6 +5821,8 @@ document.addEventListener('click',e=>{
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
     case 'role-reset':$('#umenu').hidden=true;if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
+    case 'elo-read':{if(b.classList.contains('on')){rdStop();break}if(d.live){const x=rdLive();rdSpeak(rdParts(x.i,x.tx),b);break}rdSpeak(rdParts(d.i!=null&&d.i!==''?+d.i:null,rdText(b)),b);break}
+    case 'rd-lang':S.rd=d.v==='l1'?'l1':'de';save();acctSave();render();break;
     case 'gl-set':{const t=($('#gl-t').value||'').trim().slice(0,60)||'Klassen-Belohnung',n=Math.max(10,Math.min(99999,+$('#gl-n').value||500)),B=(TD.sus||{})[S.cls||'-']||{},base={};Object.keys(B).forEach(k=>base[k]=B[k].prog?+B[k].prog.st||0:0);
       TD.goals=TD.goals||{};TD.goals[S.cls||'-']={title:t,target:n,base,plus:0,at:Date.now(),show:false,done:0};tsave();if(CS)pushCS();render();break}
     case 'gl-show':{const g=goalOf();if(g){g.show=!g.show;tsave();if(CS)pushCS();render()}break}
