@@ -802,6 +802,8 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .ylg{font-size:.8rem;font-weight:700;color:#64748b;display:flex;gap:10px;align-items:center}.ylg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px}.ylg .fe{background:#e0f2fe}.ylg .hol{background:#fef3c7}.ylg .blk{background:#4f46e5}
 .yt-l{display:grid;gap:6px}.yt-r{display:grid;grid-template-columns:auto 1fr 80px minmax(120px,auto) auto auto;gap:6px;align-items:center}.chip.warn{background:#fff7ed;color:#9a3412}
 .sq-pat{margin-top:10px;padding:10px;border-radius:12px;background:#f5f7ff}.sq-pk{display:flex;gap:4px;align-items:center;font-weight:800;font-size:.85rem;color:#1e3a8a}.sq-pk select{padding:4px 6px}
+.yn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.yt-more{grid-column:2/-1}.yt-more summary{cursor:pointer;font-weight:800;color:#4f46e5;font-size:.9rem}.yt-g{display:grid;grid-template-columns:1.3fr 1fr .7fr;gap:8px;margin-top:6px}.yt-g label{font-weight:800;font-size:.8rem;color:#1e3a8a}.sq-2{grid-column:3/-1;display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:6px}.sq-2 input{font-size:.85rem;padding:6px 8px}
+@media(max-width:720px){.yt-g,.sq-2,.yn-row{grid-template-columns:1fr}.sq-2{grid-column:1/-1}}
 .sq-l{display:grid;gap:6px;margin-top:12px}.sq-r{display:grid;grid-template-columns:auto 110px 140px 1fr 1.2fr auto;gap:6px;align-items:center;background:#fff;border:2px solid #e0e7ff;border-radius:12px;padding:6px 8px}.sq-r.dbl{border-top-style:dashed;margin-top:-4px}.sq-r.past{opacity:.7}.sq-d{display:grid;line-height:1.1}.sq-d small{color:#64748b;font-weight:700}
 @media(max-width:720px){.sq-r{grid-template-columns:auto 1fr}.sq-r>*:nth-child(n+3){grid-column:1/-1}.yt-r{grid-template-columns:auto 1fr 70px}.yt-r small{grid-column:1/-1}}
 .tpc.off{opacity:.55;background:repeating-linear-gradient(135deg,#f1f5f9 0 8px,#fff 8px 16px)}.tpc.off small{font-weight:800;color:#0369a1}.tp-fr{color:#0369a1;font-weight:800}.sq-h{font-size:.82rem;font-weight:800;color:#4f46e5}
@@ -810,6 +812,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .sl-big .rt{font-size:3.1cqh;height:100%;min-height:0;border-radius:0}
 .sl-editing [data-el]{cursor:move;outline:2px dashed rgba(79,70,229,.45);outline-offset:2px}
 .sl-editing [data-el].sl-sel{outline:3px solid #4f46e5}
+.sl-guide{position:absolute;z-index:9;pointer-events:none}.sl-guide.v{top:0;bottom:0;width:0;border-left:2px dashed #f59e0b}.sl-guide.h{left:0;right:0;height:0;border-top:2px dashed #f59e0b}.sl-guide.mid{border-color:#4f46e5}
 .sl-rz-r{right:-9px!important;top:50%!important;bottom:auto!important;transform:translateY(-50%);cursor:ew-resize!important;border-radius:6px!important;height:26px!important;width:14px!important}.sl-rz-b{bottom:-9px!important;left:50%!important;right:auto!important;transform:translateX(-50%);cursor:ns-resize!important;border-radius:6px!important;width:26px!important;height:14px!important}.sl-grp{display:inline-flex;gap:4px;align-items:center;background:#f5f7ff;border-radius:10px;padding:3px}.sl-pc{min-width:50px;text-align:center;font-size:.85rem;color:#1e3a8a}.sl-editing [data-el]:not(.sl-sel) .sl-rz{display:none}
 .sl-rz{position:absolute;right:-9px;bottom:-9px;width:18px;height:18px;border-radius:50%;background:#4f46e5;border:3px solid #fff;cursor:nwse-resize;box-shadow:0 1px 4px rgba(0,0,0,.3);z-index:3}
 .sl-editing .sl-b,.sl-editing .sl-t{position:relative}
@@ -2759,12 +2762,18 @@ document.addEventListener('pointerdown',e=>{const box=e.target.closest&&e.target
   e.preventDefault();const sl=slEdSlide();if(!sl)return;slFreeze(sl,box);const k=el.dataset.el,B=box.getBoundingClientRect(),P=k[0]==='i'?sl.imgs[+k.slice(1)]:sl.pos[k];if(!P)return;
   el.classList.add('sl-abs');el.style.left=P.x+'%';el.style.top=P.y+'%';el.style.width=P.w+'%';el.style.right='auto';el.style.bottom='auto';
   box.querySelectorAll('[data-el]').forEach(o=>{const q=o.dataset.el;if(q[0]!=='i'&&sl.pos[q]){o.classList.add('sl-abs');o.style.left=sl.pos[q].x+'%';o.style.top=sl.pos[q].y+'%';o.style.width=sl.pos[q].w+'%';o.style.right='auto';o.style.bottom='auto'}});
-  const hz=e.target.closest('.sl-rz');SLD={k,el,P,B,x0:e.clientX,y0:e.clientY,x:P.x,y:P.y,w:P.w,h:P.h||Math.round(el.getBoundingClientRect().height/B.height*1000)/10,rz:hz?hz.dataset.rz||'w':''};try{el.setPointerCapture(e.pointerId)}catch(x){}});
+  const hz=e.target.closest('.sl-rz');SLD={k,el,P,B,x0:e.clientX,y0:e.clientY,x:P.x,y:P.y,w:P.w,h:P.h||Math.round(el.getBoundingClientRect().height/B.height*1000)/10,rz:hz?hz.dataset.rz||'w':'',box,tg:slTargets(box,el)};try{el.setPointerCapture(e.pointerId)}catch(x){}});
 document.addEventListener('pointermove',e=>{if(!SLD)return;const D=SLD,dx=(e.clientX-D.x0)/D.B.width*100,dy=(e.clientY-D.y0)/D.B.height*100,r=x=>Math.round(x*10)/10;
   if(D.rz){if(D.rz.includes('w')){D.P.w=r(Math.max(4,Math.min(100-D.x,D.w+dx)));D.el.style.width=D.P.w+'%'}if(D.rz.includes('h')){D.P.h=r(Math.max(4,Math.min(100-D.y,D.h+dy)));D.el.style.height=D.P.h+'%'}}
-  else{D.P.x=r(Math.max(-20,Math.min(95,D.x+dx)));D.P.y=r(Math.max(-20,Math.min(95,D.y+dy)));D.el.style.left=D.P.x+'%';D.el.style.top=D.P.y+'%'}});
+  else{let x=Math.max(-20,Math.min(95,D.x+dx)),y=Math.max(-20,Math.min(95,D.y+dy));const R=D.el.getBoundingClientRect(),w=R.width/D.B.width*100,h=R.height/D.B.height*100,sn=1.2,gv=[],gh=[];
+    // Hilfslinien wie in Canva: Folienmitte und Kanten/Mitten der anderen Felder, mit Einrasten
+    let bx=null;[[x,0],[x+w/2,w/2],[x+w,w]].forEach(([v,o])=>D.tg.v.forEach(t=>{const d=Math.abs(v-t.p)-(t.c?.5:0);if(d<sn&&(!bx||d<bx.d))bx={d,x:t.p-o,p:t.p,c:t.c}}));if(bx){x=bx.x;gv.push(bx)}
+    let by=null;[[y,0],[y+h/2,h/2],[y+h,h]].forEach(([v,o])=>D.tg.h.forEach(t=>{const d=Math.abs(v-t.p)-(t.c?.5:0);if(d<sn&&(!by||d<by.d))by={d,y:t.p-o,p:t.p,c:t.c}}));if(by){y=by.y;gh.push(by)}
+    D.P.x=r(x);D.P.y=r(y);D.el.style.left=D.P.x+'%';D.el.style.top=D.P.y+'%';slGuides(D.box,gv,gh)}});
+function slTargets(box,el){const B=box.getBoundingClientRect(),v=[{p:50,c:1}],h=[{p:50,c:1}];box.querySelectorAll('[data-el]').forEach(o=>{if(o===el)return;const R=o.getBoundingClientRect(),l=(R.left-B.left)/B.width*100,t=(R.top-B.top)/B.height*100,w=R.width/B.width*100,hh=R.height/B.height*100;v.push({p:l},{p:l+w/2},{p:l+w});h.push({p:t},{p:t+hh/2},{p:t+hh})});return {v,h}}
+function slGuides(box,gv,gh){if(!box)return;box.querySelectorAll('.sl-guide').forEach(g=>g.remove());gv.forEach(g=>{const d=document.createElement('i');d.className='sl-guide v'+(g.c?' mid':'');d.style.left=g.p+'%';box.appendChild(d)});gh.forEach(g=>{const d=document.createElement('i');d.className='sl-guide h'+(g.c?' mid':'');d.style.top=g.p+'%';box.appendChild(d)})}
 document.addEventListener('input',e=>{if(e.target.id==='nz-sens')NOISE.sens=+e.target.value;if(e.target.id==='mw-own'){MWOWN=e.target.value;prepUpd()}if(e.target.id==='kfb-a'&&RCS&&RCS.kfb)KFIN={tid:RCS.kfb.tid,v:e.target.value.slice(0,12)}});
-document.addEventListener('pointerup',()=>{if(!SLD)return;const k=SLD.k;SLD=null;if(V.sle)V.sle.sel=k;save();render()});
+document.addEventListener('pointerup',()=>{if(!SLD)return;slGuides(SLD.box,[],[]);const k=SLD.k;SLD=null;if(V.sle)V.sle.sel=k;save();render()});
 const THUMBS=['👍 Ja, alles klar','👌 Teilweise','👎 Noch nicht'],MOOD5=['😄','🙂','😐','😕','😢'],AMP3=[['🟢','Kann ich'],['🟡','Fast'],['🔴','Noch nicht']];
 let MOODSEL=null,EXAMP=null,PREPON=null,KFCHK=null,KFIN=null;
 // Stimmungswörter bei der Begrüßung: Die SuS wählen bis zu 3 Wörter oder schreiben ein eigenes. An der Tafel entsteht daraus eine Wortwolke (ohne Namen).
@@ -3863,19 +3872,21 @@ function yearView(){const y=sjKey(),SJ=BY_SJ[y],K=subjKeys(),G=sjSegs(SJ),Y=yrD(
     dIter(first,last,(ds,wd)=>{const I=dayInfo(SJ,ds,wd);cells+=`<button class="yd ${I.k} ${ds===td?'today':''}" ${I.k==='sch'||I.k==='blk'?`data-act="yb-day" data-ds="${ds}"`:'disabled'} title="${esc(dDE(ds,1)+(I.n?' · '+I.n:''))}">${+ds.slice(8)}</button>`});
     return `<div class="ym"><b>${new Date(first+'T12:00Z').toLocaleDateString('de-DE',{month:'long',year:'numeric'})}</b><div class="yg"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>${cells}</div></div>`}).join('');
   const C=yk?cnt(yk):[],tot=C.reduce((a,b)=>a+b,0),TS=yk?topicSpread(SJ,yk):[],used=TS.reduce((a,t)=>a+t.h,0);
-  return `${planTabs('jahr')}<div class="row" style="justify-content:space-between;margin:12px 0"><h1>Jahresplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label><button class="btn sm" data-act="yr-print">🖨️ Jahresplan exportieren</button></div></div>
+  return `${planTabs('jahr')}<div class="row" style="justify-content:space-between;margin:12px 0"><h1>Jahresplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm pri" data-act="yr-docx">📄 Jahresplan ${esc(keyName(yk))} als Word</button>`:''}</div></div>
+  <div class="yn-row"><label>Dein Name (Kopfzeile im Export)<input type="text" data-yn="yrName" value="${esc(TD.yrName||'')}" placeholder="z. B. Vorname NACHNAME"></label><label>Schule<input type="text" data-yn="yrSchool" value="${esc(TD.yrSchool||'')}" placeholder="z. B. Mittelschule …"></label></div>
   <p class="muted" style="font-weight:700;margin-bottom:10px">Ferien und Feiertage in Bayern sind schon eingetragen. Tippe auf einen Schultag, um ihn zu blocken (z. B. Wandertag). ELIO zählt dann, wie viele Stunden du in jedem Fach wirklich hältst.</p>
   ${K.length?`<div class="yk-cards">${K.map(k=>{const c=cnt(k),t=c.reduce((a,b)=>a+b,0),s=k.split('|')[0];return `<button class="yk s-${s} ${k===yk?'on':''}" data-act="yk" data-k="${esc(k)}">${badge(s)}<b>${esc(keyName(k))}</b><span class="yk-n">${t}<small> Stunden</small></span><small>${c.join(' · ')}</small></button>`}).join('')}</div>`:'<div class="priv">Trag zuerst in der Wochenplanung deinen Stundenplan ein. Dann zählt ELIO hier die Stunden.</div>'}
   <section class="panel" style="margin-top:14px"><h2 style="font-size:1.15rem">Abschnitte von Ferien zu Ferien${yk?' · '+esc(keyName(yk)):''}</h2><div class="yseg">${G.map((g,i)=>`<button class="ys" data-act="seq-open" data-g="${i}"><b>${esc(g.n)}</b><small>${dDE(g.a)} – ${dDE(g.b)}</small>${yk?`<span>${C[i]} Std.</span>`:''}</button>`).join('')}</div></section>
   ${yk?`<section class="panel" style="margin-top:14px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">Jahresplan ${esc(keyName(yk))}</h2><span class="chip ${used>tot?'warn':used===tot&&tot?'ok':''}">${used} von ${tot} Stunden verplant</span></div>
     <p class="muted" style="font-weight:700;margin:4px 0 8px">Themen oder Lernbereiche in der Reihenfolge, wie du sie unterrichtest. ELIO rechnet aus, wann jedes Thema dran ist.</p>
-    <div class="yt-l">${TS.length||(Y.top[yk]||[]).length?(Y.top[yk]||[]).map((t,j)=>{const sp=topicSpread(SJ,yk)[j]||{};return `<div class="yt-r"><span class="lnum">${j+1}</span><input type="text" data-yt="${j}" data-k="t" value="${esc(t.t||'')}" placeholder="Thema / Lernbereich"><input type="number" min="0" max="200" data-yt="${j}" data-k="h" value="${+t.h||0}" aria-label="Stunden"><small class="muted">${sp.from?`${dDE(sp.from)} – ${dDE(sp.to)}`:''}${sp.over?' ⚠️ passt nicht mehr ins Schuljahr':''}</small><button class="btn sm" data-act="yt-mv" data-j="${j}" data-d="-1" ${j?'':'disabled'}>↑</button><button class="btn sm red" data-act="yt-del" data-j="${j}" aria-label="Thema löschen">✕</button></div>`}).join(''):''}</div>
+    <div class="yt-l">${TS.length||(Y.top[yk]||[]).length?(Y.top[yk]||[]).map((t,j)=>{const sp=topicSpread(SJ,yk)[j]||{};return `<div class="yt-r"><span class="lnum">${j+1}</span><input type="text" data-yt="${j}" data-k="t" value="${esc(t.t||'')}" placeholder="Thema / Lernbereich"><input type="number" min="0" max="200" data-yt="${j}" data-k="h" value="${+t.h||0}" aria-label="Stunden"><small class="muted">${sp.from?`${dDE(sp.from)} – ${dDE(sp.to)}`:''}${sp.over?' ⚠️ passt nicht mehr ins Schuljahr':''}</small><button class="btn sm" data-act="yt-mv" data-j="${j}" data-d="-1" ${j?'':'disabled'}>↑</button><button class="btn sm red" data-act="yt-del" data-j="${j}" aria-label="Thema löschen">✕</button>
+      <details class="yt-more" ${(V.ytOpen||[]).includes(j)?'open':''} data-yto="${j}"><summary>Kompetenzerwartungen, Inhalte, Leistungsnachweis${t.komp||t.inh||t.ln?' ✓':''}</summary><div class="yt-g"><label>Kompetenzerwartungen (eine pro Zeile)<textarea rows="4" data-yt="${j}" data-k="komp" placeholder="… erstellen zu Sachsituationen Terme …">${esc(t.komp||'')}</textarea></label><label>Inhalt (eine pro Zeile)<textarea rows="4" data-yt="${j}" data-k="inh">${esc(t.inh||'')}</textarea></label><label>Leistungsnachweis<textarea rows="2" data-yt="${j}" data-k="ln" placeholder="z. B. 1 große Probe">${esc(t.ln||'')}</textarea></label></div></details></div>`}).join(''):''}</div>
     <div class="row" style="margin-top:8px"><button class="btn sm" data-act="yt-add">＋ Thema</button>${modChs(yk.split('|')[0]).length?`<button class="btn sm" data-act="yt-mod">📚 Themen aus den Modulen übernehmen</button>`:''}</div></section>`:''}
   <section class="panel" style="margin-top:14px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">Kalender ${y}</h2><span class="ylg"><i class="fe"></i>Ferien <i class="hol"></i>Feiertag <i class="blk"></i>geblockt</span></div><div class="ycal">${cal}</div>
     ${blocks.length?`<div class="row" style="margin-top:10px;gap:6px">${blocks.map(([d,n])=>`<span class="chip">${dDE(d)} ${esc(n)} <button class="cw-x" data-act="yb-del" data-ds="${d}" aria-label="Freigeben">✕</button></span>`).join('')}</div>`:''}</section>`}
 function seqView(){const y=sjKey(),SJ=BY_SJ[y],K=subjKeys(),G=sjSegs(SJ),Y=yrD(),yk=K.includes(V.yk)?V.yk:K[0],td=isoD(new Date());
   const gi=V.sg!=null?Math.min(+V.sg,G.length-1):Math.max(0,G.findIndex(g=>td<=g.b)),g=G[gi<0?0:gi];
-  const head=`${planTabs('seq')}<div class="row" style="justify-content:space-between;margin:12px 0"><h1>Sequenzplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm" data-act="seq-print">🖨️ Sequenzplan exportieren</button>`:''}</div></div>`;
+  const head=`${planTabs('seq')}<div class="row" style="justify-content:space-between;margin:12px 0"><h1>Sequenzplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm pri" data-act="seq-docx">📄 Sequenzplan als Word</button>`:''}</div></div>`;
   if(!yk)return head+'<div class="priv">Trag zuerst in der Wochenplanung deinen Stundenplan ein.</div>';
   const S=slotsIn(SJ,g.a,g.b,yk),pat=Y.pat[yk]=Y.pat[yk]||{},pk=[...new Set(S.map(x=>x.wd+'-'+x.i))].sort((a,b)=>a.split('-')[0]-b.split('-')[0]||a.split('-')[1]-b.split('-')[1]);
   const TS=topicSpread(SJ,yk).filter(t=>t.from&&t.from<=g.b&&t.to>=g.a);
@@ -3888,7 +3899,8 @@ function seqView(){const y=sjKey(),SJ=BY_SJ[y],K=subjKeys(),G=sjSegs(SJ),Y=yrD()
   <div class="sq-l">${S.map((x,n)=>{const k=x.ds+'|'+x.i,e=Y.seq[k]||{},L=TD.plan[k]&&lessonById(TD.plan[k]),dbl=n>0&&S[n-1].ds===x.ds&&S[n-1].i===x.i-1;
     return `<div class="sq-r ${dbl?'dbl':''} ${x.ds<td?'past':''}"><span class="lnum">${n+1}</span><span class="sq-d"><b>${DAYS[x.wd].slice(0,2)} ${dDE(x.ds)}</b><small>${x.i+1}. Std${dbl?' · Doppelstd.':''}</small></span>
       <select data-sq="${k}" data-k="typ"><option value="">Art</option>${SEQ_TYP.map(t=>`<option ${(e.typ||'')===t?'selected':''}>${t}</option>`).join('')}</select>
-      <input type="text" data-sq="${k}" data-k="t" value="${esc(e.t||'')}" placeholder="${esc(L?L.title:'Thema der Stunde')}"><input type="text" data-sq="${k}" data-k="k" value="${esc(e.k||'')}" placeholder="Zentrale Kompetenz: Die SuS …">${L?`<button class="btn sm" data-act="l-edit" data-id="${L.id}" title="Geplante Stunde öffnen">✏️</button>`:''}</div>`}).join('')||'<p class="muted" style="font-weight:700">In diesem Abschnitt gibt es keine Stunden für dieses Fach.</p>'}</div>`}
+      <input type="text" data-sq="${k}" data-k="t" value="${esc(e.t||'')}" placeholder="${esc(L?L.title:'Thema der Stunde')}"><input type="text" data-sq="${k}" data-k="k" value="${esc(e.k||'')}" placeholder="Zentrale Kompetenz: Die SuS …">${L?`<button class="btn sm" data-act="l-edit" data-id="${L.id}" title="Geplante Stunde öffnen">✏️</button>`:'<span></span>'}
+      <span class="sq-2"><input type="text" data-sq="${k}" data-k="pk" value="${esc(e.pk||'')}" placeholder="Prozessbezogene Kompetenz (z. B. Kommunizieren)"><input type="text" data-sq="${k}" data-k="inh" value="${esc(e.inh||'')}" placeholder="Inhalte"><input type="text" data-sq="${k}" data-k="med" value="${esc(e.med||'')}" placeholder="Medien & Materialien"></span></div>`}).join('')||'<p class="muted" style="font-weight:700">In diesem Abschnitt gibt es keine Stunden für dieses Fach.</p>'}</div>`}
 // Drucken als A4 (der Browser macht daraus ein PDF)
 function printDoc(title,body,land,cmp){const w=window.open('','_blank');if(!w){alert('Bitte Pop-ups für ELIO erlauben.');return}
   w.document.write(`<!doctype html><html lang="de"><head><meta charset="utf-8"><title>${esc(title)}</title><style>@page{size:A4 ${land?'landscape':'portrait'};margin:14mm}*{box-sizing:border-box}body{font:10.5pt/1.35 Arial,Helvetica,sans-serif;color:#111;margin:0}
@@ -3922,13 +3934,56 @@ function ybDay(ds){const b=yrD().block[ds];if(b){delete yrD().block[ds];tsave();
     <label class="label" style="display:block;margin-top:10px">Oder eigener Grund<input id="yb-n" type="text" maxlength="40" placeholder="z. B. Sportfest"></label>
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button><button class="btn pri" data-act="yb-set" data-ds="${ds}">Blocken</button></div></div>`)}
 document.addEventListener('input',e=>{const t=e.target,ds=t.dataset||{};if(V.name!=='tplan')return;
-  if(ds.yt!=null){const k=sjKeyCur(),A=yrD().top[k];if(!A||!A[+ds.yt])return;A[+ds.yt][ds.k]=ds.k==='h'?Math.max(0,Math.min(200,parseInt(t.value||'0',10)||0)):t.value.slice(0,120);tsave()}
-  if(ds.sq){const Y=yrD(),e2=Y.seq[ds.sq]=Y.seq[ds.sq]||{};e2[ds.k]=t.value.slice(0,200);tsave()}});
+  if(ds.yt!=null){const k=sjKeyCur(),A=yrD().top[k];if(!A||!A[+ds.yt])return;A[+ds.yt][ds.k]=ds.k==='h'?Math.max(0,Math.min(200,parseInt(t.value||'0',10)||0)):t.value.slice(0,ds.k==='t'?120:3000);tsave()}
+  if(ds.yn){TD[ds.yn]=t.value.slice(0,80);tsave()}
+  if(ds.sq){const Y=yrD(),e2=Y.seq[ds.sq]=Y.seq[ds.sq]||{};e2[ds.k]=t.value.slice(0,1500);tsave()}});
 document.addEventListener('change',e=>{const t=e.target,ds=t.dataset||{};if(V.name!=='tplan')return;
   if(ds.actCh==='sj'){V.sj=t.value;render()}if(ds.actCh==='yk'){V.yk=t.value;render()}
   if(ds.pat){const k=sjKeyCur(),Y=yrD();(Y.pat[k]=Y.pat[k]||{})[ds.pat]=t.value;tsave()}
   if(ds.sq&&ds.k==='typ'){const Y=yrD();(Y.seq[ds.sq]=Y.seq[ds.sq]||{}).typ=t.value;tsave()}
-  if(ds.yt!=null)render()});
+  if(ds.yt!=null&&ds.k==='h')render()});
+document.addEventListener('toggle',e=>{const d=e.target;if(!d.dataset||d.dataset.yto==null)return;const j=+d.dataset.yto;V.ytOpen=(V.ytOpen||[]).filter(x=>x!==j);if(d.open)V.ytOpen.push(j)},true);
+/* Jahres- und Sequenzplan als Word-Datei (A4 quer): roter Kopf mit blauer Linie, pfirsichfarbene Tabellenköpfe, grüne erste Spalte */
+const PD_FONT='<w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>';
+function pdRun(t,o={}){return `<w:r><w:rPr>${o.tnr?TNR:PD_FONT}${o.b?'<w:b/>':''}${o.caps?'<w:caps/>':''}${o.color?`<w:color w:val="${o.color}"/>`:''}<w:sz w:val="${o.sz||16}"/><w:szCs w:val="${o.sz||16}"/></w:rPr><w:t xml:space="preserve">${wx(t)}</w:t></w:r>`}
+function pdPara(t,o={}){return `<w:p><w:pPr><w:spacing w:before="${o.before||0}" w:after="${o.after==null?20:o.after}"/>${o.ind?'<w:ind w:left="227" w:hanging="170"/>':''}${o.jc?`<w:jc w:val="${o.jc}"/>`:''}</w:pPr>${o.ind?pdRun('•\t'.replace('\t',' '),o):''}${pdRun(t,o)}</w:p>`}
+// Zelle: {p:[Absätze als XML], fill, vm:'r'|'c', dir:true, w}
+function pdCell(c,w){const P=c.p&&c.p.length?c.p.join(''):'<w:p/>';
+  return `<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${c.vm?`<w:vMerge${c.vm==='r'?' w:val="restart"':''}/>`:''}${c.fill?`<w:shd w:val="clear" w:color="auto" w:fill="${c.fill}"/>`:''}${c.dir?'<w:textDirection w:val="btLr"/>':''}${c.vc?'<w:vAlign w:val="center"/>':''}</w:tcPr>${P}</w:tc>`}
+function pdTable(cols,head,rows){const B='<w:tblBorders>'+['top','left','bottom','right','insideH','insideV'].map(k=>`<w:${k} w:val="single" w:sz="4" w:space="0" w:color="000000"/>`).join('')+'</w:tblBorders>';
+  return `<w:tbl><w:tblPr><w:tblW w:w="${cols.reduce((a,b)=>a+b,0)}" w:type="dxa"/>${B}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:left w:w="70" w:type="dxa"/><w:right w:w="70" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${cols.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>
+  <w:tr><w:trPr><w:tblHeader/></w:trPr>${head.map((h,i)=>pdCell({fill:'FBD4B4',p:[pdPara(h,{b:1,tnr:1,sz:18,jc:'center'})]},cols[i])).join('')}</w:tr>
+  ${rows.map(r=>`<w:tr><w:trPr><w:cantSplit/>${r.h?`<w:trHeight w:val="${r.h}"/>`:''}</w:trPr>${r.c.map((c,i)=>pdCell(c,cols[i])).join('')}</w:tr>`).join('')}</w:tbl>`}
+function pdHeader(items){const W=15422,w=Math.floor(W/items.length);
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:tbl><w:tblPr><w:tblW w:w="${W}" w:type="dxa"/><w:tblBorders><w:bottom w:val="single" w:sz="36" w:space="0" w:color="4F81BD"/></w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>${items.map(()=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>
+  <w:tr><w:trPr><w:trHeight w:val="420"/></w:trPr>${items.map((t,i)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="C0504D"/><w:vAlign w:val="center"/></w:tcPr>${pdPara(t||'',{tnr:1,caps:1,sz:16,after:0,jc:i===items.length-1?'right':'left'})}</w:tc>`).join('')}</w:tr></w:tbl><w:p/></w:hdr>`}
+function pdDocx(name,hdr,body){const NS='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  const F=[['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>'],
+    ['_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'],
+    ['word/_rels/document.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+    ['word/styles.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ${NS}><w:docDefaults><w:rPrDefault><w:rPr>${PD_FONT}<w:sz w:val="16"/><w:lang w:val="de-DE"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Standard"><w:name w:val="Normal"/></w:style></w:styles>`],
+    ['word/header1.xml',hdr],
+    ['word/document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${NS}><w:body>${body}<w:p/><w:sectPr><w:headerReference w:type="default" r:id="rId1"/><w:pgSz w:w="16840" w:h="11900" w:orient="landscape"/><w:pgMar w:top="1134" w:right="567" w:bottom="851" w:left="851" w:header="397" w:footer="397" w:gutter="0"/></w:sectPr></w:body></w:document>`]];
+  const b=zipStore(F),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name.replace(/[\\/:*?"<>|]/g,'')+'.docx';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);return b}
+const pdLines=(t,o)=>lines(t).map(x=>pdPara(x.replace(/^[-•*]\s*/,''),{ind:1,sz:14,...o}));
+const MON_K=['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
+function yearDocx(k){const y=sjKey(),SJ=BY_SJ[y],TS=topicSpread(SJ,k),all=slotsIn(SJ,SJ.start,SJ.end,k),[s,c]=k.split('|'),sn=(SUBJECTS[s]||{}).name||s;let p=0;const rows=[];
+  TS.forEach((t,j)=>{const mine=all.slice(p,p+t.h);p+=t.h;const M=[];mine.forEach(x=>{const m=x.ds.slice(0,7),l=M[M.length-1];if(l&&l.m===m)l.n++;else M.push({m,n:1})});if(!M.length)M.push({m:'',n:t.h});
+    M.forEach((m,i)=>{const f=i===0,vm=M.length>1?(f?'r':'c'):null;rows.push({h:M.length>1?900:1700,c:[{fill:'D6E3BC',p:[pdPara(m.m?MON_K[+m.m.slice(5)-1]:'',{b:1,tnr:1,sz:18})]},{p:[pdPara(String(m.n),{b:1,tnr:1,sz:18,jc:'center'})]},
+      {vm,dir:1,vc:1,p:f?[pdPara(`${j+1}. ${t.t||''}`,{tnr:1,sz:20,jc:'center'})]:[]},
+      {vm,p:f?[pdPara('Die Schülerinnen und Schüler …',{sz:14,after:60}),...pdLines(t.komp)]:[]},{vm,p:f?pdLines(t.inh):[]},{vm,p:f?lines(t.ln).map(x=>pdPara(x,{sz:16})):[]}]})})});
+  if(!rows.length)rows.push({h:900,c:[{fill:'D6E3BC'},{},{},{p:[pdPara('Noch keine Themen im Jahresplan.',{sz:16})]},{},{}]});
+  return pdDocx(`Jahresplan ${sn} ${c} ${y.replace('/','-')}`,pdHeader(['Jahresplan',TD.yrName||'',TD.yrSchool||'','Schuljahr '+y,sn+' '+c]),
+    pdTable([846,567,1276,6095,4678,1960],['Monat','UE','Thema','Kompetenzerwartungen','Inhalt','Leistungsnachweis'],rows))}
+function seqDocx(){const y=sjKey(),SJ=BY_SJ[y],G=sjSegs(SJ),k=sjKeyCur(),td=isoD(new Date()),gi=V.sg!=null?+V.sg:Math.max(0,G.findIndex(g=>td<=g.b)),g=G[gi],Y=yrD(),[s,c]=k.split('|'),sn=(SUBJECTS[s]||{}).name||s;
+  const D=[];slotsIn(SJ,g.a,g.b,k).forEach(x=>{const l=D[D.length-1],e=Y.seq[x.ds+'|'+x.i]||{},L=TD.plan[x.ds+'|'+x.i]&&lessonById(TD.plan[x.ds+'|'+x.i]);const E={...e,t:e.t||(L?L.title:'')};if(l&&l.ds===x.ds){l.n++;l.E.push(E)}else D.push({ds:x.ds,n:1,E:[E]})});
+  const col=(E,f,o)=>{const v=[...new Set(E.map(e=>(e[f]||'').trim()).filter(Boolean))];return v.flatMap(x=>f==='inh'||f==='k'?pdLines(x,o):[pdPara(x,{sz:16,...o})])};
+  const rows=D.map(d=>({h:1000,c:[{fill:'D6E3BC',p:[pdPara(d.ds.slice(8)+'.'+d.ds.slice(5,7)+'.',{b:1,tnr:1,sz:18,jc:'center'}),pdPara(`(${d.n})`,{b:1,tnr:1,sz:18,jc:'center'})]},
+    {p:col(d.E,'t',{sz:16})},{p:col(d.E,'pk')},{p:col(d.E,'inh')},{p:col(d.E,'k')},{p:col(d.E,'med')}]}));
+  const ab=g.n.replace(/^Schulanfang bis /,'Sommerferien - ').replace(/- bis /,'ferien - ');
+  return pdDocx(`Sequenzplan ${sn} ${c} ${dDE(g.a)}-${dDE(g.b)}`,pdHeader(['Sequenzplan',ab,TD.yrName||'',TD.yrSchool||'','Schuljahr '+y,sn+' '+c]),
+    pdTable([986,1276,1986,4678,4252,2126],['Datum (UE)','Thema','Prozessbezogene Kompetenzen (Schwerpunkte)','Inhalte','Inhaltliche und prozessbezogene Kompetenzen gemäß LehrplanPlus','Medien & Materialien'],rows))}
+
 function sjKeyCur(){const K=subjKeys();return K.includes(V.yk)?V.yk:K[0]}
 
 /* --- Kopfrechenfußball --- */
@@ -5449,6 +5504,8 @@ document.addEventListener('click',e=>{
     case 'seq-open':V.pt='seq';S.pt='seq';V.sg=+d.g;save();render();break;
     case 'seq-fill':seqFill();break;
     case 'seq-print':seqPrint();break;
+    case 'seq-docx':seqDocx();break;
+    case 'yr-docx':yearDocx(sjKeyCur());break;
     case 'yr-print':yearPrint();break;
     case 'wk-print':weekPrint();break;
     case 'yb-day':ybDay(d.ds);break;
