@@ -1205,26 +1205,9 @@ const WEEK=[
   ['E','D','M','K','W','','','','',''],
 ];
 const DAYS=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag'];
-const HEFT={
-  E:[{id:'e1',date:'2026-10-07',ex:true,title:'Shopping for clothes',blocks:[
-      ['h','Words'],['table',[['English','Deutsch'],['hoodie','Kapuzenpulli'],['trainers','Turnschuhe'],['changing room','Umkleidekabine'],['expensive','teuer'],['cheap','billig'],['change','Wechselgeld']]],
-      ['h','Useful phrases'],['list',['Can I help you? – Kann ich dir helfen?',"I'm looking for … – Ich suche …",'What size are you? – Welche Größe hast du?','Can I try it on? – Kann ich es anprobieren?']],
-      ['merke','How much <b>is</b> it? → ein Ding (Singular)<br>How much <b>are</b> they? → mehrere Dinge (Plural, z. B. trainers, jeans)']]}],
-  M:[{id:'m1',date:'2026-10-08',ex:true,title:'Prozentrechnung – Grundbegriffe',blocks:[
-      ['table',[['Begriff','Zeichen','Beispiel'],['Grundwert','G','50 €'],['Prozentsatz','p %','20 %'],['Prozentwert','P','10 €']]],
-      ['merke','Prozentwert = Grundwert · Prozentsatz : 100<br><b>P = G · p : 100</b>'],
-      ['h','Beispiel'],['p','Ein Hoodie kostet 50 €. Er ist um 20 % reduziert.<br>P = 50 € · 20 : 100 = <b>10 €</b>. Der Hoodie kostet jetzt 40 €.']]}],
-  K:[{id:'k1',date:'2026-10-06',ex:true,title:'Der Farbkreis nach Itten',blocks:[
-      ['h','Grundfarben (1. Ordnung)'],['p','Gelb, Rot, Blau'],
-      ['h','Mischfarben (2. Ordnung)'],['list',['Gelb + Rot = Orange','Rot + Blau = Violett','Blau + Gelb = Grün']],
-      ['merke','Komplementärfarben liegen sich im Farbkreis <b>gegenüber</b>. Sie verstärken sich gegenseitig (z. B. Rot und Grün).']]}],
-};
-const HOMEWORK=[
-  {id:'h1',s:'M',due:'2026-10-12',ex:true,task:'Arbeitsblatt Prozente, Aufgaben 1 bis 4'},
-  {id:'h2',s:'E',due:'2026-10-13',ex:true,task:'Lerne die Wörter aus „Shopping for clothes“. Schreibe 3 Sätze mit „I\'m looking for …“.'},
-  {id:'h3',s:'K',due:'2026-10-14',ex:true,task:'Bring eine leere Klopapierrolle und Zeitungspapier mit.'},
-  {id:'h4',s:'D',due:'2026-10-15',ex:true,task:'Lies im Lesebuch S. 42–45 und notiere drei Fragen zum Text.'},
-];
+// Hefteinträge und Übungen kommen nur noch von der Lehrkraft (keine Beispielinhalte mehr)
+const HEFT={};
+const HOMEWORK=[];
 
 /* ---------- English module content ---------- */
 const STATIONS=[
@@ -1521,7 +1504,6 @@ VIEWS.dash=()=>{
   const L=lvlInfo(),planTxt=sl.kind==='lesson'?`Jetzt: ${SUBJECTS[sl.l.s].name}`:sl.next?`Als Nächstes: ${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'Deine Woche im Überblick';
   const areas=`<div class="areas">
       <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${aufOpen().length?aufOpen().length+' Übungsauftrag'+(aufOpen().length>1?'e':'')+' offen':'Alles erledigt'}</small></button>
-      <button class="area a-play" data-act="practice"><span class="ai">🎮</span><b>Freies Üben</b><small>Level ${L.l} · Lernspiele</small><div class="mini"><i style="width:${L.pct}%"></i></div></button>
       <button class="area a-plan" data-act="week"><span class="ai">🗓️</span><b>Stundenplan</b><small>${esc(planTxt)}</small></button>
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
@@ -1539,7 +1521,7 @@ VIEWS.desk=()=>{
   const days=Object.keys(S.diary||{}).length+(S.journal||[]).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch</h1>${S.av!=null?avatar(S.av,44):''}</div>
   <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
-      return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
+      return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
     ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}</div>
   <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
@@ -1590,7 +1572,7 @@ function lvlInfo(){const l=Math.floor(S.stars/10)+1;return {l,name:LEVELS[Math.m
 function lvlBar(){const L=lvlInfo();
   return `<div class="lvl">${elo('happy',52)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b style="font-size:1.15rem">Level ${L.l} · ${L.name}</b><small class="muted" style="font-weight:700">Noch ${L.left} Stern${L.left>1?'e':''} bis Level ${L.l+1}</small></div>
     <div class="bar"><i style="width:${L.pct}%"></i></div></div></div>`}
-function gameHead(g,s){return `<div class="st-head s-${s}">${BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='teacher'?`<button class="btn sm" data-act="${V.back||'tafel'}">← ${V.back==='present'?'Präsentation':'Tafel'}</button><span class="chip">An der Tafel · Touch</span>`:`<button class="btn sm" data-act="practice" data-s="${s}">← Üben</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
+function gameHead(g,s){return `<div class="st-head s-${s}">${BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='teacher'?`<button class="btn sm" data-act="${V.back||'tafel'}">← ${V.back==='present'?'Präsentation':'Tafel'}</button><span class="chip">An der Tafel · Touch</span>`:`<button class="btn sm" data-act="dash">← Zurück</button>`}${badge(s)}<h1 style="font-size:1.6rem">${GAME_INFO[g].icon} ${GAME_INFO[g].name}</h1>${GAMES[s].ex?'<span class="chip ex">Beispiel-Inhalte</span>':''}</div>`}
 function finishGame(g){
   const day=new Date().toISOString().slice(0,10);
   if(S.playDay!==day){S.play={};S.playDay=day}
@@ -1760,17 +1742,17 @@ VIEWS.subject=()=>{
   const hl=tab==='heft'&&V.hl&&entries.find(e=>e.id===V.hl);
   if(tab==='heft')body=hl?`<div class="hl-ban">✍️ Schreib diesen Hefteintrag in dein Regelheft ab.</div><div class="entries">${heftPage(hl)}</div><button class="btn sm" data-act="hl-all" style="margin-top:12px">Alle Einträge zeigen</button>`:entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
     :`<div class="empty">Noch keine Einträge in ${sub.name}. Sobald es einen Tafelanschrieb gibt, erscheint er hier.</div>`;
-  if(tab==='hw')body=hws.length?`<div class="hw-list">${hws.map(hwRow).join('')}</div>`:'<div class="empty">Keine Hausaufgaben in diesem Fach.</div>';
+  if(tab==='hw')body=hws.length?`<div class="hw-list">${hws.map(hwRow).join('')}</div>`:'<div class="empty">Keine Übungen in diesem Fach.</div>';
   if(tab==='module'&&modChs(k).length)body=landHTML(k)+modList(k);
   else if(tab==='module')body=k==='E'?`<button class="mod-card" data-act="module">${elo('happy',64)}<span class="t"><span class="label">Lernleiter · 7 Stufen</span><b>Shopping in London</b>
       <span class="muted">${STATIONS.filter(s=>S.done[s.id]).length} von ${STATIONS.length} Stufen geschafft</span></span><span class="btn pri">Öffnen</span></button>`
     :`<div class="empty">Für ${sub.name} gibt es noch keine Lernmodule.${k==='M'||k==='K'?' Kommt als Nächstes!':''}</div>`;
-  if(tab==='module'&&GAMES[k])body+=`<button class="mod-card" style="margin-top:12px" data-act="practice" data-s="${k}"><span style="font-size:2.6rem">🎮</span><span class="t"><span class="label">Üben</span><b>Lernspiele in ${sub.name}</b><span class="muted">Memory, Wortsalat, Ballon-Rätsel</span></span><span class="btn">Spielen</span></button>`;
   return `<div class="subj-head s-${k}">${V.desk?'<button class="btn sm" data-act="desk">← Schreibtisch</button>':'<button class="btn sm" data-act="dash">← Dashboard</button>'}${badge(k)}<h1>${sub.name}</h1></div>
     <div class="tabs s-${k}" role="tablist">
       <button class="${tab==='module'?'on':''}" data-act="tab" data-t="module">Lernmodule</button>
       <button class="${tab==='heft'?'on':''}" data-act="tab" data-t="heft">Regelheft · ${entries.length}</button>
-      <button class="${tab==='hw'?'on':''}" data-act="tab" data-t="hw">Hausaufgaben · ${hws.filter(h=>!S.hwDone[h.id]).length}</button>
+      ${k==='E'?'<button data-act="vok">📗 Vokabelheft</button>':''}
+      <button class="${tab==='hw'?'on':''}" data-act="tab" data-t="hw">Übungen · ${hws.filter(h=>!S.hwDone[h.id]).length}</button>
     </div>
     <div class="s-${k}">${body}</div>`;
 };
@@ -2116,6 +2098,11 @@ const POLLS={
   corners:{q:'Wie gut kannst du es schon?',opts:CORNERS.map((c,i)=>`Ecke ${i+1}: ${c.t}`)},
 };
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+// Schüler-iPad kommt nicht in den Klassenkanal: einmal automatisch neu an die Klasse binden (Kürzel-Anmeldung) und neu verbinden
+let LIVE_REB=null;
+async function liveRelink(){if(S.role!=='student'||!S.code)return;Live.relinking=true;updBanner();
+  try{if(S.acct&&S.acct.u&&S.acct.p)await acctLogin(S.acct.u,S.acct.p,true);else{const sb=await sbClient();await acctAnon(sb)}}catch(e){console.warn('relink',e)}
+  Live.relinking=false;Live.start(S.code)}
 const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
   async start(code){
     this.stop();
@@ -2131,9 +2118,10 @@ const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
         let tries=0;
         const open=priv=>{const ch=c.channel('elon-'+code,{config:{private:priv,broadcast:{self:false}}});this.sb=ch;this.priv=priv;this.st='connecting';
           ['state','msg'].forEach(ev=>ch.on('broadcast',{event:ev},({payload})=>this.recv(payload)));
-          ch.subscribe(st=>{if(this.sb!==ch)return;this.st=st;
+          ch.subscribe((st,err)=>{if(this.sb!==ch)return;this.st=st;if(err)this.err=String(err.message||err).slice(0,80);
             if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&priv){try{c.removeChannel(ch)}catch(e){}if(++tries<3){setTimeout(async()=>{try{await c.realtime.setAuth()}catch(e){}if(this.code===code)open(true)},1500*tries);return}open(false);return}
-            if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&!priv&&S.role==='student'){this.needJoin=true;updBanner()}
+            if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&!priv&&S.role==='student'){this.needJoin=true;updBanner();if(LIVE_REB!==code){LIVE_REB=code;liveRelink()}}
+            if(st==='SUBSCRIBED'&&S.role==='student'&&this.needJoin){this.needJoin=false;updBanner()}
             if(V.name==='tafel')render()})};
         open(true);this.kind='server';
         // Zweiter Weg für Nachrichten der iPads an die Lehrkraft (Bereit, Hilfe, Stimmung …): ein offener Kanal, Inhalt trotzdem mit dem Klassenschlüssel verschlüsselt.
@@ -2485,7 +2473,7 @@ function updBanner(){updRail();
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
   el.hidden=false;
-  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">${Live.needJoin?'Keine Verbindung zur Tafel. Melde dich ab und tritt der Klasse neu bei (Code oder QR-Karte).':Live.needKey?'🔑 Scanne den Schlüssel-QR an der Tafel oder auf deiner Karte, dann geht es los.':'Warte auf die Tafel …'} · ${esc(className())} · <span title="Verbindung">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 verbunden':'⚠️ offen verbunden'):'⏳ verbinde'):Live.kind==='demo'?'📴 nur dieses Gerät':'📴 offline'}</span> · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
+  if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">${Live.relinking?'🔄 Verbinde neu mit deiner Klasse …':Live.needJoin?`Keine Verbindung zur Tafel. <button class="btn sm" data-act="live-re">🔄 Neu verbinden</button>${Live.err?` <small>(${esc(Live.err)})</small>`:''}`:Live.needKey?'🔑 Scanne den Schlüssel-QR an der Tafel oder auf deiner Karte, dann geht es los.':'Warte auf die Tafel …'} · ${esc(className())} · <span title="Verbindung">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 verbunden':'⚠️ offen verbunden'):'⏳ verbinde'):Live.kind==='demo'?'📴 nur dieses Gerät':'📴 offline'}</span> · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
   const ph=phaseOf(RCS.phase),inHelp=helpOn(),tl=timerLeft(RCS.timer,OFF);
   const G=!RCS.freeze&&RCS.game&&gInfo(RCS.game.g);
   el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+esc(G.name):esc(ph.name)}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
@@ -5154,7 +5142,7 @@ document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')
 VIEWS.tdesk=()=>{const ks=[...new Set(['M','DZ','E','K',...tHeft().map(e=>e.s)])];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
   <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
-    return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
+    return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="folder" data-act="theft"><span class="tab"></span><span class="fbody"><b>+ Neuer Eintrag</b><small>Hefteintrag für ein Fach schreiben</small></span></button></div>`};
 VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
@@ -5163,7 +5151,7 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='M'?'Jahresplan':'Lernlandschaft'} laden</button></div></section>`:''}
   ${k==='E'?vokTeach():''}
   <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
-  <h2 style="margin:18px 0 8px">Hausaufgaben · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Hausaufgaben gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
+  <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
 const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
@@ -5516,6 +5504,7 @@ document.addEventListener('click',e=>{
     case 'jr-save':saveJournal(d.src,d.id);break;
     case 'jr-new':V.form=true;render();break;
     case 'journal':go('journal');break;
+    case 'live-re':LIVE_REB=S.code;liveRelink();break;
     case 'vok':VQ=null;go('vok');break;
     case 'vok-go':vokStart(!!d.free);break;
     case 'vok-end':VQ=null;render();break;
