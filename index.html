@@ -1355,7 +1355,7 @@ const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
 // Klassenschlüssel kommt nur im #-Teil der Adresse (QR-Karte, Tafel-QR): der wird nie an einen Server geschickt
 const HK=(()=>{const h=new URLSearchParams(location.hash.slice(1));const o={k:h.get('k'),ck:h.get('ck'),u:(h.get('u')||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,4)};if(o.k||o.ck||o.u){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}return o})();
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
-const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok'];
+const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
 const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
 function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
@@ -1772,7 +1772,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261011-2115';let verTold=false;
+const BUILD='20261011-2235';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2287,7 +2287,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2554,11 +2554,14 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){RCS=p;rcsAt=Date.now();if(S.role==='student'){nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
+function onClassState(p){RCS=p;rcsAt=Date.now();if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
   OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
+// Lehrkraft hat das Kind zurückgesetzt: Name, Avatar und Lernstand auf diesem iPad löschen, dann neu einrichten
+function stuWipe(){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk;S.acctAt=Date.now();save();ACCT.sig='';acctSave(true);V={name:'role',step:'nick',nr:S.nr,only:'student',school:S.school,cls:S.cls};render()}
+function wipeChk(W){if(S.role!=='student'||!W||!S.nr)return false;const at=+W[S.nr]||0;if(!at||(+S.nickAt||0)>at)return false;stuWipe();return true}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
 const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
@@ -2696,7 +2699,7 @@ VIEWS.role=()=>{
   if(step==='class')return `<div class="start"><div class="start-head">${back('school')}<span class="label">Schritt 2 von 3 · ${esc(sc.name)}</span></div><h1>Wähle deine Klasse</h1>
     <div class="pick">${sc.classes.map(c=>`<button class="pick-card cls" data-act="st-class" data-id="${c.id}"><b class="cl">${esc(c.label||c.id)}</b><span class="muted">${esc(c.name)}</span></button>`).join('')}</div></div>`;
   if(step==='nick'){if(V.av==null)V.av=S.av!=null?cleanAv(S.av):avRandom();
-    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl.name)}${S.acct&&S.acct.u?' · '+esc(S.acct.u):''}</span></div><h1>Bau dir deinen Avatar</h1>
+    return `<div class="start"><div class="start-head">${back(V.only?'role':'role')}<span class="label">Fast geschafft · ${esc(cl?cl.name:className())}${S.acct&&S.acct.u?' · '+esc(S.acct.u):''}</span></div><h1>Bau dir deinen Avatar</h1>
     <section class="panel" style="margin-top:16px">${avBuilder(V.av)}${avNameHTML('nick')}
       <p class="err" id="nick-err"></p>
       <button class="btn ok big" data-act="nick-ok" style="width:100%;margin-top:16px">Fertig</button>
@@ -5068,7 +5071,7 @@ async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p
     if(quiet)return true;
     V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.nr=+r.nr;meLoad();
     // Sicherung vom Server: übernehmen, wenn sie neuer ist als das, was auf diesem iPad liegt
-    if(r.prof&&r.prof.ct){try{const o=await acctOpen(u,p,r.prof);if(o&&(+o.acctAt||0)>=(+S.acctAt||0))ACCT_KEYS.concat('acctAt').forEach(k=>{if(k in o)S[k]=o[k]})}catch(e){console.warn('acct open',e)}}
+    if(r.prof&&r.prof.ct){try{const o=await acctOpen(u,p,r.prof);if(o&&o.wipe&&(+S.nickAt||0)<+o.wipe){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk}else if(o&&(+o.acctAt||0)>=(+S.acctAt||0))ACCT_KEYS.concat('acctAt').forEach(k=>{if(k in o)S[k]=o[k]})}catch(e){console.warn('acct open',e)}}
     S.acct={u,p};S.phaseSeen='';V.busy=0;ACCT.sig='';
     if(!S.nick||S.av==null){V.nr=S.nr;V.only='student';V.step='nick';V.av=null;saveRole();render();return true}
     saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});acctSave(true);cloudLoadWeek(S.cls).then(render);return true}
@@ -5088,7 +5091,8 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
   const st=zgStore(c.id),L=ZG.list||[],by={};L.forEach(r=>by[r.nr]=r);const nrs=Array.from({length:c.size||24},(_,i)=>i+1),url=location.origin+location.pathname;
   if(V.print){setTimeout(fillQR,0);const ks=nrs.filter(k=>by[k]&&st[k]&&st[k].u===by[k].uname);
     return `<div class="st-head noprint"><button class="btn sm" data-act="zg-print-x">← Zurück</button><h1 style="font-size:1.6rem">Zugangskarten · ${esc(c.name)}</h1><button class="btn pri" data-act="kl-print">🖨️ Drucken</button></div>
-    <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Schneide die Karten aus und gib jedem Kind seine. Der QR-Code öffnet ELIO mit dem Kürzel, die PIN tippt das Kind selbst ein.</p>
+    <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Schneide die Karten aus und gib jedem Kind seine. Der QR-Code öffnet ELIO mit dem Kürzel, die PIN tippt das Kind selbst ein.</p>${(()=>{const mi=nrs.filter(k=>!ks.includes(k));if(!mi.length)return '';const no=mi.filter(k=>!by[k]),ot=mi.filter(k=>by[k]);
+      return `<div class="priv noprint" style="margin-bottom:12px">${ks.length} von ${nrs.length} Karten. ${no.length?`Noch kein Zugang: Nr. ${no.join(', ')}. `:''}${ot.length?`PIN nicht auf diesem Gerät (auf einem anderem Gerät erzeugt): Nr. ${ot.join(', ')}. Vergib dort eine neue PIN, dann erscheint die Karte. `:''}<button class="btn sm" data-act="zg-print-x">Zu den Zugängen</button></div>`})()}
     <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>${esc(nickOf(k)||'')}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
       <div class="zg-c"><span>Kürzel</span><b>${esc(by[k].uname)}</b><span>PIN</span><b>${esc(st[k].p)}</b></div><small>ELIO öffnen → „Schüler/in“ → Kürzel und PIN eingeben.<br>Die PIN verrätst du niemandem.</small></div>`).join('')||'<div class="empty">Noch keine Zugänge mit bekannter PIN.</div>'}</div>`}
   return `<div class="st-head"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">🔑 Zugänge · ${esc(c.name)}</h1>
@@ -5110,7 +5114,7 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll(
       ${cl?`<td><b class="mono">${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code class="mono">${esc(pin)}</code>`:'<small class="muted">auf anderem Gerät erzeugt</small>'):''}${r&&r.blocked?' <span class="chip red">gesperrt</span>':''}</td>`:''}
       <td>${pr?`<small>✏️ ${pr.ub.length} · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}" style="display:block">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:''}</td>
       <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<button class="tk-n ib-go" data-act="ib-go" data-n="${k}" title="Nachricht im Postfach öffnen">💬 ${P.un}</button>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
-      <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
+      <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>${r?`<button class="btn sm ${V.rsAsk===k?'red':''}" data-act="zg-rs" data-id="${S.cls}" data-n="${k}" title="Name, Avatar und Lernstand löschen. Kürzel und PIN bleiben.">${V.rsAsk===k?'Wirklich zurücksetzen':'Zurücksetzen'}</button>`:''}`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>${esc(className())}</h1></div>
     <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err&&cl?`<p class="err">${esc(ZG.err)}</p>`:''}
@@ -5737,6 +5741,11 @@ document.addEventListener('click',e=>{
     case 'zg-pin':zgDo(()=>zgSet(d.id,+d.n,d.u));break;
     case 'zg-del-ask':V.zgDel=+d.n;render();break;
     case 'zg-del':V.zgDel=null;zgDo(async()=>{const r=await q(Cloud.sb.rpc('pupil_login_del',{p_class:d.id,p_nr:+d.n}));if(r!=='ok')throw new Error(r);delete zgStore(d.id)[+d.n];tsave()});break;
+    case 'zg-rs':{if(V.rsAsk!==+d.n){V.rsAsk=+d.n;render();break}V.rsAsk=null;const cid=d.id||S.cls,nr=+d.n,now=Date.now();
+      TD.wipe=TD.wipe||{};const W=(TD.wipe[cid]=TD.wipe[cid]||{});W[nr]=now;if(TD.nicks)delete TD.nicks[nr];if(TD.avs)delete TD.avs[nr];const B=(TD.sus||{})[cid];if(B)delete B[nr];tsave();if(CS)pushCS();
+      const r=(ZG.list||[]).find(x=>x.nr===nr),sv=zgStore(cid)[nr];
+      if(r&&sv&&sv.u===r.uname&&CLOUD&&Cloud.sb)acctSeal(r.uname,sv.p,{wipe:now,acctAt:now}).then(body=>q(Cloud.sb.rpc('pupil_prof_save',{p_uname:r.uname,p_pin:sv.p,p_prof:body}))).then(x=>{V.msg=x==='ok'?`Nr. ${nr} ist zurückgesetzt. Kürzel und PIN bleiben gleich.`:'Zurücksetzen auf dem Server ging nicht ('+x+').';zgLoad(cid)}).catch(e=>{V.msg='Zurücksetzen auf dem Server ging nicht.';render()});
+      else V.msg=`Nr. ${nr} ist auf diesem Gerät zurückgesetzt. Die PIN liegt nicht hier, deshalb vergib bitte zusätzlich eine neue PIN.`;render();break}
     case 'zg-print':go('zug',{cid:d.id||S.cls,print:1});break;
     case 'zg-print-x':go('sus');break;
     case 'go-legal':e.preventDefault();$('#umenu').hidden=true;go(d.v,{back:['impressum','datenschutz','umzug'].includes(V.name)?V.back:{...V}});break;
@@ -5814,7 +5823,7 @@ document.addEventListener('click',e=>{
     case 'nick-more':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;V.sugg=Object.assign(avNames(V.av),{av:V.av});render();break}
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Gib deinem Avatar einen Namen.';break}
-      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=cleanAv(V.av);V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
