@@ -744,7 +744,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .rt-sl.sl-white{background:#fff}
 .rt-sl.sl-pic{padding:0}
 .sl-t{font-size:3em;font-weight:800;color:#1e3a8a;max-width:72%;position:relative}
-.sl-b{display:grid;gap:.4em;font-size:1.6em;font-weight:600;max-width:70%;position:relative}
+.sl-b{display:grid;align-content:start;gap:.4em;font-size:1.6em;font-weight:600;max-width:70%;position:relative}
 .sl-b p{margin:0;background:rgba(255,255,255,.75);padding:.25em .6em;border-radius:.4em;transition:opacity .4s,transform .4s}
 .sl-b p.sl-hid{opacity:0;transform:translateY(.4em)}
 .sl-b p.sl-new{animation:slin .5s ease}
@@ -810,6 +810,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .sl-big .rt{font-size:3.1cqh;height:100%;min-height:0;border-radius:0}
 .sl-editing [data-el]{cursor:move;outline:2px dashed rgba(79,70,229,.45);outline-offset:2px}
 .sl-editing [data-el].sl-sel{outline:3px solid #4f46e5}
+.sl-rz-r{right:-9px!important;top:50%!important;bottom:auto!important;transform:translateY(-50%);cursor:ew-resize!important;border-radius:6px!important;height:26px!important;width:14px!important}.sl-rz-b{bottom:-9px!important;left:50%!important;right:auto!important;transform:translateX(-50%);cursor:ns-resize!important;border-radius:6px!important;width:26px!important;height:14px!important}.sl-grp{display:inline-flex;gap:4px;align-items:center;background:#f5f7ff;border-radius:10px;padding:3px}.sl-pc{min-width:50px;text-align:center;font-size:.85rem;color:#1e3a8a}.sl-editing [data-el]:not(.sl-sel) .sl-rz{display:none}
 .sl-rz{position:absolute;right:-9px;bottom:-9px;width:18px;height:18px;border-radius:50%;background:#4f46e5;border:3px solid #fff;cursor:nwse-resize;box-shadow:0 1px 4px rgba(0,0,0,.3);z-index:3}
 .sl-editing .sl-b,.sl-editing .sl-t{position:relative}
 .sl-ed{display:grid;grid-template-columns:minmax(200px,300px) 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--surface)}
@@ -2758,9 +2759,9 @@ document.addEventListener('pointerdown',e=>{const box=e.target.closest&&e.target
   e.preventDefault();const sl=slEdSlide();if(!sl)return;slFreeze(sl,box);const k=el.dataset.el,B=box.getBoundingClientRect(),P=k[0]==='i'?sl.imgs[+k.slice(1)]:sl.pos[k];if(!P)return;
   el.classList.add('sl-abs');el.style.left=P.x+'%';el.style.top=P.y+'%';el.style.width=P.w+'%';el.style.right='auto';el.style.bottom='auto';
   box.querySelectorAll('[data-el]').forEach(o=>{const q=o.dataset.el;if(q[0]!=='i'&&sl.pos[q]){o.classList.add('sl-abs');o.style.left=sl.pos[q].x+'%';o.style.top=sl.pos[q].y+'%';o.style.width=sl.pos[q].w+'%';o.style.right='auto';o.style.bottom='auto'}});
-  SLD={k,el,P,B,x0:e.clientX,y0:e.clientY,x:P.x,y:P.y,w:P.w,rz:!!e.target.closest('.sl-rz')};try{el.setPointerCapture(e.pointerId)}catch(x){}});
+  const hz=e.target.closest('.sl-rz');SLD={k,el,P,B,x0:e.clientX,y0:e.clientY,x:P.x,y:P.y,w:P.w,h:P.h||Math.round(el.getBoundingClientRect().height/B.height*1000)/10,rz:hz?hz.dataset.rz||'w':''};try{el.setPointerCapture(e.pointerId)}catch(x){}});
 document.addEventListener('pointermove',e=>{if(!SLD)return;const D=SLD,dx=(e.clientX-D.x0)/D.B.width*100,dy=(e.clientY-D.y0)/D.B.height*100,r=x=>Math.round(x*10)/10;
-  if(D.rz){D.P.w=r(Math.max(4,Math.min(100-D.x,D.w+dx)));D.el.style.width=D.P.w+'%'}
+  if(D.rz){if(D.rz.includes('w')){D.P.w=r(Math.max(4,Math.min(100-D.x,D.w+dx)));D.el.style.width=D.P.w+'%'}if(D.rz.includes('h')){D.P.h=r(Math.max(4,Math.min(100-D.y,D.h+dy)));D.el.style.height=D.P.h+'%'}}
   else{D.P.x=r(Math.max(-20,Math.min(95,D.x+dx)));D.P.y=r(Math.max(-20,Math.min(95,D.y+dy)));D.el.style.left=D.P.x+'%';D.el.style.top=D.P.y+'%'}});
 document.addEventListener('input',e=>{if(e.target.id==='nz-sens')NOISE.sens=+e.target.value;if(e.target.id==='mw-own'){MWOWN=e.target.value;prepUpd()}if(e.target.id==='kfb-a'&&RCS&&RCS.kfb)KFIN={tid:RCS.kfb.tid,v:e.target.value.slice(0,12)}});
 document.addEventListener('pointerup',()=>{if(!SLD)return;const k=SLD.k;SLD=null;if(V.sle)V.sle.sel=k;save();render()});
@@ -3414,16 +3415,16 @@ function quizHTML(P,c){const res=P.res||(c.tally?P.opts.map((_,i)=>c.tally[i]||0
 const BGURL={};let bgT=0;
 function bgAttr(bg){if(!bg||bg==='none')return '';if(SL_BG[bg])return `style="background-image:url(assets/folien/${bg}.webp)"`;return `data-bglib="${esc(bg)}"${BGURL[bg]?` style="background-image:url(${BGURL[bg]})"`:''}`}
 function fillBg(){clearTimeout(bgT);bgT=setTimeout(async()=>{for(const el of document.querySelectorAll('[data-bglib]')){const id=el.dataset.bglib;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id));if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id])el.style.backgroundImage=`url(${BGURL[id]})`}for(const el of document.querySelectorAll('img[data-libimg]')){const id=el.dataset.libimg;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id));if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id]&&el.getAttribute('src')!==BGURL[id])el.src=BGURL[id]}},0)}
-const slPos=(P,k)=>P&&P[k]?`left:${P[k].x}%;top:${P[k].y}%;width:${P[k].w}%;`:'';
+const slPos=(P,k)=>P&&P[k]?`left:${P[k].x}%;top:${P[k].y}%;width:${P[k].w}%;${P[k].h?`height:${P[k].h}%;`:''}${P[k].a?`text-align:${{l:'left',c:'center',r:'right'}[P[k].a]};`:''}`:'';
 function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
   if(L==='frage'||L==='murmel')return richTool({id:'question',q:sl.title,murmel:L==='murmel'},c);
   if(L==='hypo')return richTool({id:'hypo',text:sl.text},c);
   const fx=c.fx&&Date.now()-c.fx.at<6000?c.fx.k:'',ls=lines(sl.text),sh=sl.shown>=0?sl.shown:ls.length,P=sl.pos||{},E=c.edit,sel=E&&c.sel,
-    rz=k=>E?`<i class="sl-rz" title="Größe ändern"></i>`:'',ab=k=>P[k]?' sl-abs':'',on=k=>sel===k?' sl-sel':'',fs=k=>P[k]&&P[k].f&&P[k].f!==1?`font-size:${(k==='t'?3:1.6)*P[k].f}em;`:'';
+    rz=k=>E?(k==='t'||k==='b'?`<i class="sl-rz sl-rz-r" data-rz="w" title="Breite ändern"></i><i class="sl-rz sl-rz-b" data-rz="h" title="Höhe ändern"></i>`:'')+`<i class="sl-rz" data-rz="${k==='t'||k==='b'?'wh':'w'}" title="Größe ändern"></i>`:'',ab=k=>P[k]?' sl-abs':'',on=k=>sel===k?' sl-sel':'',fs=k=>P[k]&&P[k].f&&P[k].f!==1?`font-size:${(k==='t'?3:1.6)*P[k].f}em;`:'';
   return `<div class="rt rt-sl ${L==='bild'?'sl-pic':''} ${sl.bg==='none'?'sl-white':''} ${E?'sl-editing':''}" ${bgAttr(sl.bg||'allgemein')}>
     ${(sl.imgs||[]).map((m,n)=>`<div class="sl-img sl-abs${on('i'+n)}" data-el="i${n}" style="left:${m.x}%;top:${m.y}%;width:${m.w}%"><img data-libimg="${esc(m.id)}" ${BGURL[m.id]?`src="${BGURL[m.id]}"`:''} alt="" draggable="false">${rz()}</div>`).join('')}
-    ${L!=='bild'&&sl.title?`<h1 class="sl-t${ab('t')}${on('t')}" data-el="t" style="${slPos(P,'t')}${fs('t')}">${esc(sl.title)}${rz()}</h1>`:''}
-    ${L!=='bild'&&ls.length?`<div class="sl-b${ab('b')}${on('b')}" data-el="b" style="${slPos(P,'b')}${fs('b')}">${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}${rz()}</div>`:''}
+    ${L!=='bild'&&sl.title?`<h1 class="sl-t${ab('t')}${on('t')}" data-el="t" style="${slPos(P,'t')}${fs('t')}">${esc(sl.title)}${rz('t')}</h1>`:''}
+    ${L!=='bild'&&ls.length?`<div class="sl-b${ab('b')}${on('b')}" data-el="b" style="${slPos(P,'b')}${fs('b')}">${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}${rz('b')}</div>`:''}
     ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo" draggable="false">${eloLids(sl.elo)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
 // Klassen-Rakete: jedes Kind, das „Bereit“ drückt, füllt den Tank. Sind alle bereit, hebt sie ab.
 function rkHTML(d,n){const full=n>0&&d>=n,pc=n?Math.round(100*Math.min(d,n)/n):0;
@@ -3453,13 +3454,14 @@ const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.
 const showable=m=>m.kind==='link'||canShow(m);
 function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=deckSlides(t),bgo=v=>Object.entries(SL_BG).map(([k,n])=>`<option value="${k}" ${k===v?'selected':''}>${n}</option>`).join('')+(LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===v?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''),f=(j,k)=>X?`ph.${String(i).slice(1)}.xs.${j}.${k}`:`ph.${i}.tool.slides.${j}.${k}`;
     const ED=V.sle&&String(V.sle.i)===String(i)?V.sle:null,free=sl=>!['frage','murmel','hypo'].includes(sl.layout);
-    return `<div class="sl-eds">${SL.map((sl,j)=>`${ED&&ED.j===j&&free(sl)?`<div class="sl-ed sl-ed-big"><div class="sl-tools"><b>Folie ${j+1} anordnen</b><span class="muted">Ziehen zum Verschieben, Ecke unten rechts zum Vergrößern.</span>
+    return `<div class="sl-eds">${SL.map((sl,j)=>`${ED&&ED.j===j&&free(sl)?`<div class="sl-ed sl-ed-big"><div class="sl-tools"><b>🎨 Folien-Editor · Folie ${j+1}</b><span class="muted">${ED.sel?'Ziehen zum Verschieben. Die blauen Griffe ändern Breite und Höhe.':'Tippe ein Feld an, um es zu bearbeiten.'}</span>
         <button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">🖼️ Bild einfügen</button>
-        ${ED.sel==='t'||ED.sel==='b'?`<button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="-1">A−</button><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="1">A+</button>`:''}
+        ${ED.sel==='t'||ED.sel==='b'?(()=>{const Q=(sl.pos||{})[ED.sel]||{},al=Q.a||'';return `<span class="sl-grp" role="group" aria-label="Textgröße"><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="-1" aria-label="Text kleiner">A−</button><b class="sl-pc">${Math.round((Q.f||1)*100)} %</b><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="1" aria-label="Text größer">A+</button></span>
+          <span class="sl-grp" role="group" aria-label="Ausrichtung">${[['l','⬅︎','Links'],['c','↔︎','Zentriert'],['r','➡︎','Rechts']].map(([a,ic,n])=>`<button class="btn sm ${al===a?'on':''}" data-act="sl-al" data-i="${i}" data-j="${j}" data-a="${a}" title="${n}" aria-label="${n} ausrichten">${ic}</button>`).join('')}</span>`})():''}
         ${ED.sel&&ED.sel[0]==='i'?`<button class="btn sm red" data-act="sl-img-del" data-i="${i}" data-j="${j}">Bild entfernen</button>`:''}
         ${ED.sel&&ED.sel[0]!=='i'&&(sl.pos||{})[ED.sel]?`<button class="btn sm" data-act="sl-reset" data-i="${i}" data-j="${j}">↺ Zurück an den Standardplatz</button>`:''}
         <button class="btn sm pri" data-act="sl-done">✓ Fertig</button></div>
-      <div class="sl-big" data-i="${i}" data-j="${j}">${slideHTML(sl,{subj:L.subject,edit:1,sel:ED.sel})}</div><div class="lgrid">`:`<div class="sl-ed"><div class="sl-pv-w"><div class="sl-pv">${slideHTML(sl,{subj:L.subject,mini:1})}<span class="chip">Folie ${j+1}</span></div>${free(sl)?`<div class="row" style="gap:6px;margin-top:6px"><button class="btn sm" data-act="sl-arr" data-i="${i}" data-j="${j}">✋ Anordnen</button><button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">🖼️ Bild einfügen</button></div>`:''}</div><div class="lgrid">`}
+      <div class="sl-big" data-i="${i}" data-j="${j}">${slideHTML(sl,{subj:L.subject,edit:1,sel:ED.sel})}</div><div class="lgrid">`:`<div class="sl-ed"><div class="sl-pv-w"><div class="sl-pv">${slideHTML(sl,{subj:L.subject,mini:1})}<span class="chip">Folie ${j+1}</span></div>${free(sl)?`<div class="row" style="gap:6px;margin-top:6px"><button class="btn sm" data-act="sl-arr" data-i="${i}" data-j="${j}">🎨 Folien-Editor</button><button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">🖼️ Bild einfügen</button></div>`:''}</div><div class="lgrid">`}
       <label>Art<select data-f="${f(j,'layout')}">${Object.entries(SL_LAY).map(([k,n])=>`<option value="${k}" ${k===(sl.layout||'std')?'selected':''}>${n}</option>`).join('')}</select></label>
       ${['frage','murmel','hypo'].includes(sl.layout)?'':`<label>Hintergrund<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="${f(j,'bg')}" style="flex:1">${bgo(sl.bg||'allgemein')}</select><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="${j}" title="Eigenes Bild hochladen">📤 Bild</button></span></label>`}
       ${sl.layout==='bild'||sl.layout==='hypo'?'':`<label style="grid-column:1/-1">${sl.layout==='frage'||sl.layout==='murmel'?'Stundenfrage (leer = großes Fragezeichen)':'Überschrift'}<input type="text" data-f="${f(j,'title')}" value="${esc(sl.title||'')}"></label>`}
@@ -5233,6 +5235,7 @@ document.addEventListener('click',e=>{
     case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;if(!p.tool){p.tool={id:'slide'};deckSlides(p.tool)}else{p.xs=p.xs||[];p.xs.push({layout:'std',bg:'allgemein',title:'',text:'',mat:'',elo:'',say:'',steps:false})}save();render();break}
     case 'sl-arr':V.sle={i:d.i,j:+d.j,sel:null};render();setTimeout(()=>{const b=$('.sl-big');b&&b.scrollIntoView({block:'center'})},0);break;
     case 'sl-done':V.sle=null;render();break;
+    case 'sl-al':{const sl=slEdSlide(d);if(!sl||!V.sle)break;const k=V.sle.sel;if(k!=='t'&&k!=='b')break;slFreeze(sl);if(sl.pos[k])sl.pos[k].a=sl.pos[k].a===d.a?'':d.a;save();render();break}
     case 'sl-fs':case 'sl-img-del':case 'sl-reset':{const sl=slEdSlide(d);if(!sl||!V.sle)break;const k=V.sle.sel;
       if(a==='sl-fs'&&sl.pos&&sl.pos[k]){sl.pos[k].f=Math.max(.4,Math.min(3,Math.round(((sl.pos[k].f||1)+(+d.d)*.15)*100)/100))}
       else if(a==='sl-fs'){slFreeze(sl);if(sl.pos[k])sl.pos[k].f=Math.max(.4,1+(+d.d)*.15)}
