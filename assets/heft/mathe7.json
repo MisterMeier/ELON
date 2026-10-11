@@ -2,7 +2,7 @@
  {
   "ch": "1 Terme und Gleichungen",
   "title": "1.1 Terme und Variablen",
-  "text": "# Was ist ein Term?\nEin Term ist ein Rechenausdruck aus Zahlen, Variablen und Rechenzeichen. Ein Term hat kein Gleichheitszeichen.\n- Terme: 7 + 4x  |  3a − 5  |  5 · (x + 3)\n- keine Terme: 3x + 5 = 20  |  4 > 2\n# Variable\nEine Variable ist ein Platzhalter für eine Zahl, meist ein Buchstabe wie x, a oder n.\nMerke: Zwischen Zahl und Variable steht ein unsichtbarer Malpunkt: 3x = 3 · x\n[kacheln: 3x + 2]",
+  "text": "# Was ist ein Term?\nEin Term ist ein Rechenausdruck aus Zahlen, Variablen und Rechenzeichen. Ein Term hat kein Gleichheitszeichen.\n- Terme: 7 + 4x  |  3a − 5  |  5 · (x + 3)\n- keine Terme: 3x + 5 = 20  |  4 > 2\n# Variable\nEine Variable ist ein Platzhalter für eine Zahl, meist ein Buchstabe wie x, a oder n.\nMerke: Zwischen Zahl und Variable steht ein unsichtbarer Malpunkt: 3x = 3 · x",
   "help": "# Term oder nicht?\n| Ausdruck | Was ist das? |\n|---|---|\n| 3a − 17 | Term |\n| 8a = 5b + 1 | Gleichung (hat ein =) |\n| x + + 3 ( | kein Term, sinnlos |\nAchtung: a · a · a ist nicht dasselbe wie a + a + a.\nFalsch: a + a + a = a³\nRichtig: a + a + a = 3a (das Dreifache)   und   a · a · a = a³ (die dritte Potenz)",
   "ub": {
    "t": "mc",
@@ -118,7 +118,7 @@
  {
   "ch": "1 Terme und Gleichungen",
   "title": "1.2 Terme aufstellen",
-  "text": "# Vom Text zum Term\n[kacheln: 2x + 5]\n| Text | Term |\n|---|---|\n| das Doppelte einer Zahl | 2x |\n| eine Zahl vermehrt um 5 | x + 5 |\n| eine Zahl vermindert um 3 | x − 3 |\n| die Hälfte einer Zahl | x : 2 |\n| 4 Hefte zu je x € und 2 € Porto | 4x + 2 |\nMerke: Lege zuerst fest, wofür die Variable steht, z. B. x = Preis eines Heftes in €.",
+  "text": "# Vom Text zum Term\n| Text | Term |\n|---|---|\n| das Doppelte einer Zahl | 2x |\n| eine Zahl vermehrt um 5 | x + 5 |\n| eine Zahl vermindert um 3 | x − 3 |\n| die Hälfte einer Zahl | x : 2 |\n| 4 Hefte zu je x € und 2 € Porto | 4x + 2 |\nMerke: Lege zuerst fest, wofür die Variable steht, z. B. x = Preis eines Heftes in €.",
   "help": "Achtung: Schritt für Schritt aufschreiben und die Klammer vergessen. „Verdopple eine Zahl, addiere 5, nimm das Ergebnis mal 3.“\nFalsch: x · 2 + 5 · 3\nRichtig: (x · 2 + 5) · 3\nTipp: „das Ergebnis“ heißt fast immer: Klammer drum! Kreise die Klammer ein.\nFalsch: das Dreifache von x = x · x · x\nRichtig: das Dreifache von x = 3 · x = 3x",
   "ub": {
    "t": "match",
@@ -401,7 +401,7 @@
  {
   "ch": "1 Terme und Gleichungen",
   "title": "1.5 Terme vereinfachen",
-  "text": "# Gleichartige Terme\nGleichartige Terme haben dieselbe Variable. Nur sie darf man zusammenfassen.\n- 4x + 7x = 11x\n[kacheln: 11x]\n- 9a − 3a + a = 7a\n- 3x + 5y bleibt so (nicht gleichartig)\nMerke: Zahlen zu Zahlen, x zu x: 6x + 4 − 2x + 3 = 4x + 7\n[kacheln: 4x + 7]",
+  "text": "# Gleichartige Terme\nGleichartige Terme haben dieselbe Variable. Nur sie darf man zusammenfassen.\n- 4x + 7x = 11x\n- 9a − 3a + a = 7a\n- 3x + 5y bleibt so (nicht gleichartig)\nMerke: Zahlen zu Zahlen, x zu x: 6x + 4 − 2x + 3 = 4x + 7",
   "help": "Achtung: Ungleichartige Terme bleiben getrennt.\nFalsch: 3x + 5y = 8xy\nRichtig: 3x + 5y lässt sich nicht weiter zusammenfassen.\nFalsch: 2x + 3 = 5x\nRichtig: 2x + 3 bleibt 2x + 3",
   "ub": {
    "t": "mc",
