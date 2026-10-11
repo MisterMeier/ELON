@@ -320,5 +320,47 @@
   "erzeugt_am": "2026-10-10",
   "bearbeitet": "",
   "loop": false
+ },
+ {
+  "id": "blasmusik",
+  "datei": "assets/audio/blasmusik.mp3",
+  "titel": "Bayerische Blasmusik",
+  "kategorie": "Signale",
+  "stichworte": "Blasmusik, Polka, Bayern, Tuba, Trompete, Tusch",
+  "dauer": 11.2,
+  "quelle": "tools/gen_signale3.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-11",
+  "bearbeitet": "",
+  "loop": false
+ },
+ {
+  "id": "dudelsack",
+  "datei": "assets/audio/dudelsack.mp3",
+  "titel": "Schottischer Dudelsack",
+  "kategorie": "Signale",
+  "stichworte": "Dudelsack, Bagpipe, Schottland, Englisch",
+  "dauer": 10.5,
+  "quelle": "tools/gen_signale3.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-11",
+  "bearbeitet": "",
+  "loop": false
+ },
+ {
+  "id": "bigben",
+  "datei": "assets/audio/bigben.mp3",
+  "titel": "Big Ben (Westminster-Glocken)",
+  "kategorie": "Signale",
+  "stichworte": "Big Ben, London, Glocke, Englisch, Stundenbeginn",
+  "dauer": 13.7,
+  "quelle": "tools/gen_signale3.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-11",
+  "bearbeitet": "",
+  "loop": false
  }
 ]
