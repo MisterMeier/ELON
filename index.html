@@ -993,6 +993,8 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .mt-frame{aspect-ratio:16/9;cursor:pointer;position:relative}
 /* Safari: Prozent-Höhe in einer Box mit aspect-ratio wird 0, deshalb füllt die Tafel ihren Rahmen absolut */
 .mt-frame>.bw,.tprev>.bw{position:absolute;inset:0;height:auto}.sl-pv>.rt,.sl-big>.rt{position:absolute;inset:0;height:auto}.mt.big{right:12px;bottom:auto;top:50%;transform:translateY(-50%);grid-template-rows:auto auto}.mt.big .mt-frame{width:min(100%,calc((100vh - 90px)*16/9));justify-self:center;cursor:default}
+.mt.big{inset:0;top:0;transform:none;border-radius:0;border:0;width:auto;background:#0f172a;align-content:center;padding:0 92px 0 12px;grid-template-rows:auto 1fr}.mt.big .mt-bar{background:transparent;color:#fff}.mt.big .mt-frame{width:min(100%,calc((100vh - 60px)*16/9));align-self:center;border-radius:12px;overflow:hidden}
+.lov{z-index:50}.srail{z-index:55}
 .mt-pill{border:0;background:var(--navy);color:#fff;font:inherit;font-weight:800;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer;min-height:44px}
 .slide{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
 .slide h1{font-size:clamp(2.6rem,6vw,5.5rem);line-height:1.05}
@@ -1683,7 +1685,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261011-1945';let verTold=false;
+const BUILD='20261011-2000';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&location.protocol==='https:'&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2196,7 +2198,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2433,7 +2435,7 @@ function onBoardState(p){const old=BRCS;BRCS=p;updPod(p);
   const G=!p.freeze&&!p.kfb&&p.game&&gInfo(p.game.g)?p.game:null;
   let ch=false;if(G&&V.gat!==G.at){V=AKT[G.g]?{name:'akt',gat:G.at}:{name:G.g,s:G.s,gat:G.at};if(AKT[G.g])akStart(G);ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
   if(V.name==='beamer'){render();fillMedia()}else if(ch)render()}
-let MINI='off',miniSig='',HELPL=null;
+let MINI='off',miniSig='',HELPL=null,MINI_L=null;
 function toast(t){let el=$('#toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');document.body.appendChild(el)}el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),3200)}
 // Hilfe sofort anzeigen, auch bevor die Tafel antwortet
 const helpOn=()=>HELPL&&Date.now()-HELPL.at<10000?HELPL.on:!!(RCS&&RCS.help.includes(S.nr));
@@ -2461,7 +2463,10 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){RCS=p;rcsAt=Date.now();OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
+function onClassState(p){RCS=p;rcsAt=Date.now();
+  // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
+  {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
+  OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
@@ -3537,7 +3542,8 @@ function quizHTML(P,c){const res=P.res||(c.tally?P.opts.map((_,i)=>c.tally[i]||0
 // Hintergründe aus der Bibliothek (auf diesem Gerät) nachladen
 const BGURL={};let bgT=0;
 function bgAttr(bg){if(!bg||bg==='none')return '';if(SL_BG[bg])return `style="background-image:url(assets/folien/${bg}.webp)"`;return `data-bglib="${esc(bg)}"${BGURL[bg]?` style="background-image:url(${BGURL[bg]})"`:''}`}
-function fillBg(){clearTimeout(bgT);bgT=setTimeout(async()=>{for(const el of document.querySelectorAll('[data-bglib]')){const id=el.dataset.bglib;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id));if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id])el.style.backgroundImage=`url(${BGURL[id]})`}for(const el of document.querySelectorAll('img[data-libimg]')){const id=el.dataset.libimg;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id));if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id]&&el.getAttribute('src')!==BGURL[id])el.src=BGURL[id]}},0)}
+function fillBg(){clearTimeout(bgT);bgT=setTimeout(async()=>{for(const el of document.querySelectorAll('[data-bglib]')){const id=el.dataset.bglib;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id))||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id])el.style.backgroundImage=`url(${BGURL[id]})`}for(const el of document.querySelectorAll('img[data-libimg]')){const id=el.dataset.libimg;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id))||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id]&&el.getAttribute('src')!==BGURL[id])el.src=BGURL[id]}
+  if(S.role==='student'&&[...document.querySelectorAll('[data-bglib],img[data-libimg]')].some(el=>!BGURL[el.dataset.bglib||el.dataset.libimg]))bgT=setTimeout(fillBg,9000)},0)}
 const slPos=(P,k)=>P&&P[k]?`left:${P[k].x}%;top:${P[k].y}%;width:${P[k].w}%;${P[k].h?`height:${P[k].h}%;`:''}${P[k].a?`text-align:${{l:'left',c:'center',r:'right'}[P[k].a]};`:''}`:'';
 // Bild auf der Folie: Griffe an allen Seiten und Ecken (Größe, Seitenverhältnis bleibt) und Zuschneiden (m.c = weggeschnittene Anteile links/oben/rechts/unten)
 function slImgH(m,n,cls,E,c){const C=m.c||{l:0,t:0,r:0,b:0},cw=1-C.l-C.r,ch=1-C.t-C.b,cut=!!(m.c&&m.ar),crop=E&&c.crop&&c.sel==='i'+n;
@@ -4746,6 +4752,22 @@ async function ccPull(force){if(S.role!=='student'||!ccOk())return;if(!force&&Da
   try{const sb=await sbClient();let k=myCk(S.code);if(!k){await ckSync(sb,S.code);k=myCk(S.code)}if(!k)return;
     const L=await q(sb.from('class_content').select('body').eq('class_id',S.cls).limit(1));if(!L.length)return;const o=await ckOpen(k,L[0].body);if(o&&o.t==='content')applyContent(liveClean(o.p))}
   catch(e){if(mbMissing(e))CC.miss=true}}
+// Bilder der Folien für die iPads (supabase/media.sql): verkleinert, mit dem Klassenschlüssel verschlüsselt, pro Klasse abgelegt.
+// Die Lehrkraft lädt beim Zeigen hoch, iPads holen fehlende Bilder beim ersten Anzeigen und behalten sie.
+const MED={up:{},miss:false,neg:{}};
+function lessonMedia(L){const ids=new Set(),bg=b=>{if(b&&b!=='none'&&!SL_BG[b])ids.add(b)};(L&&L.phases||[]).forEach(p=>{const t=p.tool||{};bg(t.bg);[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;bg(sl.bg);(sl.imgs||[]).forEach(m=>m&&m.id&&ids.add(m.id))})});return [...ids]}
+async function medSmall(b){try{const bm=await createImageBitmap(b),f=Math.min(1,1600/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*f);cv.height=Math.round(bm.height*f);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
+  const o=await new Promise(r=>cv.toBlob(r,'image/webp',.82));return o&&o.size<b.size?o:b}catch(e){return b}}
+let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
+  for(const id of lessonMedia(L)){if(done[id])continue;try{const b=await idb('blob','readonly',st=>st.get(id));if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
+    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),await sm.arrayBuffer());if(ct.byteLength>2500000){done[id]=1;continue}
+    const sb=await sbClient();await q(sb.from('class_media').upsert({class_id:S.cls,id:String(id).slice(0,80),body:{iv:b64e(iv),ct:b64e(ct),ty:sm.type||'image/webp'},updated_at:new Date().toISOString()}));done[id]=1}
+  catch(e){if(mbMissing(e)){MED.miss=true;return}console.warn('mediaPush',e)}}},1500)}
+async function mediaGet(id){if(S.role!=='student'||!ccOk()||MED.miss||(MED.neg[id]&&Date.now()-MED.neg[id]<8000))return null;
+  try{const sb=await sbClient(),k=myCk(S.code);if(!k)return null;const L=await q(sb.from('class_media').select('body').eq('class_id',S.cls).eq('id',String(id).slice(0,80)).limit(1));if(!L.length){MED.neg[id]=Date.now();return null}
+    const e=L[0].body,pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(e.iv)},await ckImp(k),b64d(e.ct)),ty=/^image\/(webp|png|jpeg|gif)$/.test(e.ty)?e.ty:'image/webp',b=new Blob([pt],{type:ty});
+    try{await idb('blob','readwrite',st=>st.put(b,id))}catch(x){}return b}
+  catch(x){if(mbMissing(x))MED.miss=true;else MED.neg[id]=Date.now();return null}}
 const mbFp=pub=>String(pub&&pub.n||'').slice(0,16);
 const mbCls=()=>/^[0-9a-f-]{36}$/i.test(S.cls||'');
 const mbCloudOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&MB.cloud!==false;
