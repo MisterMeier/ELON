@@ -748,6 +748,17 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .rt-heft{background:#eef1f6;padding-bottom:1em}
 .rt-dlg{background:#eef1f6}.rt-dlg .dl{display:flex;flex-direction:column;gap:.7em;padding:1.2em 2em;max-width:60em;margin:0 auto}.rt-dlg .b{align-self:flex-start;max-width:72%;padding:.6em 1.1em;border-radius:1.1em 1.1em 1.1em .3em;background:#fff;color:#0f172a;border:2px solid #c7d2fe;font:inherit;font-size:1.35em;font-weight:700;text-align:left;cursor:pointer;box-shadow:0 .15em .5em rgba(30,58,138,.12)}
 .rt-dlg .b small{display:block;font-size:.62em;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.06em}.rt-dlg .b.r{align-self:flex-end;background:#1e3a8a;color:#fff;border-color:#1e3a8a;border-radius:1.1em 1.1em .3em 1.1em}.rt-dlg .b.r small{color:#38bdf8}.rt-dlg .b.on{outline:.2em solid #f59e0b}.rt-dlg .dl-all{text-align:center;padding-bottom:1em}
+.bw-rp{background:#a9cff5;display:grid;place-items:center;container-type:size;overflow:hidden}.rp-st{position:relative;width:min(100cqw,177.78cqh);aspect-ratio:16/9;background:url(assets/folien/rampe.webp) center/100% 100% no-repeat;overflow:hidden;font-size:min(1.6cqh,.9cqw)}
+.rp-rw{position:absolute;left:37.9%;top:22.6%;width:24.4%;height:53.3%;z-index:2}.rp-r{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 .4em .6em rgba(30,58,138,.25))}
+.rp-fl{position:absolute;left:50%;top:97%;width:13%;height:calc(14% + 26% * var(--pc));transform:translateX(-50%);transform-origin:50% 0;background:linear-gradient(180deg,#fff7d6 0%,#fbbf24 30%,#f59e0b 60%,rgba(245,158,11,0) 100%);clip-path:polygon(15% 0,85% 0,50% 100%);animation:rpfl .12s ease-in-out infinite alternate;opacity:calc(.35 + .65 * var(--pc))}
+@keyframes rpfl{from{transform:translateX(-50%) scaleY(.88) scaleX(.95)}to{transform:translateX(-50%) scaleY(1.06) scaleX(1.04)}}
+.rp-gl{position:absolute;left:30%;top:79%;width:40%;height:9%;border-radius:50%;background:radial-gradient(closest-side,rgba(56,189,248,.95),rgba(79,70,229,.35) 60%,transparent);opacity:calc(.15 + .85 * var(--pc));z-index:1;filter:blur(.3em)}
+.rp-in{position:absolute;left:4%;top:9%;width:31%;padding:1.4em 1.6em;border-radius:1.2em;background:rgba(255,255,255,.82);box-shadow:0 .6em 2em rgba(30,58,138,.18);color:#1e3a8a;z-index:3}
+.rp-in h1{font-family:var(--f-display);font-size:3.2em;line-height:1.05;margin:.3em 0 .2em;color:#1e3a8a}.rp-in p{font-size:1.35em;font-weight:700;color:#4f46e5}.rp-in .logo{font-size:1.1em}
+.rp-tank{height:1.3em;border-radius:1em;background:#e0e7ff;border:.15em solid #1e3a8a;overflow:hidden;margin:.9em 0 .4em}.rp-tank i{display:block;height:100%;width:calc(100% * var(--pc));background:linear-gradient(90deg,#4f46e5,#38bdf8);transition:width .6s ease}.rp-in b{font-size:1.6em;font-weight:800}
+.rp-st.go .rp-rw{animation:rpgo 3.4s cubic-bezier(.55,0,.85,.35) var(--gd,.5s) forwards}.rp-st.go .rp-fl{height:60%;animation-duration:.07s}
+@keyframes rpgo{0%{transform:translate(0,0)}6%{transform:translate(-.4%,.3%)}12%{transform:translate(.4%,-.2%)}18%{transform:translate(-.3%,.2%)}24%{transform:translate(0,0)}100%{transform:translate(0,-190%)}}
+@media (prefers-reduced-motion:reduce){.rp-st.go .rp-rw{animation:none;transform:translateY(-190%)}.rp-fl{animation:none}}
 .pool-h{font-size:1rem;margin:14px 0 6px;color:var(--ink)}
 /* Hefteintrag immer wie helles Papier im ELIO-Blau, auch im dunklen Modus */
 .page{background-color:#fff;color:#0f172a;border-color:#dbe3f4}.page *{color:inherit}.page h3,.page h4{color:#1e3a8a!important;text-decoration-color:#38bdf8!important}.page .date{color:#475569!important}
@@ -1685,7 +1696,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261011-2010';let verTold=false;
+const BUILD='20261011-2045';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2240,7 +2251,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.k==='mb'&&m.r){mbUp({...m.r,nr});return}
   // Podium: wer das Tafel-Spiel auf dem iPad geschafft hat, in der Reihenfolge des Ankommens
   if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||kidName(nr),av:cleanAv((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
-  if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.rocket=Math.min(10,CS.rocket+1);SND.cheer();ch=true}}
+  if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.ready.goAt=Date.now();CS.rocket=Math.min(10,CS.rocket+1);try{audPlay('raketenstart',false)}catch(e){SND.cheer()}ch=true}}
   if(ch)pushCS();
   if(V.name==='tafel')updTafel();
 }
@@ -2403,7 +2414,8 @@ function boardHTML0(R,mini){
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
   if(R.freeze)main=`${elo('think',mini?50:150)}<div class="bw-big">Freeze!</div><div class="slide"><p>Hände weg vom iPad. Augen nach vorne.</p></div>`;
   else if(R.ready&&!R.ready.msg&&!R.ready.only&&t.id!=='start'){const n=Math.max(R.onN||0,R.ready.done.length),d=R.ready.done.length,full=n>0&&d>=n;
-    return `<div class="bw bw-rk"><div class="rkb-in">${LOGO}<h1>${full?'Alle sind bereit!':'Bist du bereit?'}</h1><p>${full?'Die Rakete hebt ab. Los geht\'s!':'Tippe auf deinem iPad auf „Bereit“. Jedes Kind füllt den Tank.'}</p></div>${rkHTML(d,n)}</div>`}
+    return `<div class="bw bw-rp"><div class="rp-st ${full?'go':''}" style="--pc:${n?Math.min(1,d/n):0};--gd:${full?(.5-Math.max(0,(Date.now()-(R.ready.goAt||R.now||Date.now()))/1000)).toFixed(2):0}s"><i class="rp-gl"></i><div class="rp-rw"><i class="rp-fl"></i><img class="rp-r" src="assets/folien/rampe-rakete.webp" alt="Rakete"></div>
+      <div class="rp-in">${LOGO}<h1>${full?'Alle sind bereit!':'Bist du bereit?'}</h1><p>${full?'Die Rakete hebt ab. Los geht\'s!':'Tippe auf deinem iPad auf „Bereit“. Jedes Kind füllt den Tank.'}</p><div class="rp-tank"><i></i></div><b>${full?'🚀 Start!':d+' / '+(n||'–')+' bereit'}</b></div></div></div>`}
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
   else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
   else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;

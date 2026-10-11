@@ -362,5 +362,19 @@
   "erzeugt_am": "2026-10-11",
   "bearbeitet": "",
   "loop": false
+ },
+ {
+  "id": "raketenstart",
+  "datei": "assets/audio/raketenstart.mp3",
+  "titel": "Raketenstart",
+  "kategorie": "Signale",
+  "stichworte": "Bereit-Check, Start, Rakete, Los geht's",
+  "dauer": 5.5,
+  "quelle": "tools/gen_rakete.py",
+  "urheber": "ELIO (selbst synthetisiert)",
+  "lizenz": "Eigene Synthese, frei nutzbar",
+  "erzeugt_am": "2026-10-11",
+  "bearbeitet": "",
+  "loop": false
  }
 ]
