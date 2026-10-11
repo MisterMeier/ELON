@@ -1,0 +1,1922 @@
+[
+ {
+  "ch": "1 Hello again",
+  "title": "1.1 My best friend",
+  "text": "# Back at school\n[bilder: 👋 Hi! | 😊 Nice to see you! | 🏖️ How were your holidays? | 👍 Great, thanks!]\n[dialog: Lena Hi Emre! Nice to see you again. | Emre Hi Lena! How were your holidays? | Lena Great, thanks! I was in Italy. And you? | Emre I stayed in Regensburg. I met my friends every day.]\n# What is a good friend like?\n[bilder: 😄 funny | 🤝 helpful | 🤫 quiet | 🗣️ chatty | ⚽ sporty | 🎨 creative | 🧠 clever | ❤️ kind]\n- My best friend is funny and kind.\n- She is always helpful.\n- He is sporty and very clever.\n# Describe your friend\n[satz: Amira | *is* | my best friend.]\n[satz: She | *has got* | long black hair.]\n[satz: We | *like* | the same music.]\n| Look | Character | Hobbies |\n|---|---|---|\n| tall, short | funny, kind | plays football |\n| long hair, curly hair | helpful, chatty | listens to music |\n| blue eyes, brown eyes | quiet, clever | draws pictures |\nMerke: Bei he, she, it hat das Verb ein s: She likes music. He plays football.",
+  "help": "# he, she, it – das s\nFalsch: My friend like music.\nRichtig: My friend likes music.\nAchtung: Bei he, she, it und bei einem Namen hängst du ein s an das Verb.\n# have got – has got\nFalsch: She have got brown eyes.\nRichtig: She has got brown eyes.\n# Das Adjektiv\nFalsch: She has got hair long.\nRichtig: She has got long hair.\nAchtung: Das Adjektiv steht vor dem Nomen. Das ist wie im Deutschen.",
+  "ub": {
+   "t": "match",
+   "x": "funny | lustig\nkind | nett, freundlich\nhelpful | hilfsbereit\nquiet | ruhig, leise\nchatty | gesprächig\nsporty | sportlich\nclever | klug\ncreative | kreativ"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Englisch und Deutsch",
+    "x": "funny | lustig\nkind | nett, freundlich\nhelpful | hilfsbereit\nquiet | ruhig, leise\nchatty | gesprächig\nsporty | sportlich\nclever | klug\ncreative | kreativ"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Sofia ist meine Freundin",
+    "x": "My best friend *is* Sofia. She *has* got long brown hair.\nShe *likes* music and she *plays* the guitar.\nWe *are* in the same class.\nSofia is very *kind*. She always helps me."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Mein Freund, meine Freundin",
+    "x": "Sprache: Englisch\nfriend\nfunny\nhelpful\nchatty\nMy best friend is very kind.\nHe has got short black hair.\nWe like the same music."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die Adjektive ab und übersetze sie: funny, kind, quiet, sporty, clever, helpful.",
+    "a": "funny = lustig, kind = nett, quiet = ruhig, sporty = sportlich, clever = klug, helpful = hilfsbereit"
+   },
+   {
+    "l": 1,
+    "q": "Ergänze das s, wenn es nötig ist: a) She like___ pizza.  b) I play___ football.  c) Tom read___ comics.  d) We listen___ to music.",
+    "a": "a) likes  b) play  c) reads  d) listen"
+   },
+   {
+    "l": 2,
+    "q": "Ordne die Wörter: a) is / my / Jonas / friend / best  b) got / has / curly / she / hair  c) very / is / he / helpful",
+    "a": "a) Jonas is my best friend.  b) She has got curly hair.  c) He is very helpful."
+   },
+   {
+    "l": 2,
+    "q": "Beschreibe deinen besten Freund oder deine beste Freundin in 4 Sätzen: Name, Aussehen, Charakter, Hobby.",
+    "a": "Zum Beispiel: My best friend is Ali. He has got short black hair. He is funny and kind. He plays basketball."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „Mia have got hair long. She like dogs. She are very funny.“ Verbessere alle drei Sätze.",
+    "a": "Mia has got long hair. She likes dogs. She is very funny."
+   },
+   {
+    "l": 3,
+    "q": "Schreib 5 Sätze: Was ist für dich ein guter Freund? Benutze: A good friend is … / A good friend always …",
+    "a": "Zum Beispiel: A good friend is kind. A good friend always helps you. A good friend listens to you. A good friend is honest. A good friend laughs with you."
+   }
+  ],
+  "mt": "Was bedeutet „helpful“?\n+ hilfsbereit\n- hungrig\n- glücklich\n\nWelcher Satz ist richtig?\n- She have got blue eyes.\n+ She has got blue eyes.\n- She has got eyes blue.\n\nWelches Wort passt? Tom ___ football.\n- play\n+ plays\n- playing\n\nWas ist das Gegenteil von „chatty“?\n+ quiet\n- funny\n- kind\n\nLena fragt: „How were your holidays?“ Was antwortest du?\n+ Great, thanks!\n- I'm thirteen.\n- Nice to meet you."
+ },
+ {
+  "ch": "1 Hello again",
+  "title": "1.2 That's mine! Possessive pronouns",
+  "text": "# Whose is it?\n[bilder: 🎒 the bag | 📱 the phone | 🧢 the cap | ⚽ the ball | 🔑 the key | 🖊️ the pen]\n[dialog: Teacher Whose bag is this? | Ben It's not mine. Maybe it's Amira's. | Amira Yes, it's mine! Thank you. | Teacher And whose phone is this? | Ben That's mine.]\n# my bag – mine\nVor einem Nomen: my, your … Ohne Nomen: mine, yours …\n| vor dem Nomen | ohne Nomen |\n|---|---|\n| It's my bag. | It's mine. |\n| It's your bag. | It's yours. |\n| It's his bag. | It's his. |\n| It's her bag. | It's hers. |\n| It's our bag. | It's ours. |\n| It's their bag. | It's theirs. |\n[bilder: 🙋 mine | 👉 yours | 👦 his | 👧 hers | 👨‍👩‍👧 ours | 👥 theirs]\n# Sentence blocks\n[satz: This | *is* | my cap.]\n[satz: This cap | *is* | mine.]\n[satz: The ball | *is* | theirs.]\nMerke: Frage mit Whose …? (Wem gehört …?) Antwort mit mine, yours, his, hers, ours, theirs.",
+  "help": "# Kein Nomen nach mine\nFalsch: It's mine bag.\nRichtig: It's my bag. Oder: It's mine.\n# Kein Apostroph\nFalsch: The pen is your's.\nRichtig: The pen is yours.\nFalsch: The house is their's.\nRichtig: The house is theirs.\nAchtung: yours, hers, ours, theirs schreibst du ohne Apostroph.\n# Whose oder Who's\nFalsch: Who's bag is this?\nRichtig: Whose bag is this?\nAchtung: Who's = who is. Whose = wem gehört.",
+  "ub": {
+   "t": "match",
+   "x": "my | mine\nyour | yours\nhis | his\nher | hers\nour | ours\ntheir | theirs"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: my – mine",
+    "x": "my | mine\nyour | yours\nhis | his\nher | hers\nour | ours\ntheir | theirs"
+   },
+   {
+    "t": "mc",
+    "n": "Welches Wort passt?",
+    "x": "This is Lisa's jacket. It's ___.\n- her\n+ hers\n- his\n\nThese are our books. They are ___.\n- our\n- our's\n+ ours\n\nIs this your pen? – Yes, it's ___.\n+ mine\n- my\n- me\n\nThe dog belongs to Max and Lukas. It's ___.\n- their\n+ theirs\n- there\n\n___ phone is this?\n+ Whose\n- Who's\n- Who"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Wem gehört das?",
+    "x": "Sprache: Englisch\nmine\nyours\nhers\nours\ntheirs\nWhose bag is this?\nIt isn't mine. It's hers."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die Paare ab und ergänze: my – ___, your – ___, his – ___, her – ___, our – ___, their – ___.",
+    "a": "my – mine, your – yours, his – his, her – hers, our – ours, their – theirs"
+   },
+   {
+    "l": 1,
+    "q": "Ergänze mine, yours oder hers: a) I've got a red bike. The red bike is ___.  b) Sara has got a cat. The cat is ___.  c) You have got a ball. The ball is ___.",
+    "a": "a) mine  b) hers  c) yours"
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Sätze ohne Nomen am Ende: a) It's our classroom.  b) These are their bikes.  c) That's his cap.",
+    "a": "a) It's ours.  b) They're theirs.  c) That's his."
+   },
+   {
+    "l": 2,
+    "q": "Schreib einen kleinen Dialog im Klassenzimmer. Eine Person fragt: Whose … is this? Zwei Antworten mit mine, his oder hers.",
+    "a": "Zum Beispiel: Teacher: Whose ruler is this? – Lukas: It's not mine. Maybe it's Elif's. – Elif: Yes, it's mine. Thank you!"
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „Who's pencil case is this? – It's her's. – No, it's mine pencil case.“ Verbessere.",
+    "a": "Whose pencil case is this? – It's hers. – No, it's mine. (Oder: It's my pencil case.)"
+   },
+   {
+    "l": 3,
+    "q": "Fundbüro: Schreib 4 Sätze über Sachen in deiner Klasse: Wem gehört was? Benutze mine, yours, his, hers, ours.",
+    "a": "Zum Beispiel: The blue bag is mine. The green pen is hers. The football is ours. The black jacket is his."
+   }
+  ],
+  "mt": "Welches Wort passt? This bike is ___.\n+ mine\n- my\n- me\n\nWie fragst du: Wem gehört die Tasche?\n- Who's bag is this?\n+ Whose bag is this?\n- Who bag is this?\n\nMax hat eine Kappe. The cap is ___.\n- hers\n+ his\n- theirs\n\nWelcher Satz ist richtig?\n- The house is their's.\n- The house is theirs house.\n+ The house is theirs.\n\nWelches Wort gehört zu „we“?\n- yours\n+ ours\n- hers"
+ },
+ {
+  "ch": "1 Hello again",
+  "title": "1.3 How often? Adverbs of frequency",
+  "text": "# How often do you …?\n[bilder: 💯 always | 🔁 usually | 👍 often | 🤏 sometimes | 🙅 never]\n| Wort | Deutsch | wie oft? |\n|---|---|---|\n| always | immer | 100 % |\n| usually | normalerweise | 80 % |\n| often | oft | 60 % |\n| sometimes | manchmal | 30 % |\n| never | nie | 0 % |\n# My week\n[uhr: 7:15=🚌 I always catch the bus. | 13:30=🍽️ I usually have lunch at home. | 16:00=⚽ I often play football. | 21:00=📺 I sometimes watch TV.]\n# Where does the word go?\n[satz: I | *always* | get up | at seven.]\n[satz: Ella | *often* | plays | volleyball.]\n[satz: Tom | *is* | *never* | late.]\n- Das Häufigkeitswort steht vor dem Verb: I often play football.\n- Aber nach am, is, are: She is always happy.\n[dialog: Jana How often do you go swimming? | Murat I usually go on Saturdays. And you? | Jana I never go swimming. I don't like water!]\nMerke: Frage mit How often …? Antwort: always, usually, often, sometimes, never.",
+  "help": "# Die Stelle im Satz\nFalsch: I play always football.\nRichtig: I always play football.\nFalsch: She always is tired.\nRichtig: She is always tired.\nAchtung: Vor dem Verb – aber nach am, is, are.\n# never und not\nFalsch: I don't never eat fish.\nRichtig: I never eat fish.\nAchtung: never ist schon verneint. Kein don't dazu!",
+  "ub": {
+   "t": "match",
+   "x": "always | immer\nusually | normalerweise\noften | oft\nsometimes | manchmal\nnever | nie\nHow often? | Wie oft?"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Englisch und Deutsch",
+    "x": "always | immer\nusually | normalerweise\noften | oft\nsometimes | manchmal\nnever | nie\nHow often? | Wie oft?"
+   },
+   {
+    "t": "mc",
+    "n": "Welcher Satz ist richtig?",
+    "x": "Welcher Satz ist richtig?\n- I go often to the cinema.\n+ I often go to the cinema.\n- Often I go cinema.\n\nWelcher Satz ist richtig?\n+ She is always friendly.\n- She always is friendly.\n- Always she friendly is.\n\nWelcher Satz ist richtig?\n- We don't never eat meat.\n+ We never eat meat.\n- We eat never meat.\n\nWas bedeutet „sometimes“?\n- immer\n+ manchmal\n- nie\n\n[uhr 7:15] Leon geht jeden Tag um diese Zeit zum Bus. Er …\n+ always catches the bus at quarter past seven.\n- never catches the bus at quarter past seven.\n- sometimes catches the bus at half past seven."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Wie oft?",
+    "x": "Sprache: Englisch\nalways\nusually\nsometimes\nnever\nHow often do you play football?\nI usually get up at seven.\nShe is never late."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Ordne die Wörter von 100 % bis 0 %: sometimes, always, never, often, usually.",
+    "a": "always – usually – often – sometimes – never"
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) immer  b) nie  c) oft  d) manchmal  e) normalerweise",
+    "a": "a) always  b) never  c) often  d) sometimes  e) usually"
+   },
+   {
+    "l": 2,
+    "q": "Setz das Wort in Klammern richtig ein: a) I eat breakfast. (always)  b) Tom is late. (never)  c) We play cards. (sometimes)",
+    "a": "a) I always eat breakfast.  b) Tom is never late.  c) We sometimes play cards."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 5 Sätze über deine Woche. Benutze jedes Wort einmal: always, usually, often, sometimes, never.",
+    "a": "Zum Beispiel: I always brush my teeth. I usually walk to school. I often play computer games. I sometimes help my mum. I never eat mushrooms."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „I go always by bus. My sister late is never. We don't never watch TV.“ Verbessere.",
+    "a": "I always go by bus. My sister is never late. We never watch TV."
+   },
+   {
+    "l": 3,
+    "q": "Interview: Frag zwei Mitschüler: How often do you …? (play sport, read, help at home). Schreib die Antworten als Sätze auf.",
+    "a": "Zum Beispiel: Elif often plays sport. She sometimes reads. She always helps at home. Paul never reads comics."
+   }
+  ],
+  "mt": "Was bedeutet „never“?\n- immer\n- oft\n+ nie\n\nWelcher Satz ist richtig?\n+ I usually walk to school.\n- I walk usually to school.\n- Usually I to school walk.\n\nWelcher Satz ist richtig?\n- He always is happy.\n+ He is always happy.\n- He is happy always always.\n\nWelches Wort bedeutet 100 %?\n+ always\n- sometimes\n- often\n\nWie fragst du: Wie oft spielst du Fußball?\n- How much do you play football?\n+ How often do you play football?\n- How many do you play football?"
+ },
+ {
+  "ch": "1 Hello again",
+  "title": "1.4 Myself, yourself: Reflexive pronouns",
+  "text": "# I can do it myself!\n[bilder: 🙋 myself | 👉 yourself | 👦 himself | 👧 herself | 🐱 itself | 👨‍👩‍👧 ourselves | 👥 yourselves | 👫 themselves]\n| Person | reflexiv | Beispiel |\n|---|---|---|\n| I | myself | I made the cake myself. |\n| you | yourself | Did you cut yourself? |\n| he | himself | He taught himself the guitar. |\n| she | herself | She hurt herself. |\n| it | itself | The cat washes itself. |\n| we | ourselves | We enjoyed ourselves. |\n| you | yourselves | Help yourselves! |\n| they | themselves | They built it themselves. |\n# Typical sentences\n[bilder: 🎉 Enjoy yourself! | 🍕 Help yourself! | 🩹 I hurt myself. | 🎸 He taught himself.]\n[satz: I | *made* | the pizza | myself.]\n[satz: Lisa | *hurt* | herself | at football.]\n[dialog: Emma Wow, a great birthday cake! Who made it? | Kerem I made it myself. | Emma Really? Can I have a piece? | Kerem Of course. Help yourself!]\nMerke: Einzahl endet auf -self, Mehrzahl auf -selves.",
+  "help": "# Endung\nFalsch: They did it themself.\nRichtig: They did it themselves.\nFalsch: We enjoyed ourself.\nRichtig: We enjoyed ourselves.\nAchtung: Mehrzahl = -selves.\n# his oder him\nFalsch: He did it hisself.\nRichtig: He did it himself.\n# Nicht immer reflexiv\nFalsch: I wash myself my hands.\nRichtig: I wash my hands.\nAchtung: Im Deutschen sagst du „sich freuen“, „sich treffen“. Im Englischen oft ohne Pronomen: We meet at 5. I'm happy.",
+  "ub": {
+   "t": "match",
+   "x": "I | myself\nyou (eine Person) | yourself\nhe | himself\nshe | herself\nit | itself\nwe | ourselves\nthey | themselves"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Person und reflexives Pronomen",
+    "x": "I | myself\nyou (eine Person) | yourself\nhe | himself\nshe | herself\nit | itself\nwe | ourselves\nthey | themselves"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Wer hat es gemacht?",
+    "x": "I made this card *myself*.\nOh no! Ben fell off his bike and hurt *himself*.\nAt the party we really enjoyed *ourselves*.\nMy sister taught *herself* to play the piano.\nThe children built the tree house *themselves*.\nThere is pizza on the table. Help *yourself*!"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: -self und -selves",
+    "x": "Sprache: Englisch\nmyself\nherself\nourselves\nthemselves\nHelp yourself!\nI made it myself.\nWe enjoyed ourselves."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die Tabelle ab und ergänze: I – ___, you – ___, he – ___, she – ___, we – ___, they – ___.",
+    "a": "I – myself, you – yourself, he – himself, she – herself, we – ourselves, they – themselves"
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) Bedien dich! (zu einer Person)  b) Viel Spaß! (Enjoy …)  c) Ich habe mich verletzt.",
+    "a": "a) Help yourself!  b) Enjoy yourself!  c) I hurt myself."
+   },
+   {
+    "l": 2,
+    "q": "Ergänze: a) My brother cut ___ with a knife.  b) We painted the room ___.  c) Did you make the cake ___, Mia?",
+    "a": "a) himself  b) ourselves  c) yourself"
+   },
+   {
+    "l": 2,
+    "q": "Schreib 3 Sätze über Dinge, die du selbst gemacht hast. Benutze: I … myself.",
+    "a": "Zum Beispiel: I made my breakfast myself. I repaired my bike myself. I taught myself a card trick."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „They did the project themself. He taught hisself English. We enjoyed ourself.“ Verbessere.",
+    "a": "They did the project themselves. He taught himself English. We enjoyed ourselves."
+   },
+   {
+    "l": 3,
+    "q": "Schreib einen kleinen Dialog auf einer Party mit Help yourself! und Enjoy yourselves!",
+    "a": "Zum Beispiel: Host: Hi! Come in. There are drinks in the kitchen. Help yourself! – Guest: Thanks! – Host: The music is great. Enjoy yourselves!"
+   }
+  ],
+  "mt": "Welches Pronomen passt zu „she“?\n- himself\n+ herself\n- itself\n\nWelches Wort passt? We enjoyed ___.\n- ourself\n+ ourselves\n- us\n\nWas sagst du, wenn Gäste Essen nehmen dürfen?\n+ Help yourselves!\n- Help you!\n- Help yours!\n\nWelcher Satz ist richtig?\n- He made it hisself.\n+ He made it himself.\n- He made it themself.\n\nWelches Wort passt? The children did it ___.\n- theirself\n- themself\n+ themselves"
+ },
+ {
+  "ch": "2 My home region",
+  "title": "2.1 Welcome to Bavaria",
+  "text": "# My home region\n[bilder: 🏰 Neuschwanstein Castle | 🏔️ the Zugspitze | ⛪ Munich Frauenkirche | 🥨 a pretzel | 🌊 Lake Chiemsee | 🚲 a bike tour]\n- I live in Bavaria. Bavaria is in the south of Germany.\n- The capital of Bavaria is Munich.\n- The highest mountain in Germany is the Zugspitze.\n# In my town\n[bilder: 🚉 the station | 🏥 the hospital | 🏊 the swimming pool | 📚 the library | 🏛️ the museum | 🛒 the supermarket | 🌳 the park | 🏟️ the stadium]\n[satz: There | *is* | a big park | in my town.]\n[satz: There | *are* | two cinemas | in Augsburg.]\n[satz: There | *isn't* | a zoo | in our village.]\n# A message for a friend in England\n[dialog: Oliver Where do you live, Selin? | Selin I live in Rosenheim. It's a small town near the mountains. | Oliver What can you do there? | Selin You can go hiking, swim in the lake or go to the Christmas market.]\n| What? | Example |\n|---|---|\n| a city | Munich, Nuremberg |\n| a town | Rosenheim, Landshut |\n| a village | a small place with a church |\nMerke: There is + ein Ding. There are + viele Dinge.",
+  "help": "# There is / There are\nFalsch: There are a park.\nRichtig: There is a park.\nFalsch: There is three schools.\nRichtig: There are three schools.\n# Es gibt\nFalsch: It gives a museum in my town.\nRichtig: There is a museum in my town.\nAchtung: Es gibt heißt auf Englisch There is / There are. Nie It gives!\n# Ländernamen\nFalsch: I live in bavaria.\nRichtig: I live in Bavaria.\nAchtung: Orte und Länder schreibst du groß: Germany, Munich, Bavaria.",
+  "ub": {
+   "t": "match",
+   "x": "the station | der Bahnhof\nthe library | die Bücherei\nthe swimming pool | das Schwimmbad\nthe hospital | das Krankenhaus\nthe museum | das Museum\nthe village | das Dorf\nthe mountain | der Berg\nthe lake | der See"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Englisch und Deutsch",
+    "x": "the station | der Bahnhof\nthe library | die Bücherei\nthe swimming pool | das Schwimmbad\nthe hospital | das Krankenhaus\nthe museum | das Museum\nthe village | das Dorf\nthe mountain | der Berg\nthe lake | der See"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Orte in der Stadt",
+    "x": "STATION | der Bahnhof\nLIBRARY | die Bücherei\nPARK | der Park\nMUSEUM | das Museum\nHOSPITAL | das Krankenhaus\nVILLAGE | das Dorf\nCASTLE | das Schloss, die Burg\nLAKE | der See"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Meine Heimat",
+    "x": "Sprache: Englisch\nBavaria\nGermany\nvillage\nlibrary\nI live in Bavaria.\nThere is a big lake near my town.\nThere are many mountains in the south."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib 6 Orte in der Stadt auf Englisch mit the: Bahnhof, Bücherei, Schwimmbad, Park, Museum, Supermarkt.",
+    "a": "the station, the library, the swimming pool, the park, the museum, the supermarket"
+   },
+   {
+    "l": 1,
+    "q": "Ergänze is oder are: a) There ___ a castle.  b) There ___ two lakes.  c) There ___ many shops.  d) There ___ a station.",
+    "a": "a) is  b) are  c) are  d) is"
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Sätze über deinen Wohnort mit There is / There are / There isn't.",
+    "a": "Zum Beispiel: There is a big park. There are three supermarkets. There isn't a cinema. There is a swimming pool."
+   },
+   {
+    "l": 2,
+    "q": "Beantworte auf Englisch: a) Where do you live?  b) Is it a city, a town or a village?  c) What can you do there?",
+    "a": "Zum Beispiel: a) I live in Ingolstadt.  b) It's a city.  c) You can go to the museum or swim in the Danube."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine kurze Nachricht (5 Sätze) an eine Brieffreundin in England. Stell deine Region vor.",
+    "a": "Zum Beispiel: Hi Amy! I live in Passau. It's a town in Bavaria. There are three rivers. There is a big church. In winter we go to the Christmas market. Bye, Daria"
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „It gives a zoo in my city. There is two museums. I live in nuremberg.“ Verbessere.",
+    "a": "There is a zoo in my city. There are two museums. I live in Nuremberg."
+   }
+  ],
+  "mt": "Was heißt „der Bahnhof“?\n+ the station\n- the library\n- the stadium\n\nWelcher Satz ist richtig?\n- It gives a park in my town.\n+ There is a park in my town.\n- There are a park in my town.\n\nWas ist die Hauptstadt von Bayern?\n- Nuremberg\n+ Munich\n- Augsburg\n\nWelches Wort passt? There ___ three cinemas.\n- is\n+ are\n- be\n\nWas ist „a village“?\n- eine große Stadt\n+ ein Dorf\n- ein Berg"
+ },
+ {
+  "ch": "2 My home region",
+  "title": "2.2 Big numbers and dates",
+  "text": "# Numbers above 1,000\n[bilder: 🏔️ 2,962 m Zugspitze | 👥 1,500,000 people in Munich | 🎡 135 m London Eye | 📅 2026]\n| Zahl | Englisch |\n|---|---|\n| 1,000 | one thousand |\n| 1,250 | one thousand two hundred and fifty |\n| 2,962 | two thousand nine hundred and sixty-two |\n| 10,000 | ten thousand |\n| 1,000,000 | one million |\nMerke: Im Englischen steht ein Komma bei großen Zahlen: 1,000. Im Deutschen ein Punkt: 1.000.\n# Years\n[bilder: 🏰 1869 eighteen sixty-nine | 🎉 2000 two thousand | 📅 2026 twenty twenty-six]\n- 1869 = eighteen sixty-nine\n- 2026 = twenty twenty-six\n# Ordinal numbers\n[bilder: 🥇 1st first | 🥈 2nd second | 🥉 3rd third | 🎂 21st twenty-first | 🏅 32nd thirty-second | 💯 100th hundredth]\n| Zahl | Ordinalzahl |\n|---|---|\n| 31 | thirty-first (31st) |\n| 32 | thirty-second (32nd) |\n| 43 | forty-third (43rd) |\n| 50 | fiftieth (50th) |\n| 100 | hundredth (100th) |\n[satz: My grandma | *had* | her 80th birthday | last week.]\nMerke: 1st, 2nd, 3rd – alle anderen Zahlen enden auf th: 4th, 11th, 50th.",
+  "help": "# Komma und Punkt\nFalsch: 2.500 people (auf Englisch für zweitausendfünfhundert)\nRichtig: 2,500 people\nAchtung: Im Englischen trennt ein Komma die Tausender. Ein Punkt ist eine Kommazahl: 2.5 = zwei Komma fünf.\n# thousand ohne s\nFalsch: three thousands people\nRichtig: three thousand people\n# Ordinalzahlen\nFalsch: the 22th, the 33th\nRichtig: the 22nd, the 33rd\nAchtung: Schau auf die letzte Ziffer: 1 → st, 2 → nd, 3 → rd. Aber: 11th, 12th, 13th.",
+  "ub": {
+   "t": "match",
+   "x": "1,000 | one thousand\n3,500 | three thousand five hundred\n10,000 | ten thousand\n1,000,000 | one million\n32nd | thirty-second\n43rd | forty-third\n50th | fiftieth\n100th | hundredth"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Zahl und Wort",
+    "x": "1,000 | one thousand\n3,500 | three thousand five hundred\n10,000 | ten thousand\n1,000,000 | one million\n32nd | thirty-second\n43rd | forty-third\n50th | fiftieth\n100th | hundredth"
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Große Zahlen",
+    "x": "Wie sagst du 1,000?\n- one hundred\n+ one thousand\n- one million\n- ten hundred\n\nWelche Zahl ist „two thousand and five“?\n- 2,500\n- 25\n+ 2,005\n- 205\n\nWie sagst du die Jahreszahl 1999?\n- one thousand nine nine\n+ nineteen ninety-nine\n- nineteen nine nine\n- ninety-nine nineteen\n\nWelche Ordinalzahl ist richtig?\n- 32th\n- 32st\n+ 32nd\n- 32rd\n\nDie Zugspitze ist 2,962 m hoch. Wie sagst du das?\n- twenty-nine sixty-two\n+ two thousand nine hundred and sixty-two\n- two hundred ninety-six\n- two million nine hundred\n\nWelcher Satz ist richtig?\n- There are three thousands people.\n+ There are three thousand people.\n- There are thousand three people.\n- There are three thousand of people."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Große Zahlen",
+    "x": "Sprache: Englisch\none thousand\nten thousand\none million\nthirty-second\nforty-third\nhundredth\ntwenty twenty-six"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib als Wort: a) 1,000  b) 4,000  c) 10,000  d) 1,000,000",
+    "a": "a) one thousand  b) four thousand  c) ten thousand  d) one million"
+   },
+   {
+    "l": 1,
+    "q": "Schreib die Ordinalzahl mit st, nd, rd oder th: a) 32  b) 41  c) 53  d) 60  e) 100",
+    "a": "a) 32nd  b) 41st  c) 53rd  d) 60th  e) 100th"
+   },
+   {
+    "l": 2,
+    "q": "Schreib als Wort: a) 2,750  b) 1,325  c) 6,008",
+    "a": "a) two thousand seven hundred and fifty  b) one thousand three hundred and twenty-five  c) six thousand and eight"
+   },
+   {
+    "l": 2,
+    "q": "Sag und schreib die Jahreszahlen: a) 1869  b) 1990  c) 2010  d) dein Geburtsjahr",
+    "a": "a) eighteen sixty-nine  b) nineteen ninety  c) twenty ten (oder two thousand and ten)  d) zum Beispiel: twenty thirteen"
+   },
+   {
+    "l": 3,
+    "q": "Rechne und schreib das Ergebnis als englisches Wort: a) 1,500 + 1,500  b) 5,000 – 250  c) 1,000 × 1,000",
+    "a": "a) three thousand  b) four thousand seven hundred and fifty  c) one million"
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „My town has 12.000 peoples. My grandpa has his 70st birthday. My grandma was born in 1,955.“ Verbessere die Zahlen.",
+    "a": "My town has 12,000 people. My grandpa has his 70th birthday. My grandma was born in 1955. (Jahreszahlen schreibst du ohne Komma.)"
+   }
+  ],
+  "mt": "Wie schreibst du 5000 auf Englisch?\n+ 5,000\n- 5.000\n- 5 000s\n\nWelche Ordinalzahl ist richtig?\n- 33th\n+ 33rd\n- 33nd\n\nWie sagst du 2026?\n+ twenty twenty-six\n- twenty hundred twenty-six\n- two zero two six\n\nWas ist 1,000,000?\n- one thousand\n+ one million\n- ten thousand\n\nWelcher Satz ist richtig?\n- Five thousands people live here.\n+ Five thousand people live here.\n- Thousand five people live here."
+ },
+ {
+  "ch": "2 My home region",
+  "title": "2.3 Excuse me, where is the station?",
+  "text": "# Asking the way\n[bilder: ⬆️ go straight on | ⬅️ turn left | ➡️ turn right | ↪️ take the second left | 🚦 at the traffic lights | 🛑 at the corner]\n[dialog: Tourist Excuse me, how do I get to the station, please? | Hanna Go straight on. Then turn left at the traffic lights. | Tourist Left at the traffic lights. And then? | Hanna The station is on the right, next to the bank. | Tourist Thank you very much! | Hanna You're welcome.]\n# Where is it?\n[bilder: 🏦➡️🏨 next to | 🏛️↔️🏪 opposite | 🏫⬅️⬛➡️🏥 between | 🚏 at the bus stop]\n| Englisch | Deutsch |\n|---|---|\n| next to the bank | neben der Bank |\n| opposite the church | gegenüber der Kirche |\n| between the café and the shop | zwischen dem Café und dem Laden |\n| on the left / on the right | auf der linken / rechten Seite |\n| at the end of the street | am Ende der Straße |\n# Polite questions\n[satz: Excuse me, | how | *do* | I | *get* | to the museum?]\n[satz: Is there | a chemist's | near here?]\nMerke: Zuerst sagst du Excuse me. Am Ende sagst du Thank you. Die Antwort: You're welcome.",
+  "help": "# Höflich fragen\nFalsch: Where is station?\nRichtig: Excuse me, where is the station, please?\n# go straight on\nFalsch: Go always straight.\nRichtig: Go straight on.\n# opposite\nFalsch: opposite of the church\nRichtig: opposite the church\nAchtung: Nach opposite kommt kein of.\n# Links und rechts\nFalsch: on the left side from the bank\nRichtig: on the left, next to the bank",
+  "ub": {
+   "t": "match",
+   "x": "⬆️ | go straight on\n⬅️ | turn left\n➡️ | turn right\n🚦 | at the traffic lights\n↔️ | opposite\n🏦🏨 | next to"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Bild und Weg",
+    "x": "⬆️ | go straight on\n⬅️ | turn left\n➡️ | turn right\n🚦 | at the traffic lights\n↔️ | opposite\n🏦🏨 | next to"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Der Weg zum Museum",
+    "x": "*Excuse* me, how do I get to the museum?\nGo *straight* on. Then turn *left* at the traffic lights.\nThe museum is *opposite* the church.\nIt's *next* to the post office.\nThank you! – You're *welcome*."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Nach dem Weg fragen",
+    "x": "Sprache: Englisch\nExcuse me, where is the station, please?\nGo straight on.\nTurn left at the traffic lights.\nIt's on the right.\nIt's opposite the church.\nYou're welcome."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Übersetze: a) geradeaus gehen  b) links abbiegen  c) rechts abbiegen  d) an der Ampel  e) gegenüber",
+    "a": "a) go straight on  b) turn left  c) turn right  d) at the traffic lights  e) opposite"
+   },
+   {
+    "l": 1,
+    "q": "Ordne den Dialog: a) You're welcome.  b) Excuse me, where is the park?  c) Thank you!  d) Turn right. It's next to the school.",
+    "a": "b – d – c – a"
+   },
+   {
+    "l": 2,
+    "q": "Zeichne einen kleinen Stadtplan mit Schule, Bahnhof, Park und Kirche. Beschreibe den Weg von der Schule zum Bahnhof in 3 Sätzen.",
+    "a": "Zum Beispiel: Go straight on. Turn left at the church. The station is on the right, opposite the park."
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Fragen höflich: a) Where is the bank?  b) How do I get to the zoo?",
+    "a": "a) Excuse me, where is the bank, please?  b) Excuse me, how do I get to the zoo, please?"
+   },
+   {
+    "l": 3,
+    "q": "Ein Tourist steht vor deiner Schule. Er will zum Bahnhof. Schreib den ganzen Dialog (6 Zeilen).",
+    "a": "Zum Beispiel: Tourist: Excuse me, how do I get to the station? – You: Go straight on and turn right at the traffic lights. – Tourist: Right at the traffic lights? – You: Yes. The station is on the left, opposite the supermarket. – Tourist: Thank you very much. – You: You're welcome."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „Where is station? Go always straight. It's opposite of the bank.“ Verbessere.",
+    "a": "Excuse me, where is the station, please? Go straight on. It's opposite the bank."
+   }
+  ],
+  "mt": "Was heißt „turn left“?\n+ links abbiegen\n- rechts abbiegen\n- geradeaus gehen\n\nWie fragst du höflich?\n- Where is bank?\n+ Excuse me, where is the bank, please?\n- Bank where?\n\nWas sagst du auf „Thank you!“?\n- Please.\n+ You're welcome.\n- Excuse me.\n\nWelcher Ausdruck ist richtig?\n- opposite of the school\n+ opposite the school\n- opposite to of the school\n\nWas heißt „an der Ampel“?\n- at the corner\n+ at the traffic lights\n- at the bus stop"
+ },
+ {
+  "ch": "2 My home region",
+  "title": "2.4 Word order: place before time",
+  "text": "# The English sentence\nIm englischen Satz gilt: Subjekt – Verb – Objekt. Dann kommt zuerst der Ort, dann die Zeit.\n[bilder: 👤 who? | ▶️ does what? | 📦 what? | 📍 where? | 🕒 when?]\n[satz: I | *play* | football | in the park | on Saturdays.]\n[satz: We | *meet* | our friends | at the café | after school.]\n[satz: Lena | *went* | to Munich | yesterday.]\n# Ort vor Zeit\n| Wer? | Verb | Was? | Wo? | Wann? |\n|---|---|---|---|---|\n| I | play | football | in the park | on Saturdays. |\n| Ali | buys | bread | at the bakery | every morning. |\n| We | watched | a film | at the cinema | last Friday. |\n[uhr: 8:00=🏫 at school at eight | 16:30=🏊 at the pool at half past four]\n# Deutsch und Englisch\n- Deutsch: Am Samstag spiele ich im Park Fußball.\n- Englisch: I play football in the park on Saturdays.\nMerke: Merk dir P vor T – Place before Time. Wie im Alphabet: P kommt vor T.",
+  "help": "# Verb an zweiter Stelle\nFalsch: On Saturday play I football.\nRichtig: I play football on Saturday.\nAchtung: Im Englischen steht das Subjekt immer direkt vor dem Verb.\n# Objekt nicht trennen\nFalsch: I play in the park football.\nRichtig: I play football in the park.\n# Ort vor Zeit\nFalsch: We meet after school at the café.\nRichtig: We meet at the café after school.\nAchtung: Die Zeit darf auch ganz am Anfang stehen: After school, we meet at the café.",
+  "ub": {
+   "t": "mc",
+   "x": "Welcher Satz ist richtig?\n+ I play football in the park on Sundays.\n- I play football on Sundays in the park.\n- On Sundays play I football in the park.\n\nWelcher Satz ist richtig?\n- We every morning eat breakfast in the kitchen.\n+ We eat breakfast in the kitchen every morning.\n- We eat in the kitchen breakfast every morning.\n\nWelcher Satz ist richtig?\n- Yesterday went Tom to the cinema.\n- Tom went yesterday to the cinema.\n+ Tom went to the cinema yesterday.\n\nWelcher Satz ist richtig?\n+ My dad works at the hospital at night.\n- My dad works at night at the hospital.\n- At night works my dad at the hospital.\n\nWelcher Satz ist richtig?\n- I in the library read books after school.\n+ I read books in the library after school.\n- I read in the library after school books."
+  },
+  "ubs": [
+   {
+    "t": "mc",
+    "n": "Welcher Satz ist richtig?",
+    "x": "Welcher Satz ist richtig?\n+ I play football in the park on Sundays.\n- I play football on Sundays in the park.\n- On Sundays play I football in the park.\n\nWelcher Satz ist richtig?\n- We every morning eat breakfast in the kitchen.\n+ We eat breakfast in the kitchen every morning.\n- We eat in the kitchen breakfast every morning.\n\nWelcher Satz ist richtig?\n- Yesterday went Tom to the cinema.\n- Tom went yesterday to the cinema.\n+ Tom went to the cinema yesterday.\n\nWelcher Satz ist richtig?\n+ My dad works at the hospital at night.\n- My dad works at night at the hospital.\n- At night works my dad at the hospital.\n\nWelcher Satz ist richtig?\n- I in the library read books after school.\n+ I read books in the library after school.\n- I read in the library after school books."
+   },
+   {
+    "t": "match",
+    "n": "Paare: Satzanfang und Ende",
+    "x": "I watch TV | in the living room in the evening.\nWe buy bread | at the bakery every morning.\nMy sister swims | in the lake in summer.\nThe bus leaves | from the station at 8 o'clock.\nThey play basketball | in the gym on Mondays."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Ort vor Zeit",
+    "x": "Sprache: Englisch\nI play football in the park on Saturdays.\nWe meet at the café after school.\nMy mum works at the hospital at night.\nTom went to the cinema yesterday."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Unterstreiche im Satz den Ort blau und die Zeit grün: a) I swim in the lake in summer.  b) We eat at home at six.",
+    "a": "a) Ort: in the lake, Zeit: in summer  b) Ort: at home, Zeit: at six"
+   },
+   {
+    "l": 1,
+    "q": "Ordne: a) in the park / I / on Sundays / run  b) at school / we / at eight / are",
+    "a": "a) I run in the park on Sundays.  b) We are at school at eight."
+   },
+   {
+    "l": 2,
+    "q": "Ordne: a) at the bakery / every morning / bread / buys / my dad  b) last week / at the cinema / a film / watched / we",
+    "a": "a) My dad buys bread at the bakery every morning.  b) We watched a film at the cinema last week."
+   },
+   {
+    "l": 2,
+    "q": "Übersetze: a) Am Montag spiele ich in der Halle Basketball.  b) Nach der Schule treffe ich meine Freunde im Park.",
+    "a": "a) I play basketball in the gym on Monday(s).  b) I meet my friends in the park after school."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „On Friday go we to the cinema. I read in my room every evening books.“ Verbessere.",
+    "a": "We go to the cinema on Friday. I read books in my room every evening."
+   },
+   {
+    "l": 3,
+    "q": "Schreib 5 Sätze über deine Woche. Jeder Satz hat Ort und Zeit in der richtigen Reihenfolge.",
+    "a": "Zum Beispiel: I go to school by bus every day. I play football in the park on Tuesdays. I visit my grandma in Fürth on Sundays. I do my homework in my room after lunch. I meet Elif at the library on Fridays."
+   }
+  ],
+  "mt": "Was kommt im englischen Satz zuerst?\n+ der Ort\n- die Zeit\n- egal\n\nWelcher Satz ist richtig?\n- I eat lunch at one o'clock at school.\n+ I eat lunch at school at one o'clock.\n- I eat at school lunch at one o'clock.\n\nWelcher Satz ist richtig?\n- Tomorrow go we to Munich.\n+ We go to Munich tomorrow.\n- We go tomorrow to Munich.\n\nWo steht das Subjekt?\n+ direkt vor dem Verb\n- am Ende vom Satz\n- nach dem Verb\n\nWelcher Satz ist richtig?\n+ She plays the piano at home every day.\n- She plays every day the piano at home.\n- She plays at home the piano every day."
+ },
+ {
+  "ch": "3 Shopping and services",
+  "title": "3.1 At the department store",
+  "text": "# The floors\n[bilder: 👕 clothes | 👟 shoes | 🎮 games | 📚 books | 🧸 toys | ☕ the café | 🛗 the lift | 🪜 the escalator]\n| Floor | What can you buy? |\n|---|---|\n| 4th floor | ☕ café and toilets |\n| 3rd floor | 🎮 games, computers, phones |\n| 2nd floor | 📚 books and 🧸 toys |\n| 1st floor | 👕 clothes and 👟 shoes |\n| ground floor | 💄 perfume and 👜 bags |\nMerke: In Großbritannien ist das Erdgeschoss der ground floor. Der 1st floor ist der erste Stock.\n# Asking for help\n[dialog: Assistant Hello! Can I help you? | Jamal Yes, please. I'm looking for trainers. | Assistant Shoes are on the first floor. You can take the lift. | Jamal Thank you. And where are the toilets? | Assistant They're on the fourth floor, next to the café.]\n# Try it on\n[bilder: 🧥 a jacket | 👖 jeans | 🧢 a cap | 👕 a T-shirt | 🩳 shorts | 🧦 socks]\n[dialog: Lisa Can I try on these jeans, please? | Assistant Of course. The changing rooms are over there. | Lisa They're too small. Have you got them in a bigger size? | Assistant Yes, here you are. | Lisa Perfect! How much are they? | Assistant They're 29.99 pounds.]\n[satz: I'm | *looking for* | a blue hoodie.]\n[satz: *Can* | I | *try* | it | on?]",
+  "help": "# look for\nFalsch: I search a jacket.\nRichtig: I'm looking for a jacket.\n# How much …?\nFalsch: How much costs it?\nRichtig: How much is it? Oder: How much does it cost?\n# jeans sind Mehrzahl\nFalsch: This jeans is nice.\nRichtig: These jeans are nice.\nAchtung: jeans, trousers, shorts sind im Englischen immer Mehrzahl.\n# Stockwerke\nFalsch: in the first floor\nRichtig: on the first floor",
+  "ub": {
+   "t": "match",
+   "x": "Can I help you? | Yes, please. I'm looking for a cap.\nWhere are the shoes? | They're on the first floor.\nCan I try it on? | Of course. The changing rooms are over there.\nHow much is the T-shirt? | It's 12 pounds.\nHave you got it in blue? | Sorry, only in red.\nWhere are the toilets? | On the fourth floor."
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Frage und Antwort",
+    "x": "Can I help you? | Yes, please. I'm looking for a cap.\nWhere are the shoes? | They're on the first floor.\nCan I try it on? | Of course. The changing rooms are over there.\nHow much is the T-shirt? | It's 12 pounds.\nHave you got it in blue? | Sorry, only in red.\nWhere are the toilets? | On the fourth floor."
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Im Kaufhaus",
+    "x": "Can I *help* you?\nYes, please. I'm *looking* for a jacket.\nJackets are *on* the second floor.\nCan I *try* it on?\nHow *much* is it?\n*These* jeans are too small."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Im Kaufhaus",
+    "x": "Sprache: Englisch\nescalator\nchanging room\ntrainers\nI'm looking for a hoodie.\nCan I try it on, please?\nHow much are these jeans?\nThey're on the first floor."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Übersetze: a) die Rolltreppe  b) der Aufzug  c) die Umkleide  d) das Erdgeschoss  e) Turnschuhe",
+    "a": "a) the escalator  b) the lift  c) the changing room  d) the ground floor  e) trainers"
+   },
+   {
+    "l": 1,
+    "q": "Schau auf die Tabelle im Heft. Wo kaufst du …? a) a book  b) a phone  c) a T-shirt",
+    "a": "a) on the second floor  b) on the third floor  c) on the first floor"
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Fragen richtig: a) How much costs the cap?  b) I search shoes.  c) This jeans is too big.",
+    "a": "a) How much is the cap?  b) I'm looking for shoes.  c) These jeans are too big."
+   },
+   {
+    "l": 2,
+    "q": "Schreib einen Dialog (4 Zeilen): Du suchst eine Jacke. Du fragst nach dem Stockwerk und dem Preis.",
+    "a": "Zum Beispiel: You: Excuse me, I'm looking for a jacket. – Assistant: Jackets are on the first floor. – You: How much is this jacket? – Assistant: It's 45 pounds."
+   },
+   {
+    "l": 3,
+    "q": "Plane dein eigenes Kaufhaus: 5 Stockwerke. Schreib auf Englisch, was es auf jedem Stockwerk gibt.",
+    "a": "Zum Beispiel: Ground floor: bags and perfume. First floor: clothes. Second floor: sports things. Third floor: games and computers. Fourth floor: a café."
+   },
+   {
+    "l": 3,
+    "q": "Die Hose ist zu klein, die Farbe gefällt dir nicht. Schreib 3 Sätze, die du der Verkäuferin sagst.",
+    "a": "Zum Beispiel: These trousers are too small. Have you got them in a bigger size? Have you got them in black?"
+   }
+  ],
+  "mt": "Was heißt „der Aufzug“ in Großbritannien?\n+ the lift\n- the escalator\n- the floor\n\nWelche Frage ist richtig?\n- How much costs it?\n+ How much is it?\n- How many is it?\n\nWelcher Satz ist richtig?\n+ These jeans are nice.\n- This jeans is nice.\n- This jeans are nice.\n\nWo probierst du Kleidung an?\n- in the lift\n+ in the changing room\n- on the escalator\n\nWas sagt die Verkäuferin zuerst?\n+ Can I help you?\n- Here you are.\n- You're welcome."
+ },
+ {
+  "ch": "3 Shopping and services",
+  "title": "3.2 Which one? – The red one.",
+  "text": "# Colours and sizes\n[farben: red=#dc2626 | blue=#2563eb | green=#16a34a | yellow=#facc15 | black=#111827 | white=#ffffff | grey=#9ca3af | pink=#f472b6]\n[bilder: S small | M medium | L large | XL extra large]\n# The prop word one\nDu willst ein Nomen nicht zweimal sagen? Dann sagst du one oder ones.\n[bilder: 🧢 the red one | 🧢 the blue one | 👟 the white ones | 👟 the black ones]\n[dialog: Assistant Which T-shirt do you want? | Kemal The green one, please. | Assistant And which trainers? | Kemal The white ones. They're cool! | Assistant Do you want a big bag or a small one? | Kemal A small one, please.]\n| ein Ding | viele Dinge |\n|---|---|\n| I like the red cap. → I like the red one. | I like the black shoes. → I like the black ones. |\n| Which one? | Which ones? |\n| a big one | big ones |\n[satz: I | *don't like* | the blue T-shirt. | I | *like* | the green one.]\nMerke: one steht für ein Ding, ones für viele Dinge. Davor steht oft ein Adjektiv: the red one.",
+  "help": "# one oder ones\nFalsch: I like the black one. (für shoes)\nRichtig: I like the black ones.\nAchtung: Viele Dinge = ones.\n# Kein one bei Namen\nFalsch: Which cap? – The one of Tom.\nRichtig: Which cap? – Tom's.\n# Farbe vor dem Nomen\nFalsch: a T-shirt red\nRichtig: a red T-shirt\n# grey\nAchtung: Im britischen Englisch schreibst du grey und colour. Im amerikanischen Englisch gray und color.",
+  "ub": {
+   "t": "gap",
+   "x": "I don't like this cap. I like the blue *one*.\nThese trainers are too small. Have you got bigger *ones*?\nWhich jacket do you want? – The black *one*.\nWhich socks? – The red *ones*, please.\nMy bag is old. I need a new *one*."
+  },
+  "ubs": [
+   {
+    "t": "gap",
+    "n": "Lückentext: one oder ones",
+    "x": "I don't like this cap. I like the blue *one*.\nThese trainers are too small. Have you got bigger *ones*?\nWhich jacket do you want? – The black *one*.\nWhich socks? – The red *ones*, please.\nMy bag is old. I need a new *one*."
+   },
+   {
+    "t": "match",
+    "n": "Paare: Frage und Antwort",
+    "x": "Which T-shirt do you want? | The yellow one, please.\nWhich shoes do you like? | The black ones.\nDo you want a big pizza? | No, a small one.\nWhat size are you? | Medium, please.\nWhat colour is your bike? | It's green."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Farben und one",
+    "x": "Sprache: Englisch\ncolour\ngrey\nyellow\nmedium\nThe red one, please.\nI like the white ones.\nHave you got a bigger one?"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib 8 Farben auf Englisch. Male zu jeder Farbe einen Punkt.",
+    "a": "red, blue, green, yellow, black, white, grey, pink (auch: brown, orange, purple)"
+   },
+   {
+    "l": 1,
+    "q": "one oder ones? a) the big ___ (Tasche)  b) the white ___ (Schuhe)  c) the old ___ (Fahrrad)  d) the new ___ (Bücher)",
+    "a": "a) one  b) ones  c) one  d) ones"
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Sätze kürzer mit one oder ones: a) I don't want the red cap. I want the blue cap.  b) These shoes are nice, but I like the black shoes.",
+    "a": "a) I don't want the red cap. I want the blue one.  b) These shoes are nice, but I like the black ones."
+   },
+   {
+    "l": 2,
+    "q": "Beantworte: a) What is your favourite colour?  b) What colour is your bag?  c) What size are your T-shirts?",
+    "a": "Zum Beispiel: a) My favourite colour is green.  b) My bag is black.  c) They're medium."
+   },
+   {
+    "l": 3,
+    "q": "Schreib einen Einkaufsdialog (6 Zeilen) mit Which one?, Which ones? und einer Farbe.",
+    "a": "Zum Beispiel: Assistant: Can I help you? – You: I'm looking for a cap. – Assistant: Which one? The red one or the black one? – You: The black one, please. And I need socks. – Assistant: Which ones? – You: The white ones."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „I like the trainers white. Which ones T-shirt? I want the one of Lisa.“ Verbessere.",
+    "a": "I like the white trainers. Which T-shirt? (Oder: Which one?) I want Lisa's."
+   }
+  ],
+  "mt": "Welches Wort passt? I don't like the red cap. I like the green ___.\n+ one\n- ones\n- it\n\nWelches Wort passt? These shoes are old. I need new ___.\n- one\n+ ones\n- once\n\nWas heißt „grau“ im britischen Englisch?\n+ grey\n- gray\n- grau\n\nWelcher Ausdruck ist richtig?\n- a jacket black\n+ a black jacket\n- a black one jacket\n\nWas bedeutet „M“ bei Kleidung?\n- mini\n+ medium\n- much"
+ },
+ {
+  "ch": "3 Shopping and services",
+  "title": "3.3 Somebody, anybody, nobody",
+  "text": "# some, any, no\n[bilder: 🍪 some cookies | ❓ any cookies? | 🚫 no cookies]\n| Satz | Wort | Beispiel |\n|---|---|---|\n| ✅ Aussage | some | There are some apples. |\n| ❌ Verneinung | not … any | There aren't any apples. |\n| ❓ Frage | any | Are there any apples? |\n| 🚫 kein | no | There are no apples. |\n# People and things\n[bilder: 🙋 somebody | ❓ anybody | 🙅 nobody | 📦 something | ❔ anything | 🕳️ nothing]\n| | Personen | Dinge |\n|---|---|---|\n| ✅ | somebody | something |\n| ❓ / ❌ | anybody | anything |\n| 🚫 | nobody | nothing |\n[dialog: Mum Is there anybody at the door? | Leon Yes, somebody is there. It's the postman! | Mum Has he got anything for us? | Leon No, he's got nothing for us. Only for Mrs Yilmaz.]\n[satz: There | *is* | somebody | in the garden.]\n[satz: I | *can't see* | anything.]\n[satz: Nobody | *is* | at home.]\nMerke: Bei Fragen und Verneinung mit not: any. Bei Angeboten und Bitten aber some: Would you like some tea?",
+  "help": "# Doppelte Verneinung\nFalsch: I don't see nothing.\nRichtig: I don't see anything. Oder: I see nothing.\nAchtung: Im Englischen nur eine Verneinung pro Satz!\n# Fragen\nFalsch: Have you got some brothers?\nRichtig: Have you got any brothers?\nAchtung: Ausnahme: Angebote. Would you like some cake?\n# nobody\nFalsch: Nobody don't know it.\nRichtig: Nobody knows it.",
+  "ub": {
+   "t": "mc",
+   "x": "There are ___ apples in the fridge.\n+ some\n- any\n- nobody\n\nAre there ___ pupils in the classroom?\n- some\n+ any\n- nothing\n\nI'm hungry, but there's ___ in the fridge.\n- anything\n+ nothing\n- nobody\n\nIs there ___ at home? – No, nobody.\n+ anybody\n- somebody\n- nothing\n\nWelcher Satz ist richtig?\n- I don't know nobody here.\n+ I don't know anybody here.\n- I don't know somebody here."
+  },
+  "ubs": [
+   {
+    "t": "mc",
+    "n": "Welches Wort passt?",
+    "x": "There are ___ apples in the fridge.\n+ some\n- any\n- nobody\n\nAre there ___ pupils in the classroom?\n- some\n+ any\n- nothing\n\nI'm hungry, but there's ___ in the fridge.\n- anything\n+ nothing\n- nobody\n\nIs there ___ at home? – No, nobody.\n+ anybody\n- somebody\n- nothing\n\nWelcher Satz ist richtig?\n- I don't know nobody here.\n+ I don't know anybody here.\n- I don't know somebody here."
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Ein leeres Haus",
+    "x": "Tom comes home. He calls: „Is there *anybody* here?“\nBut *nobody* answers.\nHe looks in the kitchen. There is *something* on the table.\nIt's a note: „We're at the park. There are *some* sandwiches for you.“\nTom doesn't need *anything* else. He's happy."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: some und any",
+    "x": "Sprache: Englisch\nsomebody\nanybody\nnobody\nsomething\nnothing\nIs there anybody at home?\nI can't see anything."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Ergänze die Tabelle: Personen: somebody, ___, nobody. Dinge: ___, anything, ___.",
+    "a": "Personen: somebody, anybody, nobody. Dinge: something, anything, nothing."
+   },
+   {
+    "l": 1,
+    "q": "some oder any? a) I've got ___ friends in London.  b) Have you got ___ pets?  c) There aren't ___ chairs.",
+    "a": "a) some  b) any  c) any"
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Sätze anders mit no / nobody / nothing: a) There aren't any cookies.  b) There isn't anybody here.  c) I haven't got anything.",
+    "a": "a) There are no cookies.  b) There is nobody here.  c) I've got nothing."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Sätze über dein Zimmer mit some, any, something, nothing.",
+    "a": "Zum Beispiel: There are some posters on the wall. There aren't any plants. There is something under my bed. There is nothing on my desk."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „I don't have no money. Is there somebody here? – No, there isn't nobody. Have you got some sisters?“ Verbessere.",
+    "a": "I don't have any money. Is there anybody here? – No, there isn't anybody. (Oder: No, there's nobody.) Have you got any sisters?"
+   },
+   {
+    "l": 3,
+    "q": "Schreib einen kleinen Krimi (5 Sätze) mit somebody, nobody, something und nothing.",
+    "a": "Zum Beispiel: It's dark. Somebody is in the garden. I look out of the window, but I can see nothing. Then I hear something. I call: „Is there anybody?“ But nobody answers."
+   }
+  ],
+  "mt": "Welches Wort passt? Are there ___ bananas?\n- some\n+ any\n- no\n\nWelcher Satz ist richtig?\n- I don't see nothing.\n+ I don't see anything.\n- I don't see something.\n\nWas heißt „niemand“?\n+ nobody\n- somebody\n- anything\n\nWelches Wort passt? Would you like ___ tea?\n+ some\n- any\n- nothing\n\nWas heißt „etwas“ in einem Aussagesatz?\n- anything\n- nothing\n+ something"
+ },
+ {
+  "ch": "3 Shopping and services",
+  "title": "3.4 At the cinema box office",
+  "text": "# Going to the cinema\n[bilder: 🎬 the film | 🎟️ the ticket | 🍿 popcorn | 🥤 a drink | 💺 a seat | 🏷️ the box office]\n# What's on?\n| Film | Times | Ticket |\n|---|---|---|\n| 🦖 Dino Island | 3:30 pm, 6:15 pm | £7.50 |\n| 🚀 Space Kids | 4:00 pm, 7:45 pm | £8.00 |\n| 😂 Funny Farm | 5:15 pm | £6.50 |\n[uhr: 3:30=half past three | 6:15=quarter past six | 7:45=quarter to eight | 5:15=quarter past five]\nMerke: am = vor 12 Uhr mittags, pm = nach 12 Uhr mittags. 7:45 pm = 19:45 Uhr.\n# Buying tickets\n[dialog: Zoe Hello. Two tickets for Space Kids, please. | Cashier For the four o'clock or the quarter to eight show? | Zoe The four o'clock show, please. | Cashier Where would you like to sit? | Zoe At the back, please. How much is that? | Cashier That's sixteen pounds. | Zoe Here you are. | Cashier Thanks. Enjoy the film!]\n[bilder: 🔙 at the back | 🎯 in the middle | 🔜 at the front]\n[satz: *Can* | I | *have* | two tickets | for Space Kids, | please?]\n[satz: What time | *does* | the film | *start*?]",
+  "help": "# Uhrzeit\nFalsch: half eight = 7:30\nRichtig: half past seven = 7:30\nAchtung: Im Deutschen „halb acht“, im Englischen half past seven (halb nach sieben).\n# Preis\nFalsch: 8 pounds 50 = acht Pfund und fünfzig\nRichtig: £8.50 = eight pounds fifty\nAchtung: Im Englischen schreibst du einen Punkt: £8.50. Das Zeichen £ steht vorne.\n# Höflich bestellen\nFalsch: I want two tickets.\nRichtig: Can I have two tickets, please?",
+  "ub": {
+   "t": "match",
+   "x": "[uhr 3:30] | half past three\n[uhr 6:15] | quarter past six\n[uhr 7:45] | quarter to eight\n[uhr 4:00] | four o'clock\n[uhr 5:20] | twenty past five\n[uhr 8:50] | ten to nine"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Uhr und Uhrzeit",
+    "x": "[uhr 3:30] | half past three\n[uhr 6:15] | quarter past six\n[uhr 7:45] | quarter to eight\n[uhr 4:00] | four o'clock\n[uhr 5:20] | twenty past five\n[uhr 8:50] | ten to nine"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: An der Kinokasse",
+    "x": "*Can* I have three tickets for Dino Island, please?\nFor the half *past* three show?\nYes, please. Where can we *sit*?\nIn the *middle*, row F.\nHow *much* is that?\nThat's twenty-two pounds *fifty*.\nHere you *are*. – Enjoy the film!"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: An der Kinokasse",
+    "x": "Sprache: Englisch\nbox office\npopcorn\nquarter past six\nhalf past three\nCan I have two tickets, please?\nWhat time does the film start?\nEnjoy the film!"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die Uhrzeiten auf Englisch: a) 6:15  b) 7:30  c) 8:45  d) 9:00",
+    "a": "a) quarter past six  b) half past seven  c) quarter to nine  d) nine o'clock"
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) die Kinokasse  b) die Eintrittskarte  c) der Sitzplatz  d) hinten  e) vorne",
+    "a": "a) the box office  b) the ticket  c) the seat  d) at the back  e) at the front"
+   },
+   {
+    "l": 2,
+    "q": "Rechne: Du kaufst 3 Tickets für Funny Farm (£6.50). Wie viel kostet das? Schreib den Preis auf Englisch.",
+    "a": "3 × £6.50 = £19.50 = nineteen pounds fifty"
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Fragen höflich: a) I want popcorn.  b) When starts the film?  c) Tickets for Space Kids!",
+    "a": "a) Can I have some popcorn, please?  b) What time does the film start?  c) Can I have tickets for Space Kids, please?"
+   },
+   {
+    "l": 3,
+    "q": "Schreib einen Dialog (6 Zeilen) an der Kinokasse: Film, Uhrzeit, Platz, Preis.",
+    "a": "Zum Beispiel: You: Hello. Two tickets for Dino Island, please. – Cashier: For half past three or quarter past six? – You: Quarter past six, please. – Cashier: Where would you like to sit? – You: In the middle. – Cashier: That's fifteen pounds."
+   },
+   {
+    "l": 3,
+    "q": "Plane einen Kinoabend mit Freunden. Schreib 4 Sätze: Welcher Film? Wann? Wie viele Tickets? Wie viel kostet es?",
+    "a": "Zum Beispiel: We want to watch Space Kids. It starts at quarter to eight. We need four tickets. It costs thirty-two pounds."
+   }
+  ],
+  "mt": "Was ist 7:30 auf Englisch?\n- half seven\n+ half past seven\n- half to eight\n\nWie bestellst du höflich?\n- I want a ticket.\n+ Can I have a ticket, please?\n- Give ticket!\n\nWas heißt „pm“?\n+ nach 12 Uhr mittags\n- vor 12 Uhr mittags\n- in der Nacht\n\nWie sagst du £7.50?\n- seven fifty pounds\n+ seven pounds fifty\n- seventy-five pounds\n\nWo kaufst du Kinokarten?\n- at the changing room\n+ at the box office\n- at the library"
+ },
+ {
+  "ch": "4 London and the UK",
+  "title": "4.1 Welcome to London",
+  "text": "# The United Kingdom\n[bilder: 🌹 England | 🦄 Scotland | 🐉 Wales | ☘️ Northern Ireland | 🇬🇧 the Union Jack]\n- The UK has four countries: England, Scotland, Wales and Northern Ireland.\n- The capital is London. About 9 million people live there.\n- Every country has a symbol: the rose (England), the unicorn (Scotland), the dragon (Wales), the shamrock (Northern Ireland).\n# London sights\n[bilder: 🕰️ Big Ben | 🎡 the London Eye | 👑 Buckingham Palace | 🌉 Tower Bridge | 🏰 the Tower of London | 🚇 the Tube | 🚌 a red double-decker | 💂 a guard]\n| Sight | Fact |\n|---|---|\n| Big Ben | It's the bell in the clock tower. |\n| the London Eye | It's 135 metres high. |\n| Buckingham Palace | The King lives there. |\n| Tower Bridge | It opens for big ships. |\n| the River Thames | It runs through London. |\n# A day in London\n[dialog: Aylin Mum, can we go on the London Eye? | Mum Yes, but first we want to see Big Ben. | Aylin How do we get there? | Mum We can take the Tube. It's fast. | Aylin Great! And then a ride on a red bus!]\n[uhr: 10:00=🕰️ Big Ben | 12:30=🎡 London Eye | 15:00=👑 Buckingham Palace]\nMerke: Die U-Bahn in London heißt the Tube oder the Underground.",
+  "help": "# UK und England\nFalsch: Scotland is in England.\nRichtig: Scotland is in the UK.\nAchtung: England ist nicht dasselbe wie Großbritannien!\n# Namen mit the\nFalsch: I visited London Eye.\nRichtig: I visited the London Eye.\nAchtung: the London Eye, the Tower, the Thames – aber Big Ben und Buckingham Palace ohne the.\n# Tube\nFalsch: We took the metro.\nRichtig: We took the Tube.",
+  "ub": {
+   "t": "match",
+   "x": "🕰️ | Big Ben\n🎡 | the London Eye\n👑 | Buckingham Palace\n🌉 | Tower Bridge\n🚇 | the Tube\n🚌 | a double-decker bus"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Bild und Sehenswürdigkeit",
+    "x": "🕰️ | Big Ben\n🎡 | the London Eye\n👑 | Buckingham Palace\n🌉 | Tower Bridge\n🚇 | the Tube\n🚌 | a double-decker bus"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: London",
+    "x": "LONDON\nTHAMES\nTUBE\nBRIDGE\nPALACE\nTOWER\nBUS\nKING"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: London",
+    "x": "Sprache: Englisch\nBuckingham Palace\nthe River Thames\nthe London Eye\nTower Bridge\nScotland\nLet's take the Tube.\nI want to see Big Ben."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die vier Länder im Vereinigten Königreich auf.",
+    "a": "England, Scotland, Wales, Northern Ireland"
+   },
+   {
+    "l": 1,
+    "q": "Wie heißt …? a) der Fluss in London  b) die U-Bahn in London  c) der rote Bus mit zwei Etagen",
+    "a": "a) the River Thames  b) the Tube (the Underground)  c) a double-decker (bus)"
+   },
+   {
+    "l": 2,
+    "q": "Schreib zu 3 Sehenswürdigkeiten je einen Satz auf Englisch.",
+    "a": "Zum Beispiel: Big Ben is a famous bell. The London Eye is 135 metres high. The King lives in Buckingham Palace."
+   },
+   {
+    "l": 2,
+    "q": "Plane einen Tag in London. Schreib 4 Sätze mit Uhrzeit: At ten o'clock we …",
+    "a": "Zum Beispiel: At ten o'clock we visit Big Ben. At half past twelve we go on the London Eye. At two o'clock we eat fish and chips. At four o'clock we take the Tube to Tower Bridge."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine Postkarte (5 Sätze) aus London an deine Klasse.",
+    "a": "Zum Beispiel: Hi class 7b! I'm in London. It's big and exciting. Yesterday we saw Big Ben and Tower Bridge. Today we want to go on the London Eye. See you soon, Ben"
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche London und München: Schreib 3 Sätze über Fluss, U-Bahn und Sehenswürdigkeit.",
+    "a": "Zum Beispiel: London has the River Thames, Munich has the Isar. In London you take the Tube, in Munich the U-Bahn. In London you can see Big Ben, in Munich the Frauenkirche."
+   }
+  ],
+  "mt": "Wie viele Länder hat das Vereinigte Königreich?\n- drei\n+ vier\n- fünf\n\nWie heißt der Fluss in London?\n- the Isar\n+ the Thames\n- the Danube\n\nWer wohnt im Buckingham Palace?\n+ der König\n- der Bürgermeister\n- die Premierministerin\n\nWas ist „the Tube“?\n- ein Riesenrad\n+ die U-Bahn in London\n- ein Turm\n\nWas ist „Big Ben“?\n+ die große Glocke im Uhrturm\n- eine Brücke\n- ein Bus"
+ },
+ {
+  "ch": "4 London and the UK",
+  "title": "4.2 Getting around: catch a bus",
+  "text": "# Transport\n[bilder: 🚌 the bus | 🚆 the train | 🚇 the Tube | 🚕 a taxi | 🚲 a bike | 🚶 on foot | ⛴️ the ferry | ✈️ the plane]\n- I go to school by bus. – Aber: I walk. / I go on foot.\n# Collocations: Wörter, die zusammengehören\n| Englisch | Deutsch |\n|---|---|\n| catch a bus | einen Bus erwischen |\n| miss the train | den Zug verpassen |\n| take the Tube | mit der U-Bahn fahren |\n| get on the bus | in den Bus einsteigen |\n| get off the bus | aus dem Bus aussteigen |\n| wait for the bus | auf den Bus warten |\n| buy a ticket | eine Fahrkarte kaufen |\n[bilder: 🏃🚌 catch the bus | 😩🚆 miss the train | ⬆️🚌 get on | ⬇️🚌 get off]\n# At the bus stop\n[dialog: Noah Excuse me, does this bus go to the British Museum? | Driver No, you need the number 7. | Noah Where can I catch it? | Driver At the next stop, over there. | Noah And where do I get off? | Driver Get off at Russell Square. It's the fourth stop.]\n[satz: We | *got on* | the bus | at the station.]\n[satz: Hurry up! | We | *don't want* | to miss | the train!]\n[uhr: 8:05=🚌 the bus leaves | 8:10=😩 I miss it!]\nMerke: Lerne Wörter in Paaren: catch a bus, miss the train, get on, get off.",
+  "help": "# with the bus\nFalsch: I go to school with the bus.\nRichtig: I go to school by bus.\nAchtung: by bus, by train, by bike – aber on foot.\n# einsteigen\nFalsch: I go in the bus.\nRichtig: I get on the bus.\n# verpassen\nFalsch: I lost the train.\nRichtig: I missed the train.",
+  "ub": {
+   "t": "match",
+   "x": "catch a bus | einen Bus erwischen\nmiss the train | den Zug verpassen\nget on | einsteigen\nget off | aussteigen\nwait for the bus | auf den Bus warten\non foot | zu Fuß\nby bike | mit dem Fahrrad"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Englisch und Deutsch",
+    "x": "catch a bus | einen Bus erwischen\nmiss the train | den Zug verpassen\nget on | einsteigen\nget off | aussteigen\nwait for the bus | auf den Bus warten\non foot | zu Fuß\nby bike | mit dem Fahrrad"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Mein Schulweg",
+    "x": "Every morning I *wait* for the bus at 7:20.\nI *get* on at the station.\nI go to school *by* bus.\nToday I was late and I *missed* the bus!\nSo I walked. I went *on* foot.\nIn the afternoon I got *off* the bus at the station."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Unterwegs",
+    "x": "Sprache: Englisch\ncatch a bus\nmiss the train\nget on\nget off\nI go to school by bus.\nWhere do I get off?\nHurry up, we don't want to miss the train!"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Wie kommst du zur Schule? Schreib einen Satz mit by … oder on foot.",
+    "a": "Zum Beispiel: I go to school by bus. / I go to school on foot."
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) einsteigen  b) aussteigen  c) den Zug verpassen  d) mit dem Fahrrad",
+    "a": "a) get on  b) get off  c) miss the train  d) by bike"
+   },
+   {
+    "l": 2,
+    "q": "Verbessere: a) I go with the train to Munich.  b) I go in the bus.  c) I lost the bus.",
+    "a": "a) I go to Munich by train.  b) I get on the bus.  c) I missed the bus."
+   },
+   {
+    "l": 2,
+    "q": "Beschreibe deinen Schulweg in 4 Sätzen mit wait for, get on, get off.",
+    "a": "Zum Beispiel: I leave home at 7 o'clock. I wait for the bus at the corner. I get on at 7:10. I get off at the school at 7:30."
+   },
+   {
+    "l": 3,
+    "q": "Schreib den Dialog an der Bushaltestelle in London weiter: Du willst zum London Eye. Frag nach Bus, Haltestelle und Aussteigen.",
+    "a": "Zum Beispiel: Excuse me, does this bus go to the London Eye? – No, take the number 211. – Where can I catch it? – Over there. – Where do I get off? – At Waterloo Station."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine kleine Geschichte (5 Sätze): Ein schlechter Morgen – du verpasst den Bus.",
+    "a": "Zum Beispiel: I got up late. I ran to the bus stop, but I missed the bus. I waited for the next bus. I got on at 8:15. I was late for school!"
+   }
+  ],
+  "mt": "Was heißt „einen Bus erwischen“?\n+ catch a bus\n- take on a bus\n- find a bus\n\nWelcher Satz ist richtig?\n- I go to school with the bus.\n+ I go to school by bus.\n- I go to school in bus.\n\nWas heißt „aussteigen“?\n- get on\n+ get off\n- get up\n\nWas heißt „zu Fuß“?\n- by foot\n+ on foot\n- with foot\n\nWelcher Satz ist richtig?\n+ I missed the train.\n- I lost the train.\n- I forgot the train."
+ },
+ {
+  "ch": "4 London and the UK",
+  "title": "4.3 Comparing: big – bigger – the biggest",
+  "text": "# Comparing things\n[bilder: 🐭 small | 🐶 bigger | 🐘 the biggest]\n[bilder: 🏠 tall | 🏢 taller | 🏙️ the tallest]\n# Short adjectives: -er, -est\n| Adjektiv | Komparativ | Superlativ |\n|---|---|---|\n| small | smaller | the smallest |\n| tall | taller | the tallest |\n| big | bigger | the biggest |\n| hot | hotter | the hottest |\n| nice | nicer | the nicest |\n| happy | happier | the happiest |\n| funny | funnier | the funniest |\n# Comparing with than\n[bilder: 🎡 135 m London Eye | 🗼 330 m Eiffel Tower | 🏢 828 m Burj Khalifa]\n[satz: The Eiffel Tower | *is* | taller | than | the London Eye.]\n[satz: The Burj Khalifa | *is* | the tallest | building | in the world.]\n[satz: Scotland | *is* | colder | than | England.]\n[dialog: Finn London is bigger than Munich, right? | Elif Yes, much bigger! But Munich is nicer. | Finn No way! London is the nicest city in the world!]\nMerke: bigger than = größer als. Vor dem Superlativ steht immer the.",
+  "help": "# than, nicht then\nFalsch: Tom is taller then Ali.\nRichtig: Tom is taller than Ali.\n# Doppelter Konsonant\nFalsch: biger, hoter\nRichtig: bigger, hotter\nAchtung: Kurzer Vokal und ein Konsonant am Ende: Der Konsonant wird doppelt: big – bigger, hot – hotter.\n# y wird i\nFalsch: happyer, funnyest\nRichtig: happier, the funniest\n# the\nFalsch: Ben is tallest boy in our class.\nRichtig: Ben is the tallest boy in our class.",
+  "ub": {
+   "t": "match",
+   "x": "small | smaller\nbig | bigger\nhot | hotter\nnice | nicer\nhappy | happier\nfunny | funnier\nold | older\nlong | longer"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Adjektiv und Komparativ",
+    "x": "small | smaller\nbig | bigger\nhot | hotter\nnice | nicer\nhappy | happier\nfunny | funnier\nold | older\nlong | longer"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Vergleiche",
+    "x": "An elephant is *bigger* than a dog.\nThe Zugspitze is *higher* than the Brocken.\nMy brother is 15. He is *older* than me.\nThe Nile is the *longest* river in the world.\nAugust is often *hotter* than May.\nThe mouse is the *smallest* animal on the picture."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Vergleiche",
+    "x": "Sprache: Englisch\nbigger\nhappier\nthe biggest\nthe tallest\nAn elephant is bigger than a dog.\nThis is the tallest building in the world."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die drei Formen: a) small  b) old  c) tall  d) long",
+    "a": "a) small – smaller – the smallest  b) old – older – the oldest  c) tall – taller – the tallest  d) long – longer – the longest"
+   },
+   {
+    "l": 1,
+    "q": "Schreib die drei Formen. Achtung, Rechtschreibung! a) big  b) hot  c) happy  d) nice",
+    "a": "a) big – bigger – the biggest  b) hot – hotter – the hottest  c) happy – happier – the happiest  d) nice – nicer – the nicest"
+   },
+   {
+    "l": 2,
+    "q": "Vergleiche mit than: a) a cat / small / a horse  b) Munich / big / Rosenheim  c) July / hot / March",
+    "a": "a) A cat is smaller than a horse.  b) Munich is bigger than Rosenheim.  c) July is hotter than March."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 3 Sätze über deine Familie mit older, younger, taller.",
+    "a": "Zum Beispiel: My sister is older than me. My brother is younger than me. My dad is taller than my mum."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „My dog is biger then your dog. It is funnyest dog in the world.“ Verbessere.",
+    "a": "My dog is bigger than your dog. It is the funniest dog in the world."
+   },
+   {
+    "l": 3,
+    "q": "Recherche: Finde den höchsten Berg, den längsten Fluss und die größte Stadt in Deutschland. Schreib 3 Sätze mit the …-est.",
+    "a": "The highest mountain in Germany is the Zugspitze. The longest river in Germany is the Rhine. The biggest city in Germany is Berlin."
+   }
+  ],
+  "mt": "Was ist der Komparativ von „big“?\n- biger\n+ bigger\n- more big\n\nWelches Wort passt? A dog is bigger ___ a mouse.\n- then\n+ than\n- as\n\nWelcher Satz ist richtig?\n+ She is the happiest girl in the class.\n- She is happyest girl in the class.\n- She is the happyest girl in the class.\n\nWas ist der Superlativ von „hot“?\n- the hotest\n- the most hot\n+ the hottest\n\nWelcher Satz ist richtig?\n- London is big than Munich.\n+ London is bigger than Munich.\n- London is more big than Munich."
+ },
+ {
+  "ch": "4 London and the UK",
+  "title": "4.4 Good, better, best: more and most",
+  "text": "# Long adjectives: more, the most\n[bilder: 🙂 interesting | 😃 more interesting | 🤩 the most interesting]\n| Adjektiv | Komparativ | Superlativ |\n|---|---|---|\n| expensive | more expensive | the most expensive |\n| beautiful | more beautiful | the most beautiful |\n| interesting | more interesting | the most interesting |\n| famous | more famous | the most famous |\n# Irregular: unregelmäßig\n[bilder: 👍 good | 👍👍 better | 🏆 the best]\n[bilder: 👎 bad | 👎👎 worse | 💀 the worst]\n| Adjektiv | Komparativ | Superlativ |\n|---|---|---|\n| good | better | the best |\n| bad | worse | the worst |\n| much / many | more | the most |\n| little | less | the least |\n# much, many, little\n- many + Dinge zum Zählen: many sights, many people\n- much + Dinge, die du nicht zählen kannst: much money, much time\n- little = wenig: I have little time. → less time → the least time\n[bilder: 💷 £5 little money | 💷💷 £50 more money | 💰 £500 the most money]\n[satz: The London Eye | *is* | more expensive | than | the bus.]\n[satz: This | *is* | the best | fish and chips | in London!]\n[dialog: Grace Which is the most famous sight in London? | Yusuf I think Big Ben is more famous than the London Eye. | Grace And what's the best thing to do? | Yusuf A boat trip on the Thames! It's the most beautiful way to see London.]\nMerke: Lange Adjektive: more und the most. good – better – the best musst du auswendig lernen.",
+  "help": "# Nicht beides\nFalsch: more bigger, the most biggest\nRichtig: bigger, the biggest\nFalsch: expensiver\nRichtig: more expensive\n# good\nFalsch: gooder, the goodest\nRichtig: better, the best\n# much oder many\nFalsch: many money\nRichtig: much money\nFalsch: much people\nRichtig: many people\nAchtung: Kannst du es zählen (1, 2, 3 …)? Dann many.",
+  "ub": {
+   "t": "match",
+   "x": "good | the best\nbad | the worst\nmuch | the most\nlittle | the least\nexpensive | the most expensive\nfamous | the most famous"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Adjektiv und Superlativ",
+    "x": "good | the best\nbad | the worst\nmuch | the most\nlittle | the least\nexpensive | the most expensive\nfamous | the most famous"
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Vergleiche",
+    "x": "Was ist der Komparativ von „good“?\n- gooder\n+ better\n- more good\n- best\n\nWas ist der Superlativ von „bad“?\n- the baddest\n- the most bad\n- the badest\n+ the worst\n\nWelches Wort passt? London is ___ than Bristol.\n- expensiver\n- most expensive\n+ more expensive\n- expensivest\n\nWelches Wort passt? How ___ people live in London?\n+ many\n- much\n- more\n- little\n\nWelcher Satz ist richtig?\n- This is the most biggest park.\n+ This is the biggest park.\n- This is the more big park.\n- This is biggest park.\n\nWelches Wort passt? I have ___ time than you. (weniger)\n- little\n- least\n- worse\n+ less"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: good, better, best",
+    "x": "Sprache: Englisch\ngood, better, the best\nbad, worse, the worst\nmore expensive\nthe most beautiful\nThis is the best day ever!\nLondon is more expensive than Munich."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die drei Formen: a) good  b) bad  c) much  d) little",
+    "a": "a) good – better – the best  b) bad – worse – the worst  c) much – more – the most  d) little – less – the least"
+   },
+   {
+    "l": 1,
+    "q": "much oder many? a) ___ friends  b) ___ money  c) ___ books  d) ___ time",
+    "a": "a) many  b) much  c) many  d) much"
+   },
+   {
+    "l": 2,
+    "q": "Ergänze die richtige Form: a) A taxi is ___ (expensive) than a bus.  b) This is the ___ (good) pizza in town.  c) My cold is ___ (bad) today than yesterday.",
+    "a": "a) more expensive  b) best  c) worse"
+   },
+   {
+    "l": 2,
+    "q": "Schreib 3 Sätze über dein Lieblingsessen, deinen Lieblingsfilm und dein Lieblingsfach mit the best / the most interesting.",
+    "a": "Zum Beispiel: Pizza is the best food. Space Kids is the most exciting film. English is the most interesting subject."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „Football is more better than tennis. It is the most popularest sport. There are much fans.“ Verbessere.",
+    "a": "Football is better than tennis. It is the most popular sport. There are many fans."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche zwei Sehenswürdigkeiten in London mit 4 Sätzen. Benutze more …, the most …, better, the best.",
+    "a": "Zum Beispiel: The London Eye is more expensive than Tower Bridge. Big Ben is more famous than the Tower. A boat trip is better than a bus tour. For me, the London Eye is the most exciting sight."
+   }
+  ],
+  "mt": "Was ist der Superlativ von „good“?\n- the goodest\n+ the best\n- the better\n\nWelches Wort passt? This bag is ___ than that one.\n+ more expensive\n- expensiver\n- most expensive\n\nWelches Wort passt? How ___ money have you got?\n+ much\n- many\n- more\n\nWas ist der Komparativ von „bad“?\n- badder\n- more bad\n+ worse\n\nWelcher Satz ist richtig?\n- It's the most best film.\n+ It's the best film.\n- It's the bestest film."
+ },
+ {
+  "ch": "5 Ireland",
+  "title": "5.1 Welcome to Ireland",
+  "text": "# The Emerald Isle\n[bilder: 🇮🇪 Ireland | ☘️ the shamrock | 🐑 sheep | 🌧️ rain | 🌈 a rainbow | 🏞️ green hills | 🌊 the Cliffs of Moher | 🎻 Irish music]\n- Ireland is an island west of Great Britain.\n- The capital is Dublin. About 1.4 million people live in and around Dublin.\n- People speak English and Irish. Hello in Irish is Dia duit.\n- In Ireland you pay with euros, like in Germany.\nMerke: Die Insel heißt auch the Emerald Isle (die Smaragdinsel), weil sie so grün ist.\n# The weather\n[bilder: ☀️ sunny | ⛅ cloudy | 🌧️ rainy | 💨 windy | 🌫️ foggy | ❄️ snowy]\n[dialog: Kevin What's the weather like in Galway today? | Aoife It's rainy and windy. Typical Ireland! | Kevin And tomorrow? | Aoife Tomorrow it's sunny. Let's go to the beach!]\n# St Patrick's Day\n[bilder: 📅 17th March | 🟢 green clothes | 🥁 a parade | 💃 Irish dancing]\n- St Patrick's Day is on the seventeenth of March.\n- People wear green clothes and watch parades.\n[satz: On St Patrick's Day | people | *wear* | green clothes.]\n[satz: It | *is* | often | rainy | in Ireland.]",
+  "help": "# Wetter\nFalsch: It is rain.\nRichtig: It's rainy. Oder: It's raining.\nFalsch: The weather is sun.\nRichtig: It's sunny.\nAchtung: Wetter-Adjektive enden oft auf -y: sun – sunny, wind – windy, cloud – cloudy.\n# Datum\nFalsch: on the 17 March\nRichtig: on the 17th of March (gesprochen: the seventeenth of March)\n# Ireland und Northern Ireland\nAchtung: Northern Ireland gehört zum UK. Die Republic of Ireland ist ein eigenes Land mit dem Euro.",
+  "ub": {
+   "t": "match",
+   "x": "☀️ | sunny\n⛅ | cloudy\n🌧️ | rainy\n💨 | windy\n🌫️ | foggy\n❄️ | snowy"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Bild und Wetter",
+    "x": "☀️ | sunny\n⛅ | cloudy\n🌧️ | rainy\n💨 | windy\n🌫️ | foggy\n❄️ | snowy"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Irland",
+    "x": "DUBLIN | die Hauptstadt von Irland\nSHAMROCK | das Kleeblatt, Symbol von Irland\nSHEEP | Schafe\nRAINY | Wetter: Es regnet.\nGREEN | die Farbe von Irland\nEURO | Geld in Irland\nISLAND | die Insel\nPARADE | ein Umzug auf der Straße"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Irland",
+    "x": "Sprache: Englisch\nIreland\nDublin\nshamrock\nthe Cliffs of Moher\nWhat's the weather like today?\nIt's rainy and windy.\nSt Patrick's Day is on the seventeenth of March."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die Wetterwörter auf Englisch: sonnig, wolkig, regnerisch, windig, neblig.",
+    "a": "sunny, cloudy, rainy, windy, foggy"
+   },
+   {
+    "l": 1,
+    "q": "Beantworte: a) What is the capital of Ireland?  b) What money do people use in Ireland?  c) When is St Patrick's Day?",
+    "a": "a) Dublin  b) the euro  c) on the 17th of March"
+   },
+   {
+    "l": 2,
+    "q": "Wie ist das Wetter heute bei dir? Schreib 3 Sätze.",
+    "a": "Zum Beispiel: Today it's cloudy. It's windy, too. It isn't rainy."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Sätze über Irland: Land, Hauptstadt, Wetter, Symbol.",
+    "a": "Zum Beispiel: Ireland is an island. The capital is Dublin. It's often rainy. The symbol is the shamrock."
+   },
+   {
+    "l": 3,
+    "q": "Wetterbericht: Schreib einen Wetterbericht für drei Städte (Dublin, London, Munich) für morgen.",
+    "a": "Zum Beispiel: Tomorrow in Dublin it's rainy and windy. In London it's cloudy. In Munich it's sunny and warm."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche Irland und Bayern in 4 Sätzen: Wetter, Geld, Hauptstadt, Landschaft. Benutze auch einen Komparativ.",
+    "a": "Zum Beispiel: Ireland is often rainier than Bavaria. In both places people pay with euros. Dublin is the capital of Ireland, Munich is the capital of Bavaria. Bavaria has higher mountains than Ireland."
+   }
+  ],
+  "mt": "Was ist die Hauptstadt von Irland?\n- Belfast\n+ Dublin\n- Galway\n\nWelches Wort passt? Today it's ___. (☀️)\n+ sunny\n- sun\n- sunday\n\nWas ist das Symbol von Irland?\n- die Rose\n+ das Kleeblatt (shamrock)\n- der Drache\n\nMit welchem Geld zahlst du in Dublin?\n+ mit Euro\n- mit Pfund\n- mit Dollar\n\nWann ist St Patrick's Day?\n- on the 7th of March\n+ on the 17th of March\n- on the 17th of May"
+ },
+ {
+  "ch": "5 Ireland",
+  "title": "5.2 At a café in Dublin",
+  "text": "# The menu\n[bilder: 🥪 a sandwich | 🍲 Irish stew | 🥔 chips | 🍰 a piece of cake | 🫖 tea | ☕ hot chocolate | 🥤 orange juice | 💧 water]\n| Food | Price |\n|---|---|\n| 🥪 cheese sandwich | €4.50 |\n| 🍲 Irish stew | €9.80 |\n| 🥔 chips | €3.20 |\n| 🍰 apple cake | €3.90 |\n| ☕ hot chocolate | €2.80 |\n| 🥤 orange juice | €2.50 |\n# Ordering\n[dialog: Waiter Hi there! What can I get you? | Mariam I'd like a cheese sandwich, please. | Waiter Anything to drink? | Mariam Could I have a hot chocolate, please? | Waiter Of course. Anything else? | Mariam No, thanks. Can I have the bill, please? | Waiter That's seven euros thirty.]\n[geld: 7,30]\n[satz: I'd like | a piece of | apple cake, | please.]\n[satz: *Could* | I | *have* | the bill, | please?]\n# Paying\n[geld: 4,50 | 9,80]\n- €4.50 = four euros fifty\n- €9.80 = nine euros eighty\nMerke: I'd like … = Ich hätte gern … Das ist höflicher als I want …",
+  "help": "# Höflich bestellen\nFalsch: I want a sandwich.\nRichtig: I'd like a sandwich, please.\nFalsch: Give me a cola.\nRichtig: Could I have a cola, please?\n# Preis\nFalsch: 4,50 €\nRichtig: €4.50\nAchtung: Im Englischen steht das €-Zeichen vorne und ein Punkt statt Komma.\n# bill\nFalsch: Can I have the check? (amerikanisch)\nRichtig: Can I have the bill, please? (britisch und irisch)",
+  "ub": {
+   "t": "match",
+   "x": "What can I get you? | I'd like a sandwich, please.\nAnything to drink? | An orange juice, please.\nAnything else? | No, thanks.\nCan I have the bill, please? | Sure. That's eight euros.\nIs everything OK? | Yes, it's delicious!"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Kellner und Gast",
+    "x": "What can I get you? | I'd like a sandwich, please.\nAnything to drink? | An orange juice, please.\nAnything else? | No, thanks.\nCan I have the bill, please? | Sure. That's eight euros.\nIs everything OK? | Yes, it's delicious!"
+   },
+   {
+    "t": "mc",
+    "n": "Rechnen und bestellen",
+    "x": "Ein Sandwich (€4.50) und ein Orangensaft (€2.50). Wie viel kostet das?\n+ €7.00\n- €6.50\n- €7.50\n\nWas ist höflich?\n- I want chips.\n+ I'd like some chips, please.\n- Chips!\n\nWie sagst du €9.80?\n- nine euro and eight\n+ nine euros eighty\n- ninety-eight euros\n\nDu möchtest zahlen. Was sagst du?\n+ Can I have the bill, please?\n- Can I have the money, please?\n- Can I pay the menu?\n\nIrish stew (€9.80) und Kuchen (€3.90). Wie viel kostet das?\n- €12.70\n+ €13.70\n- €13.07"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Im Café",
+    "x": "Sprache: Englisch\nsandwich\nhot chocolate\nthe bill\nI'd like a piece of cake, please.\nCould I have an orange juice, please?\nCan I have the bill, please?\nThat's seven euros thirty."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Übersetze: a) die Rechnung  b) Ich hätte gern …  c) ein Stück Kuchen  d) heiße Schokolade",
+    "a": "a) the bill  b) I'd like …  c) a piece of cake  d) hot chocolate"
+   },
+   {
+    "l": 1,
+    "q": "Schreib die Preise auf Englisch: a) €3.20  b) €2.80  c) €10.50",
+    "a": "a) three euros twenty  b) two euros eighty  c) ten euros fifty"
+   },
+   {
+    "l": 2,
+    "q": "Rechne mit der Speisekarte im Heft: Du bestellst Chips, Kuchen und heiße Schokolade. Wie viel zahlst du? Schreib die Summe als Zahl und Wort.",
+    "a": "€3.20 + €3.90 + €2.80 = €9.90, nine euros ninety"
+   },
+   {
+    "l": 2,
+    "q": "Mach die Sätze höflich: a) I want water.  b) Give me the bill.  c) Chips!",
+    "a": "a) I'd like some water, please.  b) Can I have the bill, please?  c) Could I have some chips, please?"
+   },
+   {
+    "l": 3,
+    "q": "Schreib einen Dialog im Café (8 Zeilen) mit Essen, Getränk und Bezahlen. Der Preis muss zur Karte passen.",
+    "a": "Zum Beispiel: Waiter: Hello! What can I get you? – You: I'd like Irish stew, please. – Waiter: Anything to drink? – You: An orange juice, please. – Waiter: Here you are. – You: Thank you. Can I have the bill, please? – Waiter: That's twelve euros thirty. – You: Here you are."
+   },
+   {
+    "l": 3,
+    "q": "Du hast €10. Was kannst du im Café kaufen? Schreib 2 Möglichkeiten und rechne.",
+    "a": "Zum Beispiel: 1) cheese sandwich €4.50 + apple cake €3.90 = €8.40. 2) chips €3.20 + hot chocolate €2.80 + orange juice €2.50 = €8.50."
+   }
+  ],
+  "mt": "Was heißt „Ich hätte gern …“?\n+ I'd like …\n- I like …\n- I have …\n\nWie schreibst du vier Euro fünfzig auf Englisch?\n- 4,50 €\n+ €4.50\n- €450\n\nWas fragt der Kellner?\n- Can I have the bill?\n+ What can I get you?\n- Where is the café?\n\nWelche Frage ist höflich?\n- Give me tea!\n- I want tea.\n+ Could I have a tea, please?\n\nWas ist „the bill“?\n- die Speisekarte\n+ die Rechnung\n- das Trinkgeld"
+ },
+ {
+  "ch": "5 Ireland",
+  "title": "5.3 Have you ever …? Present perfect",
+  "text": "# Experiences\nDas present perfect erzählt, was du schon einmal im Leben gemacht hast. Wann genau, ist nicht wichtig.\n[bilder: ✈️ Have you ever flown? | 🐎 Have you ever ridden a horse? | 🏰 Have you ever visited a castle? | 🐑 Have you ever seen a sheep?]\n# have/has + past participle\n[satz: I | *have* | visited | Dublin.]\n[satz: She | *has* | played | Irish football.]\n[satz: *Have* | you | ever | *tried* | Irish stew?]\n| Person | have / has | Partizip |\n|---|---|---|\n| I / you / we / they | have ('ve) | visited |\n| he / she / it | has ('s) | played |\n| Frage | Have you ever …? | tried … ? |\n| Verneinung | I have never … | danced … |\nMerke: Regelmäßige Verben: Partizip mit -ed: visit – visited, play – played, try – tried.\n# ever and never\n[dialog: Ciara Have you ever visited Ireland, Lukas? | Lukas No, I've never visited Ireland. Have you ever been to Germany? | Ciara Yes, I have. I've visited Munich. | Lukas Cool! Have you ever tried a pretzel? | Ciara Yes! I loved it.]\n[bilder: ✅ Yes, I have. | ❌ No, I haven't. | 🙅 I've never …]\n- ever = jemals (in Fragen)\n- never = noch nie",
+  "help": "# have oder has\nFalsch: She have visited Dublin.\nRichtig: She has visited Dublin.\n# Partizip\nFalsch: I have visit London.\nRichtig: I have visited London.\n# never ohne not\nFalsch: I haven't never tried it.\nRichtig: I have never tried it.\n# Kurzantwort\nFalsch: Have you ever played golf? – Yes, I played.\nRichtig: Yes, I have. / No, I haven't.",
+  "ub": {
+   "t": "match",
+   "x": "visit | visited\nplay | played\ntry | tried\nwatch | watched\ndance | danced\nstay | stayed\nlive | lived\ncook | cooked"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Verb und Partizip",
+    "x": "visit | visited\nplay | played\ntry | tried\nwatch | watched\ndance | danced\nstay | stayed\nlive | lived\ncook | cooked"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Ciaras Erfahrungen",
+    "x": "Ciara *has* visited Germany.\nShe has *visited* Munich and Augsburg.\n*Have* you ever tried Irish stew?\nNo, I *haven't*. I have *never* tried it.\nMy brothers *have* played Irish football.\nHave you *ever* watched a parade?"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Have you ever …?",
+    "x": "Sprache: Englisch\nHave you ever visited Ireland?\nYes, I have.\nNo, I haven't.\nI've never tried Irish stew.\nShe has played the fiddle."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib das Partizip: a) play  b) visit  c) cook  d) try  e) dance",
+    "a": "a) played  b) visited  c) cooked  d) tried  e) danced"
+   },
+   {
+    "l": 1,
+    "q": "have oder has? a) I ___ visited Berlin.  b) Tom ___ played golf.  c) We ___ watched the film.  d) She ___ cooked pasta.",
+    "a": "a) have  b) has  c) have  d) has"
+   },
+   {
+    "l": 2,
+    "q": "Stell Fragen mit Have you ever …? a) play / cricket  b) visit / a castle  c) try / sushi",
+    "a": "a) Have you ever played cricket?  b) Have you ever visited a castle?  c) Have you ever tried sushi?"
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Sätze über dich: 2 Dinge, die du schon gemacht hast, und 2, die du noch nie gemacht hast.",
+    "a": "Zum Beispiel: I have visited Italy. I have played basketball. I have never tried snails. I have never travelled by plane."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „She have visit Dublin. I haven't never played golf. – Have you ever cook? – Yes, I cooked.“ Verbessere.",
+    "a": "She has visited Dublin. I have never played golf. – Have you ever cooked? – Yes, I have."
+   },
+   {
+    "l": 3,
+    "q": "Interview: Frag 3 Mitschüler 3 Fragen mit Have you ever …? Schreib die Ergebnisse auf: Lea has … / Ömer has never …",
+    "a": "Zum Beispiel: Lea has visited Austria. Ömer has never played tennis. Nina has cooked a cake."
+   }
+  ],
+  "mt": "Welches Wort passt? She ___ visited Ireland.\n- have\n+ has\n- is\n\nWelcher Satz ist richtig?\n- I have visit Dublin.\n+ I have visited Dublin.\n- I has visited Dublin.\n\nWas antwortest du? Have you ever played golf?\n+ No, I haven't.\n- No, I don't.\n- No, I played not.\n\nWas bedeutet „never“?\n- jemals\n+ noch nie\n- immer\n\nWelcher Satz ist richtig?\n- I haven't never tried it.\n+ I have never tried it.\n- I never have tried not it."
+ },
+ {
+  "ch": "5 Ireland",
+  "title": "5.4 Already, never, ever: irregular verbs",
+  "text": "# Irregular verbs\nViele Verben haben ein besonderes Partizip. Du musst es auswendig lernen.\n| Verb | Partizip | Beispiel |\n|---|---|---|\n| be | been | I've been to Dublin. |\n| see | seen | Have you seen the cliffs? |\n| eat | eaten | I've eaten fish and chips. |\n| go | gone / been | She's gone to the shop. |\n| do | done | We've done our homework. |\n| buy | bought | I've bought a present. |\n| write | written | Have you written a postcard? |\n| meet | met | I've met a famous singer. |\n[bilder: 👀 seen | 🍽️ eaten | 🛍️ bought | ✍️ written | 🤝 met | ✅ done]\n# already: schon\n[satz: I | *have* | already | *seen* | the film.]\n[satz: We | *have* | already | *bought* | the tickets.]\n[satz: *Have* | you | ever | *been* | to Ireland?]\n[dialog: Dad Let's go to the Book of Kells. | Ella I've already seen it, Dad. | Dad OK. Have you been to the zoo? | Ella No, I haven't. Let's go there! | Dad Have you already eaten? | Ella Yes, I've already had lunch.]\n[bilder: ✅ already | ❓ ever | ❌ never]\nMerke: already steht zwischen have und dem Partizip: I have already done it.",
+  "help": "# been und gone\nFalsch: I've gone to Ireland. (wenn du wieder zurück bist)\nRichtig: I've been to Ireland.\nAchtung: gone = ist weg und noch dort. been = war dort und ist zurück.\n# Unregelmäßige Verben\nFalsch: I have eated, I have buyed, I have seed\nRichtig: I have eaten, I have bought, I have seen\n# already an der richtigen Stelle\nFalsch: I have seen already the film.\nRichtig: I have already seen the film.",
+  "ub": {
+   "t": "match",
+   "x": "be | been\nsee | seen\neat | eaten\ndo | done\nbuy | bought\nwrite | written\nmeet | met\ngo | gone"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Verb und Partizip",
+    "x": "be | been\nsee | seen\neat | eaten\ndo | done\nbuy | bought\nwrite | written\nmeet | met\ngo | gone"
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Present perfect",
+    "x": "Was ist das Partizip von „see“?\n- saw\n+ seen\n- seed\n- seeing\n\nWas ist das Partizip von „eat“?\n- eated\n- ate\n+ eaten\n- eat\n\nWo steht already? I have ___ the tickets.\n+ already bought\n- bought already\n- buy already\n- already buy\n\nWas ist richtig? Du warst in Dublin und bist zurück.\n- I've gone to Dublin.\n+ I've been to Dublin.\n- I've went to Dublin.\n- I've be to Dublin.\n\nWas ist das Partizip von „buy“?\n- buyed\n- buyen\n- brought\n+ bought\n\nWelcher Satz ist richtig?\n- Have you ever wrote a poem?\n- Have you ever writed a poem?\n+ Have you ever written a poem?\n- Have you written ever a poem?"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Unregelmäßige Verben",
+    "x": "Sprache: Englisch\nbeen\nseen\neaten\nbought\nwritten\nI've already seen the film.\nHave you ever been to Ireland?"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib das Partizip: a) see  b) eat  c) buy  d) do  e) write  f) meet",
+    "a": "a) seen  b) eaten  c) bought  d) done  e) written  f) met"
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) schon  b) jemals  c) noch nie",
+    "a": "a) already  b) ever  c) never"
+   },
+   {
+    "l": 2,
+    "q": "Setz already ein: a) I have done my homework.  b) She has bought the tickets.  c) We have eaten.",
+    "a": "a) I have already done my homework.  b) She has already bought the tickets.  c) We have already eaten."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 3 Fragen mit Have you ever …? und den Verben see, eat, meet. Beantworte sie für dich.",
+    "a": "Zum Beispiel: Have you ever seen a castle? – Yes, I have. Have you ever eaten Irish stew? – No, I haven't. Have you ever met a famous person? – No, I haven't."
+   },
+   {
+    "l": 3,
+    "q": "Reise-Checkliste Dublin: Schreib 5 Sätze. Was hast du schon gemacht (already), was noch nie (never)?",
+    "a": "Zum Beispiel: I've already seen the Book of Kells. I've already eaten Irish stew. I've already bought a green T-shirt. I've never been to Galway. I've never seen the Cliffs of Moher."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „I have eated already. Have you ever saw a whale? We have buyed the tickets.“ Verbessere.",
+    "a": "I have already eaten. Have you ever seen a whale? We have bought the tickets."
+   }
+  ],
+  "mt": "Was ist das Partizip von „see“?\n- saw\n+ seen\n- seed\n\nWelcher Satz ist richtig?\n+ I have already done it.\n- I have done already it.\n- I already have do it.\n\nWas ist das Partizip von „write“?\n- writed\n- wrote\n+ written\n\nDu warst in London und bist wieder zu Hause. Was sagst du?\n- I've gone to London.\n+ I've been to London.\n- I've went to London.\n\nWas bedeutet „already“?\n+ schon\n- noch nie\n- jemals"
+ },
+ {
+  "ch": "6 The USA",
+  "title": "6.1 Welcome to the USA",
+  "text": "# The United States of America\n[bilder: 🇺🇸 the USA | 🗽 the Statue of Liberty | 🏙️ New York | 🌉 the Golden Gate Bridge | 🏜️ the Grand Canyon | 🏛️ the White House | 🎢 a theme park | 🦅 the bald eagle]\n- The USA has 50 states.\n- About 340 million people live in the USA.\n- The capital is Washington, D.C. The biggest city is New York.\n- People pay with dollars ($).\n# Famous places\n| Place | Where? | Fact |\n|---|---|---|\n| 🗽 the Statue of Liberty | New York | It's 93 metres high. |\n| 🏛️ the White House | Washington, D.C. | The President lives there. |\n| 🌉 the Golden Gate Bridge | San Francisco | It's red, not gold! |\n| 🏜️ the Grand Canyon | Arizona | It's 446 kilometres long. |\n| 🎬 Hollywood | Los Angeles | Many films come from there. |\n# A video call\n[dialog: Jayden Hi Nora! Greetings from New York! | Nora Hi Jayden! What's it like there? | Jayden It's amazing. The buildings are so tall! | Nora Have you seen the Statue of Liberty yet? | Jayden Yes, we took a boat there yesterday. | Nora Lucky you! Send me some photos.]\n[satz: The USA | *is* | much bigger | than | Germany.]\n[satz: New York | *is* | the biggest city | in the USA.]\nMerke: Die USA sind etwa 27-mal so groß wie Deutschland.",
+  "help": "# the USA\nFalsch: I want to go to USA.\nRichtig: I want to go to the USA.\nAchtung: the USA, the UK – mit the.\n# American\nFalsch: He is from USA. He is a USA.\nRichtig: He is from the USA. He is American.\n# Hauptstadt\nFalsch: The capital of the USA is New York.\nRichtig: The capital of the USA is Washington, D.C.",
+  "ub": {
+   "t": "match",
+   "x": "the Statue of Liberty | New York\nthe White House | Washington, D.C.\nthe Golden Gate Bridge | San Francisco\nthe Grand Canyon | Arizona\nHollywood | Los Angeles"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Ort und Fakt",
+    "x": "the Statue of Liberty | New York\nthe White House | Washington, D.C.\nthe Golden Gate Bridge | San Francisco\nthe Grand Canyon | Arizona\nHollywood | Los Angeles"
+   },
+   {
+    "t": "mc",
+    "n": "Quiz: USA",
+    "x": "Wie viele Bundesstaaten haben die USA?\n- 16\n+ 50\n- 100\n\nWas ist die Hauptstadt der USA?\n- New York\n+ Washington, D.C.\n- Los Angeles\n\nWer wohnt im White House?\n+ der Präsident oder die Präsidentin\n- der König\n- die Bürgermeisterin von New York\n\nWelches Geld benutzt man in den USA?\n- Euro\n- Pfund\n+ Dollar\n\nWelcher Satz ist richtig?\n- I want to visit USA.\n+ I want to visit the USA.\n- I want visit the USA."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Die USA",
+    "x": "Sprache: Englisch\nthe United States of America\nthe Statue of Liberty\nthe Grand Canyon\nWashington\nThe USA has fifty states.\nI'd love to visit New York."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Beantworte: a) What is the capital of the USA?  b) What is the biggest city?  c) How many states are there?",
+    "a": "a) Washington, D.C.  b) New York  c) 50 (fifty)"
+   },
+   {
+    "l": 1,
+    "q": "Schreib 5 Sehenswürdigkeiten in den USA auf Englisch.",
+    "a": "Zum Beispiel: the Statue of Liberty, the White House, the Golden Gate Bridge, the Grand Canyon, Hollywood"
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Zahlen als Wörter: a) 50 states  b) 93 metres  c) 446 kilometres",
+    "a": "a) fifty states  b) ninety-three metres  c) four hundred and forty-six kilometres"
+   },
+   {
+    "l": 2,
+    "q": "Welche Sehenswürdigkeit möchtest du besuchen? Schreib 3 Sätze: Was? Wo? Warum?",
+    "a": "Zum Beispiel: I want to visit the Grand Canyon. It's in Arizona. I think it's the most beautiful place in the USA."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine Nachricht (5 Sätze) aus New York an einen Freund. Benutze auch das present perfect.",
+    "a": "Zum Beispiel: Hi Tim! I'm in New York. It's huge! I've already seen the Statue of Liberty. I've eaten a big hot dog. I haven't been to Central Park yet. See you, Aylin"
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche die USA und Deutschland in 3 Sätzen (Größe, Einwohner, Hauptstadt).",
+    "a": "Zum Beispiel: The USA is much bigger than Germany. More people live in the USA than in Germany. The capital of the USA is Washington, D.C., the capital of Germany is Berlin."
+   }
+  ],
+  "mt": "Wo steht die Freiheitsstatue?\n+ in New York\n- in Washington, D.C.\n- in Los Angeles\n\nWas ist die Hauptstadt der USA?\n- New York\n+ Washington, D.C.\n- Chicago\n\nWelcher Satz ist richtig?\n- He is from USA.\n+ He is from the USA.\n- He is a USA.\n\nWelche Farbe hat die Golden Gate Bridge?\n- Gold\n+ Rot\n- Blau\n\nWie viele Bundesstaaten haben die USA?\n- 13\n- 16\n+ 50"
+ },
+ {
+  "ch": "6 The USA",
+  "title": "6.2 Going to: Our trip to New York",
+  "text": "# Plans for the future\nMit going to sprichst du über Pläne. Du weißt schon: Das machst du bald.\n[bilder: ✈️ We're going to fly. | 🗽 We're going to see the Statue of Liberty. | 🍔 I'm going to eat a burger. | 🏀 Dad's going to watch basketball.]\n[satz: I | *am going to* | visit | New York.]\n[satz: We | *are going to* | take | a yellow taxi.]\n[satz: *Are* | you | *going to* | climb | the Empire State Building?]\n| Person | be | going to | Verb |\n|---|---|---|---|\n| I | am ('m) | going to | visit |\n| you / we / they | are ('re) | going to | fly |\n| he / she / it | is ('s) | going to | eat |\n# Hassan's plan\n[uhr: 9:00=🗽 Statue of Liberty | 12:30=🌭 hot dog in Central Park | 15:00=🏙️ Empire State Building | 19:00=🎭 a show on Broadway]\n[dialog: Grandma What are you going to do in New York, Hassan? | Hassan First we're going to see the Statue of Liberty. | Grandma And then? | Hassan Then we're going to have a picnic in Central Park. | Grandma Are you going to go shopping? | Hassan Yes, Mum is going to buy new trainers.]\n[bilder: 🚕 a yellow cab | 🌳 Central Park | 🎭 Broadway | 🏢 the Empire State Building]\nMerke: Du sollst going to vor allem verstehen. Achte auf das Wort going to im Text: Es geht um die Zukunft.",
+  "help": "# be nicht vergessen\nFalsch: I going to visit my aunt.\nRichtig: I'm going to visit my aunt.\n# Verb nach to\nFalsch: She is going to visits Boston.\nRichtig: She is going to visit Boston.\nAchtung: Nach going to kommt die Grundform.\n# Frage\nFalsch: You are going to fly?\nRichtig: Are you going to fly?",
+  "ub": {
+   "t": "mc",
+   "x": "Was macht Hassan um 9 Uhr? [uhr 9:00]\n+ He's going to see the Statue of Liberty.\n- He's going to eat a hot dog.\n- He's going to see a show.\n\nWo machen sie ein Picknick?\n- on Broadway\n+ in Central Park\n- at the Empire State Building\n\nWer kauft Turnschuhe?\n- Hassan\n- Grandma\n+ Mum\n\nWas bedeutet „We're going to fly“?\n+ Wir werden fliegen.\n- Wir sind geflogen.\n- Wir fliegen gerade.\n\nWas machen sie am Abend? [uhr 19:00]\n- They're going to sleep.\n+ They're going to see a show on Broadway.\n- They're going to take a boat."
+  },
+  "ubs": [
+   {
+    "t": "mc",
+    "n": "Lesen: Hassans Plan",
+    "x": "Was macht Hassan um 9 Uhr? [uhr 9:00]\n+ He's going to see the Statue of Liberty.\n- He's going to eat a hot dog.\n- He's going to see a show.\n\nWo machen sie ein Picknick?\n- on Broadway\n+ in Central Park\n- at the Empire State Building\n\nWer kauft Turnschuhe?\n- Hassan\n- Grandma\n+ Mum\n\nWas bedeutet „We're going to fly“?\n+ Wir werden fliegen.\n- Wir sind geflogen.\n- Wir fliegen gerade.\n\nWas machen sie am Abend? [uhr 19:00]\n- They're going to sleep.\n+ They're going to see a show on Broadway.\n- They're going to take a boat."
+   },
+   {
+    "t": "match",
+    "n": "Paare: Satzanfang und Ende",
+    "x": "I'm going to | visit my cousin in Boston.\nWe're going to | take a yellow taxi.\nShe's going to | buy a souvenir.\nAre you going to | climb the Empire State Building?\nThey're going to | watch a basketball game."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: going to",
+    "x": "Sprache: Englisch\nI'm going to visit New York.\nWe're going to take a taxi.\nShe's going to buy a souvenir.\nAre you going to climb the Empire State Building?\nWhat are you going to do?"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Ergänze am, is oder are: a) I ___ going to fly.  b) We ___ going to swim.  c) Lena ___ going to read.",
+    "a": "a) am  b) are  c) is"
+   },
+   {
+    "l": 1,
+    "q": "Lies Hassans Plan im Heft. Schreib auf: Was macht er um 12:30 Uhr und um 15 Uhr?",
+    "a": "12:30: He's going to eat a hot dog in Central Park. 15:00: He's going to visit the Empire State Building."
+   },
+   {
+    "l": 2,
+    "q": "Schreib Sätze mit going to: a) I / play football / tomorrow  b) we / visit / grandma  c) Tom / watch / a film",
+    "a": "a) I'm going to play football tomorrow.  b) We're going to visit grandma.  c) Tom is going to watch a film."
+   },
+   {
+    "l": 2,
+    "q": "Was machst du am Wochenende? Schreib 3 Sätze mit I'm going to …",
+    "a": "Zum Beispiel: I'm going to sleep long. I'm going to meet my friends. I'm going to help my dad in the garden."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „We going to visit Boston. She is going to buys a cap. You are going to come?“ Verbessere.",
+    "a": "We're going to visit Boston. She is going to buy a cap. Are you going to come?"
+   },
+   {
+    "l": 3,
+    "q": "Plane einen Tag in New York (4 Uhrzeiten). Schreib zu jeder Uhrzeit einen Satz mit going to.",
+    "a": "Zum Beispiel: At 9 o'clock we're going to have breakfast. At 11 o'clock we're going to visit the Statue of Liberty. At 2 o'clock we're going to walk in Central Park. At 7 o'clock we're going to see a show."
+   }
+  ],
+  "mt": "Was bedeutet „I'm going to visit my aunt“?\n+ Ich werde meine Tante besuchen.\n- Ich habe meine Tante besucht.\n- Ich besuche meine Tante jeden Tag.\n\nWelcher Satz ist richtig?\n- She going to fly.\n+ She's going to fly.\n- She's going fly.\n\nWelches Wort passt? We ___ going to see a show.\n- am\n- is\n+ are\n\nWelche Frage ist richtig?\n+ Are you going to swim?\n- You going to swim?\n- Do you going to swim?\n\nWorüber spricht man mit going to?\n- über die Vergangenheit\n+ über Pläne für die Zukunft\n- über Gewohnheiten"
+ },
+ {
+  "ch": "6 The USA",
+  "title": "6.3 Who, which, that: Relative pronouns",
+  "text": "# Describing people and things\nMit who, which und that erklärst du genauer, wen oder was du meinst.\n[bilder: 👤 who – Personen | 📦 which – Dinge und Tiere | 🔄 that – Personen und Dinge]\n[satz: A teacher | *is* | a person | who | works at a school.]\n[satz: A taxi | *is* | a car | which | takes you somewhere.]\n[satz: This | *is* | the boy | that | lives in Boston.]\n| Wort | für | Beispiel |\n|---|---|---|\n| who | Personen | My cousin is the girl who plays basketball. |\n| which | Dinge, Tiere | The Grand Canyon is a place which is very big. |\n| that | Personen und Dinge | It's the film that I love. |\n# Guess what!\n[bilder: 👩‍⚕️ a doctor | 🚒 a fire engine | 🗽 the Statue of Liberty | 🦅 an eagle]\n[dialog: Sam It's a person who helps sick people. | Maya A doctor! My turn: It's a thing which is red and very loud. | Sam A fire engine! | Maya Right! Now: It's a bird which is a symbol of the USA. | Sam The bald eagle!]\nMerke: Person: who. Ding oder Tier: which. that geht für beides.",
+  "help": "# who oder which\nFalsch: The man which lives next door is American.\nRichtig: The man who lives next door is American.\nFalsch: The bike who is in the garden is mine.\nRichtig: The bike which (oder that) is in the garden is mine.\n# Kein Komma\nFalsch: This is the girl, who sings.\nRichtig: This is the girl who sings.\n# Kein doppeltes Pronomen\nFalsch: The boy who he plays football is Ben.\nRichtig: The boy who plays football is Ben.",
+  "ub": {
+   "t": "gap",
+   "x": "A pilot is a person *who* flies a plane.\nA cab is a car *which* takes people around New York.\nMy aunt is a woman *who* lives in Chicago.\nA burger is food *which* is very popular in the USA.\nA waiter is a person *who* works in a restaurant.\nThe eagle is a bird *which* is a symbol of the USA."
+  },
+  "ubs": [
+   {
+    "t": "gap",
+    "n": "Lückentext: who oder which",
+    "x": "A pilot is a person *who* flies a plane.\nA cab is a car *which* takes people around New York.\nMy aunt is a woman *who* lives in Chicago.\nA burger is food *which* is very popular in the USA.\nA waiter is a person *who* works in a restaurant.\nThe eagle is a bird *which* is a symbol of the USA."
+   },
+   {
+    "t": "match",
+    "n": "Paare: Wer oder was ist das?",
+    "x": "a person who teaches pupils | a teacher\na thing which shows the time | a clock\nan animal which gives milk | a cow\na person who cooks in a restaurant | a chef\na place which has many books | a library\na person who drives a bus | a bus driver"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: who und which",
+    "x": "Sprache: Englisch\nwho\nwhich\nthat\nA pilot is a person who flies a plane.\nIt's a thing which is very loud.\nThis is the film that I love."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "who oder which? a) a man ___ …  b) a dog ___ …  c) a girl ___ …  d) a phone ___ …",
+    "a": "a) who  b) which  c) who  d) which"
+   },
+   {
+    "l": 1,
+    "q": "Ergänze: a) A doctor is a person ___ helps sick people.  b) A bike is a thing ___ has two wheels.",
+    "a": "a) who  b) which (oder that)"
+   },
+   {
+    "l": 2,
+    "q": "Verbinde die Sätze mit who oder which: a) I have a friend. She lives in New York.  b) This is a book. It is about the USA.",
+    "a": "a) I have a friend who lives in New York.  b) This is a book which (that) is about the USA."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 3 Rätsel mit who oder which. Dein Partner rät.",
+    "a": "Zum Beispiel: It's a person who sells bread. (a baker) It's an animal which says miaow. (a cat) It's a thing which you use in the rain. (an umbrella)"
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „The girl which sits next to me is from Texas. The bus who goes to the zoo is late. The boy who he sings is my brother.“ Verbessere.",
+    "a": "The girl who sits next to me is from Texas. The bus which (that) goes to the zoo is late. The boy who sings is my brother."
+   },
+   {
+    "l": 3,
+    "q": "Beschreibe 4 Menschen aus deiner Klasse oder Familie mit who: My … is the person who …",
+    "a": "Zum Beispiel: My mum is the person who makes the best pizza. My friend Deniz is the boy who always laughs. Mrs Weber is the teacher who teaches English. My grandpa is the man who tells funny stories."
+   }
+  ],
+  "mt": "Welches Wort passt? A nurse is a person ___ works in a hospital.\n+ who\n- which\n- what\n\nWelches Wort passt? A pen is a thing ___ you write with.\n- who\n+ which\n- where\n\nFür wen passt „that“?\n- nur für Personen\n- nur für Dinge\n+ für Personen und Dinge\n\nWelcher Satz ist richtig?\n- The man which lives here is nice.\n+ The man who lives here is nice.\n- The man who he lives here is nice.\n\nWelches Wort passt? This is the dog ___ barks all night.\n- who\n+ which\n- whose"
+ },
+ {
+  "ch": "6 The USA",
+  "title": "6.4 British and American English",
+  "text": "# Same language – different words\n[bilder: 🍟 chips (UK) – fries (US) | 🍪 biscuit (UK) – cookie (US) | 🛗 lift (UK) – elevator (US) | 🚇 underground (UK) – subway (US) | ⚽ football (UK) – soccer (US) | 🏖️ holiday (UK) – vacation (US)]\n| British English 🇬🇧 | American English 🇺🇸 | Deutsch |\n|---|---|---|\n| chips | fries | Pommes |\n| crisps | chips | Kartoffelchips |\n| biscuit | cookie | Keks |\n| flat | apartment | Wohnung |\n| mobile | cell phone | Handy |\n| trousers | pants | Hose |\n| rubbish | garbage, trash | Müll |\n| autumn | fall | Herbst |\n# Spelling\n- colour (UK) – color (US)\n- favourite (UK) – favorite (US)\n- centre (UK) – center (US)\n[dialog: Olivia I'm so hungry. Let's get some chips. | Tyler Chips? You mean fries? In America chips are crisps! | Olivia Funny! And what do you call a biscuit? | Tyler A cookie. Let's take the elevator to the food court. | Olivia The lift, you mean!]\n[satz: In London | you | *take* | the underground.]\n[satz: In New York | you | *take* | the subway.]\nMerke: In der Schule lernst du britisches Englisch. Amerikanisches Englisch verstehst du trotzdem gut.",
+  "help": "# chips\nAchtung: chips in England = Pommes. chips in den USA = Kartoffelchips.\n# pants\nFalsch: (in London) My pants are blue. – Das klingt wie Unterhose!\nRichtig: (in London) My trousers are blue.\n# Rechtschreibung\nFalsch: my favorite colour (gemischt)\nRichtig: my favourite colour (UK) oder my favorite color (US)\nAchtung: Bleib in einem Text bei einer Schreibweise.",
+  "ub": {
+   "t": "match",
+   "x": "chips | fries\nbiscuit | cookie\nlift | elevator\nunderground | subway\nholiday | vacation\nflat | apartment\nmobile | cell phone\nautumn | fall"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: British und American English",
+    "x": "chips | fries\nbiscuit | cookie\nlift | elevator\nunderground | subway\nholiday | vacation\nflat | apartment\nmobile | cell phone\nautumn | fall"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Amerikanisches Englisch",
+    "x": "FRIES | Pommes (US)\nCOOKIE | Keks (US)\nELEVATOR | Aufzug (US)\nSUBWAY | U-Bahn (US)\nVACATION | Urlaub (US)\nAPARTMENT | Wohnung (US)\nSOCCER | Fußball (US)\nFALL | Herbst (US)"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: UK und USA",
+    "x": "Sprache: Englisch\nbiscuit\ncookie\nelevator\nvacation\nCan I have some chips, please?\nLet's take the subway.\nMy favourite colour is blue."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib das amerikanische Wort: a) chips  b) biscuit  c) lift  d) holiday",
+    "a": "a) fries  b) cookie  c) elevator  d) vacation"
+   },
+   {
+    "l": 1,
+    "q": "Schreib das britische Wort: a) apartment  b) subway  c) cell phone  d) fall",
+    "a": "a) flat  b) underground (the Tube)  c) mobile  d) autumn"
+   },
+   {
+    "l": 2,
+    "q": "Schreib britisch: a) My favorite color is green.  b) We live in an apartment near the center.",
+    "a": "a) My favourite colour is green.  b) We live in a flat near the centre."
+   },
+   {
+    "l": 2,
+    "q": "Du bist in New York. Übersetze ins amerikanische Englisch: a) Wo ist der Aufzug?  b) Ich möchte Pommes.  c) Ich habe mein Handy verloren.",
+    "a": "a) Where is the elevator?  b) I'd like some fries.  c) I've lost my cell phone."
+   },
+   {
+    "l": 3,
+    "q": "Schreib einen kurzen Dialog (4 Zeilen) zwischen einem Kind aus London und einem Kind aus New York. Sie verwechseln ein Wort.",
+    "a": "Zum Beispiel: London: Do you want some crisps? – New York: Crisps? What's that? – London: You call them chips. – New York: Oh, chips! Yes, please."
+   },
+   {
+    "l": 3,
+    "q": "Recherche: Finde 3 weitere Wortpaare British – American English und schreib sie mit Bild auf.",
+    "a": "Zum Beispiel: sweets – candy, petrol – gas, queue – line"
+   }
+  ],
+  "mt": "Was sagt man in den USA für „chips“ (Pommes)?\n- crisps\n+ fries\n- cookies\n\nWas ist ein „elevator“?\n+ ein Aufzug\n- eine Rolltreppe\n- ein Bahnhof\n\nWelche Schreibweise ist britisch?\n+ colour\n- color\n- culor\n\nWas sagt man in Großbritannien für „vacation“?\n- trip\n+ holiday\n- travel\n\nWas heißt „subway“ in New York?\n- Unterführung\n+ U-Bahn\n- Straße"
+ },
+ {
+  "ch": "7 School projects",
+  "title": "7.1 Cooking project: pancakes",
+  "text": "# Ingredients\n[bilder: 🥚 2 eggs | 🥛 300 ml milk | 🌾 200 g flour | 🧂 a pinch of salt | 🧈 some butter | 🍓 strawberries | 🍯 honey | 🍫 chocolate sauce]\n# Kitchen things\n[bilder: 🥣 a bowl | 🍳 a frying pan | 🥄 a spoon | 🍴 a fork | 🔪 a knife | 🍽️ a plate]\n# The recipe\n[satz: First, | *put* | the flour | in a bowl.]\n[satz: Then | *add* | the eggs and the milk.]\n[satz: *Mix* | everything | well.]\n[satz: Next, | *heat* | some butter | in a frying pan.]\n[satz: Finally, | *cook* | the pancakes | on both sides.]\n| Schritt | Wort | Deutsch |\n|---|---|---|\n| 1 | First, … | Zuerst … |\n| 2 | Then … | Dann … |\n| 3 | Next, … | Als Nächstes … |\n| 4 | After that, … | Danach … |\n| 5 | Finally, … | Zum Schluss … |\n[uhr: 10:00=🥣 mix | 10:15=🍳 cook | 10:45=😋 eat!]\n[dialog: Teacher Have we got any eggs? | Deniz Yes, we've got six eggs. | Teacher And how much milk have we got? | Deniz Only a little. We need some more. | Teacher OK, I'll buy some. How many pancakes do you want? | Deniz Lots!]\nMerke: In einem Rezept steht das Verb am Anfang: Put …, Add …, Mix … Das ist die Befehlsform.",
+  "help": "# Befehlsform\nFalsch: You put the flour in a bowl.\nRichtig: Put the flour in a bowl.\nAchtung: Im Rezept beginnt der Satz mit dem Verb.\n# much oder many\nFalsch: How many milk?\nRichtig: How much milk?\nFalsch: How much eggs?\nRichtig: How many eggs?\n# some oder any\nFalsch: Have we got some flour?\nRichtig: Have we got any flour?",
+  "ub": {
+   "t": "match",
+   "x": "🥚 | eggs\n🥛 | milk\n🌾 | flour\n🧈 | butter\n🍳 | a frying pan\n🥣 | a bowl\n🥄 | a spoon\n🍯 | honey"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Bild und Zutat",
+    "x": "🥚 | eggs\n🥛 | milk\n🌾 | flour\n🧈 | butter\n🍳 | a frying pan\n🥣 | a bowl\n🥄 | a spoon\n🍯 | honey"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Das Rezept",
+    "x": "*First*, put the flour in a bowl.\nThen *add* two eggs and the milk.\n*Mix* everything well.\nNext, heat some *butter* in a frying pan.\n*Finally*, cook the pancakes on both sides.\nHow *many* eggs do we need? – Two.\nHow *much* milk do we need? – 300 ml."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: In der Küche",
+    "x": "Sprache: Englisch\nflour\nfrying pan\nstrawberries\nFirst, put the flour in a bowl.\nThen add the eggs.\nMix everything well.\nHow much milk do we need?"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib 6 Zutaten für Pfannkuchen auf Englisch.",
+    "a": "eggs, milk, flour, salt, butter, sugar (oder: strawberries, honey)"
+   },
+   {
+    "l": 1,
+    "q": "much oder many? a) How ___ eggs?  b) How ___ flour?  c) How ___ strawberries?  d) How ___ milk?",
+    "a": "a) many  b) much  c) many  d) much"
+   },
+   {
+    "l": 2,
+    "q": "Ordne die Rezeptschritte: a) Cook the pancakes.  b) Put the flour in a bowl.  c) Eat and enjoy!  d) Add eggs and milk.  e) Mix everything.",
+    "a": "b – d – e – a – c"
+   },
+   {
+    "l": 2,
+    "q": "Schreib ein Rezept für einen Obstsalat in 5 Schritten mit First, Then, Next, After that, Finally.",
+    "a": "Zum Beispiel: First, wash the fruit. Then cut the apples and bananas. Next, put the fruit in a bowl. After that, add some orange juice. Finally, mix everything and eat it."
+   },
+   {
+    "l": 3,
+    "q": "Schreib das Rezept von deinem Lieblingsessen aus deiner Familie auf Englisch: Zutaten und 5 Schritte.",
+    "a": "Zum Beispiel: Ingredients: rice, chicken, onions, tomatoes, salt. First, cut the onions. Then cook the chicken. Next, add the tomatoes. After that, cook the rice. Finally, put everything on a plate."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „You mix the eggs. How many milk do we need? Have we got some butter?“ Verbessere.",
+    "a": "Mix the eggs. How much milk do we need? Have we got any butter?"
+   }
+  ],
+  "mt": "Was heißt „das Mehl“?\n- milk\n+ flour\n- flower\n\nWelches Wort passt? How ___ eggs do we need?\n+ many\n- much\n- more\n\nWie beginnt ein Rezept-Satz?\n- mit dem Nomen\n+ mit dem Verb\n- mit dem Datum\n\nWas heißt „Zum Schluss …“?\n- First, …\n- Then …\n+ Finally, …\n\nWas ist „a frying pan“?\n- ein Topf\n+ eine Pfanne\n- ein Teller"
+ },
+ {
+  "ch": "7 School projects",
+  "title": "7.2 Sports project: play, go, do",
+  "text": "# Sports\n[bilder: ⚽ football | 🏀 basketball | 🏐 volleyball | 🎾 tennis | 🏊 swimming | 🚴 cycling | 🛹 skateboarding | 🥋 judo | 🧘 yoga | 🤸 gymnastics]\n# play, go or do?\n| Verb | Wann? | Beispiele |\n|---|---|---|\n| play | Spiele mit Ball | play football, play tennis, play basketball |\n| go | Sport mit -ing | go swimming, go cycling, go skating |\n| do | andere Sportarten | do judo, do yoga, do gymnastics |\n[bilder: ⚽ play football | 🏊 go swimming | 🥋 do judo]\n[satz: I | *play* | basketball | in the gym | on Mondays.]\n[satz: My sister | *goes* | swimming | every Saturday.]\n[satz: We | *do* | yoga | at home.]\n# Our sports day\n[dialog: Coach Who wants to play volleyball? | Fatima Me! I play volleyball in a club. | Coach Great. And you, Luca? | Luca I'm not good at volleyball. Can I go running? | Coach Sure. And Mei, do you want to do gymnastics? | Mei Yes, please!]\n[uhr: 9:00=🏃 running | 10:30=🏐 volleyball | 12:00=🥋 judo]\nMerke: Ballspiele: play. Sport mit -ing: go. Der Rest: do.",
+  "help": "# play, go, do\nFalsch: I play swimming.\nRichtig: I go swimming.\nFalsch: She makes judo.\nRichtig: She does judo.\nFalsch: We go football.\nRichtig: We play football.\n# Kein the\nFalsch: I play the football.\nRichtig: I play football.\nAchtung: Bei Sport kein the. Aber bei Instrumenten: I play the guitar.",
+  "ub": {
+   "t": "mc",
+   "x": "I ___ tennis on Fridays.\n+ play\n- go\n- do\n\nMy brother ___ swimming every week.\n- plays\n+ goes\n- does\n\nShe ___ judo in a club.\n- plays\n- goes\n+ does\n\nWe ___ cycling in the summer.\n- play\n+ go\n- do\n\nWelcher Satz ist richtig?\n- I play the basketball.\n+ I play basketball.\n- I go basketball."
+  },
+  "ubs": [
+   {
+    "t": "mc",
+    "n": "play, go oder do?",
+    "x": "I ___ tennis on Fridays.\n+ play\n- go\n- do\n\nMy brother ___ swimming every week.\n- plays\n+ goes\n- does\n\nShe ___ judo in a club.\n- plays\n- goes\n+ does\n\nWe ___ cycling in the summer.\n- play\n+ go\n- do\n\nWelcher Satz ist richtig?\n- I play the basketball.\n+ I play basketball.\n- I go basketball."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Sport",
+    "x": "FOOTBALL\nTENNIS\nJUDO\nYOGA\nSWIMMING\nCYCLING\nVOLLEYBALL\nRUNNING"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Sport",
+    "x": "Sprache: Englisch\nvolleyball\ngymnastics\ncycling\nI play football in a club.\nMy sister goes swimming.\nWe do yoga at home."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib 8 Sportarten auf Englisch.",
+    "a": "Zum Beispiel: football, basketball, volleyball, tennis, swimming, cycling, judo, yoga"
+   },
+   {
+    "l": 1,
+    "q": "play, go oder do? a) ___ football  b) ___ swimming  c) ___ judo  d) ___ tennis  e) ___ cycling  f) ___ yoga",
+    "a": "a) play  b) go  c) do  d) play  e) go  f) do"
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Sätze über den Sport in deiner Familie. Benutze play, go und do.",
+    "a": "Zum Beispiel: I play football. My brother goes swimming. My mum does yoga. My dad goes running."
+   },
+   {
+    "l": 2,
+    "q": "Verbessere: a) I make karate.  b) We play swimming.  c) She plays the volleyball.",
+    "a": "a) I do karate.  b) We go swimming.  c) She plays volleyball."
+   },
+   {
+    "l": 3,
+    "q": "Plane einen Sporttag für die Klasse. Schreib einen Plan mit 4 Uhrzeiten und Sportarten (At nine o'clock we …).",
+    "a": "Zum Beispiel: At nine o'clock we go running. At ten o'clock we play basketball. At half past eleven we do gymnastics. At one o'clock we go swimming."
+   },
+   {
+    "l": 3,
+    "q": "Umfrage: Frag 5 Mitschüler „What sport do you do?“ Schreib die Ergebnisse auf Englisch auf.",
+    "a": "Zum Beispiel: Ali plays football. Jana goes swimming. Tim does judo. Sevgi plays tennis. Max goes cycling."
+   }
+  ],
+  "mt": "Welches Verb passt? ___ swimming\n- play\n+ go\n- do\n\nWelches Verb passt? ___ basketball\n+ play\n- go\n- do\n\nWelcher Satz ist richtig?\n- She makes yoga.\n+ She does yoga.\n- She plays yoga.\n\nWelcher Satz ist richtig?\n+ I play tennis.\n- I play the tennis.\n- I go tennis.\n\nWas heißt „Radfahren gehen“?\n- play cycling\n+ go cycling\n- do bike"
+ },
+ {
+  "ch": "7 School projects",
+  "title": "7.3 Should and shouldn't: healthy tips",
+  "text": "# Giving advice\nMit should gibst du einen Rat: Das ist gut für dich. Mit shouldn't sagst du: Das ist nicht gut.\n[bilder: 💧 You should drink water. | 🍎 You should eat fruit. | 😴 You should sleep 9 hours. | 🏃 You should move a lot.]\n[bilder: 🥤 You shouldn't drink lots of cola. | 🍟 You shouldn't eat chips every day. | 📱 You shouldn't use your phone in bed. | 🛋️ You shouldn't sit all day.]\n[satz: You | *should* | drink | more water.]\n[satz: You | *shouldn't* | go to bed | late.]\n[satz: *Should* | I | *eat* | breakfast?]\n| ✅ should | ❌ shouldn't |\n|---|---|\n| eat vegetables | eat lots of sweets |\n| go to bed early | play games all night |\n| walk or cycle | always take the car |\n# At the school nurse\n[dialog: Nurse What's wrong, Ida? | Ida I've got a headache. | Nurse Have you had breakfast? | Ida No, I haven't. | Nurse You should always eat breakfast. And you should drink some water now. | Ida OK. Should I go home? | Nurse No, you shouldn't. Just rest for ten minutes.]\n[bilder: 🤕 a headache | 🤒 a temperature | 🤧 a cold | 😖 a stomach ache]\nMerke: Nach should kommt die Grundform: You should go. Nie: You should to go.",
+  "help": "# kein to\nFalsch: You should to sleep more.\nRichtig: You should sleep more.\n# kein s\nFalsch: He shoulds eat fruit.\nRichtig: He should eat fruit.\nAchtung: should hat nie ein s, auch nicht bei he, she, it.\n# Verneinung\nFalsch: You don't should eat sweets.\nRichtig: You shouldn't eat sweets.",
+  "ub": {
+   "t": "match",
+   "x": "I'm tired. | You should go to bed early.\nI've got a cold. | You should drink hot tea.\nI'm thirsty. | You should drink some water.\nI've got a stomach ache. | You shouldn't eat so many sweets.\nMy eyes hurt. | You shouldn't play on your phone so long.\nI'm bored. | You should go outside and play."
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Problem und Rat",
+    "x": "I'm tired. | You should go to bed early.\nI've got a cold. | You should drink hot tea.\nI'm thirsty. | You should drink some water.\nI've got a stomach ache. | You shouldn't eat so many sweets.\nMy eyes hurt. | You shouldn't play on your phone so long.\nI'm bored. | You should go outside and play."
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Gute Tipps",
+    "x": "You *should* eat fruit and vegetables every day.\nYou *shouldn't* drink lots of cola.\nYou should *go* to bed early.\nHe *shouldn't* play computer games all night.\n*Should* I take my umbrella? – Yes, it's rainy."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Gute Tipps",
+    "x": "Sprache: Englisch\nshould\nshouldn't\nheadache\nYou should drink more water.\nYou shouldn't eat so many sweets.\nShould I go to the doctor?"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "should oder shouldn't? a) You ___ eat fruit.  b) You ___ sleep in class.  c) You ___ brush your teeth.  d) You ___ eat sweets all day.",
+    "a": "a) should  b) shouldn't  c) should  d) shouldn't"
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) Kopfschmerzen  b) Bauchschmerzen  c) eine Erkältung  d) Fieber",
+    "a": "a) a headache  b) a stomach ache  c) a cold  d) a temperature"
+   },
+   {
+    "l": 2,
+    "q": "Gib einen Rat mit should oder shouldn't: a) I'm always tired.  b) I've got toothache.  c) I'm hungry.",
+    "a": "Zum Beispiel: a) You should go to bed earlier.  b) You should go to the dentist.  c) You should eat a sandwich."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 3 Tipps für einen gesunden Schultag: 2 mit should, 1 mit shouldn't.",
+    "a": "Zum Beispiel: You should eat breakfast. You should drink water in the breaks. You shouldn't stay up late."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „You should to drink water. She shoulds go home. You don't should eat chips.“ Verbessere.",
+    "a": "You should drink water. She should go home. You shouldn't eat chips."
+   },
+   {
+    "l": 3,
+    "q": "Gestalte ein Plakat „Healthy tips for class 7“ mit 6 Tipps (should / shouldn't) und Bildern.",
+    "a": "Zum Beispiel: You should sleep 9 hours. You should eat fruit. You should move every day. You shouldn't drink lots of cola. You shouldn't sit all day. You shouldn't use your phone in bed."
+   }
+  ],
+  "mt": "Welcher Satz ist richtig?\n- You should to drink water.\n+ You should drink water.\n- You shoulds drink water.\n\nDein Freund ist müde. Was sagst du?\n+ You should go to bed early.\n- You should play games all night.\n- You shouldn't sleep.\n\nWas bedeutet „shouldn't“?\n- sollst\n+ solltest nicht\n- kannst\n\nWelcher Satz ist richtig?\n- He shoulds eat fruit.\n- He don't should eat sweets.\n+ He shouldn't eat so many sweets.\n\nWas heißt „a headache“?\n+ Kopfschmerzen\n- Halsschmerzen\n- eine Erkältung"
+ },
+ {
+  "ch": "7 School projects",
+  "title": "7.4 I'm interested in …-ing",
+  "text": "# Talking about interests\n[bilder: 🎨 interested in drawing | 🎮 good at gaming | 🎤 keen on singing | 🍳 interested in cooking | 📷 good at taking photos | 🔧 interested in repairing bikes]\nNach in, at, about, of steht das Verb mit -ing.\n[satz: I'm | interested | in | *reading* | comics.]\n[satz: Selin | *is* | good at | *dancing*.]\n[satz: We | *are* | bad at | *singing*.]\n| Ausdruck | Deutsch | Beispiel |\n|---|---|---|\n| interested in | interessiert an | I'm interested in cooking. |\n| good at | gut in | She's good at drawing. |\n| bad at | schlecht in | I'm bad at running. |\n| keen on | begeistert von | He's keen on skateboarding. |\n| afraid of | Angst vor | I'm afraid of flying. |\n# Project groups\n[dialog: Teacher Which project group do you want, Tariq? | Tariq I'm interested in making films. | Teacher Then the video group is good for you. And you, Hannah? | Hannah I'm good at writing. I want to join the school newspaper. | Teacher Perfect! And Jonas? | Jonas I'm keen on cooking. The cooking group, please!]\n[bilder: 🎬 video group | 📰 school newspaper | 🍝 cooking group | 🌱 school garden]\nMerke: in, at, on, of + Verb mit -ing: interested in cooking, good at swimming.",
+  "help": "# -ing nach der Präposition\nFalsch: I'm interested in cook.\nRichtig: I'm interested in cooking.\nFalsch: She's good at swim.\nRichtig: She's good at swimming.\n# Rechtschreibung\nAchtung: swim – swimming, run – running (doppelter Konsonant), dance – dancing (e fällt weg), make – making.\n# Präposition\nFalsch: I'm interested for music.\nRichtig: I'm interested in music.\nFalsch: He's good in maths.\nRichtig: He's good at maths.",
+  "ub": {
+   "t": "gap",
+   "x": "I'm interested in *cooking*. (cook)\nMy sister is good at *swimming*. (swim)\nTom is bad at *singing*. (sing)\nAre you keen on *dancing*? (dance)\nHe is afraid of *flying*. (fly)\nWe are interested in *making* films. (make)"
+  },
+  "ubs": [
+   {
+    "t": "gap",
+    "n": "Lückentext: Interessen",
+    "x": "I'm interested in *cooking*. (cook)\nMy sister is good at *swimming*. (swim)\nTom is bad at *singing*. (sing)\nAre you keen on *dancing*? (dance)\nHe is afraid of *flying*. (fly)\nWe are interested in *making* films. (make)"
+   },
+   {
+    "t": "match",
+    "n": "Paare: Englisch und Deutsch",
+    "x": "interested in | interessiert an\ngood at | gut in\nbad at | schlecht in\nkeen on | begeistert von\nafraid of | Angst vor"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Was ich gut kann",
+    "x": "Sprache: Englisch\ninterested in\ngood at\nkeen on\nI'm interested in drawing.\nShe's good at swimming.\nAre you interested in making films?"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die -ing-Form: a) read  b) swim  c) dance  d) play  e) run  f) write",
+    "a": "a) reading  b) swimming  c) dancing  d) playing  e) running  f) writing"
+   },
+   {
+    "l": 1,
+    "q": "Ergänze die Präposition: a) I'm interested ___ music.  b) She's good ___ maths.  c) He's afraid ___ dogs.",
+    "a": "a) in  b) at  c) of"
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Sätze über dich mit interested in, good at, bad at und keen on + -ing.",
+    "a": "Zum Beispiel: I'm interested in reading. I'm good at drawing. I'm bad at singing. I'm keen on playing football."
+   },
+   {
+    "l": 2,
+    "q": "Verbessere: a) I'm interested in learn English.  b) She is good in dance.  c) We are keen on swim.",
+    "a": "a) I'm interested in learning English.  b) She is good at dancing.  c) We are keen on swimming."
+   },
+   {
+    "l": 3,
+    "q": "Welche Projektgruppe passt zu dir? Schreib 4 Sätze und begründe mit interested in und good at.",
+    "a": "Zum Beispiel: I want to join the school garden group. I'm interested in growing vegetables. I'm good at working outside. I'm not afraid of insects."
+   },
+   {
+    "l": 3,
+    "q": "Stell eine Person aus deiner Familie vor (5 Sätze): Was kann sie gut, was interessiert sie?",
+    "a": "Zum Beispiel: My uncle Burak lives in Nuremberg. He's good at repairing cars. He's interested in reading about history. He's keen on cooking Turkish food. He's afraid of spiders."
+   }
+  ],
+  "mt": "Welches Wort passt? I'm interested in ___.\n- cook\n+ cooking\n- to cook\n\nWelche Präposition passt? She's good ___ drawing.\n- in\n+ at\n- for\n\nWas ist die -ing-Form von „swim“?\n- swiming\n+ swimming\n- swimmming\n\nWas heißt „Angst vor“?\n- keen on\n- good at\n+ afraid of\n\nWelcher Satz ist richtig?\n- I'm interested for playing chess.\n+ I'm interested in playing chess.\n- I'm interested in play chess."
+ },
+ {
+  "ch": "8 Free time",
+  "title": "8.1 Films and music",
+  "text": "# Types of films\n[bilder: 😂 a comedy | 👻 a horror film | 🦸 an action film | 🧸 a cartoon | 🔍 a crime film | 🚀 a science fiction film | 💕 a love story | 🐾 an animal film]\n# Types of music\n[bilder: 🎤 pop | 🎧 hip-hop | 🎸 rock | 🎻 classical music | 🥁 drums | 🎹 piano]\n# Giving your opinion\n| 👍 | 👎 |\n|---|---|\n| It's exciting. | It's boring. |\n| It's funny. | It's scary. |\n| I love it. | I can't stand it. |\n| My favourite band is … | I don't like … |\n[dialog: Elias What kind of films do you like, Naomi? | Naomi I love comedies. They're so funny. And you? | Elias I like action films. But I can't stand horror films. They're too scary! | Naomi What music do you listen to? | Elias Mostly hip-hop. My favourite singer is Stormzy. | Naomi Cool! I play the drums in a band.]\n[satz: I | *think* | the film | *is* | really exciting.]\n[satz: She | *plays* | the guitar | in a band.]\nMerke: Instrumente mit the: play the guitar, play the piano. Sport ohne the: play football.",
+  "help": "# Meinung\nFalsch: The film is very boring. I like it.\nRichtig: The film is boring. I don't like it.\n# bored und boring\nFalsch: The film was bored.\nRichtig: The film was boring. I was bored.\nAchtung: -ing = so ist die Sache. -ed = so fühlst du dich.\n# Instrumente\nFalsch: I play guitar in a band.\nRichtig: I play the guitar in a band.",
+  "ub": {
+   "t": "match",
+   "x": "😂 | a comedy\n👻 | a horror film\n🦸 | an action film\n🧸 | a cartoon\n🚀 | a science fiction film\n🔍 | a crime film"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Bild und Film",
+    "x": "😂 | a comedy\n👻 | a horror film\n🦸 | an action film\n🧸 | a cartoon\n🚀 | a science fiction film\n🔍 | a crime film"
+   },
+   {
+    "t": "mc",
+    "n": "boring oder bored? exciting oder excited?",
+    "x": "The film was very long and ___.\n+ boring\n- bored\n- bore\n\nI was ___ at the concert. Nothing happened.\n- boring\n+ bored\n- bores\n\nThe football match was really ___!\n+ exciting\n- excited\n- excite\n\nWelcher Satz ist richtig?\n- I play guitar.\n+ I play the guitar.\n- I play a guitar music.\n\nWas sagst du? Horrorfilme magst du gar nicht.\n- I love horror films.\n+ I can't stand horror films.\n- Horror films are my favourite."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Filme und Musik",
+    "x": "Sprache: Englisch\ncomedy\nscience fiction\nclassical music\nWhat kind of films do you like?\nI can't stand horror films.\nMy favourite band is great."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib 6 Filmarten auf Englisch.",
+    "a": "a comedy, a horror film, an action film, a cartoon, a crime film, a science fiction film (auch: a love story, an animal film)"
+   },
+   {
+    "l": 1,
+    "q": "Schreib das Gegenteil: a) exciting  b) funny  c) I love it.",
+    "a": "a) boring  b) not funny / sad / serious  c) I can't stand it."
+   },
+   {
+    "l": 2,
+    "q": "Beantworte in ganzen Sätzen: a) What kind of films do you like?  b) What music do you listen to?  c) Do you play an instrument?",
+    "a": "Zum Beispiel: a) I like comedies.  b) I listen to pop music.  c) Yes, I play the keyboard. / No, I don't."
+   },
+   {
+    "l": 2,
+    "q": "boring oder bored? a) The lesson was ___.  b) I'm ___. Let's do something!  c) This book is ___.",
+    "a": "a) boring  b) bored  c) boring"
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine kurze Filmkritik (5 Sätze) über deinen Lieblingsfilm: Name, Art, Inhalt, Meinung, Sterne.",
+    "a": "Zum Beispiel: My favourite film is Paddington 2. It's a comedy. It's about a bear from Peru who lives in London. It's very funny and exciting. I give it five stars."
+   },
+   {
+    "l": 3,
+    "q": "Schreib ein Interview (6 Zeilen) mit einem Musiker oder einer Musikerin aus deiner Klasse.",
+    "a": "Zum Beispiel: What instrument do you play? – I play the drums. – How often do you practise? – Every day. – What's your favourite song? – It's …"
+   }
+  ],
+  "mt": "Was ist „a comedy“?\n+ ein lustiger Film\n- ein Horrorfilm\n- ein Krimi\n\nWelches Wort passt? The film was ___. I fell asleep.\n- bored\n+ boring\n- exciting\n\nWelcher Satz ist richtig?\n- She plays piano.\n+ She plays the piano.\n- She plays at piano.\n\nWas bedeutet „I can't stand it“?\n- Ich kann nicht stehen.\n+ Ich kann es nicht ausstehen.\n- Ich liebe es.\n\nWie fragst du nach Filmarten?\n+ What kind of films do you like?\n- What films kind you like?\n- Which films is you like?"
+ },
+ {
+  "ch": "8 Free time",
+  "title": "8.2 Computers and the internet",
+  "text": "# Computer words\n[bilder: 💻 a laptop | 📱 a smartphone | ⌨️ a keyboard | 🖱️ a mouse | 🖥️ a screen | 🖨️ a printer | 🔋 a charger | 🎧 headphones]\n# Phrasal verbs: Verb + kleines Wort\n| Englisch | Deutsch |\n|---|---|\n| switch on / turn on | einschalten |\n| switch off / turn off | ausschalten |\n| log in | sich einloggen |\n| log out | sich ausloggen |\n| look up a word | ein Wort nachschlagen |\n| turn up / turn down | lauter / leiser machen |\n[bilder: 🔛 switch on | 📴 switch off | 🔑 log in | 🚪 log out | 🔍 look up | 🔊 turn up]\n[satz: *Switch on* | the laptop, | please.]\n[satz: I | *looked up* | the word | online.]\n[satz: Don't forget | to | *log out*!]\n# Staying safe online\n[dialog: Teacher Before you start: Never share your password. | Bilal OK. Can I post photos of my friends? | Teacher Only when they say yes. | Bilal What should I do when somebody is mean to me online? | Teacher Talk to an adult you trust. And block that person.]\n[bilder: 🔒 keep your password secret | 🙅 don't share personal data | 🗣️ talk to an adult | 🚫 block and report]\nMerke: Das kleine Wort (on, off, in, out, up) ändert die Bedeutung vom Verb.",
+  "help": "# Das kleine Wort\nFalsch: Can you switch the computer?\nRichtig: Can you switch on the computer? Oder: Can you switch the computer on?\n# Pronomen in der Mitte\nFalsch: Switch off it.\nRichtig: Switch it off.\nAchtung: it, them stehen zwischen Verb und kleinem Wort.\n# Handy\nFalsch: my handy\nRichtig: my mobile (UK) / my phone\nAchtung: Handy ist kein englisches Wort für das Telefon!",
+  "ub": {
+   "t": "match",
+   "x": "switch on | einschalten\nswitch off | ausschalten\nlog in | sich einloggen\nlog out | sich ausloggen\nlook up | nachschlagen\nturn up | lauter machen\nturn down | leiser machen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Englisch und Deutsch",
+    "x": "switch on | einschalten\nswitch off | ausschalten\nlog in | sich einloggen\nlog out | sich ausloggen\nlook up | nachschlagen\nturn up | lauter machen\nturn down | leiser machen"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Computer",
+    "x": "LAPTOP | ein Computer zum Mitnehmen\nKEYBOARD | die Tastatur\nMOUSE | die Maus am Computer\nSCREEN | der Bildschirm\nPRINTER | der Drucker\nPASSWORD | das Passwort: Halte es geheim!\nCHARGER | das Ladegerät\nHEADPHONES | die Kopfhörer"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Am Computer",
+    "x": "Sprache: Englisch\nkeyboard\npassword\nheadphones\nSwitch on the laptop, please.\nDon't forget to log out.\nI looked up the word online.\nNever share your password."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib 6 Computerwörter auf Englisch mit a: Laptop, Tastatur, Maus, Bildschirm, Drucker, Ladegerät.",
+    "a": "a laptop, a keyboard, a mouse, a screen, a printer, a charger"
+   },
+   {
+    "l": 1,
+    "q": "Übersetze: a) einschalten  b) ausschalten  c) sich einloggen  d) nachschlagen",
+    "a": "a) switch on  b) switch off  c) log in  d) look up"
+   },
+   {
+    "l": 2,
+    "q": "Schreib mit it: a) Switch off the TV.  b) Turn up the music.  c) Look up the word.",
+    "a": "a) Switch it off.  b) Turn it up.  c) Look it up."
+   },
+   {
+    "l": 2,
+    "q": "Schreib 4 Regeln für den Computerraum in deiner Schule auf Englisch.",
+    "a": "Zum Beispiel: Switch on the computer quietly. Log in with your name. Don't eat or drink. Log out and switch off the computer at the end."
+   },
+   {
+    "l": 3,
+    "q": "Schreib 5 Tipps für Sicherheit im Internet mit should, shouldn't und never.",
+    "a": "Zum Beispiel: You should keep your password secret. You shouldn't post your address. You should talk to an adult when you have problems. You should block mean people. Never meet strangers from the internet alone."
+   },
+   {
+    "l": 3,
+    "q": "Beschreibe in 5 Sätzen, was du am Computer oder Handy machst: wann, wie oft, wofür. Benutze always, often, sometimes, never.",
+    "a": "Zum Beispiel: I often use my phone after school. I sometimes look up words for English. I always log out after school work. I never share my password. I usually switch off my phone at nine o'clock."
+   }
+  ],
+  "mt": "Was heißt „ausschalten“?\n- switch on\n+ switch off\n- log in\n\nWelcher Satz ist richtig?\n- Switch off it.\n+ Switch it off.\n- Switch it.\n\nWas heißt „Handy“ in Großbritannien?\n+ mobile\n- handy\n- cell\n\nWas solltest du nie machen?\n- dich ausloggen\n+ dein Passwort teilen\n- mit einem Erwachsenen sprechen\n\nWas heißt „ein Wort nachschlagen“?\n- look at a word\n+ look up a word\n- look out a word"
+ },
+ {
+  "ch": "8 Free time",
+  "title": "8.3 Holidays and festivals",
+  "text": "# Festivals in the UK, Ireland and the USA\n[bilder: 🎄 Christmas | 🎃 Halloween | 🎆 Bonfire Night | 🦃 Thanksgiving | 🥚 Easter | 🎇 New Year's Eve]\n| Festival | Date | What do people do? |\n|---|---|---|\n| 🎃 Halloween | 31st October | Children go trick-or-treating. |\n| 🎆 Bonfire Night (UK) | 5th November | People watch fireworks. |\n| 🦃 Thanksgiving (USA) | 4th Thursday in November | Families eat turkey. |\n| 🎄 Christmas | 25th December | People open presents. |\n| 🎁 Boxing Day (UK) | 26th December | Families relax and go for walks. |\n# Festivals around the world\n[bilder: 🌙 Eid al-Fitr | 🪔 Diwali | 🐉 Chinese New Year | 🎡 Oktoberfest | 🕎 Hanukkah | 🥨 Christmas market]\n[dialog: Chloe What's your favourite festival, Yasin? | Yasin Eid! We visit our family and eat lots of sweets. | Chloe That sounds great. Have you ever been to Halloween in Ireland? | Yasin No, I haven't. But I've seen pictures. | Chloe Halloween comes from Ireland! We dress up as ghosts and witches.]\n[satz: On Christmas Day | we | *open* | our presents.]\n[satz: At Halloween | children | *dress up* | as ghosts.]\n[bilder: 👻 a ghost | 🧙 a witch | 🎁 a present | 🦃 turkey | 🕯️ a candle | 🎆 fireworks]\nMerke: Daten sprichst du mit Ordinalzahlen: the thirty-first of October.",
+  "help": "# Datum\nFalsch: on 31 October (gesprochen: thirty-one October)\nRichtig: on the 31st of October (gesprochen: on the thirty-first of October)\n# at, on, in\nFalsch: in Christmas, at the 25th of December\nRichtig: at Christmas, on the 25th of December, in December\nAchtung: at + Fest, on + Datum oder Tag, in + Monat.\n# Großschreibung\nFalsch: halloween, christmas, october\nRichtig: Halloween, Christmas, October",
+  "ub": {
+   "t": "match",
+   "x": "Halloween | 31st October\nBonfire Night | 5th November\nChristmas Day | 25th December\nBoxing Day | 26th December\nNew Year's Day | 1st January\nSt Patrick's Day | 17th March"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Fest und Datum",
+    "x": "Halloween | 31st October\nBonfire Night | 5th November\nChristmas Day | 25th December\nBoxing Day | 26th December\nNew Year's Day | 1st January\nSt Patrick's Day | 17th March"
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Feste",
+    "x": "Wann ist Halloween?\n- 1st November\n+ 31st October\n- 13th October\n- 24th December\n\nWas essen viele Familien in den USA an Thanksgiving?\n- fish and chips\n- pizza\n+ turkey\n- pancakes\n\nWas machen Kinder an Halloween?\n- They open presents.\n+ They go trick-or-treating.\n- They eat turkey.\n- They watch a parade on the beach.\n\nWelche Präposition passt? ___ Christmas\n- in\n- on\n+ at\n- by\n\nWas siehst du an Bonfire Night?\n+ fireworks\n- Easter eggs\n- a Christmas tree\n- a parade with green clothes\n\nWie sprichst du „the 31st of October“?\n- the thirty-one of October\n+ the thirty-first of October\n- the three-one of October\n- the thirtieth-one of October"
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Feste",
+    "x": "Sprache: Englisch\nHalloween\nThanksgiving\nfireworks\ntrick-or-treating\nthe thirty-first of October\nWhat's your favourite festival?\nWe open our presents at Christmas."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib zu den Bildern das Fest: a) 🎃  b) 🎄  c) 🦃  d) 🎆",
+    "a": "a) Halloween  b) Christmas  c) Thanksgiving  d) Bonfire Night (oder New Year's Eve)"
+   },
+   {
+    "l": 1,
+    "q": "Schreib die Daten als Wörter: a) 31st October  b) 25th December  c) 5th November",
+    "a": "a) the thirty-first of October  b) the twenty-fifth of December  c) the fifth of November"
+   },
+   {
+    "l": 2,
+    "q": "at, on oder in? a) ___ Halloween  b) ___ the 25th of December  c) ___ November  d) ___ Easter Sunday",
+    "a": "a) at  b) on  c) in  d) on"
+   },
+   {
+    "l": 2,
+    "q": "Was ist dein Lieblingsfest? Schreib 4 Sätze: Wann? Was macht ihr? Was esst ihr?",
+    "a": "Zum Beispiel: My favourite festival is Eid. It's at the end of Ramadan. We visit our grandparents. We eat baklava and lots of sweets."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche ein Fest in Deutschland mit einem Fest in England, Irland oder den USA (5 Sätze).",
+    "a": "Zum Beispiel: In Germany we open presents on the 24th of December. In England children open their presents on the 25th of December. In Germany we eat sausages or fish. In England many families eat turkey. Both festivals have Christmas trees."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine Einladung zu einer Halloween-Party: Datum, Uhrzeit, Ort, was man mitbringen soll.",
+    "a": "Zum Beispiel: Come to my Halloween party! Date: 31st October. Time: 6 pm. Place: my house, Lindenstraße 4. Please dress up as a ghost or a witch and bring some sweets!"
+   }
+  ],
+  "mt": "Wann ist Weihnachten in England?\n- on the 24th of December\n+ on the 25th of December\n- on the 26th of December\n\nWelches Fest kommt aus Irland?\n+ Halloween\n- Thanksgiving\n- Bonfire Night\n\nWelche Präposition passt? ___ the 5th of November\n- in\n+ on\n- at\n\nWas ist „a witch“?\n- ein Geist\n+ eine Hexe\n- ein Kürbis\n\nWie sprichst du 25th?\n- twenty-five\n+ twenty-fifth\n- twentieth-five"
+ },
+ {
+  "ch": "8 Free time",
+  "title": "8.4 Linking sentences: so and when",
+  "text": "# so: deshalb\nMit so sagst du, was dann passiert. Zuerst der Grund, dann die Folge.\n[bilder: 🌧️➡️🏠 It was rainy, so we stayed at home. | 😴➡️🛏️ I was tired, so I went to bed. | 🥶➡️🧥 It was cold, so I wore a jacket.]\n[satz: It | *was* | sunny, | so | we | *went* | to the lake.]\n[satz: I | *was* | hungry, | so | I | *made* | a sandwich.]\n# when: wenn, als\nMit when sagst du, wann etwas passiert.\n[bilder: ☀️⏩🏊 When it's hot, I go swimming. | 🎂⏩🎉 When it's my birthday, we have a party. | 🎄⏩❄️ When it's Christmas, it's often cold.]\n[satz: When | it | *rains*, | I | *watch* | a film.]\n[satz: I | *watch* | a film | when | it | *rains*.]\n| Wort | Bedeutung | Beispiel |\n|---|---|---|\n| so | deshalb, also | It was late, so I took a taxi. |\n| when | wenn, als | When I'm bored, I read comics. |\n| and | und | I play football and I swim. |\n| but | aber | I like pizza, but I don't like fish. |\n| because | weil | I'm happy because it's Friday. |\n[dialog: Leni What did you do in the holidays? | Arjun It rained a lot, so we went to the cinema. | Leni And when the weather was good? | Arjun When it was sunny, we went cycling in the mountains. | Leni Sounds great!]\n[uhr: 15:00=☀️ When the sun shines, I go out. | 20:00=🌙 When it's dark, I go home.]\nMerke: Vor so steht ein Komma. Steht when am Anfang, steht ein Komma in der Mitte.",
+  "help": "# so und because\nFalsch: I was tired, so I went to bed because.\nRichtig: I was tired, so I went to bed. Oder: I went to bed because I was tired.\nAchtung: so = Folge (deshalb). because = Grund (weil).\n# Wortstellung nach so\nFalsch: It was cold, so wore I a jacket.\nRichtig: It was cold, so I wore a jacket.\nAchtung: Nach so bleibt die Reihenfolge: Subjekt – Verb.\n# when\nAchtung: when = immer wenn oder als. Im Deutschen „wenn“ und „als“ – im Englischen oft beides when.",
+  "ub": {
+   "t": "match",
+   "x": "It was raining, | so we stayed at home.\nI was thirsty, | so I drank some water.\nThe bus was late, | so I walked to school.\nIt was Mum's birthday, | so we baked a cake.\nThe film was boring, | so I fell asleep.\nI missed the train, | so I called my dad."
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Grund und Folge",
+    "x": "It was raining, | so we stayed at home.\nI was thirsty, | so I drank some water.\nThe bus was late, | so I walked to school.\nIt was Mum's birthday, | so we baked a cake.\nThe film was boring, | so I fell asleep.\nI missed the train, | so I called my dad."
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: so, when, because",
+    "x": "It was cold, *so* I put on my jacket.\n*When* it's sunny, we go to the lake.\nI'm happy *because* it's the weekend.\nI was hungry, *so* I made a sandwich.\n*When* I was in London, I saw Big Ben.\nI like tennis, *but* I don't like golf."
+   },
+   {
+    "t": "say",
+    "n": "Nachsprechen: Sätze verbinden",
+    "x": "Sprache: Englisch\nIt was rainy, so we stayed at home.\nWhen it's hot, I go swimming.\nI was tired, so I went to bed.\nWhen I'm bored, I read comics."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Übersetze: a) so  b) when  c) because  d) but",
+    "a": "a) deshalb, also  b) wenn, als  c) weil  d) aber"
+   },
+   {
+    "l": 1,
+    "q": "Verbinde mit so: a) It was hot. We went swimming.  b) I was tired. I went to bed.",
+    "a": "a) It was hot, so we went swimming.  b) I was tired, so I went to bed."
+   },
+   {
+    "l": 2,
+    "q": "Verbinde mit when: a) It snows. We build a snowman.  b) I'm sad. I listen to music.",
+    "a": "a) When it snows, we build a snowman.  b) When I'm sad, I listen to music."
+   },
+   {
+    "l": 2,
+    "q": "Schreib die Sätze zu Ende: a) It was my birthday, so …  b) When I'm bored, …  c) I missed the bus, so …",
+    "a": "Zum Beispiel: a) … we had a party.  b) … I play games.  c) … I was late for school."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: „It was cold, so wore I a coat. When it rains I stay at home because. I was hungry so I ate.“ Verbessere.",
+    "a": "It was cold, so I wore a coat. When it rains, I stay at home. I was hungry, so I ate."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine Feriengeschichte (6 Sätze). Benutze mindestens zweimal so und zweimal when.",
+    "a": "Zum Beispiel: In the summer holidays we went to Ireland. When we arrived in Dublin, it was raining. We were wet, so we went to a café. When the sun came out, we visited the castle. In the evening we were tired, so we went to bed early. It was a great holiday!"
+   }
+  ],
+  "mt": "Was bedeutet „so“ im Satz „It was late, so I went home“?\n+ deshalb\n- weil\n- wenn\n\nWelches Wort passt? ___ it's hot, I go swimming.\n- So\n+ When\n- But\n\nWelcher Satz ist richtig?\n- It was cold, so wore I a jacket.\n+ It was cold, so I wore a jacket.\n- It was cold so, I a jacket wore.\n\nWelches Wort passt? I'm happy ___ it's Friday.\n- so\n+ because\n- when\n\nWelches Wort passt? I was hungry, ___ I made a sandwich.\n+ so\n- when\n- because"
+ }
+]

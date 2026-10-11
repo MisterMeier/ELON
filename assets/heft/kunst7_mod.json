@@ -1,0 +1,184 @@
+{
+ "1 Renaissance": {
+  "tipps": [
+   "Genau hinschauen: Schau ein Bild erst eine Minute lang still an. Dann sprich darüber.",
+   "Fachwörter-Karte: Schreib jedes neue Fachwort auf eine Karte. Vorne das Wort, hinten ein Bild.",
+   "Drei Schritte: Bei jedem Bild: 1. Was sehe ich? 2. Wie ist es gemacht? 3. Was bedeutet es?",
+   "Jahreszahlen: Renaissance heißt ungefähr 1400 bis 1600. Merke dir: Dürer lebte um 1500.",
+   "Skizzenbuch: Zeichne kleine Skizzen von Bildern ab. So verstehst du den Aufbau besser."
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne ein Selbstporträt wie Dürer: frontal, ernst, mit symmetrischem Gesicht. Nur Bleistift, mindestens 3 Grautöne.",
+    "a": "Gesicht von vorn, Mittelachse sichtbar, Augen auf halber Kopfhöhe, Hell-Dunkel mit 3 Grautönen.",
+    "p": 3
+   },
+   {
+    "q": "Erstelle einen Zeitstrahl von 1400 bis 1600. Trag Leonardo, Michelangelo, Dürer, Raffael und Botticelli mit Geburtsjahr und einem Werk ein.",
+    "a": "Botticelli 1445 (Geburt der Venus), Leonardo 1452 (Mona Lisa), Dürer 1471 (Selbstbildnis im Pelzrock), Michelangelo 1475 (David), Raffael 1483 (Schule von Athen).",
+    "p": 2
+   },
+   {
+    "q": "Such in deiner Stadt oder im Internet ein Gebäude im Stil der Renaissance. Skizziere die Fassade und markiere Säulen, Rundbögen und Symmetrie.",
+    "a": "Zum Beispiel: Augsburger Rathaus (Elias Holl). Skizze zeigt Symmetrieachse, Fenster in Reihen, Giebel, klare Formen.",
+    "p": 2
+   }
+  ]
+ },
+ "2 Barock und Rokoko": {
+  "tipps": [
+   "Barock erkennen: Viel Bewegung, viel Gold, starkes Licht und Schatten? Dann ist es oft Barock.",
+   "Rokoko erkennen: Helle Pastellfarben, Muschelformen, verspielte Szenen? Dann ist es Rokoko.",
+   "Kirchen besuchen: In Bayern gibt es viele Barockkirchen. Schau beim nächsten Ausflug an die Decke.",
+   "Licht testen: Halte eine Taschenlampe seitlich an einen Gegenstand. So siehst du Hell-Dunkel wie bei Rembrandt.",
+   "Vergleichen: Leg zwei Bilder nebeneinander und mach eine Tabelle mit Gemeinsamkeiten und Unterschieden."
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne eine Barock-Schnecke (Volute) und eine Rokoko-Muschel (Rocaille) als Ornament. Wiederhole jedes Ornament 4-mal als Bordüre.",
+    "a": "Zwei Bordüren: Volute als Spirale, Rocaille als geschwungene, unsymmetrische Muschelform. Gleichmäßig wiederholt.",
+    "p": 2
+   },
+   {
+    "q": "Recherchiere eine Barockkirche in Bayern (z. B. Wieskirche, Asamkirche, Kloster Ettal). Gestalte ein Infoblatt mit Skizze, Baumeister, Jahr und 3 Besonderheiten.",
+    "a": "Zum Beispiel: Wieskirche, Dominikus Zimmermann, 1745–1754, Deckenfresko, viel Weiß und Gold, Licht von großen Fenstern.",
+    "p": 3
+   },
+   {
+    "q": "Fotografiere ein Vanitas-Stillleben mit modernen Dingen zum Thema „Zeit vergeht“ (z. B. leerer Akku, welke Blume, alte Spielsachen).",
+    "a": "Foto mit 4–6 Gegenständen, seitliches Licht, dunkler Hintergrund. Jedes Ding passt zum Thema Vergänglichkeit.",
+    "p": 2
+   }
+  ]
+ },
+ "3 Raum und Perspektive": {
+  "tipps": [
+   "Lineal benutzen: Fluchtlinien zeichnest du immer mit Lineal und spitzem Bleistift.",
+   "Dünn vorzeichnen: Hilfslinien ganz leicht zeichnen. Später radierst du sie weg.",
+   "Fluchtpunkt markieren: Mach den Fluchtpunkt mit einem kleinen Kreuz. Er liegt immer auf dem Horizont.",
+   "Augenhöhe prüfen: Der Horizont ist immer auf deiner Augenhöhe. Halte ein Lineal waagrecht vor die Augen.",
+   "Im Alltag üben: Schau einen langen Flur oder Bahngleise an. Die Linien laufen zu einem Punkt."
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne deine Lieblingsbuchstaben (z. B. deinen Namen) als 3D-Blockbuchstaben mit einem Fluchtpunkt.",
+    "a": "Buchstaben vorne flach, alle Kanten laufen zum gemeinsamen Fluchtpunkt, hintere Kanten parallel zu den vorderen.",
+    "p": 2
+   },
+   {
+    "q": "Gestalte ein Trickfoto mit Größenabstufung: Eine Person scheint einen Turm oder die Sonne in der Hand zu halten.",
+    "a": "Foto, bei dem eine nahe Person mit einem fernen Objekt verschmilzt. Kamera tief, gute Abstimmung der Positionen.",
+    "p": 2
+   },
+   {
+    "q": "Zeichne einen Gang in deiner Schule in Zentralperspektive mit Türen, Fenstern und Bodenfliesen.",
+    "a": "Ein Fluchtpunkt auf Augenhöhe. Türen werden nach hinten kleiner. Fliesen laufen zum Fluchtpunkt. Senkrechte bleiben senkrecht.",
+    "p": 3
+   }
+  ]
+ },
+ "4 Design im Alltag": {
+  "tipps": [
+   "Erst die Funktion: Frag zuerst: Was soll das Ding können? Dann überlegst du die Form.",
+   "Viele Skizzen: Mach mindestens 5 schnelle Skizzen. Die erste Idee ist selten die beste.",
+   "Messen: Miss echte Gegenstände mit dem Lineal. So werden deine Zeichnungen maßstabsgerecht.",
+   "Testen: Halte deinen Entwurf in der Hand. Liegt er gut? Das ist Ergonomie.",
+   "Umwelt denken: Frag immer: Woraus ist es? Hält es lange? Kann man es reparieren oder recyceln?"
+  ],
+  "fleiss": [
+   {
+    "q": "Fotografiere 5 Stühle (Schule, Küche, Garten, Büro, Café). Ordne sie nach: Form, Material, Bequemlichkeit. Welcher ist das beste Design?",
+    "a": "Tabelle mit 5 Stühlen und Kriterien. Begründete Wahl, z. B. Bürostuhl: verstellbar, ergonomisch.",
+    "p": 2
+   },
+   {
+    "q": "Entwirf eine Lampe in Form eines Tieres. Zeichne Vorderansicht, Seitenansicht und eine Kavalierperspektive mit Maßen.",
+    "a": "Drei passende Ansichten, Maße eingetragen, Funktion (Licht, Schalter, Kabel) mitgedacht.",
+    "p": 3
+   },
+   {
+    "q": "Baue aus Karton ein Modell im Maßstab 1:5 von einem Möbelstück für dein Zimmer.",
+    "a": "Modell sauber gebaut, Maße stimmen (1 m in echt = 20 cm im Modell), Funktion erkennbar.",
+    "p": 3
+   }
+  ]
+ },
+ "5 Druckgrafik": {
+  "tipps": [
+   "Spiegelverkehrt: Alles auf der Druckplatte erscheint im Druck seitenverkehrt. Schrift musst du spiegeln!",
+   "Dünn einwalzen: Lieber zweimal dünn Farbe walzen als einmal dick. Sonst verschmiert alles.",
+   "Probedruck: Mach immer erst einen Probedruck auf Zeitungspapier.",
+   "Sicher schneiden: Beim Linolschnitt die freie Hand immer hinter das Messer legen.",
+   "Serie drucken: Druck mehrere Exemplare und nummeriere sie unten links, z. B. 1/5."
+  ],
+  "fleiss": [
+   {
+    "q": "Drucke dein Motiv als Serie in 4 verschiedenen Farbkombinationen auf 4 farbige Papiere. Klebe alle als Pop-Art-Raster auf.",
+    "a": "Vier saubere Drucke, wechselnde Farb- und Papierkombinationen, sauber im Raster angeordnet.",
+    "p": 2
+   },
+   {
+    "q": "Recherchiere Käthe Kollwitz. Wähle einen Holzschnitt oder eine Lithografie von ihr und beschreibe Technik und Wirkung in 6 Sätzen.",
+    "a": "Zum Beispiel: „Brot!“ (Lithografie, 1924). Starke Hell-Dunkel-Kontraste, hungrige Kinder, wirkt traurig und anklagend.",
+    "p": 3
+   },
+   {
+    "q": "Gestalte ein Exlibris (Bücherstempel) mit deinem Namen als Moosgummi-Druck. Achtung: Schrift spiegeln!",
+    "a": "Kleines Motiv mit gespiegelt geschnittener Schrift, im Druck richtig lesbar. Saubere Konturen.",
+    "p": 2
+   }
+  ]
+ },
+ "6 Layout: Plakat, Flyer, Logo": {
+  "tipps": [
+   "Drei-Sekunden-Test: Schau dein Plakat 3 Sekunden an. Verstehst du das Wichtigste? Dann ist es gut.",
+   "Weniger ist mehr: Höchstens 2 Schriftarten und 3 Hauptfarben auf einem Layout.",
+   "Weißraum: Lass Platz frei. Freie Flächen machen das Layout ruhig und klar.",
+   "Lesbarkeit: Schrift von weit weg testen. Häng dein Plakat auf und geh 5 Meter zurück.",
+   "Zielgruppe: Frag immer: Für wen ist das? Kinder, Jugendliche, Eltern brauchen verschiedene Gestaltung."
+  ],
+  "fleiss": [
+   {
+    "q": "Gestalte ein Filmplakat für einen Film über deine Klasse: Titel, Bild, Datum, Slogan.",
+    "a": "Großer Titel, starkes Hauptbild, Slogan, Infos klein unten. Klare Hierarchie, passende Farben.",
+    "p": 2
+   },
+   {
+    "q": "Sammle 5 Flyer (Pizzadienst, Verein, Kino …). Bewerte jeden mit Punkten für Blickfang, Lesbarkeit, Information.",
+    "a": "Tabelle mit 5 Flyern und 3 Kriterien, Punkte von 1–5, kurze Begründung, bester Flyer gewählt.",
+    "p": 2
+   },
+   {
+    "q": "Entwirf ein Logo-System für einen Fantasie-Sportverein: Logo, Trikotfarbe, Eintrittskarte, Schal.",
+    "a": "Einheitliche Farben und Form, Logo funktioniert groß und klein, alle Teile erkennbar zusammengehörig.",
+    "p": 3
+   }
+  ]
+ },
+ "7 Fantasiewelten": {
+  "tipps": [
+   "Augen auf: Such überall Gesichter und Tiere: in Wolken, Steckdosen, Baumrinde, Flecken.",
+   "Zufall nutzen: Ein Fleck ist kein Fehler. Dreh das Blatt und frag: Was könnte das sein?",
+   "Sammeln: Leg eine Schachtel mit Strukturen an: Blätter, Spitze, Netz, Rinde, Wellpappe.",
+   "Kombinieren: Die tollsten Bilder entstehen, wenn du Techniken mischst: Frottage plus Zeichnung plus Farbe.",
+   "Präsentieren: Erzähl, wie dein Bild entstanden ist. Was war geplant? Was war Zufall?"
+  ],
+  "fleiss": [
+   {
+    "q": "Fotografiere 10 Gesichter in Dingen (Pareidolie) in deiner Umgebung und gestalte daraus ein Poster mit lustigen Namen.",
+    "a": "Zehn Fotos, jedes mit witzigem Namen, ordentlich auf einem Poster angeordnet.",
+    "p": 2
+   },
+   {
+    "q": "Lies Max Ernsts Idee: Er starrte auf Holzdielen und sah Bilder. Mach eine Frottage von einem Holzboden und zeichne ein Fantasiewesen daraus.",
+    "a": "Frottage mit Holzmaserung, darin ein erkanntes und ausgearbeitetes Wesen, Struktur bleibt sichtbar.",
+    "p": 2
+   },
+   {
+    "q": "Gestalte ein Fantasie-Bestiarium (Tierbuch) mit 4 Seiten: Jedes Wesen entsteht aus einem Klecks, einer Frottage oder einem Abklatsch. Schreib Name, Lebensraum und Fähigkeit dazu.",
+    "a": "Vier Seiten, jede mit anderer Technik, Steckbrief zu jedem Wesen, fantasievoll und sauber.",
+    "p": 3
+   }
+  ]
+ }
+}

@@ -1,0 +1,1682 @@
+[
+ {
+  "ch": "1 Renaissance",
+  "title": "1.1 Was ist Renaissance?",
+  "text": "# Eine neue Zeit\n[bilder: 🏛️ die Antike | 🔄 die Wiedergeburt | 🧍 der Mensch | 🔭 die Wissenschaft]\n- Renaissance heißt: Wiedergeburt.\n- Zeit: ungefähr 1400 bis 1600.\n- Beginn: in Italien, vor allem in Florenz.\n- Die Künstler entdecken die Kunst der alten Griechen und Römer neu (die Antike).\n- Der Mensch steht jetzt im Mittelpunkt. Künstler studieren den Körper genau.\n# Typisch für die Renaissance\n| Merkmal | Beispiel |\n|---|---|\n| Natürliche Körper | David von Michelangelo |\n| Raum und Tiefe | Zentralperspektive |\n| Symmetrie und Ordnung | Schule von Athen von Raffael |\n| Echte Gefühle im Gesicht | Mona Lisa von Leonardo |\n| Antike Formen | Säule, Rundbogen, Kuppel |\n# Farben der Renaissance\n[farben: Ultramarin=#1e3a8a | Zinnoberrot=#c2410c | Ocker=#ca8a04 | Erdgrün=#4d7c0f | Blattgold=#d4af37 | Inkarnat (Hautton)=#f2c9a0]\n- Blau aus dem Stein Lapislazuli war teurer als Gold.\n- Darum malte man den Mantel von Maria oft blau.\n# Künstler und Auftraggeber\n[bilder: 💰 der Auftraggeber | 🎨 der Meister | 👦 der Lehrling | 🏠 die Werkstatt]\n- Reiche Familien (z. B. die Medici) und die Kirche bezahlen die Kunst.\n- Sie bestimmen oft das Thema, die Größe und die Farben.\n- Der Meister hat eine Werkstatt mit Gesellen und Lehrlingen.\nMerke: Renaissance = Wiedergeburt der Antike. Der Mensch und die Natur stehen im Mittelpunkt.\n# Gestaltungsauftrag\nThema: Ein Star der Renaissance auf Social Media\nMaterial: DIN-A3-Papier, Buntstifte, Fineliner, Kopien von Kunstwerken, Schere, Kleber\nTechnik: Collage und Zeichnung\n[bilder: 📱 das Profil | 🖼️ das Kunstwerk | ✂️ die Schere | 🖊️ der Fineliner]\nSchritte:\n- 1. Wähle einen Künstler: Leonardo, Michelangelo, Raffael, Botticelli oder Dürer.\n- 2. Zeichne einen großen Handy-Rahmen auf das Blatt.\n- 3. Gestalte ein Profil: Profilbild, Name, Wohnort, 3 Posts mit seinen Werken.\n- 4. Schreib zu jedem Post einen kurzen Text und Hashtags, z. B. #Werkstatt #Medici.\n- 5. Ergänze Kommentare von Auftraggebern.\nBewertung:\n- Die Infos zum Künstler stimmen.\n- Mindestens 3 Werke sind richtig benannt.\n- Das Layout ist klar und ordentlich.\n- Die Idee ist witzig und originell.",
+  "help": "# Das Wort\nFalsch: Die Renaissance ist ein Maler.\nRichtig: Die Renaissance ist eine Epoche, also eine Zeit in der Kunstgeschichte.\n# Die Zeit\nFalsch: Die Renaissance war im Mittelalter.\nRichtig: Die Renaissance kommt nach dem Mittelalter, ungefähr von 1400 bis 1600.\n# Antike\nAchtung: Antike heißt nicht „alt und kaputt“. Antike ist die Zeit der alten Griechen und Römer.\n# Künstler\nFalsch: Die Künstler malten, was sie wollten.\nRichtig: Meist bestimmten die Auftraggeber das Thema. Sie bezahlten die Werke.",
+  "ub": {
+   "t": "match",
+   "x": "Renaissance | Wiedergeburt\nAntike | Zeit der alten Griechen und Römer\nAuftraggeber | bezahlt das Kunstwerk\nWerkstatt | Arbeitsraum des Meisters\nLehrling | lernt beim Meister\nFlorenz | Stadt in Italien"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Renaissance | Wiedergeburt\nAntike | Zeit der alten Griechen und Römer\nAuftraggeber | bezahlt das Kunstwerk\nWerkstatt | Arbeitsraum des Meisters\nLehrling | lernt beim Meister\nFlorenz | Stadt in Italien"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Die Renaissance",
+    "x": "Renaissance heißt *Wiedergeburt*. Sie beginnt in *Italien*.\nDie Künstler entdecken die *Antike* neu.\nDer *Mensch* steht im Mittelpunkt.\nReiche Familien wie die *Medici* bezahlen die Kunst.\nDer Meister arbeitet in einer *Werkstatt*."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Renaissance",
+    "x": "ANTIKE | Zeit der alten Griechen und Römer\nFLORENZ | Hier beginnt die Renaissance.\nMEDICI | reiche Familie in Florenz\nWERKSTATT | Hier arbeiten Meister und Lehrlinge.\nKUPPEL | rundes Dach, z. B. am Dom\nSAEULE | Sie trägt ein Dach. Schon die Römer kannten sie."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne drei Formen der antiken Baukunst: eine Säule, einen Rundbogen und eine Kuppel. Beschrifte sie.",
+    "a": "Drei klare Skizzen mit Beschriftung: Säule (mit Fuß und Kopf), Rundbogen (Halbkreis), Kuppel (halbe Kugel auf einem Bau)."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne eine Farbtabelle mit 5 Farben der Renaissance. Male jedes Feld aus und schreib den Namen darunter.",
+    "a": "Zum Beispiel: Ultramarinblau, Zinnoberrot, Ocker, Erdgrün, Gold. Felder sauber ausgemalt, Namen richtig."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Social-Media-Profil zweimal: einmal für Leonardo, einmal für Michelangelo. Was ist anders?",
+    "a": "Leonardo: Erfinder, Maler, Skizzen von Maschinen, Mona Lisa. Michelangelo: Bildhauer, Marmor, David, Sixtinische Kapelle. Profilbild und Posts passen zum Künstler."
+   },
+   {
+    "l": 2,
+    "q": "Skizziere eine Werkstatt der Renaissance: Wer arbeitet dort? Zeichne mindestens 3 Personen mit ihren Aufgaben.",
+    "a": "Meister malt das Gesicht, Geselle malt den Hintergrund, Lehrling reibt Farben an. Personen beschriftet."
+   },
+   {
+    "l": 3,
+    "q": "Du bist Auftraggeber im Jahr 1500. Schreib einen Auftrag an einen Künstler: Thema, Größe, Farben, Preis. Begründe deine Wünsche.",
+    "a": "Zum Beispiel: Altarbild 2 m hoch, Maria im blauen Mantel aus Ultramarin, Gold im Himmel, mein Gesicht soll am Rand zu sehen sein. Begründung: Ansehen, Glaube, Reichtum zeigen."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche: Wer ist heute ein „Auftraggeber“ für Kunst und Design? Nenne zwei Beispiele und begründe.",
+    "a": "Zum Beispiel: Firmen (Werbung, Logos), Städte (Street Art, Denkmäler), Museen, Musiker (Plattencover). Sie bezahlen und bestimmen mit."
+   }
+  ],
+  "mt": "Was heißt Renaissance?\n+ Wiedergeburt\n- Mittelalter\n- Malerei\n\nWann war die Renaissance ungefähr?\n- 800 bis 1000\n+ 1400 bis 1600\n- 1800 bis 1900\n\nWo beginnt die Renaissance?\n+ in Italien\n- in Spanien\n- in England\n\nWer bezahlte oft die Kunstwerke?\n- die Lehrlinge\n+ reiche Familien und die Kirche\n- die Maler selbst\n\nWas steht in der Renaissance im Mittelpunkt?\n- Maschinen\n- Tiere\n+ der Mensch"
+ },
+ {
+  "ch": "1 Renaissance",
+  "title": "1.2 Leonardo, Michelangelo, Dürer: Künstlerleben",
+  "text": "# Drei Stars der Renaissance\n[bilder: 🧠 Leonardo da Vinci | 🗿 Michelangelo | 🐇 Albrecht Dürer]\n| Künstler | Leben | Berühmte Werke |\n|---|---|---|\n| Leonardo da Vinci | 1452–1519, Italien | Mona Lisa, Das Abendmahl |\n| Michelangelo | 1475–1564, Italien | David, Decke der Sixtinischen Kapelle |\n| Albrecht Dürer | 1471–1528, Nürnberg | Selbstbildnis im Pelzrock, Feldhase |\n| Raffael | 1483–1520, Italien | Schule von Athen |\n| Sandro Botticelli | 1445–1510, Florenz | Die Geburt der Venus |\n# Leonardo: Maler und Erfinder\n- Er zeichnet Flugmaschinen, Brücken und den menschlichen Körper.\n- Er schreibt in Spiegelschrift.\n# Michelangelo: Bildhauer und Maler\n- Er haut den David aus einem Block Marmor. Die Figur ist über 5 Meter hoch.\n- Vier Jahre malt er die Decke der Sixtinischen Kapelle in Rom.\n# Dürer: der Star aus Nürnberg\n- Er reist nach Italien und lernt dort viel.\n- Er ist ein Meister der Druckgrafik. Er verkauft seine Drucke in ganz Europa.\n- Sein Zeichen: das Monogramm AD.\n[farben: Feldhase-Braun=#8b5a2b | Ocker=#c8a165 | Grauweiß=#e7e2d6 | Dunkelbraun=#3f2a14]\n# Ein Tag in der Werkstatt\n[bilder: 🥚 die Eitempera | 🪨 das Pigment | 🖌️ der Pinsel | 🪵 die Holztafel]\n- Lehrlinge reiben Pigmente (Farbpulver) und mischen sie mit Ei.\n- Gesellen malen Hintergründe und Kleider.\n- Der Meister malt die wichtigsten Teile, z. B. die Gesichter.\nMerke: Künstler der Renaissance waren oft Universalgenies: Maler, Bildhauer, Architekten und Forscher.\n# Gestaltungsauftrag\nThema: Comic: Ein Tag in der Werkstatt von Leonardo\nMaterial: DIN-A4-Papier, Bleistift, Lineal, Fineliner, Buntstifte\nTechnik: Comic-Zeichnung mit Panels und Sprechblasen\n[bilder: 🟦 das Panel | 💬 die Sprechblase | 💥 das Lautwort | 🖊️ der Fineliner]\nSchritte:\n- 1. Teile das Blatt mit dem Lineal in 6 Panels.\n- 2. Plane die Geschichte: Morgen, Arbeit, Problem, Auftraggeber kommt, Lösung, Ende.\n- 3. Skizziere die Figuren mit Bleistift. Nutze Nah- und Fernsicht.\n- 4. Schreib kurze Sprechblasen. Benutze Fachwörter wie Pigment, Meister, Lehrling.\n- 5. Zieh alles mit Fineliner nach und male mit Buntstiften aus.\nBewertung:\n- Die Geschichte ist in 6 Panels klar zu verstehen.\n- Mindestens 3 Fachwörter sind richtig benutzt.\n- Panels zeigen verschiedene Einstellungen (nah, fern).\n- Saubere Linien und Farben.",
+  "help": "# Namen\nFalsch: Leonardo da Vinci heißt mit Nachnamen „da Vinci“.\nRichtig: „da Vinci“ heißt „aus Vinci“. Das ist sein Heimatort. Man sagt einfach Leonardo.\n# Dürer\nFalsch: Dürer war Italiener.\nRichtig: Dürer war Deutscher. Er lebte in Nürnberg in Bayern.\n# Michelangelo\nAchtung: Der David ist eine Skulptur (Plastik aus Stein), kein Gemälde.\n# Werkstatt\nFalsch: Der Meister malte alles allein.\nRichtig: Viele Menschen halfen mit. Der Meister malte die wichtigsten Teile.",
+  "ub": {
+   "t": "match",
+   "x": "Leonardo da Vinci | Mona Lisa\nMichelangelo | David\nAlbrecht Dürer | Feldhase\nRaffael | Schule von Athen\nSandro Botticelli | Die Geburt der Venus"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Künstler und Werk",
+    "x": "Leonardo da Vinci | Mona Lisa\nMichelangelo | David\nAlbrecht Dürer | Feldhase\nRaffael | Schule von Athen\nSandro Botticelli | Die Geburt der Venus"
+   },
+   {
+    "t": "mc",
+    "n": "Wer war es?",
+    "x": "Wer schrieb in Spiegelschrift?\n+ Leonardo\n- Dürer\n- Raffael\n\nWer lebte in Nürnberg?\n- Michelangelo\n+ Dürer\n- Botticelli\n\nWer malte die Decke der Sixtinischen Kapelle?\n- Leonardo\n- Dürer\n+ Michelangelo\n\nWas mischten die Lehrlinge mit Farbpulver?\n+ Ei\n- Wasser aus dem Meer\n- Zucker\n\nWelches Monogramm hatte Dürer?\n- LD\n+ AD\n- MD"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Werkstatt",
+    "x": "MEISTER\nLEHRLING\nPIGMENT\nPINSEL\nMARMOR\nSKIZZE\nFRESKO\nTEMPERA"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne Dürers Monogramm AD groß ab. Erfinde danach dein eigenes Monogramm aus deinen Initialen.",
+    "a": "Großes A mit kleinem D darunter. Eigenes Monogramm: zwei Buchstaben, kreativ verbunden, gut lesbar."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne wie Leonardo eine Erfindung für die Schule. Beschrifte sie in Spiegelschrift.",
+    "a": "Skizze einer Maschine (z. B. Hausaufgaben-Roboter) mit Beschriftungen in Spiegelschrift. Mit einem Spiegel lesbar."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne dein Comic-Panel 3 in zwei Varianten: einmal aus der Nähe, einmal von weit weg. Welche Version ist spannender?",
+    "a": "Nahaufnahme zeigt Gefühle im Gesicht, Totale zeigt den ganzen Raum. Begründung der Wahl in einem Satz."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte ein Filmplakat: „Michelangelo – 4 Jahre an der Decke“. Wähle Titel, Bild und Farben passend.",
+    "a": "Plakat mit großem Titel, Figur liegt auf Gerüst, Decke mit Fresko, starke Farben. Text und Bild klar angeordnet."
+   },
+   {
+    "l": 3,
+    "q": "Welcher der drei Künstler würde heute welchen Beruf haben? Begründe für jeden in 2 Sätzen.",
+    "a": "Zum Beispiel: Leonardo Ingenieur oder Erfinder (Maschinen, Forschung). Michelangelo Bildhauer oder Architekt. Dürer Grafikdesigner oder Influencer (Drucke, eigene Marke AD)."
+   },
+   {
+    "l": 3,
+    "q": "Präsentiere deinen Comic vor der Klasse. Erkläre: Was war schwierig? Was würdest du ändern?",
+    "a": "Kurze Präsentation (1–2 Minuten), nennt Inhalt, Technik, ein Problem und eine Verbesserung."
+   }
+  ],
+  "mt": "Wo lebte Albrecht Dürer?\n- in Florenz\n+ in Nürnberg\n- in Rom\n\nWas ist der David von Michelangelo?\n+ eine Skulptur aus Marmor\n- ein Gemälde\n- ein Druck\n\nWer malte die Mona Lisa?\n- Raffael\n- Michelangelo\n+ Leonardo da Vinci\n\nWas machten Lehrlinge in der Werkstatt?\n+ Sie rieben Pigmente und mischten Farben.\n- Sie verkauften Bilder.\n- Sie malten die Gesichter.\n\nWas ist ein Universalgenie?\n- ein Mensch, der nur malt\n+ ein Mensch, der viele Dinge sehr gut kann\n- ein reicher Auftraggeber"
+ },
+ {
+  "ch": "1 Renaissance",
+  "title": "1.3 Bildgattungen: Porträt, Landschaft, Stillleben",
+  "text": "# Was ist eine Bildgattung?\n- Eine Bildgattung ist eine Gruppe von Bildern mit dem gleichen Thema.\n[bilder: 👤 das Porträt | 👑 das Herrscherbild | 🙏 das Andachtsbild | 🏞️ die Landschaft | 🍎 das Stillleben]\n| Gattung | Was sieht man? | Beispiel |\n|---|---|---|\n| Porträt | einen Menschen | Mona Lisa (Leonardo) |\n| Herrscherbild | Kaiser, König, Papst | Kaiser Maximilian I. (Dürer) |\n| Andachtsbild | religiöse Szene zum Beten | Madonna (Raffael) |\n| Landschaft | Natur, Berge, Wasser | Dürers Aquarelle der Alpen |\n| Stillleben | Dinge: Obst, Blumen, Gläser | Stillleben von Clara Peeters |\n# Das Herrscherbild\n- Der Herrscher soll mächtig und reich aussehen.\n- Zeichen der Macht: Krone, Zepter, Pelz, teure Kleider, Wappen.\n- Oft sieht er uns von oben an.\n[farben: Purpur=#6b21a8 | Königsblau=#1d4ed8 | Gold=#d4af37 | Hermelin-Weiß=#f8fafc | Samtrot=#9f1239]\n- Diese Farben zeigen Reichtum. Purpur und Gold waren sehr teuer.\n# Porträt-Ansichten\n[bilder: 🙂 die Vorderansicht | 🗿 das Profil | ↗️ die Dreiviertelansicht]\n- Brustbild: Kopf und Oberkörper.\n- Ganzfigur: der ganze Körper.\nMerke: Ein Porträt zeigt, wie ein Mensch aussieht. Ein Herrscherbild zeigt vor allem, wie mächtig er ist.\n# Gestaltungsauftrag\nThema: Selfie als Herrscherporträt – „Ich bin der König / die Königin der Klasse“\nMaterial: Selfie (ausgedruckt, Schwarz-Weiß), Goldpapier, Stoffreste, Buntstifte, Kleber\nTechnik: Fotocollage mit Zeichnung\n[bilder: 🤳 das Selfie | 👑 die Krone | 🧣 der Stoff | ✨ das Goldpapier]\nSchritte:\n- 1. Mach ein Selfie in Dreiviertelansicht. Schau stolz und ernst.\n- 2. Klebe das Foto auf ein DIN-A4-Blatt (Hochformat).\n- 3. Zeichne oder klebe Zeichen deiner Macht dazu: Krone, Umhang, Zepter.\n- 4. Erfinde ein modernes Zeichen der Macht: Handy, Pokal, Kopfhörer, Skateboard.\n- 5. Gestalte den Hintergrund in Purpur, Gold oder Samtrot. Schreib deinen Titel darunter.\nBewertung:\n- Mindestens 3 Zeichen der Macht sind zu sehen.\n- Die Farben wirken edel und passen zusammen.\n- Die Pose und der Blick wirken mächtig.\n- Die moderne Idee ist originell.",
+  "help": "# Porträt und Selbstporträt\nFalsch: Jedes Porträt ist ein Selbstporträt.\nRichtig: Ein Selbstporträt malt der Künstler von sich selbst. Ein Porträt kann jeden Menschen zeigen.\n# Stillleben\nFalsch: Ein Stillleben zeigt ein ruhiges Bild von Menschen.\nRichtig: Ein Stillleben zeigt Dinge, die sich nicht bewegen: Obst, Blumen, Gläser, Bücher.\nAchtung: Man schreibt Stillleben mit drei l.\n# Profil\nAchtung: In der Kunst heißt Profil: Seitenansicht des Kopfes. Nicht dein Social-Media-Profil!",
+  "ub": {
+   "t": "match",
+   "x": "Porträt | ein Mensch\nHerrscherbild | ein König mit Krone\nAndachtsbild | Maria mit dem Kind\nLandschaft | Berge und ein See\nStillleben | Äpfel und ein Glas\nSelbstporträt | der Künstler malt sich selbst"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Gattung und Bildinhalt",
+    "x": "Porträt | ein Mensch\nHerrscherbild | ein König mit Krone\nAndachtsbild | Maria mit dem Kind\nLandschaft | Berge und ein See\nStillleben | Äpfel und ein Glas\nSelbstporträt | der Künstler malt sich selbst"
+   },
+   {
+    "t": "mc",
+    "n": "Welche Gattung ist das?",
+    "x": "Ein Bild zeigt Blumen in einer Vase.\n- Porträt\n+ Stillleben\n- Landschaft\n\nEin Bild zeigt einen Kaiser mit Zepter.\n+ Herrscherbild\n- Andachtsbild\n- Stillleben\n\nEin Bild zeigt einen Kopf von der Seite.\n- Vorderansicht\n+ Profil\n- Ganzfigur\n\nEin Bild zeigt Wald und Fluss.\n- Porträt\n- Andachtsbild\n+ Landschaft\n\nWelche Farbe zeigt Reichtum?\n+ Purpur\n- Grau\n- Braun"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Bildgattungen",
+    "x": "PORTRAET | Bild von einem Menschen\nSTILLLEBEN | Bild von Dingen, z. B. Obst\nLANDSCHAFT | Bild von Natur\nKRONE | Zeichen der Macht auf dem Kopf\nPROFIL | Kopf von der Seite\nZEPTER | Stab des Königs"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne einen Kopf in drei Ansichten: Vorderansicht, Profil, Dreiviertelansicht.",
+    "a": "Drei Kopfskizzen. Vorderansicht symmetrisch, Profil mit Nase im Umriss, Dreiviertelansicht: Nase leicht zur Seite."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne 5 kleine Bilder (je 5 × 5 cm), eins für jede Gattung. Schreib den Namen darunter.",
+    "a": "Fünf Mini-Skizzen: Gesicht, König, Engel oder Maria, Landschaft, Obstschale. Richtig beschriftet."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Herrscherporträt noch einmal, aber als lustige Version: Was ändert sich an Pose, Farben, Zeichen?",
+    "a": "Zum Beispiel: Krone aus Pizza, Zepter als Pommes, bunte Farben. Erkenntnis: Die gleichen Mittel können Macht oder Humor zeigen."
+   },
+   {
+    "l": 2,
+    "q": "Mach drei Fotos von einem Freund: Froschperspektive (von unten), Augenhöhe, Vogelperspektive (von oben). Wo wirkt er am mächtigsten?",
+    "a": "Von unten wirkt die Person groß und mächtig. Von oben klein. Darum zeigt man Herrscher oft leicht von unten."
+   },
+   {
+    "l": 3,
+    "q": "Wie zeigen sich Politiker oder Stars heute auf Fotos? Vergleiche mit einem Herrscherbild. Nenne 3 Gemeinsamkeiten.",
+    "a": "Zum Beispiel: Pose aufrecht, teure Kleidung, Blick von oben, Flaggen oder Logos im Hintergrund, gutes Licht."
+   },
+   {
+    "l": 3,
+    "q": "Plane ein Stillleben, das dich zeigt, ohne dass du darauf bist. Welche 5 Dinge wählst du? Begründe.",
+    "a": "Zum Beispiel: Fußball (Hobby), Kopfhörer (Musik), Foto der Familie, Lieblingssnack, Schulheft. Jedes Ding mit kurzer Begründung."
+   }
+  ],
+  "mt": "Was zeigt ein Stillleben?\n- einen König\n+ Dinge wie Obst und Blumen\n- eine Landschaft\n\nWas ist ein Zeichen der Macht?\n+ das Zepter\n- der Apfel\n- der Baum\n\nWas ist ein Profil in der Kunst?\n- ein Bild von vorne\n+ der Kopf von der Seite\n- ein Foto im Internet\n\nWer malte das Bild von Kaiser Maximilian I.?\n- Botticelli\n+ Dürer\n- Leonardo\n\nWas zeigt ein Andachtsbild?\n- einen Hund\n- ein Auto\n+ eine religiöse Szene"
+ },
+ {
+  "ch": "1 Renaissance",
+  "title": "1.4 Bildbetrachtung: Beschreiben, Analysieren, Deuten",
+  "text": "# In drei Schritten zum Bild\n| Beschreiben | Analysieren | Deuten |\n|---|---|---|\n| Was sehe ich? | Wie ist es gemacht? | Was bedeutet es? |\n| Personen, Dinge, Ort | Farben, Formen, Aufbau | Gefühl, Botschaft, Zeit |\n| Im Vordergrund sehe ich … | Die Farben sind … | Ich glaube, der Künstler will … |\n# Beispiel: Die Geburt der Venus\n[bilder: 🐚 die Muschel | 🌊 das Meer | 🌬️ der Wind | 🌸 die Blüten]\n- Künstler: Sandro Botticelli, um 1485, Florenz\n- Venus ist die Göttin der Liebe. Sie steht auf einer großen Muschel.\n[farben: Meeresgrün=#7fb3a3 | Himmelblau=#a9c8d8 | Hautton=#f1d2b8 | Goldhaar=#c9a24a | Rosa=#e8a0a8]\n- Die Farben sind hell und zart. Das Bild wirkt leicht und ruhig.\n# Satzanfänge\n[satz: Auf dem Bild sehe ich | *im Vordergrund* | eine Frau.]\n[satz: Die Farben sind | *hell und zart.*]\n[satz: Ich glaube, | *das Bild zeigt* | Schönheit und Liebe.]\n# Ein Gespräch im Museum\n[dialog: Lena Schau mal, die Frau steht auf einer Muschel! | Emre Links sind zwei Figuren. Sie pusten Wind. | Lena Die Farben sind sehr hell und weich. | Emre Ich glaube, das Bild zeigt: Schönheit wird geboren.]\nMerke: Zuerst beschreiben, dann analysieren, zuletzt deuten. Deine Meinung kommt am Ende.\n# Gestaltungsauftrag\nThema: Living Painting – stell ein berühmtes Bild nach\nMaterial: Tücher, Kleider, Alltagsgegenstände, Handykamera, Ausdruck des Originals\nTechnik: Inszenierung und Fotografie\n[bilder: 📷 die Kamera | 🧣 das Tuch | 🪴 die Requisite | 🖼️ das Original]\nSchritte:\n- 1. Wählt in der Gruppe ein Bild: Mona Lisa, Geburt der Venus, Dürers Selbstbildnis oder Das Abendmahl.\n- 2. Beschreibt das Bild genau: Wer steht wo? Welche Haltung? Welche Farben?\n- 3. Sucht Requisiten zu Hause und in der Schule. Ersetzt teure Dinge durch Alltagsdinge (Muschel = Wäschekorb).\n- 4. Stellt die Pose genau nach. Achtet auf Licht und Hintergrund.\n- 5. Fotografiert. Legt Original und Foto nebeneinander und präsentiert beide.\nBewertung:\n- Haltung und Anordnung stimmen mit dem Original überein.\n- Die Farben sind ähnlich gewählt.\n- Die Requisiten sind kreativ.\n- Ihr erklärt das Bild in drei Schritten.",
+  "help": "# Reihenfolge\nFalsch: Das Bild ist schön. (gleich am Anfang)\nRichtig: Zuerst beschreiben, was du siehst. Deine Meinung kommt erst am Schluss.\n# Links und rechts\nAchtung: Links und rechts sagst du immer vom Betrachter aus. Also so, wie du vor dem Bild stehst.\n# Vermuten\nFalsch: Der Künstler war traurig.\nRichtig: Ich vermute, das Bild soll traurig wirken, weil die Farben dunkel sind.\nAchtung: Begründe deine Deutung immer mit etwas, das man im Bild sieht.",
+  "ub": {
+   "t": "match",
+   "x": "Beschreiben | Was sehe ich?\nAnalysieren | Wie ist es gemacht?\nDeuten | Was bedeutet es?\nVordergrund | vorne im Bild\nHintergrund | hinten im Bild\nBildmitte | in der Mitte"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Schritt und Frage",
+    "x": "Beschreiben | Was sehe ich?\nAnalysieren | Wie ist es gemacht?\nDeuten | Was bedeutet es?\nVordergrund | vorne im Bild\nHintergrund | hinten im Bild\nBildmitte | in der Mitte"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Venus",
+    "x": "Das Bild heißt *Die Geburt der Venus*. Es ist von *Botticelli*.\nVenus steht auf einer großen *Muschel*.\nLinks pusten zwei Figuren *Wind*.\nDie Farben sind *hell* und zart.\nZuerst *beschreibe* ich, dann analysiere ich, zuletzt *deute* ich."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Bildbetrachtung",
+    "x": "Was machst du beim Beschreiben?\n+ Ich sage, was ich sehe.\n- Ich sage meine Meinung.\n- Ich male das Bild ab.\n- Ich erfinde eine Geschichte.\n\nWas gehört zum Analysieren?\n- der Preis\n+ Farben und Aufbau\n- das Wetter\n- der Rahmen\n\nWorauf steht Venus?\n- auf einem Felsen\n- auf einem Schiff\n+ auf einer Muschel\n- auf einem Baum\n\nWo ist der Vordergrund?\n+ vorne im Bild\n- oben im Bild\n- hinten im Bild\n- außerhalb des Bildes\n\nWie beginnst du eine Deutung?\n- Ich sehe links …\n- Die Farbe ist …\n+ Ich glaube, das Bild zeigt …\n- Das Bild ist 2 m breit."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Skizze von der Geburt der Venus nur mit Grundformen (Kreis, Dreieck, Rechteck). Markiere die Bildmitte.",
+    "a": "Muschel als Halbkreis, Venus als schmales Rechteck in der Mitte, Figuren links und rechts als Dreiecke. Mittelachse eingezeichnet."
+   },
+   {
+    "l": 1,
+    "q": "Schreib 5 Sätze zum Beschreiben. Benutze: im Vordergrund, im Hintergrund, links, rechts, in der Mitte.",
+    "a": "Zum Beispiel: In der Mitte steht Venus. Links fliegen zwei Windgötter. Rechts steht eine Frau mit einem Mantel. Im Hintergrund ist das Meer. Im Vordergrund sind Wellen."
+   },
+   {
+    "l": 2,
+    "q": "Male die Geburt der Venus in neuen Farben: einmal nur dunkle Farben, einmal nur grelle Neonfarben. Wie verändert sich die Wirkung?",
+    "a": "Dunkel: gefährlich, traurig, nachts. Neon: Party, modern, laut. Erkenntnis: Farben ändern die Stimmung stark."
+   },
+   {
+    "l": 2,
+    "q": "Mach dein Living-Painting-Foto in einer zweiten Version: an einem modernen Ort (Bus, Schwimmbad, Schulhof).",
+    "a": "Pose bleibt gleich, Ort ist modern. Original bleibt erkennbar, die neue Idee ist witzig."
+   },
+   {
+    "l": 3,
+    "q": "Schreib eine vollständige Bildbetrachtung zu einem Bild deiner Wahl: je 3 Sätze beschreiben, analysieren, deuten.",
+    "a": "Drei klare Teile. Deutung ist mit Beobachtungen begründet (z. B. „weil die Farben hell sind“)."
+   },
+   {
+    "l": 3,
+    "q": "Warum stellen Menschen heute berühmte Bilder nach und posten sie? Schreib deine Meinung in 4 Sätzen.",
+    "a": "Zum Beispiel: Es macht Spaß, man lernt das Bild genau kennen, alte Kunst wird modern, man kann kreativ sein. Eigene Meinung begründet."
+   }
+  ],
+  "mt": "Was ist der erste Schritt der Bildbetrachtung?\n+ Beschreiben\n- Deuten\n- Bewerten\n\nWas gehört zum Analysieren?\n- Ich glaube, …\n+ Farben, Formen und Aufbau\n- Wie heißt der Künstler?\n\nWer malte die Geburt der Venus?\n- Dürer\n+ Botticelli\n- Raffael\n\nVon wo aus sagst du links und rechts?\n- von der Figur im Bild aus\n+ vom Betrachter aus\n- vom Künstler aus\n\nWelcher Satz ist eine Deutung?\n- Links sind zwei Figuren.\n- Die Farben sind hell.\n+ Ich glaube, das Bild zeigt Schönheit."
+ },
+ {
+  "ch": "2 Barock und Rokoko",
+  "title": "2.1 Barock: Pracht und Bewegung",
+  "text": "# Die Zeit des Barock\n- Zeit: ungefähr 1600 bis 1750.\n- Könige und Fürsten zeigen ihre Macht mit riesigen Schlössern.\n- Die Kirche baut prächtige Kirchen. Die Menschen sollen staunen.\n[bilder: 🏰 das Schloss | ⛪ die Kirche | 👼 der Engel | ☁️ die Wolke | 🌀 die Schwingung]\n# Typisch Barock\n- Bewegung: Alles schwingt, dreht sich, fliegt.\n- Pracht: viel Gold, Marmor, Spiegel, Stuck.\n- Theater: Licht, Schatten und Überraschung wie auf einer Bühne.\n- Gesamtkunstwerk: Architektur, Skulptur und Malerei bilden eine Einheit.\n[farben: Gold=#d4af37 | Stuckweiß=#f5f1e8 | Marmorrosa=#d9a5a0 | Himmelblau=#7fb2e5 | Wolkengrau=#cbd5e1 | Tiefrot=#7f1d1d]\n# Barock in Bayern\n| Werk | Künstler | Ort |\n|---|---|---|\n| Asamkirche | Brüder Asam | München |\n| Wieskirche | Dominikus Zimmermann | Steingaden |\n| Residenz mit Treppenhaus | Balthasar Neumann | Würzburg |\n| Deckenfresko im Treppenhaus | Giovanni Battista Tiepolo | Würzburg |\n# Das Deckenfresko\n- Ein Fresko wird auf frischen, nassen Putz gemalt.\n- An der Decke öffnet sich ein gemalter Himmel. Die Decke scheint zu verschwinden.\n- Die Figuren sieht man von unten: Froschperspektive.\nMerke: Barock = Pracht, Bewegung und Staunen. Kunst soll die Macht von Kirche und Fürsten zeigen.\n# Gestaltungsauftrag\nThema: Der Himmel öffnet sich – ein Deckenfresko auf dem Pappteller\nMaterial: großer Pappteller oder Kreis aus Karton, Deckfarben, Wattebausche, Goldstift, Zeitschriften\nTechnik: Malerei und Collage\n[bilder: ⚪ der Pappteller | 🎨 die Deckfarbe | ☁️ die Watte | ✨ der Goldstift]\nSchritte:\n- 1. Male den Teller von außen nach innen: außen dunkel, innen ein helles Himmelblau.\n- 2. Tupfe Wolken mit Weiß und Grau. Klebe ein paar Wattewolken dazu.\n- 3. Schneide Figuren aus Zeitschriften aus. Sie sollen fliegen, springen oder fallen.\n- 4. Klebe sie so auf, dass man sie von unten sieht (Füße zum Rand, Kopf zur Mitte).\n- 5. Male einen goldenen Rahmen mit Schnörkeln. Häng das Fresko an die Decke!\nBewertung:\n- Der Himmel hat einen Verlauf von hell nach dunkel.\n- Die Figuren wirken bewegt und schwebend.\n- Der Goldrahmen ist prächtig und sauber.\n- Die Wirkung von unten ist überraschend.",
+  "help": "# Barock und Renaissance\nFalsch: Barock und Renaissance sind dasselbe.\nRichtig: Die Renaissance ist ruhig und klar. Der Barock ist bewegt und prächtig.\n# Fresko\nFalsch: Ein Fresko ist ein Bild auf Leinwand.\nRichtig: Ein Fresko wird auf nassen Putz an Wand oder Decke gemalt.\n# Asam\nAchtung: Die Brüder Asam sind zwei Künstler: Cosmas Damian (Maler) und Egid Quirin (Bildhauer und Stuckateur).\n# Schreibung\nAchtung: der Barock oder das Barock – beides ist richtig.",
+  "ub": {
+   "t": "match",
+   "x": "Asamkirche | München\nWieskirche | Steingaden\nResidenz | Würzburg\nFresko von Tiepolo | Treppenhaus in Würzburg\nSchloss Versailles | Frankreich"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Werk und Ort",
+    "x": "Asamkirche | München\nWieskirche | Steingaden\nResidenz | Würzburg\nFresko von Tiepolo | Treppenhaus in Würzburg\nSchloss Versailles | Frankreich"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Barock",
+    "x": "Der Barock dauert ungefähr von *1600* bis 1750.\nTypisch sind viel *Gold* und starke *Bewegung*.\nEin *Fresko* wird auf nassen Putz gemalt.\nAn der Decke sieht man einen gemalten *Himmel*.\nArchitektur, Skulptur und Malerei bilden ein *Gesamtkunstwerk*."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Barock",
+    "x": "FRESKO | Malerei auf nassem Putz\nGOLD | glänzende Farbe der Pracht\nENGEL | Figur mit Flügeln\nSTUCK | Verzierung aus Gips an Decken\nWOLKE | Sie schwebt im gemalten Himmel.\nSCHLOSS | Hier wohnt der Fürst."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Figur in Froschperspektive: Du liegst am Boden und schaust nach oben. Füße groß, Kopf klein.",
+    "a": "Figur verkürzt: Füße und Beine groß im Vordergrund, Körper wird nach oben kleiner, Kopf klein."
+   },
+   {
+    "l": 1,
+    "q": "Male einen Farbverlauf in 6 Stufen von Dunkelblau zu Weiß. So wirkt ein Himmel tief.",
+    "a": "Sechs Felder, gleichmäßig heller werdend. Saubere Übergänge."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Fresko als Gegenteil: ein „Unterwasser-Fresko“ oder ein „Weltraum-Fresko“. Was bleibt gleich?",
+    "a": "Gleich bleiben: Blick nach oben, Figuren schweben, Verlauf zur Mitte. Neu: Farben (Türkis oder Schwarz-Violett) und Motive (Fische, Planeten)."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne den Eingang deiner Schule im Barockstil um: mit Säulen, Gold, Engeln und Schwüngen.",
+    "a": "Skizze des echten Eingangs plus barocke Elemente: Schnörkel, Figuren, Rundformen, viel Verzierung."
+   },
+   {
+    "l": 3,
+    "q": "Barocke Kirchen sollten die Menschen beeindrucken. Welche Orte beeindrucken uns heute so? Vergleiche einen Ort mit der Wieskirche.",
+    "a": "Zum Beispiel: Fußballstadion, Freizeitpark, Konzert mit Lichtshow. Gemeinsam: Licht, Größe, Gold, Gefühl von Staunen."
+   },
+   {
+    "l": 3,
+    "q": "Plane ein Klassenzimmer als „Gesamtkunstwerk“. Was machst du mit Decke, Wänden und Möbeln? Zeichne einen Plan und erkläre.",
+    "a": "Plan mit Decke (Himmel), Wänden (Bilder, Ornamente), Möbeln (passende Farben). Alles folgt einer Idee."
+   }
+  ],
+  "mt": "Wann war ungefähr der Barock?\n- 1400 bis 1600\n+ 1600 bis 1750\n- 1900 bis 2000\n\nWas ist typisch für den Barock?\n+ Bewegung und Pracht\n- graue, einfache Formen\n- nur kleine Bilder\n\nWer baute die Residenz in Würzburg?\n- Leonardo\n+ Balthasar Neumann\n- Dürer\n\nWas ist ein Fresko?\n- ein Druck auf Papier\n- ein Foto\n+ Malerei auf nassem Putz\n\nWo ist die Asamkirche?\n+ in München\n- in Rom\n- in Paris"
+ },
+ {
+  "ch": "2 Barock und Rokoko",
+  "title": "2.2 Licht und Schatten: Rembrandt und Gentileschi",
+  "text": "# Hell-Dunkel-Malerei\n- Im Barock malen Künstler mit starkem Licht und tiefem Schatten.\n- Fachwort: Hell-Dunkel-Malerei (italienisch: Chiaroscuro).\n- Das Licht fällt wie ein Scheinwerfer auf die wichtigste Stelle.\n[bilder: 🔦 das Licht | 🌑 der Schatten | 🎭 die Bühne | 👁️ der Blick]\n# Abstufung von hell nach dunkel\n[farben: Licht=#fff7e0 | Hell=#f2d49b | Mittel=#c08a3e | Dunkel=#6b3e1a | Schatten=#2b1a0e | Schwarz=#0b0704]\n- Mit vielen Stufen wirkt ein Körper rund (plastisch).\n# Zwei Meister\n| Künstler | Leben | Werk |\n|---|---|---|\n| Rembrandt van Rijn | 1606–1669, Niederlande | Die Nachtwache, viele Selbstbildnisse |\n| Artemisia Gentileschi | 1593–1653, Italien | Judith und Holofernes, Selbstbildnis als Malerei |\n| Caravaggio | 1571–1610, Italien | Die Berufung des Matthäus |\n- Artemisia Gentileschi war eine der ersten berühmten Malerinnen. Sie malte starke Frauen.\n- Rembrandt malte sich selbst fast 80-mal: jung, alt, froh, traurig.\n# Wirkung\n- Das Bild wirkt spannend und geheimnisvoll.\n- Man schaut sofort auf die helle Stelle.\n- Gefühle wirken stärker.\nMerke: Hell-Dunkel lenkt den Blick. Das Wichtigste ist am hellsten.\n# Gestaltungsauftrag\nThema: Ich im Rembrandt-Licht\nMaterial: Taschenlampe oder Handylicht, Kamera, schwarzes Papier, weiße und gelbe Kreide oder Buntstifte\nTechnik: Fotografie und Zeichnung auf dunklem Grund\n[bilder: 🔦 die Taschenlampe | 📸 das Foto | ⬛ das schwarze Papier | 🖍️ die Kreide]\nSchritte:\n- 1. Dunkle den Raum ab. Leuchte dein Gesicht nur von einer Seite schräg von oben an.\n- 2. Mach ein Foto. Eine Gesichtshälfte ist hell, die andere im Schatten.\n- 3. Zeichne auf schwarzem Papier nur die hellen Stellen mit weißer Kreide.\n- 4. Setze mit Gelb und Ocker die mittleren Töne. Das Schwarz bleibt Schatten.\n- 5. Gib deinem Bild ein Gefühl als Titel, z. B. „Nachdenklich“.\nBewertung:\n- Das Licht kommt klar von einer Seite.\n- Mindestens 3 Helligkeitsstufen sind zu sehen.\n- Das Gesicht wirkt plastisch.\n- Das Bild hat eine starke Stimmung.",
+  "help": "# Schatten\nFalsch: Schatten male ich einfach schwarz.\nRichtig: Schatten hat Abstufungen: von Mittelbraun bis fast Schwarz.\n# Licht\nAchtung: Das Licht kommt immer aus einer Richtung. Alle Schatten liegen auf der Gegenseite.\n# Gentileschi\nFalsch: Im Barock gab es keine Malerinnen.\nRichtig: Es gab Malerinnen, z. B. Artemisia Gentileschi. Sie war sehr erfolgreich.\n# Plastisch\nAchtung: plastisch heißt: Es sieht aus wie ein echter, runder Körper.",
+  "ub": {
+   "t": "match",
+   "x": "Hell-Dunkel-Malerei | starkes Licht und tiefer Schatten\nplastisch | sieht rund und echt aus\nSelbstbildnis | der Künstler malt sich selbst\nLichtquelle | von dort kommt das Licht\nSchlagschatten | Schatten, den ein Ding auf den Boden wirft"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Hell-Dunkel-Malerei | starkes Licht und tiefer Schatten\nplastisch | sieht rund und echt aus\nSelbstbildnis | der Künstler malt sich selbst\nLichtquelle | von dort kommt das Licht\nSchlagschatten | Schatten, den ein Ding auf den Boden wirft"
+   },
+   {
+    "t": "mc",
+    "n": "Licht und Schatten",
+    "x": "Wohin schaut man bei einem Hell-Dunkel-Bild zuerst?\n+ auf die hellste Stelle\n- in die dunkelste Ecke\n- auf den Rahmen\n\nWer malte die Nachtwache?\n- Gentileschi\n+ Rembrandt\n- Botticelli\n\nDas Licht kommt von links. Wo ist der Schatten?\n- links\n+ rechts\n- oben\n\nWie wirkt ein Körper rund?\n+ mit vielen Helligkeitsstufen\n- mit einer einzigen Farbe\n- mit dicken Umrisslinien\n\nWas malte Artemisia Gentileschi oft?\n- Landschaften\n+ starke Frauen\n- Tiere"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Licht",
+    "x": "LICHT\nSCHATTEN\nKERZE\nHELL\nDUNKEL\nBUEHNE\nREMBRANDT\nKONTRAST"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Kugel mit Licht von oben links. Zeige 4 Stufen: Glanzlicht, hell, dunkel, Schlagschatten.",
+    "a": "Kugel mit Glanzpunkt oben links, Schatten unten rechts, Schlagschatten am Boden rechts."
+   },
+   {
+    "l": 1,
+    "q": "Male eine Grautreppe mit 6 Stufen von Weiß bis Schwarz.",
+    "a": "Sechs Felder, gleichmäßig dunkler, keine Sprünge."
+   },
+   {
+    "l": 2,
+    "q": "Fotografiere denselben Gegenstand dreimal: Licht von vorn, von der Seite, von unten. Klebe die Fotos auf und beschreibe die Wirkung.",
+    "a": "Von vorn: flach. Von der Seite: plastisch und spannend. Von unten: unheimlich, wie im Horrorfilm."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne dein Rembrandt-Bild noch einmal in Blau-Tönen statt Gelb-Braun. Wie ändert sich die Stimmung?",
+    "a": "Blau wirkt kalt, nachts, traurig oder ruhig. Gelb-Braun wirkt warm wie Kerzenlicht."
+   },
+   {
+    "l": 3,
+    "q": "Wo wird heute mit Hell-Dunkel gearbeitet? Nenne 3 Beispiele aus Film, Fotografie oder Spielen und erkläre die Wirkung.",
+    "a": "Zum Beispiel: Horrorfilm (Spannung), Theater-Scheinwerfer (Blick lenken), Werbefoto (Produkt leuchtet), Videospiel (Weg zeigen)."
+   },
+   {
+    "l": 3,
+    "q": "Rembrandt malte sich fast 80-mal. Plane eine Serie von 4 Selbstporträts mit verschiedenen Gefühlen. Welches Licht nimmst du für welches Gefühl?",
+    "a": "Zum Beispiel: Freude – helles, warmes Licht von vorn. Angst – Licht von unten. Trauer – wenig Licht, viel Schatten. Wut – hartes Seitenlicht, rot."
+   }
+  ],
+  "mt": "Was ist Hell-Dunkel-Malerei?\n+ Malerei mit starkem Licht und tiefem Schatten\n- Malerei nur mit Schwarz\n- Malerei nur bei Tag\n\nWer war eine berühmte Malerin im Barock?\n- Mona Lisa\n+ Artemisia Gentileschi\n- Venus\n\nDas Licht kommt von rechts. Wo liegt der Schatten?\n+ links\n- rechts\n- überall\n\nWas heißt plastisch?\n- aus Plastik\n+ es sieht rund und echt aus\n- es ist bunt\n\nWie oft malte sich Rembrandt ungefähr selbst?\n- 2-mal\n- 10-mal\n+ fast 80-mal"
+ },
+ {
+  "ch": "2 Barock und Rokoko",
+  "title": "2.3 Stillleben: von Vanitas bis Food-Pop-Art",
+  "text": "# Das Stillleben im Barock\n- In den Niederlanden malen Künstler wunderschöne Stillleben.\n- Man sieht Obst, Blumen, Gläser, Käse, Brot, Fisch.\n- Alles sieht so echt aus, dass man es anfassen möchte.\n- Künstlerinnen: Clara Peeters, Rachel Ruysch (Blumen). Künstler: Willem Claesz. Heda.\n# Vanitas: Alles vergeht\n[bilder: 💀 der Totenschädel | 🕯️ die Kerze | ⏳ die Sanduhr | 🥀 die welke Blume | 🫧 die Seifenblase]\n- Vanitas heißt: Vergänglichkeit. Nichts bleibt für immer.\n- Zeichen dafür: Schädel, Kerze, Sanduhr, welke Blumen, angebissenes Obst.\n[farben: Dunkelgrund=#1c1917 | Zinngrau=#9ca3af | Zitronengelb=#f5d547 | Weinrot=#7f1d1d | Brotbraun=#b07a3c]\n# 300 Jahre später: Pop-Art\n- In den 1960er Jahren malen Künstler Essen aus dem Supermarkt.\n- Andy Warhol: Suppendosen. Claes Oldenburg: riesige Burger aus Stoff. Wayne Thiebaud: Kuchen und Torten.\n- Pop-Art benutzt knallige Farben, klare Umrisse und oft Wiederholung.\n[farben: Pop-Rot=#ef4444 | Pop-Gelb=#fde047 | Pop-Blau=#3b82f6 | Pink=#ec4899 | Mint=#5eead4 | Schwarz=#000000]\n| Barock-Stillleben | Pop-Art |\n|---|---|\n| dunkler Hintergrund | knallige Farben |\n| sehr echt gemalt | flach und grafisch |\n| Botschaft: Alles vergeht | Botschaft: Alles ist Ware |\n| teure Dinge | billige Massenprodukte |\nMerke: Ein Stillleben zeigt Dinge. Oft steckt eine Botschaft darin.\n# Gestaltungsauftrag\nThema: Food-Pop-Art – mein Lieblingssnack ganz groß\nMaterial: DIN-A3-Papier, Bleistift, schwarzer Edding, Deckfarben oder Acryl in Pop-Farben\nTechnik: Malerei mit klaren Flächen und Konturen\n[bilder: 🍔 der Burger | 🍩 der Donut | 🍟 die Pommes | 🥤 der Becher | 🖊️ der Edding]\nSchritte:\n- 1. Wähle einen Snack und zeichne ihn riesig. Er darf über den Rand gehen.\n- 2. Teile ihn in klare Flächen: Glanzlicht, Farbe, Schatten.\n- 3. Male mit reinen, knalligen Farben. Keine Verläufe!\n- 4. Wähle einen Hintergrund in der Komplementärfarbe (z. B. rote Erdbeere auf Grün).\n- 5. Zieh alle Umrisse dick mit schwarzem Edding nach.\nBewertung:\n- Der Snack ist groß und gut erkennbar.\n- Die Farben sind rein und knallig.\n- Der Komplementärkontrast macht das Bild stark.\n- Die Umrisse sind klar und sauber.",
+  "help": "# Stillleben\nFalsch: Stilleben\nRichtig: Stillleben (drei l: still + Leben)\n# Vanitas\nAchtung: Vanitas-Bilder sollen nicht gruselig sein. Sie sagen: Denk daran, dass das Leben kurz ist.\n# Pop-Art\nFalsch: Pop-Art kommt von Popmusik.\nRichtig: Pop kommt von popular, also: beliebt, für alle. Es geht um Alltag, Werbung und Massenware.\n# Komplementärfarben\nAchtung: Komplementärfarben liegen im Farbkreis gegenüber: Rot–Grün, Blau–Orange, Gelb–Violett.",
+  "ub": {
+   "t": "match",
+   "x": "Totenschädel | Alle Menschen sterben.\nSanduhr | Die Zeit läuft ab.\nKerze | Das Licht geht einmal aus.\nwelke Blume | Schönheit vergeht.\nSeifenblase | Glück platzt schnell."
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Vanitas-Zeichen und Bedeutung",
+    "x": "Totenschädel | Alle Menschen sterben.\nSanduhr | Die Zeit läuft ab.\nKerze | Das Licht geht einmal aus.\nwelke Blume | Schönheit vergeht.\nSeifenblase | Glück platzt schnell."
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Pop-Art",
+    "x": "Andy *Warhol* malte Suppendosen.\nClaes *Oldenburg* baute riesige Burger aus Stoff.\nPop-Art benutzt *knallige* Farben.\nDie Umrisse sind *klar* und oft schwarz.\nRot und *Grün* sind Komplementärfarben."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Stillleben",
+    "x": "Was zeigt ein Stillleben?\n- Menschen beim Sport\n+ Dinge wie Obst und Gläser\n- eine Stadt\n- Tiere im Wald\n\nWas heißt Vanitas?\n- Reichtum\n- Freude\n+ Vergänglichkeit\n- Farbe\n\nWer malte Suppendosen?\n- Rembrandt\n+ Andy Warhol\n- Dürer\n- Tiepolo\n\nWelche Farbe ist komplementär zu Blau?\n- Grün\n- Violett\n- Rot\n+ Orange\n\nWas ist typisch für Pop-Art?\n+ knallige Farben und Alltagsdinge\n- dunkle Kirchen\n- Engel und Wolken\n- graue Landschaften"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 4 Vanitas-Zeichen als kleine Skizzen und beschrifte sie.",
+    "a": "Zum Beispiel Schädel, Kerze, Sanduhr, welke Blume. Gut erkennbar und richtig beschriftet."
+   },
+   {
+    "l": 1,
+    "q": "Male die drei Komplementärpaare als Farbfelder nebeneinander: Rot–Grün, Blau–Orange, Gelb–Violett.",
+    "a": "Sechs Felder in Paaren. Die Farben leuchten nebeneinander besonders stark."
+   },
+   {
+    "l": 2,
+    "q": "Male deinen Snack viermal klein wie Warhol – jedes Mal mit anderen Farben (Raster 2 × 2).",
+    "a": "Vier gleiche Motive mit wechselnden Farbkombinationen. Wiederholung wie bei Warhol."
+   },
+   {
+    "l": 2,
+    "q": "Mach aus deinem Pop-Art-Snack ein Vanitas-Bild: Was musst du ändern?",
+    "a": "Zum Beispiel: Burger angebissen, Pommes kalt, Fliege daneben, dunkler Hintergrund, Sanduhr. Farben gedämpft."
+   },
+   {
+    "l": 3,
+    "q": "Was würde ein Stillleben über unsere Zeit heute zeigen? Wähle 6 Dinge und begründe deine Auswahl.",
+    "a": "Zum Beispiel: Handy (Kommunikation), Energydrink, Plastiktüte (Müll), Kopfhörer, Fast Food, Ladekabel. Jedes Ding mit Begründung."
+   },
+   {
+    "l": 3,
+    "q": "Pop-Art liebt Werbung und Konsum. Findest du das gut oder kritisch? Schreib deine Meinung mit 2 Gründen.",
+    "a": "Eigene Meinung, z. B. „Pop-Art macht Alltag zu Kunst“ oder „Sie zeigt, wie viel wir kaufen“. Zwei Gründe nachvollziehbar."
+   }
+  ],
+  "mt": "Was ist ein Vanitas-Zeichen?\n+ die Sanduhr\n- der Fußball\n- die Krone\n\nWer malte Blumenstillleben im Barock?\n- Andy Warhol\n+ Rachel Ruysch\n- Michelangelo\n\nWann entstand die Pop-Art?\n- um 1500\n- um 1700\n+ in den 1960er Jahren\n\nWelche Farben sind komplementär?\n- Rot und Orange\n+ Rot und Grün\n- Blau und Violett\n\nWie schreibt man das Wort richtig?\n- Stilleben\n+ Stillleben\n- Stiehlleben"
+ },
+ {
+  "ch": "2 Barock und Rokoko",
+  "title": "2.4 Rokoko und der große Vergleich",
+  "text": "# Rokoko: leicht und verspielt\n- Zeit: ungefähr 1730 bis 1780. Das Rokoko ist der späte Barock.\n- Die Formen werden zarter. Die Farben werden heller.\n- Typisches Ornament: die Rocaille (Muschelform).\n[bilder: 🐚 die Rocaille | 🪞 der Spiegel | 🎀 die Schleife | 🌷 die Blume | 🎻 die Musik]\n[farben: Rosé=#f9c6d0 | Hellblau=#bfdbfe | Mintgrün=#bbf7d0 | Vanille=#fef3c7 | Flieder=#ddd6fe | Gold=#d4af37]\n# Bekannte Werke\n- Jean-Honoré Fragonard: Die Schaukel – eine junge Frau schaukelt im Garten.\n- Wieskirche und Kloster Ottobeuren in Bayern: innen weiß, gold und pastell.\n- Porzellanfiguren aus Nymphenburg (München).\n# Der große Vergleich\n| Merkmal | Renaissance | Barock | Rokoko |\n|---|---|---|---|\n| Zeit | 1400–1600 | 1600–1750 | 1730–1780 |\n| Formen | ruhig, symmetrisch | schwungvoll, mächtig | zart, verspielt |\n| Farben | klar, natürlich | tief, Gold, Hell-Dunkel | Pastell, Weiß, Gold |\n| Wirkung | Ordnung | Staunen | Leichtigkeit |\n| Beispiel | Schule von Athen | Asamkirche | Die Schaukel |\n# So vergleichst du\n[satz: Beide Bilder | *zeigen* | Menschen.]\n[satz: Im Barock | *sind* | die Farben dunkler | als im Rokoko.]\n[satz: Ein Unterschied | *ist* | die Bewegung.]\nMerke: Renaissance = Ordnung. Barock = Pracht und Bewegung. Rokoko = verspielte Leichtigkeit in Pastell.\n# Gestaltungsauftrag\nThema: Rokoko-Remix – Sneaker im Stil des Rokoko\nMaterial: Sneaker-Vorlage (Umriss auf DIN A4), Buntstifte in Pastell, Goldstift, Glitzer, Spitzenreste\nTechnik: Ornamentzeichnung und Produktdesign\n[bilder: 👟 der Sneaker | 🐚 die Rocaille | 🎀 die Schleife | ✨ der Goldstift]\nSchritte:\n- 1. Zeichne einen Sneaker groß in Seitenansicht.\n- 2. Teile ihn in Felder: Spitze, Schnürung, Seite, Ferse, Sohle.\n- 3. Fülle die Felder mit Rokoko-Ornamenten: Muscheln, Ranken, Blüten, Schleifen.\n- 4. Male nur in Pastellfarben. Setze Akzente mit Gold.\n- 5. Erfinde einen Namen für deinen Schuh, z. B. „Air Fragonard“.\nBewertung:\n- Mindestens 3 typische Rokoko-Ornamente sind zu sehen.\n- Die Farben sind Pastell mit Gold.\n- Die Verzierung passt zur Form des Schuhs.\n- Der Entwurf ist sauber und detailreich.",
+  "help": "# Rokoko oder Barock?\nAchtung: Das Rokoko ist ein später Teil des Barock. Es ist heller und verspielter.\n# Pastell\nFalsch: Pastellfarben sind dunkle Farben.\nRichtig: Pastellfarben sind helle Farben mit viel Weiß: Rosa, Hellblau, Mint.\n# Vergleichen\nFalsch: Bild A ist rot. Bild B ist schön.\nRichtig: Vergleiche immer das Gleiche: Farbe mit Farbe, Form mit Form.\nAchtung: Benutze Vergleichswörter: beide, aber, im Gegensatz zu, heller als.",
+  "ub": {
+   "t": "match",
+   "x": "Renaissance | ruhig und symmetrisch\nBarock | Pracht und Bewegung\nRokoko | zart und verspielt\nRocaille | Muschel-Ornament\nPastell | helle Farben mit viel Weiß"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Epoche und Merkmal",
+    "x": "Renaissance | ruhig und symmetrisch\nBarock | Pracht und Bewegung\nRokoko | zart und verspielt\nRocaille | Muschel-Ornament\nPastell | helle Farben mit viel Weiß"
+   },
+   {
+    "t": "mc",
+    "n": "Welche Epoche?",
+    "x": "Helle Farben, Muschelformen, eine Frau auf der Schaukel.\n- Renaissance\n- Barock\n+ Rokoko\n\nRuhige Figuren, klare Symmetrie, antike Säulen.\n+ Renaissance\n- Barock\n- Rokoko\n\nViel Gold, starke Bewegung, Hell-Dunkel.\n- Renaissance\n+ Barock\n- Rokoko\n\nWer malte Die Schaukel?\n+ Fragonard\n- Dürer\n- Raffael\n\nWelche Farbe ist eine Pastellfarbe?\n- Schwarz\n+ Rosé\n- Dunkelrot"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Rokoko",
+    "x": "ROKOKO | später, verspielter Barock\nROCAILLE | Ornament in Muschelform\nPASTELL | helle Farben mit viel Weiß\nSCHAUKEL | Bild von Fragonard\nPORZELLAN | aus diesem Material sind Figuren aus Nymphenburg\nORNAMENT | Verzierung, Schmuckform"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 3 Ornamente: eine Ranke, eine Rocaille und eine Schleife.",
+    "a": "Drei saubere Skizzen. Rocaille: geschwungene, unsymmetrische Muschelform."
+   },
+   {
+    "l": 1,
+    "q": "Mische 4 Pastellfarben: Nimm Weiß und gib immer nur ein wenig Farbe dazu. Mal Farbfelder.",
+    "a": "Vier helle Felder, z. B. Rosé, Hellblau, Mint, Flieder. Viel Weiß, wenig Farbe."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte deinen Sneaker noch einmal im Barock-Stil (tiefes Rot, Gold, Hell-Dunkel). Leg beide nebeneinander.",
+    "a": "Barock-Version: dunkler, schwerer, prächtiger. Rokoko-Version: hell, leicht. Unterschied klar sichtbar."
+   },
+   {
+    "l": 2,
+    "q": "Wähle einen anderen Gegenstand (Handyhülle, Kopfhörer, Skateboard) und verziere ihn im Rokoko-Stil.",
+    "a": "Entwurf mit Pastell, Gold und Ornamenten, passend zur Form des Gegenstands."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche ein Bild der Renaissance mit einem Bild des Barock (z. B. Raffaels Madonna und Rembrandts Nachtwache). Schreib 5 Sätze.",
+    "a": "Vergleich von Farben, Licht, Bewegung, Aufbau, Wirkung. Benutzt Vergleichswörter wie „im Gegensatz zu“."
+   },
+   {
+    "l": 3,
+    "q": "Welche Epoche gefällt dir am besten: Renaissance, Barock oder Rokoko? Begründe mit 3 Merkmalen und einem Werk.",
+    "a": "Eigene Wahl mit drei passenden Merkmalen und einem richtig benannten Werk."
+   }
+  ],
+  "mt": "Was ist eine Rocaille?\n+ ein Ornament in Muschelform\n- eine Farbe\n- ein Maler\n\nWelche Farben sind typisch für das Rokoko?\n- Schwarz und Braun\n+ Pastellfarben mit Gold\n- Neonfarben\n\nWelche Epoche kommt zuerst?\n+ Renaissance\n- Barock\n- Rokoko\n\nWas bedeutet „Barock ist dunkler als Rokoko“?\n- Beide sind gleich hell.\n+ Rokoko ist heller.\n- Barock ist heller.\n\nWo wurden Porzellanfiguren im Rokoko gemacht?\n- in Florenz\n- in New York\n+ in Nymphenburg (München)"
+ },
+ {
+  "ch": "3 Raum und Perspektive",
+  "title": "3.1 Raum im Bild: Überschneidung und Größe",
+  "text": "# Wie entsteht Tiefe auf flachem Papier?\n- Ein Blatt Papier ist flach. Trotzdem kann ein Bild tief wirken.\n- Dafür gibt es Raummittel.\n[bilder: 🃏 die Überschneidung | 🐘 groß – vorne | 🐭 klein – hinten | 📏 die Höhe im Bild]\n| Raummittel | So geht es | Wirkung |\n|---|---|---|\n| Überschneidung | Ein Ding verdeckt ein anderes. | Es ist weiter vorn. |\n| Größenabstufung | Gleiche Dinge werden kleiner. | Kleine Dinge sind weiter hinten. |\n| Höhe im Bild | Ferne Dinge stehen höher. | Unten = nah, oben = fern. |\n| Staffelung | Dinge stehen in Reihen hintereinander. | Vordergrund, Mittelgrund, Hintergrund. |\n# Drei Gründe\n[farben: Vordergrund=#7c2d12 | Mittelgrund=#c2410c | Hintergrund=#fdba74]\n- Vordergrund: ganz nah, groß, kräftige Farben.\n- Mittelgrund: in der Mitte.\n- Hintergrund: weit weg, klein, blasse Farben.\n# Beispiel\n- Pieter Bruegel: Die Jäger im Schnee (1565). Vorne große Jäger und Hunde, hinten winzige Menschen auf dem Eis.\nMerke: Überschneidung, Größenabstufung und Höhe im Bild machen ein Bild tief.\n# Gestaltungsauftrag\nThema: Trickfotos und Riesen-Zwerg-Welt\nMaterial: Handy oder Tablet, Spielfiguren, Alltagsgegenstände, Papier und Buntstifte\nTechnik: Fotografie mit Größenabstufung, danach Zeichnung\n[bilder: 📱 das Handy | 🦖 die Spielfigur | 🏫 der Schulhof | ✏️ der Bleistift]\nSchritte:\n- 1. Geht in Gruppen auf den Schulhof.\n- 2. Stellt eine Spielfigur ganz nah vor die Kamera. Eine Person steht weit hinten.\n- 3. Jetzt wirkt die Figur riesig. Macht 3 lustige Trickfotos (Dino jagt Lehrer, Riese hält Schule …).\n- 4. Zeichne danach eine Landschaft mit 3 Gründen: Vorne ein riesiges Ding, hinten winzige Menschen.\n- 5. Benutze dabei alle Raummittel: Überschneidung, Größe, Höhe im Bild.\nBewertung:\n- Die Trickfotos wirken echt und witzig.\n- Die Zeichnung hat Vorder-, Mittel- und Hintergrund.\n- Mindestens 3 Raummittel sind benutzt.\n- Ideen sind originell.",
+  "help": "# Größe\nFalsch: Kleine Dinge sind auch in Wirklichkeit klein.\nRichtig: Im Bild können ferne Dinge klein aussehen, auch wenn sie groß sind (z. B. ein Berg).\n# Überschneidung\nAchtung: Was vorne ist, zeichnest du ganz. Was hinten ist, zeichnest du nur zum Teil.\n# Höhe im Bild\nFalsch: Ich zeichne alle Menschen auf eine Linie unten.\nRichtig: Menschen weiter hinten stehen höher im Bild und sind kleiner.",
+  "ub": {
+   "t": "match",
+   "x": "Überschneidung | ein Ding verdeckt ein anderes\nGrößenabstufung | hinten wird es kleiner\nHöhe im Bild | ferne Dinge stehen höher\nVordergrund | ganz vorne im Bild\nHintergrund | ganz hinten im Bild"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Raummittel und Erklärung",
+    "x": "Überschneidung | ein Ding verdeckt ein anderes\nGrößenabstufung | hinten wird es kleiner\nHöhe im Bild | ferne Dinge stehen höher\nVordergrund | ganz vorne im Bild\nHintergrund | ganz hinten im Bild"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Raum im Bild",
+    "x": "Wenn ein Baum ein Haus *verdeckt*, ist der Baum weiter vorn.\nDinge weiter hinten sind *kleiner*.\nFerne Dinge stehen *höher* im Bild.\nEin Bild hat Vordergrund, *Mittelgrund* und Hintergrund.\nBruegel malte die *Jäger* im Schnee."
+   },
+   {
+    "t": "mc",
+    "n": "Was ist weiter vorne?",
+    "x": "Ein Hund verdeckt einen Zaun. Was ist vorne?\n+ der Hund\n- der Zaun\n- beide gleich\n\nZwei gleiche Bäume: einer groß, einer klein. Welcher ist weiter weg?\n- der große\n+ der kleine\n- keiner\n\nEin Haus steht ganz unten im Bild, ein zweites oben. Welches ist näher?\n+ das untere\n- das obere\n- keines\n\nWie heißt der Teil ganz hinten?\n- Vordergrund\n- Mittelgrund\n+ Hintergrund\n\nWer malte Die Jäger im Schnee?\n- Rembrandt\n+ Bruegel\n- Dürer"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 5 Kreise, die sich überschneiden. Der vorderste ist ganz, die anderen nur teilweise zu sehen.",
+    "a": "Fünf Kreise in klarer Reihenfolge; verdeckte Linien nicht gezeichnet."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne eine Allee: 6 Bäume links und 6 Bäume rechts, die nach hinten kleiner und höher werden.",
+    "a": "Bäume werden gleichmäßig kleiner und rücken nach oben zusammen. Wirkung von Tiefe."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne deine Landschaft einmal mit allen Dingen gleich groß und einmal mit Größenabstufung. Was ist anders?",
+    "a": "Ohne Größenabstufung wirkt das Bild flach wie eine Liste. Mit Abstufung entsteht Tiefe."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte ein Monster, das hinter einem Hochhaus hervorschaut. Benutze Überschneidung und Größe.",
+    "a": "Monster teilweise verdeckt, Hochhaus vorne ganz, kleine Menschen und Autos unten zeigen die Größe."
+   },
+   {
+    "l": 3,
+    "q": "Beschreibe Bruegels Jäger im Schnee: Welche Raummittel findest du? Nenne je ein Beispiel.",
+    "a": "Überschneidung (Jäger vor Bäumen), Größenabstufung (kleine Menschen auf dem Eis), Höhe im Bild (Dorf höher), Farbperspektive (Berge blass)."
+   },
+   {
+    "l": 3,
+    "q": "Plane einen Filmanfang: Wie zeigst du mit der Kamera, dass ein Ort sehr groß ist? Beschreibe 3 Einstellungen.",
+    "a": "Zum Beispiel: winzige Person vorne in großer Landschaft, Kamerafahrt nach hinten, Vogelperspektive. Größenvergleich ist wichtig."
+   }
+  ],
+  "mt": "Was ist eine Überschneidung?\n+ Ein Ding verdeckt ein anderes.\n- Zwei Dinge sind gleich groß.\n- Ein Ding ist durchsichtig.\n\nWas bedeutet Größenabstufung?\n- Alles ist gleich groß.\n+ Dinge weiter hinten werden kleiner.\n- Dinge weiter hinten werden größer.\n\nWo stehen ferne Dinge im Bild?\n- tiefer\n+ höher\n- immer in der Mitte\n\nWie heißen die drei Gründe?\n+ Vordergrund, Mittelgrund, Hintergrund\n- Vorbild, Mittelbild, Nachbild\n- Oben, Unten, Seite\n\nWas macht ein Bild tief?\n- nur Farbe Rot\n- nur dicke Linien\n+ Raummittel wie Überschneidung und Größenabstufung"
+ },
+ {
+  "ch": "3 Raum und Perspektive",
+  "title": "3.2 Farbperspektive und Luftperspektive",
+  "text": "# Farben zeigen Nähe und Ferne\n- Warme Farben wirken nah. Sie kommen auf uns zu.\n- Kalte Farben wirken fern. Sie gehen zurück.\n[farben: Rot=#dc2626 | Orange=#f97316 | Gelb=#facc15]\n[farben: Blau=#2563eb | Türkis=#14b8a6 | Violett=#7c3aed]\n| warm (nah) | kalt (fern) |\n|---|---|\n| Rot, Orange, Gelb, Braun | Blau, Türkis, Blaugrün, Violett |\n| kräftig, laut | ruhig, leise |\n# Luftperspektive\n- In der Ferne liegt Luft und Dunst zwischen uns und den Dingen.\n- Darum werden ferne Berge heller, blasser und bläulicher.\n- Auch die Umrisse werden weicher.\n[farben: ganz nah=#14532d | nah=#2f6b4f | Mitte=#5b8a8a | fern=#8fb3c9 | ganz fern=#c7dbe8 | Himmel=#e8f1f8]\n[bilder: ⛰️ der Berg | 🌫️ der Dunst | 🌄 der Horizont | 🌲 der Wald]\n# Beispiele\n- Leonardo: Hinter der Mona Lisa liegt eine blaue, neblige Landschaft.\n- Caspar David Friedrich: Der Wanderer über dem Nebelmeer (1818).\n- Albrecht Altdorfer: Die Alexanderschlacht – Landschaft bis zum Horizont.\nMerke: Nah = warm, kräftig, scharf. Fern = kalt, blass, unscharf.\n# Gestaltungsauftrag\nThema: Gebirge bei Sonnenuntergang in 5 Schichten\nMaterial: 5 Blätter Tonpapier oder Aquarellpapier, Deckfarben oder Pastellkreide, Schere, Kleber\nTechnik: Schichtbild (Papier-Relief) mit Farbabstufung\n[bilder: 🌅 der Sonnenuntergang | ✂️ die Schere | 🎨 die Deckfarbe | 📄 das Tonpapier]\nSchritte:\n- 1. Male einen Himmel mit Verlauf: unten Gelb, dann Orange, oben Violett.\n- 2. Male 5 Streifen für die Berge: jedes Mal etwas mehr Weiß und Blau dazu.\n- 3. Reiß oder schneide aus jedem Streifen eine Bergkette.\n- 4. Klebe die blasseste Kette nach hinten, die dunkelste ganz nach vorn.\n- 5. Setze vorne kleine dunkle Bäume oder eine Person als Silhouette darauf.\nBewertung:\n- Die Berge werden nach hinten heller und blauer.\n- Der Himmel hat einen sauberen Verlauf.\n- Die Schichten überschneiden sich klar.\n- Das Bild hat eine starke Stimmung.",
+  "help": "# Warm und kalt\nFalsch: Warme Farben sind hell, kalte Farben sind dunkel.\nRichtig: Warm und kalt hat mit dem Gefühl zu tun: Rot wie Feuer, Blau wie Wasser und Eis.\n# Ferne\nAchtung: Ferne Berge malst du nicht dunkel, sondern heller und bläulicher.\n# Farbabstufung\nFalsch: Ich nehme für jeden Berg eine ganz andere Farbe.\nRichtig: Nimm eine Farbe und gib Schritt für Schritt mehr Weiß und Blau dazu.",
+  "ub": {
+   "t": "match",
+   "x": "Rot | warm, wirkt nah\nOrange | warm, wirkt nah\nBlau | kalt, wirkt fern\nTürkis | kalt, wirkt fern\nGelb | warm, wirkt nah\nViolett | kalt, wirkt fern"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: warm oder kalt?",
+    "x": "Rot | warm, wirkt nah\nOrange | warm, wirkt nah\nBlau | kalt, wirkt fern\nTürkis | kalt, wirkt fern\nGelb | warm, wirkt nah\nViolett | kalt, wirkt fern"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Luftperspektive",
+    "x": "Warme Farben wirken *nah*. Kalte Farben wirken *fern*.\nFerne Berge sind *heller* und bläulicher.\nIn der Ferne liegt *Dunst* in der Luft.\nHinter der *Mona Lisa* liegt eine blaue Landschaft.\nFriedrich malte den Wanderer über dem *Nebelmeer*."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Farbe und Raum",
+    "x": "WARM\nKALT\nNEBEL\nDUNST\nBLAU\nFERNE\nBERG\nHORIZONT"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Male zwei Farbreihen: 4 warme Farben und 4 kalte Farben.",
+    "a": "Warm: Gelb, Orange, Rot, Braun. Kalt: Blau, Türkis, Blaugrün, Violett. Felder sauber gemalt."
+   },
+   {
+    "l": 1,
+    "q": "Male einen Grün-Verlauf in 5 Stufen: von Dunkelgrün bis Hellblau-Grau.",
+    "a": "Fünf Stufen, jede heller und bläulicher. So wirken Hügel immer weiter weg."
+   },
+   {
+    "l": 2,
+    "q": "Male dein Schichtbild noch einmal falsch herum: vorne blass, hinten kräftig. Was passiert?",
+    "a": "Der Raum kippt: Hinten wirkt näher, Bild wirkt seltsam flach oder unruhig. Erkenntnis: Die Farbregel wirkt wirklich."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte die gleiche Landschaft als Unterwasserwelt oder Wüste. Welche Farben nimmst du für nah und fern?",
+    "a": "Unterwasser: vorne kräftiges Korallenrot, hinten blasses Türkis. Wüste: vorne Orange-Braun, hinten blasses Rosa-Violett."
+   },
+   {
+    "l": 3,
+    "q": "Such ein Foto von einer Landschaft. Erkläre an 3 Stellen, woran man die Luftperspektive sieht.",
+    "a": "Zum Beispiel: ferne Berge bläulich, Umrisse weich, Bäume vorne dunkel und scharf."
+   },
+   {
+    "l": 3,
+    "q": "Wo sieht man Farbperspektive in Filmen oder Videospielen? Erkläre ein Beispiel.",
+    "a": "Zum Beispiel: Open-World-Spiele machen ferne Berge blass und blau, damit die Welt riesig wirkt."
+   }
+  ],
+  "mt": "Wie wirken warme Farben?\n+ nah\n- fern\n- unsichtbar\n\nWie sehen ferne Berge aus?\n- dunkel und rot\n+ hell, blass und bläulich\n- schwarz und scharf\n\nWelche Farbe ist kalt?\n- Orange\n- Rot\n+ Blau\n\nWelches Bild zeigt Luftperspektive?\n+ Der Wanderer über dem Nebelmeer\n- Die Suppendosen\n- Die Schaukel\n\nWarum wirken ferne Dinge blass?\n- Weil die Farbe alt ist.\n+ Weil Luft und Dunst dazwischen liegen.\n- Weil es dunkel ist."
+ },
+ {
+  "ch": "3 Raum und Perspektive",
+  "title": "3.3 Zentralperspektive: Fluchtpunkt und Horizont",
+  "text": "# Ein Punkt für den ganzen Raum\n- In der Renaissance erfinden Künstler eine Regel für Raum: die Zentralperspektive.\n- Filippo Brunelleschi zeigt sie um 1420 in Florenz.\n[bilder: 👁️ die Augenhöhe | ➖ der Horizont | ✖️ der Fluchtpunkt | 📐 die Fluchtlinie]\n| Fachwort | Bedeutung |\n|---|---|\n| Horizont | waagrechte Linie auf Augenhöhe |\n| Fluchtpunkt | Punkt auf dem Horizont, zu dem alle Linien laufen |\n| Fluchtlinien (Orthogonalen) | Linien, die in die Tiefe gehen |\n| Waagrechte | bleiben waagrecht |\n| Senkrechte | bleiben senkrecht |\n# Berühmte Beispiele\n- Leonardo: Das Abendmahl. Der Fluchtpunkt liegt am Kopf von Jesus.\n- Raffael: Die Schule von Athen. Alle Linien führen zu den Philosophen in der Mitte.\n- Heute: 3D-Straßenmalerei von Kurt Wenner und Edgar Müller.\n# So gehst du vor\n[farben: Horizont=#2563eb | Fluchtpunkt=#dc2626 | Fluchtlinien=#f97316 | Senkrechte=#16a34a]\n- 1. Horizont waagrecht zeichnen (blau).\n- 2. Fluchtpunkt auf den Horizont setzen (rot).\n- 3. Fluchtlinien vom Fluchtpunkt aus ziehen (orange).\n- 4. Senkrechte und Waagrechte einzeichnen (grün).\nMerke: Alle Linien, die in die Tiefe gehen, treffen sich im Fluchtpunkt auf dem Horizont.\n# Gestaltungsauftrag\nThema: Meine Traumstraße – Street Art in Zentralperspektive\nMaterial: DIN-A3-Papier, Bleistift, langes Lineal, Radiergummi, Fineliner, Filzstifte\nTechnik: Konstruktion und Zeichnung\n[bilder: 🏙️ die Straße | 📏 das Lineal | 🎨 das Graffiti | 🛹 das Skateboard]\nSchritte:\n- 1. Zeichne den Horizont in die Mitte. Setze einen Fluchtpunkt darauf.\n- 2. Zieh 4 Fluchtlinien für Straße und Hauskanten.\n- 3. Baue links und rechts Häuser: vordere Kanten senkrecht, obere Kanten zum Fluchtpunkt.\n- 4. Gestalte die Hauswände mit Graffiti, Fenstern, Läden, Schildern.\n- 5. Setze Menschen und Laternen ein: Sie werden nach hinten kleiner.\n- 6. Radiere Hilfslinien weg. Zieh alles mit Fineliner nach und male aus.\nBewertung:\n- Alle Tiefenlinien laufen zum Fluchtpunkt.\n- Senkrechte sind wirklich senkrecht.\n- Die Straße ist fantasievoll und detailreich gestaltet.\n- Personen und Dinge werden nach hinten kleiner.",
+  "help": "# Fluchtpunkt\nFalsch: Der Fluchtpunkt liegt irgendwo im Bild.\nRichtig: Der Fluchtpunkt liegt immer auf dem Horizont.\n# Senkrechte\nFalsch: Hauswände kippen schräg.\nRichtig: Senkrechte Kanten bleiben senkrecht. Nur die Tiefenlinien laufen zum Fluchtpunkt.\n# Hilfslinien\nAchtung: Zeichne Hilfslinien ganz dünn. Drückst du zu fest, kannst du sie nicht mehr wegradieren.\n# Wort\nAchtung: Fluchtpunkt kommt von flüchten: Die Linien „flüchten“ in die Tiefe.",
+  "ub": {
+   "t": "match",
+   "x": "Horizont | waagrechte Linie auf Augenhöhe\nFluchtpunkt | hier treffen sich die Tiefenlinien\nFluchtlinie | Linie in die Tiefe\nSenkrechte | Linie von oben nach unten\nWaagrechte | Linie von links nach rechts"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Fachwort und Bedeutung",
+    "x": "Horizont | waagrechte Linie auf Augenhöhe\nFluchtpunkt | hier treffen sich die Tiefenlinien\nFluchtlinie | Linie in die Tiefe\nSenkrechte | Linie von oben nach unten\nWaagrechte | Linie von links nach rechts"
+   },
+   {
+    "t": "mc",
+    "n": "Zentralperspektive",
+    "x": "Wo liegt der Fluchtpunkt?\n+ auf dem Horizont\n- am Bildrand\n- immer unten\n\nWas passiert mit senkrechten Kanten?\n- Sie laufen zum Fluchtpunkt.\n+ Sie bleiben senkrecht.\n- Sie werden schräg.\n\nWer zeigte die Zentralperspektive um 1420?\n- Rembrandt\n+ Brunelleschi\n- Warhol\n\nWo liegt der Fluchtpunkt im Abendmahl?\n+ am Kopf von Jesus\n- am Tisch\n- am Fenster rechts\n\nWomit zeichnest du Fluchtlinien?\n- freihändig\n+ mit dem Lineal\n- mit dem Pinsel"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Perspektive",
+    "x": "HORIZONT | Linie auf Augenhöhe\nFLUCHTPUNKT | Punkt, zu dem alle Tiefenlinien laufen\nLINEAL | Damit ziehst du gerade Linien.\nSENKRECHTE | Linie von oben nach unten\nABENDMAHL | Bild von Leonardo mit Fluchtpunkt bei Jesus\nAUGENHOEHE | Hier liegt der Horizont."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne einen Würfel in Zentralperspektive: Vorderseite als Quadrat, Kanten zum Fluchtpunkt.",
+    "a": "Quadrat vorne, drei Ecken mit Fluchtpunkt verbunden, hintere Kanten parallel zur Vorderseite."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne Bahngleise, die bis zum Horizont laufen. Die Schwellen werden nach hinten enger.",
+    "a": "Zwei Schienen treffen sich im Fluchtpunkt, Schwellen waagrecht, Abstände nach hinten kleiner."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne deine Traumstraße zweimal: Fluchtpunkt in der Mitte und Fluchtpunkt weit links. Wie ändert sich die Wirkung?",
+    "a": "Mitte: ruhig, symmetrisch. Seitlich: dynamischer, man sieht eine Häuserreihe mehr."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte die Straße als Unterwasserstadt oder Stadt auf dem Mond. Die Perspektive bleibt gleich.",
+    "a": "Gleiche Konstruktion, neue Motive (Korallen-Häuser, Krater, Raumschiffe). Perspektive weiterhin korrekt."
+   },
+   {
+    "l": 3,
+    "q": "Such in der Schule von Athen den Fluchtpunkt. Lege eine Kopie hin und zeichne 5 Fluchtlinien ein. Was liegt am Fluchtpunkt?",
+    "a": "Linien treffen sich zwischen Platon und Aristoteles. Sie sind die wichtigsten Personen."
+   },
+   {
+    "l": 3,
+    "q": "Plane ein 3D-Straßenbild für den Schulhof (wie Edgar Müller). Was soll man sehen? Wo muss der Betrachter stehen?",
+    "a": "Idee mit Skizze, z. B. ein Loch im Boden mit Lava. Fester Standpunkt für die Täuschung, Motiv lang gezogen."
+   }
+  ],
+  "mt": "Was ist der Horizont?\n+ eine waagrechte Linie auf Augenhöhe\n- der Rand des Bildes\n- eine senkrechte Linie\n\nWohin laufen die Tiefenlinien?\n- zum Bildrand\n+ zum Fluchtpunkt\n- nach unten\n\nWelches Bild zeigt eine Zentralperspektive?\n+ Die Schule von Athen\n- Die Suppendosen\n- Der Feldhase\n\nWas bleibt in der Zentralperspektive senkrecht?\n- die Fluchtlinien\n+ senkrechte Hauskanten\n- der Horizont\n\nWann wurde die Zentralperspektive entdeckt?\n- um 1000\n+ um 1420\n- um 1960"
+ },
+ {
+  "ch": "3 Raum und Perspektive",
+  "title": "3.4 Innenraum und Blickwinkel",
+  "text": "# Ein Zimmer mit einem Fluchtpunkt\n- Ein Raum hat eine Rückwand. Sie ist ein Rechteck, das du von vorn siehst.\n- Boden, Decke und Seitenwände laufen zum Fluchtpunkt.\n[bilder: 🟥 die Rückwand | 🟫 der Boden | ⬜ die Decke | 🚪 die Tür | 🪟 das Fenster]\n# Augenhöhe: Wo steht der Horizont?\n| Blick | Horizont | Wirkung |\n|---|---|---|\n| Froschperspektive | ganz unten | Dinge wirken riesig und mächtig. |\n| Normalperspektive | in der Mitte | Wirkt natürlich, wie im Alltag. |\n| Vogelperspektive | ganz oben | Man hat Überblick. Dinge wirken klein. |\n[bilder: 🐸 die Froschperspektive | 🧍 die Normalperspektive | 🦅 die Vogelperspektive]\n# Farben im Raum\n[farben: Wandhell=#fef3c7 | Bodenholz=#a16207 | Schattenecke=#78350f | Fensterlicht=#e0f2fe | Akzent=#0ea5e9]\n- Die Seitenwände sind meist etwas dunkler als die Rückwand.\n- Licht vom Fenster macht Flächen heller.\n# Beispiel\n- Vincent van Gogh: Das Schlafzimmer in Arles (1888). Kräftige Farben, schräger Boden.\n- Antonello da Messina: Hieronymus im Gehäus. Ein Raum im Raum.\nMerke: Die Rückwand ist ein Rechteck. Alle Ecken der Rückwand verbindest du mit dem Fluchtpunkt.\n# Gestaltungsauftrag\nThema: Mein Traumzimmer in Zentralperspektive\nMaterial: DIN-A3-Papier, Bleistift, Lineal, Buntstifte, Zeitschriften für Collage\nTechnik: Perspektivische Zeichnung mit Collage\n[bilder: 🛏️ das Bett | 🎮 die Konsole | 🪴 die Pflanze | 🖼️ das Poster]\nSchritte:\n- 1. Zeichne die Rückwand als Rechteck in die Mitte.\n- 2. Setze den Fluchtpunkt in die Rückwand auf deine Augenhöhe.\n- 3. Verbinde die 4 Ecken mit dem Fluchtpunkt und verlängere die Linien bis zum Rand.\n- 4. Zeichne Fenster, Tür, Bett und Regal. Ihre Tiefenkanten laufen zum Fluchtpunkt.\n- 5. Gestalte Wände und Boden: Muster, Poster, Teppich. Klebe kleine Collage-Teile auf.\nBewertung:\n- Der Raum ist richtig konstruiert.\n- Möbel stehen perspektivisch richtig im Raum.\n- Die Farben zeigen Licht und Schatten.\n- Das Zimmer zeigt deine Persönlichkeit.",
+  "help": "# Rückwand\nFalsch: Die Rückwand ist ein schräges Viereck.\nRichtig: Die Rückwand ist ein Rechteck mit waagrechten und senkrechten Kanten.\n# Möbel\nAchtung: Auch Möbel haben Tiefenkanten. Auch diese laufen zum Fluchtpunkt.\n# Froschperspektive\nFalsch: Froschperspektive heißt: Ich male einen Frosch.\nRichtig: Froschperspektive heißt: Ich schaue von ganz unten nach oben.",
+  "ub": {
+   "t": "match",
+   "x": "Froschperspektive | Dinge wirken riesig\nNormalperspektive | Blick wie im Alltag\nVogelperspektive | Man hat Überblick\nRückwand | Rechteck von vorn\nFluchtpunkt | liegt auf Augenhöhe"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Blickwinkel und Wirkung",
+    "x": "Froschperspektive | Dinge wirken riesig\nNormalperspektive | Blick wie im Alltag\nVogelperspektive | Man hat Überblick\nRückwand | Rechteck von vorn\nFluchtpunkt | liegt auf Augenhöhe"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Innenraum",
+    "x": "Die *Rückwand* ist ein Rechteck.\nDie Ecken verbinde ich mit dem *Fluchtpunkt*.\nVon unten nach oben schauen heißt *Froschperspektive*.\nVon oben nach unten schauen heißt *Vogelperspektive*.\nVan Gogh malte sein *Schlafzimmer* in Arles."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Perspektive",
+    "x": "Wo liegt der Horizont bei der Froschperspektive?\n+ ganz unten\n- ganz oben\n- in der Mitte\n- es gibt keinen\n\nWelche Form hat die Rückwand?\n- Dreieck\n- Kreis\n+ Rechteck\n- Trapez\n\nWer malte das Schlafzimmer in Arles?\n- Rembrandt\n- Dürer\n- Raffael\n+ Van Gogh\n\nWie wirkt die Vogelperspektive?\n- bedrohlich\n+ Man hat Überblick.\n- Alles wirkt riesig.\n- Man sieht nichts.\n\nWohin laufen die Tiefenkanten eines Bettes?\n- zur Tür\n- nach unten\n+ zum Fluchtpunkt\n- nirgendwohin"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne einen leeren Raum: Rückwand, Boden, Decke, zwei Seitenwände.",
+    "a": "Rechteck in der Mitte, vier Linien vom Fluchtpunkt durch die Ecken bis zum Blattrand. Vier Flächen sichtbar."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne denselben Würfel in Frosch-, Normal- und Vogelperspektive.",
+    "a": "Froschperspektive: man sieht die Unterseite. Normal: nur Vorderseite. Vogel: man sieht die Oberseite."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne dein Traumzimmer noch einmal in Vogelperspektive (Horizont hoch). Was sieht man jetzt besser?",
+    "a": "Mehr Boden sichtbar, Teppich und Möbel von oben, Decke kaum zu sehen."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte das Zimmer für eine andere Person: einen Gamer, einen Koch, ein Haustier, einen Superhelden.",
+    "a": "Gleiche Konstruktion, passende Möbel und Farben für die Person. Idee ist klar erkennbar."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche dein Zimmer mit Van Goghs Schlafzimmer: Farben, Möbel, Gefühl. Schreib 4 Sätze.",
+    "a": "Zum Beispiel: Van Gogh nimmt kräftige Komplementärfarben, sein Raum ist schief, er wirkt einfach und ruhig. Mein Zimmer …"
+   },
+   {
+    "l": 3,
+    "q": "Ein Film zeigt einen Bösewicht in Froschperspektive. Warum? Erkläre und finde ein zweites Beispiel.",
+    "a": "Froschperspektive macht die Figur groß und bedrohlich. Zweites Beispiel: Held oder Sportler im Moment des Siegs."
+   }
+  ],
+  "mt": "Was ist die Rückwand in der Zentralperspektive?\n+ ein Rechteck\n- ein Dreieck\n- eine Linie\n\nWas ist die Froschperspektive?\n- Blick von oben\n+ Blick von unten nach oben\n- Blick von der Seite\n\nWie wirken Dinge in der Vogelperspektive?\n- riesig\n+ klein, man hat Überblick\n- unsichtbar\n\nWohin verbindest du die Ecken der Rückwand?\n- mit dem Bildrand\n+ mit dem Fluchtpunkt\n- mit der Tür\n\nWer malte das Schlafzimmer in Arles?\n+ Vincent van Gogh\n- Rembrandt\n- Botticelli"
+ },
+ {
+  "ch": "4 Design im Alltag",
+  "title": "4.1 Design: Form und Funktion",
+  "text": "# Was ist Design?\n- Design heißt: Gestaltung von Dingen, die wir benutzen.\n- Designer planen Form, Farbe, Material und Funktion.\n[bilder: 🪑 der Stuhl | 💡 die Lampe | 🎒 der Rucksack | 🍶 die Flasche | 📱 das Handy]\n# Fachwörter\n| Fachwort | Bedeutung |\n|---|---|\n| Funktion | Was kann das Ding? Wozu ist es da? |\n| Form | Wie sieht es aus? (rund, eckig, symmetrisch) |\n| Proportion | Größenverhältnis der Teile |\n| Dekor | Verzierung, Schmuck |\n| Ergonomie | passt gut zum Körper |\n| Ökologie | ist gut für die Umwelt |\n# Design früher und heute\n- Thonet Stuhl Nr. 14 (1859): aus gebogenem Holz, einfach, millionenfach gebaut.\n- Bauhaus (1919–1933): „Die Form folgt der Funktion.“ Wagenfeld-Leuchte aus Glas und Metall.\n- Heute: Designer wie Konstantin Grcic (München) oder Hella Jongerius.\n[farben: Bauhaus-Rot=#d62828 | Bauhaus-Gelb=#f6c90e | Bauhaus-Blau=#1d3557 | Schwarz=#111111 | Weiß=#ffffff]\n- Das Bauhaus liebte Grundformen (Kreis, Quadrat, Dreieck) und Grundfarben.\nMerke: Gutes Design verbindet Funktion und Form: Es ist praktisch und schön.\n# Gestaltungsauftrag\nThema: Redesign – die perfekte Trinkflasche für die Schule\nMaterial: Skizzenpapier, Bleistift, Fineliner, Buntstifte oder Marker\nTechnik: Ideenskizzen und Erklärungszeichnung\n[bilder: 🍶 die Trinkflasche | ✏️ die Skizze | 🔍 die Lupe | 🏷️ die Beschriftung]\nSchritte:\n- 1. Untersuche deine eigene Trinkflasche: Was ist gut, was nervt? Schreib 3 Probleme auf.\n- 2. Mach 5 schnelle Ideenskizzen für eine bessere Flasche.\n- 3. Wähle die beste Idee. Zeichne sie groß und genau.\n- 4. Beschrifte alle Teile mit Pfeilen: Verschluss, Griff, Material, Extras.\n- 5. Gestalte das Dekor: Farben und Muster passend zu deiner Zielgruppe.\nBewertung:\n- Die Probleme sind klar gelöst.\n- Die Erklärungszeichnung ist genau und gut beschriftet.\n- Form und Funktion passen zusammen.\n- Die Idee ist neu und originell.",
+  "help": "# Design\nFalsch: Design ist nur, wie etwas aussieht.\nRichtig: Design ist Aussehen und Funktion zusammen.\n# Funktion\nAchtung: Ein schönes Ding, das nicht funktioniert, ist schlechtes Design.\n# Bauhaus\nFalsch: Das Bauhaus ist ein Baumarkt.\nRichtig: Das Bauhaus war eine berühmte Kunstschule in Deutschland (1919–1933).\n# Dekor\nAchtung: Dekor ist Schmuck. Er soll die Funktion nicht stören.",
+  "ub": {
+   "t": "match",
+   "x": "Funktion | wozu ein Ding da ist\nForm | wie ein Ding aussieht\nErgonomie | passt gut zum Körper\nÖkologie | gut für die Umwelt\nDekor | Verzierung\nProportion | Größenverhältnis der Teile"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Fachwort und Bedeutung",
+    "x": "Funktion | wozu ein Ding da ist\nForm | wie ein Ding aussieht\nErgonomie | passt gut zum Körper\nÖkologie | gut für die Umwelt\nDekor | Verzierung\nProportion | Größenverhältnis der Teile"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Bauhaus",
+    "x": "Das *Bauhaus* war eine Kunstschule in Deutschland.\nSein Motto: Die *Form* folgt der *Funktion*.\nDas Bauhaus liebte Grundformen wie Kreis, *Quadrat* und Dreieck.\nDer Stuhl Nr. 14 von *Thonet* ist aus gebogenem Holz."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Design",
+    "x": "DESIGN | Gestaltung von Dingen für den Alltag\nFUNKTION | Wozu ist das Ding da?\nBAUHAUS | berühmte Kunstschule ab 1919\nDEKOR | Verzierung\nSTUHL | Nr. 14 von Thonet\nERGONOMIE | Es passt gut zum Körper."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 3 Alltagsdinge aus deinem Mäppchen. Schreib zu jedem die Funktion daneben.",
+    "a": "Zum Beispiel: Spitzer – Stifte spitzen; Radiergummi – Fehler entfernen; Lineal – gerade Linien und Messen."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne eine Bauhaus-Lampe nur aus Kreis, Quadrat und Dreieck in Rot, Gelb, Blau.",
+    "a": "Lampe aus Grundformen, Grundfarben sauber ausgemalt, klare Konturen."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte deine Flasche in zwei Versionen: für ein Kindergartenkind und für einen Profisportler.",
+    "a": "Kind: bunt, griffig, kippsicher, Tiermotiv. Sportler: leicht, Messskala, sportliches Design. Begründete Unterschiede."
+   },
+   {
+    "l": 2,
+    "q": "Nimm einen Gegenstand mit schlechtem Design (z. B. eine Tür ohne klares Zeichen: drücken oder ziehen?). Zeichne eine Verbesserung.",
+    "a": "Problem erkannt, Verbesserung zeigt klar die Funktion (z. B. flache Platte = drücken, Griff = ziehen)."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche den Thonet-Stuhl Nr. 14 mit einem modernen Plastikstuhl: Form, Material, Umwelt.",
+    "a": "Thonet: Holz, langlebig, reparierbar, elegant. Plastik: billig, leicht, stapelbar, aber Erdöl und schwer recycelbar."
+   },
+   {
+    "l": 3,
+    "q": "„Die Form folgt der Funktion.“ Stimmst du zu? Begründe mit einem Beispiel aus deinem Alltag.",
+    "a": "Eigene Meinung mit Beispiel, z. B. Sportschuh (Funktion zuerst) vs. Modeschuh (Form wichtiger)."
+   }
+  ],
+  "mt": "Was heißt Funktion?\n+ wozu ein Ding da ist\n- welche Farbe es hat\n- was es kostet\n\nWas war das Bauhaus?\n- ein Baumarkt\n+ eine Kunstschule\n- ein Haus aus Holz\n\nWas bedeutet Ergonomie?\n- Es ist gut für die Umwelt.\n+ Es passt gut zum Körper.\n- Es ist sehr bunt.\n\nWelche Farben liebte das Bauhaus?\n+ Rot, Gelb, Blau\n- Rosa, Mint, Flieder\n- Braun und Ocker\n\nWas ist gutes Design?\n- nur schön\n- nur billig\n+ praktisch und schön"
+ },
+ {
+  "ch": "4 Design im Alltag",
+  "title": "4.2 Ergonomie und maßstabsgerechtes Zeichnen",
+  "text": "# Ergonomie: Design für den Körper\n- Ein Griff muss gut in der Hand liegen.\n- Ein Stuhl muss zur Größe des Körpers passen.\n- Designer messen Hände, Arme und Körper.\n[bilder: ✋ die Hand | 📏 das Maß | 🪑 die Sitzhöhe | ✍️ der Griff]\n# Maßstab\n| Maßstab | Bedeutung | Beispiel |\n|---|---|---|\n| 1:1 | so groß wie in echt | Stift: 15 cm → 15 cm |\n| 1:2 | halb so groß | Flasche: 24 cm → 12 cm |\n| 1:10 | zehnmal kleiner | Stuhl: 80 cm → 8 cm |\n| 2:1 | doppelt so groß | Schraube: 2 cm → 4 cm |\n# Ansichten und Parallelperspektive\n[bilder: ⬜ die Vorderansicht | ▫️ die Seitenansicht | 🔲 die Draufsicht | 🧊 die Kavalierperspektive]\n- Vorderansicht, Seitenansicht und Draufsicht zeigen ein Ding flach von drei Seiten.\n- Parallelperspektive: Alle Tiefenlinien sind parallel. Es gibt keinen Fluchtpunkt.\n- Kavalierperspektive: Tiefenlinien schräg unter 45°, auf die Hälfte gekürzt.\n[farben: Vorderseite=#3b82f6 | Oberseite=#93c5fd | Seite=#1e40af | Hilfslinie=#d1d5db]\n- Die drei Seiten bekommen unterschiedliche Helligkeiten. So wirkt der Körper räumlich.\nMerke: In der Parallelperspektive bleiben Tiefenlinien parallel. Maße kannst du direkt ablesen.\n# Gestaltungsauftrag\nThema: Ein Handschmeichler-Griff – Stifthalter aus Ton\nMaterial: Ton oder Modelliermasse, Modellierholz, Lineal, Kästchenpapier, Bleistift\nTechnik: Zeichnen in Ansichten und Modellieren\n[bilder: 🟤 der Ton | 🪵 das Modellierholz | 🖊️ der Stift | 📐 das Geodreieck]\nSchritte:\n- 1. Halte eine Kugel Ton fest in deiner Faust. Deine Finger formen den Griff.\n- 2. Drück ein Loch für 3 Stifte hinein. Glätte die Oberfläche mit dem Modellierholz.\n- 3. Miss dein Modell: Länge, Breite, Höhe.\n- 4. Zeichne es auf Kästchenpapier im Maßstab 1:1: Vorderansicht, Seitenansicht, Draufsicht.\n- 5. Zeichne zum Schluss eine Kavalierperspektive und schreib die Maße dazu.\nBewertung:\n- Der Griff liegt gut in der Hand (ergonomisch).\n- Die drei Ansichten passen zusammen.\n- Die Maße sind richtig eingetragen.\n- Die Oberfläche ist sauber gestaltet.",
+  "help": "# Maßstab\nFalsch: 1:10 heißt zehnmal größer.\nRichtig: 1:10 heißt: 1 cm auf dem Papier sind 10 cm in echt. Also zehnmal kleiner.\n# Kavalierperspektive\nAchtung: Die schrägen Tiefenkanten werden auf die Hälfte gekürzt. Sonst wirkt der Körper zu lang.\n# Parallelperspektive\nFalsch: Auch in der Parallelperspektive gibt es einen Fluchtpunkt.\nRichtig: Nein. Alle Tiefenlinien bleiben parallel.",
+  "ub": {
+   "t": "match",
+   "x": "1:1 | so groß wie in echt\n1:2 | halb so groß\n1:10 | zehnmal kleiner\n2:1 | doppelt so groß\n1:100 | hundertmal kleiner"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Maßstab und Bedeutung",
+    "x": "1:1 | so groß wie in echt\n1:2 | halb so groß\n1:10 | zehnmal kleiner\n2:1 | doppelt so groß\n1:100 | hundertmal kleiner"
+   },
+   {
+    "t": "mc",
+    "n": "Ansichten und Maßstab",
+    "x": "Ein Stuhl ist 90 cm hoch. Wie hoch ist er im Maßstab 1:10?\n+ 9 cm\n- 90 cm\n- 900 cm\n\nWie heißt der Blick von oben?\n- Vorderansicht\n+ Draufsicht\n- Seitenansicht\n\nWie verlaufen Tiefenlinien in der Parallelperspektive?\n- zum Fluchtpunkt\n+ parallel\n- im Kreis\n\nWie stark werden Tiefenkanten in der Kavalierperspektive gekürzt?\n+ auf die Hälfte\n- gar nicht\n- auf ein Zehntel\n\nWas bedeutet ergonomisch?\n- billig\n- bunt\n+ passt gut zum Körper"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Zeichnen",
+    "x": "MASSSTAB\nANSICHT\nDRAUFSICHT\nLINEAL\nGRIFF\nTON\nMASS\nKAVALIER"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Streichholzschachtel in Kavalierperspektive: Vorderseite echt, Tiefe schräg (45°) und halb so lang.",
+    "a": "Rechteck vorne, Tiefenkanten parallel unter 45°, gekürzt. Seiten verschieden hell schattiert."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne deinen Radiergummi in drei Ansichten im Maßstab 2:1.",
+    "a": "Drei Ansichten, alle doppelt so groß wie in echt, Maße stimmen überein."
+   },
+   {
+    "l": 2,
+    "q": "Entwirf zwei Griffe für eine Schere: einen für Kinder, einen für Menschen mit wenig Kraft in der Hand.",
+    "a": "Kinder: kleine Löcher, abgerundet. Wenig Kraft: großer Griff, Feder, weiches Material. Begründung je Entwurf."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte deinen Tonhalter in einer zweiten Form: als Tier oder Monster. Er muss trotzdem gut in der Hand liegen.",
+    "a": "Fantasieform, aber Griffmulden für Finger bleiben. Funktion und Spaß verbunden."
+   },
+   {
+    "l": 3,
+    "q": "Miss deinen Schultisch und Stuhl. Passen sie zu deiner Körpergröße? Schreib einen Verbesserungsvorschlag.",
+    "a": "Messwerte für Sitzhöhe, Tischhöhe, Kniehöhe. Vorschlag z. B. verstellbare Höhe, Fußstütze."
+   },
+   {
+    "l": 3,
+    "q": "Warum zeichnen Designer und Architekten in Ansichten und nicht nur schöne Bilder? Erkläre.",
+    "a": "Ansichten zeigen genaue Maße. Handwerker und Maschinen können danach bauen. Ein schönes Bild zeigt nur die Wirkung."
+   }
+  ],
+  "mt": "Was heißt Maßstab 1:2?\n+ halb so groß wie in echt\n- doppelt so groß\n- genau gleich groß\n\nWie heißt die Ansicht von oben?\n- Vorderansicht\n+ Draufsicht\n- Rückansicht\n\nGibt es in der Parallelperspektive einen Fluchtpunkt?\n- Ja, einen.\n- Ja, zwei.\n+ Nein.\n\nIn welchem Winkel zeichnet man Tiefenkanten in der Kavalierperspektive?\n- 90°\n+ 45°\n- 10°\n\nWas untersucht die Ergonomie?\n+ wie Dinge zum Körper passen\n- wie teuer Dinge sind\n- welche Farben schön sind"
+ },
+ {
+  "ch": "4 Design im Alltag",
+  "title": "4.3 Ökologie: Upcycling und Nachhaltigkeit",
+  "text": "# Design und Umwelt\n- Viele Dinge landen schnell im Müll.\n- Gutes Design denkt an die Umwelt: Material, Haltbarkeit, Reparatur, Recycling.\n[bilder: ♻️ das Recycling | 🔧 die Reparatur | 🌱 die Natur | 🗑️ der Müll]\n| Begriff | Bedeutung | Beispiel |\n|---|---|---|\n| Recycling | Material wird eingeschmolzen und neu benutzt | Altglas wird neues Glas |\n| Upcycling | Aus Abfall wird etwas Neues, Besseres | Tasche aus alten LKW-Planen |\n| Langlebigkeit | Ein Ding hält sehr lange | Stuhl aus Massivholz |\n| Reparierbarkeit | Man kann Teile austauschen | Handy mit wechselbarem Akku |\n# Upcycling-Design\n- Die Firma Freitag aus Zürich macht Taschen aus alten LKW-Planen.\n- Künstler und Designer bauen Möbel aus Paletten.\n- Die Künstlerin El Anatsui baut riesige glänzende Tücher aus Flaschenverschlüssen.\n[farben: Kartonbraun=#b08657 | Dosensilber=#c0c4c8 | Plastikblau=#38bdf8 | Flaschengrün=#15803d | Zeitungsgrau=#a8a29e]\n# Materialien sammeln\n[bilder: 🥫 die Dose | 📦 der Karton | 🧴 die Plastikflasche | 🧃 der Getränkekarton | 🧦 die Socke | 📰 die Zeitung]\nMerke: Upcycling macht aus Müll etwas Neues mit mehr Wert. Das schont die Umwelt.\n# Gestaltungsauftrag\nThema: Upcycling-Design – aus Müll wird ein nützliches Kunstobjekt\nMaterial: gesammelter Verpackungsmüll (sauber!), Heißkleber, Schere, Cutter, Acrylfarbe, Klebeband\nTechnik: Bauen und Montieren\n[bilder: 🧴 die Flasche | 🔫 die Heißklebepistole | ✂️ der Cutter | 🎨 die Acrylfarbe]\nSchritte:\n- 1. Sammle eine Woche lang sauberen Verpackungsmüll.\n- 2. Überlege: Was brauche ich? Eine Lampe, eine Stiftebox, ein Handyständer, ein Vogelhaus?\n- 3. Mach 3 Skizzen und wähle eine Idee.\n- 4. Baue dein Objekt. Verbinde die Teile mit Heißkleber oder Steckverbindungen.\n- 5. Gestalte die Oberfläche: Farbe, Muster oder sichtbare Original-Logos als Effekt.\n- 6. Schreib ein Schild: Name, Material, Funktion, wie viel Müll du gespart hast.\nBewertung:\n- Das Objekt hat eine echte Funktion.\n- Mindestens 3 verschiedene Abfallmaterialien sind benutzt.\n- Es ist stabil und sauber gebaut.\n- Die Gestaltung ist kreativ und überraschend.",
+  "help": "# Recycling und Upcycling\nFalsch: Recycling und Upcycling sind das Gleiche.\nRichtig: Beim Recycling wird Material neu gemacht. Beim Upcycling wird ein Ding direkt zu etwas Neuem umgebaut.\n# Sicherheit\nAchtung: Cutter und Heißkleber nur mit Unterlage benutzen. Schneide immer vom Körper weg.\n# Sauberkeit\nAchtung: Verpackungen vorher gut ausspülen. Sonst riecht es und schimmelt.",
+  "ub": {
+   "t": "match",
+   "x": "Recycling | Altglas wird neues Glas\nUpcycling | Tasche aus alter LKW-Plane\nLanglebigkeit | Stuhl hält 50 Jahre\nReparierbarkeit | Akku kann man tauschen\nWegwerfprodukt | Plastikbesteck"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Beispiel",
+    "x": "Recycling | Altglas wird neues Glas\nUpcycling | Tasche aus alter LKW-Plane\nLanglebigkeit | Stuhl hält 50 Jahre\nReparierbarkeit | Akku kann man tauschen\nWegwerfprodukt | Plastikbesteck"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Upcycling",
+    "x": "Beim *Upcycling* wird aus Abfall etwas Neues.\nDie Firma *Freitag* macht Taschen aus LKW-Planen.\nEl Anatsui baut Kunst aus *Flaschenverschlüssen*.\nGutes Design denkt an die *Umwelt*.\nMit dem *Cutter* schneide ich immer vom Körper weg."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Umwelt",
+    "x": "UPCYCLING | aus Müll wird etwas Besseres\nRECYCLING | Material wird neu verarbeitet\nKARTON | Verpackung aus Pappe\nDOSE | Verpackung aus Metall\nUMWELT | Natur um uns herum\nREPARATUR | Man macht etwas Kaputtes wieder ganz."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 4 Abfallteile aus deinem Haushalt und schreib zu jedem eine Upcycling-Idee.",
+    "a": "Zum Beispiel: Glas – Windlicht, Dose – Stiftebox, Socke – Handpuppe, Karton – Regal."
+   },
+   {
+    "l": 1,
+    "q": "Male eine Farbreihe deiner gesammelten Materialien (Karton, Dose, Plastik, Glas). Wie kannst du sie kombinieren?",
+    "a": "Farbfelder der Materialien, Idee für Kombination (z. B. Silber mit Blau = kühl und modern)."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Upcycling-Objekt in einer zweiten Variante als Kunst-Skulptur ohne Funktion (z. B. ein Tier oder Roboter).",
+    "a": "Skulptur aus gleichen Materialien, Ausdruck statt Funktion. Unterschied Design – Kunst erkannt."
+   },
+   {
+    "l": 2,
+    "q": "Entwirf ein Plakat, das für Upcycling an deiner Schule wirbt.",
+    "a": "Klarer Slogan, Bild eines Upcycling-Objekts, Grün- oder Recyclingfarben, gut lesbare Schrift."
+   },
+   {
+    "l": 3,
+    "q": "Bewerte dein Objekt mit einer Umweltampel: Material, Haltbarkeit, Nutzen. Rot, Gelb oder Grün? Begründe.",
+    "a": "Drei Kriterien mit Ampelfarbe und kurzer Begründung. Ehrliche Selbstbewertung."
+   },
+   {
+    "l": 3,
+    "q": "Ist Mode aus dem Internet für 5 Euro gutes Design? Diskutiere mit 2 Pro- und 2 Kontra-Argumenten.",
+    "a": "Pro: billig, modisch. Kontra: hält kurz, viel Müll, schlechte Arbeitsbedingungen. Eigene Meinung am Ende."
+   }
+  ],
+  "mt": "Was ist Upcycling?\n+ Aus Abfall wird etwas Neues mit mehr Wert.\n- Man wirft Dinge weg.\n- Man kauft neue Dinge.\n\nWoraus macht die Firma Freitag Taschen?\n- aus Papier\n+ aus alten LKW-Planen\n- aus Gold\n\nWas ist gut für die Umwelt?\n- Wegwerfprodukte\n+ langlebige und reparierbare Dinge\n- viel Verpackung\n\nWie benutzt du den Cutter?\n+ vom Körper weg schneiden\n- zum Körper hin schneiden\n- ohne Unterlage\n\nWoraus baut El Anatsui Kunst?\n- aus Holz\n- aus Marmor\n+ aus Flaschenverschlüssen"
+ },
+ {
+  "ch": "4 Design im Alltag",
+  "title": "4.4 Präsentieren: Werbung, Pitch und Stop-Motion",
+  "text": "# Ein Produkt vorstellen\n- Designer müssen ihre Ideen gut erklären und verkaufen.\n- Sie zeigen Skizzen, Modelle und Werbung.\n[bilder: 🎤 der Pitch | 📢 die Werbung | 🎬 der Werbespot | 🤝 das Verkaufsgespräch]\n# Ein Verkaufsgespräch\n[dialog: Kundin Was ist das Besondere an der Flasche? | Designer Sie hat ein Fach für Obst und kippt nicht um. | Kundin Woraus ist sie? | Designer Aus Edelstahl. Sie hält viele Jahre. | Kundin Und warum diese Farbe? | Designer Mint wirkt frisch. Das passt zum Trinken.]\n# So überzeugst du\n| Teil | Frage | Beispiel |\n|---|---|---|\n| Problem | Was nervt? | Flaschen laufen im Rucksack aus. |\n| Lösung | Was kann mein Produkt? | Doppelter Verschluss, 100 % dicht. |\n| Form und Farbe | Wie sieht es aus? | schlank, mintgrün, griffig |\n| Umwelt | Warum ist es nachhaltig? | Edelstahl, reparierbar |\n# Stop-Motion: Bilder lernen laufen\n- Stop-Motion: Du machst viele Fotos. Zwischen jedem Foto bewegst du dein Objekt ein kleines Stück.\n- Schnell abgespielt sieht es aus wie ein Film.\n- Bekannte Beispiele: Wallace & Gromit, Shaun das Schaf.\n[farben: Hintergrund ruhig=#e5e7eb | Produktfarbe=#14b8a6 | Akzent=#f43f5e]\n- Tipp: Ruhiger Hintergrund, kräftige Produktfarbe. So fällt dein Produkt auf.\nMerke: Ein guter Pitch erklärt Problem, Lösung, Form und Umweltvorteil. Kurz und klar.\n# Gestaltungsauftrag\nThema: Stop-Motion-Werbespot für dein Design-Produkt (10 Sekunden)\nMaterial: Tablet oder Handy mit Stop-Motion-App, Stativ oder Bücherstapel, dein Produkt oder Modell, Knete, Papier\nTechnik: Stop-Motion-Film und Storyboard\n[bilder: 🎞️ das Storyboard | 📱 das Tablet | 🟩 die Knete | 💡 das Licht]\nSchritte:\n- 1. Zeichne ein Storyboard mit 6 Bildern: Problem – Produkt erscheint – Lösung – Logo.\n- 2. Stell das Tablet fest auf ein Stativ. Die Kamera darf sich nicht bewegen.\n- 3. Mach für jede Sekunde etwa 8 Fotos. Bewege dein Produkt immer nur ein kleines Stück.\n- 4. Füge zum Schluss ein Bild mit Produktname und Slogan ein.\n- 5. Zeig den Spot der Klasse und halte einen kurzen Pitch (1 Minute).\nBewertung:\n- Das Storyboard ist klar und vollständig.\n- Die Bewegung ist flüssig.\n- Problem und Lösung sind verständlich.\n- Der Pitch überzeugt.",
+  "help": "# Pitch\nAchtung: Pitch ist ein englisches Wort. Es heißt: kurze, überzeugende Vorstellung einer Idee.\n# Stop-Motion\nFalsch: Ich bewege das Objekt weit zwischen zwei Fotos.\nRichtig: Nur kleine Schritte. Dann wirkt die Bewegung flüssig.\n# Werbung\nFalsch: Werbung muss alles erzählen.\nRichtig: Werbung ist kurz: ein Problem, eine Lösung, ein klarer Slogan.",
+  "ub": {
+   "t": "match",
+   "x": "Pitch | kurze Vorstellung einer Idee\nStoryboard | Plan eines Films in Bildern\nStop-Motion | Film aus vielen Fotos\nSlogan | kurzer Werbespruch\nZielgruppe | Menschen, für die das Produkt ist"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Pitch | kurze Vorstellung einer Idee\nStoryboard | Plan eines Films in Bildern\nStop-Motion | Film aus vielen Fotos\nSlogan | kurzer Werbespruch\nZielgruppe | Menschen, für die das Produkt ist"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Stop-Motion",
+    "x": "Bei *Stop-Motion* mache ich viele Fotos.\nZwischen den Fotos bewege ich das Objekt ein *kleines* Stück.\nDie Kamera steht fest auf einem *Stativ*.\nVorher zeichne ich ein *Storyboard*.\nAm Ende zeige ich den Produktnamen und den *Slogan*."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Werbung und Pitch",
+    "x": "Was ist ein Slogan?\n- ein langer Text\n+ ein kurzer Werbespruch\n- ein Foto\n- ein Preis\n\nWas kommt in einem Pitch zuerst?\n+ das Problem\n- der Abschied\n- der Preis vom Material\n- die Pause\n\nWie viele Fotos braucht man ungefähr für 1 Sekunde Stop-Motion?\n- 1\n- 2\n+ etwa 8 bis 12\n- 500\n\nWarum braucht man ein Stativ?\n- Es sieht schön aus.\n+ Die Kamera bewegt sich nicht.\n- Es macht Musik.\n- Es spart Strom.\n\nWelcher Film ist Stop-Motion?\n- Die Nachrichten\n- Ein Fußballspiel\n+ Shaun das Schaf\n- Ein Live-Konzert"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne ein Storyboard mit 4 Bildern für einen Werbespot über einen Bleistift.",
+    "a": "Vier Bilder mit Pfeilen und kurzen Texten: Problem, Bleistift kommt, Lösung, Logo."
+   },
+   {
+    "l": 1,
+    "q": "Erfinde 3 Slogans für dein Produkt. Unterstreiche den besten.",
+    "a": "Kurze, einprägsame Sätze, z. B. „Dicht. Leicht. Mint.“"
+   },
+   {
+    "l": 2,
+    "q": "Mach deinen Spot in zwei Stimmungen: lustig und cool. Was änderst du an Farben, Musik, Bewegung?",
+    "a": "Lustig: bunte Farben, schnelle Bewegung, Quatsch-Geräusche. Cool: dunkler Hintergrund, langsame Bewegung, Beat."
+   },
+   {
+    "l": 2,
+    "q": "Spielt ein Verkaufsgespräch zu zweit: ein Designer, ein kritischer Kunde. Tauscht dann die Rollen.",
+    "a": "Rollenspiel mit Fragen zu Funktion, Form, Preis, Umwelt. Antworten sind sachlich und überzeugend."
+   },
+   {
+    "l": 3,
+    "q": "Schau 3 echte Werbespots an. Was machen sie, damit wir das Produkt kaufen wollen? Nenne 3 Tricks.",
+    "a": "Zum Beispiel: Musik, glückliche Menschen, Nahaufnahme vom Produkt, Stars, Humor, kurze Slogans."
+   },
+   {
+    "l": 3,
+    "q": "Bewerte einen Spot aus deiner Klasse fair: 2 Stärken, 1 Tipp. Benutze Fachwörter.",
+    "a": "Konstruktives Feedback mit Fachwörtern wie Storyboard, Bewegung, Slogan, Farbe, Zielgruppe."
+   }
+  ],
+  "mt": "Was ist ein Pitch?\n+ eine kurze, überzeugende Vorstellung\n- ein Werkzeug\n- ein Farbtopf\n\nWas ist ein Storyboard?\n- ein Brett zum Sitzen\n+ ein Plan eines Films in Bildern\n- eine Werbefigur\n\nWas ist bei Stop-Motion wichtig?\n- große Sprünge zwischen den Fotos\n+ kleine Bewegungen und feste Kamera\n- nur ein einziges Foto\n\nWas gehört in eine gute Produktvorstellung?\n+ Problem und Lösung\n- nur der Preis\n- lange Geschichten\n\nWelche Farbe sollte der Hintergrund für ein Produkt haben?\n- sehr bunt\n+ eher ruhig\n- genau die gleiche wie das Produkt"
+ },
+ {
+  "ch": "5 Druckgrafik",
+  "title": "5.1 Drucken: Hochdruck, Tiefdruck, Flachdruck",
+  "text": "# Was ist Drucken?\n- Beim Drucken überträgt man ein Bild von einer Platte (dem Druckstock) auf Papier.\n- Man kann das gleiche Bild viele Male drucken.\n[bilder: 🧱 der Druckstock | 🛞 die Walze | 🎨 die Druckfarbe | 📄 das Papier | ✋ das Abreiben]\n# Drei Druckverfahren\n| Verfahren | Wo ist die Farbe? | Beispiel |\n|---|---|---|\n| Hochdruck | auf den hohen Stellen | Holzschnitt, Linolschnitt, Stempel |\n| Tiefdruck | in den tiefen Rillen | Radierung, Kupferstich |\n| Flachdruck | auf einer flachen Platte | Lithografie |\n| Durchdruck | Farbe geht durch ein Sieb oder eine Schablone | Siebdruck, Schablone |\n# Hochdruck – wie ein Stempel\n- Was du wegschneidest, bleibt weiß.\n- Was stehen bleibt, druckt Farbe.\n- Das Bild ist spiegelverkehrt.\n[farben: Druckfarbe Schwarz=#111827 | Papierweiß=#fafaf9 | Druckrot=#b91c1c | Druckblau=#1e3a8a | Ocker=#ca8a04]\n- Mit nur einer Farbe und Weiß entstehen starke Kontraste.\nMerke: Hochdruck: Farbe auf den hohen Stellen. Tiefdruck: Farbe in den Rillen. Flachdruck: Farbe auf einer flachen Platte.\n# Gestaltungsauftrag\nThema: Mein Krafttier als Druckserie\nMaterial: Styropor-Druckplatten (Styrene), stumpfer Bleistift, Linoldruckfarbe, Walze, Glasplatte, Papier in 3 Farben, Löffel\nTechnik: Hochdruck (Styropordruck)\n[bilder: 🦊 der Fuchs | 🦉 die Eule | 🐺 der Wolf | 🥄 der Löffel | 🛞 die Walze]\nSchritte:\n- 1. Wähle ein Tier, das zu dir passt. Zeichne es groß und einfach auf ein Blatt.\n- 2. Übertrage es auf die Platte: Drück die Linien mit stumpfem Bleistift tief ein.\n- 3. Fülle Flächen mit Mustern: Punkte, Streifen, Schuppen.\n- 4. Walze Farbe dünn auf die Platte. Leg Papier darauf und reibe mit dem Löffel.\n- 5. Drucke 3-mal auf verschiedenfarbiges Papier. Signiere und nummeriere: 1/3, 2/3, 3/3.\nBewertung:\n- Das Tier ist groß und klar erkennbar.\n- Flächen haben verschiedene Muster.\n- Die Drucke sind sauber und gleichmäßig.\n- Die Serie ist richtig signiert.",
+  "help": "# Spiegelbild\nFalsch: Ich schreibe meinen Namen normal auf die Druckplatte.\nRichtig: Schrift muss spiegelverkehrt auf die Platte. Dann ist sie im Druck richtig.\n# Weiß und Schwarz\nAchtung: Beim Hochdruck: Was du einritzt oder wegschneidest, bleibt weiß.\n# Farbe\nFalsch: Viel Farbe – schöner Druck.\nRichtig: Zu viel Farbe füllt die Linien zu. Walze dünn!",
+  "ub": {
+   "t": "match",
+   "x": "Hochdruck | Linolschnitt\nTiefdruck | Radierung\nFlachdruck | Lithografie\nDurchdruck | Siebdruck\nStempel | Hochdruck im Alltag"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Verfahren und Beispiel",
+    "x": "Hochdruck | Linolschnitt\nTiefdruck | Radierung\nFlachdruck | Lithografie\nDurchdruck | Siebdruck\nStempel | Hochdruck im Alltag"
+   },
+   {
+    "t": "mc",
+    "n": "Wo ist die Farbe?",
+    "x": "Beim Hochdruck ist die Farbe …\n+ auf den hohen Stellen.\n- in den Rillen.\n- unter dem Papier.\n\nBeim Tiefdruck ist die Farbe …\n- auf den hohen Stellen.\n+ in den Rillen.\n- im Sieb.\n\nWas passiert mit Schrift auf der Platte?\n- Sie bleibt gleich.\n+ Sie erscheint spiegelverkehrt.\n- Sie verschwindet.\n\nWomit trägst du die Farbe auf?\n+ mit der Walze\n- mit dem Lineal\n- mit der Schere\n\nWelches Verfahren ist eine Lithografie?\n- Hochdruck\n- Tiefdruck\n+ Flachdruck"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Drucken",
+    "x": "WALZE | Damit rollst du Farbe auf.\nHOCHDRUCK | Farbe auf den hohen Stellen\nTIEFDRUCK | Farbe in den Rillen\nDRUCKSTOCK | Platte, von der man druckt\nSTEMPEL | kleiner Hochdruck im Büro\nSIGNIEREN | Den Druck mit dem Namen unterschreiben."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Drucke mit Alltagsdingen: Korken, Kartoffel, Flaschendeckel, Legostein. Mach ein Muster daraus.",
+    "a": "Muster mit mindestens 3 Stempelformen, regelmäßig wiederholt, klare Abdrucke."
+   },
+   {
+    "l": 1,
+    "q": "Schreib deinen Vornamen spiegelverkehrt. Prüfe ihn mit einem Spiegel.",
+    "a": "Name richtig gespiegelt, im Spiegel lesbar."
+   },
+   {
+    "l": 2,
+    "q": "Drucke dein Krafttier einmal auf dunkles Papier mit heller Farbe und einmal auf helles Papier mit dunkler Farbe. Vergleiche.",
+    "a": "Hell auf dunkel wirkt geheimnisvoll, nachts. Dunkel auf hell wirkt klar und stark."
+   },
+   {
+    "l": 2,
+    "q": "Drucke dein Tier zweimal übereinander, leicht verschoben, in zwei Farben (z. B. Pink und Blau).",
+    "a": "Verschobener Doppeldruck mit Farbmischung an den Überschneidungen, wirkt bewegt wie 3D."
+   },
+   {
+    "l": 3,
+    "q": "Warum war die Erfindung des Drucks so wichtig? Denk an Bücher, Flugblätter und Bilder für alle.",
+    "a": "Bilder und Texte konnten oft und billig hergestellt werden. Viele Menschen konnten Wissen und Kunst besitzen."
+   },
+   {
+    "l": 3,
+    "q": "Präsentiere deine Druckserie. Erkläre die Schritte mit Fachwörtern und nenne ein Problem und deine Lösung.",
+    "a": "Kurze Präsentation mit Fachwörtern wie Druckstock, Walze, Hochdruck, spiegelverkehrt, Probedruck."
+   }
+  ],
+  "mt": "Was ist ein Linolschnitt?\n+ ein Hochdruck\n- ein Tiefdruck\n- ein Flachdruck\n\nWo ist beim Tiefdruck die Farbe?\n- auf den hohen Stellen\n+ in den Rillen\n- auf der Walze\n\nWie erscheint ein Bild im Druck?\n- genau gleich\n+ spiegelverkehrt\n- doppelt so groß\n\nWas bedeutet 2/5 unter einem Druck?\n+ zweiter Druck von fünf\n- zwei Euro\n- Größe 2 × 5 cm\n\nWomit reibst du beim Handdruck das Papier an?\n- mit dem Pinsel\n- mit dem Lineal\n+ mit einem Löffel"
+ },
+ {
+  "ch": "5 Druckgrafik",
+  "title": "5.2 Holzschnitt und Linolschnitt",
+  "text": "# Der Holzschnitt\n- Der Holzschnitt ist die älteste Drucktechnik in Europa.\n- Albrecht Dürer machte den Holzschnitt berühmt.\n- Sein Rhinocerus (Nashorn) von 1515: Dürer hat nie ein Nashorn gesehen! Er zeichnete es nach einer Beschreibung.\n[bilder: 🦏 das Nashorn | 🪵 das Holz | 🔪 das Schnitzmesser | 📜 der Druck]\n# Der Linolschnitt\n- Linoleum ist weicher als Holz. Man kann es gut schneiden.\n- Expressionisten liebten den Linol- und Holzschnitt: Ernst Ludwig Kirchner, Franz Marc.\n- Auch Pablo Picasso machte bunte Linolschnitte.\n# Werkzeug\n| Messer | Schnitt | Wofür? |\n|---|---|---|\n| V-Messer (Geißfuß) | feine Linien | Umrisse, Haare |\n| U-Messer (Hohleisen) | breite Rillen | Flächen, Muster |\n| großes U-Messer | große Flächen | Hintergrund weg |\n# Schwarz-Weiß-Wirkung\n[farben: Schwarz=#000000 | Weiß=#ffffff | Grau durch Linien=#808080]\n- Ein Linoldruck hat oft nur eine Farbe. Grau entsteht durch viele feine Linien.\n- Schraffur: dicht = dunkel, weit = hell.\nMerke: Beim Linolschnitt schneidest du weg, was weiß bleiben soll. Immer vom Körper weg schneiden!\n# Gestaltungsauftrag\nThema: Das Fantasie-Tier nach Beschreibung – wie Dürers Nashorn\nMaterial: Linolplatte (A5), Linolmesser (V und U), Schneidebrett mit Kante, Linoldruckfarbe, Walze, Papier\nTechnik: Linolschnitt (Hochdruck)\n[bilder: 🐉 das Fantasietier | 🔪 das Linolmesser | 🛡️ das Schneidebrett | 🖨️ der Abzug]\nSchritte:\n- 1. Dein Partner beschreibt dir ein echtes Tier, ohne den Namen zu sagen (z. B. Gürteltier, Axolotl, Pangolin).\n- 2. Zeichne das Tier nur nach der Beschreibung – wie Dürer.\n- 3. Übertrage die Zeichnung spiegelverkehrt auf das Linol. Markiere, was schwarz bleibt.\n- 4. Schneide Umrisse mit dem V-Messer, Flächen mit dem U-Messer. Gestalte Panzer und Haut mit Mustern.\n- 5. Drucke und vergleiche mit einem Foto des echten Tieres.\nBewertung:\n- Die Beschreibung ist gut umgesetzt.\n- Verschiedene Muster und Linien zeigen Oberflächen.\n- Schwarz und Weiß sind ausgewogen verteilt.\n- Der Druck ist sauber.",
+  "help": "# Sicherheit\nAchtung: Die freie Hand liegt immer hinter dem Messer. Schneide vom Körper weg. Benutze ein Schneidebrett mit Kante.\n# Was bleibt stehen?\nFalsch: Ich schneide die Linien weg, die schwarz sein sollen.\nRichtig: Was du wegschneidest, wird weiß. Was stehen bleibt, wird schwarz.\n# Dürers Nashorn\nFalsch: Dürer zeichnete ein echtes Nashorn im Zoo.\nRichtig: Er hatte nie eins gesehen. Darum hat es Fantasieteile wie einen Panzer und ein kleines Horn auf dem Rücken.",
+  "ub": {
+   "t": "match",
+   "x": "V-Messer | feine Linien\nU-Messer | breite Rillen\nWalze | Farbe auftragen\nSchneidebrett | schützt die Hand\nLöffel | Papier andrücken"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Werkzeug und Wirkung",
+    "x": "V-Messer | feine Linien\nU-Messer | breite Rillen\nWalze | Farbe auftragen\nSchneidebrett | schützt die Hand\nLöffel | Papier andrücken"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Linolschnitt",
+    "x": "*Dürer* machte 1515 einen Holzschnitt von einem Nashorn.\nEr hatte nie ein *Nashorn* gesehen.\nLinoleum ist *weicher* als Holz.\nWas ich *wegschneide*, bleibt weiß.\nIch schneide immer vom *Körper* weg."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Linolschnitt",
+    "x": "LINOL\nMESSER\nNASHORN\nWALZE\nHOLZ\nRILLE\nSCHRAFFUR\nABZUG"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 6 Felder mit verschiedenen Linol-Mustern: Punkte, Streifen, Kreuze, Wellen, Schuppen, Zickzack.",
+    "a": "Sechs klar unterscheidbare Muster in Schwarz-Weiß, wie sie mit V- und U-Messer möglich sind."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne eine Grauskala nur mit Linien: 4 Felder von hell (wenige Linien) bis dunkel (dichte Linien).",
+    "a": "Vier Felder, Liniendichte steigt gleichmäßig."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Tier als Negativ: Zuerst ist alles weiß, nur Linien sind schwarz. Dann umgekehrt. Was wirkt stärker?",
+    "a": "Positiv (schwarze Linien auf weiß) wirkt zart. Negativ (weiße Linien auf schwarz) wirkt kräftig und nächtlich."
+   },
+   {
+    "l": 2,
+    "q": "Drucke dein Tier auf eine Collage aus Zeitungspapier oder Landkarten.",
+    "a": "Druck auf gemustertem Grund, Motiv bleibt gut erkennbar, spannender Kontrast."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche Dürers Nashorn mit einem Foto eines echten Nashorns. Was stimmt, was ist Fantasie? Warum war das Bild trotzdem 200 Jahre lang beliebt?",
+    "a": "Fantasie: Panzerplatten, Rückenhorn, Schuppen. Beliebt, weil es das einzige Bild war, sehr genau wirkte und oft gedruckt wurde."
+   },
+   {
+    "l": 3,
+    "q": "Heute verbreiten sich Bilder im Internet schnell – auch falsche. Vergleiche das mit Dürers Nashorn.",
+    "a": "Wie Dürers Nashorn können falsche Bilder überzeugend wirken und oft kopiert werden. Man sollte Quellen prüfen."
+   }
+  ],
+  "mt": "Welche Drucktechnik ist der Linolschnitt?\n+ Hochdruck\n- Tiefdruck\n- Flachdruck\n\nWas druckte Dürer 1515?\n- eine Katze\n+ ein Nashorn\n- einen Elefanten\n\nWofür nimmst du das V-Messer?\n+ für feine Linien\n- für große Flächen\n- zum Farbe auftragen\n\nWas wird beim Druck weiß?\n- was stehen bleibt\n+ was du wegschneidest\n- alles\n\nWie schneidest du sicher?\n- zum Körper hin\n- mit der Hand vor dem Messer\n+ vom Körper weg, Hand hinter dem Messer"
+ },
+ {
+  "ch": "5 Druckgrafik",
+  "title": "5.3 Radierung und Lithografie",
+  "text": "# Die Radierung (Tiefdruck)\n- Man ritzt Linien in eine Metallplatte. Die Farbe kommt in die Rillen.\n- Die Platte wird abgewischt. Nur in den Rillen bleibt Farbe.\n- Eine Presse drückt das feuchte Papier in die Rillen.\n- Meister: Rembrandt. Er radierte Porträts, Landschaften und Bibelszenen.\n[bilder: 🪡 die Radiernadel | 🔩 die Metallplatte | 🧽 das Abwischen | 🗜️ die Presse]\n# Die Lithografie (Flachdruck)\n- Man zeichnet mit Fettkreide auf einen glatten Stein.\n- Fett und Wasser stoßen sich ab. Die Farbe bleibt nur auf dem Fett.\n- Erfunden 1798 von Alois Senefelder in München!\n- Henri de Toulouse-Lautrec machte damit bunte Plakate in Paris, z. B. für das Moulin Rouge.\n[farben: Lautrec-Gelb=#f2c230 | Lautrec-Rot=#c8102e | Olivgrün=#6b7c3a | Schwarz=#1a1a1a | Papierbeige=#efe6cf]\n# Vergleich\n| | Radierung | Lithografie |\n|---|---|---|\n| Druckart | Tiefdruck | Flachdruck |\n| Platte | Metall | Stein |\n| Werkzeug | Nadel | Fettkreide |\n| Wirkung | feine Linien, viel Hell-Dunkel | weiche Linien, große Farbflächen |\n| Künstler | Rembrandt, Goya | Toulouse-Lautrec, Käthe Kollwitz |\nMerke: Radierung = Linien in Rillen (Tiefdruck). Lithografie = Fett auf Stein (Flachdruck).\n# Gestaltungsauftrag\nThema: Mein Viertel bei Nacht – Kaltnadelradierung auf Getränkekarton\nMaterial: leerer, sauberer Getränkekarton (innen silbern), Zirkelspitze oder Nagel, Tiefdruckfarbe, Zahnbürste, Lappen, Druckpresse oder Nudelholz, feuchtes Papier\nTechnik: Kaltnadel-Tiefdruck\n[bilder: 🧃 der Getränkekarton | 📍 die Zirkelspitze | 🪥 die Zahnbürste | 🌃 die Nacht]\nSchritte:\n- 1. Skizziere eine Straße oder einen Platz aus deiner Umgebung bei Nacht: Laternen, Fenster, Mond.\n- 2. Übertrage sie auf die Silberseite. Ritze die Linien mit der Spitze ein.\n- 3. Schneide auch Flächen auf (Pappe freilegen): Dort sammelt sich viel Farbe = sehr dunkel.\n- 4. Reibe Farbe mit der Zahnbürste in die Rillen. Wisch die Oberfläche mit dem Lappen sauber.\n- 5. Leg feuchtes Papier auf und drück fest mit Presse oder Nudelholz. Vorsichtig abziehen!\nBewertung:\n- Die Nachtstimmung ist durch Hell-Dunkel sichtbar.\n- Es gibt feine Linien und dunkle Flächen.\n- Die Platte ist sauber gewischt.\n- Der Ort ist erkennbar und lebendig.",
+  "help": "# Wischen\nFalsch: Ich lasse die Farbe auf der ganzen Platte.\nRichtig: Beim Tiefdruck wischst du die Oberfläche sauber. Nur in den Rillen bleibt Farbe.\n# Lithografie\nAchtung: Litho heißt Stein. Grafie heißt Zeichnen. Lithografie = Steinzeichnung.\n# Senefelder\nAchtung: Die Lithografie wurde in Bayern erfunden – in München, von Alois Senefelder.",
+  "ub": {
+   "t": "match",
+   "x": "Radierung | Linien in Metall geritzt\nLithografie | mit Fettkreide auf Stein\nPresse | drückt Papier auf die Platte\nAlois Senefelder | erfand die Lithografie\nToulouse-Lautrec | Plakate in Paris"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Radierung | Linien in Metall geritzt\nLithografie | mit Fettkreide auf Stein\nPresse | drückt Papier auf die Platte\nAlois Senefelder | erfand die Lithografie\nToulouse-Lautrec | Plakate in Paris"
+   },
+   {
+    "t": "mc",
+    "n": "Tiefdruck oder Flachdruck?",
+    "x": "Eine Radierung ist ein …\n+ Tiefdruck.\n- Hochdruck.\n- Flachdruck.\n\nWorauf zeichnet man bei der Lithografie?\n- auf Holz\n+ auf Stein\n- auf Linoleum\n\nWer erfand die Lithografie?\n- Rembrandt\n+ Alois Senefelder\n- Dürer\n\nWarum wischt man die Platte beim Tiefdruck ab?\n+ Nur in den Rillen soll Farbe bleiben.\n- Damit sie glänzt.\n- Damit sie trocknet.\n\nWer machte Plakate für das Moulin Rouge?\n- Botticelli\n- Raffael\n+ Toulouse-Lautrec"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Tief- und Flachdruck",
+    "x": "RADIERUNG | Tiefdruck mit geritzten Linien\nSTEIN | Druckplatte der Lithografie\nPRESSE | Sie drückt sehr fest.\nNADEL | Damit ritzt man.\nSENEFELDER | Erfinder der Lithografie aus München\nPLAKAT | großes Bild für Werbung"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne mit Fineliner 4 Texturen, die man gut ritzen kann: Mauer, Gras, Wasser, Holz.",
+    "a": "Vier Felder mit linienbasierten Texturen, gut unterscheidbar."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne eine Laterne bei Nacht nur mit Linien: Licht hell (wenige Linien), Nacht dunkel (viele Kreuzlinien).",
+    "a": "Kreuzschraffur für den Himmel, Lichtkegel bleibt hell, klarer Kontrast."
+   },
+   {
+    "l": 2,
+    "q": "Drucke deine Platte zweimal: einmal stark gewischt, einmal wenig gewischt. Was ist der Unterschied?",
+    "a": "Stark gewischt: klare Linien, helles Papier. Wenig gewischt: grauer Ton, nebelig, geheimnisvoll."
+   },
+   {
+    "l": 2,
+    "q": "Male einen Druck mit Aquarellfarbe aus: nur die Fenster und Laternen gelb.",
+    "a": "Gezielte Farbakzente; die Nacht bleibt dunkel, warmes Licht leuchtet."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche eine Radierung von Rembrandt mit einem Plakat von Toulouse-Lautrec: Technik, Farbe, Zweck.",
+    "a": "Rembrandt: Tiefdruck, Linien, Schwarz-Weiß, Kunst zum Sammeln. Lautrec: Flachdruck, große Farbflächen, Werbung für viele Menschen."
+   },
+   {
+    "l": 3,
+    "q": "Die Lithografie wurde in München erfunden. Warum war sie wichtig für Werbung und Zeitungen?",
+    "a": "Man konnte schnell, billig und bunt drucken. Plakate, Landkarten und Zeitungsbilder wurden für alle möglich."
+   }
+  ],
+  "mt": "Was ist eine Radierung?\n+ ein Tiefdruck\n- ein Hochdruck\n- ein Foto\n\nWas heißt „Litho“?\n- Holz\n+ Stein\n- Farbe\n\nWo wurde die Lithografie erfunden?\n+ in München\n- in Rom\n- in New York\n\nWofür ist Toulouse-Lautrec bekannt?\n- Deckenfresken\n+ bunte Plakate in Paris\n- Marmorskulpturen\n\nWas bleibt beim Tiefdruck nach dem Wischen in der Platte?\n- nichts\n+ Farbe in den Rillen\n- Wasser"
+ },
+ {
+  "ch": "5 Druckgrafik",
+  "title": "5.4 Schablonendruck und Street Art",
+  "text": "# Der Durchdruck\n- Beim Durchdruck geht Farbe durch eine Öffnung auf das Papier.\n- Schablone: ein Blatt mit ausgeschnittenen Löchern. Englisch: Stencil.\n- Siebdruck: Farbe wird durch ein feines Sieb gedrückt. Andy Warhol druckte so seine Marilyn-Bilder.\n[bilder: 🗒️ die Schablone | 🔪 der Cutter | 🧽 der Schwamm | 🎨 die Sprühfarbe | 🧱 die Wand]\n# Street Art\n- Street Art ist Kunst im öffentlichen Raum: an Wänden, Mauern, Stromkästen.\n- Blek le Rat aus Paris sprühte ab 1981 Ratten mit Schablonen.\n- Banksy aus England ist sehr bekannt. Niemand weiß genau, wer er ist.\n- Wichtig: Sprühen ohne Erlaubnis ist verboten. Legal ist es auf erlaubten Flächen oder auf Papier.\n# Positiv und Negativ\n| Positiv-Schablone | Negativ-Schablone |\n|---|---|\n| Motiv ist ausgeschnitten | Motiv bleibt stehen, außen wird gefärbt |\n| Motiv wird farbig | Motiv bleibt weiß |\n# Starke Farbkontraste\n[farben: Schwarz=#000000 | Weiß=#ffffff | Signalrot=#e11d48 | Neongelb=#facc15 | Neongrün=#84cc16 | Pink=#ec4899]\n- Schwarz auf Neongelb oder Rot auf Weiß fällt sofort auf.\n- Inseln: Teile, die nicht herausfallen sollen, brauchen Stege (kleine Brücken).\nMerke: Eine Schablone braucht Stege. Sonst fallen Innenteile (z. B. im Buchstaben O) heraus.\n# Gestaltungsauftrag\nThema: Street-Art-Schablone mit Botschaft für unsere Schule\nMaterial: festes Papier oder Folie, Cutter, Schneidematte, Schwamm oder Sprühfarbe (draußen), Packpapier oder Karton als Wand\nTechnik: Schablonendruck (Durchdruck)\n[bilder: 🤳 das Foto | 🖍️ die Vorlage | 🔪 der Cutter | 💬 die Botschaft]\nSchritte:\n- 1. Wähle eine Botschaft: Respekt, Freundschaft, Umwelt, Frieden. Finde ein starkes Bild dazu.\n- 2. Mach ein Foto von dir mit passender Pose. Zeichne es als Schwarz-Weiß-Flächen nach (nur 2 Töne).\n- 3. Plane Stege. Schraffiere alles, was ausgeschnitten wird.\n- 4. Schneide auf der Matte mit dem Cutter aus.\n- 5. Tupfe oder sprühe auf Packpapier. Ergänze ein kurzes Wort als Botschaft.\n- 6. Gestaltet zusammen eine Street-Art-Wand im Schulhaus.\nBewertung:\n- Das Motiv ist klar in zwei Tönen erkennbar.\n- Die Stege sind gut geplant.\n- Botschaft und Bild passen zusammen.\n- Der Druck ist scharf und sauber.",
+  "help": "# Erlaubt oder verboten?\nAchtung: Sprühen an fremde Wände ohne Erlaubnis ist Sachbeschädigung. Das ist verboten. Nutze Papier, Karton oder freigegebene Wände.\n# Stege\nFalsch: Ich schneide das O ganz aus.\nRichtig: Das Innere des O braucht Stege. Sonst fällt es heraus.\n# Sicherheit\nAchtung: Sprühfarbe nur draußen oder mit Maske benutzen. Cutter nur auf der Schneidematte.",
+  "ub": {
+   "t": "match",
+   "x": "Schablone | Blatt mit ausgeschnittenen Löchern\nSteg | kleine Brücke in der Schablone\nStreet Art | Kunst im öffentlichen Raum\nSiebdruck | Farbe durch ein feines Sieb\nBanksy | bekannter Street-Art-Künstler aus England"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Schablone | Blatt mit ausgeschnittenen Löchern\nSteg | kleine Brücke in der Schablone\nStreet Art | Kunst im öffentlichen Raum\nSiebdruck | Farbe durch ein feines Sieb\nBanksy | bekannter Street-Art-Künstler aus England"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Street Art",
+    "x": "Englisch heißt Schablone *Stencil*.\n*Blek le Rat* sprühte Ratten in Paris.\nAndy Warhol druckte im *Siebdruck*.\nInnenteile brauchen *Stege*.\nOhne Erlaubnis sprühen ist *verboten*."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Durchdruck",
+    "x": "Was ist eine Schablone?\n+ ein Blatt mit ausgeschnittenen Formen\n- ein Pinsel\n- eine Walze\n- ein Stein\n\nWer druckte Marilyn im Siebdruck?\n- Dürer\n- Rembrandt\n+ Andy Warhol\n- Raffael\n\nWofür braucht man Stege?\n- für Farbe\n+ damit Innenteile nicht herausfallen\n- zum Trocknen\n- zum Signieren\n\nWelcher Kontrast fällt am stärksten auf?\n- Hellgrau auf Weiß\n- Beige auf Weiß\n+ Schwarz auf Neongelb\n- Rosa auf Hellrosa\n\nWo ist Street Art legal?\n- an jeder Wand\n- am Zug\n- an Nachbars Garage\n+ auf erlaubten Flächen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne die Buchstaben A, B, O und R als Schablonenschrift mit Stegen.",
+    "a": "Alle Innenteile mit Stegen verbunden, Buchstaben bleiben lesbar."
+   },
+   {
+    "l": 1,
+    "q": "Mach aus einem Foto eine Zwei-Ton-Skizze: nur Schwarz und Weiß, keine Grautöne.",
+    "a": "Klare Flächen, Gesicht oder Figur trotzdem erkennbar, Schatten werden zu schwarzen Flächen."
+   },
+   {
+    "l": 2,
+    "q": "Drucke deine Schablone dreimal in verschiedenen Farbkombinationen nebeneinander (Pop-Art-Reihe).",
+    "a": "Drei Drucke, Farbkombinationen mit starkem Kontrast, gleiche Position."
+   },
+   {
+    "l": 2,
+    "q": "Erstelle eine zweite Schablone für eine zweite Farbe (z. B. Hintergrundform oder Schatten) und drucke übereinander.",
+    "a": "Zweifarbiger Druck, zweite Ebene passend ausgerichtet, mehr Tiefe."
+   },
+   {
+    "l": 3,
+    "q": "Ist Street Art Kunst oder Schmiererei? Schreib 3 Sätze für jede Seite und dann deine Meinung.",
+    "a": "Kunst: Botschaft, Können, macht Städte bunt. Schmiererei: ohne Erlaubnis, Schaden. Eigene, begründete Meinung."
+   },
+   {
+    "l": 3,
+    "q": "Plane eine legale Street-Art-Aktion für deine Schule: Ort, Thema, Erlaubnis, Material, Zeitplan.",
+    "a": "Realistischer Plan: Erlaubnis von Schulleitung, Fläche z. B. Pausenhof-Wand, Thema, Materialliste, Termine."
+   }
+  ],
+  "mt": "Was ist der Durchdruck?\n+ Farbe geht durch eine Öffnung.\n- Farbe liegt in Rillen.\n- Farbe liegt auf hohen Stellen.\n\nWie heißt Schablone auf Englisch?\n- Sticker\n+ Stencil\n- Spray\n\nWas brauchen Innenteile einer Schablone?\n- Kleber\n+ Stege\n- Glitzer\n\nWo ist Sprühen erlaubt?\n- an jeder Hauswand\n+ auf freigegebenen Flächen\n- am Bus\n\nWer sprühte Ratten in Paris?\n+ Blek le Rat\n- Toulouse-Lautrec\n- Rembrandt"
+ },
+ {
+  "ch": "6 Layout: Plakat, Flyer, Logo",
+  "title": "6.1 Layout: Ordnung auf dem Blatt",
+  "text": "# Was ist ein Layout?\n- Layout heißt: Anordnung von Bild, Text und Farbe auf einer Fläche.\n- Ein gutes Layout führt das Auge: Zuerst das Wichtigste, dann die Details.\n[bilder: 🖼️ das Bild | 🔤 die Überschrift | 📝 der Text | 🟦 die Farbfläche | ⬜ der Weißraum]\n# Die Rangfolge (Hierarchie)\n| Rang | Was? | Größe |\n|---|---|---|\n| 1 | Blickfang: Bild oder großes Wort | sehr groß |\n| 2 | Überschrift: Worum geht es? | groß |\n| 3 | Infos: Wann? Wo? Wer? | mittel |\n| 4 | Kleingedrucktes: Kontakt, Logo | klein |\n# DIN-Formate\n[bilder: 📄 DIN A3 | 📃 DIN A4 | 🗒️ DIN A5 | 🎫 DIN A6]\n| Format | Größe | Benutzt für |\n|---|---|---|\n| DIN A3 | 297 × 420 mm | kleines Plakat |\n| DIN A4 | 210 × 297 mm | Brief, Heftseite |\n| DIN A5 | 148 × 210 mm | Flyer, Heft |\n| DIN A6 | 105 × 148 mm | Postkarte |\n- Jedes kleinere Format ist die Hälfte vom größeren.\n# Farben im Layout\n[farben: Hauptfarbe=#0ea5e9 | Zweitfarbe=#facc15 | Akzent=#f43f5e | Text dunkel=#111827 | Hintergrund=#f8fafc]\n- 1 Hauptfarbe, 1 Zweitfarbe, 1 Akzentfarbe für das Wichtigste.\nMerke: Ein Layout ordnet Bild und Text nach Wichtigkeit. Das Wichtigste ist am größten.\n# Gestaltungsauftrag\nThema: Flyer für unser Schulfest (DIN A5)\nMaterial: DIN-A5-Papier, Bleistift, Lineal, Filzstifte, Zeitschriften, Kleber – oder Computer mit Layout-Programm\nTechnik: Layout von Hand oder digital\n[bilder: 🎉 das Schulfest | 🎈 der Ballon | 🍰 der Kuchen | 🎵 die Musik | 📐 das Raster]\nSchritte:\n- 1. Sammle die Infos: Was? Wann? Wo? Was gibt es? Wer ist eingeladen?\n- 2. Mach 3 Mini-Skizzen (Scribbles) mit verschiedener Anordnung.\n- 3. Wähle die beste. Zeichne ein Raster: Bildfeld, Überschrift, Infoblock.\n- 4. Gestalte den Blickfang: ein großes Bild oder Collage.\n- 5. Schreib die Überschrift groß, die Infos mittel, Kontakt klein.\n- 6. Prüfe mit dem Drei-Sekunden-Test.\nBewertung:\n- Alle Infos sind vollständig.\n- Die Hierarchie ist klar (groß – mittel – klein).\n- Die Farben passen zusammen (höchstens 3).\n- Der Flyer weckt Lust auf das Fest.",
+  "help": "# Zu viel\nFalsch: Ich fülle jeden Zentimeter mit Text und Bildern.\nRichtig: Lass Weißraum. Freie Flächen machen das Layout klar.\n# Schriftgröße\nFalsch: Alles ist gleich groß.\nRichtig: Das Wichtigste ist am größten. So weiß das Auge, wo es anfangen soll.\n# DIN\nAchtung: DIN A5 ist kleiner als DIN A4. Je größer die Zahl, desto kleiner das Blatt.",
+  "ub": {
+   "t": "match",
+   "x": "DIN A3 | kleines Plakat\nDIN A4 | Brief, Heftseite\nDIN A5 | Flyer\nDIN A6 | Postkarte\nLayout | Anordnung von Bild und Text"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Format und Benutzung",
+    "x": "DIN A3 | kleines Plakat\nDIN A4 | Brief, Heftseite\nDIN A5 | Flyer\nDIN A6 | Postkarte\nLayout | Anordnung von Bild und Text"
+   },
+   {
+    "t": "mc",
+    "n": "Layout-Regeln",
+    "x": "Was ist auf einem Flyer am größten?\n+ der Blickfang\n- die Telefonnummer\n- das Kleingedruckte\n\nWie viele Hauptfarben sind gut?\n- 10\n+ etwa 3\n- nur Grau\n\nWas ist Weißraum?\n- ein weißes Zimmer\n+ freie Fläche im Layout\n- weiße Schrift\n\nWelches Format ist kleiner?\n- DIN A4\n+ DIN A5\n- DIN A3\n\nWas ist ein Scribble?\n+ eine schnelle Mini-Skizze\n- eine Schriftart\n- ein Drucker"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Layout",
+    "x": "LAYOUT | Anordnung von Bild und Text\nFLYER | kleines Blatt mit Infos zum Verteilen\nWEISSRAUM | freie Fläche\nRASTER | Gitter zum Anordnen\nBLICKFANG | Das sieht man zuerst.\nSCRIBBLE | schnelle Mini-Skizze"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne 4 Scribbles (je 5 × 7 cm) mit verschiedenen Anordnungen von Bild (Kasten mit Kreuz) und Text (Linien).",
+    "a": "Vier unterschiedliche Layouts: Bild oben, Bild links, Bild als Hintergrund, Bild klein in der Mitte."
+   },
+   {
+    "l": 1,
+    "q": "Falte ein DIN-A3-Blatt mehrmals. Beschrifte A4, A5, A6, A7.",
+    "a": "Gefaltetes Blatt zeigt: jedes Format ist die Hälfte des vorherigen, richtig beschriftet."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte deinen Flyer in zwei Stilen: einmal ruhig und edel, einmal laut und bunt. Für welche Zielgruppe passt welcher?",
+    "a": "Ruhig: wenig Farben, viel Weißraum, für Eltern oder Konzert. Laut: Neonfarben, schräge Schrift, für Jugendliche oder Party."
+   },
+   {
+    "l": 2,
+    "q": "Mach aus deinem Flyer eine Instagram-Story (Hochformat 9:16). Was musst du ändern?",
+    "a": "Weniger Text, größere Schrift, Bild füllt die Fläche, Infos oben und unten frei vom Rand."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche zwei echte Flyer. Welcher ist besser gestaltet? Begründe mit Hierarchie, Farbe, Weißraum.",
+    "a": "Begründeter Vergleich mit Fachwörtern, klare Entscheidung."
+   },
+   {
+    "l": 3,
+    "q": "Mach eine kleine Umfrage: Zeig 5 Mitschülern deinen Flyer 3 Sekunden lang. Was haben sie sich gemerkt? Was verbesserst du?",
+    "a": "Ergebnis der Umfrage notiert (z. B. 4 von 5 wissen das Datum), daraus eine konkrete Verbesserung abgeleitet."
+   }
+  ],
+  "mt": "Was ist ein Layout?\n+ die Anordnung von Bild und Text\n- eine Druckfarbe\n- ein Programm\n\nWas gehört auf einem Flyer ganz nach oben in der Rangfolge?\n- das Kleingedruckte\n+ der Blickfang\n- die Adresse vom Drucker\n\nWie groß ist DIN A4?\n- 105 × 148 mm\n+ 210 × 297 mm\n- 297 × 420 mm\n\nWas macht ein Layout klar?\n+ Weißraum\n- sehr viele Schriftarten\n- alle Texte gleich groß\n\nWas ist der Drei-Sekunden-Test?\n- Man malt drei Sekunden.\n+ Man prüft, ob man das Wichtigste sofort versteht.\n- Man wartet, bis die Farbe trocknet."
+ },
+ {
+  "ch": "6 Layout: Plakat, Flyer, Logo",
+  "title": "6.2 Das Plakat: Blickfang und Zielgruppe",
+  "text": "# Plakate wollen auffallen\n- Ein Plakat hängt an der Straße. Die Menschen gehen schnell vorbei.\n- Darum braucht es einen starken Blickfang und wenig Text.\n[bilder: 🚶 der Passant | 👀 der Blickfang | 🎯 die Zielgruppe | 📌 die Litfaßsäule]\n# Pioniere des Plakats\n- Jules Chéret (Paris, um 1890): fröhliche, tanzende Figuren.\n- Henri de Toulouse-Lautrec: Moulin Rouge – La Goulue (1891). Große flache Farbflächen, starke Umrisse.\n- Alfons Mucha: Plakate mit schönen Frauen, Blumen und geschwungener Schrift (Jugendstil).\n[farben: Lautrec-Gelb=#f2c230 | Lautrec-Rot=#c8102e | Schwarz=#1a1a1a | Mucha-Gold=#c9a227 | Mucha-Rosé=#e9b8a8 | Mucha-Grün=#8aa67a]\n# So wirkt ein Plakat\n| Mittel | Wirkung |\n|---|---|\n| Großes Bild | fällt von weitem auf |\n| Starker Kontrast | Gelb-Schwarz, Rot-Weiß leuchten |\n| Kurzer Text | wird beim Vorbeigehen gelesen |\n| Diagonale | wirkt dynamisch, bewegt |\n| Anschnitt | Bild geht über den Rand, wirkt nah |\n# Zielgruppe\n- Für Kinder: bunt, Figuren, große einfache Schrift.\n- Für Jugendliche: cool, Fotos, modern, kurze Sprüche.\n- Für Erwachsene: ruhig, klare Infos.\nMerke: Ein Plakat muss in 3 Sekunden wirken: großes Bild, starker Kontrast, wenig Text.\n# Gestaltungsauftrag\nThema: Konzertplakat im Stil von Toulouse-Lautrec für deine Lieblingsband oder eine Fantasie-Band\nMaterial: DIN-A3-Papier, Bleistift, schwarzer Pinselstift, Deckfarben oder Plakatfarben in 4 Farben\nTechnik: Flächige Malerei mit Kontur, Schrift von Hand\n[bilder: 🎸 die Gitarre | 🎤 das Mikrofon | 💃 die Tänzerin | 🖌️ der Pinselstift]\nSchritte:\n- 1. Wähle eine Band. Mach ein Foto oder suche eine Pose: Sänger, Tänzerin, Gitarrist.\n- 2. Zeichne die Figur groß. Lass sie über den Rand ragen (Anschnitt).\n- 3. Benutze eine Diagonale im Bild für Bewegung.\n- 4. Male nur flache Flächen in 4 Farben (wie Lautrec). Zieh die Umrisse schwarz nach.\n- 5. Schreib den Bandnamen groß und von Hand. Datum und Ort klein unten.\nBewertung:\n- Das Plakat wirkt von 5 Metern Entfernung.\n- Nur 4 Farben, flache Flächen und klare Konturen.\n- Diagonale oder Anschnitt sind benutzt.\n- Text und Bild bilden eine Einheit.",
+  "help": "# Zu viel Text\nFalsch: Ein Plakat erklärt alles in langen Sätzen.\nRichtig: Ein Plakat hat wenig Text. Lange Infos gehören auf den Flyer.\n# Lautrec\nAchtung: Toulouse-Lautrec malte keine Fotos ab. Er vereinfachte Formen zu flachen Farbflächen.\n# Kontrast\nFalsch: Hellgelbe Schrift auf weißem Grund.\nRichtig: Starke Kontraste: Schwarz auf Gelb, Weiß auf Rot.",
+  "ub": {
+   "t": "match",
+   "x": "großes Bild | fällt von weitem auf\nDiagonale | wirkt bewegt\nAnschnitt | Bild geht über den Rand\nstarker Kontrast | leuchtet und fällt auf\nkurzer Text | schnell lesbar"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Mittel und Wirkung",
+    "x": "großes Bild | fällt von weitem auf\nDiagonale | wirkt bewegt\nAnschnitt | Bild geht über den Rand\nstarker Kontrast | leuchtet und fällt auf\nkurzer Text | schnell lesbar"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Plakat",
+    "x": "Ein Plakat braucht einen starken *Blickfang*.\n*Toulouse-Lautrec* malte Plakate für das Moulin Rouge.\nEr benutzte flache *Farbflächen* und starke Umrisse.\nAlfons *Mucha* malte Plakate im Jugendstil.\nEine *Diagonale* macht das Bild dynamisch."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Plakat",
+    "x": "PLAKAT\nKONTRAST\nZIELGRUPPE\nDIAGONALE\nANSCHNITT\nMUCHA\nLAUTREC\nBLICKFANG"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Figur dreimal: gerade, schräg (diagonal), angeschnitten. Welche wirkt am stärksten?",
+    "a": "Drei Skizzen. Diagonal und angeschnitten wirken spannender und näher."
+   },
+   {
+    "l": 1,
+    "q": "Male 4 Farbkontraste für Plakate als Schrift-Probe: Schwarz auf Gelb, Weiß auf Rot, Gelb auf Blau, Grau auf Weiß.",
+    "a": "Grau auf Weiß ist schwer lesbar, die anderen fallen stark auf."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Konzertplakat noch einmal im Stil von Mucha: geschwungene Linien, Blumen, Pastell und Gold.",
+    "a": "Mucha-Version: ornamentaler Rahmen, weiche Linien, ruhigere Farben. Vergleich der Wirkung mit der Lautrec-Version."
+   },
+   {
+    "l": 2,
+    "q": "Mach aus deinem Plakat eine Version für Kinder (z. B. Kinderkonzert). Was änderst du?",
+    "a": "Fröhliche Figuren, kräftige Grundfarben, sehr große einfache Schrift, weniger Text."
+   },
+   {
+    "l": 3,
+    "q": "Mach eine Umfrage: Zeig dein Plakat 5 Personen aus verschiedenen Altersgruppen. Wem gefällt es, wem nicht? Warum?",
+    "a": "Ergebnisse in einer Tabelle, Erkenntnis über die Zielgruppe, eine Verbesserungsidee."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche ein Plakat von 1891 mit einem Plakat von heute (z. B. Kino oder Festival). Was ist gleich geblieben?",
+    "a": "Gleich: großer Blickfang, starker Kontrast, wenig Text, Name groß. Anders: heute oft Fotos, digitale Schriften."
+   }
+  ],
+  "mt": "Was braucht ein Plakat?\n+ einen starken Blickfang\n- sehr viel Text\n- nur graue Farben\n\nWer malte das Plakat Moulin Rouge – La Goulue?\n- Dürer\n+ Toulouse-Lautrec\n- Rembrandt\n\nWie wirkt eine Diagonale?\n- ruhig und langweilig\n+ dynamisch und bewegt\n- unsichtbar\n\nWelcher Kontrast ist am besten lesbar?\n+ Schwarz auf Gelb\n- Hellgelb auf Weiß\n- Hellgrau auf Weiß\n\nWas ist ein Anschnitt?\n- Man schneidet das Plakat kaputt.\n+ Das Bild geht über den Rand.\n- Man schneidet Papier mit dem Cutter."
+ },
+ {
+  "ch": "6 Layout: Plakat, Flyer, Logo",
+  "title": "6.3 Logo und Schrift für ein Schulevent",
+  "text": "# Was ist ein Logo?\n- Ein Logo ist ein Erkennungszeichen. Man erkennt eine Firma, einen Verein oder ein Event sofort.\n- Ein gutes Logo ist einfach, einprägsam und funktioniert groß und klein.\n[bilder: 🔤 das Wortlogo | 🔺 das Bildzeichen | 🔣 die Kombination | 🏷️ die Marke]\n| Logoart | Beschreibung | Beispiel |\n|---|---|---|\n| Wortlogo | nur Schrift | Name in besonderer Schrift |\n| Bildzeichen | nur ein Bild | ein Apfel, ein Haken |\n| Kombination | Bild und Schrift | Tier mit Vereinsname |\n# Schrift (Typografie)\n- Serifenschrift: hat kleine Füßchen. Wirkt klassisch, ernst.\n- Serifenlose Schrift (Grotesk): ohne Füßchen. Wirkt modern, klar.\n- Handschrift / Script: wirkt persönlich, verspielt.\n- Graffiti-Schrift: wirkt jung, wild.\n# Farbwirkung\n[farben: Rot=#dc2626 | Orange=#f97316 | Gelb=#facc15 | Grün=#16a34a | Blau=#2563eb | Violett=#7c3aed | Schwarz=#111827]\n| Farbe | Wirkung |\n|---|---|\n| Rot | Kraft, Liebe, Achtung |\n| Gelb | Freude, Sonne |\n| Grün | Natur, Frische |\n| Blau | Ruhe, Vertrauen |\n| Schwarz | edel, stark |\nMerke: Ein gutes Logo ist einfach. Es wirkt auch klein und in Schwarz-Weiß.\n# Gestaltungsauftrag\nThema: Logo und Eintrittskarte für ein Schulevent (Sportfest, Disco, Talentshow oder Kinoabend)\nMaterial: Kästchenpapier, Bleistift, Fineliner, Filzstifte, Zirkel, Lineal – oder Tablet mit Zeichen-App\nTechnik: Entwurfszeichnung und Reinzeichnung\n[bilder: 🏆 das Sportfest | 🪩 die Disco | 🎤 die Talentshow | 🎬 der Kinoabend | 🎫 die Eintrittskarte]\nSchritte:\n- 1. Wähle ein Event und schreib 5 Wörter, die dazu passen (z. B. schnell, Teamgeist, Sonne).\n- 2. Zeichne 10 Mini-Logos (je 3 × 3 cm) in 15 Minuten. Nur Ideen, schnell!\n- 3. Wähle das beste. Zeichne es groß und sauber mit Fineliner.\n- 4. Wähle 2 Farben und eine passende Schrift. Teste: Wirkt das Logo auch in Schwarz-Weiß und ganz klein?\n- 5. Gestalte eine Eintrittskarte (DIN A6) mit Logo, Name, Datum, Ort, Preis.\nBewertung:\n- Das Logo ist einfach und einprägsam.\n- Es funktioniert groß, klein und in Schwarz-Weiß.\n- Farbe und Schrift passen zum Event.\n- Die Eintrittskarte ist vollständig und ordentlich.",
+  "help": "# Zu kompliziert\nFalsch: Mein Logo hat 20 Details und 8 Farben.\nRichtig: Ein Logo ist einfach. Höchstens 2–3 Farben, wenige Formen.\n# Serifen\nAchtung: Serifen sind die kleinen Füßchen an Buchstaben. Diese Schrift hier hat keine.\n# Abkupfern\nFalsch: Ich zeichne das Logo einer bekannten Marke ab und ändere den Namen.\nRichtig: Lass dich inspirieren, aber erfinde ein eigenes Zeichen.",
+  "ub": {
+   "t": "match",
+   "x": "Rot | Kraft und Achtung\nGelb | Freude und Sonne\nGrün | Natur und Frische\nBlau | Ruhe und Vertrauen\nSchwarz | edel und stark"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Farbe und Wirkung",
+    "x": "Rot | Kraft und Achtung\nGelb | Freude und Sonne\nGrün | Natur und Frische\nBlau | Ruhe und Vertrauen\nSchwarz | edel und stark"
+   },
+   {
+    "t": "mc",
+    "n": "Logo und Schrift",
+    "x": "Was ist ein Wortlogo?\n+ ein Logo nur aus Schrift\n- ein Logo nur aus einem Bild\n- ein Logo aus Holz\n\nWas sind Serifen?\n- große Buchstaben\n+ kleine Füßchen an Buchstaben\n- Farben\n\nWie wirkt eine serifenlose Schrift?\n- altmodisch\n+ modern und klar\n- verspielt\n\nWas muss ein gutes Logo können?\n+ auch klein und in Schwarz-Weiß wirken\n- viele Farben haben\n- viel Text zeigen\n\nWelche Farbe wirkt ruhig?\n- Rot\n+ Blau\n- Orange"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Logo",
+    "x": "LOGO | Erkennungszeichen\nSERIFE | kleines Füßchen am Buchstaben\nSCHRIFT | Typografie\nMARKE | Name und Zeichen einer Firma\nTICKET | anderes Wort für Eintrittskarte\nEINPRAEGSAM | man merkt es sich gut"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib deinen Namen in 4 Schriftstilen: mit Serifen, ohne Serifen, Schreibschrift, Graffiti.",
+    "a": "Vier deutlich unterschiedliche Schriftproben, sauber ausgeführt."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne 10 Mini-Logos für einen Fantasie-Verein (z. B. „Wilde Wölfe“) in 10 Minuten.",
+    "a": "Zehn schnelle, verschiedene Ideen: Wolf-Kopf, Pfote, Buchstabe W, Mond …"
+   },
+   {
+    "l": 2,
+    "q": "Gestalte dein Event-Logo in 3 Farbvarianten. Welche passt am besten? Begründe mit Farbwirkung.",
+    "a": "Drei Varianten, Begründung mit Farbwirkung (z. B. Disco: Violett und Pink = Nacht, Party)."
+   },
+   {
+    "l": 2,
+    "q": "Bring dein Logo auf 3 Produkte: T-Shirt, Button, Instagram-Profilbild. Muss es angepasst werden?",
+    "a": "Logo bleibt erkennbar; für Button und Profilbild evtl. vereinfacht oder nur Bildzeichen."
+   },
+   {
+    "l": 3,
+    "q": "Analysiere ein bekanntes Logo: Form, Farbe, Schrift, Wirkung. Warum ist es erfolgreich?",
+    "a": "Analyse mit Fachwörtern: einfache Form, wenige Farben, einprägsam, funktioniert überall."
+   },
+   {
+    "l": 3,
+    "q": "Präsentiere dein Logo der Klasse. Die Klasse stimmt ab. Was hat die Klasse überzeugt? Was nicht?",
+    "a": "Präsentation mit Begründung, Abstimmungsergebnis, Reflexion über Stärken und Schwächen."
+   }
+  ],
+  "mt": "Was ist ein Logo?\n+ ein Erkennungszeichen\n- ein langer Text\n- eine Druckfarbe\n\nWas ist ein gutes Logo?\n- kompliziert und bunt\n+ einfach und einprägsam\n- groß und voller Text\n\nWas sind Serifen?\n+ kleine Füßchen an Buchstaben\n- Farben im Logo\n- Linien im Hintergrund\n\nWelche Farbe wirkt nach Natur und Frische?\n- Schwarz\n+ Grün\n- Rot\n\nWas testest du bei einem Logo?\n- Ob es schwer ist.\n+ Ob es auch klein und schwarz-weiß wirkt.\n- Ob es nass wird."
+ },
+ {
+  "ch": "6 Layout: Plakat, Flyer, Logo",
+  "title": "6.4 Pop-Art-Selfie: digital drucken und Wirkung testen",
+  "text": "# Andy Warhol und die Serie\n- Andy Warhol (1928–1987) druckte Porträts von Stars im Siebdruck: Marilyn Monroe, Elvis.\n- Das gleiche Foto wird viele Male gedruckt – immer in anderen Farben.\n- Die Botschaft: Stars werden wie Produkte, immer gleich, überall zu sehen.\n[bilder: 🤳 das Selfie | 🖨️ der Drucker | 💻 die Bildbearbeitung | 🟥 das Raster]\n# Pop-Art-Farben\n[farben: Pink=#ff4fa3 | Türkis=#22d3ee | Zitronengelb=#fde047 | Orange=#fb923c | Violett=#8b5cf6 | Limette=#a3e635]\n- Pop-Art benutzt unnatürliche Farben: blaues Gesicht, gelbe Haare, pinker Hintergrund.\n- Komplementärfarben nebeneinander leuchten besonders.\n[farben: Violett=#7c3aed | Gelb=#facc15 | Blau=#2563eb | Orange=#f97316 | Rot=#dc2626 | Grün=#16a34a]\n# Analog und digital\n| Analog | Digital |\n|---|---|\n| Kopierer: Foto schwarz-weiß kopieren | App: Kontrast stark erhöhen |\n| mit Filzstift Flächen färben | Flächen mit Füllwerkzeug färben |\n| 4 Kopien nebeneinander kleben | Raster 2 × 2 erstellen |\n| per Hand | Ausdruck auf Farbdrucker |\n# Wirkung testen\n- Mach eine kleine Umfrage: Welche Version gefällt am besten? Warum?\n[dialog: Mia Welches Bild gefällt dir am besten? | Tarik Das mit dem pinken Hintergrund. Es fällt sofort auf. | Mia Und warum? | Tarik Das Gesicht in Türkis wirkt verrückt und cool.]\nMerke: Pop-Art = Alltag, Stars, Serie und knallige Farben. Warhol druckte im Siebdruck.\n# Gestaltungsauftrag\nThema: Mein Pop-Art-Selfie in 4 Farben\nMaterial: Selfie, Kopierer oder Tablet mit Bildbearbeitungs-App, Farbdrucker oder Filzstifte, Karton\nTechnik: Digitale Bildbearbeitung oder Kopie mit Handkolorierung\n[bilder: 🤳 das Selfie | 🎚️ der Kontrastregler | 🪣 das Füllwerkzeug | 🖼️ das Raster 2 × 2]\nSchritte:\n- 1. Mach ein Selfie vor einem ruhigen Hintergrund. Gesicht frontal, gutes Licht.\n- 2. Erhöhe den Kontrast stark (digital) oder kopiere das Foto schwarz-weiß (Kopierer).\n- 3. Färbe Flächen: Haut, Haare, Kleidung, Hintergrund – jedes Mal andere Farben.\n- 4. Mach 4 Versionen. Ordne sie im Raster 2 × 2 an.\n- 5. Mach eine Umfrage mit 5 Personen: Welche Version wirkt am stärksten? Notiere die Gründe.\nBewertung:\n- Das Gesicht bleibt in allen 4 Versionen gut erkennbar.\n- Die Farben sind knallig und kontrastreich.\n- Das Raster ist sauber angeordnet.\n- Die Umfrage ist ausgewertet.",
+  "help": "# Natürliche Farben\nFalsch: Ich male das Gesicht hautfarben wie im Foto.\nRichtig: In der Pop-Art sind unnatürliche Farben erwünscht: grünes Gesicht, pinke Haare.\n# Kontrast\nAchtung: Ohne starken Kontrast entstehen keine klaren Flächen. Dann wirkt das Bild matschig.\n# Fotos von anderen\nAchtung: Fotografiere oder bearbeite andere Menschen nur, wenn sie es erlauben. Stell keine Bilder von anderen ohne Zustimmung ins Internet.",
+  "ub": {
+   "t": "match",
+   "x": "Pop-Art | Kunst mit Alltag und knalligen Farben\nAndy Warhol | druckte Marilyn Monroe\nSiebdruck | Farbe durch ein feines Sieb\nSerie | gleiches Motiv viele Male\nKontrast | starker Unterschied von hell und dunkel"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Pop-Art | Kunst mit Alltag und knalligen Farben\nAndy Warhol | druckte Marilyn Monroe\nSiebdruck | Farbe durch ein feines Sieb\nSerie | gleiches Motiv viele Male\nKontrast | starker Unterschied von hell und dunkel"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Pop-Art-Selfie",
+    "x": "Andy *Warhol* druckte Porträts von Stars.\nEr druckte im *Siebdruck*.\nDas gleiche Bild in vielen Farben heißt *Serie*.\nIch erhöhe den *Kontrast* stark.\nDie Pop-Art liebt *knallige* Farben."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Pop-Art",
+    "x": "Wen druckte Warhol?\n- Mona Lisa\n+ Marilyn Monroe\n- Dürer\n- Venus\n\nWelche Farben sind typisch für Pop-Art?\n- Grau und Braun\n- Pastell\n+ knallige, unnatürliche Farben\n- nur Schwarz\n\nWas bedeutet Raster 2 × 2?\n- 2 Bilder\n+ 4 Bilder in 2 Reihen\n- 22 Bilder\n- 1 großes Bild\n\nWas machst du zuerst bei der Bildbearbeitung?\n+ den Kontrast erhöhen\n- das Bild löschen\n- das Bild unscharf machen\n- nichts\n\nWas ist wichtig bei Fotos von anderen?\n- Sie sofort posten\n- Nicht fragen\n+ Um Erlaubnis fragen\n- Gesichter verändern"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne dein Gesicht in einfachen Flächen (Haare, Haut, Augen, Mund, Schatten) wie eine Malvorlage.",
+    "a": "Klare, geschlossene Flächen, gut zum Ausmalen. Gesicht erkennbar."
+   },
+   {
+    "l": 1,
+    "q": "Male 4 kleine Farbkombinationen für dein Selfie als Farbstreifen (je 4 Farben).",
+    "a": "Vier Farbkombinationen mit starken Kontrasten, z. B. Pink-Türkis-Gelb-Schwarz."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte statt deinem Gesicht deinen Lieblingsgegenstand als Pop-Art-Serie (Schuh, Handy, Snack).",
+    "a": "Alltagsobjekt im Raster 2 × 2, wechselnde Farben – typisch Pop-Art wie Warhols Suppendosen."
+   },
+   {
+    "l": 2,
+    "q": "Mach eine Version im Comic-Stil wie Roy Lichtenstein: Punkte-Raster, dicke Umrisse, Sprechblase.",
+    "a": "Rasterpunkte in Flächen, schwarze Konturen, Sprechblase mit kurzem Text."
+   },
+   {
+    "l": 3,
+    "q": "Werte deine Umfrage aus: Welche Farbkombination gewinnt? Gibt es Unterschiede zwischen Jungen, Mädchen, Erwachsenen?",
+    "a": "Tabelle mit Ergebnissen, Gewinner benannt, mögliche Unterschiede vorsichtig gedeutet."
+   },
+   {
+    "l": 3,
+    "q": "Warhol sagte: „In Zukunft wird jeder 15 Minuten berühmt sein.“ Was meint er? Was hat das mit Selfies und Social Media zu tun?",
+    "a": "Jeder kann kurz bekannt werden, Bilder werden massenhaft verbreitet. Verbindung zu Posts, Likes und Trends. Eigene Meinung."
+   }
+  ],
+  "mt": "Wer ist ein berühmter Pop-Art-Künstler?\n+ Andy Warhol\n- Rembrandt\n- Botticelli\n\nWie druckte Warhol seine Bilder?\n- als Holzschnitt\n+ im Siebdruck\n- als Radierung\n\nWas ist typisch für Pop-Art?\n+ Serie und knallige Farben\n- dunkle Kirchen\n- ruhige Landschaften\n\nWas machst du, damit klare Flächen entstehen?\n- Kontrast verringern\n+ Kontrast stark erhöhen\n- Bild verkleinern\n\nWas musst du bei Fotos von anderen beachten?\n- Nichts.\n+ Sie um Erlaubnis fragen.\n- Sie sofort teilen."
+ },
+ {
+  "ch": "7 Fantasiewelten",
+  "title": "7.1 Bilder im Zufall entdecken",
+  "text": "# Siehst du das Gesicht?\n- Unser Gehirn sucht überall Gesichter und Formen: in Wolken, Steckdosen, Autos.\n- Das heißt Pareidolie.\n[bilder: ☁️ die Wolke | 🌳 die Baumrinde | 🧱 die Mauer | 🔌 die Steckdose | 🪨 der Stein]\n# Künstler nutzen den Zufall\n- Leonardo da Vinci riet seinen Schülern: Schaut auf Flecken an alten Mauern. Dort seht ihr Landschaften, Kämpfe und Gesichter.\n- Justinus Kerner (1786–1862) machte Klecksbilder: Tinte auf Papier, falten, Bild erkennen. Er nannte das Klecksografie.\n- Später nutzten die Surrealisten den Zufall bewusst.\n# Vom Klecks zum Bild\n| Schritt | Was tust du? |\n|---|---|\n| 1. Zufall | Klecks, Fleck oder Struktur entstehen lassen |\n| 2. Sehen | Blatt drehen, genau schauen: Was erkenne ich? |\n| 3. Deuten | Eine Idee finden: Monster, Vogel, Gesicht |\n| 4. Gestalten | Mit Stift ergänzen: Augen, Beine, Flügel |\n[farben: Tinte=#1e1b4b | Sepia=#704214 | Aquarellblau=#60a5fa | Aquarellrot=#f87171 | Wasserfarbengrün=#4ade80]\n- Mit verdünnter Farbe entstehen weiche, zufällige Ränder.\nMerke: Der Zufall gibt die Form. Deine Fantasie macht das Bild daraus.\n# Gestaltungsauftrag\nThema: Klecks-Monster und Fleckenwesen\nMaterial: Tusche oder flüssige Wasserfarbe, Strohhalm, Pipette, Aquarellpapier, Fineliner, weißer Gelstift\nTechnik: Zufallstechniken (Klecks, Pusten) mit Zeichnung\n[bilder: 💧 die Pipette | 🥤 der Strohhalm | 🖋️ die Tusche | 👾 das Monster]\nSchritte:\n- 1. Tropfe Farbe auf das Papier. Puste mit dem Strohhalm in verschiedene Richtungen.\n- 2. Falte ein zweites Blatt mit Klecks in der Mitte. Drück es zusammen und öffne es (Klecksografie).\n- 3. Lass alles trocknen. Dreh die Blätter in alle Richtungen.\n- 4. Entdecke Wesen. Ergänze mit Fineliner Augen, Zähne, Krallen, Muster. Setze Glanzlichter mit Weiß.\n- 5. Gib jedem Wesen einen Namen und eine Superkraft.\nBewertung:\n- Der Zufall ist sichtbar und gut genutzt.\n- Die Ergänzungen machen das Wesen lebendig.\n- Feine Details mit Fineliner sind sorgfältig.\n- Name und Idee sind fantasievoll.",
+  "help": "# Zufall ist kein Fehler\nFalsch: Mein Klecks ist hässlich, ich werfe ihn weg.\nRichtig: Dreh das Blatt! Jeder Klecks kann zu einem Wesen werden.\n# Zu viel ergänzen\nAchtung: Übermale den Klecks nicht ganz. Der Zufall soll sichtbar bleiben.\n# Pareidolie\nAchtung: Pareidolie ist keine Krankheit. Alle Menschen sehen Gesichter in Dingen.",
+  "ub": {
+   "t": "match",
+   "x": "Pareidolie | Gesichter in Dingen sehen\nKlecksografie | Bilder aus Tintenklecksen\nZufall | ungeplant entstehen\nStruktur | Oberfläche mit Muster\nLeonardo | riet, auf Mauerflecken zu schauen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Pareidolie | Gesichter in Dingen sehen\nKlecksografie | Bilder aus Tintenklecksen\nZufall | ungeplant entstehen\nStruktur | Oberfläche mit Muster\nLeonardo | riet, auf Mauerflecken zu schauen"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Zufall",
+    "x": "Wir sehen Gesichter in Wolken. Das heißt *Pareidolie*.\nLeonardo riet, auf Flecken an *Mauern* zu schauen.\nJustinus Kerner machte *Klecksbilder*.\nIch puste die Farbe mit dem *Strohhalm*.\nDer Zufall gibt die Form, die *Fantasie* macht das Bild."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Zufall",
+    "x": "KLECKS\nWOLKE\nRINDE\nMAUER\nTUSCHE\nZUFALL\nMONSTER\nFLECK"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Mach 3 Fotos von Gesichtern in Dingen (Steckdose, Auto, Haus). Zeichne eines davon ab.",
+    "a": "Drei Fotos und eine Skizze, in der das „Gesicht“ deutlich wird."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne in 5 Kreise mit zufälligen Kritzeleien je ein Wesen hinein.",
+    "a": "Fünf Wesen aus Kritzeleien; die Kritzel-Linien bleiben Teil der Figur."
+   },
+   {
+    "l": 2,
+    "q": "Mach dein Klecks-Monster einmal lieb und einmal gruselig. Was änderst du?",
+    "a": "Lieb: runde Augen, Lächeln, helle Farben. Gruselig: spitze Zähne, kleine Augen, dunkle Farben, Schatten."
+   },
+   {
+    "l": 2,
+    "q": "Male einen Pusteklecks auf einen Fotoausdruck deiner Straße. Was entsteht?",
+    "a": "Mischung aus Foto und Zufall, z. B. ein Monster klettert auf das Haus. Witzige Verbindung."
+   },
+   {
+    "l": 3,
+    "q": "Präsentiere 2 deiner Wesen: Erkläre, was Zufall war und was du geplant hast.",
+    "a": "Klare Unterscheidung: Form = Zufall, Augen und Details = geplant. Fachwörter wie Klecksografie benutzt."
+   },
+   {
+    "l": 3,
+    "q": "Warum mögen Künstler den Zufall? Schreib 3 Gründe und deine Meinung.",
+    "a": "Zum Beispiel: neue Ideen, überraschende Formen, weniger Angst vor Fehlern, Fantasie wird angeregt."
+   }
+  ],
+  "mt": "Was ist Pareidolie?\n+ Gesichter und Formen in Dingen sehen\n- eine Druckfarbe\n- ein Maler\n\nWer riet, auf Mauerflecken zu schauen?\n- Warhol\n+ Leonardo da Vinci\n- Toulouse-Lautrec\n\nWas ist Klecksografie?\n- Fotos machen\n+ Bilder aus Tintenklecksen\n- Schreiben mit Füller\n\nWas machst du, wenn ein Klecks hässlich aussieht?\n- wegwerfen\n+ drehen und ein Wesen darin suchen\n- schwarz übermalen\n\nWas gibt beim Klecksbild die Form?\n+ der Zufall\n- das Lineal\n- der Computer"
+ },
+ {
+  "ch": "7 Fantasiewelten",
+  "title": "7.2 Frottage: Strukturen durchreiben",
+  "text": "# Was ist Frottage?\n- Frottage kommt vom französischen Wort frotter: reiben.\n- Du legst Papier auf eine raue Oberfläche und reibst mit Bleistift oder Wachsmalkreide darüber.\n- Die Struktur erscheint auf dem Papier.\n[bilder: 🍂 das Blatt | 🪵 die Holzmaserung | 🪙 die Münze | 🧺 der Korb | 🧱 der Ziegel]\n# Max Ernst\n- Max Ernst (1891–1976) erfand 1925 die Frottage als Kunsttechnik.\n- Er rieb Holzdielen, Blätter und Fäden ab. Daraus entstanden Wälder, Vögel und seltsame Wesen.\n- Sein Buch dazu heißt Histoire Naturelle (Naturgeschichte).\n# Strukturen sammeln\n| Oberfläche | Struktur | Kann werden zu … |\n|---|---|---|\n| Holz | Linien, Maserung | Wasser, Haare, Fell |\n| Blatt | Adern | Flügel, Federn, Baum |\n| Netz | Gitter | Schuppen, Rüstung |\n| Wellpappe | Streifen | Panzer, Haus, Zebra |\n| Spitze | Muster | Kleid, Schmetterling |\n# Farben für die Frottage\n[farben: Grafit=#4b5563 | Wachsrot=#e11d48 | Wachsorange=#fb923c | Wachsgrün=#22c55e | Wachsblau=#3b82f6 | Wachsviolett=#8b5cf6]\n- Reibe mit verschiedenen Farben übereinander. So entstehen neue Mischfarben.\nMerke: Frottage = Durchreiben. Die Struktur kommt von der Oberfläche, das Bild aus deiner Fantasie.\n# Gestaltungsauftrag\nThema: Frottage-Collage: Mein fantastischer Vogel (wie bei Max Ernst)\nMaterial: dünnes Papier, Wachsmalkreide und weicher Bleistift (6B), Strukturen aus der Schule, Schere, Kleber, schwarzer Karton\nTechnik: Frottage und Collage\n[bilder: 🦜 der Vogel | ✂️ die Schere | 🖍️ die Wachsmalkreide | 🗂️ die Strukturen]\nSchritte:\n- 1. Geh auf Strukturjagd: Reibe mindestens 8 Oberflächen in Schule und Schulhof ab.\n- 2. Benutze verschiedene Farben. Beschrifte hinten, woher die Struktur kommt.\n- 3. Zeichne die Teile eines Fantasievogels: Körper, Flügel, Schwanz, Kopf, Beine.\n- 4. Schneide jedes Teil aus einer passenden Frottage aus.\n- 5. Klebe den Vogel auf schwarzen Karton. Ergänze Augen und Schnabel.\nBewertung:\n- Mindestens 5 verschiedene Strukturen sind benutzt.\n- Die Strukturen passen zu den Körperteilen.\n- Der Vogel ist fantasievoll und klar erkennbar.\n- Die Collage ist sauber geklebt.",
+  "help": "# Papier\nFalsch: Ich nehme dicken Zeichenkarton.\nRichtig: Nimm dünnes Papier. Nur so kommt die Struktur gut durch.\n# Reiben\nAchtung: Halte den Stift flach und reibe immer in eine Richtung. Halte das Papier fest, sonst verrutscht es.\n# Max Ernst\nFalsch: Max Ernst hat die Strukturen gemalt.\nRichtig: Er hat sie durchgerieben und dann daraus Bilder gemacht.",
+  "ub": {
+   "t": "match",
+   "x": "Holzmaserung | Wasser oder Haare\nBlattadern | Flügel oder Federn\nNetz | Schuppen\nWellpappe | Panzer\nSpitze | Schmetterling"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Oberfläche und Idee",
+    "x": "Holzmaserung | Wasser oder Haare\nBlattadern | Flügel oder Federn\nNetz | Schuppen\nWellpappe | Panzer\nSpitze | Schmetterling"
+   },
+   {
+    "t": "mc",
+    "n": "Frottage",
+    "x": "Was heißt frotter?\n+ reiben\n- malen\n- drucken\n\nWer erfand die Frottage als Kunsttechnik?\n- Rembrandt\n+ Max Ernst\n- Dürer\n\nWelches Papier ist am besten?\n- dicker Karton\n+ dünnes Papier\n- Alufolie\n\nWie hältst du den Stift?\n+ flach\n- senkrecht\n- gar nicht\n\nWie heißt das Buch von Max Ernst?\n- Moulin Rouge\n- Die Schaukel\n+ Histoire Naturelle"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Frottage",
+    "x": "FROTTAGE | Durchreibetechnik\nSTRUKTUR | Oberfläche mit Muster\nMASERUNG | Linien im Holz\nWACHSMALKREIDE | dicker, weicher Farbstift\nERNST | Nachname des Erfinders der Frottage\nCOLLAGE | Bild aus geklebten Teilen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Mach 6 Frottagen in Kästchen (je 5 × 5 cm) und schreib darunter, woher sie kommen.",
+    "a": "Sechs klare Strukturen, richtig beschriftet (z. B. Heizung, Gully, Blatt, Münze, Baum, Schuhsohle)."
+   },
+   {
+    "l": 1,
+    "q": "Reibe ein Blatt mit 3 Farben übereinander ab. Welche neuen Farben entstehen?",
+    "a": "Mischfarben wie Gelb + Blau = Grün sichtbar; Ergebnis kurz notiert."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte statt eines Vogels einen Fisch oder einen Roboter aus deinen Frottagen.",
+    "a": "Andere Figur, wieder passende Strukturen (Schuppen = Netz, Metall = Münze/Gitter)."
+   },
+   {
+    "l": 2,
+    "q": "Mach eine Frottage-Landschaft nur aus Strukturen: Himmel, Berge, Wald, Wasser.",
+    "a": "Landschaft mit mindestens 4 Strukturen, Farbperspektive beachtet (hinten blasser)."
+   },
+   {
+    "l": 3,
+    "q": "Zeig deine Collage der Klasse. Lass die anderen raten, welche Oberfläche zu welchem Teil gehört.",
+    "a": "Präsentation mit Rätsel, danach Auflösung; Fachwörter Frottage, Struktur, Collage benutzt."
+   },
+   {
+    "l": 3,
+    "q": "Max Ernst sagte, die Frottage hilft der Fantasie. Stimmt das für dich? Begründe mit deinem Bild.",
+    "a": "Eigene Erfahrung, z. B. „Die Holzmaserung hat mich an Federn erinnert, darauf wäre ich sonst nicht gekommen.“"
+   }
+  ],
+  "mt": "Was ist Frottage?\n+ eine Durchreibetechnik\n- eine Drucktechnik mit Presse\n- ein Fotoeffekt\n\nWer machte die Frottage berühmt?\n- Andy Warhol\n+ Max Ernst\n- Albrecht Dürer\n\nWelches Material reibst du ab?\n- Wasser\n+ raue Oberflächen wie Holz oder Blätter\n- Glas\n\nWelcher Stift ist gut für Frottage?\n+ Wachsmalkreide\n- Füller\n- Kugelschreiber\n\nWas kann Holzmaserung im Bild werden?\n- nur Holz\n+ Wasser, Haare oder Fell\n- nichts"
+ },
+ {
+  "ch": "7 Fantasiewelten",
+  "title": "7.3 Monotypie, Materialdruck und Abklatsch",
+  "text": "# Experimentelle Drucktechniken\n- Diese Techniken sind überraschend. Jedes Bild ist einmalig.\n[bilder: 🖐️ die Monotypie | 🍃 der Materialdruck | 🦋 der Abklatsch | 🪟 die Glasplatte]\n| Technik | So geht es | Ergebnis |\n|---|---|---|\n| Monotypie | Farbe auf Platte walzen, Papier auflegen, auf der Rückseite zeichnen | nur ein einziger Druck (mono = eins) |\n| Materialdruck | Blätter, Fäden, Netze einfärben und drucken | Strukturen werden sichtbar |\n| Abklatsch (Décalcomanie) | Farbe zwischen zwei Flächen drücken und abziehen | Adern, Korallen, Gebirge |\n# Künstler\n- Oscar Domínguez und Max Ernst nutzten den Abklatsch um 1936. Sie sahen darin Fantasielandschaften.\n- Edgar Degas machte viele Monotypien von Tänzerinnen.\n# Gefühle in Farbe\n- Farben zeigen Gefühle. Beim Abklatsch kannst du sie mischen lassen.\n[farben: Wut=#b91c1c | Freude=#fde047 | Ruhe=#60a5fa | Trauer=#475569 | Angst=#4c1d95 | Hoffnung=#86efac]\n| Gefühl | Farben | Formen |\n|---|---|---|\n| Wut | Rot, Schwarz | spitz, zackig |\n| Freude | Gelb, Orange | rund, offen |\n| Ruhe | Hellblau, Grün | weich, waagrecht |\n| Angst | Violett, Schwarz | eng, verzerrt |\nMerke: Mono heißt eins. Eine Monotypie gibt es nur einmal. Beim Abklatsch hilft dir der Zufall.\n# Gestaltungsauftrag\nThema: Gefühlslandschaften – Abklatsch in Gefühlsfarben\nMaterial: Gouache oder Acryl, Glasplatte oder Folie, Walze, glattes Papier, Fineliner, Pinsel\nTechnik: Abklatsch (Décalcomanie) und Monotypie, mit Zeichnung ergänzt\n[bilder: 😡 die Wut | 😊 die Freude | 😌 die Ruhe | 😨 die Angst | 🖌️ der Pinsel]\nSchritte:\n- 1. Wähle zwei Gefühle, z. B. Wut und Ruhe. Wähle passende Farben.\n- 2. Trage die Farben dick auf eine Glasplatte auf. Drück ein Papier darauf und zieh es langsam ab.\n- 3. Lass trocknen. Such in den Strukturen Landschaften: Höhlen, Berge, Wälder.\n- 4. Ergänze mit Fineliner oder Pinsel kleine Figuren, Wege, Häuser. Sie zeigen die Größe der Landschaft.\n- 5. Mach dazu eine Monotypie: Zeichne auf der Rückseite eines Papiers, das auf eingewalzter Farbe liegt, eine Figur, die durch deine Landschaft wandert.\nBewertung:\n- Die Farben passen zu den gewählten Gefühlen.\n- Die Abklatsch-Strukturen sind sichtbar und gut genutzt.\n- Ergänzte Figuren erzeugen Raum und Geschichte.\n- Du kannst den Arbeitsprozess erklären.",
+  "help": "# Monotypie\nFalsch: Ich kann eine Monotypie viele Male drucken.\nRichtig: Mono heißt eins. Jede Monotypie ist einmalig.\n# Abklatsch\nAchtung: Zieh das Papier langsam ab. Dann entstehen die schönen Adern und Strukturen.\n# Farbe\nFalsch: Ich nehme wässrige Farbe.\nRichtig: Für den Abklatsch brauchst du dicke, pastose Farbe (Gouache, Acryl).",
+  "ub": {
+   "t": "match",
+   "x": "Wut | Rot und Schwarz\nFreude | Gelb und Orange\nRuhe | Hellblau und Grün\nAngst | Violett und Schwarz\nTrauer | Grau und Dunkelblau"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Gefühl und Farbe",
+    "x": "Wut | Rot und Schwarz\nFreude | Gelb und Orange\nRuhe | Hellblau und Grün\nAngst | Violett und Schwarz\nTrauer | Grau und Dunkelblau"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Experimentelle Drucke",
+    "x": "*Mono* heißt eins.\nEine Monotypie gibt es nur *einmal*.\nBeim *Abklatsch* drückt man Farbe zwischen zwei Flächen.\nBeim *Materialdruck* druckt man mit Blättern oder Fäden.\nOscar *Domínguez* nutzte den Abklatsch."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Experimente",
+    "x": "Was heißt mono?\n+ eins\n- zwei\n- viele\n- keine\n\nWelche Farbe passt zu Wut?\n- Hellblau\n- Rosa\n+ Rot\n- Mint\n\nWie ziehst du beim Abklatsch das Papier ab?\n- ganz schnell\n+ langsam\n- gar nicht\n- mit der Schere\n\nWer machte Monotypien von Tänzerinnen?\n- Dürer\n+ Edgar Degas\n- Banksy\n- Raffael\n\nWomit druckt man beim Materialdruck?\n- mit Linol\n- mit Stein\n- mit Metall\n+ mit Blättern, Fäden, Netzen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Male 6 kleine Farbfelder für 6 Gefühle. Schreib das Gefühl darunter.",
+    "a": "Sechs Felder mit begründbarer Farbwahl, z. B. Freude Gelb, Trauer Grau."
+   },
+   {
+    "l": 1,
+    "q": "Mach 3 Materialdrucke mit Blättern, einem Faden und einem Stück Netz.",
+    "a": "Drei saubere Drucke, Strukturen klar erkennbar."
+   },
+   {
+    "l": 2,
+    "q": "Mach dieselbe Abklatsch-Landschaft zweimal: einmal in Freude-Farben, einmal in Angst-Farben. Ergänze passende Figuren.",
+    "a": "Zwei Landschaften mit klar unterschiedlicher Stimmung, Figuren unterstützen das Gefühl."
+   },
+   {
+    "l": 2,
+    "q": "Kombiniere: Mach eine Monotypie über einen Materialdruck. Was entsteht?",
+    "a": "Mehrschichtiges Bild, Struktur im Hintergrund, gezeichnete Linie im Vordergrund; überraschender Effekt."
+   },
+   {
+    "l": 3,
+    "q": "Halte einen Kurzvortrag (2 Minuten) zu deinem besten Bild: Technik, Schritte, Rolle des Zufalls, Wirkung.",
+    "a": "Vollständiger Vortrag mit allen vier Punkten, Fachwörter Abklatsch, Monotypie, Struktur benutzt."
+   },
+   {
+    "l": 3,
+    "q": "Können Farben wirklich Gefühle zeigen? Gilt das in allen Ländern gleich? Frag Mitschüler aus anderen Kulturen.",
+    "a": "Ergebnis z. B.: Weiß ist in manchen Ländern Trauerfarbe, Rot in China Glücksfarbe. Farbwirkung hängt auch von Kultur ab."
+   }
+  ],
+  "mt": "Was heißt Monotypie?\n+ ein einziger Druck\n- viele gleiche Drucke\n- ein Foto\n\nWas ist ein Abklatsch?\n- ein Applaus\n+ Farbe zwischen zwei Flächen drücken und abziehen\n- eine Schablone\n\nWelche Farbe passt zu Freude?\n- Grau\n+ Gelb\n- Schwarz\n\nWelche Farbe brauchst du für den Abklatsch?\n+ dicke Farbe wie Gouache\n- nur Wasser\n- Bleistift\n\nWer nutzte den Abklatsch um 1936?\n- Dürer\n+ Oscar Domínguez\n- Toulouse-Lautrec"
+ },
+ {
+  "ch": "7 Fantasiewelten",
+  "title": "7.4 Land Art und Naturmasken",
+  "text": "# Kunst aus der Natur\n- Land Art: Künstler gestalten direkt in der Natur mit Steinen, Blättern, Ästen, Sand.\n- Die Werke sind oft vergänglich. Wind und Regen verändern sie. Darum fotografiert man sie.\n[bilder: 🍂 das Herbstblatt | 🪨 der Stein | 🌿 der Zweig | 🐚 die Muschel | 🌰 die Kastanie | 📷 das Foto]\n# Künstler\n- Andy Goldsworthy (geboren 1956): Kreise aus bunten Blättern, Bögen aus Eis, Spiralen aus Steinen.\n- Richard Long (geboren 1945): Linien und Kreise aus Steinen in der Landschaft.\n- Giuseppe Arcimboldo (um 1527–1593): Köpfe aus Obst, Gemüse, Blumen. Zum Beispiel: Der Sommer, Vertumnus.\n# Herbstfarben\n[farben: Blattgelb=#eab308 | Herbstorange=#ea580c | Laubrot=#b91c1c | Moosgrün=#4d7c0f | Rindenbraun=#78350f | Steingrau=#a8a29e]\n- Ordne Blätter von Gelb über Orange und Rot bis Braun: ein natürlicher Farbverlauf.\n# Formen in der Land Art\n| Form | Wirkung |\n|---|---|\n| Kreis | Ruhe, Ganzheit |\n| Spirale | Bewegung, Wachstum |\n| Linie | Weg, Richtung |\n| Welle | Wasser, Fließen |\n# Präsentieren\n[satz: Mein Werk | *heißt* | Feuerkreis.]\n[satz: Ich habe | *benutzt* | rote und gelbe Blätter.]\n[satz: Der Zufall | *hat* | die Form der Blätter | bestimmt.]\nMerke: Land Art entsteht in der Natur mit Naturmaterial. Sie ist vergänglich. Das Foto bewahrt sie.\n# Gestaltungsauftrag\nThema: Land Art auf dem Schulgelände und eine Naturmaske wie Arcimboldo\nMaterial: gesammelte Naturmaterialien (nur vom Boden!), Kamera, Pappmaske oder Kartonkreis, Holzleim, Gummiband\nTechnik: Legen, Ordnen, Fotografieren; Collage mit Naturmaterial\n[bilder: 🌀 die Spirale | ⭕ der Kreis | 🎭 die Maske | 🍁 das Ahornblatt | 📸 die Kamera]\nSchritte:\n- 1. Sammelt in Gruppen Blätter, Steine, Zweige, Zapfen. Nehmt nur, was am Boden liegt.\n- 2. Legt eine Land-Art-Form auf den Boden: Kreis, Spirale oder Welle. Ordnet die Farben als Verlauf.\n- 3. Fotografiert das Werk von oben und von der Seite. Kommt am nächsten Tag wieder: Was hat sich verändert?\n- 4. Gestalte danach eine Maske: Klebe Naturmaterial auf einen Pappkreis wie Arcimboldo. Blätter werden Haare, Kastanien Augen, Zweige Nase.\n- 5. Präsentiere Land Art und Maske: Was war geplant, was war Zufall?\nBewertung:\n- Die Form ist klar und harmonisch.\n- Die Farben sind als Verlauf geordnet.\n- Die Maske zeigt ein erkennbares Gesicht aus Naturmaterial.\n- Die Präsentation erklärt Entstehung und Zufall.",
+  "help": "# Natur schützen\nAchtung: Reiße keine Blätter von Bäumen ab und pflücke keine geschützten Pflanzen. Nimm nur, was am Boden liegt.\n# Vergänglichkeit\nFalsch: Land Art ist schlecht, weil sie kaputtgeht.\nRichtig: Die Vergänglichkeit gehört zur Idee. Das Foto ist die Dokumentation.\n# Arcimboldo\nFalsch: Arcimboldo hat echtes Obst auf Bilder geklebt.\nRichtig: Er hat Obst, Gemüse und Blumen so gemalt, dass sie zusammen ein Gesicht ergeben.",
+  "ub": {
+   "t": "match",
+   "x": "Andy Goldsworthy | Kreise aus bunten Blättern\nRichard Long | Linien aus Steinen\nGiuseppe Arcimboldo | Köpfe aus Obst und Gemüse\nMax Ernst | Frottage\nAndy Warhol | Suppendosen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Künstler und Werk",
+    "x": "Andy Goldsworthy | Kreise aus bunten Blättern\nRichard Long | Linien aus Steinen\nGiuseppe Arcimboldo | Köpfe aus Obst und Gemüse\nMax Ernst | Frottage\nAndy Warhol | Suppendosen"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Land Art",
+    "x": "*Land Art* entsteht in der Natur.\nDie Werke sind *vergänglich*.\nDarum macht man ein *Foto*.\nArcimboldo malte Köpfe aus *Obst* und Gemüse.\nIch nehme nur Material, das am *Boden* liegt."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Natur und Kunst",
+    "x": "SPIRALE | Form für Bewegung und Wachstum\nKASTANIE | braune Frucht im Herbst\nMASKE | Gesicht zum Aufsetzen\nARCIMBOLDO | malte Köpfe aus Gemüse\nSTEIN | hartes Naturmaterial\nVERGAENGLICH | es bleibt nicht für immer"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Skizziere 3 Land-Art-Ideen: Kreis, Spirale, Linie. Schreib dazu, welches Material du benutzt.",
+    "a": "Drei Skizzen mit Materialangabe, z. B. Kreis aus roten Blättern, Spirale aus Steinen, Linie aus Zweigen."
+   },
+   {
+    "l": 1,
+    "q": "Sammle 8 Blätter und ordne sie als Farbverlauf von Gelb bis Braun. Klebe sie auf oder fotografiere sie.",
+    "a": "Sauberer Verlauf Gelb – Orange – Rot – Braun."
+   },
+   {
+    "l": 2,
+    "q": "Gestalte die gleiche Land-Art-Form in einer anderen Jahreszeit (Winter: Eis und Schnee, Frühling: Blüten). Zeichne den Entwurf.",
+    "a": "Gleiche Form, jahreszeitlich passende Materialien und Farben."
+   },
+   {
+    "l": 2,
+    "q": "Mach eine zweite Maske: diesmal ein Fantasiewesen (Waldgeist, Drache) statt eines Menschen.",
+    "a": "Maske mit klarer Figur, Naturmaterial sinnvoll für Hörner, Schuppen, Haare eingesetzt."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche Arcimboldos Gemüsekopf mit deiner Maske. Was ist ähnlich, was ist anders?",
+    "a": "Ähnlich: Gesicht aus Naturformen. Anders: Arcimboldo malte, ich klebte echtes Material; Farben, Ausdruck."
+   },
+   {
+    "l": 3,
+    "q": "Präsentiere dein Fotoprotokoll (Tag 1 und Tag 2). Erkläre, wie die Natur dein Kunstwerk verändert hat und ob dir das gefällt.",
+    "a": "Vorher-Nachher-Fotos, Beschreibung der Veränderungen (Wind, Regen, Tiere), begründete Meinung zur Vergänglichkeit."
+   }
+  ],
+  "mt": "Was ist Land Art?\n+ Kunst in der Natur mit Naturmaterial\n- Kunst nur im Museum\n- Kunst am Computer\n\nWer legt Kreise aus bunten Blättern?\n- Rembrandt\n+ Andy Goldsworthy\n- Dürer\n\nWas malte Arcimboldo?\n- Pop-Art-Selfies\n+ Köpfe aus Obst und Gemüse\n- Comics\n\nWarum fotografiert man Land Art?\n+ Weil sie vergänglich ist.\n- Weil sie zu groß für Papier ist.\n- Weil man sie verkaufen will.\n\nWelches Material darfst du nehmen?\n- Blätter vom Baum reißen\n+ Material, das am Boden liegt\n- geschützte Blumen pflücken"
+ }
+]

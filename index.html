@@ -354,7 +354,7 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .v-pic{font-size:2.6rem;line-height:1.1}.v-pic.v-txt{font-family:var(--f-display);font-size:1.7rem;color:#4f46e5}
 .v-sw{width:56px;height:56px;border-radius:50%;border:2px solid #cbd5e1;display:block}
 .v-dlg{display:grid;gap:8px;margin:10px 0;max-width:560px}.v-msg{display:flex;gap:8px;align-items:flex-end}.v-msg.r{flex-direction:row-reverse}
-.v-who{font-size:1.8rem;line-height:1}.v-bub{background:#eef2ff;border:2px solid #c7d2fe;border-radius:16px 16px 16px 4px;padding:8px 12px;font-weight:700;color:#1e3a8a}.v-msg.r .v-bub{background:#4f46e5;border-color:#4f46e5;color:#fff;border-radius:16px 16px 4px 16px}
+.v-who{font-size:1.8rem;line-height:1}.v-name{font-size:.78rem;font-weight:800;color:#1e3a8a;background:#e0f2fe;border-radius:999px;padding:3px 9px;white-space:nowrap;margin-bottom:4px}.v-bub{background:#eef2ff;border:2px solid #c7d2fe;border-radius:16px 16px 16px 4px;padding:8px 12px;font-weight:700;color:#1e3a8a}.v-msg.r .v-bub{background:#4f46e5;border-color:#4f46e5;color:#fff;border-radius:16px 16px 4px 16px}
 .v-satz{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.v-blk{position:relative;background:#e0f2fe;border:2px solid #7dd3fc;border-radius:12px;padding:12px 14px 8px;font-weight:800;color:#1e3a8a}.v-blk small{position:absolute;top:1px;left:6px;font-size:.62rem;color:#64748b}
 .v-blk.vb{background:#4f46e5;border-color:#4f46e5;color:#fff}.v-blk.vb small{color:#c7d2fe}.v-vb{color:inherit}.v-blk:not(.vb) .v-vb{color:#4f46e5}.v-ar{color:#c2410c;background:#ffedd5;border-radius:6px;padding:0 4px}
 .v-zahl figcaption{grid-auto-flow:column;gap:4px;align-items:center}.v-e{background:#e0f2fe;border-radius:8px;padding:2px 6px}.v-z{background:#ede9fe;border-radius:8px;padding:2px 6px}.v-u{color:#64748b}
@@ -457,6 +457,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .barrow .track span{position:absolute;left:10px;top:4px;font-weight:800;font-size:.9rem;white-space:nowrap}
 .barrow b{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-display);font-size:1.2rem}
 .ctrl{margin-top:16px}
+.art-d{margin-top:12px}.art-d summary{cursor:pointer;font-weight:800;color:var(--navy,#1e3a8a)}.art-d textarea{width:100%;font:inherit;padding:8px;border-radius:10px;border:2px solid #e0e7ff;resize:vertical}.art-d textarea::placeholder{color:#94a3b8}
+.ct-tiles{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.ct-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:104px;min-height:96px;padding:8px 6px;border-radius:20px;border:2px solid #e0e7ff;background:#fff;color:var(--navy,#1e3a8a);cursor:pointer;font:inherit;transition:transform .12s,box-shadow .12s}.ct-b:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(79,70,229,.15)}.ct-i{font-size:1.9rem;line-height:1}.ct-b b{font-size:.9rem;font-weight:800}.ct-b small{font-size:.72rem;font-weight:700;color:#4f46e5}.ct-b.sel{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.18)}.ct-b.on{background:#4f46e5;border-color:#4f46e5;color:#fff}.ct-b.on small{color:#e0f2fe}.ct-b[data-k=freeze].on{background:#1e3a8a;border-color:#38bdf8}.ct-o{margin-top:12px;padding:12px;border-radius:16px;background:#eef2ff;animation:ctIn .18s ease}@keyframes ctIn{from{opacity:0;transform:translateY(-4px)}}
 .ctrl summary{font-family:var(--f-display);font-weight:800;font-size:1.25rem;cursor:pointer}
 .grp{margin-top:16px}
 .phbtns{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px}
@@ -1742,7 +1744,7 @@ const VIS={
   uhr:a=>`<div class="v-row">${vSplit(a).map(x=>{const [t,cap]=x.split('=');const [h,m]=t.trim().split(':');return `<figure class="v-card">${clockSVG(h,m)}<figcaption><b>${esc(t.trim())}</b>${cap?`<span>${esc(cap.trim())}</span>`:''}</figcaption></figure>`}).join('')}</div>`,
   bilder:a=>`<div class="v-row v-pics">${vSplit(a).map(x=>{const sp=x.indexOf(' '),p=sp>0?x.slice(0,sp):x,l=sp>0?x.slice(sp+1):'';return `<figure class="v-card"><span class="v-pic ${/^[\p{L}\d]+$/u.test(p)?'v-txt':''}">${esc(p)}</span>${l?`<figcaption>${artC(l)}</figcaption>`:''}</figure>`}).join('')}</div>`,
   farben:a=>`<div class="v-row v-pics">${vSplit(a).map(x=>{const [n,c]=x.split('=').map(s=>s.trim());return `<figure class="v-card"><span class="v-sw" style="background:${/^#[0-9a-f]{3,6}$/i.test(c||'')?c:'#ccc'}"></span><figcaption>${esc(n)}</figcaption></figure>`}).join('')}</div>`,
-  dialog:a=>`<div class="v-dlg">${vSplit(a).map((x,i)=>{const sp=x.indexOf(' ');const who=x.slice(0,sp),t=x.slice(sp+1);return `<div class="v-msg ${i%2?'r':''}"><span class="v-who">${esc(who)}</span><span class="v-bub">${esc(t)}</span></div>`}).join('')}</div>`,
+  dialog:a=>`<div class="v-dlg">${vSplit(a).map((x,i)=>{const sp=x.indexOf(' ');const who=x.slice(0,sp),t=x.slice(sp+1);return `<div class="v-msg ${i%2?'r':''}"><span class="${/\p{Extended_Pictographic}/u.test(who)?'v-who':'v-name'}">${esc(who)}</span><span class="v-bub">${esc(t)}</span></div>`}).join('')}</div>`,
   satz:a=>`<div class="v-satz">${vSplit(a).map((x,i)=>`<span class="v-blk ${/^\*[^*]+\*$/.test(x)?'vb':''}"><small>${i+1}</small>${vMark(x)}</span>`).join('')}</div>`,
   zahl:a=>`<div class="v-row">${vSplit(a).map(x=>{const n=+x;if(!(n>=21&&n<=99)||n%10===0)return `<figure class="v-card"><span class="v-pic v-txt">${esc(x)}</span></figure>`;const e=n%10,z=Math.floor(n/10);
     return `<figure class="v-card v-zahl"><span class="v-pic v-txt">${n}</span><figcaption><span class="v-e">① ${e===1?'ein':ZW[e]}</span><span class="v-u">und</span><span class="v-z">② ${ZZ[z]}</span></figcaption></figure>`}).join('')}</div>`,
@@ -2158,6 +2160,12 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
 // Stunde, die an der Tafel bereitliegt: im Lehrerzimmer gewählt, sonst die nächste geplante
 function tafelPick(){if(!CS)return null;if(CS.pick){const L=lessonById(CS.pick);if(L)return {L,auto:false};CS.pick=null}
   const N=typeof planNext==='function'?planNext(1):[];return N[0]&&N[0].L?{L:N[0].L,auto:true}:null}
+// Steuerung an der Tafel: erst Knöpfe, die Optionen kommen beim Antippen. Freeze, Bereit-Check und Psst wirken sofort.
+function ctTiles(){const T=[];if(Live.kind==='server'&&!Live.dbKey)T.push(['keyqr','🔑','iPads verbinden',CS.keyQr,CS.keyQr?'QR an der Tafel':'','t-keyqr']);
+  T.push(['timer','⏱️','Timer',CS.timer.run,CS.timer.run?'läuft':timerLeft(CS.timer)<CS.timer.total?'Pause':'']);
+  T.push(['freeze','❄️','Freeze',CS.freeze,CS.freeze?'iPads gesperrt':'','t-frz'],['ready','✅','Bereit-Check',CS.ready,CS.ready?'läuft':'','t-rdy'],['poll','🗳️','Abstimmung',!!CS.poll,CS.poll?'läuft':''],
+    ['wheel','🎡','Glücksrad',!!CS.wheel,''],['groups','👥','Gruppen',!!CS.groups,''],['noise','🔊','Lautstärke',NOISE.on,NOISE.on?'Ampel an':''],['psst','🤫','Psst',false,'','ct-psst'],['lotsen','🧭','Lotsen',(CS.lotsen||[]).length>0,(CS.lotsen||[]).length?'frei':'']);
+  if(CS.game&&gInfo(CS.game.g))T.push(['game','🎮','Spiel',true,(CS.game.fin||[]).length+' fertig']);if(CS.share)T.push(['share','🔗','Geteilt',true,'']);return T}
 VIEWS.tafel=()=>{
   const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id),P=L?null:tafelPick(),sb=k=>`<div class="t-subj">${badge(k)}<b>${esc((SUBJECTS[k]||{}).name||'')}</b><span class="muted">· ${esc(className())}</span></div>`;
   const head=L?`${sb(L.subject)}<h1 class="t-big">${esc(L.title)}</h1>
@@ -2177,35 +2185,27 @@ VIEWS.tafel=()=>{
       <div class="t-nav"><button class="btn big pri" data-act="t-begin" data-id="${P.L.id}" ${P.L.phases.length?'':'disabled'}>▶ Stunde starten</button><button class="btn sm" data-act="lessons">Andere Stunde</button></div>`
     :`<span class="label">${esc(className())}</span><h1 class="t-big">Keine Stunde ausgewählt</h1><p class="muted" style="font-weight:700">Wähle im Lehrerzimmer oder in der Planung eine Stunde aus.</p>
       <div class="t-nav"><button class="btn big pri" data-act="lessons">Stunde auswählen</button></div>`;
-  const pf=V.pollF&&!CS.poll;
-  return `<div class="t-top">
+    return `<div class="t-top">
     <div class="t-head panel"><div style="min-width:0">${head}</div>
       <div class="ring" id="tring"><div id="ttime">${fmt(timerLeft(CS.timer))}</div></div>
     </div>
     <div class="tprev-w panel"><div class="tprev" id="tprev"></div><div class="row tprev-f"><small class="muted">📺 Gerade an der Tafel</small><button class="btn sm" data-act="board-open">🖥️ Tafel-Fenster öffnen (Vollbild)</button></div></div>
   </div>
-  <details class="panel ctrl" open><summary>Steuerung</summary>
-    ${Live.kind==='server'&&!Live.dbKey?`<div class="grp row"><span class="label">Verschlüsselt verbunden</span><button class="btn sm ${CS.keyQr?'on':''}" data-act="t-keyqr">🔑 ${CS.keyQr?'Schlüssel-QR ausblenden':'iPads verbinden (Schlüssel-QR an der Tafel)'}</button></div>`:''}
-    <div class="grp row"><span class="label">⏱️ Timer</span><input id="tt-m" type="number" min="1" max="90" value="${Math.max(1,Math.round((CS.timer.total||300)/60))}" style="width:80px" aria-label="Minuten"><span style="font-weight:800">min</span>
-      <button class="btn pri" data-act="tt-start">Start</button>${CS.timer.run||timerLeft(CS.timer)<CS.timer.total?`<button class="btn" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Weiter'}</button><button class="btn" data-act="tt-reset">Stopp</button>`:''}<small class="muted">Läuft auf der Folie und auf allen iPads.</small></div>
-    <div class="grp row"><span class="label">Signale</span>
-      <button class="btn ${CS.freeze?'on':''} red" data-act="t-frz">${CS.freeze?'❄️ Freeze beenden':'❄️ Freeze: alle iPads sperren'}</button>
-      <button class="btn ${CS.ready?'on':''}" data-act="t-rdy">${CS.ready?'✅ Bereit-Check beenden':'✅ Bereit-Check'}</button>
-      ${CS.poll?'<button class="btn red" data-act="t-poll-end">🗳️ Abstimmung beenden</button>':`<button class="btn ${pf?'on':''}" data-act="t-poll-f">🗳️ Abstimmung</button>`}</div>
-    <div class="grp row"><span class="label">🎲 Zufall</span><button class="btn" data-act="z-wheel">🎡 Glücksrad drehen</button>
-      <span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn" data-act="z-groups" style="white-space:nowrap">👥 Gruppen bilden</button><select id="z-n" aria-label="Personen pro Gruppe">${[2,3,4,5,6].map(k=>`<option value="${k}" ${k===(V.zn||4)?'selected':''}>je ${k}</option>`).join('')}</select></span>
-      ${CS.wheel||CS.groups?`<button class="btn sm red" data-act="z-off">${CS.wheel?'Glücksrad':'Gruppen'} ausblenden</button>`:''}</div>
-    <div class="grp row"><span class="label">🔊 Lautstärke</span><button class="btn ${NOISE.on?'on':''}" data-act="nz-tog">${NOISE.on?'🔇 Lautstärke-Ampel aus':'🎤 Lautstärke-Ampel an'}</button>
-      ${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><span class="nz-m"><i id="nz-bar"></i></span></span><label class="row" style="gap:6px;font-weight:700;font-size:.85rem">leise<input id="nz-sens" type="range" min="1" max="10" value="${NOISE.sens}" style="width:110px">empfindlich</label>`:`<small class="muted">${esc(NOISE.err||'Das Mikrofon misst, wie laut es ist. Elo an der Tafel wird immer röter.')}</small>`}</div>
-    ${pf?`<div class="grp"><span class="label">Abstimmung (anonym)</span>
+  <section class="panel ctrl"><span class="label">Steuerung</span><div class="ct-tiles">${ctTiles().map(([k,ic,n,on,sub,dir])=>`<button class="ct-b ${on?'on':''} ${V.ctl===k?'sel':''}" data-act="${dir||'ct'}" data-k="${k}" aria-pressed="${on?'true':'false'}"><span class="ct-i">${ic}</span><b>${n}</b>${sub?`<small>${sub}</small>`:''}</button>`).join('')}</div>
+    ${V.ctl==='timer'?`<div class="grp ct-o"><span class="label">⏱️ Timer · läuft an der Tafel und auf allen iPads</span><div class="row">${[1,2,3,5,10,15,20].map(m=>`<button class="btn" data-act="tt-pre" data-m="${m}">${m} min</button>`).join('')}<input id="tt-m" type="number" min="1" max="90" value="${Math.max(1,Math.round((CS.timer.total||300)/60))}" style="width:76px" aria-label="Minuten"><button class="btn pri" data-act="tt-start">Start</button>${CS.timer.run||timerLeft(CS.timer)<CS.timer.total?`<button class="btn" data-act="tt-go" id="tt-go">${CS.timer.run?'Pause':'Weiter'}</button><button class="btn red" data-act="tt-reset">Stopp</button>`:''}</div></div>`:''}
+    ${V.ctl==='poll'?(CS.poll?`<div class="grp ct-o row"><span class="label">🗳️ Abstimmung läuft</span><button class="btn red" data-act="t-poll-end">Abstimmung beenden</button></div>`:`<div class="grp ct-o"><span class="label">🗳️ Abstimmung (anonym)</span>
       <div class="row" style="margin-top:6px"><button class="btn" data-act="t-poll" data-t="thumbs">👍 Daumen: verstanden?</button><button class="btn" data-act="t-poll" data-t="corners">4 Ecken</button></div>
       <div class="row" style="margin-top:8px"><input id="cp-q" type="text" placeholder="Eigene Frage, z. B. Which word fits?" style="flex:2;min-width:220px">
         ${[1,2,3,4].map(i=>`<input id="cp-o${i}" type="text" placeholder="Antwort ${i}" style="flex:1;min-width:110px">`).join('')}
-        <button class="btn pri" data-act="t-poll" data-t="custom">Starten</button></div></div>`:''}
-    ${CS.game&&gInfo(CS.game.g)?`<div class="grp row"><span class="label">🎮 Spiel läuft</span><span class="chip">${esc(CS.game.title||gInfo(CS.game.g).name)}</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button></div>`:''}
-    ${CS.share?`<div class="grp row"><span class="label">🔗 Auf den iPads</span><span class="chip">${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button></div>`:''}
-    <div class="grp row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}<button class="btn sm" data-act="board">Funktionen festlegen</button></div>
-  </details>
+        <button class="btn pri" data-act="t-poll" data-t="custom">Starten</button></div></div>`):''}
+    ${V.ctl==='wheel'?`<div class="grp ct-o row"><span class="label">🎡 Glücksrad</span><button class="btn pri" data-act="z-wheel">Drehen</button>${CS.wheel?'<button class="btn red" data-act="z-off">Ausblenden</button>':''}</div>`:''}
+    ${V.ctl==='groups'?`<div class="grp ct-o row"><span class="label">👥 Gruppen</span><select id="z-n" aria-label="Personen pro Gruppe">${[2,3,4,5,6].map(k=>`<option value="${k}" ${k===(V.zn||4)?'selected':''}>je ${k}</option>`).join('')}</select><button class="btn pri" data-act="z-groups">Gruppen bilden</button>${CS.groups?'<button class="btn red" data-act="z-off">Ausblenden</button>':''}</div>`:''}
+    ${V.ctl==='noise'?`<div class="grp ct-o row"><span class="label">🔊 Lautstärke-Ampel</span><button class="btn ${NOISE.on?'on':''}" data-act="nz-tog">${NOISE.on?'🔇 Ausschalten':'🎤 Einschalten'}</button>
+${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><span class="nz-m"><i id="nz-bar"></i></span></span><label class="row" style="gap:6px;font-weight:700;font-size:.85rem">leise<input id="nz-sens" type="range" min="1" max="10" value="${NOISE.sens}" style="width:110px">empfindlich</label>`:`<small class="muted">${esc(NOISE.err||'Das Mikrofon misst, wie laut es ist. Elo an der Tafel wird immer röter.')}</small>`}</div>`:''}
+    ${V.ctl==='lotsen'?`<div class="grp ct-o row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}<button class="btn sm" data-act="board">Funktionen festlegen</button></div>`:''}
+    ${V.ctl==='game'&&CS.game&&gInfo(CS.game.g)?`<div class="grp ct-o row"><span class="label">🎮 ${esc(CS.game.title||gInfo(CS.game.g).name)}</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button></div>`:''}
+    ${V.ctl==='share'&&CS.share?`<div class="grp ct-o row"><span class="label">🔗 Auf den iPads</span><span class="chip">${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button></div>`:''}
+  </section>
   <div class="tafel">
     <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0</span> online</span>
       <span class="chip conn">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 Live geschützt · verbunden':'⚠️ Live offen · verbunden'):Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}</span></div>
@@ -2692,9 +2692,9 @@ function audHTML(){if(!AUD.list){audLoad();return '<p class="muted">Lädt …</p
 // sonst bildschirmfüllend, und ein Tipp im Fenster schaltet Vollbild ein
 async function boardWin(u){let s=null,ok=false;
   try{if(window.getScreenDetails){const pm=await navigator.permissions.query({name:'window-management'}).catch(()=>null);if(pm&&pm.state!=='denied'){const sd=await getScreenDetails();s=sd.screens.find(x=>x!==sd.currentScreen)||sd.currentScreen;ok=true}}}catch(e){}
-  const f=s?`left=${s.availLeft},top=${s.availTop},width=${s.availWidth},height=${s.availHeight}`:`left=0,top=0,width=${screen.availWidth},height=${screen.availHeight}`;
+  const f=s?`left=${s.left},top=${s.top},width=${s.width},height=${s.height}`:`left=0,top=0,width=${screen.availWidth},height=${screen.availHeight}`;
   const w=window.open(u,'elio-tafel','popup,'+f+(ok?',fullscreen':''));if(!w){alert('Das Fenster wurde blockiert. Bitte Pop-ups für diese Seite erlauben.');return}
-  try{if(s){w.moveTo(s.availLeft,s.availTop);w.resizeTo(s.availWidth,s.availHeight)}}catch(e){}}
+  try{if(s){w.moveTo(s.left,s.top);w.resizeTo(s.width,s.height)}}catch(e){}}
 // Elo an der Tafel: Bewegung und Geräusch auf Knopfdruck
 // Folie anordnen: Elemente frei verschieben (Ziehen) und vergrößern (Ecke unten rechts), Maße in Prozent der Folie
 function slEdSlide(d){const L=lessonById(V.id),i=d&&d.i!=null?+d.i:V.sle&&V.sle.i,j=d&&d.j!=null?+d.j:V.sle&&V.sle.j,t=L&&L.phases[i]&&L.phases[i].tool;return t&&t.id==='slide'?deckSlides(t)[j]:null}
@@ -2770,6 +2770,8 @@ document.addEventListener('keydown',e=>{if(e.target&&/INPUT|TEXTAREA|SELECT/.tes
   const dir=['ArrowRight','PageDown',' '].includes(e.key)?1:['ArrowLeft','PageUp'].includes(e.key)?-1:0;
   if(BOARD){if(e.key==='f'||e.key==='F'){boardFs();return}if(dir&&window.opener&&!window.opener.closed&&window.opener.tafelKey){e.preventDefault();try{window.opener.tafelKey(dir)}catch(x){}}return}
   if(dir&&V.name==='tafel'&&tafelKey(dir))e.preventDefault()});
+// Browser erlauben Vollbild nur nach einem Tipp im Fenster selbst. Wo es erlaubt ist (z. B. Schul-Richtlinie), geht es sofort; sonst reicht ein Klick irgendwo.
+if(BOARD){boardFs();const fs1=e=>{if(document.fullscreenElement)return;boardFs();const x=$('#b-fs');if(x)x.remove()};addEventListener('pointerdown',fs1,true);addEventListener('keydown',fs1,true)}
 if(BOARD)setTimeout(()=>{if(document.fullscreenElement||innerHeight>=screen.height-2)return;const b=document.createElement('button');b.id='b-fs';b.className='b-fs';b.dataset.act='b-fs';b.innerHTML='⛶ Vollbild<small>Einmal tippen. Weiter geht es mit den Pfeiltasten oder im Lehrer-Fenster.</small>';document.body.appendChild(b)},600);
 function boardFs(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
 function startStep(i){
@@ -3690,7 +3692,7 @@ function tpCell(d,i,date){
   const nx=TD.tt[d+'-'+(i+1)],dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
   const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
   if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
-    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
   const others=lessons().filter(x=>x.subject===sl.s);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
@@ -4264,7 +4266,9 @@ async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.
     e.text=ls.filter(l=>!HELPRE.test(l.trim())).join('\n').replace(/\n{3,}/g,'\n\n').trim();const h=String(e.help||'');e.help=[h,...mv.filter(l=>!h.includes(l.trim()))].filter(Boolean).join('\n');n++});
   tsave();if(CS)pushCS();if(['tdesk','tsubj','mod','theft'].includes(V.name))render();return n}
 // Fertige Lernlandschaften pro Fach: Einträge, Übungen und Modul-Extras
-const PLANS={M:{f:'mathe7',pre:'m7-',t:'Jahresplan Mathematik 7',d:'8 Module mit 34 Unterkapiteln'},DZ:{f:'daz',pre:'dz-',t:'Lernlandschaft Deutsch als Zweitsprache',d:'Themenmodule mit Wortschatz, Dialogen und Grammatik'}};
+const PLANS={M:{f:'mathe7',pre:'m7-',t:'Jahresplan Mathematik 7',d:'8 Module mit 34 Unterkapiteln'},DZ:{f:'daz',pre:'dz-',t:'Lernlandschaft Deutsch als Zweitsprache',d:'Themenmodule mit Wortschatz, Dialogen und Grammatik'},
+  E:{f:'englisch7',pre:'e7-',t:'Jahresplan Englisch 7',d:'8 Module mit Wortschatz, Dialogen, Grammatik und Ausspracheübungen'},
+  K:{f:'kunst7',pre:'k7-',t:'Jahresplan Kunst 7',d:'Module mit Fachwissen und Gestaltungsaufträgen'}};
 async function heftLoadPlan(quiet,sk){sk=PLANS[sk]?sk:'M';const PL=PLANS[sk];try{const [L,M]=await Promise.all([PL.f,PL.f+'_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
   let up=0;L.forEach((x,k)=>{const id=PL.pre+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
     // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
@@ -4666,7 +4670,7 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
         return `<div class="fl ${ok?'done':''}"><div class="row" style="justify-content:space-between;gap:8px"><b>Aufgabe ${i+1}</b><span class="chip">${'⭐'.repeat(f.p)} ${f.p} P.</span></div><p>${esc(f.q)}</p>
           ${sh?`<div class="fl-a"><b>Lösung:</b> ${esc(f.a)}</div>${T||ok?`<button class="btn sm" data-act="mx-tog" data-k="f${i}" style="margin-top:6px">Lösung verbergen</button>`:''}`:`<button class="btn sm" data-act="mx-tog" data-k="f${i}">👀 Lösung zeigen</button>`}
           ${!T&&sh&&!ok?`<div class="row" style="margin-top:6px"><button class="btn sm ok" data-act="fl-ok" data-k="${esc(key)}" data-p="${f.p}">Hatte ich richtig (+${f.p})</button><button class="btn sm" data-act="mx-tog" data-k="f${i}">Nochmal probieren</button></div>`:ok?'<span class="chip ok">✓ geschafft</span>':''}</div>`}).join('')||'<div class="empty">Kommt noch.</div>'}</section></div></div>`};
-VIEWS.tdesk=()=>{const ks=[...new Set(['M','DZ',...tHeft().map(e=>e.s)])];
+VIEWS.tdesk=()=>{const ks=[...new Set(['M','DZ','E','K',...tHeft().map(e=>e.s)])];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
   <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
     return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody"><b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Hausaufgabe${hw>1?'n':''}</small>`:''}</span></button>`}).join('')}
@@ -4748,6 +4752,81 @@ VIEWS.lessons=()=>{
 };
 /* Qualitäts-Check einer geplanten Stunde: nach dem Bewertungsbogen des Seminars 35.1 (bayerisches Qualitätstableau, Modul A)
    und den Merkmalen guten Mathematikunterrichts (PIK AS). Nur Hinweise aus der Planung, keine Bewertung. */
+/* ---------- Artikulation als Word-Datei: nach dem TUV-Muster der Lehrkraft (Kopf, Kompetenzen, Phasentabelle) ---------- */
+const ART_SF={Plenum:'Plenum',EA:'Einzelarbeit',PA:'Partnerarbeit',GA:'Gruppenarbeit',Stationen:'Stationenarbeit',Bewegung:'Bewegung im Raum'};
+// Phasenarten: Erkennen am Namen, dazu typische Schüleraktivität (Operator fett) und Inhalt in Stichpunkten
+const ART_PH=[
+  [/begrü|ankommen|beginn/i,'begrüßen','die Lehrkraft und stellen sich auf die Stunde ein.',['Die SuS begrüßen die Lehrkraft.','Die SuS bereiten ihren Arbeitsplatz vor.']],
+  [/warm|kopfrech|ritual/i,'aktivieren','in einer ritualisierten Übung ihre Grundfertigkeiten.',['SuS aktivieren ihre Grundfertigkeiten in einer kurzen, ritualisierten Übung.']],
+  [/wiederhol|vorwissen|experte/i,'aktivieren und verbalisieren','ihr Vorwissen zum Thema.',['SuS wiederholen zentrale Begriffe in eigenen Worten.','SuS prüfen Beispiele und Gegenbeispiele und begründen ihre Entscheidung.']],
+  [/problem|einstieg|impuls|initiation/i,'analysieren','eine Ausgangssituation und formulieren daraus eine Problemfrage.',['SuS erfassen die dargestellte Situation und geben relevante Informationen in eigenen Worten wieder.','SuS formulieren ausgehend von der Problemstellung gemeinsam die Stundenfrage.']],
+  [/hypothesen.?über|überprüf|rückbezug/i,'überprüfen','ihre anfänglichen Vermutungen anhand der gewonnenen Erkenntnisse.',['Die zu Beginn formulierten Vermutungen werden erneut aufgegriffen.','SuS überprüfen diese Vermutungen.']],
+  [/vermut|hypo/i,'äußern','Vermutungen zur Stundenfrage.',['SuS äußern erste Vermutungen zur Stundenfrage.','Vermutungen werden unbewertet gesammelt und für die spätere Überprüfung festgehalten.']],
+  [/präsent/i,'präsentieren und begründen','ihre Ergebnisse.',['Ausgewählte SuS präsentieren ihre Ergebnisse und erläutern ihr Vorgehen.','Mitschüler geben eine kurze Rückmeldung.']],
+  [/erarbeit|forsch|objektiv/i,'erarbeiten','in Partner- oder Gruppenarbeit selbstständig neue Inhalte.',['SuS bearbeiten den Arbeitsauftrag und halten ihre Ergebnisse fest.','LK begleitet die Arbeitsphase beobachtend und unterstützt bei Bedarf.']],
+  [/sicherung|hefteintrag|tafelbild/i,'sichern','die zentralen Erkenntnisse der Stunde.',['Gemeinsam wird die Stundenfrage beantwortet.','SuS übertragen den Hefteintrag in ihr Heft.']],
+  [/übung|anwend|transfer|vertief/i,'übertragen','das Gelernte selbstständig auf neue Aufgaben.',['SuS übertragen die gewonnene Erkenntnis auf weitere Aufgaben.','Differenzierung durch gestufte Aufgaben.','LK begleitet beobachtend und unterstützt bei Bedarf.']],
+  [/reflex|feedback|exit|abschluss/i,'reflektieren','ihren individuellen Lernprozess.',['SuS reflektieren ihren Lernprozess anhand eines Reflexionsimpulses.','Einzelne SuS teilen ihre Einschätzung im Plenum.']],
+  [/hausauf/i,'notieren','die Hausaufgabe.',['SuS notieren die Hausaufgabe im Hausaufgabenheft.']]];
+const artPh=p=>ART_PH.find(([re])=>re.test(p.name||''));
+const ART_KOMP={
+  M:['Die SuS beschreiben mathematische Zusammenhänge mit Fachbegriffen und lösen Aufgaben zum Stundenthema.','Sie begründen ihre mathematischen Überlegungen, vergleichen unterschiedliche Lösungswege und überprüfen Ergebnisse auf ihre Angemessenheit.'],
+  E:['Die SuS verständigen sich in einfachen Alltagssituationen und tauschen Informationen zum Stundenthema aus (Sprechen).','Sie entnehmen einfachen Hör- und Lesetexten wesentliche Informationen (Hör- und Leseverstehen).','Sie verwenden den Wortschatz und die Strukturen der Stunde in neuen Zusammenhängen (Verfügen über sprachliche Mittel).'],
+  K:['Die SuS gestalten eigene Bildlösungen und setzen dabei bildnerische Mittel gezielt ein.','Sie beschreiben, vergleichen und bewerten eigene und fremde Werke mit Fachbegriffen.'],
+  DZ:['Die SuS verstehen und verwenden den Wortschatz und die Redemittel der Stunde in alltagsnahen Situationen.','Sie wenden die sprachlichen Strukturen der Stunde in kurzen mündlichen und schriftlichen Äußerungen an.']};
+function artData(L){const t=L.title||'',su=SUBJECTS[L.subject]||{name:''},mi=String(L.mission||'').trim();
+  const ziel=L.aziel||(mi?(/^die sus/i.test(mi)?mi:/^i can/i.test(mi)?'Die SuS können am Ende der Stunde: „'+mi+'“':/^ich kann\s/i.test(mi)?'Die SuS können '+mi.replace(/^ich kann\s*/i,''):/^ich\s/i.test(mi)?'Die SuS '+mi.replace(/^ich\s*/i,'').replace(/^(\S+?)e\b/,'$1en'):'Die SuS '+mi):'Die SuS erarbeiten sich das Thema „'+t+'“ und wenden ihr Wissen an.');
+  let frage='';const rows=L.phases.map((p,i)=>{const T=p.tool||{},nm=T.id&&(TOOLS[T.id]||AKT[T.id]||GAME_INFO[T.id]),ph=artPh(p),ipad=T.id&&(AKT[T.id]||GAME_INFO[T.id]||TOOL_IPAD[T.id])&&!p.noipad;
+    if(T.id==='question'&&T.q&&!frage)frage={i,q:T.q};
+    const own=String(p.art||'').split('\n').map(s=>s.trim()).filter(Boolean);
+    const lines=own.length?own:[...(p.txt?['L: „'+p.txt+'“']:[]),...(T.id==='question'&&T.q?['Stundenfrage: „'+T.q+'“']:[]),...(nm&&AKT[T.id]?['SuS bearbeiten „'+nm.name+'“ auf dem iPad im eigenen Tempo.']:[]),...(nm&&GAME_INFO[T.id]?['SuS spielen „'+nm.name+'“ gemeinsam mit der Tafel.']:[]),...(ph?ph[4]||ph[3]:[])];
+    const meth=[nm&&!['slide','start','cover','mat','task','heft','heftlink','question'].includes(T.id)&&nm.name,ART_SF[p.sf]||p.sf].filter(Boolean),med=['ELIO-Tafel',...(ipad?['iPad']:[]),...(p.mats||[]).map(m=>m&&(m.title||m.name)).filter(Boolean)];
+    return {min:+p.min||0,name:p.name||'',title:(T.title&&T.id!=='question'?T.title:nm&&T.id!=='slide'?nm.name:''),lines,meth,med,ph}});
+  const akt=[];rows.forEach(r=>{if(r.ph&&!akt.some(a=>a[0]===r.ph[1]))akt.push([r.ph[1],r.ph[2]])});
+  const snd=[...new Set(L.phases.map(p=>p.snd).filter(Boolean))].map(id=>(AUD.list||[]).find(x=>x.id===id)).filter(x=>x&&!/^Eigene Synthese/.test(x.lizenz)).map(x=>`${x.titel} – ${x.urheber}; Lizenz: ${x.lizenz}`);
+  const d=L.adate?new Date(L.adate):new Date(),y=d.getMonth()>=7?d.getFullYear():d.getFullYear()-1;
+  return {schule:(schoolBy(S.school)||{}).name||'',fach:su.name,klasse:className().replace(/^Klasse\s+/,''),lp:L.alp||('LehrplanPLUS '+su.name+' Mittelschule, Jahrgangsstufe 7'+(t?' – '+t:'')),thema:t,ziel,
+    komp:String(L.akomp||'').trim()?L.akomp.split('\n').filter(s=>s.trim()):(ART_KOMP[L.subject]||['Die SuS erwerben Kenntnisse und Fertigkeiten zum Thema „'+t+'“ und wenden sie in neuen Situationen an.']),
+    akt,lit:String(L.alit||'').trim()?L.alit.split('\n').filter(s=>s.trim()):['Staatsinstitut für Schulqualität und Bildungsforschung (ISB): LehrplanPLUS Mittelschule, '+su.name+', Jahrgangsstufe 7.','ELIO – digitale Lernplattform (elio.schule): Folien, Übungen und Tafelwerkzeuge.',...snd],
+    rows,frage,total:lessonMin(L),name:String(L.aname||(CLOUD&&Cloud.prof&&Cloud.prof.name)||'').toUpperCase(),sj:y+'/'+(y+1),datum:d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'})}}
+// Word-XML: Times New Roman wie in der Vorlage, Pfeil-Aufzählung aus Wingdings
+const wx=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),TNR='<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>';
+const wR=(t,b,sz)=>`<w:r><w:rPr>${TNR}${b?'<w:b/><w:bCs/>':''}${sz?`<w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/>`:''}</w:rPr><w:t xml:space="preserve">${wx(t)}</w:t></w:r>`;
+function wP(segs,o){o=o||{};const S_=typeof segs==='string'?[[segs,0]]:segs;return `<w:p><w:pPr>${o.c?'<w:jc w:val="center"/>':''}</w:pPr>${o.ar?`<w:r><w:rPr>${TNR}<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr><w:sym w:font="Wingdings" w:char="F0E0"/></w:r>`+wR(' ',0,20):''}${S_.map(([t,b])=>wR(t,b,o.sz)).join('')}</w:p>`}
+const wE=()=>'<w:p/>';
+function artDocXML(doc,D){const put=(k,x)=>{doc=doc.split(`<w:p><w:r><w:t>§${k}§</w:t></w:r></w:p>`).join(x)};
+  put('SCHULE',wP([['Schule',0],[': '+D.schule,0]]));put('FACH',wP([['Fach',0],[': '+D.fach,0]]));put('KLASSE',wP([['Klasse',0],[': '+D.klasse,0]]));
+  put('LP',wP([['Lehrplan-Verortung:',0]])+wE()+D.lp.split('\n').map(l=>wP(l)).join('')+wE());
+  put('THEMA',wP([['Stundenthema',1],[': '+D.thema,0]])+wP([['Stundenziel',1],[': '+D.ziel,0]]));
+  put('KOMP',wP([['Kompetenzerwartungen und Inhalt zu den Kompetenzen (LehrplanPLUS):',1]])+wE()+D.komp.map(l=>wP(l)).join('')+wE());
+  put('AKT',wP([['Kompetenzanbahnende Schüleraktivitäten:',1]])+wE()+wP('Die SuS …')+D.akt.map(([v,r])=>wP([[v,1],[' '+r,0]])).join('')+wE());
+  put('LIT',wP([['Literatur- und Quellenangaben:',1]])+wE()+D.lit.map(l=>wP(l)).join('')+wE());
+  put('ZEIT',wP([['Zeit',1]],{c:1})+wP([[D.total+'‘',1]],{c:1}));put('FB',wP('Selbsteinschätzung und / oder Feedback der Betreuungslehrkraft / Seminarleitung:')+wE().repeat(6));
+  const rowOf=k=>{const i=doc.indexOf('§'+k+'§'),a=doc.lastIndexOf('<w:tr ',i),b=doc.indexOf('</w:tr>',i)+7;return [a,b]};
+  const [fa,fb]=rowOf('FRAGE'),fr=doc.slice(fa,fb);doc=doc.slice(0,fa)+doc.slice(fb);
+  const [pa,pb]=rowOf('PH'),pr=doc.slice(pa,pb);
+  const rows=D.rows.map((r,i)=>{let x=pr.split('<w:p><w:r><w:t>§Z§</w:t></w:r></w:p>').join(wE()+wP(r.min+'‘',{c:1}))
+      .split('<w:p><w:r><w:t>§PH§</w:t></w:r></w:p>').join(wP(r.name,{c:1}))
+      .split('<w:p><w:r><w:t>§IN§</w:t></w:r></w:p>').join((r.title?wP([[r.title,1]]):'')+r.lines.map(l=>wP(l,{ar:1,sz:20})).join('')||wE())
+      .split('<w:p><w:r><w:t>§SF§</w:t></w:r></w:p>').join(r.meth.map(l=>wP(l)).join('')||wE())
+      .split('<w:p><w:r><w:t>§MED§</w:t></w:r></w:p>').join(r.med.map(l=>wP(l)).join('')||wE());
+    if(D.frage&&D.frage.i===i)x+=fr.split('<w:p><w:r><w:t>§FRAGE§</w:t></w:r></w:p>').join(wP([['Stundenfrage',1],[': '+D.frage.q,0]]));return x});
+  return doc.slice(0,pa)+rows.join('')+doc.slice(pb)}
+// ZIP ohne Kompression (STORE), reicht für Word
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(u){let c=~0;for(let i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8);return (~c)>>>0}
+function zipStore(files){const te=new TextEncoder(),parts=[],cen=[];let off=0;
+  for(const [name,data] of files){const nb=te.encode(name),db=typeof data==='string'?te.encode(data):data,c=crc32(db),h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint32(14,c,true);h.setUint32(18,db.length,true);h.setUint32(22,db.length,true);h.setUint16(26,nb.length,true);
+    parts.push(new Uint8Array(h.buffer),nb,db);const e=new DataView(new ArrayBuffer(46));e.setUint32(0,0x02014b50,true);e.setUint16(4,20,true);e.setUint16(6,20,true);e.setUint16(8,0x0800,true);e.setUint32(16,c,true);e.setUint32(20,db.length,true);e.setUint32(24,db.length,true);e.setUint16(28,nb.length,true);e.setUint32(42,off,true);
+    cen.push(new Uint8Array(e.buffer),nb);off+=30+nb.length+db.length}
+  const cs=cen.reduce((s,x)=>s+x.length,0),end=new DataView(new ArrayBuffer(22));end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);end.setUint32(12,cs,true);end.setUint32(16,off,true);
+  return new Blob([...parts,...cen,new Uint8Array(end.buffer)],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'})}
+let ART_TPL=null;
+async function artExport(L){try{if(!AUD.list)await audLoad();}catch(e){}
+  try{ART_TPL=ART_TPL||await fetch('assets/artikulation/vorlage.json').then(r=>r.json());const D=artData(L),F=Object.entries(ART_TPL).map(([n,v])=>[n,n==='word/document.xml'?artDocXML(v,D):n==='word/header1.xml'?v.replace('§NAME§',wx(D.name)).replace('§SJ§',D.sj).replace('§DATUM§',D.datum):v]);
+    const b=zipStore(F),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=('Artikulation '+D.fach+' '+D.klasse+' – '+(L.title||'Stunde')).replace(/[\\/:*?"<>|]/g,'')+'.docx';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);return b}
+  catch(e){alert('Export hat nicht geklappt: '+e.message)}}
 function qcHTML(L){const P=L.phases||[],tx=p=>[p.name,p.goal,p.method,p.txt,p.tool&&p.tool.title,p.tool&&p.tool.text].join(' ').toLowerCase(),all=P.map(tx).join(' ');
   const has=re=>P.some(p=>re.test(tx(p))),acts=P.map(p=>p.act||'none'),modes=new Set(acts.map(actMode)),sf=new Set(P.map(p=>p.sf).filter(Boolean)),min=lessonMin(L);
   const inter=P.some(p=>actMode(p.act)==='inter'||(p.tool&&(AKT[p.tool.id]||GAME_INFO[p.tool.id]||p.tool.id==='kfb')));
@@ -4770,13 +4849,17 @@ function qcHTML(L){const P=L.phases||[],tx=p=>[p.name,p.goal,p.method,p.txt,p.to
 VIEWS['lesson-edit']=()=>{
   const L=lessonById(V.id);if(!L)return '<div class="empty">Diese Stunde gibt es nicht mehr.</div>';
   const opt=(o,v)=>Object.entries(o).map(([k,t])=>`<option value="${k}" ${k===v?'selected':''}>${esc(t)}</option>`).join('');
-  return `<div class="st-head"><button class="btn sm" data-act="lessons">← Meine Stunden</button><span class="chip">Gesamt: <b id="l-total">${lessonMin(L)}</b> Minuten</span><button class="btn ok sm" data-act="l-start" data-id="${L.id}">An der Tafel starten</button></div>
+  return `<div class="st-head"><button class="btn sm" data-act="lessons">← Meine Stunden</button><span class="chip">Gesamt: <b id="l-total">${lessonMin(L)}</b> Minuten</span><button class="btn ok sm" data-act="l-start" data-id="${L.id}">An der Tafel starten</button><button class="btn sm" data-act="l-art" data-id="${L.id}">📄 Als Artikulation exportieren</button></div>
   <section class="panel"><div class="lgrid">
     <label style="grid-column:1/-1">Titel der Stunde<input type="text" data-f="title" value="${esc(L.title)}"></label>
     <label>Fach<select data-f="subject">${opt(Object.fromEntries(Object.entries(SUBJECTS).map(([k,v])=>[k,v.name])),L.subject)}</select></label>
     <label style="grid-column:span 2">Mission (Stundenziel, „I can …“)<input type="text" data-f="mission" value="${esc(L.mission||'')}"></label>
     ${CLOUD&&Cloud.prof?`<label style="grid-column:1/-1;flex-direction:row;display:flex;gap:10px;align-items:center;font-weight:800"><input type="checkbox" data-f="shared" ${L.shared?'checked':''} style="width:22px;height:22px" ${L.owner&&Cloud.user&&L.owner!==Cloud.user.id?'disabled':''}> Mit den Lehrkräften dieser Klasse teilen</label>`:''}
-  </div></section>
+  </div>
+    <details class="art-d" ${V.artOpen?'open':''}><summary>📄 Für die Artikulation (Word-Export)</summary>${(()=>{const D=artData(L),ta=(f,l,v,ph,r)=>`<label style="grid-column:1/-1">${l}<textarea data-f="${f}" rows="${r||3}" placeholder="${esc(ph)}">${esc(v||'')}</textarea></label>`;
+      return `<p class="muted" style="font-weight:700;font-size:.85rem;margin:6px 0 10px">Leere Felder füllt ELIO selbst aus den Phasen (grau = Vorschlag). Alles kannst du überschreiben.</p><div class="lgrid">
+      <label>Datum der Stunde<input type="date" data-f="adate" value="${esc(L.adate||'')}"></label><label style="grid-column:span 2">Name in der Kopfzeile<input type="text" data-f="aname" value="${esc(L.aname||'')}" placeholder="${esc(D.name||'Dein Name')}"></label>
+      ${ta('alp','Lehrplan-Verortung',L.alp,D.lp,2)}${ta('aziel','Stundenziel',L.aziel,D.ziel,2)}${ta('akomp','Kompetenzerwartungen (eine pro Zeile)',L.akomp,D.komp.join('\n'),4)}${ta('alit','Literatur- und Quellenangaben (eine pro Zeile)',L.alit,D.lit.join('\n'),3)}</div>`})()}</details></section>
   <div class="lesson-list" style="margin-top:16px">${L.phases.map((p,i)=>`<article class="lcard">
     <div class="row" style="justify-content:space-between"><div class="row"><span class="lnum">${i+1}</span><h3>${esc(p.name)}</h3></div>
       <div class="row"><button class="btn sm" data-act="ph-up" data-i="${i}" ${i===0?'disabled':''} aria-label="Nach oben">↑</button><button class="btn sm" data-act="ph-down" data-i="${i}" ${i===L.phases.length-1?'disabled':''} aria-label="Nach unten">↓</button><button class="btn sm" data-act="ph-del" data-i="${i}">Entfernen</button></div></div>
@@ -4786,6 +4869,7 @@ VIEWS['lesson-edit']=()=>{
       <label>Sozialform<select data-f="ph.${i}.sf">${SOZ.map(x=>`<option ${x===p.sf?'selected':''}>${x}</option>`).join('')}</select></label>
       <label>🔔 Signal beim Start<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.snd" style="flex:1"><option value="">– kein Signal –</option>${AUD.list?[...new Set(AUD.list.map(x=>x.kategorie))].map(c=>`<optgroup label="${esc(c)}">${AUD.list.filter(x=>x.kategorie===c).map(x=>`<option value="${x.id}" ${p.snd===x.id?'selected':''}>${esc(x.titel)}</option>`).join('')}</optgroup>`).join(''):(audLoad(),p.snd?`<option value="${esc(p.snd)}" selected>${esc(p.snd)}</option>`:'')}</select>${p.snd?`<button class="btn sm au-pl" type="button" data-act="au-play" data-id="${esc(p.snd)}" aria-label="Probe hören">▶</button>`:''}</span></label>
       <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>
+      <details class="art-d" style="grid-column:1/-1"><summary>📄 Inhalt für die Artikulation</summary><textarea data-f="ph.${i}.art" rows="3" placeholder="${esc(artData(L).rows[i].lines.join('\n')||'Ein Stichpunkt pro Zeile')}">${esc(p.art||'')}</textarea></details>
       <div style="grid-column:1/-1"><span class="label">An der Tafel (Werkzeug)</span>${toolEditor(p,i,L)}</div>
       <div style="grid-column:1/-1"><span class="label">Was machen die iPads in dieser Phase?</span>${p.tool&&(TOOL_IPAD[p.tool.id]||AKT[p.tool.id]||GAME_INFO[p.tool.id])?`<div class="ipad-auto ${p.noipad?'off':''}"><b>${p.noipad?'🔒 Ohne iPads: alle schauen nach vorne.':'✨ Läuft automatisch mit dem Werkzeug'}</b>${p.noipad?'':`<small>${esc(TOOL_IPAD[p.tool.id]||'Die SuS spielen auf dem iPad mit.')}</small>`}
         ${IPAD_OFF.includes(p.tool.id)?`<label class="cbl" style="margin-top:6px"><input type="checkbox" data-f="ph.${i}.noipad" ${p.noipad?'checked':''} style="width:auto"> Ohne iPads (z. B. Klasse ohne iPads)</label>`:''}</div>`:(()=>{const md=actMode(p.act),M=ACT_MODES[md];
@@ -4798,6 +4882,7 @@ VIEWS['lesson-edit']=()=>{
   <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button><span class="spacer"></span><button class="btn" data-act="tpl-save">📐 Als ${esc(SUBJECTS[L.subject].name)}-Gerüst speichern</button>${tplOwn(L.subject)?`<button class="btn sm" data-act="tpl-reset">↺ Standard-Gerüst</button>`:''}</div>
   <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">${V.tplMsg?esc(V.tplMsg):`Jede neue ${esc(SUBJECTS[L.subject].name)}-Stunde startet mit dem ${tplOwn(L.subject)?'Gerüst, das du gespeichert hast':'Standard-Gerüst'}. Phasen, die du in einer Stunde nicht brauchst, löschst du einfach dort.`}</p>${qcHTML(L)}`;
 };
+document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('art-d')&&!d.closest('.lcard'))V.artOpen=d.open},true);
 document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
@@ -5180,6 +5265,10 @@ document.addEventListener('click',e=>{
     case 'lb-tog':{const L=(TD.lotsenFx||LB_DEF).slice(),i=L.indexOf(d.k);if(i>=0)L.splice(i,1);else L.push(d.k);TD.lotsenFx=L;tsave();if(CS)pushCS();render();break}
     case 'b-fs':boardFs();{const x=$('#b-fs');if(x)x.remove()}break;
     case 't-poll-f':V.pollF=!V.pollF;render();break;
+    case 'ct':V.ctl=V.ctl===d.k?null:d.k;render();break;
+    case 'l-art':{const L=lessonById(d.id);if(L)artExport(L);break}
+    case 'tt-pre':{const m=+d.m;CS.timer={run:true,total:m*60,left:m*60,endsAt:Date.now()+m*60000};pushCS();render();break}
+    case 'ct-psst':shushAt=0;NOISE.mute=false;eloShush(1);break;
     case 't-begin':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.pick=null;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();startStep(0);render();break}
     case 'tt-go':if(CS.timer.run){CS.timer.left=timerLeft(CS.timer);CS.timer.run=false}else{if(CS.timer.left<=0)CS.timer.left=CS.timer.total;CS.timer.endsAt=Date.now()+CS.timer.left*1000;CS.timer.run=true}pushCS();render();break;
     case 'tt-reset':CS.timer={run:false,total:CS.timer.total,left:CS.timer.total,endsAt:0};pushCS();render();break;
