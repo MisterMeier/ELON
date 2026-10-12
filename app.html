@@ -1826,7 +1826,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1450';let verTold=false;
+const BUILD='20261012-1453';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2403,7 +2403,7 @@ function ctTiles(){const T=[];if(Live.kind==='server'&&!Live.dbKey)T.push(['keyq
   T.push(['freeze','❄️','Freeze',CS.freeze,CS.freeze?'iPads gesperrt':'','t-frz'],['ready','🚀','Bereit-Check',CS.ready,CS.ready?CS.ready.done.length+' / '+Math.max(online().length,CS.ready.done.length)+' bereit':'Rakete an der Tafel','t-rdy'],['poll','🗳️','Abstimmung',!!CS.poll,CS.poll?'läuft':''],
     ['wheel','🎡','Glücksrad',!!CS.wheel,''],['groups','👥','Gruppen',!!CS.groups,''],['noise','🔊','Lautstärke',NOISE.on,NOISE.on?'Ampel an':'','ct-nz'],['psst','🤫','Psst',false,'','ct-psst'],['lotsen','🧭','Lotsen',(CS.lotsen||[]).length>0,(CS.lotsen||[]).length?'frei':''],['dm','✉️','Nachricht',(CS.dm||[]).some(m=>m.ok.length<m.to.length),(CS.dm||[]).length?(CS.dm||[]).filter(m=>m.ok.length>=m.to.length).length+' / '+CS.dm.length+' gelesen':'an einzelne'],['out','🚪','Alle abmelden',!!CS.out,CS.out?'läuft':'geteilte iPads']);
   if(CS.game&&gInfo(CS.game.g))T.push(['game','🎮','Spiel',true,(CS.game.fin||[]).length+' fertig']);if(CS.share)T.push(['share','🔗','Geteilt',true,'']);return T}
-VIEWS.tafel=()=>{
+VIEWS.tafel=()=>{clsSync();
   const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id),P=L?null:tafelPick(),sb=k=>`<div class="t-subj">${badge(k)}<b>${esc((SUBJECTS[k]||{}).name||'')}</b><span class="muted">· ${esc(className())}</span></div>`;
   const head=L?`${sb(L.subject)}<h1 class="t-big">${esc(L.title)}</h1>
       <p class="t-ph"><span class="chip">Phase ${CS.step+1} von ${L.phases.length}</span>${phaseFrames(L.phases[CS.step])>1?` <span class="chip">Folie ${(CS.sub||0)+1} von ${phaseFrames(L.phases[CS.step])}</span>`:''} <b>${esc(ph.name)}</b>${ph.txt?` · <span class="muted">${esc(ph.txt)}</span>`:''}</p>
@@ -4689,6 +4689,8 @@ async function cloudLoadMe(){
     else Cloud.myClasses=all.filter(c=>ct.some(x=>x.class_id===c.id));
   }
 }
+// Klassengröße geändert (Klasse bearbeiten)? Dann überall die neue Zahl nehmen.
+function clsSync(){if(S.role!=='teacher'||!CLOUD)return;const c=(Cloud.myClasses||[]).find(x=>x.id===S.cls);if(c&&c.size&&c.size!==S.classSize){S.classSize=c.size;save()}}
 function useClass(c){S.school=c.school_id;S.cls=c.id;S.code=c.code;S.classSize=c.size;saveRole()}
 async function teacherEnter(c){
   useClass(c);S.role='teacher';saveRole();CS=null;S.cs=null;initTeacher();await Live.start(S.code);pushCS();libLoad();
@@ -5311,7 +5313,7 @@ function imHTML(){const I=V.imp,size=S.classSize||24,P=imParse(I.txt,size,!!TD.v
     ${P.info.map(t=>`<p class="im-info">${esc(t)}</p>`).join('')}
     ${P.rows.length?`<div class="tbl"><table><thead><tr><th>Zeile</th><th>Nr.</th><th>Name</th><th>Erstsprache</th><th>Gruppe</th><th>Hinweis</th></tr></thead><tbody>${P.rows.map(r=>`<tr class="${r.errs.length?'im-bad':''}"><td>${r.line}</td><td>${esc(String(r.nr||''))}</td><td>${esc(r.vn||r.nick||'–')}</td><td>${r.l1?esc((LANGS.find(l=>l[0]===r.l1)||[,''])[1]):'–'}</td><td>${esc(r.grp||'–')}</td><td>${[...r.errs.map(e=>`<b>${esc(e)}</b>`),...r.warns.map(esc)].join('<br>')||'passt'}</td></tr>`).join('')}</tbody></table></div>
     <div class="row" style="gap:8px;margin-top:10px"><button class="btn pri" data-act="im-go" ${ok?'':'disabled'}>${ok} ${ok===1?'Kind':'Kinder'} übernehmen</button>${bad?`<span class="err">${bad} ${bad===1?'Zeile wird':'Zeilen werden'} übersprungen. Korrigiere sie oben, wenn sie mit sollen.</span>`:''}</div>`:''}</section>`}
-VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll().filter(a=>daysUntil(a.due)>=-14),cl=mbCls();
+VIEWS.sus=()=>{clsSync();const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll().filter(a=>daysUntil(a.due)>=-14),cl=mbCls();
   if(cl&&CLOUD&&Cloud.sb&&(ZG.cid!==S.cls||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=S.cls;zgLoad(S.cls)}
   const st=cl?zgStore(S.cls):{},by={};(cl&&ZG.cid===S.cls?ZG.list||[]:[]).forEach(r=>by[r.nr]=r);
   const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]||(TD.obs[k]||[]).length),miss=cl?ks.filter(k=>!by[k]):[];
