@@ -473,6 +473,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .lesson-list{display:grid;gap:12px}
 .im{margin:12px 0}.im textarea{width:100%;font-family:inherit}.im-vn{display:flex;gap:8px;align-items:center;font-weight:700;margin:8px 0}.im-vn input{width:20px;height:20px}.im-info{color:#78350f;background:#fffbeb;border-left:4px solid #f59e0b;padding:6px 10px;border-radius:6px}
 .im-bad td{background:#fff7ed}.im-bad b{color:#b45309}.im-chip{display:block;color:#4f46e5;font-weight:700}.im-next{background:#eef2ff;border:2px solid #4f46e5;border-radius:12px;padding:10px 14px;margin:8px 0;color:#1e3a8a}
+.lv-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 12px;font-weight:800;color:#1e3a8a}.lv-b{border:2px solid #c7d2fe;background:#fff;color:#1e3a8a;border-radius:99px;padding:6px 16px;font:inherit;font-weight:800;cursor:pointer}
+.lv-on{background:#4f46e5!important;border-color:#4f46e5!important;color:#fff!important;border-radius:99px;padding:6px 16px}.lv-ed summary{font-weight:800;color:#1e3a8a;cursor:pointer}.lv-sel{width:auto;padding:4px 6px;font-size:.85rem}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
 .bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
@@ -1810,7 +1812,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-0354';let verTold=false;
+const BUILD='20261012-0357';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2310,7 +2312,7 @@ function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.m
 let CS=null,ROSTER={},TALLY={};
 // Schülerbezogene Lehrerdaten gehören immer zu einer Klasse: Spitznamen, Avatare, Beobachtungen, Teams.
 // Oben in TD liegen nur die Daten der aktiven Klasse, die anderen Klassen warten in TD.cd[Klasse].
-const TD_PER=['nicks','avs','obs','teams','roster'];let ROSTER_CLS=null;
+const TD_PER=['nicks','avs','obs','teams','roster','lvl'];let ROSTER_CLS=null;
 function tdCls(){if(!TD||S.role!=='teacher')return;const now=S.cls||'-';TD.cd=TD.cd||{};
   if(TD._cls===undefined){TD._cls=now;return}
   if(TD._cls===now)return;const old={};TD_PER.forEach(k=>{old[k]=TD[k]||{}});TD.cd[TD._cls]=old;
@@ -2325,7 +2327,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2943,7 +2945,9 @@ function goTarget(t){
   else if(t.startsWith('heft:')){const r=t.slice(5),k=r.indexOf(':');go('subject',k<0?{s:r,tab:'heft'}:{s:r.slice(0,k),tab:'heft',hl:r.slice(k+1)})}
   else if(t.startsWith('station:')){const id=t.slice(8);W={};({words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[id]||(()=>{}))();go('station',{id})}
 }
-function akLive(T,p){const A=AKT[T.id],L=CS.lesson&&lessonById(CS.lesson.id);CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:A.parse(T.text||(L&&L.subject==='E'&&A.exE)||A.ex)}}
+function akLive(T,p){const A=AKT[T.id],L=CS.lesson&&lessonById(CS.lesson.id);CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:A.parse(T.text||(L&&L.subject==='E'&&A.exE)||A.ex)};
+  // Drei Niveaus: Standard ist der normale Inhalt, Grund und Plus sind freiwillig
+  const lv={};try{if(String(T.tg||'').trim())lv.g=A.parse(T.tg);if(String(T.tp||'').trim())lv.p=A.parse(T.tp)}catch(e){}if(lv.g||lv.p){CS.game.lv=lv;CS.game.lvm=T.lvm==='teacher'?'teacher':'self'}}
 function quizStart(T,p){CS.poll={id:'p'+Date.now(),type:'quiz',q:T.q||p.name,opts:lines(T.opts).slice(0,8),voted:[],multi:!!T.multi,mat:T.mat||''};if(!CS.poll.opts.length)CS.poll.opts=['Ja','Nein'];TALLY={}}
 const curTool=()=>{const L=CS&&CS.lesson&&lessonById(CS.lesson.id),p=L&&L.phases[CS.step];return p&&p.tool?{p,t:p.tool}:null};
 /* Audio-Mediathek: selbst erzeugte, frei nutzbare Geräusche (tools/gen_audio.py, Nachweis in assets/audio/credits.json) */
@@ -3810,7 +3814,12 @@ function toolEditor(p,i,L){
   if(t.id==='high5')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fünf Fragen (eine pro Zeile)',t.qs,5)}</div>`;
   if(AKT[t.id]){const A=AKT[t.id];let n='';try{n=A.count(A.parse(t.text||''))}catch(e){n='?'}
     cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel an der Tafel (freiwillig)',t.title,A.name)}<label style="grid-column:1/-1">Inhalt · ${esc(A.help)}<textarea rows="7" data-f="ph.${i}.tool.text" data-akc="${i}">${esc(t.text||'')}</textarea></label>
-      <div class="row" style="grid-column:1/-1"><span class="chip" id="akc-${i}">Erkannt: ${esc(n)}</span><button class="btn sm" data-act="ak-ex" data-i="${i}">${A.exE?'Beispiel einsetzen':'Mathe-Beispiel einsetzen'}</button><span class="muted" style="font-weight:700;font-size:.9rem">Text aus Word, PowerPoint oder einer Liste einfach reinkopieren.</span></div></div>`}
+      <div class="row" style="grid-column:1/-1"><span class="chip" id="akc-${i}">Erkannt: ${esc(n)}</span><button class="btn sm" data-act="ak-ex" data-i="${i}">${A.exE?'Beispiel einsetzen':'Mathe-Beispiel einsetzen'}</button><span class="muted" style="font-weight:700;font-size:.9rem">Text aus Word, PowerPoint oder einer Liste einfach reinkopieren.</span></div>
+      <details class="lv-ed" style="grid-column:1/-1" ${t.tg||t.tp?'open':''}><summary>Drei Niveaus (freiwillig): Grund · Standard · Plus</summary>
+        <p class="muted" style="font-weight:700;font-size:.9rem">Der Inhalt oben ist <b>Standard</b>. Trag hier eine leichtere und eine schwerere Fassung ein. Leer bleibt leer, dann gibt es dieses Niveau nicht.</p>
+        <div class="lgrid">${ta('tg','Grund (leichter)',t.tg,4)}${ta('tp','Plus (schwerer)',t.tp,4)}
+        <label>Wer wählt das Niveau?<select data-f="ph.${i}.tool.lvm"><option value="self" ${t.lvm!=='teacher'?'selected':''}>Jedes Kind wählt selbst</option><option value="teacher" ${t.lvm==='teacher'?'selected':''}>Ich weise zu (Klasse → Schüler/innen)</option></select></label>
+        <div><button class="btn sm" disabled title="Kommt mit Elo-KI">Leichter/schwerer erzeugen (bald)</button></div></div></details></div>`}
   if(t.id==='heft')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
   if(t.id==='diary')cfg=`<div class="lgrid" style="margin-top:8px">${ta('prompt','Leitfragen (eine pro Zeile)',t.prompt,3)}</div>`;
   if(t.id==='quiz')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q,'Welcher Term passt zur Folie?')}${ta('opts','Antworten (eine pro Zeile, bis zu 8: A, B, C …)',t.opts,4)}
@@ -4076,10 +4085,15 @@ const AKT={
 };
 Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt,fit:a.fit});
 const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
-function akStart(G){if(!AK.G||AK.G.at!==G.at){AK.G=G;AK.st=AKT[G.g].init(G.data)}}
+const LV_N={g:'Grund',s:'Standard',p:'Plus'};
+function akLvl(G){if(!G.lv||BOARD||S.role!=='student')return 's';const as=G.lvm==='teacher'&&RCS&&RCS.lvl&&RCS.lvl[S.nr];if(as&&(as==='s'||G.lv[as]))return as;const pk=(S.lvlPick||{})[G.at];return pk&&(pk==='s'||G.lv[pk])?pk:'s'}
+function akStart(G){if(G&&G.lv0)G=G.lv0;if(!AK.G||(AK.G.lv0||AK.G).at!==G.at||(AK.G.lvc||'s')!==akLvl(G)){const l=akLvl(G);AK.G=G.lv?Object.assign({},G,{data:l==='s'?G.data:G.lv[l],lvc:l,lv0:G}):G;AK.st=AKT[G.g].init(AK.G.data)}}
+function akLvlHTML(G){if(!G||!G.lv||BOARD||S.role!=='student')return '';const as=G.lvm==='teacher'&&RCS&&RCS.lvl&&RCS.lvl[S.nr];
+  if(as)return `<div class="lv-bar"><span>Dein Niveau:</span><b class="lv-on">${LV_N[G.lvc]}</b></div>`;
+  return `<div class="lv-bar"><span>Wähle dein Niveau:</span>${['g','s','p'].filter(k=>k==='s'||G.lv0.lv[k]).map(k=>`<button class="lv-b ${G.lvc===k?'lv-on':''}" data-act="ak-lvl" data-l="${k}">${LV_N[k]}</button>`).join('')}</div>`}
 function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Kein Spiel aktiv.</div>';const s=AK.st;
   const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${!BOARD&&S.role==='student'?rdBtn(AK_HOW[G.g],G.title||''):''}${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${G.mt?'<span class="chip">🎯 Minitest</span>':S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
-  return `<div class="ak akg-${G.g}">${head}${s.win?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`:''}${A.view(G.data,s)}</div>`}
+  return `<div class="ak akg-${G.g}">${head}${akLvlHTML(G)}${s.win?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`:''}${A.view(G.data,s)}</div>`}
 VIEWS.akt=()=>akHTML();
 /* --- Avatar-Shop: Sterne aus Übungen gegen Kleidung und Schmuck tauschen; Level zählt alle je verdienten Sterne --- */
 VIEWS.shop=()=>{if(S.role!=='student')return '<div class="empty">Den Shop gibt es für Schülerinnen und Schüler.</div>';const own=S.owned||[],bal=starBal(),a=avParse(S.av),W=a.w||{},cat=V.shc||'hat';
@@ -5227,7 +5241,7 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll(
       ${cl?`<td><b class="mono">${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code class="mono">${esc(pin)}</code>`:'<small class="muted">auf anderem Gerät erzeugt</small>'):''}${r&&r.blocked?' <span class="chip red">gesperrt</span>':''}</td>`:''}
       <td>${pr?`<small>✏️ ${pr.ub.length} · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}" style="display:block">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:''}</td>
       <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<button class="tk-n ib-go" data-act="ib-go" data-n="${k}" title="Nachricht im Postfach öffnen">💬 ${P.un}</button>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
-      <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>${r?`<button class="btn sm ${V.rsAsk===k?'red':''}" data-act="zg-rs" data-id="${S.cls}" data-n="${k}" title="Name, Avatar und Lernstand löschen. Kürzel und PIN bleiben.">${V.rsAsk===k?'Wirklich zurücksetzen':'Zurücksetzen'}</button>`:''}`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
+      <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>${r?`<button class="btn sm ${V.rsAsk===k?'red':''}" data-act="zg-rs" data-id="${S.cls}" data-n="${k}" title="Name, Avatar und Lernstand löschen. Kürzel und PIN bleiben.">${V.rsAsk===k?'Wirklich zurücksetzen':'Zurücksetzen'}</button>`:''}`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<select class="lv-sel" data-lvl="${k}" title="Übungsniveau, wenn du Niveaus zuweist" aria-label="Niveau"><option value="">Niveau</option>${['g','s','p'].map(l=>`<option value="${l}" ${(TD.lvl||{})[k]===l?'selected':''}>${LV_N[l]}</option>`).join('')}</select><button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>${esc(className())}</h1></div>
     <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="im-open">Klassenliste importieren</button><button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${V.imDone&&cl?`<div class="im-next"><b>Liste übernommen.</b> Jetzt Zugänge erzeugen und die Karten drucken.<div class="row" style="gap:8px;margin-top:6px">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>Zugänge erzeugen (${miss.length})</button>`:''}<button class="btn" data-act="zg-print" data-id="${S.cls}">Zugangskarten drucken</button></div></div>`:''}${V.imp?imHTML():''}${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err&&cl?`<p class="err">${esc(ZG.err)}</p>`:''}
@@ -5522,6 +5536,7 @@ async function cttSave(key){
 }
 /* ---------- Stundenbörse: Stunden als Kopie teilen (an ein Kürzel oder in die Börse der Schule). Nur Unterrichtsmaterial. ---------- */
 let BX={tab:'in',rows:null,busy:false,msg:'',f:{}};
+document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.lvl;if(k==null)return;TD.lvl=TD.lvl||{};if(e.target.value)TD.lvl[k]=e.target.value;else delete TD.lvl[k];tsave();if(CS)pushCS()});
 document.addEventListener('input',e=>{if(e.target.id!=='im-t'||!V.imp)return;V.imp.txt=e.target.value;clearTimeout(V.imp._t);V.imp._t=setTimeout(()=>{const pos=e.target.selectionStart;render();const n=$('#im-t');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}},500)});
 document.addEventListener('change',async e=>{if(e.target.id!=='im-file'||!V.imp)return;const f=e.target.files&&e.target.files[0];if(!f)return;
   if(/\.xlsx?$/i.test(f.name)){V.msg='Excel-Dateien bitte zuerst als CSV speichern (Datei → Speichern unter → CSV).';render();return}
@@ -5938,6 +5953,7 @@ document.addEventListener('click',e=>{
     case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Gib deinem Avatar einen Namen.';break}S.nick=nk;S.av=cleanAv(V.av);V.nd=null;acctSave();saveRole();sendMsg({k:'hi'});mbQueue({k:'hi',at:Date.now()});V.ok=1;render();break}
     case 'me-tname':if(Cloud.sb&&Cloud.user){const n=$('#me-tn').value.trim().slice(0,60);Cloud.sb.from('profiles').update({name:n}).eq('id',Cloud.user.id).then(r=>{if(!r.error){Cloud.prof.name=n;V.ok=1}else V.err=r.error.message;render()})}break;
     case 'ak':akAct(d,e);break;
+    case 'ak-lvl':{const G0=AK.G&&(AK.G.lv0||AK.G);if(!G0)break;S.lvlPick=S.lvlPick||{};S.lvlPick[G0.at]=d.l;const ks=Object.keys(S.lvlPick);if(ks.length>30)delete S.lvlPick[ks[0]];save();akStart(G0);render();break}
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
