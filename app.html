@@ -710,7 +710,7 @@ body.boardwin .bw{height:100vh}
 .rt-start h1{color:#fff;font-size:3.6em}.rt-start p{font-size:1.6em;font-weight:700;color:#fff}
 .rt-start .hint{background:linear-gradient(90deg,#4f46e5,#2563eb);color:#fff;border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:1.3em;text-shadow:none;margin-top:.6em}
 .rt-cover{background:#f4f2ec;justify-content:center;padding:2em 3em}
-.rt-cover.art{background:#f4f2ec url(assets/mathe/cover.webp) right center/auto 100% no-repeat}
+.rt-cover.art{background:#f4f2ec url(assets/mathe/cover.webp) right center/auto 100% no-repeat}.rt-cover.art-DZ{background-image:url(assets/daz/cover.webp)}
 .rt-cover .in{display:grid;gap:.5em;max-width:52%}
 .rt-cover .kick{letter-spacing:.35em;text-transform:uppercase;font-weight:700;font-size:1.1em;color:#33433f}
 .rt-cover h1{font-size:4em;color:#1d2a2e}.rt-cover .cls{border-left:.2em solid #4f46e5;padding-left:.6em;font-size:1.1em;font-weight:700;color:#33433f}
@@ -1824,7 +1824,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1100';let verTold=false;
+const BUILD='20261012-1244';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -3623,6 +3623,7 @@ E:[
 ],
 DZ:[
   {name:'Warm-Up',goal:'Begrüßung und Ritual',min:3,sf:'Plenum',method:'Begrüßungsritual',txt:'Guten Morgen, Klasse!',act:'none',tool:{id:'start',hint:'Guten Morgen! Leg deine Sachen bereit.',items:'DaZ-Heft, Wörterheft',bg:'start',date:true,title:''}},
+  {name:'Stundenthema',goal:'Thema der Stunde zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover',title:'',sub:''}},
   {name:'Initialphase',goal:'Bekannte Strukturen wiederholen',min:5,sf:'Bewegung',method:'Ballspiel',txt:'Wir stehen im Kreis und stellen Fragen.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Ballspiel',text:'Wie heißt du?\nWoher kommst du?\nWelche Sprachen sprichst du?\nWie geht es dir?',mat:'',elo:'',say:'',steps:false}]}},
   {name:'Situativer Rahmen',goal:'Hinführung zum Thema',min:5,sf:'Plenum',method:'Bildimpuls',txt:'Schau dir das Bild an. Was siehst du?',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Was siehst du?',text:'Ich sehe …',mat:'',elo:'',say:'',steps:false}]}},
   {name:'Sprachdarbietung',goal:'Neuen Wortschatz einführen',min:8,sf:'PA',method:'Wort-Bild-Karten',txt:'Ordne Bild und Wort richtig zu.',act:'none',tool:{id:'match'}},
@@ -3760,7 +3761,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
     const rk=bg==='start';
     return `<div class="rt rt-start ${vid?'':'st-elio'} ${rk?'st-rk':''} ${cw?'has-cw':''}" ${vid?'':rk?bgAttr('allgemein'):bgAttr(bg)}>${rk?rpScene(c.rd):''}${vid?(c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`):''}
     <div class="in"><h1>${esc(t.title||'Du hast jetzt '+sn)}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}</div>${cw}${c.rd&&!rk?rpPad(c.rd.d,c.rd.n,c.rd.g):''}</div>`}
-  if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
+  if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':c.subj==='DZ'?'art art-DZ':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
   if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel"><img class="mm-img" src="assets/folien/murmel.webp" alt="Murmeltier"><p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
   if(t.id==='hypo')return `<div class="rt rt-h"><img class="hy-i" src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
   if(t.id==='dialog'){const D=dlgParse(t.text);
