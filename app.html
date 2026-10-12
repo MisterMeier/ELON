@@ -1824,7 +1824,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1503';let verTold=false;
+const BUILD='20261012-1507';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -3231,9 +3231,11 @@ async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
   if(!(window.crypto&&crypto.subtle)){V.lkErr=insecureMsg();render();return}
   let ok=false;try{ok=await tdOpen(pw)}catch(e){console.warn(e);V.lkErr='Das hat nicht geklappt ('+String(e&&e.message||e).slice(0,80)+'). Lade die Seite neu und versuch es noch einmal.';render();return}if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
   TDFAIL=0;V.lkErr='';V.lkForget=false;if(HK.ck){const i=HK.ck.lastIndexOf('.'),c=HK.ck.slice(0,i),k=HK.ck.slice(i+1);if(c&&ckOk(k)){TD.ck=TD.ck||{};TD.ck[c]=k;tsave();V.msg='Klassenschlüssel für '+c+' übernommen.'}HK.ck=null}if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render();heftClean()}
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&/^lk-pw/.test(e.target.id)){e.preventDefault();lockGo()}});
-document.addEventListener('submit',e=>{if(e.target&&['lg-f','lk-f','a-f','pw-f','pr-f'].includes(e.target.id))e.preventDefault()});
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&(e.target.id==='a-p'||e.target.id==='a-u')){e.preventDefault();acctLogin($('#a-u').value,$('#a-p').value)}});
+// Anmeldeformulare: Erst das echte „submit“ abwarten, dann die Aktion ausführen. Nur so bietet Safari an, Kürzel und PIN (bzw. Passwort) zu speichern.
+const PW_FORMS=['lg-f','lk-f','a-f','pw-f','pr-f'];
+document.addEventListener('submit',e=>{const f=e.target;if(!f||!PW_FORMS.includes(f.id))return;e.preventDefault();
+  const sb=(e.submitter&&e.submitter.dataset&&e.submitter.dataset.act?e.submitter:null)||f.querySelector('[type=submit][data-act]');if(!sb||sb.disabled)return;
+  const b=document.createElement('button');b.type='button';b.hidden=true;Object.assign(b.dataset,sb.dataset);b.dataset.fs='1';setTimeout(()=>{document.body.appendChild(b);b.click();b.remove()},0)});
 document.addEventListener('input',e=>{const t=e.target;if(t.id==='a-u'){t.value=cleanU(t.value);if(t.value.length===4){const p=$('#a-p');p&&p.focus()}}if(t.id==='a-p')t.value=cleanPin(t.value)});
 ['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
 setInterval(()=>{if(S.role==='teacher'&&TDKEY&&!TDIDLE&&Date.now()-TDLAST>15*60000){TDIDLE=true;render()}},20000);
@@ -5915,6 +5917,7 @@ VIEWS.journal=()=>{
 /* ---------- Events ---------- */
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+  if(b.type==='submit'&&b.form&&PW_FORMS.includes(b.form.id))return;// läuft über das submit-Ereignis (Passwort speichern)
   const a=b.dataset.act,d=b.dataset;ctx();
   switch(a){
     case 'lessons':go('lessons');break;
