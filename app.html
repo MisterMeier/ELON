@@ -1823,7 +1823,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1519';let verTold=false;
+const BUILD='20261012-1521';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
@@ -3885,8 +3885,14 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       </div></div>`).join('')}</div>`}
 const isGreet=p=>/begrü/i.test(p&&p.name||'');
 const swH=(f,on,l,sub)=>`<label class="sw"><input type="checkbox" data-f="${f}" ${on?'checked':''}><span class="sw-t" aria-hidden="true"></span><span class="sw-l"><b>${l}</b>${sub?`<small>${sub}</small>`:''}</span></label>`;
+const greetInit=(p,L)=>{if(isGreet(p)&&(!p.tool||p.tool.id!=='start'))p.tool={id:'start',hint:p.txt||'Leg deine Sachen bereit!',items:((SUBJECTS[L.subject]||{}).prep||[]).join(', '),bg:'start',date:true,title:''}};
+// Begrüßung: die Felder der Startfolie stehen direkt über der Folie (Anweisung = Text auf Tafel und iPad)
+function greetFields(p,i,L){greetInit(p,L);const t=p.tool;
+  return `<label style="grid-column:1/-1">Überschrift<input type="text" data-f="ph.${i}.tool.title" value="${esc(t.title||'')}" placeholder="${esc('Du hast jetzt '+((SUBJECTS[L.subject]||{}).name||''))}"></label>
+    <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.tool.hint" value="${esc(t.hint||p.txt||'')}"></label>
+    <label style="grid-column:1/-1">Liste zum Abhaken (mit Komma)<input type="text" data-f="ph.${i}.tool.items" value="${esc(t.items||'')}" placeholder="Mathebuch, Heft, Regelheft"></label>`}
 function toolEditor(p,i,L){
-  if(isGreet(p)&&(!p.tool||p.tool.id!=='start'))p.tool={id:'start',hint:p.txt||'Leg deine Sachen bereit!',items:((SUBJECTS[L.subject]||{}).prep||[]).join(', '),bg:'start',date:true,title:''};
+  greetInit(p,L);
   const t=p.tool,T=t&&TOOLS[t.id];
   if(!T)return '';
   let cfg='';
@@ -3894,9 +3900,8 @@ function toolEditor(p,i,L){
   if(t.id==='mat')cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Material<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):''}</select></label></div>`;
   if(t.id==='kfb'){const lv=KF_LEGACY[t.level]||t.level||'m';cfg=`<div style="margin-top:10px"><span class="label">Schwierigkeit</span><div class="lvl3">${Object.entries(KFB_LEVELS).map(([k,v])=>`<button class="${k===lv?'on':''}" data-act="kf-lvl" data-i="${i}" data-v="${k}"><b>${'⚽'.repeat(k==='l'?1:k==='m'?2:3)} ${v}</b><small>${KFB_LV_TXT[k]}</small></button>`).join('')}</div><p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">Teamnamen und eigene Aufgaben trägst du beim Start des Spiels ein.</p></div>`}
   const ta=(k,lab,v,r)=>`<label style="grid-column:1/-1">${lab}<textarea rows="${r||3}" data-f="ph.${i}.tool.${k}">${esc(v||'')}</textarea></label>`,inp=(k,lab,v,ph)=>`<label>${lab}<input type="text" data-f="ph.${i}.tool.${k}" value="${esc(v||'')}" placeholder="${esc(ph||'')}"></label>`;
-  if(t.id==='start')cfg=V.stOpen===i?`<div class="st-ed ph-pan"><div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'Du hast jetzt '+((SUBJECTS[L.subject]||{}).name||''))}
-    ${inp('hint','Anweisung (Tafel und iPad)',t.hint)}${inp('items','Liste zum Abhaken (mit Komma)',t.items,'Mathebuch, Heft, Regelheft')}
-    <details style="grid-column:1/-1"><summary class="muted" style="font-weight:800;cursor:pointer">Hintergrund ändern</summary><span class="row" style="flex-wrap:nowrap;gap:6px;margin-top:6px"><select data-f="ph.${i}.tool.bg" style="flex:1">${[['start','ELIO Start (mit Elo)'],['allgemein','ELIO allgemein'],['video','Mathe-Tafel (Video)']].map(([k,n])=>`<option value="${k}" ${k===(t.bg||'start')?'selected':''}>${n}</option>`).join('')}${LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===t.bg?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''}</select><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Bild</button></span></details><input type="file" id="sl-file" accept="image/*" hidden></div></div>`:'';
+  if(t.id==='start')cfg=V.stOpen===i?`<div class="st-ed ph-pan"><div class="lgrid" style="margin-top:8px">
+    <div style="grid-column:1/-1"><span class="label">Hintergrund der Startfolie</span><span class="row" style="flex-wrap:nowrap;gap:6px;margin-top:6px"><select data-f="ph.${i}.tool.bg" style="flex:1">${[['start','ELIO Start (mit Elo)'],['allgemein','ELIO allgemein'],['video','Mathe-Tafel (Video)']].map(([k,n])=>`<option value="${k}" ${k===(t.bg||'start')?'selected':''}>${n}</option>`).join('')}${LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===t.bg?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''}</select><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Bild</button></span></div><input type="file" id="sl-file" accept="image/*" hidden></div></div>`:'';
   if(t.id==='thumbs'||t.id==='mood')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}</div>`;
   if(t.id==='exit')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fragen (eine pro Zeile, höchstens 4)',t.qs,3)}<label class="cbl" style="grid-column:1/-1"><input type="checkbox" data-f="ph.${i}.tool.amp" ${t.amp!==false?'checked':''}> Dazu die Ampel: Kann ich / Fast / Noch nicht</label></div>`;
   if(t.id==='vw'){const n=vwCards(t).length;cfg=`<div class="lgrid" style="margin-top:8px">${inp('teams','Teams (mit Komma)',t.teams,'Team A, Team B')}${ta('cards','Karten: pro Zeile „Wort: verboten, verboten, verboten“',t.cards,8)}<p class="muted" style="grid-column:1/-1;font-weight:700;margin:0">${n} Karten erkannt. An der Tafel drehst du jede Karte mit einem Klick um und vergibst die Punkte.</p></div>`}
@@ -3927,7 +3932,7 @@ function toolEditor(p,i,L){
 }
 // Phase kompakt: oben die Folien als kleine Bilder (Antippen = Folien-Editor), darunter eine Reihe kleiner Knöpfe für Werkzeug, iPads und Optionen
 function phBody(p,i,L){const t=p.tool,T=t&&TOOLS[t.id],G=isGreet(p),own=t&&(TOOL_IPAD[t.id]||AKT[t.id]||GAME_INFO[t.id]),cfg=toolEditor(p,i,L),tt=p.tool;
-  const strip=`<div class="ph-strip">${G&&tt&&tt.id==='start'?`<div class="sl-th ${V.stOpen===i?'on':''}"><button class="sl-th-b" data-act="st-open" data-i="${i}" title="Startfolie bearbeiten"><div class="sl-pv">${richTool(tt,{subj:L.subject,mini:1})}</div><span class="chip">Startfolie</span></button></div>`:''}${deckEd({id:'slide',slides:p.xs||[]},'x'+i,L)}</div>`;
+  const strip=`<div class="ph-strip">${G&&tt&&tt.id==='start'?`<div class="sl-th ${V.stOpen===i?'on':''}"><button class="sl-th-b" data-act="st-open" data-i="${i}" title="Hintergrund der Startfolie ändern"><div class="sl-pv">${richTool(tt,{subj:L.subject,mini:1})}</div><span class="chip">Startfolie</span></button></div>`:''}${deckEd({id:'slide',slides:p.xs||[]},'x'+i,L)}</div>`;
   const md=actMode(p.act),M=ACT_MODES[md];
   const chips=`<div class="ph-chips">
     ${G?'':`<span class="ph-c"><span class="ph-l">🧰 Werkzeug</span>${T?`<button class="pill on" data-act="tool-pool" data-i="${i}" title="Werkzeug ändern">${T.icon} ${esc(T.name)}</button><button class="pill x" data-act="tool-pick" data-i="${i}" data-t="" title="Werkzeug entfernen" aria-label="Werkzeug entfernen">✕</button>`:`<button class="pill" data-act="tool-pool" data-i="${i}">＋ Werkzeug</button>`}</span>`}
@@ -5848,14 +5853,14 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
       ${ta('alp','Lehrplan-Verortung',L.alp,D.lp,2)}${ta('aziel','Stundenziel',L.aziel,D.ziel,2)}${ta('akomp','Kompetenzerwartungen (eine pro Zeile)',L.akomp,D.komp.join('\n'),4)}${ta('alit','Literatur- und Quellenangaben (eine pro Zeile)',L.alit,D.lit.join('\n'),3)}</div>`})()}</details></section>
   <div class="lesson-list" style="margin-top:16px">${L.phases.map((p,i)=>`${i?`<div class="ph-ins"><button class="ph-plus" data-act="ph-ins" data-i="${i}" title="Hier eine Phase einfügen" aria-label="Zwischen Phase ${i} und ${i+1} eine Phase einfügen">＋</button></div>`:''}<article class="lcard ${liveL&&CS.step===i?'live-ph':''}" id="ph-card-${i}">
     <div class="row" style="justify-content:space-between"><div class="row"><span class="lnum">${i+1}</span>${liveL&&CS.step===i?'<span class="chip ok">läuft gerade</span>':''}<h3>${esc(p.name)}</h3></div>
-      <div class="row"><button class="btn sm" data-act="ph-up" data-i="${i}" ${i===0?'disabled':''} aria-label="Nach oben">↑</button><button class="btn sm" data-act="ph-down" data-i="${i}" ${i===L.phases.length-1?'disabled':''} aria-label="Nach unten">↓</button><button class="btn sm" data-act="ph-del" data-i="${i}">Entfernen</button></div></div>
+      <div class="row"><button class="btn sm" data-act="ph-up" data-i="${i}" ${i===0?'disabled':''} aria-label="Nach oben">↑</button><button class="btn sm" data-act="ph-down" data-i="${i}" ${i===L.phases.length-1?'disabled':''} aria-label="Nach unten">↓</button><button class="btn sm ${V.artPh===i?'pri':''}" data-act="ph-art" data-i="${i}" title="Inhalt für die Artikulation (Word-Export)">📄 Artikulation</button><button class="btn sm" data-act="ph-del" data-i="${i}">Entfernen</button></div></div>
+    ${V.artPh===i?`<div class="art-d"><span class="label">Inhalt für die Artikulation</span><textarea data-f="ph.${i}.art" rows="3" placeholder="${esc(artData(L).rows[i].lines.join('\n')||'Ein Stichpunkt pro Zeile')}">${esc(p.art||'')}</textarea></div>`:''}
     <div class="lgrid">
       <label>Phase<input type="text" data-f="ph.${i}.name" value="${esc(p.name)}"></label>
       <label>Minuten<input type="number" min="0" max="90" data-f="ph.${i}.min" value="${+p.min||0}"></label>
       <label>Sozialform<select data-f="ph.${i}.sf">${SOZ.map(x=>`<option ${x===p.sf?'selected':''}>${x}</option>`).join('')}</select></label>
       <label>🔔 Signal beim Start<span class="row" style="flex-wrap:nowrap;gap:6px"><select data-f="ph.${i}.snd" style="flex:1"><option value="">– kein Signal –</option>${AUD.list?[...new Set(AUD.list.map(x=>x.kategorie))].map(c=>`<optgroup label="${esc(c)}">${AUD.list.filter(x=>x.kategorie===c).map(x=>`<option value="${x.id}" ${p.snd===x.id?'selected':''}>${esc(x.titel)}</option>`).join('')}</optgroup>`).join(''):(audLoad(),p.snd?`<option value="${esc(p.snd)}" selected>${esc(p.snd)}</option>`:'')}</select>${p.snd?`<button class="btn sm au-pl" type="button" data-act="au-play" data-id="${esc(p.snd)}" aria-label="Probe hören">▶</button>`:''}</span></label>
-      <label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>
-      <details class="art-d" style="grid-column:1/-1"><summary>📄 Inhalt für die Artikulation</summary><textarea data-f="ph.${i}.art" rows="3" placeholder="${esc(artData(L).rows[i].lines.join('\n')||'Ein Stichpunkt pro Zeile')}">${esc(p.art||'')}</textarea></details>
+      ${isGreet(p)?greetFields(p,i,L):`<label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>`}
       <div style="grid-column:1/-1">${phBody(p,i,L)}</div>
       ${(p.mats||[]).length?`<div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>`:''}
     </div></article>`).join('')}</div>
@@ -5874,7 +5879,7 @@ document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
   const v=e.target.type==='checkbox'?e.target.checked:e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
-  const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool)p.tool[k[3]]=v}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
+  const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
@@ -6028,6 +6033,7 @@ document.addEventListener('click',e=>{
     case 'ph-ins':{const L=lessonById(V.id);if(!L)break;const j=+d.i;L.phases.splice(j,0,{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();setTimeout(()=>{const c=document.querySelectorAll('.lcard')[j];c&&c.scrollIntoView({block:'center'});const n=c&&c.querySelector('[data-f$=".name"]');n&&n.select()},0);break}
     case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
+    case 'ph-art':V.artPh=V.artPh===+d.i?null:+d.i;render();break;
     case 'st-open':V.stOpen=V.stOpen===+d.i?null:+d.i;render();break;
     case 'st-tog':{const L=lessonById(V.id),p=L&&L.phases[+d.i],t=p&&p.tool;if(!t||t.id!=='start')break;if(d.k==='date')t.date=t.date===false;else t.mood=!t.mood;save();render();break}
     case 'ph-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&ACT_MODES[d.m]&&actMode(p.act)!==d.m){p.act=ACT_MODES[d.m].acts[0];save()}render();break}
