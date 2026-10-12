@@ -1668,9 +1668,6 @@ VIEWS.desk=()=>{
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
     ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}</div>
-  <section class="panel foto"><div class="row" style="justify-content:space-between;align-items:center"><h2>Foto vom Heft</h2><label class="btn sm pri" style="cursor:pointer">Foto machen<input type="file" id="foto-in" accept="image/*" capture="environment" hidden></label></div>
-    <p class="muted">Fotografiere deine Rechnung. Das Foto bleibt auf deinem iPad. Bitte keine Gesichter und keine Namen aufs Foto.</p>
-    ${FOTO.url?`<img class="foto-img" src="${FOTO.url}" alt="Dein Foto vom Heft"><div class="row" style="gap:8px"><button class="btn" disabled title="Kommt mit Elo-KI">Elo, wo ist mein Fehler? (bald)</button><button class="btn sm" data-act="foto-del">Foto löschen</button></div>`:''}</section>
   ${jgst()>=9?`<section class="panel quali"><h2>Quali-Trainer (kommt)</h2><p class="muted">Hier übst du bald mit echten Prüfungsaufgaben für den Quali: ${Object.values(QUALI).map(q=>q.name).join(', ')}.</p></section>`:''}
   <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
 };
@@ -1827,7 +1824,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1455';let verTold=false;
+const BUILD='20261012-1503';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2012,7 +2009,7 @@ function heftPage(e){
   const c=!!S.copied[e.id];
   return `<article class="page" data-rdc><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${e.ex?'<span class="chip ex">Beispiel</span>':''}<span class="date">${fmtDate(e.date)}</span>${rdBtn(7)}</span></header>
     ${heftBody(e.blocks)}<div class="rd-x">${subExtras(e)}</div>
-    <footer class="rd-x"><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button></footer></article>`;
+    <footer class="rd-x"><button class="btn sm ${c?'ok':''}" data-act="copied" data-id="${e.id}">${c?'✓ Ins Heft abgeschrieben':'Ich habe es abgeschrieben'}</button>${S.role==='student'&&KOR_S.includes(e.s)?korRow(e):''}</footer></article>`;
 }
 
 VIEWS.module=()=>{
@@ -5156,13 +5153,19 @@ async function mbFlushDown(nr){const P=susP(nr,false);if(!P||!P.pk||!(P.q||[]).l
   tsave();if(V.name==='obs-p')render()}
 // Bild verkleinern (Abgabe-Foto)
 function imgShrink(file,max,qu){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',qu))};im.onerror=rej;im.src=u})}
+// Korrektur: Das Kind fotografiert seine Rechnung oder seinen Text zu einem Regelheft-Eintrag. Das Foto geht verschlüsselt an die Lehrkraft (wie eine Abgabe).
+const KOR_S=['M','E'],KORH={};
+function korRow(e){const id='k-'+e.id,A=(S.abg||{})[id],op=V.abg===id,en=e.s==='E';KORH[id]={id,task:'Korrektur · '+e.title,kor:1};
+  return `<div class="abg kor">${A?`<span class="chip ${A.st==='ok'?'ok':''}">${A.st==='ok'?'An deine Lehrkraft geschickt':'Wird gesendet, sobald es geht'}</span>`:''}<button class="btn sm ${op?'on':''}" data-act="abg-open" data-id="${id}">${A?'Nochmal zur Korrektur':'Korrektur: Foto schicken'}</button>
+    ${op?`<div class="abg-f"><p class="muted" style="font-weight:700;margin:0">${en?'Fotografiere deinen Text.':'Fotografiere deine Rechnung.'} Bitte keine Namen und keine Gesichter aufs Foto.</p><textarea id="abg-t" rows="2" maxlength="4000" placeholder="${en?'Was soll deine Lehrkraft anschauen?':'Welche Aufgabe? Wo bist du unsicher?'}"></textarea>
+      <input type="file" id="abg-f" accept="image/*" capture="environment" hidden><div class="row" style="gap:6px"><button class="btn sm" data-act="abg-pick">${en?'Foto vom Text':'Foto der Rechnung'}</button>${V.abgImg?'<img class="abg-th" src="'+V.abgImg+'" alt="Foto">':''}<button class="btn sm pri" data-act="abg-send" data-id="${id}">An meine Lehrkraft schicken</button></div>${V.abgErr?`<p class="err">${esc(V.abgErr)}</p>`:''}</div>`:''}</div>`}
 function abgRow(h){const A=(S.abg||{})[h.id],op=V.abg===h.id;
   return `<div class="abg">${A?`<span class="chip ${A.st==='ok'?'ok':''}">📤 ${A.st==='ok'?'abgegeben':'wird gesendet, sobald es geht'}</span>`:''}<button class="btn sm ${op?'on':''}" data-act="abg-open" data-id="${h.id}">${A?'Nochmal abgeben':'📤 Abgeben'}</button>
     ${op?`<div class="abg-f"><textarea id="abg-t" rows="3" maxlength="4000" placeholder="Deine Lösung oder eine Nachricht an die Lehrkraft"></textarea>
       <input type="file" id="abg-f" accept="image/*" capture="environment" hidden><div class="row" style="gap:6px"><button class="btn sm" data-act="abg-pick">📷 Foto vom Heft</button>${V.abgImg?'<img class="abg-th" src="'+V.abgImg+'" alt="Foto">':''}<button class="btn sm pri" data-act="abg-send" data-id="${h.id}">Abgeben</button></div>${V.abgErr?`<p class="err">${esc(V.abgErr)}</p>`:''}</div>`:''}</div>`}
-function abgSend(id){const h=hwAll().find(x=>x.id===id);if(!h)return;const t=(($('#abg-t')||{}).value||'').trim();if(!t&&!V.abgImg){V.abgErr='Schreib etwas oder mach ein Foto.';render();return}
+function abgSend(id){const h=hwAll().find(x=>x.id===id)||KORH[id];if(!h)return;const t=(($('#abg-t')||{}).value||'').trim();if(!t&&!V.abgImg){V.abgErr='Schreib etwas oder mach ein Foto.';render();return}
   S.abg=S.abg||{};S.abg[id]={at:Date.now(),st:'q'};mbQueue({k:'abg',hw:id,title:h.task,t:t.slice(0,4000),img:V.abgImg||null,at:Date.now()});
-  if(!S.hwDone[id]){S.hwDone[id]=1;earnOnce('hw_'+id)}V.abg=null;V.abgImg=null;V.abgErr='';progTick(true);save();render()}
+  if(!h.kor&&!S.hwDone[id]){S.hwDone[id]=1;earnOnce('hw_'+id)}V.abg=null;V.abgImg=null;V.abgErr='';progTick(true);save();render()}
 function chatHTML(L,mine){return `<div class="chat" id="chat-l">${L.length?L.map(c=>`<div class="cm ${c.me?'me':''}"><div class="cb">${esc(c.t)}</div><small>${new Date(c.at).toLocaleString('de-DE',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}${c.me&&c.st==='q'?' · ⏳ wartet':''}</small></div>`).join(''):'<div class="empty">Noch keine Nachrichten.</div>'}</div>
   <div class="row chat-in"><textarea id="chat-x" rows="2" maxlength="2000" placeholder="${mine}"></textarea><button class="btn pri" data-act="chat-send">Senden</button></div>`}
 VIEWS.chat=()=>{(S.chat||[]).forEach(c=>{if(c.neu)c.neu=0});setTimeout(()=>{const l=$('#chat-l');if(l)l.scrollTop=l.scrollHeight;navBadges()},0);
