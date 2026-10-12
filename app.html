@@ -437,6 +437,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .seat.on{border:2px solid var(--line);background:var(--surface-2);color:var(--ink)}
 .seat.ready{background:var(--ok-bg);border-color:var(--green)}
 .seat.voted::after{content:"";position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
+.seat.away,.seats.frz .seat.on.away{background:#fff4dc;border:2px solid #f59e0b;color:#92400e}.seat .aw-t{color:#b45309;font-size:.7rem}.aw-w{color:#b45309}
 .seat.help{background:#e3edff;border-color:#2f6fe4;color:#2f6fe4;animation:pulse 1.4s infinite}
 .seats.frz .seat.on{background:#ffe1e1;border-color:#d33;color:#b22}.seats.frz .seat.on.help{background:#e3edff;border-color:#2f6fe4;color:#2f6fe4}
 .t-subj{display:flex;align-items:center;gap:8px;font-size:1.05rem}.t-subj .badge{width:34px;height:34px;font-size:.9rem}
@@ -1280,7 +1281,6 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
     <button class="tv" data-act="obs" data-nav="obs" id="nav-obs" hidden>Beobachtungen</button>
     <button class="tv" data-act="klassen" data-nav="klassen" id="nav-klassen" hidden>Klassen</button>
     <button class="tv" data-act="admin" data-nav="admin" id="nav-admin" hidden>Admin</button>
-    <button class="tv" data-act="board" data-nav="board" id="nav-tboard" hidden>Lotsen-Board</button>
     <button class="tv" data-act="inbox" data-nav="inbox" id="nav-inbox" hidden>Postfach</button>
     <button class="sv" data-act="dash" data-nav="dash">Dashboard</button>
     <button class="sv" data-act="desk" data-nav="desk">Schreibtisch</button>
@@ -1866,7 +1866,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1828';let verTold=false;
+const BUILD='20261012-2042';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2445,6 +2445,9 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.k==='journal'&&CS.journal&&m.id===CS.journal.id&&!CS.journal.done.includes(nr)){CS.journal.done.push(nr);ch=true}
   if(m.k==='cloud'&&CS.cloud&&m.id===CS.cloud.id&&((CS.cloud.cnt||{})[nr]||0)<(CS.cloud.max||1)&&(CS.cloud.max>1||!CS.cloud.done.includes(nr))){const w=mwClean2(m.w),cn=CS.cloud.cnt=CS.cloud.cnt||{};cn[nr]=(cn[nr]||0)+1;if(!CS.cloud.done.includes(nr))CS.cloud.done.push(nr);ch=true;if(w){const k=w.toLowerCase();if(!CS.cloud.hide.includes(k)){const C=CS.cloud.words;C[k]=C[k]||[w,0];C[k][1]++}}}
   if(m.k==='dmok'){const D=(CS.dm||[]).find(x=>x.id===m.id);if(D&&D.to.includes(nr)&&!D.ok.includes(nr)){D.ok.push(nr);ch=true;if(V.name==='tafel'&&V.ctl==='dm')setTimeout(render,0)}}
+  // App verlassen: das iPad meldet, wenn ELIO in den Hintergrund geht (andere App, Home-Bildschirm), und wieder, wenn das Kind zurückkommt
+  if(m.k==='away'){const a=m.on?(ROSTER[nr].away||Date.now()):0;ROSTER[nr].away=a}
+  if(m.k!=='away'&&ROSTER[nr].away)ROSTER[nr].away=0;
   if(m.k==='hi'&&!ROSTER[nr].known){ROSTER[nr].known=1;ch=true}
   if(m.k==='hi')mbFlushDown(nr);
   if(m.k==='mb'&&m.r){mbUp({...m.r,nr});return}
@@ -2463,7 +2466,7 @@ const CT_ICO={elo:'<img src="assets/elo/elo.png" alt="" style="width:100%;height
 function ctTiles(){const T=[];if(Live.kind==='server'&&!Live.dbKey)T.push(['keyqr','🔑','iPads verbinden',CS.keyQr,CS.keyQr?'QR an der Tafel':'','t-keyqr']);
   T.push(['timer','⏱️','Timer',CS.timer.run,CS.timer.run?'läuft':timerLeft(CS.timer)<CS.timer.total?'Pause':'']);
   T.push(['freeze','❄️','Freeze',CS.freeze,CS.freeze?'iPads gesperrt':'','t-frz'],['ready','🚀','Bereit-Check',CS.ready,CS.ready?CS.ready.done.length+' / '+Math.max(online().length,CS.ready.done.length)+' bereit':'Rakete an der Tafel','t-rdy'],['poll','🗳️','Abstimmung',!!CS.poll,CS.poll?'läuft':''],
-    ['wheel','🎡','Glücksrad',!!CS.wheel,''],['groups','👥','Gruppen',!!CS.groups,''],['noise','🔊','Lautstärke',NOISE.on,NOISE.on?'Ampel an':'','ct-nz'],['psst','🤫','Psst',false,'','ct-psst'],['elo','🦉','Elo',!!(CS.fx&&Date.now()-CS.fx.at<6000),'winken, hüpfen …'],['lotsen','🧭','Lotsen',(CS.lotsen||[]).length>0,(CS.lotsen||[]).length?'frei':''],['dm','✉️','Nachricht',(CS.dm||[]).some(m=>m.ok.length<m.to.length),(CS.dm||[]).length?(CS.dm||[]).filter(m=>m.ok.length>=m.to.length).length+' / '+CS.dm.length+' gelesen':'an einzelne'],['out','🚪','Alle abmelden',!!CS.out,CS.out?'läuft':'geteilte iPads']);
+    ['wheel','🎡','Glücksrad',!!CS.wheel,''],['groups','👥','Gruppen',!!CS.groups,''],['noise','🔊','Lautstärke',NOISE.on,NOISE.on?'Ampel an':'','ct-nz'],['psst','🤫','Psst',false,'','ct-psst'],['elo','🦉','Elo',!!(CS.fx&&Date.now()-CS.fx.at<6000),''],['dm','✉️','Nachricht',(CS.dm||[]).some(m=>m.ok.length<m.to.length),(CS.dm||[]).length?(CS.dm||[]).filter(m=>m.ok.length>=m.to.length).length+' / '+CS.dm.length+' gelesen':'an einzelne'],['out','🚪','Alle abmelden',!!CS.out,CS.out?'läuft':'geteilte iPads']);
   if(CS.game&&gInfo(CS.game.g))T.push(['game','🎮','Spiel',true,(CS.game.fin||[]).length+' fertig']);if(CS.share)T.push(['share','🔗','Geteilt',true,'']);return T}
 VIEWS.tafel=()=>{clsSync();
   const ph=phaseOf(CS.phase),L=CS.lesson&&lessonById(CS.lesson.id),P=L?null:tafelPick(),sb=k=>`<div class="t-subj">${badge(k)}<b>${esc((SUBJECTS[k]||{}).name||'')}</b><span class="muted">· ${esc(className())}</span></div>`;
@@ -2510,15 +2513,15 @@ VIEWS.tafel=()=>{clsSync();
 ${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><span class="nz-m"><i id="nz-bar"></i></span></span><label class="row" style="gap:6px;font-weight:700;font-size:.85rem">leise<input id="nz-sens" type="range" min="1" max="10" value="${NOISE.sens}" style="width:110px">empfindlich</label>`:`<small class="muted">${esc(NOISE.err||'Das Mikrofon misst, wie laut es ist. Elo an der Tafel wird immer röter.')}</small>`}</div>`:''}
     ${V.ctl==='elo'?(()=>{const sl=CS.stage&&CS.stage.tool&&CS.stage.tool.cur;return `<div class="grp ct-o row"><span class="label">🦉 Elo an der Tafel · ist er nicht auf der Folie, kommt er kurz in die Ecke</span>${Object.entries(ELO_FX).filter(([k])=>k!=='say'||(sl&&sl.say)).map(([k,[ic,n]])=>`<button class="btn" data-act="elo-fx" data-k="${k}">${ic} ${n}</button>`).join('')}</div>`})():''}
     ${V.ctl==='dm'?dmPanel():''}${V.ctl==='out'?outPanel():''}
-    ${V.ctl==='lotsen'?`<div class="grp ct-o row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}<button class="btn sm" data-act="board">Funktionen festlegen</button></div>`:''}
+    ${LOTSEN_ON&&V.ctl==='lotsen'?`<div class="grp ct-o row"><span class="label">🧭 Lotsen-Board auf den iPads</span>${(CS.lotsen||[]).length?`<span class="chip ok">frei für ${CS.lotsen.includes(0)?'alle':CS.lotsen.map(kidName).join(', ')}</span><button class="btn sm red" data-act="t-lotsen" data-n="">Zurücknehmen</button>`:`<button class="btn sm" data-act="t-lotsen" data-n="0">Für alle freigeben</button><input id="t-lotsen" type="text" placeholder="Name oder Kürzel, z. B. Lea, KTMB" style="width:230px"><button class="btn sm" data-act="t-lotsen">Nur für diese</button>`}<button class="btn sm" data-act="board">Funktionen festlegen</button></div>`:''}
     ${V.ctl==='game'&&CS.game&&gInfo(CS.game.g)?`<div class="grp ct-o row"><span class="label">🎮 ${esc(CS.game.title||gInfo(CS.game.g).name)}</span><span class="chip">🏆 ${(CS.game.fin||[]).length} fertig</span><button class="btn sm ${CS.game.pod?'on':''}" data-act="t-pod">🏆 Podium ${CS.game.pod?'ausblenden':'zeigen'}</button><button class="btn sm red" data-act="t-game-end">Spiel beenden</button></div>`:''}
     ${V.ctl==='share'&&CS.share?`<div class="grp ct-o row"><span class="label">🔗 Auf den iPads</span><span class="chip">${esc(CS.share.name)}</span><button class="btn sm red" data-act="t-share-end">Teilen beenden</button></div>`:''}
   </section>
   <div class="tafel">
-    <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0</span> online</span>
+    <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0 online</span></span>
       <span class="chip conn" id="t-conn">${connTxt()}</span></div>
       <div class="seats" id="seats"></div>
-      <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit</span><span><i style="background:#e3edff;border-color:#2f6fe4"></i>braucht Hilfe</span><span><i style="background:#ffe1e1;border-color:#d33"></i>Freeze</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
+      <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit</span><span><i style="background:#e3edff;border-color:#2f6fe4"></i>braucht Hilfe</span><span><i style="background:#fff4dc;border-color:#f59e0b"></i>App verlassen</span><span><i style="background:#ffe1e1;border-color:#d33"></i>Freeze</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
     <div class="t-side">
       <section class="panel"><span class="label">Hilfe-Warteschlange</span><div class="helpq" id="helpq"></div></section>
       <section class="panel" id="t-ready"></section>
@@ -2527,12 +2530,13 @@ ${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-
   </div>`;
 };
 const pgBar=(d,n)=>`<div class="pg-bar" role="progressbar" aria-valuenow="${d}" aria-valuemax="${n}"><i style="width:${n?Math.min(100,d/n*100):0}%"></i></div>`;
+const awMin=t=>{const m=Math.floor((Date.now()-t)/60000);return m<1?'gerade':'seit '+m+' min'};
 function updTafel(){
   if(!CS||!$('#seats'))return;updPrev();
   const on=online(),n=S.classSize;
-  const dup=dupNrs(),dc=devCount();$('#t-online').innerHTML=dup.length?`${dc} <b class="dup-w">· Nr. ${dup.join(', ')} doppelt angemeldet</b>`:String(on.length);
-  $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
-    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}${dup.includes(k)?' dup':''}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${mnOf(k)?`<small class="mn-tag">${esc(mnOf(k))}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
+  const dup=dupNrs(),dc=devCount(),aw=Object.keys(ROSTER).filter(k=>ROSTER[k].away).length;$('#t-online').innerHTML=(dup.length?`${dc} online <b class="dup-w">· Nr. ${dup.join(', ')} doppelt angemeldet</b>`:on.length+' online')+(aw?` <b class="aw-w">· ${aw} ${aw===1?'hat':'haben'} die App verlassen</b>`:'');
+  $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':'',ROSTER[k]&&ROSTER[k].away?'away':''].join(' ');
+    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}${dup.includes(k)?' dup':''}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${mnOf(k)?`<small class="mn-tag">${esc(mnOf(k))}</small>`:''}${ROSTER[k]&&ROSTER[k].away?`<small class="aw-t">App verlassen</small><small class="aw-t">${awMin(ROSTER[k].away)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||kidName(k))}</b> <span class="muted">${esc(kurzOf(k))}</span>${mnTag(k)}</span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   const md=CS.ready&&CS.ready.mood?((TD.moods||{})[S.cls||'-']||{})[todayISO()]||{}:null,EX=CS.exit?(TD.exits||{})[CS.exit.id]:null;
   const rdH=CS.exit?`<span class="label">🎟️ Exit-Ticket · ${CS.exit.done.length} / ${Math.max(on.length,CS.exit.done.length)||'–'} abgegeben · nur für dich</span>${pgBar(CS.exit.done.length,Math.max(on.length,CS.exit.done.length))}${EX?`<div class="ex-l">${Object.entries(EX.ans).map(([k,x])=>`<div><b>${x.m!=null?AMP3[x.m][0]+' ':''}${esc(x.nick||kidName(+k))}</b>${x.a.map((y,j)=>y?`<p><small class="muted">${esc(EX.qs[j]||'')}</small> ${esc(y)}</p>`:'').join('')}</div>`).join('')}</div>`:'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}`
@@ -2702,8 +2706,9 @@ function renderMini(force){
 }
 setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
 let RCS=null,rcsAt=0,OFF=0,lastOvSig='',QSEL=[];
+const LOTSEN_ON=false;// Lotsen sind vorerst ganz ausgeschaltet (Wunsch Lehrkraft)
 // Lotsen-Board nur, wenn die Lehrkraft es im Live-Modus freigibt: für alle (0) oder einzelne Nummern
-function lotsenOk(){if(S.role!=='student')return false;const L=RCS&&Date.now()-rcsAt<90000&&RCS.lotsen;return Array.isArray(L)&&(L.includes(0)||L.includes(+S.nr))}
+function lotsenOk(){if(S.role!=='student'||!LOTSEN_ON)return false;const L=RCS&&Date.now()-rcsAt<90000&&RCS.lotsen;return Array.isArray(L)&&(L.includes(0)||L.includes(+S.nr))}
 let dashSig='';
 // Freigegebene Inhalte übernehmen: live von der Lehrkraft oder aus der Server-Ablage (wenn die Lehrkraft gerade nicht online ist)
 const strHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=(h*33+t.charCodeAt(i))|0;return t.length+':'+h};
@@ -3663,7 +3668,7 @@ function lockShow(){if(!lockDue()||S.locked&&!$('#dm-ov').hidden)return;S.locked
     <button class="btn" data-act="lk-out">Nein, abmelden</button></div>`;setTimeout(()=>{const i=$('#lk-pin');if(i)i.focus()},60)}
 function lockChk(){if(S.role==='student'&&(S.locked||lockDue()))lockShow();else if(S.role==='student'){S.lastAct=Date.now()}}
 let LACT=0;['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,()=>{if(S.role!=='student'||S.locked)return;const t=Date.now();if(t-LACT>60000){LACT=t;S.lastAct=t;save()}},true));
-document.addEventListener('visibilitychange',()=>{if(S.role!=='student')return;if(document.hidden){if(!S.locked){S.lastAct=Date.now();save()}}else lockChk()});
+document.addEventListener('visibilitychange',()=>{if(S.role!=='student')return;try{if(S.nr)sendMsg({k:'away',on:document.hidden?1:0})}catch(e){}if(document.hidden){if(!S.locked){S.lastAct=Date.now();save()}}else lockChk()});
 function obsQuick(k){
   OQ={n:k,cat:OQ.cat||'Mitarbeit'};
   showOv(`<div class="box" style="text-align:left;max-width:520px;border-color:var(--navy)"><span class="label">Beobachtung · nur für dich</span><h2>${pupilName(k)}</h2>
@@ -6817,7 +6822,7 @@ setTimeout(checkSlot,400);
 // Live heartbeat: teacher re-sends the class state, students say hello
 setInterval(()=>{
   if(S.role==='teacher'&&CS){pushCS();if(V.name==='tafel')updTafel()}
-  if(S.role==='student'){sendMsg({k:'hi'});updBanner();try{liveOverlay()}catch(e){}
+  if(S.role==='student'){sendMsg(document.hidden?{k:'away',on:1}:{k:'hi'});updBanner();try{liveOverlay()}catch(e){}
     // Bereit-Meldung wiederholen, bis die Tafel sie bestätigt (Funknachrichten können verloren gehen)
     const R=RCS&&RCS.ready;if(R&&S.readyDone&&S.readyDone[R.id]&&!(R.done||[]).includes(+S.nr))sendMsg(READY_LAST&&READY_LAST.id===R.id?READY_LAST:{k:'ready',id:R.id});
     const J=RCS&&RCS.journal;if(J&&S.journalDone&&S.journalDone[J.id]&&!(J.done||[]).includes(+S.nr))sendMsg({k:'journal',id:J.id});
