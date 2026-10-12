@@ -1832,7 +1832,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1527';let verTold=false;
+const BUILD='20261012-1530';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
@@ -2408,7 +2408,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
     X.done.push(nr);ch=true;if(m.w&&TD.dk)dDec(TD.dk.priv,m).then(put).catch(()=>{});else put(m.p)}
   if(m.k==='vote'&&CS.poll&&m.id===CS.poll.id&&!CS.poll.voted.includes(nr)){CS.poll.voted.push(nr);[].concat(m.o).forEach(o=>{o=+o;if(o>=0&&o<CS.poll.opts.length)TALLY[o]=(TALLY[o]||0)+1});ch=true;if(V.name==='present'&&CS.poll.type==='quiz')updQuiz()}
   if(m.k==='journal'&&CS.journal&&m.id===CS.journal.id&&!CS.journal.done.includes(nr)){CS.journal.done.push(nr);ch=true}
-  if(m.k==='cloud'&&CS.cloud&&m.id===CS.cloud.id&&!CS.cloud.done.includes(nr)){const w=mwClean2(m.w);CS.cloud.done.push(nr);ch=true;if(w){const k=w.toLowerCase();if(!CS.cloud.hide.includes(k)){const C=CS.cloud.words;C[k]=C[k]||[w,0];C[k][1]++}}}
+  if(m.k==='cloud'&&CS.cloud&&m.id===CS.cloud.id&&((CS.cloud.cnt||{})[nr]||0)<(CS.cloud.max||1)&&(CS.cloud.max>1||!CS.cloud.done.includes(nr))){const w=mwClean2(m.w),cn=CS.cloud.cnt=CS.cloud.cnt||{};cn[nr]=(cn[nr]||0)+1;if(!CS.cloud.done.includes(nr))CS.cloud.done.push(nr);ch=true;if(w){const k=w.toLowerCase();if(!CS.cloud.hide.includes(k)){const C=CS.cloud.words;C[k]=C[k]||[w,0];C[k][1]++}}}
   if(m.k==='dmok'){const D=(CS.dm||[]).find(x=>x.id===m.id);if(D&&D.to.includes(nr)&&!D.ok.includes(nr)){D.ok.push(nr);ch=true;if(V.name==='tafel'&&V.ctl==='dm')setTimeout(render,0)}}
   if(m.k==='hi'&&!ROSTER[nr].known){ROSTER[nr].known=1;ch=true}
   if(m.k==='hi')mbFlushDown(nr);
@@ -2738,7 +2738,7 @@ function liveOverlay(){
   else if(ph.look){sig='look'+RCS.phaseAt;full=true;
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
   else if(RCS.cloud&&!RCS.freeze&&!(S.cloudDone||{})[RCS.cloud.id]&&!RCS.cloud.done.includes(S.nr)){sig='cl'+RCS.cloud.id;
-    html=box(`<span class="label">☁️ Wortwolke</span><h2 style="margin-top:6px">${esc(RCS.cloud.q)}</h2><input id="cl-a" type="text" maxlength="60" autocomplete="off" placeholder="Deine Antwort …" style="width:100%;font-size:1.3rem;margin-top:10px"><button class="btn ok" data-act="cl-send" style="width:100%;margin-top:10px">Abschicken ☁️</button><small class="muted">Deine Antwort steht ohne Namen an der Tafel.</small>`);
+    html=box(`<span class="label">☁️ Wortwolke</span><h2 style="margin-top:6px">${esc(RCS.cloud.q)}</h2>${Array.from({length:RCS.cloud.max||1},(_,k)=>`<input ${k?'':'id="cl-a"'} class="cl-a" type="text" maxlength="60" autocomplete="off" placeholder="${(RCS.cloud.max||1)>1?'Wort '+(k+1)+(k?' (freiwillig)':''):'Deine Antwort …'}" style="width:100%;font-size:1.3rem;margin-top:10px">`).join('')}<button class="btn pri" data-act="cl-send" style="width:100%;margin-top:10px">Abschicken ☁️</button><small class="muted">${(RCS.cloud.max||1)>1?'Deine Wörter stehen':'Deine Antwort steht'} ohne Namen an der Tafel.</small>`);
     if(sig!==lastOvSig)setTimeout(()=>{const i=$('#cl-a');i&&i.focus({preventScroll:true})},100)}
   else if(RCS.ready&&!S.readyDone[RCS.ready.id]&&!RCS.ready.done.includes(S.nr)){sig='r'+RCS.ready.id;const sl=slotNow(),sub=sl.kind==='lesson'?sl.l.s:null,its=RCS.ready.items&&RCS.ready.items.length?RCS.ready.items:sub?SUBJECTS[sub].prep:null;
     if(RCS.ready.msg&&sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate([150,80,150])}catch(e){}}
@@ -3174,11 +3174,12 @@ function startStep(i){
 }
 // Werkzeug der Phase starten (beim ersten Bild des Werkzeugs) bzw. beim Zurück auf die Folien wieder beenden
 function toolClear(L,i){const p=L.phases[i]||{},T=p.tool||{};CS.game=null;if(typeof KF!=='undefined'&&KF)kfbStop(true);CS.vw=null;CS.exit=null;
-  if(T.id==='start'||T.id==='mood')CS.ready=null;if(['thumbs','corners4','quiz'].includes(T.id))CS.poll=null;if(T.id==='diary')CS.journal=null;
+  if(T.id==='start'||T.id==='mood')CS.ready=null;if(['thumbs','corners4','quiz'].includes(T.id))CS.poll=null;if(T.id==='diary')CS.journal=null;if(T.id==='wc')CS.cloud=null;
   if(CS.phase){CS.phase.look=p.act==='look'||p.act==='mission';CS.phase.go=p.act==='goto'?p.target:null;CS.phase.txt=p.txt||p.goal||''}}
 function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean),words:!!T.mood,cloud:{}};
   if(T.id==='mood'){CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.q||'Wie geht\'s dir heute?',items:[],mood:true,only:true};CS.phase.look=false}
+  if(T.id==='wc'){CS.cloud={id:'c'+Date.now(),q:T.q||'Was fällt dir dazu ein?',words:{},done:[],hide:[],max:Math.max(1,Math.min(3,+T.n||3)),cnt:{},big:true};CS.phase.look=false}
   if(T.id==='thumbs'){CS.poll={id:'p'+Date.now(),type:'thumbs',q:T.q||'Hast du es verstanden?',opts:THUMBS,voted:[],hide:true};TALLY={};CS.phase.look=false}
   if(T.id==='exit'){CS.exit={id:'x'+Date.now(),qs:lines(T.qs).slice(0,4),amp:T.amp!==false,done:[]};CS.phase.look=false}else CS.exit=null;
   if(T.id==='task'&&T.text)CS.phase.txt=lines(T.text).join(' · ');
@@ -3767,6 +3768,7 @@ const TOOLS={
   high5:{name:'High-Five-Feedback',icon:'🙌',txt:'Fünf Reflexionsfragen an der Tafel.',fit:/reflex|feedback|abschluss/i},
   thumbs:{name:'Daumen-Abfrage',icon:'👍',txt:'„Hast du es verstanden?“ Die SuS tippen 👍 👌 👎 auf dem iPad. Du siehst das Ergebnis sofort, die Tafel nur, wie viele schon abgestimmt haben.',fit:/verstand|sicherung|abschluss|reflex|daumen/i},
   exit:{name:'Exit-Ticket',icon:'🎟️',txt:'Zum Schluss beantworten die SuS kurze Fragen auf dem iPad und schätzen sich mit der Ampel ein. Nur du siehst die Antworten.',fit:/exit|abschluss|reflex|ausblick|sicherung/i},
+  wc:{name:'Wortwolke',icon:'☁️',txt:'Du stellst eine Frage, z. B. „Was ist eine Variable?“. Die SuS schreiben ein paar Wörter auf dem iPad, an der Tafel wächst die Wortwolke. Ohne Namen.',fit:/wiederhol|vorwissen|einstieg|warm|begriff|wortwolke/i},
   mood:{name:'Stimmungsbarometer',icon:'🌤️',txt:'„Wie geht\'s dir heute?“ Die SuS tippen ein Gesicht auf dem iPad. Nur du siehst die Antworten.',fit:/begr|ankommen|start|stimmung/i},
   vw:{name:'Verbotene Wörter',icon:'🃏',txt:'Eine Person steht mit dem Rücken zur Tafel. Die Klasse erklärt das Wort, ohne die verbotenen Wörter zu sagen. Die Karte dreht sich auf Knopfdruck.',fit:/warm|ritual|wiederhol|wortschatz|begriff|spiel|tabu/i},
   ueb:{name:'Übung aus dem Schreibtisch',icon:'✏️',txt:'Eine interaktive Übung aus deinem Schreibtisch, z. B. aus 1.6 Gleichungen. Läuft an der Tafel und auf allen iPads.',fit:/erarb|übung|anwend|vertief|wiederhol/i},
@@ -3778,11 +3780,11 @@ const TOOLS={
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['🧩','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
-const TOOL_IPAD={ueb:'Die Übung geht auf allen iPads auf, alle üben mit.',thumbs:'Die SuS stimmen mit 👍 👌 👎 ab. Das Ergebnis siehst nur du.',exit:'Die SuS füllen das Exit-Ticket auf dem iPad aus. Die Antworten siehst nur du.',mood:'Die SuS tippen, wie es ihnen geht. Das siehst nur du.',vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Alle tippen ihr Ergebnis ein und sehen sofort, ob es stimmt. Du nimmst in der Steuerung ein Kind dran, es sagt sein Ergebnis laut.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
+const TOOL_IPAD={wc:'Die SuS schreiben ihre Wörter auf dem iPad. Die Tafel zeigt die Wortwolke.',ueb:'Die Übung geht auf allen iPads auf, alle üben mit.',thumbs:'Die SuS stimmen mit 👍 👌 👎 ab. Das Ergebnis siehst nur du.',exit:'Die SuS füllen das Exit-Ticket auf dem iPad aus. Die Antworten siehst nur du.',mood:'Die SuS tippen, wie es ihnen geht. Das siehst nur du.',vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Alle tippen ihr Ergebnis ein und sehen sofort, ob es stimmt. Du nimmst in der Steuerung ein Kind dran, es sagt sein Ergebnis laut.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
   quiz:'Die SuS stimmen auf dem iPad ab.',corners4:'Die SuS stimmen auf dem iPad ab.',diary:'Die SuS schreiben in ihr Lerntagebuch.'};
 const IPAD_OFF=['start','kfb','heftlink','ueb'];
 const SF_TXT={EA:'Du arbeitest allein',PA:'Du arbeitest mit deinem Partner',GA:'Ihr arbeitet in der Gruppe',Plenum:'Wir arbeiten gemeinsam'};
@@ -3865,7 +3867,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   return '';
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
-  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:'start',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
+  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:'start',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
@@ -3912,6 +3914,7 @@ function toolEditor(p,i,L){
       <label class="sl-row"><span class="sl-gl">Liste zum Abhaken</span><span class="sl-v"><input type="text" data-f="ph.${i}.tool.items" value="${esc(t.items||'')}" placeholder="Mit Komma: Mathebuch, Heft, Regelheft"></span></label>
       <div class="sl-row"><span class="sl-gl">Hintergrund</span><span class="sl-v"><span class="chip">${esc(bgName(t.bg||'start'))}</span><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Eigenes Bild</button>${(t.bg||'start')!=='start'?`<button class="btn sm" data-act="sl-bg0" data-i="${i}" data-j="start">↺ ELIO Start</button>`:''}<input type="file" id="sl-file" accept="image/*" hidden></span></div>
     </div></div>`:'';
+  if(t.id==='wc')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage an die SuS',t.q,'Was ist eine Variable?')}<label>Wörter pro Kind<select data-f="ph.${i}.tool.n">${[1,2,3].map(n=>`<option value="${n}" ${n===(+t.n||3)?'selected':''}>${n}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem;margin:0">An der Tafel steht die Wolke groß. Unpassende Wörter nimmst du mit ✕ weg.</p></div>`;
   if(t.id==='thumbs'||t.id==='mood')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}</div>`;
   if(t.id==='exit')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fragen (eine pro Zeile, höchstens 4)',t.qs,3)}<label class="cbl" style="grid-column:1/-1"><input type="checkbox" data-f="ph.${i}.tool.amp" ${t.amp!==false?'checked':''}> Dazu die Ampel: Kann ich / Fast / Noch nicht</label></div>`;
   if(t.id==='vw'){const n=vwCards(t).length;cfg=`<div class="lgrid" style="margin-top:8px">${inp('teams','Teams (mit Komma)',t.teams,'Team A, Team B')}${ta('cards','Karten: pro Zeile „Wort: verboten, verboten, verboten“',t.cards,8)}<p class="muted" style="grid-column:1/-1;font-weight:700;margin:0">${n} Karten erkannt. An der Tafel drehst du jede Karte mit einem Klick um und vergibst die Punkte.</p></div>`}
@@ -4688,7 +4691,7 @@ document.addEventListener('keydown',e=>{
   if(['ArrowRight','PageDown',' '].includes(e.key)&&CS.step<L.phases.length-1){e.preventDefault();startStep(CS.step+1)}
   if(['ArrowLeft','PageUp'].includes(e.key)&&CS.step>0){e.preventDefault();startStep(CS.step-1)}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='cl-a'){e.preventDefault();const b=document.querySelector('[data-act=cl-send]');b&&b.click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('cl-a')){e.preventDefault();const A=[...document.querySelectorAll('.cl-a')],n=A[A.indexOf(e.target)+1];if(n&&e.target.value.trim()){n.focus();return}const b=document.querySelector('[data-act=cl-send]');b&&b.click()}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='kfb-a'){e.preventDefault();const b=document.querySelector('[data-act=kfb-chk]');b&&b.click()}});
 setInterval(()=>{const t=$('#ptimer');if(t&&CS)t.textContent=fmt(timerLeft(CS.timer))},1000);
 
@@ -5994,7 +5997,7 @@ document.addEventListener('click',e=>{
     case 'cl-del':if(CS.cloud){delete CS.cloud.words[d.k];CS.cloud.hide.push(d.k);pushCS();if(V.name==='tafel')updTafel()}break;
     case 'cl-big':if(CS.cloud){CS.cloud.big=!CS.cloud.big;pushCS();if(V.name==='tafel')updTafel()}break;
     case 'cl-end':CS.cloud=null;pushCS();if(V.name==='tafel')updTafel();break;
-    case 'cl-send':{const C=RCS&&RCS.cloud,el=$('#cl-a');if(!C||!el)break;const w=mwClean2(el.value);if(!w){el.focus();break}S.cloudDone=S.cloudDone||{};S.cloudDone[C.id]=1;save();sendMsg({k:'cloud',id:C.id,w});SND.right();lastOvSig='';liveOverlay();break}
+    case 'cl-send':{const C=RCS&&RCS.cloud,el=$('#cl-a');if(!C||!el)break;const ws=[...new Set([...document.querySelectorAll('.cl-a')].map(x=>mwClean2(x.value)).filter(Boolean))].slice(0,C.max||1);if(!ws.length){el.focus();break}S.cloudDone=S.cloudDone||{};S.cloudDone[C.id]=1;save();ws.forEach(w=>sendMsg({k:'cloud',id:C.id,w}));SND.right();lastOvSig='';liveOverlay();break}
     case 'cw-del':if(CS.ready&&CS.ready.cloud){delete CS.ready.cloud[d.k];(CS.ready.hide=CS.ready.hide||[]).push(d.k);pushCS();if(V.name==='tafel')updTafel()}break;
     case 'mw-pick':{const w=d.w,k=MWSEL.indexOf(w);if(k>=0)MWSEL.splice(k,1);else{if(MWSEL.length>=3)MWSEL.shift();MWSEL.push(w)}document.querySelectorAll('.mw button').forEach(b=>b.classList.toggle('on',MWSEL.includes(b.dataset.w)));prepUpd();break}
     case 'mood-pick':MOODSEL=+d.v;document.querySelectorAll('.mood5 button').forEach(b=>b.classList.toggle('on',+b.dataset.v===MOODSEL));prepUpd();break;
