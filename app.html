@@ -1866,7 +1866,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2052';let verTold=false;
+const BUILD='20261012-2115';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2671,6 +2671,8 @@ const SL_BG={allgemein:'ELIO allgemein',start:'ELIO Start (mit Elo)',none:'Ohne 
 const SL_LAY={std:'Überschrift und Text',bild:'Nur Bild (ganze Folie)',frage:'Stundenfrage',murmel:'Stundenfrage mit Murmelphase',hypo:'Vermutungen'};
 // Augen der Elo-Bilder (Mitte x/y und Radius in % der Bildbreite, Lidfarbe) für das Blinzeln
 const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebung:[[32.7,31.4,9.6,'#e6e9fb'],[59.8,37.7,9.8,'#edf0fb']],hilfe:[[41.2,31.4,9.4,'#e4e7fa'],[68.1,37.4,9.6,'#f1f2fc']],fleiss:[[42.9,31.0,9.2,'#e2e4fa'],[69.1,36.5,9.4,'#f2f3fd']]};
+// Fach-Elo: in Englisch Elo mit Melone und Union-Jack-Schal, in Kunst Elo mit Baskenmütze und Palette
+const ELO_SUBJ={E:'uk',K:'kunst'},eloImg=(k,s)=>`assets/elo/elo-${ELO_SUBJ[s]||k}-512.png`,eloLidsS=(k,s)=>ELO_SUBJ[s]?'':eloLids(k);
 const eloLids=k=>(ELO_EYES[k]||[]).map(([x,y,r,c])=>`<i class="elo-lid" style="left:${x-r}%;top:${y-r}%;width:${2*r}%;--c:${c}"></i>`).join('');
 // Elo lebt: blinzelt, legt den Kopf schief, schüttelt sich (kratzt sich), hüpft. Nur wenn gerade keine andere Animation läuft.
 function eloLife(doc){if(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -2740,7 +2742,7 @@ function sceneHTML(img,card,pos){const u='assets/folien/'+img+'.webp';
   return `<div class="bw bw-sc"><div class="sc-st" style="background-image:url(${u})">${(SC_FX[img]||[]).map(f=>`<i class="sc-fx" style="background-image:url(${u});clip-path:${f.c};transform-origin:${f.o};animation:${f.a}"></i>`).join('')}${img==='lerntagebuch'?'<i class="sc-tw" style="left:62%;top:8%"></i><i class="sc-tw" style="left:84%;top:20%;animation-delay:.7s"></i><i class="sc-tw" style="left:71%;top:30%;animation-delay:1.3s"></i>':''}${(SC_GLOW[img]||[]).map(([x,y,w,h,d])=>`<i class="sc-gl" style="left:${x-w/2}%;top:${y-h/2}%;width:${w}%;height:${h}%;animation-duration:${d}s"></i>`).join('')}<div class="sc-card" style="${pos}">${card}</div></div></div>`}
 // Elo-Effekte gehen immer: Ist Elo nicht auf der Folie, springt er für ein paar Sekunden unten rechts ins Bild
 function boardHTML(R,mini){const h=boardHTMLc(R,mini),fx=R&&R.fx&&Date.now()-R.fx.at<6000?R.fx.k:'';if(!fx||h.includes('class="sl-elo')||!/<\/div>\s*$/.test(h))return h;
-  return h.replace(/<\/div>\s*$/,`<div class="bw-elo"><div class="sl-elo fx-${fx}" style="position:relative;right:auto;bottom:auto;width:100%"><img src="assets/elo/elo-hilfe-512.png" alt="Elo" draggable="false">${eloLids('hilfe')}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}</div></div></div>`)}
+  return h.replace(/<\/div>\s*$/,`<div class="bw-elo"><div class="sl-elo fx-${fx}" style="position:relative;right:auto;bottom:auto;width:100%"><img src="${eloImg('hilfe',R&&R.stage&&R.stage.subj)}" alt="Elo" draggable="false">${eloLidsS('hilfe',R&&R.stage&&R.stage.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}</div></div></div>`)}
 function boardHTMLc(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL.big):'';
   // Abstimmungs-Ergebnis groß an der Tafel (die Lehrkraft blendet es ein), immer ohne Namen
   if(R&&R.poll&&R.poll.show&&R.poll.res&&R.poll.type!=='quiz'){const P=R.poll,tot=Math.max(1,P.res.reduce((a,b)=>a+b,0));
@@ -3993,7 +3995,7 @@ function slImgH(m,n,cls,E,c){const C=m.c||{l:0,t:0,r:0,b:0},cw=1-C.l-C.r,ch=1-C.
 function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
   const fx=c.fx&&Date.now()-c.fx.at<6000?c.fx.k:'',ls=lines(sl.text),sh=sl.shown>=0?sl.shown:ls.length,P=sl.pos||{},E=c.edit,sel=E&&c.sel,
     ce=k=>E&&c.ed===k?' contenteditable="true" spellcheck="true"':'',rz=k=>E&&k&&c.ed===k?'':E?(k==='t'||k==='b'?`<i class="sl-rz sl-rz-r" data-rz="w" title="Breite ändern"></i><i class="sl-rz sl-rz-b" data-rz="h" title="Höhe ändern"></i>`:'')+`<i class="sl-rz" data-rz="${k==='t'||k==='b'?'wh':'w'}" title="Größe ändern"></i>`:'',ab=k=>P[k]?' sl-abs':'',on=k=>sel===k?' sl-sel':'',fs=k=>P[k]&&P[k].f&&P[k].f!==1?`font-size:${(k==='t'?3:1.6)*P[k].f}em;`:'';
-  const eloH=sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo" draggable="false">${eloLids(sl.elo)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:'';
+  const eloH=sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="${eloImg(sl.elo,c.subj)}" alt="Elo" draggable="false">${eloLidsS(sl.elo,c.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:'';
   // Stundenfrage und Vermutung: gleiches ELIO-Design mit Hintergrund und Elo
   if(L==='frage'||L==='murmel'||L==='hypo'){const h=L==='hypo'?richTool({id:'hypo',text:sl.text},c):richTool({id:'question',q:sl.title,murmel:L==='murmel'},c),bg=bgAttr(sl.bg||'allgemein');
     const imgH=(sl.imgs||[]).map((m,n)=>slImgH(m,n,on('i'+n),E,c)).join(''),
@@ -4008,7 +4010,7 @@ function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
     ${(sl.imgs||[]).map((m,n)=>slImgH(m,n,on('i'+n),E,c)).join('')}
     ${L!=='bild'&&(sl.title||E)?`<h1 class="sl-t${ab('t')}${on('t')}${sl.title?'':' sl-ph'}" data-ph="Überschrift" data-el="t" style="${slPos(P,'t')}${fs('t')}"${ce('t')}>${esc(sl.title)}${rz('t')}</h1>`:''}
     ${L!=='bild'&&(ls.length||E)?`<div class="sl-b${ab('b')}${on('b')}${ls.length?'':' sl-ph'}" data-ph="Text (doppelt tippen zum Schreiben)" data-el="b" style="${slPos(P,'b')}${fs('b')}"${ce('b')}>${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}${rz('b')}</div>`:''}
-    ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo" draggable="false">${eloLids(sl.elo)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
+    ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="${eloImg(sl.elo,c.subj)}" alt="Elo" draggable="false">${eloLidsS(sl.elo,c.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
 /* ---------- Weltkugel für die Startfolie: dreht sich, markiert das Land der Stunde. Kartendaten: Natural Earth (gemeinfrei). ----------
    Jedes Kind, das „Bereit“ drückt, füllt den Ring um die Kugel. Sind alle bereit, dreht sie sich zum Land und zoomt hinein. */
 const GEO={d:null,p:null,raf:0};
