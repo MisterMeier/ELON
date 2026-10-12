@@ -488,6 +488,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
 .lgrid label{display:grid;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);min-width:0}
 .lgrid input,.lgrid select{text-transform:none;letter-spacing:0;font-size:1rem;font-weight:600}
+.ph-hd{display:flex;align-items:center;gap:12px;flex:1;min-width:0;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}.ph-hd-t{display:grid;min-width:0}.ph-hd-t b{font-family:var(--f-display);font-size:1.15rem;color:var(--navy,#1e3a8a);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ph-hd-t small{color:#64748b;font-weight:700}.ph-car{color:#4f46e5;font-size:1.2rem;margin-left:auto;padding-right:6px}
+.lcard.ph-shut{padding:10px 16px}.lcard.ph-shut:hover{border-color:#c7d2fe}.lcard.ph-open{border:2px solid #c7d2fe}
 .lnum{flex:none;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--on-accent);display:grid;place-items:center;font-family:var(--f-display);font-weight:800}
 .strip{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .strip button{border:2px solid var(--line);background:var(--surface-2);border-radius:10px;padding:4px 10px;font-weight:800;font-size:.85rem;cursor:pointer;min-height:36px}
@@ -1832,7 +1834,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1544';let verTold=false;
+const BUILD='20261012-1551';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
@@ -3893,6 +3895,11 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       </div></div></div>`}
 const bgName=bg=>SL_BG[bg]||((LIB.items||[]).find(m=>m.id===bg)||{}).name||'Eigenes Bild';
 const isGreet=p=>/begrü/i.test(p&&p.name||'');
+// Planung: immer nur eine Phase offen. Beim Öffnen gleich die erste Folie im Editor (bzw. die Startfolie).
+const phSlN=p=>isGreet(p)?1:(p.xs||[]).length+(p.tool&&p.tool.id==='slide'?deckSlides(p.tool).length:0);
+function phAuto(L,i){const p=L&&L.phases[i];V.phOpen=p?i:null;V.sle=null;V.stOpen=null;if(!p)return;
+  if(isGreet(p))V.stOpen=i;else if((p.xs||[]).length)V.sle={i:'x'+i,j:0,sel:null};else if(p.tool&&p.tool.id==='slide'&&deckSlides(p.tool).length)V.sle={i,j:0,sel:null}}
+const phGo=i=>setTimeout(()=>{const c=$('#ph-card-'+i);c&&c.scrollIntoView({block:'start',behavior:'smooth'})},0);
 const swH=(f,on,l,sub)=>`<label class="sw"><input type="checkbox" data-f="${f}" ${on?'checked':''}><span class="sw-t" aria-hidden="true"></span><span class="sw-l"><b>${l}</b>${sub?`<small>${sub}</small>`:''}</span></label>`;
 const greetInit=(p,L)=>{if(isGreet(p)&&(!p.tool||p.tool.id!=='start'))p.tool={id:'start',hint:p.txt||'Leg deine Sachen bereit!',items:((SUBJECTS[L.subject]||{}).prep||[]).join(', '),bg:'start',date:true,title:''}};
 function toolEditor(p,i,L){
@@ -5867,10 +5874,10 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
       return `<p class="muted" style="font-weight:700;font-size:.85rem;margin:6px 0 10px">Leere Felder füllt ELIO selbst aus den Phasen (grau = Vorschlag). Alles kannst du überschreiben.</p><div class="lgrid">
       <label>Datum der Stunde<input type="date" data-f="adate" value="${esc(L.adate||'')}"></label><label style="grid-column:span 2">Name in der Kopfzeile<input type="text" data-f="aname" value="${esc(L.aname||'')}" placeholder="${esc(D.name||'Dein Name')}"></label>
       ${ta('alp','Lehrplan-Verortung',L.alp,D.lp,2)}${ta('aziel','Stundenziel',L.aziel,D.ziel,2)}${ta('akomp','Kompetenzerwartungen (eine pro Zeile)',L.akomp,D.komp.join('\n'),4)}${ta('alit','Literatur- und Quellenangaben (eine pro Zeile)',L.alit,D.lit.join('\n'),3)}</div>`})()}</details></section>
-  <div class="lesson-list" style="margin-top:16px">${L.phases.map((p,i)=>`${i?`<div class="ph-ins"><button class="ph-plus" data-act="ph-ins" data-i="${i}" title="Hier eine Phase einfügen" aria-label="Zwischen Phase ${i} und ${i+1} eine Phase einfügen">＋</button></div>`:''}<article class="lcard ${liveL&&CS.step===i?'live-ph':''}" id="ph-card-${i}">
-    <div class="row" style="justify-content:space-between"><div class="row"><span class="lnum">${i+1}</span>${liveL&&CS.step===i?'<span class="chip ok">läuft gerade</span>':''}<h3>${esc(p.name)}</h3></div>
+  ${(V.phOpen===undefined?(phAuto(L,liveL&&CS.step!=null?CS.step:0),''):'')}<div class="lesson-list" style="margin-top:16px">${L.phases.map((p,i)=>`${i?`<div class="ph-ins"><button class="ph-plus" data-act="ph-ins" data-i="${i}" title="Hier eine Phase einfügen" aria-label="Zwischen Phase ${i} und ${i+1} eine Phase einfügen">＋</button></div>`:''}<article class="lcard ${liveL&&CS.step===i?'live-ph':''} ${V.phOpen===i?'ph-open':'ph-shut'}" id="ph-card-${i}">
+    <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><button class="ph-hd" data-act="ph-open" data-i="${i}" aria-expanded="${V.phOpen===i}"><span class="lnum">${i+1}</span><span class="ph-hd-t"><b>${esc(p.name)}</b><small>${+p.min||0} Min · ${esc(p.sf||'Plenum')}${p.tool&&TOOLS[p.tool.id]&&p.tool.id!=='start'&&p.tool.id!=='slide'?' · '+esc(TOOLS[p.tool.id].name):''}${phSlN(p)?' · '+phSlN(p)+(phSlN(p)>1?' Folien':' Folie'):''}</small></span>${liveL&&CS.step===i?'<span class="chip ok">läuft gerade</span>':''}<span class="ph-car" aria-hidden="true">${V.phOpen===i?'▾':'▸'}</span></button>
       <div class="row"><button class="btn sm" data-act="ph-up" data-i="${i}" ${i===0?'disabled':''} aria-label="Nach oben">↑</button><button class="btn sm" data-act="ph-down" data-i="${i}" ${i===L.phases.length-1?'disabled':''} aria-label="Nach unten">↓</button><button class="btn sm ${V.artPh===i?'pri':''}" data-act="ph-art" data-i="${i}" title="Inhalt für die Artikulation (Word-Export)">📄 Artikulation</button><button class="btn sm" data-act="ph-del" data-i="${i}">Entfernen</button></div></div>
-    ${V.artPh===i?`<div class="art-d"><span class="label">Inhalt für die Artikulation</span><textarea data-f="ph.${i}.art" rows="3" placeholder="${esc(artData(L).rows[i].lines.join('\n')||'Ein Stichpunkt pro Zeile')}">${esc(p.art||'')}</textarea></div>`:''}
+    ${V.phOpen!==i?'':`${V.artPh===i?`<div class="art-d"><span class="label">Inhalt für die Artikulation</span><textarea data-f="ph.${i}.art" rows="3" placeholder="${esc(artData(L).rows[i].lines.join('\n')||'Ein Stichpunkt pro Zeile')}">${esc(p.art||'')}</textarea></div>`:''}
     <div class="lgrid">
       <label>Phase<input type="text" data-f="ph.${i}.name" value="${esc(p.name)}"></label>
       <label>Minuten<input type="number" min="0" max="90" data-f="ph.${i}.min" value="${+p.min||0}"></label>
@@ -5879,7 +5886,7 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
       ${isGreet(p)||(p.xs||[]).length||p.tool&&p.tool.id==='slide'?'':`<label style="grid-column:1/-1">Anweisung an die SuS (Tafel und iPad)<input type="text" data-f="ph.${i}.txt" value="${esc(p.txt||'')}"></label>`}
       <div style="grid-column:1/-1">${phBody(p,i,L)}</div>
       ${(p.mats||[]).length?`<div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>`:''}
-    </div></article>`).join('')}</div>
+    </div>`}</article>`).join('')}</div>
   <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button><span class="spacer"></span><button class="btn" data-act="tpl-save">📐 Als ${esc(SUBJECTS[L.subject].name)}-Gerüst speichern</button>${tplOwn(L.subject)?`<button class="btn sm" data-act="tpl-reset">↺ Standard-Gerüst</button>`:''}</div>
   <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">${V.tplMsg?esc(V.tplMsg):`Jede neue ${esc(SUBJECTS[L.subject].name)}-Stunde startet mit dem ${tplOwn(L.subject)?'Gerüst, das du gespeichert hast':'Standard-Gerüst'}. Phasen, die du in einer Stunde nicht brauchst, löschst du einfach dort.`}</p>${qcHTML(L)}`;
 };
@@ -6020,7 +6027,7 @@ document.addEventListener('click',e=>{
       if(a==='sl-mv'){const k=j+(+d.d);if(k>=0&&k<A.length)[A[j],A[k]]=[A[k],A[j]]}if(t._x&&!A.length){const ph=L.phases[+String(d.i).slice(1)];if(isGreet(ph))delete ph.xs}save();render();break}
     case 'ph-ipad':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.noipad=d.v==='0';save();render();break}
     case 'kf-lvl':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;p.tool.level=d.v;save();render();break}
-    case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});save();render();break}
+    case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:'x'+d.i,j:p.xs.length-1,sel:null};save();render();break}
     case 'sl-arr':V.sle={i:d.i,j:+d.j,sel:null};render();setTimeout(()=>{const b=$('.sl-ed-big');b&&b.scrollIntoView({block:'start'})},0);break;
     case 'sl-done':V.sle=null;render();break;
     case 'sl-lay':{const sl=slEdSlide(d);if(sl){sl.layout=d.v;save();render()}break}
@@ -6048,15 +6055,16 @@ document.addEventListener('click',e=>{
     case 'l-stop':if(KF)kfbStop(true);audStop();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=true;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'tpl-save':{const L=lessonById(V.id);if(!L)break;S.tpls=S.tpls||{};S.tpls[L.subject]=clone(L.phases).map(p=>{if(p.tool&&p.tool.id==='cover')p.tool.title='';if(p.tool&&p.tool.id==='heftlink')p.tool.eid='';return p});save();V.tplMsg='Gespeichert. Jede neue '+SUBJECTS[L.subject].name+'-Stunde startet jetzt mit diesen '+L.phases.length+' Phasen.';render();break}
     case 'tpl-reset':{const L=lessonById(V.id);if(!L||!S.tpls)break;delete S.tpls[L.subject];save();V.tplMsg='Neue '+SUBJECTS[L.subject].name+'-Stunden starten wieder mit dem Standard-Gerüst.';render();break}
-    case 'ph-ins':{const L=lessonById(V.id);if(!L)break;const j=+d.i;L.phases.splice(j,0,{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();setTimeout(()=>{const c=document.querySelectorAll('.lcard')[j];c&&c.scrollIntoView({block:'center'});const n=c&&c.querySelector('[data-f$=".name"]');n&&n.select()},0);break}
-    case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});save();render();break}
+    case 'ph-ins':{const L=lessonById(V.id);if(!L)break;const j=+d.i;L.phases.splice(j,0,{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});phAuto(L,j);save();render();setTimeout(()=>{const c=document.querySelectorAll('.lcard')[j];c&&c.scrollIntoView({block:'center'});const n=c&&c.querySelector('[data-f$=".name"]');n&&n.select()},0);break}
+    case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});phAuto(L,L.phases.length-1);save();render();phGo(L.phases.length-1);break}
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
     case 'ph-art':V.artPh=V.artPh===+d.i?null:+d.i;render();break;
     case 'st-open':V.stOpen=V.stOpen===+d.i?null:+d.i;render();break;
     case 'st-tog':{const L=lessonById(V.id),p=L&&L.phases[+d.i],t=p&&p.tool;if(!t||t.id!=='start')break;if(d.k==='date')t.date=t.date===false;else t.mood=!t.mood;save();render();break}
     case 'ph-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&ACT_MODES[d.m]&&actMode(p.act)!==d.m){p.act=ACT_MODES[d.m].acts[0];save()}render();break}
-    case 'ph-del':{const L=lessonById(V.id);L.phases.splice(+d.i,1);save();render();break}
-    case 'ph-up':case 'ph-down':{const L=lessonById(V.id),i=+d.i,j=a==='ph-up'?i-1:i+1;if(j<0||j>=L.phases.length)break;[L.phases[i],L.phases[j]]=[L.phases[j],L.phases[i]];save();render();break}
+    case 'ph-del':{const L=lessonById(V.id);L.phases.splice(+d.i,1);V.phOpen=null;V.sle=null;V.stOpen=null;save();render();break}
+    case 'ph-up':case 'ph-down':{const L=lessonById(V.id),i=+d.i,j=a==='ph-up'?i-1:i+1;if(j<0||j>=L.phases.length)break;[L.phases[i],L.phases[j]]=[L.phases[j],L.phases[i]];if(V.phOpen===i)phAuto(L,j);save();render();break}
+    case 'ph-open':{const L=lessonById(V.id),i=+d.i;if(V.phOpen===i){V.phOpen=null;V.sle=null;V.stOpen=null}else phAuto(L,i);render();phGo(i);break}
     case 't-jr':CS.journal=CS.journal?null:{id:'j'+Date.now(),done:[]};pushCS();render();break;
     case 'jr-mood':JM=+d.i;b.parentNode.querySelectorAll('.mood').forEach(x=>x.classList.toggle('on',x===b));break;
     case 'jr-save':saveJournal(d.src,d.id);break;
