@@ -775,7 +775,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .gl-in{display:grid;justify-items:center;gap:1cqh;padding:4cqh 4cqw}.gl-in .logo{transform:scale(.9)}.gl-k{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#bae6fd;font-size:2.6cqh}
 .gl-in h1{font-family:var(--f-display);font-size:9cqh;line-height:1.05;margin:0;color:#fff}.gl-n{font-family:var(--f-display);font-size:11cqh;color:#f59e0b;line-height:1}.gl-in p{font-weight:700;font-size:3cqh;max-width:60cqw;margin:0;color:#e0e7ff}
 .gl-star{width:1em;height:1em;vertical-align:-.12em}.gl-elo{position:absolute;right:3cqw;bottom:2cqh}
-.rt-start.st-geo{background:#f6f8fc;overflow:hidden}
+.rt-start.st-geo{background:#f6f8fc;overflow:hidden}.st-geo-s{position:absolute;right:max(90px,9%);top:50%;transform:translateY(-50%);width:min(44vw,70vh);aspect-ratio:1;pointer-events:none}.st-geo-s .geo-c{width:100%;height:100%;display:block}
 .st-geo .geo-w{position:absolute;left:1%;top:3%;bottom:3%;width:54%;z-index:1}.st-geo .geo-z{-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.st-geo .geo-c{width:100%;height:100%;display:block}
 .st-geo .in{position:absolute;right:3%;top:30%;width:41%;z-index:2;justify-items:start;gap:.4em}.st-geo .in h1{font-size:2.8em;line-height:1.05}.st-geo .in p{font-size:1.35em}.st-geo .st-items{font-size:.85em}.st-geo .hint{font-size:1.15em;margin-top:.2em}
 .st-geo .geo-cnt{position:absolute;left:28%;bottom:2.5%;transform:translateX(-50%);z-index:3;text-align:center;padding:.45em .8em;border-radius:.8em;background:#fff;box-shadow:0 .3em 1em rgba(30,58,138,.15);color:#1e3a8a;width:22em;max-width:44%}.st-geo .geo-cnt .rp-tank{margin:.1em 0 .35em}
@@ -1850,7 +1850,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1812';let verTold=false;
+const BUILD='20261012-1815';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2786,10 +2786,10 @@ function liveOverlay(){
       :RCS.ready.words?`<p style="margin-top:10px;font-weight:800">Wie geht's dir heute? Tipp bis zu 3 Wörter an.</p><div class="mw">${MOOD_W.map(w=>`<button data-act="mw-pick" data-w="${esc(w)}" class="${MWSEL.includes(w)?'on':''}">${esc(w)}</button>`).join('')}</div><input id="mw-own" type="text" maxlength="20" value="${esc(MWOWN)}" placeholder="✏️ Oder schreib ein eigenes Wort …" autocomplete="off"><small class="muted">Deine Wörter stehen ohne Namen an der Tafel.</small>`:'';
     if(!PREPON||PREPON.id!==RCS.ready.id)PREPON={id:RCS.ready.id,on:[]};const pi=RCS.ready.only?[]:its||[],gate=prepGate(pi.length);
     const inner=`<h2>${esc(RCS.ready.msg||'Bist du bereit?')}</h2>${md}${pi.length?`<p style="margin-top:8px;font-weight:700">Hak ab, was bereitliegt:</p><div class="prep">${pi.map((p,k)=>`<button data-act="prep" data-k="${k}" class="${PREPON.on.includes(k)?'on':''}"><i>${PREPON.on.includes(k)?'✓':''}</i>${esc(p)}</button>`).join('')}</div>`:''}
-      <button class="btn ok" data-act="ready" data-n="${pi.length}" style="width:100%;margin-top:16px" ${gate?'':'disabled'}>${RCS.ready.only?'Abschicken':'Ich bin bereit 🚀'}</button>`;
+      <button class="btn ok" data-act="ready" data-n="${pi.length}" style="width:100%;margin-top:16px" ${gate?'':'disabled'}>${RCS.ready.only?'Abschicken':RCS.stage&&RCS.stage.tool&&RCS.stage.tool.bg==='welt'?'I\'m ready! ✈️':'Ich bin bereit 🚀'}</button>`;
     const stT=RCS.stage&&RCS.stage.tool&&RCS.stage.tool.id==='start'?RCS.stage.tool:null;
     if(stT){full=true;const bg=SL_BG[stT.bg||'start']?(stT.bg||'start'):'start',sn=(SUBJECTS[RCS.stage.subj]||{}).name||'';
-      html=`<div class="st-lov" style="background-image:url(assets/folien/${bg==='none'?'allgemein':bg}.webp)"><div class="st-card"><h1>${esc(stT.title||'Du hast jetzt '+sn)}</h1>${stT.date!==false?`<p class="st-d">${dateDE()}</p>`:''}${inner}</div></div>`}
+      const gw=stT.bg==='welt';html=`<div class="st-lov ${gw?'st-lov-geo':''}" style="background-image:url(assets/folien/${gw||bg==='none'?'allgemein':bg}.webp)">${gw?`<div class="st-geo-s"><canvas class="geo-c" data-reg="${GEO_R[stT.region]?stT.region:'uk-ie'}"></canvas></div>`:''}<div class="st-card"><h1>${esc(stT.title||(gw?'Welcome to English class':'Du hast jetzt '+sn))}</h1>${stT.date!==false?`<p class="st-d">${dateDE()}</p>`:''}${inner}</div></div>`}
     else html=box(`<span class="label">${RCS.ready.only?'Stimmungsbarometer':RCS.ready.msg?'Stundenbeginn':'Bereit-Check'}</span>${inner}`)}
   else if(RCS.exit&&!S.readyDone[RCS.exit.id]&&!RCS.exit.done.includes(S.nr)){const X=RCS.exit;sig='x'+X.id;
     html=box(`<span class="label">🎟️ Exit-Ticket</span><h2>Bevor du gehst …</h2>${X.qs.map((q,k)=>`<label class="label" for="ex-a${k}" style="display:block;margin-top:12px">${esc(q)}</label><textarea id="ex-a${k}" rows="2"></textarea>`).join('')}
