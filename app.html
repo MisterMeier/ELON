@@ -1824,7 +1824,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1047';let verTold=false;
+const BUILD='20261012-1100';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -4719,7 +4719,7 @@ VIEWS.login=()=>{
       <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" name="password" type="password" autocomplete="current-password">
       <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
       <div class="row" style="margin-top:14px"><button class="btn pri" type="submit" data-act="lg-in">Anmelden</button><button class="btn" type="button" data-act="lg-up">Konto erstellen</button></div>
-      <div class="bycs"><button class="btn" type="button" data-act="lg-bycs" ${LIVE_CFG.vidis?'':'disabled'}>Mit ByCS anmelden${LIVE_CFG.vidis?'':' (bald)'}</button><small class="muted">Anmeldung mit dem Konto der BayernCloud Schule über VIDIS. Wird freigeschaltet, sobald ELIO dort registriert ist.</small></div>
+      ${LIVE_CFG.vidis?`<div class="bycs"><button class="btn" type="button" data-act="lg-bycs">Mit ByCS anmelden</button></div>`:''}
       <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></form></div>`;
 };
 async function lgIn(up){
