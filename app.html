@@ -1832,7 +1832,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1530';let verTold=false;
+const BUILD='20261012-1544';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
@@ -4006,20 +4006,27 @@ function wgBuild(ws){const W=ws.map(w=>w.toUpperCase().replace(/ß/g,'SS').repla
   const AB='ABCDEFGHIJKLMNOPRSTUVWZEEINR';G.forEach(row=>row.forEach((x,j)=>{if(!x)row[j]=AB[Math.floor(Math.random()*AB.length)]}));
   return {N,G,words:put}}
 /* Aussprach-Assistent: Vergleich von Zielwort und Erkanntem (Laut-Regeln für Deutsch, Buchstaben-Abstand für Englisch) */
-function sayStop(s){s.rec=false;clearTimeout(s._t);try{s._rc&&s._rc.stop()}catch(e){}}
+function sayStop(s){clearTimeout(s._t);try{s._rc&&(s._rc.finish?s._rc.finish():s._rc.stop())}catch(e){}}
 // Nachsprechen (Dialog, Vokabelheft): Spracherkennung, wenn das Gerät sie hat; sonst selbst aufnehmen und anhören. Audio bleibt nur im Arbeitsspeicher.
 let NS={};const nsRender=()=>{render();if(!BOARD&&typeof renderMini==='function')renderMini(true)};const NS_MIC='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
   NS_EAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const nsSR=()=>window.SpeechRecognition||window.webkitSpeechRecognition;
+// Spracherkennung robust für iPad/Safari: Zwischenergebnisse mitschreiben, beim Ende (auch nach „fertig“ oder Zeitablauf) das Beste nehmen.
+// Safari liefert oft kein Endergebnis, sondern beendet nur. Dann zählt das letzte Zwischenergebnis.
+function srListen(lang,done,fail,ms){const SR=nsSR();if(!SR){fail('api');return null}try{speechSynthesis.cancel()}catch(e){}
+  const rc=new SR();rc.lang=lang;rc.interimResults=true;rc.continuous=false;rc.maxAlternatives=3;let alts=[],fin=false,over=false,err='';
+  const end=()=>{if(over)return;over=true;clearTimeout(rc._t);if(alts.length)done(alts);else fail(err||'no-speech')};
+  rc.onresult=e=>{const R=e.results[e.results.length-1];if(!R)return;const a=[...R].map(x=>String(x.transcript||'').trim()).filter(Boolean);if(a.length)alts=a;if(R.isFinal){fin=true;try{rc.stop()}catch(x){}end()}};
+  rc.onerror=e=>{err=e.error||'x';if(err==='no-speech'||err==='aborted')err=alts.length?'':err||'no-speech';if(err==='not-allowed'||err==='service-not-allowed'||!alts.length)end()};
+  rc.onend=end;rc.finish=()=>{try{rc.stop()}catch(x){}clearTimeout(rc._t);rc._t=setTimeout(end,900)};
+  try{rc.start()}catch(e){fail('start');return null}rc._t=setTimeout(()=>rc.finish(),ms||7000);return rc}
+const srErr=e=>e==='not-allowed'||e==='service-not-allowed'?'Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen (Safari → Mikrofon) freigeben.':e==='network'?'Die Spracherkennung braucht Internet. Bitte WLAN prüfen.':e==='no-speech'?'Ich habe nichts gehört. Tippe auf das Mikrofon und sprich gleich los.':'Die Aufnahme hat nicht geklappt. Versuch es nochmal.';
 const nsCan=()=>!!nsSR()||!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
 function nsReset(key){if(NS.key===key)return;nsStop();if(NS.url)try{URL.revokeObjectURL(NS.url)}catch(e){}NS={key}}
-function nsStop(){clearTimeout(NS._t);try{NS._rc&&NS._rc.stop()}catch(e){}try{NS._mr&&NS._mr.state==='recording'&&NS._mr.stop()}catch(e){}NS.rec=false}
+function nsStop(){clearTimeout(NS._t);try{NS._rc&&(NS._rc.finish?NS._rc.finish():NS._rc.stop())}catch(e){}try{NS._mr&&NS._mr.state==='recording'&&NS._mr.stop()}catch(e){}NS.rec=false}
 function nsGo(key,target,lang){nsReset(key);if(NS.rec){nsStop();nsRender();return}NS.res=null;NS.heard='';NS.err='';const SR=nsSR();
-  if(SR){const rc=new SR();rc.lang=lang;rc.interimResults=false;rc.maxAlternatives=3;NS._rc=rc;NS.rec=true;
-    rc.onresult=e=>{if(NS.key!==key)return;let best=null;[...e.results[0]].map(x=>x.transcript.trim()).forEach(h=>{const r=sayCheck(target,h,lang);if(!best||r.score>best.r.score)best={h,r}});
-      NS.heard=best.h;NS.res=best.r;NS.rec=false;if(best.r.level==='green')SND.right();nsRender()};
-    rc.onerror=e=>{if(NS.key!==key)return;NS.err=e.error==='no-speech'?'Ich habe nichts gehört. Versuch es nochmal!':e.error==='not-allowed'?'Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen freigeben.':'Die Aufnahme hat nicht geklappt.';nsStop();nsRender()};
-    rc.onend=()=>{if(NS.key===key&&NS.rec){NS.rec=false;nsRender()}};try{rc.start()}catch(e){NS.rec=false}}
+  if(SR){NS.rec=true;NS._rc=srListen(lang,alts=>{if(NS.key!==key)return;let best=null;alts.forEach(h=>{const r=sayCheck(target,h,lang);if(!best||r.score>best.r.score)best={h,r}});
+      NS.heard=best.h;NS.res=best.r;NS.rec=false;if(best.r.level==='green')SND.right();nsRender()},e=>{if(NS.key!==key)return;NS.err=srErr(e);NS.rec=false;nsRender()});if(!NS._rc)NS.rec=false;nsRender();return}
   else{if(!nsCan())return;NS.rec=true;navigator.mediaDevices.getUserMedia({audio:true}).then(m=>{if(NS.key!==key||!NS.rec){m.getTracks().forEach(t=>t.stop());return}
       const ch=[],mr=new MediaRecorder(m);NS._mr=mr;mr.ondataavailable=e=>e.data&&e.data.size&&ch.push(e.data);
       mr.onstop=()=>{m.getTracks().forEach(t=>t.stop());if(NS.key!==key)return;if(NS.url)try{URL.revokeObjectURL(NS.url)}catch(e){}NS.url=ch.length?URL.createObjectURL(new Blob(ch,{type:mr.mimeType||'audio/mp4'})):'';NS.rec=false;nsRender();if(NS.url)nsMe()};
@@ -4183,18 +4190,15 @@ const AKT={
       if(a.k==='nav'){sayStop(s);s.i=Math.max(0,Math.min(d.items.length-1,s.i+(+a.i)));s.heard='';s.res=null;s.err='';return}
       if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(d.items[s.i]);u.lang=d.lang;u.rate=a.i==='slow'?.6:.85;
         const v=bestVoice(d.lang==='de-DE'?'de-DE':d.lang.slice(0,2)==='en'?'en-GB':d.lang);if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
-      if(a.k==='rec'){if(s.rec){sayStop(s);return}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
-        s.res=null;s.heard='';s.err='';const rc=new SR();rc.lang=d.lang;rc.interimResults=false;rc.maxAlternatives=3;s._rc=rc;s.rec=true;const at=s.i;
-        rc.onresult=e=>{if(s.i!==at)return;const alts=[...e.results[0]].map(x=>x.transcript.trim());const target=d.items[s.i];
+      if(a.k==='rec'){if(s.rec){sayStop(s);return}
+        s.res=null;s.heard='';s.err='';s.rec=true;const at=s.i;
+        s._rc=srListen(d.lang,alts=>{s.rec=false;if(s.i!==at)return;const target=d.items[s.i];
           // die beste der erkannten Varianten zählt
           let best=null;alts.forEach(h=>{const r=sayCheck(target,h,d.lang);if(!best||r.score>best.r.score)best={h,r}});
           s.heard=best.h;s.res=best.r;if(!s.done[s.i]){s.done[s.i]=1;if(best.r.level==='green')s.ok++}
           if(best.r.level==='green'){SND.right();s.done[s.i]=2}
           if(Object.keys(s.done).length>=d.items.length&&!s.win){s.win=true;s.msg=`${s.ok} von ${d.items.length} gleich beim ersten Mal sehr gut`}
-          if(AK.st===s)render()};
-        rc.onerror=e=>{s.err=e.error==='no-speech'?'Ich habe nichts gehört. Versuch es nochmal!':e.error==='not-allowed'?'Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen freigeben.':'Die Aufnahme hat nicht geklappt.';sayStop(s);if(AK.st===s)render()};
-        rc.onend=()=>{if(s.rec){s.rec=false;if(AK.st===s)render()}};
-        try{rc.start()}catch(e){s.rec=false}clearTimeout(s._t);s._t=setTimeout(()=>{if(s.rec){sayStop(s);if(AK.st===s)render()}},8000);return}}},
+          if(AK.st===s)render()},e=>{s.rec=false;s.err=srErr(e);if(AK.st===s)render()});if(!s._rc)s.rec=false;return}}},
 };
 Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt,fit:a.fit});
 const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
@@ -5598,14 +5602,14 @@ function vokQuiz(){const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c){VQ=null;return VIE
     <div class="vk-card ${st==='ok'?'vk-ok':st==='bad'?'vk-bad':''}"><span class="lang">${de?'Deutsch':'Englisch'}${VQ.w[id]?' · nochmal':''}</span><div class="w">${esc(ask)}${de?'':` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`}</div>
       <span class="lang">${de?'Wie heißt das auf Englisch?':'Was heißt das auf Deutsch?'}</span>
       <input id="vk-a" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(VQ.ans||'')}" ${st?'readonly':''} aria-label="Deine Antwort">
-      ${st==='ok'?`<p class="vk-fb">✓ Richtig!${VQ.free?'':` Kommt wieder in: ${VOK_F[c.b||0]}`}</p>`:st==='bad'?`<p class="vk-fb">Richtig ist: <b>${esc(sol)}</b>${de?` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`:''}<br><small>Die Karte kommt gleich nochmal.</small></p>`:VQ.heard?`<p class="muted" style="font-weight:700">Gehört: „${esc(VQ.heard)}“</p>`:''}</div>
-    ${st?nsHTML('vok:'+id,c.en,'en-GB',`data-act="vok-say" data-t="${esc(c.en)}"`):''}<div class="row" style="justify-content:center">${st?`<button class="btn pri" data-act="vok-next">Weiter ➜</button>`:`<button class="btn pri" data-act="vok-chk">Prüfen</button>${api?`<button class="btn" data-act="vok-mic">🎤 ${VQ.rec?'Ich höre zu …':'Sagen'}</button>`:''}<button class="btn ghost" data-act="vok-skip">Weiß ich nicht</button>`}</div></div>`}
+      ${st==='ok'?`<p class="vk-fb">✓ Richtig!${VQ.free?'':` Kommt wieder in: ${VOK_F[c.b||0]}`}</p>`:st==='bad'?`<p class="vk-fb">Richtig ist: <b>${esc(sol)}</b>${de?` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`:''}<br><small>Die Karte kommt gleich nochmal.</small></p>`:VQ.rec?`<p class="say-live">Sprich jetzt deutlich ins iPad …</p>`:VQ.err?`<p class="say-live">${esc(VQ.err)}</p>`:''}${st&&VQ.heard?`<p class="muted" style="font-weight:700">ELIO hat gehört: „${esc(VQ.heard)}“</p>`:''}</div>
+    ${st?nsHTML('vok:'+id,c.en,'en-GB',`data-act="vok-say" data-t="${esc(c.en)}"`):''}<div class="row" style="justify-content:center">${st?`<button class="btn pri" data-act="vok-next">Weiter ➜</button>`:`<button class="btn pri" data-act="vok-chk">Prüfen</button>${api?`<button class="btn ${VQ.rec?'on':''}" data-act="vok-mic">🎤 ${VQ.rec?'Ich bin fertig':'Sagen'}</button>`:''}<button class="btn ghost" data-act="vok-skip">Weiß ich nicht</button>`}</div></div>`}
 function vokStart(free){const D=vokD(),C=Object.keys(D.c);let q=free?shuffle(C).slice(0,15):shuffle(C.filter(id=>vokDue(D.c[id]))).sort((a,b)=>(D.c[a].b||0)-(D.c[b].b||0)).slice(0,20);if(!q.length)return;VQ={q,done:0,res:null,ans:'',w:{},free:!!free};render();vokFocus()}
 const vokFocus=()=>setTimeout(()=>{const i=$('#vk-a');if(i&&!i.readOnly)i.focus()},30);
 function vokCheck(ans,skip){if(!VQ||VQ.res)return;const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c)return;const de=D.dir!=='en',ok=!skip&&vokOk(de?c.en:c.de,ans);VQ.ans=ans;VQ.res=ok?'ok':'bad';
   if(ok){SND.right();if(de)say(c.en);if(!VQ.free){c.b=VQ.w[id]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}}
   else{SND.oops();VQ.w[id]=1;if(!VQ.free){c.b=0;c.due=''}}save();render()}
-function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad')VQ.q.splice(Math.min(3,VQ.q.length),0,id);else VQ.done++;VQ.res=null;VQ.ans='';VQ.heard='';
+function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad')VQ.q.splice(Math.min(3,VQ.q.length),0,id);else VQ.done++;VQ.res=null;VQ.ans='';VQ.heard='';VQ.err='';
   if(!VQ.q.length){const n=VQ.done;VQ=null;if(n>=5)earnOnce('vok_'+todayISO());V.vmsg='Super, '+n+' Wörter geschafft!';render();return}render();vokFocus()}
 document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')return;e.preventDefault();if(VQ.res)vokNext();else{const i=$('#vk-a');vokCheck(i?i.value:'')}});
 VIEWS.tdesk=()=>{const ks=[...new Set(['M','DZ','E','K',...tHeft().map(e=>e.s)])];
@@ -6071,10 +6075,10 @@ document.addEventListener('click',e=>{
     case 'vok-dir':vokD().dir=d.v==='en'?'en':'de';save();render();break;
     case 'vok-add':{const en=vokClean(($('#vk-en')||{}).value),de=vokClean(($('#vk-de')||{}).value);if(!en||!de){V.vmsg='Bitte Englisch und Deutsch eintragen.';render();break}const D=vokD();D.c['own:'+Date.now().toString(36)]={en,de,b:0,due:'',src:'',at:Date.now()};save();V.vmsg='„'+en+'“ ist im Heft.';render();setTimeout(()=>{const i=$('#vk-en');i&&i.focus()},30);break}
     case 'vok-del':{const D=vokD();if(D.c[d.id]&&!D.c[d.id].src){delete D.c[d.id];save();render()}break}
-    case 'vok-mic':{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR||!VQ||VQ.res)break;if(VQ.rec){try{VQ._rc.stop()}catch(x){}VQ.rec=false;render();break}
-      const rc=new SR();rc.lang='en-GB';rc.interimResults=false;rc.maxAlternatives=3;VQ._rc=rc;VQ.rec=true;const at=VQ.q[0];
-      rc.onresult=e=>{if(!VQ||VQ.q[0]!==at)return;const alts=[...e.results[0]].map(x=>x.transcript.trim()),c=vokD().c[at],hit=c&&alts.find(h=>vokOk(c.en,h));VQ.rec=false;VQ.heard=alts[0]||'';if(hit)vokCheck(hit);else render()};
-      rc.onerror=rc.onend=()=>{if(VQ&&VQ.rec){VQ.rec=false;render()}};try{rc.start()}catch(x){VQ.rec=false}render();break}
+    case 'vok-mic':{if(!nsSR()||!VQ||VQ.res)break;if(VQ.rec){VQ._rc&&VQ._rc.finish();break}
+      VQ.rec=true;VQ.heard='';VQ.err='';const at=VQ.q[0];
+      VQ._rc=srListen('en-GB',alts=>{if(!VQ||VQ.q[0]!==at)return;VQ.rec=false;const c=vokD().c[at],hit=c&&alts.find(h=>vokOk(c.en,h));VQ.heard=alts[0];vokCheck(hit||alts[0])},
+        e=>{if(!VQ||VQ.q[0]!==at)return;VQ.rec=false;VQ.err=srErr(e);render()});if(!VQ._rc)VQ.rec=false;render();break}
     case 'vk-send':{const t=vokClean(($('#vk-t')||{}).value),w=vokParse(($('#vk-x')||{}).value);if(!w.length){V.msg='Keine Vokabeln erkannt. Schreib pro Zeile: englisch = deutsch';render();break}
       TD.vok=TD.vok||[];TD.vok.push({id:'v'+Date.now().toString(36),cls:S.cls,title:t||'Vokabeln vom '+new Date().toLocaleDateString('de-DE'),words:w,date:todayISO()});tsave();if(CS)pushCS();V.msg=w.length+' Vokabeln sind an alle SuS geschickt.';render();break}
     case 'vk-del':{if(!confirm('Liste löschen? Wörter, die SuS schon im Heft haben, bleiben dort.'))break;TD.vok=(TD.vok||[]).filter(l=>l.id!==d.id);tsave();if(CS)pushCS();render();break}
