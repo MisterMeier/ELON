@@ -479,6 +479,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .et-warn{border-color:#f59e0b;background:#fffbeb}.et-good{border-color:#38bdf8;background:#f0f9ff}.et-s{font-weight:800;color:#1e3a8a}.et-i summary{cursor:pointer;font-weight:700;color:#4f46e5}.et-none{font-weight:700;color:#475569}
 .offl{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:90;display:flex;gap:10px;align-items:center;background:#1e3a8a;color:#fff;padding:10px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(30,58,138,.35);font-weight:700;max-width:calc(100% - 32px)}
 .offl i{width:12px;height:12px;border-radius:50%;background:#f59e0b;flex:none;animation:nsPulse 1.6s ease-in-out infinite}.offl[hidden]{display:none}
+.bycs{display:grid;gap:4px;margin-top:12px}.bycs small{font-size:.82rem}.foto,.quali{margin-top:16px}.foto-img{max-width:100%;max-height:340px;border-radius:12px;margin:8px 0;display:block}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
 .bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
@@ -1664,8 +1665,15 @@ VIEWS.desk=()=>{
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
     ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}</div>
+  <section class="panel foto"><div class="row" style="justify-content:space-between;align-items:center"><h2>Foto vom Heft</h2><label class="btn sm pri" style="cursor:pointer">Foto machen<input type="file" id="foto-in" accept="image/*" capture="environment" hidden></label></div>
+    <p class="muted">Fotografiere deine Rechnung. Das Foto bleibt auf deinem iPad. Bitte keine Gesichter und keine Namen aufs Foto.</p>
+    ${FOTO.url?`<img class="foto-img" src="${FOTO.url}" alt="Dein Foto vom Heft"><div class="row" style="gap:8px"><button class="btn" disabled title="Kommt mit Elo-KI">Elo, wo ist mein Fehler? (bald)</button><button class="btn sm" data-act="foto-del">Foto löschen</button></div>`:''}</section>
+  ${jgst()>=9?`<section class="panel quali"><h2>Quali-Trainer (kommt)</h2><p class="muted">Hier übst du bald mit echten Prüfungsaufgaben für den Quali: ${Object.values(QUALI).map(q=>q.name).join(', ')}.</p></section>`:''}
   <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
 };
+var FOTO={url:""};
+document.addEventListener('change',e=>{if(e.target.id!=='foto-in')return;const f=e.target.files&&e.target.files[0];if(!f)return;if(FOTO.url)try{URL.revokeObjectURL(FOTO.url)}catch(x){}
+  medSmall(f).then(b=>{FOTO.url=URL.createObjectURL(b);render()})});
 function liveStrip(){
   if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000)return '';
   const ph=phaseOf(RCS.phase),lp=RCS.lesson&&RCS.lesson.plan;
@@ -1816,7 +1824,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-0359';let verTold=false;
+const BUILD='20261012-0401';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2226,7 +2234,9 @@ function tStop(){clearInterval(T.id);T.run=false}
    ===================================================================== */
 // Supabase (Region Frankfurt). Der Publishable Key ist zum Veröffentlichen gedacht; der Server leitet nur Nachrichten weiter, es wird nichts gespeichert.
 const LIVE_CFG={supabaseUrl:'https://yljzqjnvfoxzkhjsnawn.supabase.co',supabaseKey:'sb_publishable_OOT7PbMKgjKuxYslJOC95A_fZKeWf7N',
-  hosts:['mistermeier.github.io','elio.schule','www.elio.schule']};
+  hosts:['mistermeier.github.io','elio.schule','www.elio.schule'],
+  // ByCS über VIDIS (OpenID Connect): erst nach Registrierung im VIDIS-Service-Portal auf {provider:'keycloak'} o. Ä. setzen
+  vidis:null};
 const LIVE_SERVER=LIVE_CFG.hosts.includes(location.hostname)||/[?&]live=1/.test(location.search);
 const PHASES=[
   {id:'arrive',name:'Ankommen',txt:'Leg deine Sachen bereit und öffne ELIO.'},
@@ -4709,6 +4719,7 @@ VIEWS.login=()=>{
       <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" name="password" type="password" autocomplete="current-password">
       <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
       <div class="row" style="margin-top:14px"><button class="btn pri" type="submit" data-act="lg-in">Anmelden</button><button class="btn" type="button" data-act="lg-up">Konto erstellen</button></div>
+      <div class="bycs"><button class="btn" type="button" data-act="lg-bycs" ${LIVE_CFG.vidis?'':'disabled'}>Mit ByCS anmelden${LIVE_CFG.vidis?'':' (bald)'}</button><small class="muted">Anmeldung mit dem Konto der BayernCloud Schule über VIDIS. Wird freigeschaltet, sobald ELIO dort registriert ist.</small></div>
       <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></form></div>`;
 };
 async function lgIn(up){
@@ -5561,6 +5572,18 @@ async function cttSave(key){
   if(CT.add&&CT.add[d+'-'+i])CT.add[d+'-'+i]=CT.add[d+'-'+i].filter(x=>x!==g);
   CT.ok=false;await cttLoad(cid);await cloudSync();
 }
+/* ---------- Vorbereitet, noch aus: ByCS-Anmeldung, Elo als KI, Lernprofil, Quali-Trainer ---------- */
+// ByCS/VIDIS: Supabase Auth mit einem OIDC-Anbieter. Das ELIO-Profil wird über die E-Mail der Lehrkraft zugeordnet (profiles.email).
+async function oidcLogin(){const c=LIVE_CFG.vidis;if(!c||!CLOUD)return;try{const sb=await sbClient();await sb.auth.signInWithOAuth({provider:c.provider||'keycloak',options:{redirectTo:location.origin+location.pathname,scopes:'openid email profile',queryParams:{vidis_idp_hint:'bycs-o'}}})}catch(e){V.err='ByCS-Anmeldung hat nicht geklappt.';render()}}
+// Lernprofil pro Kind: bleibt auf dem iPad. Geht später nur pseudonym (ohne Name) an die Edge Function elo-ki.
+function lernprofil(){const mt=S.mt||{},H=S.heftRecv||[],t=id=>(H.find(e=>e.id===id)||{}).title||id;
+  const komp=Object.entries(mt).map(([id,m])=>({thema:t(id),anteil:m.n?Math.round(100*m.b/m.n):0})).slice(-20);
+  return {komp,fehler:komp.filter(k=>k.anteil<60).map(k=>k.thema).slice(0,5),erfolge:komp.filter(k=>k.anteil>=90).map(k=>k.thema).slice(-5),stand:todayISO()}}
+const ELO_KI={on:false,limit:30};// on wird true, wenn die Schule die KI freigibt
+async function eloKI(kind,topic){if(!ELO_KI.on||!CLOUD)return null;try{const sb=await sbClient(),r=await sb.functions.invoke('elo-ki',{body:{kind,topic:String(topic||'').slice(0,200),lp:lernprofil()}});return r.data&&r.data.answer||null}catch(e){return null}}
+// Quali-Trainer (ab Jgst. 9): Datenmodell für Prüfungsaufgaben nach Fach und Teilbereich, Inhalte folgen
+const QUALI={M:{name:'Mathematik',teile:['Teil A ohne Taschenrechner','Teil B mit Taschenrechner']},D:{name:'Deutsch',teile:['Sprachbetrachtung','Rechtschreiben','Text verfassen','Lesen']},E:{name:'Englisch',teile:['Listening','Reading','Writing','Speaking']}},QUALI_TASKS=[];// {s,teil,jahr,nr,text,loesung}
+const jgst=()=>{const m=String(className()||'').match(/(\d{1,2})/);return m?+m[1]:0};
 /* ---------- Stundenbörse: Stunden als Kopie teilen (an ein Kürzel oder in die Börse der Schule). Nur Unterrichtsmaterial. ---------- */
 let BX={tab:'in',rows:null,busy:false,msg:'',f:{}};
 document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.lvl;if(k==null)return;TD.lvl=TD.lvl||{};if(e.target.value)TD.lvl[k]=e.target.value;else delete TD.lvl[k];tsave();if(CS)pushCS()});
@@ -5591,9 +5614,9 @@ VIEWS.boerse=()=>{const uid=Cloud.user&&Cloud.user.id;
       <div class="bx-seg"><button class="btn ${f.scope!=='school'?'pri':''}" data-act="bx-scope" data-s="person">An eine Kollegin / einen Kollegen</button><button class="btn ${f.scope==='school'?'pri':''}" data-act="bx-scope" data-s="school">In die Börse meiner Schule</button></div>
       <div class="lgrid">${f.scope!=='school'?`<label>Kürzel der Lehrkraft<input type="text" id="bx-to" maxlength="12" value="${esc(f.to||'')}" placeholder="z. B. MÜL" autocapitalize="characters"></label>`:''}
         ${sc.length>1?`<label>Schule<select id="bx-sch">${sc.map(x=>`<option value="${x.id}" ${x.id===(f.sch||S.school)?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label>`:''}
-        <label>Jahrgangsstufe<select id="bx-gr">${[5,6,7,8,9,10].map(g=>`<option ${g===(+f.gr||7)?'selected':''}>${g}</option>`).join('')}</select></label>
+        <label>Jahrgangsstufe<select id="bx-gr">${[5,6,7,8,9,10].map(g=>`<option ${g===(+f.gr||+share.lpj||7)?'selected':''}>${g}</option>`).join('')}</select></label>
         <label>Thema<input type="text" id="bx-top" maxlength="120" value="${esc(f.top||share.title)}"></label>
-        <label style="grid-column:1/-1">Lehrplanbezug<input type="text" id="bx-lp" maxlength="400" value="${esc(f.lp||share.alp||'')}" placeholder="z. B. LehrplanPLUS M 7, Lernbereich 2: Terme"></label>
+        <label style="grid-column:1/-1">Lehrplanbezug<input type="text" id="bx-lp" maxlength="400" value="${esc(f.lp||share.lplb||share.alp||'')}" placeholder="z. B. LehrplanPLUS M 7, Lernbereich 2: Terme"></label>
         <label style="grid-column:1/-1">Kurze Beschreibung<textarea id="bx-note" rows="2" maxlength="600" placeholder="Wofür passt die Stunde? Was braucht man?">${esc(f.note||'')}</textarea></label></div>
       <div class="bx-warn"><b>Bitte beachten:</b> Geteilt wird nur das Unterrichtsmaterial, nie Schülerdaten. Keine Schulbuchseiten oder fremden Bilder ohne Lizenz.${sn.n?` Deine ${sn.n} eigenen Bilder bleiben auf deinem Gerät und werden nicht mitgeschickt.`:''} Die andere Lehrkraft bekommt eine Kopie, dein Original bleibt unverändert.</div>
       ${BX.msg?`<p class="bx-msg">${esc(BX.msg)}</p>`:''}
@@ -5726,6 +5749,9 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
     <label style="grid-column:1/-1">Titel der Stunde<input type="text" data-f="title" value="${esc(L.title)}"></label>
     <label>Fach<select data-f="subject">${opt(Object.fromEntries(Object.entries(SUBJECTS).map(([k,v])=>[k,v.name])),L.subject)}</select></label>
     <label style="grid-column:span 2">Mission (Stundenziel, „I can …“)<input type="text" data-f="mission" value="${esc(L.mission||'')}"></label>
+    <label>Jahrgangsstufe<select data-f="lpj"><option value="">–</option>${[5,6,7,8,9,10].map(g=>`<option ${String(L.lpj||'')===String(g)?'selected':''}>${g}</option>`).join('')}</select></label>
+    <label>Lernbereich (LehrplanPLUS)<input type="text" data-f="lplb" value="${esc(L.lplb||'')}" placeholder="z. B. M 7.2 Terme"></label>
+    <label>Sequenz<input type="text" data-f="lpseq" value="${esc(L.lpseq||'')}" placeholder="z. B. Terme, Stunde 3 von 8"></label>
     ${CLOUD&&Cloud.prof?`<label style="grid-column:1/-1;flex-direction:row;display:flex;gap:10px;align-items:center;font-weight:800"><input type="checkbox" data-f="shared" ${L.shared?'checked':''} style="width:22px;height:22px" ${L.owner&&Cloud.user&&L.owner!==Cloud.user.id?'disabled':''}> Mit den Lehrkräften dieser Klasse teilen</label>`:''}
   </div>
     <details class="art-d" ${V.artOpen?'open':''}><summary>📄 Für die Artikulation (Word-Export)</summary>${(()=>{const D=artData(L),ta=(f,l,v,ph,r)=>`<label style="grid-column:1/-1">${l}<textarea data-f="${f}" rows="${r||3}" placeholder="${esc(ph)}">${esc(v||'')}</textarea></label>`;
@@ -6109,6 +6135,8 @@ document.addEventListener('click',e=>{
     case 'kl-del-no':V.kdel=null;render();break;
     case 'kl-del':V.kdel=null;if(S.cls===d.id){S.cls=null;S.code=null;saveRole()}klDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
     case 'lg-in':lgIn(false);break;
+    case 'lg-bycs':oidcLogin();break;
+    case 'foto-del':if(FOTO.url)try{URL.revokeObjectURL(FOTO.url)}catch(x){}FOTO={url:''};render();break;
     case 'lg-up':lgIn(true);break;
     case 'lg-out':try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[];S.role=null;save();go('role',{step:'splash'});break;
     case 'lg-refresh':cloudLoadMe().then(render);break;
