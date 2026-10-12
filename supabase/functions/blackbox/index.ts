@@ -1,5 +1,5 @@
 // ELIO · Edge Function „blackbox“: erzeugt auf Wunsch der Lehrkraft Grafiken, Animationen, Folientexte, Übungen und Dialoge.
-// Nur für Lehrkräfte. Es werden keine Schülerdaten geschickt, nur der Wunsch der Lehrkraft und das Fach.
+// Nur für Admins. Es werden keine Schülerdaten geschickt, nur der Wunsch der Lehrkraft und das Fach.
 // KI: Claude über Amazon Bedrock, Rechenzentrum Frankfurt (eu-central-1). Der Schlüssel liegt NUR hier als Secret:
 //   supabase secrets set BLACKBOX_KEY=<Bedrock-API-Schlüssel>
 //   supabase functions deploy blackbox
@@ -7,7 +7,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
 
-const LIMIT = 30; // Anfragen pro Lehrkraft und Tag
+const LIMIT = 30; // Anfragen pro Admin und Tag
 const REGION = "eu-central-1";
 const MODEL = { big: "anthropic.claude-sonnet-5-5", small: "anthropic.claude-haiku-5-5" };
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
@@ -52,8 +52,8 @@ Deno.serve(async (req) => {
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: auth } } });
   const { data: u } = await sb.auth.getUser();
   if (!u?.user) return json({ err: "auth" }, 401);
-  const { data: teacher } = await sb.rpc("is_teacher");
-  if (!teacher) return json({ err: "teacher" }, 403);
+  const { data: admin } = await sb.rpc("is_admin");
+  if (!admin) return json({ err: "admin" }, 403); // nur Admins
   const key = Deno.env.get("BLACKBOX_KEY");
   if (!key) return json({ err: "nokey" });
   let body: { kind?: string; prompt?: string; subj?: string } = {};

@@ -1868,7 +1868,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2157';let verTold=false;
+const BUILD='20261012-2201';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -4141,7 +4141,7 @@ function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id]
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
-/* --- Blackbox: KI erzeugt auf Wunsch Grafiken, Animationen, Folientexte, Übungen, Dialoge (nur Lehrkraft, über den ELIO-Server, Rechenzentrum Frankfurt) --- */
+/* --- Blackbox: KI erzeugt auf Wunsch Grafiken, Animationen, Folientexte, Übungen, Dialoge (nur Admin, über den ELIO-Server, Rechenzentrum Frankfurt) --- */
 const BB={open:false,kind:'bild',busy:false,res:null,err:'',url:'',q:''};
 const BB_KINDS={bild:'Grafik oder Animation',folie:'Folientext',uebung:'Übung',dialog:'Dialog'};
 const BB_PH={bild:'Zum Beispiel: Animation, wie sich beim Distributivgesetz die Klammer auflöst',folie:'Zum Beispiel: Merksatz zu Satzgliedern für Klasse 7',uebung:'Zum Beispiel: 5 Aufgaben zum Runden auf Zehner und Hunderter',dialog:'Zum Beispiel: Buying a train ticket in London'};
@@ -4151,7 +4151,7 @@ function bbCleanSvg(src){try{const d=new DOMParser().parseFromString(String(src|
   [r,...r.querySelectorAll('*')].forEach(e=>[...e.attributes].forEach(at=>{const n=at.name.toLowerCase(),v=at.value.trim();if(n.startsWith('on')||(/href$/.test(n)&&!v.startsWith('#'))||/url\(\s*['"]?(?!#)/i.test(v)||/javascript:/i.test(v))e.removeAttribute(at.name)}));
   r.querySelectorAll('style').forEach(e=>{e.textContent=e.textContent.replace(/@import[^;]*;?/gi,'').replace(/url\(\s*['"]?(?!#)[^)]*\)/gi,'none')});
   if(!r.getAttribute('xmlns'))r.setAttribute('xmlns','http://www.w3.org/2000/svg');const out=new XMLSerializer().serializeToString(r);return out.length<=60000?out:null}catch(e){return null}}
-const bbTeacher=()=>CLOUD&&Cloud.user&&Cloud.prof&&['teacher','admin'].includes(Cloud.prof.role);
+const bbAdmin=()=>!!(CLOUD&&Cloud.user&&Cloud.prof&&Cloud.prof.role==='admin');// Blackbox nur für Admins
 function bbPanel(i,j){const r=BB.res;
   return `<div class="bb-box"><div class="bb-head"><b>Blackbox</b><span class="bb-sub">Beschreib, was du für diese Folie brauchst. Keine Namen von Kindern eintippen.</span></div>
     <div class="bb-kinds">${Object.entries(BB_KINDS).map(([k,n])=>`<button class="pill ${BB.kind===k?'on':''}" data-act="bb-kind" data-v="${k}">${n}</button>`).join('')}</div>
@@ -4161,11 +4161,11 @@ function bbPanel(i,j){const r=BB.res;
       <div class="bb-acts"><button class="btn sm pri" data-act="bb-use" data-i="${i}" data-j="${j}">${r.kind==='bild'?'Auf die Folie legen':'In die Folie schreiben'}</button><button class="btn sm" data-act="bb-go">Nochmal</button><button class="btn sm" data-act="bb-x">Verwerfen</button>${r.n?`<span class="bb-n">Heute ${r.n} von ${r.limit}</span>`:''}</div></div>`:''}</div>`}
 async function bbGo(){const q=(($('#bb-in')||{}).value||BB.q).trim();BB.q=q;BB.err='';
   if(q.length<3){BB.err='Schreib bitte kurz, was du brauchst.';render();return}
-  if(!bbTeacher()){BB.err='Die Blackbox braucht die Anmeldung mit deinem Lehrkraft-Konto.';render();return}
+  if(!bbAdmin()){BB.err='Die Blackbox ist nur für Admins.';render();return}
   BB.busy=true;render();
   try{const sb=await sbClient(),L=lessonById(V.id)||{},r=await sb.functions.invoke('blackbox',{body:{kind:BB.kind,prompt:q.slice(0,600),subj:L.subject||''}}),d=r&&r.data;
     if(r.error||!d)BB.err='Die Blackbox ist auf dem Server noch nicht eingerichtet.';
-    else if(d.err)BB.err={nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,teacher:'Die Blackbox ist nur für Lehrkräfte.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Die Grafik kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.';
+    else if(d.err)BB.err={nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Die Grafik kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.';
     else if(d.kind==='bild'){const svg=bbCleanSvg(d.svg);if(!svg)BB.err='Die Grafik kam unvollständig an. Versuch es bitte nochmal.';else{if(BB.url)URL.revokeObjectURL(BB.url);BB.url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));BB.res={...d,svg}}}
     else BB.res={kind:d.kind,title:String(d.title||''),text:String(d.text||''),n:d.n,limit:d.limit};
   }catch(e){BB.err='Das hat gerade nicht geklappt. Ist das Internet da?'}
@@ -4186,9 +4186,9 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
     return th+`<div class="sl-eds"><div class="sl-ed sl-ed-big"><div class="sl-bar"><b class="sl-bar-t">Folie ${j+1}</b>
       <span class="sl-grp" role="group" aria-label="Text"><span class="sl-gl">Text</span><button class="btn sm" data-act="sl-ed-txt" data-k="${ED.sel||''}" ${dis}>✏️ Schreiben</button><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="-1" ${dis} aria-label="Text kleiner">A−</button><b class="sl-pc">${txt?Math.round((Q.f||1)*100)+' %':'–'}</b><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="1" ${dis} aria-label="Text größer">A+</button>${[['l','⬅︎','Links'],['c','↔︎','Zentriert'],['r','➡︎','Rechts']].map(([a,ic,n])=>`<button class="btn sm ${txt&&al===a?'on':''}" data-act="sl-al" data-i="${i}" data-j="${j}" data-a="${a}" ${dis} title="${n}" aria-label="${n} ausrichten">${ic}</button>`).join('')}</span>
       <span class="sl-grp" role="group" aria-label="Bild"><span class="sl-gl">Bild</span><button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">🖼️ Einfügen</button>${img?`<button class="btn sm" data-act="sl-rot" data-i="${i}" data-j="${j}" data-d="-1" title="Nach links drehen" aria-label="Nach links drehen">↺</button><button class="btn sm" data-act="sl-rot" data-i="${i}" data-j="${j}" data-d="1" title="Nach rechts drehen" aria-label="Nach rechts drehen">↻</button><button class="btn sm ${ED.crop?'on':''}" data-act="sl-crop" data-i="${i}" data-j="${j}">✂️ ${ED.crop?'Fertig':'Zuschneiden'}</button>${((sl.imgs||[])[+ED.sel.slice(1)]||{}).c?`<button class="btn sm" data-act="sl-uncrop" data-i="${i}" data-j="${j}">Ganzes Bild</button>`:''}${((sl.imgs||[])[+ED.sel.slice(1)]||{}).back?`<button class="btn sm" data-act="sl-img-z" data-i="${i}" data-j="${j}" data-v="0" title="Bild über die Schrift legen">Nach vorne</button>`:`<button class="btn sm" data-act="sl-img-z" data-i="${i}" data-j="${j}" data-v="1" title="Schrift über das Bild legen">Nach hinten</button>`}<button class="btn sm red" data-act="sl-img-del" data-i="${i}" data-j="${j}">Entfernen</button>`:''}</span>
-      <span class="sl-grp" role="group" aria-label="Blackbox"><button class="btn sm ${BB.open?'on':''}" data-act="bb-open">Blackbox</button></span>
+      ${bbAdmin()?`<span class="sl-grp" role="group" aria-label="Blackbox"><button class="btn sm ${BB.open?'on':''}" data-act="bb-open">Blackbox</button></span>`:''}
       ${ED.sel&&!img&&(sl.pos||{})[ED.sel]?`<button class="btn sm" data-act="sl-reset" data-i="${i}" data-j="${j}">↺ Standardplatz</button>`:''}<span class="spacer"></span><button class="btn sm pri" data-act="sl-done">✓ Fertig</button></div>
-      <p class="sl-hint">${hint}</p>${BB.open?bbPanel(i,j):''}
+      <p class="sl-hint">${hint}</p>${BB.open&&bbAdmin()?bbPanel(i,j):''}
       <div class="sl-big" data-i="${i}" data-j="${j}">${slideHTML({...sl,shown:-1},{subj:L.subject,edit:1,sel:ED.sel,ed:ED.ed,crop:ED.crop})}</div>
       <div class="sl-set">
         <div class="sl-row"><span class="sl-gl">Art</span><span class="sl-v">${Object.entries(SL_LAY).map(([k,n])=>`<button class="pill ${k===(sl.layout||'std')?'on':''}" data-act="sl-lay" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}</span></div>

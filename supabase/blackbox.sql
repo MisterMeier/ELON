@@ -1,6 +1,6 @@
 -- ELIO · Blackbox (KI für die Planung): Tageslimit und Protokoll für die Edge Function blackbox
 -- Einmal im Supabase „SQL Editor“ ausführen. Schadet nicht, es mehrfach auszuführen.
--- Gespeichert wird nur: welche Lehrkraft, welche Art, wann. Kein Wunschtext, keine Antworten.
+-- Gespeichert wird nur: welcher Admin, welche Art, wann. Kein Wunschtext, keine Antworten.
 
 create table if not exists public.blackbox_log (
   id bigint generated always as identity primary key,
@@ -11,7 +11,7 @@ create table if not exists public.blackbox_log (
 create index if not exists blackbox_log_uid on public.blackbox_log (uid, at);
 alter table public.blackbox_log enable row level security;
 drop policy if exists bb_insert on public.blackbox_log;
-create policy bb_insert on public.blackbox_log for insert to authenticated with check (uid = auth.uid() and public.is_teacher());
+create policy bb_insert on public.blackbox_log for insert to authenticated with check (uid = auth.uid() and public.is_admin());
 drop policy if exists bb_read on public.blackbox_log;
 create policy bb_read on public.blackbox_log for select to authenticated using (uid = auth.uid() or public.is_admin());
 
