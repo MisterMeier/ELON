@@ -1652,7 +1652,7 @@ VIEWS.dash=()=>{
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
       <span class="muted" style="font-weight:800">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span></div>
-    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${S.goalL?`<section class="panel gl-p"><span class="label">🎯 Unser Klassenziel · ${esc(S.goalL.t)}</span>${goalBar(S.goalL)}<p style="font-weight:800;margin-top:6px">${S.goalL.done?'Geschafft!':S.goalL.c+' / '+S.goalL.n+' Sterne · deine Sterne zählen mit'}</p></section>`:''}${areas}</div>
+    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${annAll().length?notifHTML():''}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${S.goalL?`<section class="panel gl-p"><span class="label">🎯 Unser Klassenziel · ${esc(S.goalL.t)}</span>${goalBar(S.goalL)}<p style="font-weight:800;margin-top:6px">${S.goalL.done?'Geschafft!':S.goalL.c+' / '+S.goalL.n+' Sterne · deine Sterne zählen mit'}</p></section>`:''}${areas}</div>
     ${(()=>{const MAIN=['E','M','K'],rest=Object.keys(SUBJECTS).filter(k=>!MAIN.includes(k)&&(WEEK.some(r=>r.includes(k))||heftAll(k).length));
       return `<section><span class="label">Meine Fächer</span><div class="subj-grid main3">${MAIN.map(subjTile).join('')}</div>
         ${rest.length?`<div class="subj-more">${rest.map(k=>`<button class="s-${k}" data-act="subject" data-s="${k}">${esc(SUBJECTS[k].name)}</button>`).join('')}</div>`:''}</section>`})()}
@@ -1824,7 +1824,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1508';let verTold=false;
+const BUILD='20261012-1510';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -1861,7 +1861,7 @@ function annHTML(){const L=annAll();if(!L.length)return '';
   return L.map(a=>`<div class="ann">${S.role==='student'&&S.av!=null?avatar(S.av,44):'<span class="ai">📣</span>'}<div style="flex:1;min-width:0"><span class="label">📣 Von deiner Lehrkraft</span><p>${esc(a.t)}</p></div></div>`).join('')}
 function remindHTML(){const L=aufOpen().filter(aufRemNow);if(!L.length)return '';
   return `<div class="remind">⏰ <span style="flex:1"><b>Erinnerung:</b> ${L.map(a=>{const p=aufProg(a);return `noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${esc(chName(a.ch))}“ ${daysUntil(a.due)<0?'(Frist vorbei)':'bis '+dayLabel(a.due)}`}).join(', ').replace(/\.$/,'')}.</span>${V.name==='homework'?'':'<button class="btn sm pri" data-act="homework">Los geht’s</button>'}</div>`}
-function notifHTML(){if(!aufAll().length)return '';if(!('Notification' in window))return `<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Mitteilungen gehen auf dem iPad erst, wenn ELIO auf dem Home-Bildschirm liegt (Teilen → „Zum Home-Bildschirm“). Die Erinnerung hier in ELIO kommt trotzdem.</p>`;
+function notifHTML(){if(!aufAll().length&&!annAll().length)return '';if(!('Notification' in window))return `<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Mitteilungen gehen auf dem iPad erst, wenn ELIO auf dem Home-Bildschirm liegt (Teilen → „Zum Home-Bildschirm“). Die Erinnerung hier in ELIO kommt trotzdem.</p>`;
   if(Notification.permission==='default')return `<div class="row" style="margin:-4px 0 12px"><button class="btn sm" data-act="notif-ok">🔔 Erinnerungen auf diesem Gerät erlauben</button></div>`;
   return Notification.permission==='granted'?'<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Erinnerungen sind an. Sie kommen, solange ELIO auf diesem Gerät offen ist.</p>':''}
 VIEWS.homework=()=>{
@@ -5883,7 +5883,8 @@ function journalForm(src,id=''){JM=null;const pr=src==='live'&&RCS&&RCS.journal&
   <button class="btn ok" data-act="jr-save" data-src="${src}" data-id="${esc(id)}" style="width:100%;margin-top:14px">Eintragen</button>`}
 function checkJournalAuto(){
   if(S.role!=='student')return;
-  const sl=slotNow();if(sl.kind!=='lesson')return;
+  // Nicht mehr von selbst: Das Lerntagebuch öffnet nur, wenn die Lehrkraft es an der Tafel startet (oder im Test-Modus).
+  const sl=slotNow();if(sl.kind!=='lesson'||!sl.n.sim)return;
   const left=sl.l.end-sl.n.min;if(left>5||left<=0)return;
   const key=`auto|${todayISO()}|${sl.n.day}|${sl.l.p}${sl.n.sim?'|sim':''}`;
   if(S.journalDone[key])return;
