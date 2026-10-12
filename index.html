@@ -477,6 +477,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .lv-on{background:#4f46e5!important;border-color:#4f46e5!important;color:#fff!important;border-radius:99px;padding:6px 16px}.lv-ed summary{font-weight:800;color:#1e3a8a;cursor:pointer}.lv-sel{width:auto;padding:4px 6px;font-size:.85rem}
 .et{margin-top:16px}.et-h{display:flex;gap:12px;align-items:center;margin-bottom:8px}.et-h h2{margin:0}.et-i{border-left:5px solid #4f46e5;background:#f5f7ff;border-radius:10px;padding:10px 14px;margin-top:8px}.et-i p{margin:4px 0}
 .et-warn{border-color:#f59e0b;background:#fffbeb}.et-good{border-color:#38bdf8;background:#f0f9ff}.et-s{font-weight:800;color:#1e3a8a}.et-i summary{cursor:pointer;font-weight:700;color:#4f46e5}.et-none{font-weight:700;color:#475569}
+.offl{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:90;display:flex;gap:10px;align-items:center;background:#1e3a8a;color:#fff;padding:10px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(30,58,138,.35);font-weight:700;max-width:calc(100% - 32px)}
+.offl i{width:12px;height:12px;border-radius:50%;background:#f59e0b;flex:none;animation:nsPulse 1.6s ease-in-out infinite}.offl[hidden]{display:none}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
 .bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
@@ -1814,7 +1816,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-0358';let verTold=false;
+const BUILD='20261012-0359';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -4987,8 +4989,16 @@ async function mbFlush(){if(MB.busy||S.role!=='student'||!S.tpk||!(window.crypto
   try{const K=await myKeys();const live=RCS&&Date.now()-rcsAt<15000&&RCS.dpk&&RCS.dpk.n===S.tpk.n;
     while((S.mbq||[]).length){const it=S.mbq[0],body=await dEnc(S.tpk,{...it,pk:K.pub,nick:S.nick||'',av:S.av}),row={class_id:mbCls()?S.cls:null,dir:'up',nr:+S.nr,fp:mbFp(S.tpk),body};
       let ok=await mbInsert(row);if(!ok&&live){sendMsg({k:'mb',r:{fp:row.fp,body}});ok=true}
-      if(!ok)break;S.mbq.shift();if(it.k==='chat'){const c=(S.chat||[]).find(x=>x.id===it.id);if(c)c.st='ok'}if(it.k==='abg'&&S.abg&&S.abg[it.hw])S.abg[it.hw].st='ok'}
-    save()}catch(e){console.warn(e)}MB.busy=false;if(['chat','homework'].includes(V.name))render()}
+      if(!ok){MB.fail=true;break}S.mbq.shift();if(it.k==='chat'){const c=(S.chat||[]).find(x=>x.id===it.id);if(c)c.st='ok'}if(it.k==='abg'&&S.abg&&S.abg[it.hw])S.abg[it.hw].st='ok'}
+    if(!(S.mbq||[]).length)MB.fail=false;save()}catch(e){console.warn(e);MB.fail=true}MB.busy=false;offlUpd();if(['chat','homework'].includes(V.name))render()}
+// Offline: Ergebnisse warten in S.mbq und gehen raus, sobald wieder Netz da ist. Sichtbarer Hinweis für das Kind.
+function offlUpd(){let el=document.getElementById('offl');const n=(S.mbq||[]).length,off=!navigator.onLine,show=S.role==='student'&&!BOARD&&(off||(n&&MB.fail));
+  if(!show){if(el)el.hidden=true;return}if(!el){el=document.createElement('div');el.id='offl';el.className='offl';el.setAttribute('role','status');document.body.appendChild(el)}
+  el.hidden=false;el.innerHTML=`<i></i><span><b>${off?'Offline':'Noch nicht übertragen'}</b>${n?` · ${n} ${n===1?'Ergebnis wird':'Ergebnisse werden'} später übertragen`:' · Üben geht trotzdem weiter'}</span>`}
+window.addEventListener('online',()=>{offlUpd();mbFlush();swWarm(true)});window.addEventListener('offline',offlUpd);setInterval(()=>{if(navigator.onLine&&(S.mbq||[]).length&&!MB.busy)mbFlush();offlUpd()},30000);
+// Einmal am Tag den Offline-Vorrat (Bilder, Geräusche, Elos Stimme) auffrischen
+function swWarm(force){try{const t=+localStorage.getItem('elio-warm')||0;if(!navigator.onLine||(!force&&Date.now()-t<864e5)||!navigator.serviceWorker)return;navigator.serviceWorker.ready.then(r=>{if(r.active){r.active.postMessage('warm');localStorage.setItem('elio-warm',String(Date.now()))}}).catch(()=>{})}catch(e){}}
+setTimeout(()=>swWarm(false),8000);setTimeout(offlUpd,1500);
 function mbQueue(it){S.mbq=S.mbq||[];if(it.k==='prog'||it.k==='hi')S.mbq=S.mbq.filter(x=>x.k!==it.k);S.mbq.push(it);if(S.mbq.length>60)S.mbq=S.mbq.slice(-60);save();mbFlush()}
 function chatSend(t){const id='c'+Date.now().toString(36);S.chat=S.chat||[];S.chat.push({id,me:1,t,at:Date.now(),st:'q'});mbQueue({k:'chat',id,t,at:Date.now()})}
 function progSnap(){return {ub:Object.keys(S.ubDone||{}).filter(k=>k.includes('#')),hx:Object.keys(S.hxDone||{}).filter(k=>S.hxDone[k]),hw:Object.keys(S.hwDone||{}).filter(k=>S.hwDone[k]),
