@@ -310,7 +310,7 @@
  {
   "ch": "1 Terme und Gleichungen",
   "title": "1.4 Rechengesetze",
-  "text": "# Vertauschungsgesetz (Kommutativgesetz)\nBei + und · darf man die Zahlen vertauschen.\n- a + b = b + a\n- a · b = b · a\n# Verbindungsgesetz (Assoziativgesetz)\nBei + und · darf man beliebig Klammern setzen: (a + b) + c = a + (b + c)\n# Verteilungsgesetz (Distributivgesetz)\nMerke: Ausmultiplizieren: a · (b + c) = a · b + a · c\n- 3 · (x + 4) = 3x + 12\n- 5 · (2a − 1) = 10a − 5",
+  "text": "# Vertauschungsgesetz (Kommutativgesetz)\nBei + und · darf man die Zahlen vertauschen.\n- a + b = b + a\n- a · b = b · a\n[bild: tausch]\n# Verbindungsgesetz (Assoziativgesetz)\nBei + und · darf man beliebig Klammern setzen: (a + b) + c = a + (b + c)\n[bild: verbind]\n# Verteilungsgesetz (Distributivgesetz)\nMerke: Ausmultiplizieren: a · (b + c) = a · b + a · c\n- 3 · (x + 4) = 3x + 12\n- 5 · (2a − 1) = 10a − 5\n[bild: verteil]",
   "help": "Achtung: Bei − und : darf man nicht vertauschen.\nFalsch: 7 − 3 = 3 − 7\nRichtig: 7 − 3 = 4, aber 3 − 7 = −4\nAchtung: Vor einer Klammer mit Minus ändern sich alle Vorzeichen in der Klammer.\nFalsch: a − (b + c) = a − b + c\nRichtig: a − (b + c) = a − b − c   und   a − (b − c) = a − b + c",
   "ub": {
    "t": "match",

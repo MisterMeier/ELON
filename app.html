@@ -1866,7 +1866,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2042';let verTold=false;
+const BUILD='20261012-2049';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -5196,7 +5196,7 @@ VIEWS['kl-cards']=()=>{
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
-const HEFT_V=4;
+const HEFT_V=5;
 async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.heft||[]).some(e=>e.id.startsWith(PLANS[k].pre))){try{await heftLoadPlan(true,k)}catch(e){}}TD.heftV=HEFT_V;tsave()}const bad=e=>String(e.text||'').split('\n').some(l=>HELPRE.test(l.trim()));if(!(TD.heft||[]).some(bad))return 0;
   if(TD.heft.some(e=>/^m7-/.test(e.id)&&bad(e))){try{await heftLoadPlan(true)}catch(e){}}
   let n=0;TD.heft.forEach(e=>{const ls=String(e.text||'').split('\n'),mv=ls.filter(l=>HELPRE.test(l.trim()));if(!mv.length)return;
@@ -5684,6 +5684,18 @@ Object.assign(FIGS,{
     <path d="M50 175L322 35" stroke="#4f46e5" stroke-width="3"/>${[2,4,6,8].map(u=>`<circle cx="${50+u*34}" cy="${175-u*0.05*350}" r="5" fill="#f59e0b" stroke="#1e3a8a"/>`).join('')}
     <text x="340" y="205" text-anchor="end" class="hf-t" style="font-size:13px">U in V</text><text x="58" y="18" class="hf-t" style="font-size:13px">I in A</text>`,'Ohm\'sches Gesetz: Die Messpunkte liegen auf einer Geraden durch den Nullpunkt. R = 20 Ω bleibt gleich.')
 });
+// Mathe 1.4 Rechengesetze: Punktefeld drehen, Streifen zusammenlegen, Rechteck zerlegen
+Object.assign(FIGS,{
+  tausch:()=>FIGW('0 0 300 130',`<rect x="8" y="22" width="104" height="80" rx="10" class="hf-a"/>${[42,62,82].map(y=>[28,52,76,100].map(x=>`<circle cx="${x}" cy="${y}" r="7" fill="#2f6fd6"/>`).join('')).join('')}${FT(45,122,'3 · 4')}
+    <path d="M128 48C145 28 170 28 182 46" class="hf-ar"/>${FT(132,80,'drehen')}
+    <rect x="200" y="6" width="84" height="104" rx="10" class="hf-a"/>${[24,46,68,90].map(y=>[222,242,262].map(x=>`<circle cx="${x}" cy="${y}" r="7" fill="#2f6fd6"/>`).join('')).join('')}${FT(228,128,'4 · 3')}`,'Dreh das Punktefeld: Es bleiben 12 Punkte. Also ist 3 · 4 = 4 · 3.'),
+  verbind:()=>FIGW('0 0 312 132',`<path d="M20 22v-8h140v8" class="hf-h" style="stroke-dasharray:none"/>${FT(70,10,'zuerst','hf-hl')}
+    <rect x="20" y="26" width="56" height="28" class="hf-a"/><rect x="76" y="26" width="84" height="28" class="hf-a"/><rect x="160" y="26" width="112" height="28" class="hf-c"/>${FT(44,45,'2')}${FT(114,45,'3')}${FT(212,45,'4')}${FT(278,45,'= 9')}
+    <rect x="20" y="78" width="56" height="28" class="hf-c"/><rect x="76" y="78" width="84" height="28" class="hf-a"/><rect x="160" y="78" width="112" height="28" class="hf-a"/>${FT(44,97,'2')}${FT(114,97,'3')}${FT(212,97,'4')}${FT(278,97,'= 9')}
+    <path d="M76 110v8h196v-8" class="hf-h" style="stroke-dasharray:none"/>${FT(154,130,'zuerst','hf-hl')}`,'Egal, welche Teile du zuerst zusammenlegst: Der Streifen ist immer 9 lang.'),
+  verteil:()=>FIGW('0 0 300 150',`<path d="M30 17H150M152 17H268M30 13v8M150 13v8M152 13v8M268 13v8M17 26V113M13 26h8M13 113h8" class="hf-ar"/>${FT(86,11,'x')}${FT(206,11,'4')}${FT(4,75,'3')}
+    <rect x="30" y="26" width="120" height="87" class="hf-a"/><rect x="152" y="26" width="116" height="87" class="hf-c"/><path d="M181 26v87M210 26v87M239 26v87M152 55h116M152 84h116" stroke="currentColor" stroke-opacity=".3"/>
+    ${FT(74,75,'3 · x')}${FT(190,75,'3 · 4')}${FT(90,140,'3 · (x + 4) =')}${FT(186,140,'3x + 12','hf-hl')}`,'Das ganze Rechteck ist 3 · (x + 4). Seine zwei Teile sind 3x und 12.')});
 // Prozessbezogene Kompetenzen (LehrplanPLUS Mathematik Mittelschule, Kompetenzstrukturmodell). Jede Übung trägt k:[…]
 const KOMP={1:'Argumentieren',2:'Probleme lösen',3:'Modellieren',4:'Darstellungen verwenden',5:'Mit Termen, Formeln und Regeln umgehen',6:'Kommunizieren'};
 const kChips=k=>Array.isArray(k)&&k.length?`<span class="kcs">${k.filter(n=>KOMP[n]).map(n=>`<span class="kc k${n}" title="K${n} ${KOMP[n]}">K${n}</span>`).join('')}</span>`:'';
