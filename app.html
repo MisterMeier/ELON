@@ -883,6 +883,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 @keyframes elohop{0%,100%{transform:none}40%{transform:translateY(-18%) scaleY(1.04)}70%{transform:translateY(0) scaleY(.94)}}
 @keyframes elowave{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
 @keyframes elotw{0%,100%{transform:scale(1)}50%{transform:scale(1.05) rotate(-2deg)}}
+.vk-card{display:grid;gap:12px;justify-items:center;text-align:center;padding:18px;border-radius:18px;background:var(--surface-2,#f4f6fc);margin-top:10px}.vk-fb{margin:0;font-size:1.15em}.vk-fb.ok b:first-child{color:#1f8f5d}.vk-fb.no b:first-child{color:#cf3a2c}
 .fx-i{position:absolute;top:8%;left:-12%;font-size:3em;font-style:normal;animation:fxw .5s ease-in-out 6;transform-origin:70% 90%}
 .fx-i.fx-n{font-size:1.8em;color:#7c3aed;font-weight:800;top:-6%;left:10%;animation:fxn 1.4s ease-out 3}
 @keyframes fxw{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(20deg)}}
@@ -1866,7 +1867,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2122';let verTold=false;
+const BUILD='20261012-2127';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3966,7 +3967,7 @@ const TOOLS={
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['🧩','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
@@ -4441,6 +4442,30 @@ const AKT={
       if(a.k==='next'){if(s.i+1<d.qs.length){s.i++;s.sel=null;s.lock=false;s.out={}}else{s.win=true;s.msg='Ihr habt '+MIO[d.qs.length-1]+' Punkte geknackt!'}return}
       if(a.k==='lost'){s.res='lost';return}
       if(a.k==='again'){Object.assign(s,AKT.mio.init(d));return}}},
+  vok:{name:'Vokabeltrainer',icon:'📗',txt:'Vokabeln abfragen wie im Vokabelheft: Die SuS tippen die Übersetzung, falsche Wörter kommen wieder, bis alle sitzen. Danach landen die Wörter im Vokabelheft.',fit:/vokabel|wortschatz|wort|wiederhol|übung|warm/i,
+    help:'Eine Vokabel pro Zeile: englisch = deutsch. Optional erste Zeile: Richtung: Englisch → Deutsch',
+    ex:'Richtung: Deutsch → Englisch\nzoo = Zoo\nto feed = füttern\ngiraffe = Giraffe\nkeeper = Tierpfleger/in\nenclosure = Gehege\ndangerous = gefährlich',
+    exE:'Richtung: Deutsch → Englisch\nzoo = Zoo\nto feed = füttern\ngiraffe = Giraffe\nkeeper = Tierpfleger/in\nenclosure = Gehege\ndangerous = gefährlich',
+    parse:t=>{let L=String(t||'').split('\n'),en=false;const m=(L.find(x=>x.trim())||'').match(/^\s*(richtung|direction)\s*:\s*(.+)$/i);
+      if(m){en=/^\s*(engl|en\b)/i.test(m[2]);L=L.filter(x=>x!==L.find(y=>y.trim()))}return {en,words:vokParse(L.join('\n')).slice(0,60)}},
+    count:d=>d.words.length+(d.words.length===1?' Vokabel':' Vokabeln')+' · '+(d.en?'Englisch → Deutsch':'Deutsch → Englisch'),
+    init:d=>({q:shuffle(d.words.map((_,i)=>i)),ok:{},res:null,ans:'',tries:0}),
+    view:(d,s)=>{if(!d.words.length)return '<div class="empty">Keine Vokabeln eingetragen.</div>';const i=s.q[0],w=d.words[i],n=Object.keys(s.ok).length;
+      if(i==null)return `<div class="vk-card"><b style="font-size:1.4em">Alle ${d.words.length} Vokabeln sitzen!</b><p class="muted">Die Wörter stehen jetzt in deinem Vokabelheft.</p></div>`;
+      const ask=d.en?w[0]:w[1],sol=d.en?w[1]:w[0],r=s.res;
+      return `<div class="say-prog"><i style="width:${n/d.words.length*100}%"></i></div><p class="say-stat">${n} von ${d.words.length} sitzen</p>
+      <div class="vk-card"><span class="label">${d.en?'Englisch → Deutsch':'Deutsch → Englisch'}</span><div class="say-w">${esc(ask)}</div>
+        <input id="ak-vok-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${d.en?'auf Deutsch …':'in English …'}" value="${esc(s.ans)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">
+        ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht.'}</b> ${r==='ok'?'':'Richtig ist: '}<b>${esc(sol)}</b></p>
+          <div class="row" style="justify-content:center"><button class="btn" data-act="ak" data-k="hear">Anhören</button><button class="btn pri" data-act="ak" data-k="next" id="ak-vok-go">Weiter</button></div>`
+        :`<div class="row" style="justify-content:center"><button class="btn pri" data-act="ak" data-k="chk" id="ak-vok-go">Prüfen</button><button class="btn" data-act="ak" data-k="skip">Weiß ich nicht</button></div>`}</div>`},
+    act:(d,s,a)=>{const i=s.q[0],w=d.words[i];if(w==null)return;
+      if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w[0]);u.lang='en-GB';u.rate=.85;const v=bestVoice('en-GB');if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
+      if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const ok=a.k==='chk'&&vokOk(d.en?w[1]:w[0],s.ans);s.res=ok?'ok':'no';s.tries++;
+        if(ok){s.ok[i]=1;SND.right()}else SND.oops();return}
+      if(a.k==='next'){s.q.shift();if(s.res!=='ok')s.q.splice(Math.min(s.q.length,2),0,i);s.res=null;s.ans='';
+        if(!s.q.length){s.win=true;if(S.role==='student'){const D=vokD(),src='stunde';d.words.forEach(([en,de])=>{const id=src+':'+vokNorm(en).slice(0,60);if(!D.c[id])D.c[id]={en,de,b:0,due:'',src,t:'Aus dem Unterricht',at:Date.now()}});save()}}
+        setTimeout(()=>{const el=document.getElementById('ak-vok-in');if(el)el.focus()},60)}}},
   say:{name:'Aussprach-Assistent',icon:'🎤',txt:'Wörter und Sätze anhören, nachsprechen, ELIO prüft die Aussprache. Für DaZ und Englisch.',fit:/sprech|ausspr|daz|vokabel|wort|übung|warm/i,
     help:'Erste Zeile: Sprache: Deutsch oder Sprache: Englisch. Danach ein Wort oder Satz pro Zeile.',
     exE:'Sprache: Englisch\nhoodie\ntrainers\nchanging room\nCan I try it on, please?\nHow much are these jeans?\nI\'m looking for a T-shirt.',
@@ -4976,6 +5001,7 @@ document.addEventListener('keydown',e=>{
   if(['ArrowLeft','PageUp'].includes(e.key)&&CS.step>0){e.preventDefault();startStep(CS.step-1)}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('cl-a')){e.preventDefault();const A=[...document.querySelectorAll('.cl-a')],n=A[A.indexOf(e.target)+1];if(n&&e.target.value.trim()){n.focus();return}const b=document.querySelector('[data-act=cl-send]');b&&b.click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ak-vok-in'){e.preventDefault();const b=document.getElementById('ak-vok-go');b&&b.click()}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='kfb-a'){e.preventDefault();const b=document.querySelector('[data-act=kfb-chk]');b&&b.click()}});
 setInterval(()=>{const t=$('#ptimer');if(t&&CS)t.textContent=fmt(timerLeft(CS.timer))},1000);
 
