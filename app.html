@@ -719,7 +719,8 @@ body.boardwin .bw{height:100vh}
 .rt-start h1{color:#fff;font-size:3.6em}.rt-start p{font-size:1.6em;font-weight:700;color:#fff}
 .rt-start .hint{background:linear-gradient(90deg,#4f46e5,#2563eb);color:#fff;border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:1.3em;text-shadow:none;margin-top:.6em}
 .rt-cover{background:#f4f2ec;justify-content:center;padding:2em 3em}
-.rt-cover.art{background:#f4f2ec url(assets/mathe/cover.webp) right center/auto 100% no-repeat}.rt-cover.art-DZ{background-image:url(assets/daz/cover.webp)}
+.boardwin .ak-mc .qz-pick button{font-size:1.5em}@media(min-height:760px){.boardwin .ak{zoom:1.3}}@media(min-height:960px){.boardwin .ak{zoom:1.6}}@media(min-height:1300px){.boardwin .ak{zoom:2.1}}
+.rt-cover.art{background:#f4f2ec url(assets/mathe/cover.webp) right center/auto 100% no-repeat}.rt-cover.art-DZ{background-image:url(assets/daz/cover.webp)}.rt-cover.art-N{background-image:url(assets/nt/cover.webp)}
 .rt-cover .in{display:grid;gap:.5em;max-width:52%}
 .rt-cover .kick{letter-spacing:.35em;text-transform:uppercase;font-weight:700;font-size:1.1em;color:#33433f}
 .rt-cover h1{font-size:4em;color:#1d2a2e}.rt-cover .cls{border-left:.2em solid #4f46e5;padding-left:.6em;font-size:1.1em;font-weight:700;color:#33433f}
@@ -1419,7 +1420,7 @@ const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
 // Klassenschlüssel kommt nur im #-Teil der Adresse (QR-Karte, Tafel-QR): der wird nie an einen Server geschickt
 const HK=(()=>{const h=new URLSearchParams(location.hash.slice(1));const o={k:h.get('k'),ck:h.get('ck'),u:(h.get('u')||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,4)};if(o.k||o.ck||o.u){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}return o})();
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
-const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd'];
+const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','gameGrp','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
 const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
 function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
@@ -1840,7 +1841,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1608';let verTold=false;
+const BUILD='20261012-1620';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2545,7 +2546,7 @@ const ELO_FX={wave:['👋','Winken'],hop:['⤴️','Hüpfen'],tweet:['🎵','Zwi
 function deckSlides(t){if(!t)return [];if(!Array.isArray(t.slides)||!t.slides.length)t.slides=[{layout:'std',bg:'allgemein',title:t.title||'',text:t.text||'',mat:t.mat||'',elo:'',say:'',steps:false}];return t.slides}
 function deckFrames(t){const F=[];deckSlides(t).forEach((sl,j)=>{const n=sl.steps?lines(sl.text).length:0;if(n>1)for(let k=1;k<=n;k++)F.push({j,k});else F.push({j,k:-1})});return F}
 // Jede Phase hat Folien (p.xs). Das Werkzeug kommt zusätzlich nach den Folien; nur die Startfolie der Begrüßung steht vorne.
-function phParts(p){const t=p&&p.tool,nT=!t?0:t.id==='slide'?deckFrames(t).length:1,nX=p&&p.xs&&p.xs.length?deckFrames({slides:p.xs}).length:0;return {t,nT,nX,tf:!!t&&(t.id==='start'||t.id==='slide')}}
+function phParts(p){const t=p&&p.tool,nT=!t?0:t.id==='slide'?deckFrames(t).length:t.id==='ueb'?Math.max(1,ubSeq(t).length):1,nX=p&&p.xs&&p.xs.length?deckFrames({slides:p.xs}).length:0;return {t,nT,nX,tf:!!t&&(t.id==='start'||t.id==='slide')}}
 const phaseFrames=p=>{const q=phParts(p);return Math.max(1,q.nT+q.nX)};
 function phDeck(p,sub){const q=phParts(p),X={id:'slide',slides:p&&p.xs};if(!q.nT&&!q.nX)return {t:q.t,s:0};
   if(q.tf)return sub<q.nT?{t:q.t,s:sub}:{t:X,s:sub-q.nT,x:1};return sub<q.nX?{t:X,s:sub,x:1}:{t:q.t,s:sub-q.nX}}
@@ -2558,8 +2559,8 @@ function lNav(dir){const L=CS&&CS.lesson&&lessonById(CS.lesson.id);if(!L)return 
   // Weiterklicken beendet laufende Geräusche und Elos Stimme
   try{audStop();eloVoEl&&eloVoEl.pause()}catch(e){}
 const p=L.phases[CS.step],s=(CS.sub||0)+dir;
-  if(s>=0&&s<phaseFrames(p)){const was=!!phDeck(p,CS.sub||0).x,now=!!phDeck(p,s).x;CS.sub=s;CS.fx=null;if(now&&!was)toolClear(L,CS.step);else if(!now&&was)toolStart(L,CS.step);pushCS();if(V.name==='tafel')render();return true}
-  const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(dir<0){const n=phaseFrames(L.phases[i]);if(n>1){CS.sub=n-1;pushCS()}}if(V.name==='tafel')render();return true}
+  if(s>=0&&s<phaseFrames(p)){const was=!!phDeck(p,CS.sub||0).x,now=!!phDeck(p,s).x;CS.sub=s;CS.fx=null;if(now&&!was)toolClear(L,CS.step);else if(!now&&was)toolStart(L,CS.step);else if(!now&&p.tool&&p.tool.id==='ueb')uebGame(L,CS.step);pushCS();if(V.name==='tafel')render();return true}
+  const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(dir<0){const P=L.phases[i],n=phaseFrames(P);if(n>1){const was=!!phDeck(P,0).x;CS.sub=n-1;const now=!!phDeck(P,n-1).x;if(was&&!now)toolStart(L,i);else if(!was&&now)toolClear(L,i);else if(!now&&P.tool&&P.tool.id==='ueb')uebGame(L,i);pushCS()}}if(V.name==='tafel')render();return true}
 /* --- Verbotene Wörter: eine Person dreht der Tafel den Rücken zu, die Klasse erklärt das Wort ohne die verbotenen Wörter --- */
 function vwCards(t){return lines(t&&t.cards).map(x=>{const m=x.split(/\s*[:|]\s*/);const w=m.shift().trim();return {w,no:m.join(',').split(/\s*[,|;]\s*/).map(y=>y.trim()).filter(Boolean).slice(0,5)}}).filter(c=>c.w)}
 const vwTeams=t=>{const a=String(t&&t.teams||'').split(',').map(x=>x.trim()).filter(Boolean);return [a[0]||'Team A',a[1]||'Team B']};
@@ -2657,15 +2658,18 @@ let MINI='off',miniSig='',HELPL=null,MINI_L=null;
 function toast(t){let el=$('#toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');document.body.appendChild(el)}el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),3200)}
 // Hilfe sofort anzeigen, auch bevor die Tafel antwortet
 const helpOn=()=>HELPL&&Date.now()-HELPL.at<10000?HELPL.on:!!(RCS&&RCS.help.includes(S.nr));
+// Was das Kind schon abgeschickt hat, zählt auf seiner Tafel sofort mit, auch wenn die Bestätigung noch unterwegs ist
+function meR(R){if(!R||S.role!=='student')return R;const n=+S.nr,add=(o,k,ok)=>o&&ok&&!(o[k]||[]).includes(n)?{...o,[k]:[...(o[k]||[]),n]}:o;
+  return {...R,journal:add(R.journal,'done',R.journal&&(S.journalDone||{})[R.journal.id]),exit:add(R.exit,'done',R.exit&&(S.readyDone||{})[R.exit.id]),ready:add(R.ready,'done',R.ready&&(S.readyDone||{})[R.ready.id]),cloud:add(R.cloud,'done',R.cloud&&(S.cloudDone||{})[R.cloud.id]),poll:add(R.poll,'voted',R.poll&&(S.voted||{})[R.poll.id])}}
 function renderMini(force){
   const el=$('#miniT');if(!el)return;
   if(S.role!=='student'||V.name==='role'||!RCS||Date.now()-rcsAt>10000){el.hidden=true;miniSig='';document.body.classList.remove('has-mt');return}
   document.body.classList.toggle('has-mt',MINI==='small');
-  const sg=MINI+boardSig(RCS);if(!force&&sg===miniSig)return;miniSig=sg;el.hidden=false;el.className='mt '+MINI;
+  const sg=MINI+boardSig(meR(RCS));if(!force&&sg===miniSig)return;miniSig=sg;el.hidden=false;el.className='mt '+MINI;
   if(MINI==='off'){el.hidden=true;miniSig='';return}
   el.innerHTML=MINI==='off'?''
     :`<div class="mt-bar"><b>📺 Tafel</b><button data-act="mt" data-m="${MINI==='big'?'small':'big'}">${MINI==='big'?'Klein':'Groß'}</button><button data-act="mt" data-m="off" aria-label="Tafel ausblenden">✕</button></div>
-      <div class="mt-frame" ${MINI==='big'?'':'data-act="mt" data-m="big"'}>${boardHTML(RCS,true)}</div>`;
+      <div class="mt-frame" ${MINI==='big'?'':'data-act="mt" data-m="big"'}>${boardHTML(meR(RCS),true)}</div>`;
   kfAnimate();
 }
 setInterval(()=>{document.querySelectorAll('.btimer').forEach(e=>{const R=BOARD?BRCS:RCS;if(R)e.textContent=fmt(timerLeft(R.timer,OFF))});if(!BOARD)renderMini()},1000);
@@ -2681,7 +2685,7 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
+function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
   OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
@@ -2753,7 +2757,8 @@ function liveOverlay(){
         <p style="font-family:var(--f-display);font-size:1.6rem;margin-top:10px"><span style="color:#4f46e5">${esc(nm[0])} ${K.score[0]}</span> : <span style="color:#f59e0b">${K.score[1]} ${esc(nm[1])}</span></p>`);
       if(sig!==lastOvSig&&!C)setTimeout(()=>{const i=$('#kfb-a');i&&!i.value&&document.activeElement!==i&&i.focus({preventScroll:true})},100)}}
   else if(RCS.game&&!RCS.freeze&&gInfo(RCS.game.g)){const G=RCS.game,I=gInfo(G.g);
-    if(S.gameSeen!==G.at){sig='g'+G.at;full=true;
+    if(S.gameSeen!==G.at&&G.grp&&S.gameGrp===G.grp&&AKT[G.g]){S.gameSeen=G.at;save();akStart(G);if(MINI==='big')MINI='small';go('akt');window.scrollTo(0,0)}
+    else if(S.gameSeen!==G.at){sig='g'+G.at;full=true;
       html=`<div class="look">${elo('cheer',110)}<h1>${I.icon} ${esc(G.title||I.name)}</h1><p>${AKT[G.g]?'':esc(I.txt)+' '}Spiel mit auf deinem iPad!</p>
         <button class="btn pri big" data-act="g-join" style="margin-top:18px">Jetzt spielen</button></div>`;
       if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}}}}
@@ -2796,6 +2801,8 @@ function liveOverlay(){
     html=box(`<span class="label">Neue Phase</span><h2>${esc(ph.name)}</h2><p style="font-weight:700;margin-top:6px">${esc(ph.txt)}</p><button class="btn pri" data-act="phase-go" style="width:100%;margin-top:16px">Los geht's</button>`)}
   if(!sig){el.hidden=true;lastOvSig='';return}
   if(sig===lastOvSig)return;
+  // Muss das Kind etwas antippen, darf die große Tafel nicht darüber liegen
+  if(MINI==='big'&&!/^(frz|look)/.test(sig)){MINI='small';renderMini(true);updRail()}
   lastOvSig=sig;el.innerHTML=html;el.classList.toggle('full',full);el.hidden=false;
 }
 
@@ -3201,6 +3208,11 @@ function startStep(i){
 function toolClear(L,i){const p=L.phases[i]||{},T=p.tool||{};CS.game=null;if(typeof KF!=='undefined'&&KF)kfbStop(true);CS.vw=null;CS.exit=null;
   if(T.id==='start'||T.id==='mood')CS.ready=null;if(['thumbs','corners4','quiz'].includes(T.id))CS.poll=null;if(T.id==='diary')CS.journal=null;if(T.id==='wc')CS.cloud=null;
   if(CS.phase){CS.phase.look=p.act==='look'||p.act==='mission';CS.phase.go=p.act==='goto'?p.target:null;CS.phase.txt=p.txt||p.goal||''}}
+// Übungen einer Phase: jedes Weiter der Lehrkraft schickt alle iPads zur nächsten Übung; dazwischen geht es nach dem Schaffen automatisch weiter
+function uebGame(L,i){const p=L.phases[i],T=p.tool||{},all=ubSeq(T).map(q=>{const x=ubFind(q.eid),u=x&&ubList(x)[q.ui];return u?{g:u.t,title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)}:null}),it=all.filter(Boolean);
+  if(!it.length)return;const d=phDeck(p,CS.sub||0),g=all[d.x?0:d.s]||it[0],sk=it.indexOf(g),at=Date.now();
+  if(!CS.uebGrp||CS.uebGrp.i!==i||CS.uebGrp.at!==CS.phaseAt)CS.uebGrp={i,at:CS.phaseAt,id:at};
+  CS.game={...g,at,grp:CS.uebGrp.id,...(it.length>1?{seq:it,sk}:{})};CS.phase.look=false}
 function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean),words:!!T.mood,cloud:{}};
   if(T.id==='mood'){CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.q||'Wie geht\'s dir heute?',items:[],mood:true,only:true};CS.phase.look=false}
@@ -3218,8 +3230,7 @@ function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
   if(T.id==='vw'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0};CS.phase.look=true}else CS.vw=null;
   if(T.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===T.eid);if(e&&e.pub===false){e.pub=true;tsave()}if(!p.noipad){CS.phase.go='heft:'+L.subject+(e?':'+e.id:'');CS.phase.look=false}}
-  if(T.id==='ueb'){const it=ubSeq(T).map(q=>{const x=ubFind(q.eid),u=x&&ubList(x)[q.ui];return u?{g:u.t,title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)}:null}).filter(Boolean);
-    if(it.length){CS.game={...it[0],at:Date.now(),...(it.length>1?{seq:it}:{})};CS.phase.look=false}}
+  if(T.id==='ueb')uebGame(L,i);
   if(p.noipad&&TOOL_IPAD[T.id]){CS.ready=null;CS.game=null;CS.phase.go=null;CS.phase.look=true}
 }
 
@@ -3879,7 +3890,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
     const rk=bg==='start';
     return `<div class="rt rt-start ${vid?'':'st-elio'} ${rk?'st-rk':''} ${cw?'has-cw':''}" ${vid?'':rk?bgAttr('allgemein'):bgAttr(bg)}>${rk?rpScene(c.rd):''}${vid?(c.mini?`<img class="bg" src="${MA}start.webp" alt="">`:`<video class="bg" src="${MA}start.mp4" poster="${MA}start.webp" autoplay muted loop playsinline></video>`):''}
     <div class="in"><h1>${esc(t.title||'Du hast jetzt '+sn)}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}</div>${cw}${c.rd&&!rk?rpPad(c.rd.d,c.rd.n,c.rd.g):''}</div>`}
-  if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':c.subj==='DZ'?'art art-DZ':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
+  if(t.id==='cover')return `<div class="rt rt-cover ${c.subj==='M'?'art':c.subj==='DZ'?'art art-DZ':c.subj==='N'?'art art-N':''}"><div class="in"><span class="kick">${esc(sn)}</span><h1>${esc(t.title||c.name)}</h1><span class="cls">${esc(t.sub||className())}</span></div></div>`;
   if(t.id==='question')return `<div class="rt rt-q"><div class="band">Stundenfrage</div><h1>${t.q?esc(t.q):'?'}</h1>${t.murmel?`<div class="murmel"><img class="mm-img" src="assets/folien/murmel.webp" alt="Murmeltier"><p><b>Murmelphase:</b> Überlege dir bereits eine mögliche Antwort auf die Frage!</p></div>`:''}</div>`;
   if(t.id==='hypo')return `<div class="rt rt-h"><img class="hy-i" src="${MA}idea.webp" alt=""><p class="tag">${esc(t.text||'Gib eine Vermutung ab! Wir prüfen sie später.')}</p></div>`;
   if(t.id==='dialog'){const D=dlgParse(t.text);
@@ -5815,6 +5826,7 @@ const ART_KOMP={
   M:['Die SuS beschreiben mathematische Zusammenhänge mit Fachbegriffen und lösen Aufgaben zum Stundenthema.','Sie begründen ihre mathematischen Überlegungen, vergleichen unterschiedliche Lösungswege und überprüfen Ergebnisse auf ihre Angemessenheit.'],
   E:['Die SuS verständigen sich in einfachen Alltagssituationen und tauschen Informationen zum Stundenthema aus (Sprechen).','Sie entnehmen einfachen Hör- und Lesetexten wesentliche Informationen (Hör- und Leseverstehen).','Sie verwenden den Wortschatz und die Strukturen der Stunde in neuen Zusammenhängen (Verfügen über sprachliche Mittel).'],
   K:['Die SuS gestalten eigene Bildlösungen und setzen dabei bildnerische Mittel gezielt ein.','Sie beschreiben, vergleichen und bewerten eigene und fremde Werke mit Fachbegriffen.'],
+  N:['Die SuS beschreiben naturwissenschaftliche Phänomene mit Fachbegriffen und erklären Zusammenhänge zum Stundenthema.','Sie planen einfache Versuche, führen sie sicher durch, beobachten genau und werten die Ergebnisse aus.'],
   DZ:['Die SuS verstehen und verwenden den Wortschatz und die Redemittel der Stunde in alltagsnahen Situationen.','Sie wenden die sprachlichen Strukturen der Stunde in kurzen mündlichen und schriftlichen Äußerungen an.']};
 function artData(L){const t=L.title||'',su=SUBJECTS[L.subject]||{name:''},mi=String(L.mission||'').trim();
   const ziel=L.aziel||(mi?(/^die sus/i.test(mi)?mi:/^i can/i.test(mi)?'Die SuS können am Ende der Stunde: „'+mi+'“':/^ich kann\s/i.test(mi)?'Die SuS können '+mi.replace(/^ich kann\s*/i,''):/^ich\s/i.test(mi)?'Die SuS '+mi.replace(/^ich\s*/i,'').replace(/^(\S+?)e\b/,'$1en'):'Die SuS '+mi):'Die SuS erarbeiten sich das Thema „'+t+'“ und wenden ihr Wissen an.');
@@ -6470,7 +6482,7 @@ document.addEventListener('click',e=>{
     case 'qz-ok':if(RCS&&RCS.poll){(S.qzSeen=S.qzSeen||{})[RCS.poll.id]=1;save();liveOverlay()}break;
     case 'quiz-reveal':if(CS.poll&&CS.poll.type==='quiz'){const c=curTool();CS.poll.right=c&&c.t.id==='quiz'?quizRight(c.t,CS.poll.opts.length):[];CS.poll.res=CS.poll.opts.map((_,i)=>TALLY[i]||0);pushCS();render()}break;
     case 'quiz-again':{const c=curTool();if(c&&c.t.id==='quiz'){quizStart(c.t,c.p);pushCS();render()}break}
-    case 'g-join':if(RCS&&RCS.game){S.gameSeen=RCS.game.at;save();lastOvSig='';$('#live-ov').hidden=true;if(AKT[RCS.game.g]){akStart(RCS.game);go('akt')}else go(RCS.game.g,{s:RCS.game.s})}break;
+    case 'g-join':if(RCS&&RCS.game){S.gameSeen=RCS.game.at;S.gameGrp=RCS.game.grp||null;if(MINI==='big'){MINI='small';renderMini(true);updRail()}save();lastOvSig='';$('#live-ov').hidden=true;if(AKT[RCS.game.g]){akStart(RCS.game);go('akt')}else go(RCS.game.g,{s:RCS.game.s})}break;
     case 'phase-go':{const ph=phaseOf(RCS.phase);S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';$('#live-ov').hidden=true;
       goTarget(ph.go);
       liveOverlay();break}
