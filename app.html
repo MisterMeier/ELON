@@ -451,6 +451,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .helpq div{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:12px;background:var(--late-bg)}
 .helpq b{font-family:var(--f-display);font-size:1.3rem}
 .bars{display:grid;gap:8px;margin-top:10px}
+.ak-seq{display:flex;align-items:center;gap:6px;margin-bottom:8px}.ak-seq span{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#e0e7ff;color:#1e3a8a}.ak-seq span.on{background:#4f46e5;color:#fff}.ak-seq span.done{background:#38bdf8;color:#fff}.ak-seq b{margin-left:6px;color:#1e3a8a}
 .pg-bar{height:14px;border-radius:999px;background:#e0e7ff;overflow:hidden;margin:6px 0 4px}.pg-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#4f46e5,#38bdf8);transition:width .5s}
 .t-res{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-bottom:14px;border:2px solid #c7d2fe}.t-res[hidden]{display:none}
 .rt-res{padding:5% 7%;display:flex;flex-direction:column;justify-content:center;gap:4%;font-size:3cqh;color:#1e3a8a}.rt-res h1{font-size:2.6em;margin:0}.res-l{font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#4f46e5}
@@ -1839,7 +1840,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1605';let verTold=false;
+const BUILD='20261012-1608';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2610,7 +2611,8 @@ function boardHTML0(R,mini){
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
   const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
-  if(R.freeze)return `<div class="bw bw-fz"><div class="fz-st"><i class="fz-elo"></i><div class="fz-t"><b>Freeze!</b></div><p class="fz-p">Hände weg vom iPad. Augen nach vorne.</p></div></div>`;
+  // Freeze an der Tafel nur während einer Stunde. Ohne Stunde (z. B. nach Klassenwechsel) bleibt vorne das normale Bild, die iPads sind trotzdem gesperrt.
+  if(R.freeze&&R.lesson)return `<div class="bw bw-fz"><div class="fz-st"><i class="fz-elo"></i><div class="fz-t"><b>Freeze!</b></div><p class="fz-p">Hände weg vom iPad. Augen nach vorne.</p></div></div>`;
   else if(R.ready&&!R.ready.msg&&!R.ready.only&&t.id!=='start'){const n=Math.max(R.onN||0,R.ready.done.length),d=R.ready.done.length,full=n>0&&d>=n;
     return `<div class="bw bw-rp"><div class="rp-st ${full?'go':''}" style="--pc:${n?Math.min(1,d/n):0};--gd:${full?(.5-Math.max(0,(Date.now()-(R.ready.goAt||R.now||Date.now()))/1000)).toFixed(2):0}s"><i class="rp-gl"></i><div class="rp-rw"><i class="rp-fl"></i><img class="rp-r" src="assets/folien/rampe-rakete.webp" alt="Rakete"></div>
       <div class="rp-in">${LOGO}<h1>${full?'Alle sind bereit!':'Bist du bereit?'}</h1><p>${full?'Die Rakete hebt ab. Los geht\'s!':'Tippe auf deinem iPad auf „Bereit“. Jedes Kind füllt den Tank.'}</p><div class="rp-tank"><i></i></div><b>${full?'Start!':d+' / '+(n||'–')+' bereit'}</b></div></div></div>`}
@@ -3216,7 +3218,8 @@ function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
   if(T.id==='vw'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0};CS.phase.look=true}else CS.vw=null;
   if(T.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===T.eid);if(e&&e.pub===false){e.pub=true;tsave()}if(!p.noipad){CS.phase.go='heft:'+L.subject+(e?':'+e.id:'');CS.phase.look=false}}
-  if(T.id==='ueb'){const x=ubFind(T.eid),u=ubList(x)[+T.ui||0];if(u){CS.game={g:u.t,at:Date.now(),title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)};CS.phase.look=false}}
+  if(T.id==='ueb'){const it=ubSeq(T).map(q=>{const x=ubFind(q.eid),u=x&&ubList(x)[q.ui];return u?{g:u.t,title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)}:null}).filter(Boolean);
+    if(it.length){CS.game={...it[0],at:Date.now(),...(it.length>1?{seq:it}:{})};CS.phase.look=false}}
   if(p.noipad&&TOOL_IPAD[T.id]){CS.ready=null;CS.game=null;CS.phase.go=null;CS.phase.look=true}
 }
 
@@ -3947,7 +3950,8 @@ function toolEditor(p,i,L){
   if(t.id==='exit')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fragen (eine pro Zeile, höchstens 4)',t.qs,3)}<label class="cbl" style="grid-column:1/-1"><input type="checkbox" data-f="ph.${i}.tool.amp" ${t.amp!==false?'checked':''}> Dazu die Ampel: Kann ich / Fast / Noch nicht</label></div>`;
   if(t.id==='vw'){const n=vwCards(t).length;cfg=`<div class="lgrid" style="margin-top:8px">${inp('teams','Teams (mit Komma)',t.teams,'Team A, Team B')}${ta('cards','Karten: pro Zeile „Wort: verboten, verboten, verboten“',t.cards,8)}<p class="muted" style="grid-column:1/-1;font-weight:700;margin:0">${n} Karten erkannt. An der Tafel drehst du jede Karte mit einem Klick um und vergibst die Punkte.</p></div>`}
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);cfg=`<div class="pick-row">${e?`<span class="pick-cur">📖 <b>${esc((e.ch&&!/^\d/.test(e.title)?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</b></span>`:'<span class="muted" style="font-weight:700">Noch kein Hefteintrag gewählt.</span>'}<button class="btn sm ${e?'':'pri'}" data-act="tp-open" data-i="${i}" data-k="heft">${e?'Anderen wählen':'Hefteintrag wählen'}</button></div>`}
-  if(t.id==='ueb'){const e=(TD.heft||[]).find(x=>x.id===t.eid),u=e&&ubList(e)[+t.ui||0];cfg=`<div class="pick-row">${u?`<span class="pick-cur">${AKT[u.t].icon} <b>${esc((e.ch&&!/^\d/.test(e.title)?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</b> · ${esc(u.n&&u.n!=='Übung'?u.n:AKT[u.t].name)}</span>`:'<span class="muted" style="font-weight:700">Noch keine Übung gewählt.</span>'}<button class="btn sm ${u?'':'pri'}" data-act="tp-open" data-i="${i}" data-k="ueb">${u?'Andere wählen':'Übung wählen'}</button></div>`}
+  if(t.id==='ueb'){const Q=ubSeq(t).map(x=>{const e=(TD.heft||[]).find(y=>y.id===x.eid),u=e&&ubList(e)[x.ui];return u?{e,u}:null}).filter(Boolean);
+    cfg=`<div class="pick-row" style="flex-wrap:wrap">${Q.length?Q.map(({e,u},n)=>`<span class="pick-cur"><b>${n+1}.</b> ${AKT[u.t].icon} <b>${esc((e.ch&&!/^\d/.test(e.title)?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</b> · ${esc(u.n&&u.n!=='Übung'?u.n:AKT[u.t].name)}</span>`).join(''):'<span class="muted" style="font-weight:700">Noch keine Übung gewählt.</span>'}<button class="btn sm ${Q.length?'':'pri'}" data-act="tp-open" data-i="${i}" data-k="ueb">${Q.length?'Übungen ändern':'Übungen wählen'}</button></div>${Q.length>1?'<p class="muted" style="font-weight:700;font-size:.9rem">Nach jeder geschafften Übung geht es auf dem iPad automatisch zur nächsten.</p>':''}`}
   if(t.id==='cover')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Thema der Sequenz',t.title,'Terme und Gleichungen')}${inp('sub','Untertitel',t.sub,className())}</div>`;
   if(t.id==='question')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Stundenfrage',t.q,'Wie kann Anton seine Kosten planen?')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.murmel" ${t.murmel?'checked':''} style="width:auto"> mit Murmelphase</label></div>`;
   if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
@@ -3982,9 +3986,11 @@ function phBody(p,i,L){const t=p.tool,T=t&&TOOLS[t.id],G=isGreet(p),own=t&&(TOOL
   const extra=own?'':`${p.act==='goto'?`<label class="ph-mini">Welche Seite?<select data-f="ph.${i}.target">${Object.entries(TARGETS).map(([k,v])=>`<option value="${k}" ${k===(p.target||'module')?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:''}${p.act==='cloud'?`<label class="ph-mini">Frage an die SuS (Wortwolke)<input type="text" data-f="ph.${i}.cq" value="${esc(p.cq||'')}" placeholder="Schreib deine Vermutung auf."></label>`:''}${p.act==='poll'?`<label class="ph-mini">Welche Abstimmung?<select data-f="ph.${i}.poll">${[['thumbs','Daumen: verstanden?'],['corners','4 Ecken']].map(([k,v])=>`<option value="${k}" ${k===(p.poll||'thumbs')?'selected':''}>${v}</option>`).join('')}</select></label>`:''}`;
   return `${strip}${chips}${extra}${cfg}`}
 // Auswahl aus dem Schreibtisch: Hefteintrag oder Übung, nach Kapiteln sortiert
+// Mehrere Übungen in einer Phase: t.list=[{eid,ui}], alte Stunden haben nur eid/ui
+const ubSeq=t=>Array.isArray(t.list)&&t.list.length?t.list:t.eid?[{eid:t.eid,ui:+t.ui||0}]:[];
 function tpOpen(i,k){const L=lessonById(V.id),p=L&&L.phases[i];if(!p)return;const U=k==='ueb',es=tHeft(L.subject).filter(e=>e.title&&(!U||ubList(e).length)).sort(heftSort),chs=[...new Set(es.map(e=>e.ch||'Ohne Kapitel'))],t=p.tool||{};
-  showOv(`<div class="box" style="max-width:820px;text-align:left"><span class="label">Schreibtisch · ${esc((SUBJECTS[L.subject]||{}).name||'')}</span><h2>${U?'Welche Übung soll laufen?':'Welcher Hefteintrag soll an die Tafel?'}</h2>
-    ${es.length?`<div class="tp-list">${chs.map(ch=>`<details class="tp-ch" ${es.some(e=>(e.ch||'Ohne Kapitel')===ch&&e.id===t.eid)||chs.length===1?'open':''}><summary>${esc(ch)}</summary>${es.filter(e=>(e.ch||'Ohne Kapitel')===ch).map(e=>U?`<div class="tp-e"><b>${esc(e.title)}</b><div class="tp-ubs">${ubList(e).map((u,n)=>`<button class="btn sm ${e.id===t.eid&&n===(+t.ui||0)?'pri':''}" data-act="tp-set" data-i="${i}" data-eid="${esc(e.id)}" data-ui="${n}">${AKT[u.t].icon} ${esc(u.n&&u.n!=='Übung'?u.n:AKT[u.t].name)}</button>`).join('')}</div></div>`
+  showOv(`<div class="box" style="max-width:820px;text-align:left"><span class="label">Schreibtisch · ${esc((SUBJECTS[L.subject]||{}).name||'')}</span><h2>${U?'Welche Übungen sollen laufen?':'Welcher Hefteintrag soll an die Tafel?'}</h2>${U?'<p class="muted" style="font-weight:700">Tippe mehrere an. Die SuS machen sie in dieser Reihenfolge, nach jeder geschafften Übung geht es automatisch weiter. Nochmal tippen nimmt eine Übung wieder raus.</p>':''}
+    ${es.length?`<div class="tp-list">${chs.map(ch=>`<details class="tp-ch" ${es.some(e=>(e.ch||'Ohne Kapitel')===ch&&e.id===t.eid)||chs.length===1?'open':''}><summary>${esc(ch)}</summary>${es.filter(e=>(e.ch||'Ohne Kapitel')===ch).map(e=>U?`<div class="tp-e"><b>${esc(e.title)}</b><div class="tp-ubs">${ubList(e).map((u,n)=>{const q=ubSeq(t).findIndex(x=>x.eid===e.id&&x.ui===n);return `<button class="btn sm ${q>=0?'pri':''}" data-act="tp-set" data-i="${i}" data-eid="${esc(e.id)}" data-ui="${n}">${q>=0?`<b>${q+1}.</b> `:''}${AKT[u.t].icon} ${esc(u.n&&u.n!=='Übung'?u.n:AKT[u.t].name)}</button>`}).join('')}</div></div>`
       :`<button class="tp-h ${e.id===t.eid?'on':''}" data-act="tp-set" data-i="${i}" data-eid="${esc(e.id)}"><b>${esc(e.title)}</b><small>${esc(String(e.text||'').replace(/^#+\s*/gm,'').replace(/\|?-{3,}\|?/g,'').replace(/[|#]/g,' ').replace(/\s+/g,' ').trim().slice(0,110))}</small></button>`).join('')}</details>`).join('')}</div>`
       :`<p class="muted" style="font-weight:700">${U?'In diesem Fach gibt es im Schreibtisch noch keine Übungen.':'In diesem Fach gibt es noch keine Hefteinträge. Lege sie im Schreibtisch an.'}</p>`}
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Schließen</button></div></div>`)}
@@ -4238,7 +4244,8 @@ function akLvlHTML(G){if(!G||!G.lv||BOARD||S.role!=='student')return '';const as
   return `<div class="lv-bar"><span>Wähle dein Niveau:</span>${['g','s','p'].filter(k=>k==='s'||G.lv0.lv[k]).map(k=>`<button class="lv-b ${G.lvc===k?'lv-on':''}" data-act="ak-lvl" data-l="${k}">${LV_N[k]}</button>`).join('')}</div>`}
 function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Kein Spiel aktiv.</div>';const s=AK.st;
   const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${!BOARD&&S.role==='student'?rdBtn(AK_HOW[G.g],G.title||''):''}${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${G.mt?'<span class="chip">🎯 Minitest</span>':S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
-  return `<div class="ak akg-${G.g}">${head}${akLvlHTML(G)}${s.win?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`:''}${A.view(G.data,s)}</div>`}
+  const sq=G.seq?`<div class="ak-seq">${G.seq.map((x,n)=>`<span class="${n<(G.sk||0)?'done':n===(G.sk||0)?'on':''}">${n+1}</span>`).join('')}<b>Übung ${(G.sk||0)+1} von ${G.seq.length}</b></div>`:'';
+  return `<div class="ak akg-${G.g}">${sq}${head}${akLvlHTML(G)}${s.win?(G.seq&&(G.sk||0)<G.seq.length-1?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>Gleich geht es weiter mit Übung ${(G.sk||0)+2} …</p></div></div>`:`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(G.seq?'Alle '+G.seq.length+' Übungen geschafft. Stark!':s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`):''}${A.view(G.data,s)}</div>`}
 VIEWS.akt=()=>akHTML();
 /* --- Avatar-Shop: Sterne aus Übungen gegen Kleidung und Schmuck tauschen; Level zählt alle je verdienten Sterne --- */
 VIEWS.shop=()=>{if(S.role!=='student')return '<div class="empty">Den Shop gibt es für Schülerinnen und Schüler.</div>';const own=S.owned||[],bal=starBal(),a=avParse(S.av),W=a.w||{},cat=V.shc||'hat';
@@ -4276,7 +4283,8 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
     ${rdProfile()}<section class="panel" id="me-tt" style="margin-top:16px;scroll-margin-top:80px">${weekView()}</section><div style="margin-top:16px">${splitPanel(false)}</div>`};
 document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.cw;if(!k||!AK.st)return;const v=e.target.value.toUpperCase().replace(/[^A-ZÄÖÜ]/g,'').slice(-1);e.target.value=v;AK.st.v[k]=v;AK.st.chk=false;
   if(v){const [r,c]=k.split(',').map(Number);const nx=document.querySelector(`[data-cw="${r},${c+1}"]`)||document.querySelector(`[data-cw="${r+1},${c}"]`);if(nx)nx.focus()}});
-function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}if(G.mt)mtDone(G.eid,AK.st,G.data);else if(G.eid)ubDoneMark(G.eid,G.ei);liveWin(G.at)}render()}
+function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}if(G.mt)mtDone(G.eid,AK.st,G.data);else if(G.eid)ubDoneMark(G.eid,G.ei);
+    const k=G.sk||0;if(G.seq&&k<G.seq.length-1){const at=G.at;setTimeout(()=>{if(!AK.G||AK.G.at!==at||(AK.G.sk||0)!==k)return;AK.G={...G.seq[k+1],at,seq:G.seq,sk:k+1};AK.st=AKT[AK.G.g].init(AK.G.data);SND.change&&SND.change();render();window.scrollTo(0,0)},1800)}else liveWin(G.at)}render()}
 
 /* --- Lehrer-Stundenplan --- */
 function ttDefault(){const t={};WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c:'7bG'}}));return t}
@@ -6355,7 +6363,9 @@ document.addEventListener('click',e=>{
     case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id];p.tool=d.t?toolDefaults(d.t,p,L):null;
       if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render();if(d.t==='heftlink'||d.t==='ueb')tpOpen(+d.i,d.t==='ueb'?'ueb':'heft')}break}
     case 'tp-open':tpOpen(+d.i,d.k);break;
-    case 'tp-set':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;p.tool.eid=d.eid;if(d.ui!=null)p.tool.ui=+d.ui;save();$('#ov').hidden=true;render();break}
+    case 'tp-set':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;
+      if(p.tool.id==='ueb'&&d.ui!=null){const T=p.tool,A=ubSeq(T).slice(),q=A.findIndex(x=>x.eid===d.eid&&x.ui===+d.ui);if(q>=0)A.splice(q,1);else A.push({eid:d.eid,ui:+d.ui});T.list=A;T.eid=A[0]?A[0].eid:'';T.ui=A[0]?A[0].ui:0;save();render();tpOpen(+d.i,'ueb');break}
+      p.tool.eid=d.eid;if(d.ui!=null)p.tool.ui=+d.ui;save();$('#ov').hidden=true;render();break}
     case 'present':go('present');break;
     case 'pgame':gameLive(d.g,d.s);go(d.g,{s:d.s,back:'present'});break;
     case 't-game-end':gameLive(null);render();break;
