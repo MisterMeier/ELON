@@ -1841,7 +1841,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1620';let verTold=false;
+const BUILD='20261012-1622';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3418,6 +3418,7 @@ VIEWS.library=()=>{
   const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Bibliothek</h1><span class="chip">${LIB.items.length} Materialien</span></div>
   <div class="priv">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
+  ${S.role==='teacher'?arcHTML():''}
   <section class="panel au-med"><button class="au-sum" data-act="au-open" aria-expanded="${V.am?'true':'false'}"><span class="label">🔊 Audio-Mediathek · Akustische Signale</span><span class="muted">${V.am?'▲':'▼'}</span></button>
     ${V.am?`<p class="muted" style="font-weight:700;margin-top:6px">Geräusche für den Unterricht. In der Planung legst du für jede Phase ein Signal fest, das beim Start der Phase erklingt. Alle Geräusche sind selbst erzeugt und frei nutzbar.</p>${audHTML()}`:''}</section>
   <div class="libbar">
@@ -5743,6 +5744,54 @@ async function eloKI(kind,topic){if(!ELO_KI.on||!CLOUD)return null;try{const sb=
 // Quali-Trainer (ab Jgst. 9): Datenmodell für Prüfungsaufgaben nach Fach und Teilbereich, Inhalte folgen
 const QUALI={M:{name:'Mathematik',teile:['Teil A ohne Taschenrechner','Teil B mit Taschenrechner']},D:{name:'Deutsch',teile:['Sprachbetrachtung','Rechtschreiben','Text verfassen','Lesen']},E:{name:'Englisch',teile:['Listening','Reading','Writing','Speaking']}},QUALI_TASKS=[];// {s,teil,jahr,nr,text,loesung}
 const jgst=()=>{const m=String(className()||'').match(/(\d{1,2})/);return m?+m[1]:0};
+/* ---------- Stunden-Archiv: Stunden als Datei auf dem eigenen Computer sichern und wieder einspielen ----------
+   Die Datei trägt eine Formatnummer (fv). Neuere ELIO-Versionen lesen ältere Dateien immer und bauen sie beim Einspielen um. */
+const ARC_FV=1,ARC_MAX=40e6;let ARC={msg:'',err:0,busy:0};
+function arcRefs(L){const img=new Set(),mat=new Set(),eid=new Set();const bg=b=>{if(b&&b!=='none'&&!SL_BG[b])img.add(b)};
+  (L.phases||[]).forEach(p=>{const t=p.tool||{};bg(t.bg);[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;bg(sl.bg);(sl.imgs||[]).forEach(x=>x&&x.id&&img.add(x.id))});
+    (p.mats||[]).forEach(m=>{const id=typeof m==='string'?m:m&&m.id;if(id)mat.add(id)});if(t.eid)eid.add(t.eid);(t.list||[]).forEach(x=>x&&x.eid&&eid.add(x.eid))});return {img,mat,eid}}
+const b64blob=async b=>{const u=new Uint8Array(await b.arrayBuffer());let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s)};
+async function arcMake(list,name){ARC.busy=1;ARC.msg='Archiv wird gepackt …';ARC.err=0;render();
+  try{const files={},heft={};let skip=0,size=0;
+    for(const L0 of list){const r=arcRefs(L0);for(const id of [...r.img,...r.mat]){if(files[id])continue;const m=libById(id);if(!m)continue;
+        if(m.kind==='link'){files[id]={meta:m};continue}const b=await idb('blob','readonly',st=>st.get(id));if(!b)continue;
+        if(size+b.size>ARC_MAX){skip++;files[id]={meta:m,big:1};continue}size+=b.size;files[id]={meta:m,data:await b64blob(b)}}
+      r.eid.forEach(id=>{const e=(TD.heft||[]).find(x=>x.id===id);if(e)heft[id]=clone(e)})}
+    const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes'].forEach(k=>delete d[k]);return d});
+    const doc={elio:'stunden',fv:ARC_FV,build:typeof BUILD!=='undefined'?BUILD:'',at:new Date().toISOString(),lessons:lessonsOut,heft,files};
+    dl(new Blob([JSON.stringify(doc)],{type:'application/json'}),name);
+    ARC.msg=`${list.length} Stunde${list.length===1?'':'n'} gesichert${Object.keys(files).length?' mit '+Object.keys(files).length+(Object.keys(files).length>1?' eigenen Dateien':' eigenen Datei'):''}. Leg die Datei in deinen Unterrichtsordner.`+(skip?` ${skip} sehr große Datei${skip>1?'en sind':' ist'} nicht im Archiv (zusammen über 40 MB), sie stehen weiter in deiner Bibliothek.`:'')}
+  catch(e){ARC.msg='Sichern hat nicht geklappt: '+(e.message||e);ARC.err=1}ARC.busy=0;render()}
+const arcName=t=>'ELIO-'+String(t).replace(/[^\wäöüÄÖÜß-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,60)+'-'+new Date().toISOString().slice(0,10)+'.elio.json';
+// Ältere Archiv-Formate auf den aktuellen Stand bringen (jede neue Formatnummer bekommt hier einen Schritt)
+const ARC_UP={};
+function arcUpgrade(doc){let v=+doc.fv||1;while(v<ARC_FV){if(ARC_UP[v])doc=ARC_UP[v](doc);v++}doc.fv=ARC_FV;return doc}
+const arcSig=L=>strHash(JSON.stringify([L.title,L.subject,(L.phases||[]).map(p=>[p.name,+p.min||0,p.tool&&p.tool.id])]));
+async function arcImport(file){ARC.busy=1;ARC.msg='Archiv wird eingelesen …';ARC.err=0;render();
+  try{if(file.size>200e6)throw new Error('Die Datei ist zu groß.');let doc=JSON.parse(await file.text());
+    if(!doc||doc.elio!=='stunden'||!Array.isArray(doc.lessons))throw new Error('Das ist keine ELIO-Archivdatei.');
+    if(+doc.fv>ARC_FV)throw new Error('Diese Datei kommt aus einer neueren ELIO-Version. Lade die Seite neu und versuch es dann noch einmal.');
+    doc=arcUpgrade(doc);let nf=0;
+    for(const [id,f] of Object.entries(doc.files||{})){if(!/^[\w-]{3,40}$/.test(id)||libById(id)||!f||!f.meta)continue;const m=f.meta,meta={id,kind:m.kind==='link'?'link':'file',name:String(m.name||'Datei').slice(0,200),mime:String(m.mime||''),size:+m.size||0,subject:SUBJECTS[m.subject]?m.subject:'',added:Date.now(),...(m.kind==='link'&&/^https?:\/\//.test(m.url||'')?{url:String(m.url)}:{})};
+      if(meta.kind==='file'){if(!f.data)continue;const bin=atob(f.data),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);await idb('blob','readwrite',st=>st.put(new Blob([u],{type:meta.mime}),id))}
+      await idb('meta','readwrite',st=>st.put(meta));nf++}
+    // Hefteinträge, auf die Übungen zeigen: vorhandenen gleichen Eintrag nehmen, sonst den aus dem Archiv anlegen
+    const emap={};TD.heft=TD.heft||[];for(const [id,e] of Object.entries(doc.heft||{})){if(!e||typeof e!=='object')continue;
+      const same=TD.heft.find(x=>x.id===id)||TD.heft.find(x=>x.title===e.title&&(x.s||x.subj)===(e.s||e.subj));
+      if(same)emap[id]=same.id;else{const ne={...clone(e),id:'arc-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)};TD.heft.push(ne);emap[id]=ne.id}}
+    const have=new Set(lessons().map(arcSig));let n=0,dup=0;
+    doc.lessons.forEach(L0=>{if(!L0||!Array.isArray(L0.phases))return;if(have.has(arcSig(L0))){dup++;return}const L=clone(L0);L.id=lid();['owner','shared','cid'].forEach(k=>delete L[k]);if(!SUBJECTS[L.subject])L.subject=Object.keys(SUBJECTS)[0];L.title=String(L.title||'Stunde').slice(0,160);
+      L.phases.forEach(p=>{const t=p.tool;if(!t)return;if(t.eid&&emap[t.eid])t.eid=emap[t.eid];(t.list||[]).forEach(x=>{if(x&&emap[x.eid])x.eid=emap[x.eid]})});
+      phNorm(L);lessons().push(L);have.add(arcSig(L));n++});
+    save();tsave();await libLoad();
+    ARC.msg=`${n} Stunde${n===1?'':'n'} übernommen${nf?', '+nf+' Datei'+(nf>1?'en':'')+' in die Bibliothek gelegt':''}${dup?'. '+dup+' Stunde'+(dup>1?'n waren':' war')+' schon da und '+(dup>1?'wurden':'wurde')+' übersprungen':''}. Du findest sie unter „Meine Stunden“.`}
+  catch(e){ARC.msg=e instanceof SyntaxError?'Die Datei ist beschädigt oder keine ELIO-Archivdatei.':(e.message||String(e));ARC.err=1}ARC.busy=0;render()}
+function arcHTML(){const L=lessons(),subs=[...new Set(L.map(x=>x.subject))].filter(k=>SUBJECTS[k]);
+  return `<section class="panel arc"><span class="label">🗂️ Stunden-Archiv</span>
+    <p class="muted" style="font-weight:700;margin:4px 0 10px">Sichere deine Stunden als Datei auf deinem Computer, zum Beispiel für das nächste Mal in dieser Jahrgangsstufe. Folien, Werkzeuge, Übungen und eigene Bilder sind mit drin. Auch neuere ELIO-Versionen lesen die Datei.</p>
+    <div class="row"><button class="btn pri" data-act="arc-all" ${L.length&&!ARC.busy?'':'disabled'}>Alle ${L.length} Stunden sichern</button>${subs.length>1?`<select id="arc-subj" aria-label="Fach" style="width:auto;flex:none">${subs.map(k=>`<option value="${k}">${esc(SUBJECTS[k].name)} · ${L.filter(x=>x.subject===k).length}</option>`).join('')}</select><button class="btn" data-act="arc-subj" ${ARC.busy?'disabled':''}>Nur dieses Fach sichern</button>`:''}
+      <label class="btn" style="cursor:pointer">Archiv einspielen<input type="file" id="arc-file" accept=".json,application/json" hidden></label>${bxOk()?'<button class="btn" data-act="bx-open">Mit Kollegen teilen: Stundenbörse</button>':''}</div>
+    ${ARC.msg?`<p class="${ARC.err?'err':'saved'}" style="margin-top:8px">${esc(ARC.msg)}</p>`:''}</section>`}
 /* ---------- Stundenbörse: Stunden als Kopie teilen (an ein Kürzel oder in die Börse der Schule). Nur Unterrichtsmaterial. ---------- */
 let BX={tab:'in',rows:null,busy:false,msg:'',f:{}};
 document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.lvl;if(k==null)return;TD.lvl=TD.lvl||{};if(e.target.value)TD.lvl[k]=e.target.value;else delete TD.lvl[k];tsave();if(CS)pushCS()});
@@ -5795,13 +5844,13 @@ VIEWS.boerse=()=>{const uid=Cloud.user&&Cloud.user.id;
       ${r.lp?`<p class="bx-lp"><b>Lehrplan:</b> ${esc(r.lp)}</p>`:''}${r.note?`<p>${esc(r.note)}</p>`:''}</article>`).join('')||`<div class="empty">${{in:'Noch nichts mit dir geteilt.',pool:'In der Börse deiner Schule liegt noch keine passende Stunde.',mine:'Du hast noch nichts geteilt.'}[cur[0]]}</div>`}</div>`};
 VIEWS.lessons=()=>{
   const list=lessons();
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><div class="row">${bxOk()?`<button class="btn" data-act="bx-open">Stundenbörse</button>`:''}<button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div></div>
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><div class="row">${bxOk()?`<button class="btn" data-act="bx-open">Stundenbörse</button>`:''}<button class="btn" data-act="arc-go">🗂️ Archiv</button><button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div></div>
   <div class="lesson-list">${list.map(L=>`<article class="lcard s-${L.subject}"><div class="row" style="justify-content:space-between">
       <div class="row">${badge(L.subject)}<div><h2>${esc(L.title)}</h2><span class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten${L.from?' · '+esc(L.from):''}</span></div></div>
-      <div class="row"><button class="btn ok" data-act="l-start" data-id="${L.id}">An der Tafel starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-dup" data-id="${L.id}">Kopieren</button>${bxOk()&&(!L.owner||!Cloud.user||L.owner===Cloud.user.id)?`<button class="btn sm" data-act="bx-share" data-id="${L.id}">Teilen</button>`:''}
+      <div class="row"><button class="btn ok" data-act="l-start" data-id="${L.id}">An der Tafel starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-dup" data-id="${L.id}">Kopieren</button><button class="btn sm" data-act="arc-one" data-id="${L.id}" title="Als Datei auf dem Computer sichern">💾 Sichern</button>${bxOk()&&(!L.owner||!Cloud.user||L.owner===Cloud.user.id)?`<button class="btn sm" data-act="bx-share" data-id="${L.id}">Teilen</button>`:''}
       ${V.del===L.id?`<button class="btn sm red" data-act="l-del-yes" data-id="${L.id}">Wirklich löschen</button><button class="btn sm" data-act="l-del-no">Abbrechen</button>`:`<button class="btn sm" data-act="l-del" data-id="${L.id}">Löschen</button>`}</div></div>
       <div class="strip">${L.phases.map((p,i)=>`<span class="chip">${i+1}. ${esc(p.name)} · ${+p.min||0} min</span>`).join('')}</div></article>`).join('')||'<div class="empty">Noch keine Stunden. Leg die erste aus dem Gerüst an.</div>'}</div>
-  <p class="muted" style="margin-top:14px;font-size:.9rem">Die Stunden sind auf diesem Gerät gespeichert. Das Gerüst ist vorläufig und wird an deine Referendariats-Vorlage angepasst.</p>`;
+  <p class="muted" style="margin-top:14px;font-size:.9rem">Die Stunden sind auf diesem Gerät gespeichert. Mit „💾 Sichern“ oder im Archiv der Bibliothek legst du sie zusätzlich als Datei auf deinem Computer ab.</p>`;
 };
 /* Qualitäts-Check einer geplanten Stunde: nach dem Bewertungsbogen des Seminars 35.1 (bayerisches Qualitätstableau, Modul A)
    und den Merkmalen guten Mathematikunterrichts (PIK AS). Nur Hinweise aus der Planung, keine Bewertung. */
@@ -5952,6 +6001,7 @@ document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
   const t=e.target;
+  if(t.id==='arc-file'&&t.files&&t.files.length){const f=t.files[0];t.value='';arcImport(f);return}
   if(t.id==='lib-file'&&t.files&&t.files.length){const fs=[...t.files];t.value='';libAddFiles(fs,$('#lib-subj').value);return}
   if(t.dataset&&t.dataset.mat!=null&&V.name==='lesson-edit'&&t.value){const L=lessonById(V.id),p=L&&L.phases[+t.dataset.mat];if(p){p.mats=p.mats||[];if(!p.mats.includes(t.value))p.mats.push(t.value);save();render()}}
 });
@@ -6019,6 +6069,10 @@ document.addEventListener('click',e=>{
     case 'l-new':{const L=newLessonFrom(curSubj()||'M',45,'Neue Stunde');go('lesson-edit',{id:L.id});break}
     case 'l-edit':{const o=$('#ov');if(o)o.hidden=true;go('lesson-edit',{id:d.id});break}
     case 'bx-open':BX.rows=null;BX.msg='';go('boerse');break;
+    case 'arc-all':arcMake(lessons(),arcName('alle-Stunden'));break;
+    case 'arc-subj':{const k=$('#arc-subj')&&$('#arc-subj').value;if(SUBJECTS[k])arcMake(lessons().filter(x=>x.subject===k),arcName(SUBJECTS[k].name));break}
+    case 'arc-one':{const L=lessonById(d.id);if(L)arcMake([L],arcName(L.title||'Stunde'));break}
+    case 'arc-go':go('library');break;
     case 'bx-share':BX.f={scope:'person'};BX.msg='';go('boerse',{share:d.id});break;
     case 'bx-back':BX.msg='';go('lessons');break;
     case 'bx-tab':BX.tab=d.t;render();break;
