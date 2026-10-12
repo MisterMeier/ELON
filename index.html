@@ -471,6 +471,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .mood small{font-size:.75rem;font-weight:800;color:var(--muted)}
 .mood.on{border-color:var(--green);background:var(--ok-bg)}
 .lesson-list{display:grid;gap:12px}
+.im{margin:12px 0}.im textarea{width:100%;font-family:inherit}.im-vn{display:flex;gap:8px;align-items:center;font-weight:700;margin:8px 0}.im-vn input{width:20px;height:20px}.im-info{color:#78350f;background:#fffbeb;border-left:4px solid #f59e0b;padding:6px 10px;border-radius:6px}
+.im-bad td{background:#fff7ed}.im-bad b{color:#b45309}.im-chip{display:block;color:#4f46e5;font-weight:700}.im-next{background:#eef2ff;border:2px solid #4f46e5;border-radius:12px;padding:10px 14px;margin:8px 0;color:#1e3a8a}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
 .bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
@@ -1808,7 +1810,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-0352';let verTold=false;
+const BUILD='20261012-0354';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2308,7 +2310,7 @@ function timerLeft(t,off=0){if(!t)return 0;if(!t.run)return t.left;return Math.m
 let CS=null,ROSTER={},TALLY={};
 // Schülerbezogene Lehrerdaten gehören immer zu einer Klasse: Spitznamen, Avatare, Beobachtungen, Teams.
 // Oben in TD liegen nur die Daten der aktiven Klasse, die anderen Klassen warten in TD.cd[Klasse].
-const TD_PER=['nicks','avs','obs','teams'];let ROSTER_CLS=null;
+const TD_PER=['nicks','avs','obs','teams','roster'];let ROSTER_CLS=null;
 function tdCls(){if(!TD||S.role!=='teacher')return;const now=S.cls||'-';TD.cd=TD.cd||{};
   if(TD._cls===undefined){TD._cls=now;return}
   if(TD._cls===now)return;const old={};TD_PER.forEach(k=>{old[k]=TD[k]||{}});TD.cd[TD._cls]=old;
@@ -5188,19 +5190,47 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
       <td class="row" style="gap:6px">${r?`<button class="btn sm" data-act="zg-pin" data-id="${c.id}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>${V.zgDel===k?`<button class="btn sm red" data-act="zg-del" data-id="${c.id}" data-n="${k}">Wirklich löschen</button>`:`<button class="btn sm" data-act="zg-del-ask" data-n="${k}">Löschen</button>`}`:`<button class="btn sm" data-act="zg-one" data-id="${c.id}" data-n="${k}" ${ZG.busy?'disabled':''}>Erzeugen</button>`}</td></tr>`}).join('')}</tbody></table></div>
   <p class="muted" style="font-size:.85rem;margin-top:8px">Neue PIN: Die alte Sicherung des Kindes auf dem Server wird gelöscht. Sein iPad lädt beim nächsten Anmelden wieder alles hoch, was es noch hat.</p>`};
 // Übersicht aller SuS der Klasse
+/* ---------- Klassenliste importieren: einfügen oder CSV (z. B. Export aus ASV/Schulmanager). Bleibt im Lehrer-Tresor auf diesem Gerät. ---------- */
+const IM_COL=[['nr',/^(nr|nummer|lfd|no|#)/i],['vn',/vorname|first/i],['nick',/kürzel|kuerzel|fantasie|nick|spitz|name|pseudo/i],['l1',/sprache|erstsprache|herkunft|language/i],['grp',/gruppe|group|kurs/i]];
+function imLang(v){v=String(v||'').trim().toLowerCase();if(!v)return '';const L=LANGS.find(([c,n])=>c===v||n.toLowerCase()===v||n.toLowerCase().startsWith(v)||v.startsWith(n.toLowerCase().slice(0,5)));return L?L[0]:null}
+function imParse(txt,size,vnOk){const lines=String(txt||'').replace(/\r/g,'').split('\n').filter(l=>l.trim());if(!lines.length)return {rows:[],cols:[],info:[]};
+  const sep=['\t',';',','].map(c=>[c,lines.slice(0,5).reduce((a,l)=>a+l.split(c).length-1,0)]).sort((a,b)=>b[1]-a[1])[0];const sp=sep[1]?sep[0]:null;
+  const cut=l=>(sp?l.split(sp):[l]).map(x=>x.trim().replace(/^"(.*)"$/,'$1').trim());
+  let head=cut(lines[0]),cols=null;const isHead=head.some(h=>IM_COL.some(([,re])=>re.test(h)))&&!/^\d+$/.test(head[0]);
+  if(isHead){cols=head.map(h=>{const m=IM_COL.find(([,re])=>re.test(h));return m?m[0]:''});lines.shift()}
+  else{const f=cut(lines[0]);cols=/^\d+$/.test(f[0])?['nr','nick','l1','grp']:['nick','l1','grp']}
+  const info=[];if(cols.includes('vn')&&!vnOk)info.push('Die Spalte „Vorname“ wird nicht übernommen. Echte Vornamen erst nach der Freigabe durch die Schulleitung.');
+  const seen={},rows=lines.map((l,i)=>{const v=cut(l),o={line:i+1+(isHead?1:0),errs:[],warns:[]};cols.forEach((c,j)=>{if(c&&o[c]==null)o[c]=v[j]||''});
+    if(!cols.includes('nr'))o.nr=String(i+1);const n=+o.nr;
+    if(!/^\d+$/.test(String(o.nr||'')))o.errs.push('Nummer fehlt');else if(n<1||n>40)o.errs.push('Nummer muss zwischen 1 und 40 liegen');else if(n>size)o.errs.push(`Nummer ${n} ist größer als die Klasse (${size} Kinder)`);
+    if(seen[n])o.errs.push(`Nummer ${n} doppelt (auch Zeile ${seen[n]})`);else seen[n]=o.line;o.nr=n;
+    if(o.nick){const c=cleanNick(o.nick);if(c!==o.nick.trim())o.warns.push(c?`Name gekürzt zu „${c}“`:'Name enthält nur Sonderzeichen');o.nick=c}
+    if(o.l1){const c=imLang(o.l1);if(c===null){o.warns.push(`Sprache „${o.l1}“ unbekannt, bleibt leer`);o.l1=''}else o.l1=c}
+    o.grp=String(o.grp||'').slice(0,20);o.vn=vnOk?cleanNick(o.vn||''):'';return o});
+  return {rows,cols,info}}
+function imApply(rows){let n=0;TD.roster=TD.roster||{};rows.filter(r=>!r.errs.length).forEach(r=>{const nm=r.vn||r.nick;if(nm)TD.nicks[r.nr]=nm;const R=TD.roster[r.nr]=Object.assign({},TD.roster[r.nr]);if(r.l1)R.l1=r.l1;if(r.grp)R.grp=r.grp;n++});tsave();if(CS)pushCS();return n}
+function imHTML(){const I=V.imp,size=S.classSize||24,P=imParse(I.txt,size,!!TD.vnOk),bad=P.rows.filter(r=>r.errs.length).length,ok=P.rows.length-bad;
+  return `<section class="panel im"><div class="row" style="justify-content:space-between"><h2>Klassenliste importieren</h2><button class="btn sm" data-act="im-x">Schließen</button></div>
+    <p class="muted">Füge die Liste ein oder lade eine CSV-Datei (Excel: „Speichern unter → CSV“). Eine Zeile pro Kind: <b>Nummer; Kürzel oder Fantasiename; Erstsprache; Gruppe</b>. Nur Nummer ist Pflicht. Die Liste bleibt verschlüsselt auf diesem Gerät.</p>
+    <div class="row" style="gap:8px;margin:8px 0"><label class="btn sm" style="cursor:pointer">CSV-Datei wählen<input type="file" id="im-file" accept=".csv,.txt,text/csv,text/plain" hidden></label><button class="btn sm" data-act="im-ex">Beispiel einfügen</button></div>
+    <textarea id="im-t" rows="6" placeholder="1;Flinker Kapitän;Türkisch;A&#10;2;Starker Panda;Deutsch;B">${esc(I.txt||'')}</textarea>
+    <label class="im-vn"><input type="checkbox" data-act="im-vn" ${TD.vnOk?'checked':''}> Die Schulleitung hat echte Vornamen freigegeben (sonst nur Kürzel/Fantasienamen)</label>
+    ${P.info.map(t=>`<p class="im-info">${esc(t)}</p>`).join('')}
+    ${P.rows.length?`<div class="tbl"><table><thead><tr><th>Zeile</th><th>Nr.</th><th>Name</th><th>Erstsprache</th><th>Gruppe</th><th>Hinweis</th></tr></thead><tbody>${P.rows.map(r=>`<tr class="${r.errs.length?'im-bad':''}"><td>${r.line}</td><td>${esc(String(r.nr||''))}</td><td>${esc(r.vn||r.nick||'–')}</td><td>${r.l1?esc((LANGS.find(l=>l[0]===r.l1)||[,''])[1]):'–'}</td><td>${esc(r.grp||'–')}</td><td>${[...r.errs.map(e=>`<b>${esc(e)}</b>`),...r.warns.map(esc)].join('<br>')||'passt'}</td></tr>`).join('')}</tbody></table></div>
+    <div class="row" style="gap:8px;margin-top:10px"><button class="btn pri" data-act="im-go" ${ok?'':'disabled'}>${ok} ${ok===1?'Kind':'Kinder'} übernehmen</button>${bad?`<span class="err">${bad} ${bad===1?'Zeile wird':'Zeilen werden'} übersprungen. Korrigiere sie oben, wenn sie mit sollen.</span>`:''}</div>`:''}</section>`}
 VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll().filter(a=>daysUntil(a.due)>=-14),cl=mbCls();
   if(cl&&CLOUD&&Cloud.sb&&(ZG.cid!==S.cls||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=S.cls;zgLoad(S.cls)}
   const st=cl?zgStore(S.cls):{},by={};(cl&&ZG.cid===S.cls?ZG.list||[]:[]).forEach(r=>by[r.nr]=r);
   const ks=Array.from({length:S.classSize||24},(_,i)=>i+1),act=ks.filter(k=>B[k]||TD.nicks[k]||(TD.obs[k]||[]).length),miss=cl?ks.filter(k=>!by[k]):[];
   const row=k=>{const P=B[k],nk=nickOf(k)||(P&&P.nick)||'',pr=P&&P.prog,r=by[k],sv=st[k],pin=r&&sv&&sv.u===r.uname?sv.p:'',seen=Math.max(P&&P.seen||0,r&&r.updated_at?Date.parse(r.updated_at)||0:0);
-    return `<tr class="${nk||P?'':'off'}">${cl?'':`<td class="nr">${k}</td>`}<td><button class="sus-n" data-act="sus-p" data-n="${k}">${(TD.avs||{})[k]!=null?avatar(TD.avs[k],34):'<span class="av-0"></span>'}<span><b>${esc(nk||'noch nicht angemeldet')}</b>${on.includes(k)?' <span class="dot" title="gerade online"></span>':''}${seen?`<small class="muted">zuletzt ${new Date(seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}</span></button></td>
+    return `<tr class="${nk||P?'':'off'}">${cl?'':`<td class="nr">${k}</td>`}<td><button class="sus-n" data-act="sus-p" data-n="${k}">${(TD.avs||{})[k]!=null?avatar(TD.avs[k],34):'<span class="av-0"></span>'}<span><b>${esc(nk||'noch nicht angemeldet')}</b>${(()=>{const R=(TD.roster||{})[k];return R&&(R.l1||R.grp)?`<small class="im-chip">${R.l1?esc((LANGS.find(l=>l[0]===R.l1)||[,''])[1]):''}${R.l1&&R.grp?' · ':''}${R.grp?'Gruppe '+esc(R.grp):''}</small>`:''})()}${on.includes(k)?' <span class="dot" title="gerade online"></span>':''}${seen?`<small class="muted">zuletzt ${new Date(seen).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}</small>`:''}</span></button></td>
       ${cl?`<td><b class="mono">${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code class="mono">${esc(pin)}</code>`:'<small class="muted">auf anderem Gerät erzeugt</small>'):''}${r&&r.blocked?' <span class="chip red">gesperrt</span>':''}</td>`:''}
       <td>${pr?`<small>✏️ ${pr.ub.length} · ⭐ ${pr.st}</small>${AU.map(a=>{const q=aufProg(a,pr);return `<small class="${q.done?'':daysUntil(a.due)<0?'err':''}" style="display:block">📚 ${esc(String(a.ch).split(' ')[0])}: ${q.done?'✓ fertig':q.d+'/'+q.n}</small>`}).join('')}`:''}</td>
       <td>${P&&P.ua?`<span class="tk-n">📥 ${P.ua}</span> `:''}${P&&P.un?`<button class="tk-n ib-go" data-act="ib-go" data-n="${k}" title="Nachricht im Postfach öffnen">💬 ${P.un}</button>`:''}${P&&P.warn?' <small class="err">⚠️ anderes Gerät</small>':''}</td>
       <td class="row" style="gap:6px;flex-wrap:nowrap">${cl?(r?`<button class="btn sm" data-act="zg-pin" data-id="${S.cls}" data-n="${k}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>${r?`<button class="btn sm ${V.rsAsk===k?'red':''}" data-act="zg-rs" data-id="${S.cls}" data-n="${k}" title="Name, Avatar und Lernstand löschen. Kürzel und PIN bleiben.">${V.rsAsk===k?'Wirklich zurücksetzen':'Zurücksetzen'}</button>`:''}`:`<button class="btn sm pri" data-act="zg-one" data-id="${S.cls}" data-n="${k}" ${ZG.busy?'disabled':''}>Zugang erzeugen</button>`):''}<button class="btn sm" data-act="sus-p" data-n="${k}">Öffnen</button></td></tr>`};
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="klassen">← Klassen</button><h1>${esc(className())}</h1></div>
-    <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
-  ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err&&cl?`<p class="err">${esc(ZG.err)}</p>`:''}
+    <div class="row">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>🔑 Zugänge für alle erzeugen (${miss.length})</button>`:''}${cl?`<button class="btn" data-act="zg-print" data-id="${S.cls}">🖨️ Zugangskarten</button>`:''}<button class="btn sm" data-act="im-open">Klassenliste importieren</button><button class="btn sm" data-act="sus-pull">↻ Aktualisieren</button></div></div>
+  ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${V.imDone&&cl?`<div class="im-next"><b>Liste übernommen.</b> Jetzt Zugänge erzeugen und die Karten drucken.<div class="row" style="gap:8px;margin-top:6px">${miss.length?`<button class="btn pri" data-act="zg-gen" data-id="${S.cls}" ${ZG.busy?'disabled':''}>Zugänge erzeugen (${miss.length})</button>`:''}<button class="btn" data-act="zg-print" data-id="${S.cls}">Zugangskarten drucken</button></div></div>`:''}${V.imp?imHTML():''}${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err&&cl?`<p class="err">${esc(ZG.err)}</p>`:''}
   <p class="muted" style="font-weight:700;margin-bottom:10px">Jedes Kind meldet sich mit Kürzel und PIN an und gibt sich dann selbst Avatar und Namen. Kürzel und PIN sind sein Zugang, in der Schule und zu Hause. Die PINs liegen nur in deinem Lehrer-Tresor auf diesem Gerät. 🔒 Lernstand, Abgaben und Chat kommen verschlüsselt an.</p>
   <div class="tbl sus-t"><table><thead><tr>${cl?'':'<th>Nr.</th>'}<th>Kind</th>${cl?'<th>Kürzel</th><th>PIN</th>':''}<th>Lernstand</th><th>Neu</th><th></th></tr></thead><tbody>${ks.map(row).join('')}</tbody></table></div>
   <p class="muted" style="font-size:.85rem;margin-top:6px">Mehr Kinder? Ändere die Zahl unter Klassen → Klasse bearbeiten. Neue PIN: Die Sicherung des Kindes auf dem Server wird gelöscht, sein Gerät lädt beim nächsten Anmelden wieder alles hoch.</p>
@@ -5492,6 +5522,10 @@ async function cttSave(key){
 }
 /* ---------- Stundenbörse: Stunden als Kopie teilen (an ein Kürzel oder in die Börse der Schule). Nur Unterrichtsmaterial. ---------- */
 let BX={tab:'in',rows:null,busy:false,msg:'',f:{}};
+document.addEventListener('input',e=>{if(e.target.id!=='im-t'||!V.imp)return;V.imp.txt=e.target.value;clearTimeout(V.imp._t);V.imp._t=setTimeout(()=>{const pos=e.target.selectionStart;render();const n=$('#im-t');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}},500)});
+document.addEventListener('change',async e=>{if(e.target.id!=='im-file'||!V.imp)return;const f=e.target.files&&e.target.files[0];if(!f)return;
+  if(/\.xlsx?$/i.test(f.name)){V.msg='Excel-Dateien bitte zuerst als CSV speichern (Datei → Speichern unter → CSV).';render();return}
+  const buf=await f.arrayBuffer();let t=new TextDecoder('utf-8').decode(buf);if(t.includes('\uFFFD'))t=new TextDecoder('windows-1252').decode(buf);V.imp.txt=t.replace(/^\uFEFF/,'').slice(0,20000);render()});
 document.addEventListener('input',e=>{const k=e.target&&e.target.dataset&&e.target.dataset.bxf;if(!k)return;BX.fl=BX.fl||{};BX.fl[k]=e.target.value;const id=e.target.id,pos=e.target.selectionStart;render();const n=$('#'+id);if(n&&n.focus){n.focus();try{if(pos!=null)n.setSelectionRange(pos,pos)}catch(x){}}});
 const bxForm=()=>{const g=id=>{const e=$('#'+id);return e?e.value:undefined},o={};[['to','bx-to'],['sch','bx-sch'],['gr','bx-gr'],['top','bx-top'],['lp','bx-lp'],['note','bx-note']].forEach(([k,id])=>{const v=g(id);if(v!==undefined)o[k]=v});return o};
 const bxOk=()=>CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'&&S.role==='teacher';
@@ -5946,6 +5980,11 @@ document.addEventListener('click',e=>{
     case 'todo-del':TD.todo=(TD.todo||[]).filter(y=>y.id!==d.id);tsave();render();break;
     case 'todo-clr':TD.todo=(TD.todo||[]).filter(y=>!y.done);tsave();render();break;
     case 'sus-p':go('obs-p',{n:+d.n,otab:'stat',from:'sus'});break;
+    case 'im-open':V.imp={txt:''};V.imDone=false;render();break;
+    case 'im-x':V.imp=null;render();break;
+    case 'im-ex':V.imp.txt='Nr;Kürzel;Erstsprache;Gruppe\n1;Flinker Kapitän;Türkisch;A\n2;Starker Panda;Deutsch;B\n3;Schneller Ninja;Ukrainisch;A';render();break;
+    case 'im-vn':TD.vnOk=!TD.vnOk;tsave();render();break;
+    case 'im-go':{const I=V.imp;if(!I)break;const n=imApply(imParse(I.txt,S.classSize||24,!!TD.vnOk).rows);V.imp=null;V.imDone=true;V.msg=n+(n===1?' Kind':' Kinder')+' aus der Liste übernommen.';render();break}
     case 'sus-pull':mbPull(true);break;
     case 'chat':go('chat');mbPull();break;
     case 'chat-send':{const el=$('#chat-x'),t=(el&&el.value||'').trim();if(!t)break;if(S.role==='teacher')susSend(V.n,{k:'chat',t:t.slice(0,2000)});else chatSend(t.slice(0,2000));render();setTimeout(()=>{const x=$('#chat-x');if(x)x.focus()},0);break}
