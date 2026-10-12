@@ -919,7 +919,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 span.pill{cursor:default}.pill-sel{border:1.5px solid #c7d2fe;border-radius:999px;padding:5px 10px;font:inherit;font-size:.85rem;font-weight:700;color:#1e3a8a;background:#fff;width:auto;max-width:300px}
 .ph-pan .ph-pan{border:0;padding:0;background:none;margin:0}.ph-pan .lvl3{display:flex;flex-wrap:wrap;gap:6px}.ph-pan .lvl3 button{border-radius:999px;padding:5px 12px;border-width:1.5px}.ph-pan .lvl3 button small{display:none}.ph-pan .lvl3 button.on{background:#4f46e5;color:#fff;border-color:#4f46e5}
 .ph-pan{background:#f8faff;border:1.5px solid #e0e7ff;border-radius:12px;padding:10px 12px;margin-top:6px}.ph-pan .lgrid{margin-top:0!important}.ph-pan .lvl3 button{padding:6px 10px}.ph-pan .pick-row{margin-top:0}
-.ph-mini{display:flex;gap:8px;align-items:center;font-size:.8rem;margin-top:6px}.sl-form{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center}.sl-form .ph-mini select{max-width:210px;padding:5px 8px}.sl-form .ph-mini input[type=text]{max-width:220px;padding:5px 8px}.ph-mini.cb input{width:auto}.sl-txt{margin-top:8px}.sl-txt summary{font-weight:800;color:#1e3a8a;cursor:pointer;font-size:.9rem}
+.ph-mini{display:flex;gap:8px;align-items:center;font-size:.8rem;margin-top:6px}.sl-form{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center}.sl-form .ph-mini select{max-width:210px;padding:5px 8px}.sl-form .ph-mini input[type=text]{max-width:220px;padding:5px 8px}.ph-mini.cb input{width:auto}.sl-txt{margin-top:8px}.bb-box{border:2px solid #4f46e5;border-radius:14px;padding:10px 12px;margin:6px 0 10px;background:#f5f6ff}.bb-head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.bb-head b{color:#1e3a8a}.bb-sub{font-size:.8rem;color:#475569}.bb-kinds{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.bb-line{display:flex;gap:8px;align-items:flex-start}.bb-line textarea{flex:1;min-height:44px;resize:vertical}.bb-err{color:#b45309;font-weight:700;margin:8px 0 0;font-size:.9rem}.bb-res{margin-top:10px}.bb-pv{display:block;width:100%;max-width:560px;aspect-ratio:16/9;object-fit:contain;background:#fff;border:1px solid #e5e7eb;border-radius:10px}.bb-txt{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:8px 12px;max-width:560px}.bb-txt p{margin:4px 0}.bb-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.bb-n{font-size:.8rem;color:#475569}.sl-txt summary{font-weight:800;color:#1e3a8a;cursor:pointer;font-size:.9rem}
 .sl-ed-big .lgrid{display:block}.ph-mini input,.ph-mini select{flex:1;max-width:420px;padding:6px 10px}
 .tool-box{margin-top:14px;padding-top:10px;border-top:2px dashed #c7d2fe}
 .tp-list{display:grid;gap:8px;max-height:60vh;overflow:auto;margin-top:8px}.tp-ch{border:1.5px solid #c7d2fe;border-radius:12px;padding:8px 12px}.tp-ch summary{font-weight:800;color:#1e3a8a;cursor:pointer}
@@ -1868,7 +1868,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2148';let verTold=false;
+const BUILD='20261012-2157';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3459,7 +3459,7 @@ const PW_FORMS=['lg-f','lk-f','a-f','pw-f','pr-f'];
 document.addEventListener('submit',e=>{const f=e.target;if(!f||!PW_FORMS.includes(f.id))return;e.preventDefault();
   const sb=(e.submitter&&e.submitter.dataset&&e.submitter.dataset.act?e.submitter:null)||f.querySelector('[type=submit][data-act]');if(!sb||sb.disabled)return;
   const b=document.createElement('button');b.type='button';b.hidden=true;Object.assign(b.dataset,sb.dataset);b.dataset.fs='1';setTimeout(()=>{document.body.appendChild(b);b.click();b.remove()},0)});
-document.addEventListener('input',e=>{const t=e.target;if(t.id==='a-u'){t.value=cleanU(t.value);if(t.value.length===4){const p=$('#a-p');p&&p.focus()}}if(t.id==='a-p')t.value=cleanPin(t.value)});
+document.addEventListener('input',e=>{const t=e.target;if(t.id==='bb-in')BB.q=t.value;if(t.id==='a-u'){t.value=cleanU(t.value);if(t.value.length===4){const p=$('#a-p');p&&p.focus()}}if(t.id==='a-p')t.value=cleanPin(t.value)});
 ['pointerdown','keydown','touchstart'].forEach(e=>document.addEventListener(e,()=>{TDLAST=Date.now()},{passive:true,capture:true}));
 setInterval(()=>{if(S.role==='teacher'&&TDKEY&&!TDIDLE&&Date.now()-TDLAST>15*60000){TDIDLE=true;render()}},20000);
 const nickOf=k=>TD.nicks[k]||(ROSTER[k]&&ROSTER[k].nick)||'';
@@ -4141,6 +4141,41 @@ function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id]
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
+/* --- Blackbox: KI erzeugt auf Wunsch Grafiken, Animationen, Folientexte, Übungen, Dialoge (nur Lehrkraft, über den ELIO-Server, Rechenzentrum Frankfurt) --- */
+const BB={open:false,kind:'bild',busy:false,res:null,err:'',url:'',q:''};
+const BB_KINDS={bild:'Grafik oder Animation',folie:'Folientext',uebung:'Übung',dialog:'Dialog'};
+const BB_PH={bild:'Zum Beispiel: Animation, wie sich beim Distributivgesetz die Klammer auflöst',folie:'Zum Beispiel: Merksatz zu Satzgliedern für Klasse 7',uebung:'Zum Beispiel: 5 Aufgaben zum Runden auf Zehner und Hunderter',dialog:'Zum Beispiel: Buying a train ticket in London'};
+// Zweite Prüfung im Browser: alles Ausführbare und alle Links nach außen raus. Angezeigt wird das SVG ohnehin nur als <img>, da läuft kein Skript.
+function bbCleanSvg(src){try{const d=new DOMParser().parseFromString(String(src||''),'image/svg+xml'),r=d.documentElement;if(!r||r.nodeName.toLowerCase()!=='svg'||d.querySelector('parsererror'))return null;
+  r.querySelectorAll('script,foreignObject,image,iframe,embed,object,a').forEach(e=>e.remove());
+  [r,...r.querySelectorAll('*')].forEach(e=>[...e.attributes].forEach(at=>{const n=at.name.toLowerCase(),v=at.value.trim();if(n.startsWith('on')||(/href$/.test(n)&&!v.startsWith('#'))||/url\(\s*['"]?(?!#)/i.test(v)||/javascript:/i.test(v))e.removeAttribute(at.name)}));
+  r.querySelectorAll('style').forEach(e=>{e.textContent=e.textContent.replace(/@import[^;]*;?/gi,'').replace(/url\(\s*['"]?(?!#)[^)]*\)/gi,'none')});
+  if(!r.getAttribute('xmlns'))r.setAttribute('xmlns','http://www.w3.org/2000/svg');const out=new XMLSerializer().serializeToString(r);return out.length<=60000?out:null}catch(e){return null}}
+const bbTeacher=()=>CLOUD&&Cloud.user&&Cloud.prof&&['teacher','admin'].includes(Cloud.prof.role);
+function bbPanel(i,j){const r=BB.res;
+  return `<div class="bb-box"><div class="bb-head"><b>Blackbox</b><span class="bb-sub">Beschreib, was du für diese Folie brauchst. Keine Namen von Kindern eintippen.</span></div>
+    <div class="bb-kinds">${Object.entries(BB_KINDS).map(([k,n])=>`<button class="pill ${BB.kind===k?'on':''}" data-act="bb-kind" data-v="${k}">${n}</button>`).join('')}</div>
+    <div class="bb-line"><textarea id="bb-in" rows="2" maxlength="600" placeholder="${esc(BB_PH[BB.kind])}">${esc(BB.q)}</textarea><button class="btn pri" data-act="bb-go" ${BB.busy?'disabled':''}>${BB.busy?'Erzeugt …':'Erzeugen'}</button></div>
+    ${BB.err?`<p class="bb-err">${esc(BB.err)}</p>`:''}
+    ${r?`<div class="bb-res">${r.kind==='bild'?`<img class="bb-pv" src="${BB.url}" alt="Vorschau">`:`<div class="bb-txt"><b>${esc(r.title)}</b>${lines(r.text).map(x=>`<p>${esc(x)}</p>`).join('')}</div>`}
+      <div class="bb-acts"><button class="btn sm pri" data-act="bb-use" data-i="${i}" data-j="${j}">${r.kind==='bild'?'Auf die Folie legen':'In die Folie schreiben'}</button><button class="btn sm" data-act="bb-go">Nochmal</button><button class="btn sm" data-act="bb-x">Verwerfen</button>${r.n?`<span class="bb-n">Heute ${r.n} von ${r.limit}</span>`:''}</div></div>`:''}</div>`}
+async function bbGo(){const q=(($('#bb-in')||{}).value||BB.q).trim();BB.q=q;BB.err='';
+  if(q.length<3){BB.err='Schreib bitte kurz, was du brauchst.';render();return}
+  if(!bbTeacher()){BB.err='Die Blackbox braucht die Anmeldung mit deinem Lehrkraft-Konto.';render();return}
+  BB.busy=true;render();
+  try{const sb=await sbClient(),L=lessonById(V.id)||{},r=await sb.functions.invoke('blackbox',{body:{kind:BB.kind,prompt:q.slice(0,600),subj:L.subject||''}}),d=r&&r.data;
+    if(r.error||!d)BB.err='Die Blackbox ist auf dem Server noch nicht eingerichtet.';
+    else if(d.err)BB.err={nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,teacher:'Die Blackbox ist nur für Lehrkräfte.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Die Grafik kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.';
+    else if(d.kind==='bild'){const svg=bbCleanSvg(d.svg);if(!svg)BB.err='Die Grafik kam unvollständig an. Versuch es bitte nochmal.';else{if(BB.url)URL.revokeObjectURL(BB.url);BB.url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));BB.res={...d,svg}}}
+    else BB.res={kind:d.kind,title:String(d.title||''),text:String(d.text||''),n:d.n,limit:d.limit};
+  }catch(e){BB.err='Das hat gerade nicht geklappt. Ist das Internet da?'}
+  BB.busy=false;render()}
+async function bbUse(d){const r=BB.res;if(!r)return;const L=lessonById(V.id)||{},sl=slEdSlide(d);if(!sl)return;
+  if(r.kind==='bild'){const id=newId(),blob=new Blob([r.svg],{type:'image/svg+xml'});
+    try{await idb('blob','readwrite',st=>st.put(blob,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:'Blackbox: '+BB.q.slice(0,50)+'.svg',mime:'image/svg+xml',size:blob.size,subject:L.subject||'',src:'blackbox',added:Date.now()}));await libLoad()}catch(e){alert('Speichern ging nicht. Ist der Speicher voll?');return}
+    sl.imgs=sl.imgs||[];sl.imgs.push({id,x:15,y:12,w:70});V.sle={i:d.i,j:+d.j,sel:'i'+(sl.imgs.length-1)}}
+  else{if(r.title)sl.title=r.title.slice(0,200);if(r.text)sl.text=(sl.text&&r.kind!=='folie'?sl.text+'\n':'')+r.text.slice(0,4000)}
+  BB.res=null;BB.err='';save();render()}
 function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deckSlides(t),bgo=v=>Object.entries(SL_BG).map(([k,n])=>`<option value="${k}" ${k===v?'selected':''}>${n}</option>`).join('')+(LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===v?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''),f=(j,k)=>X?`ph.${String(i).slice(1)}.xs.${j}.${k}`:`ph.${i}.tool.slides.${j}.${k}`;
     const ED=V.sle&&String(V.sle.i)===String(i)?V.sle:null,free=()=>true;
     const th=`<div class="sl-strip">${SL.map((sl,j)=>`<div class="sl-th ${ED&&ED.j===j?'on':''}"><button class="sl-th-b" data-act="sl-arr" data-i="${i}" data-j="${j}" title="Im Folien-Editor öffnen"><div class="sl-pv">${slideHTML(sl,{subj:L.subject,mini:1})}</div><span class="chip">Folie ${j+1}</span></button>
@@ -4151,8 +4186,9 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
     return th+`<div class="sl-eds"><div class="sl-ed sl-ed-big"><div class="sl-bar"><b class="sl-bar-t">Folie ${j+1}</b>
       <span class="sl-grp" role="group" aria-label="Text"><span class="sl-gl">Text</span><button class="btn sm" data-act="sl-ed-txt" data-k="${ED.sel||''}" ${dis}>✏️ Schreiben</button><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="-1" ${dis} aria-label="Text kleiner">A−</button><b class="sl-pc">${txt?Math.round((Q.f||1)*100)+' %':'–'}</b><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="1" ${dis} aria-label="Text größer">A+</button>${[['l','⬅︎','Links'],['c','↔︎','Zentriert'],['r','➡︎','Rechts']].map(([a,ic,n])=>`<button class="btn sm ${txt&&al===a?'on':''}" data-act="sl-al" data-i="${i}" data-j="${j}" data-a="${a}" ${dis} title="${n}" aria-label="${n} ausrichten">${ic}</button>`).join('')}</span>
       <span class="sl-grp" role="group" aria-label="Bild"><span class="sl-gl">Bild</span><button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">🖼️ Einfügen</button>${img?`<button class="btn sm" data-act="sl-rot" data-i="${i}" data-j="${j}" data-d="-1" title="Nach links drehen" aria-label="Nach links drehen">↺</button><button class="btn sm" data-act="sl-rot" data-i="${i}" data-j="${j}" data-d="1" title="Nach rechts drehen" aria-label="Nach rechts drehen">↻</button><button class="btn sm ${ED.crop?'on':''}" data-act="sl-crop" data-i="${i}" data-j="${j}">✂️ ${ED.crop?'Fertig':'Zuschneiden'}</button>${((sl.imgs||[])[+ED.sel.slice(1)]||{}).c?`<button class="btn sm" data-act="sl-uncrop" data-i="${i}" data-j="${j}">Ganzes Bild</button>`:''}${((sl.imgs||[])[+ED.sel.slice(1)]||{}).back?`<button class="btn sm" data-act="sl-img-z" data-i="${i}" data-j="${j}" data-v="0" title="Bild über die Schrift legen">Nach vorne</button>`:`<button class="btn sm" data-act="sl-img-z" data-i="${i}" data-j="${j}" data-v="1" title="Schrift über das Bild legen">Nach hinten</button>`}<button class="btn sm red" data-act="sl-img-del" data-i="${i}" data-j="${j}">Entfernen</button>`:''}</span>
+      <span class="sl-grp" role="group" aria-label="Blackbox"><button class="btn sm ${BB.open?'on':''}" data-act="bb-open">Blackbox</button></span>
       ${ED.sel&&!img&&(sl.pos||{})[ED.sel]?`<button class="btn sm" data-act="sl-reset" data-i="${i}" data-j="${j}">↺ Standardplatz</button>`:''}<span class="spacer"></span><button class="btn sm pri" data-act="sl-done">✓ Fertig</button></div>
-      <p class="sl-hint">${hint}</p>
+      <p class="sl-hint">${hint}</p>${BB.open?bbPanel(i,j):''}
       <div class="sl-big" data-i="${i}" data-j="${j}">${slideHTML({...sl,shown:-1},{subj:L.subject,edit:1,sel:ED.sel,ed:ED.ed,crop:ED.crop})}</div>
       <div class="sl-set">
         <div class="sl-row"><span class="sl-gl">Art</span><span class="sl-v">${Object.entries(SL_LAY).map(([k,n])=>`<button class="pill ${k===(sl.layout||'std')?'on':''}" data-act="sl-lay" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}</span></div>
@@ -6496,6 +6532,11 @@ document.addEventListener('click',e=>{
     case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:'x'+d.i,j:p.xs.length-1,sel:null};save();render();break}
     case 'sl-arr':V.sle={i:d.i,j:+d.j,sel:null};render();setTimeout(()=>{const b=$('.sl-ed-big');b&&b.scrollIntoView({block:'start'})},0);break;
     case 'sl-done':V.sle=null;render();break;
+    case 'bb-open':BB.q=(($('#bb-in')||{}).value||BB.q);BB.open=!BB.open;render();break;
+    case 'bb-kind':BB.q=(($('#bb-in')||{}).value||BB.q);BB.kind=d.v;BB.err='';render();break;
+    case 'bb-go':if(!BB.busy)bbGo();break;
+    case 'bb-use':bbUse(d);break;
+    case 'bb-x':BB.res=null;BB.err='';render();break;
     case 'sl-lay':{const sl=slEdSlide(d);if(sl){sl.layout=d.v;save();render()}break}
     case 'st-atelier':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='atelier';save();render();break}
     case 'st-welt':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='welt';t.region=t.region||'uk-ie';save();render();break}
