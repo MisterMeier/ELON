@@ -775,7 +775,16 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .gl-in{display:grid;justify-items:center;gap:1cqh;padding:4cqh 4cqw}.gl-in .logo{transform:scale(.9)}.gl-k{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#bae6fd;font-size:2.6cqh}
 .gl-in h1{font-family:var(--f-display);font-size:9cqh;line-height:1.05;margin:0;color:#fff}.gl-n{font-family:var(--f-display);font-size:11cqh;color:#f59e0b;line-height:1}.gl-in p{font-weight:700;font-size:3cqh;max-width:60cqw;margin:0;color:#e0e7ff}
 .gl-star{width:1em;height:1em;vertical-align:-.12em}.gl-elo{position:absolute;right:3cqw;bottom:2cqh}
-.rt-start.st-rk{overflow:hidden}.rt-start.st-rk .in{position:relative;z-index:2;max-width:54%}
+.rt-start.st-geo{background:#f6f8fc;overflow:hidden}
+.st-geo .geo-w{position:absolute;left:1%;top:3%;bottom:3%;width:54%;z-index:1}.st-geo .geo-z{-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.st-geo .geo-c{width:100%;height:100%;display:block}
+.st-geo .in{position:absolute;right:3%;top:30%;width:41%;z-index:2;justify-items:start;gap:.4em}.st-geo .in h1{font-size:2.8em;line-height:1.05}.st-geo .in p{font-size:1.35em}.st-geo .st-items{font-size:.85em}.st-geo .hint{font-size:1.15em;margin-top:.2em}
+.st-geo .geo-cnt{position:absolute;left:28%;bottom:2.5%;transform:translateX(-50%);z-index:3;text-align:center;padding:.45em .8em;border-radius:.8em;background:#fff;box-shadow:0 .3em 1em rgba(30,58,138,.15);color:#1e3a8a;width:22em;max-width:44%}.st-geo .geo-cnt .rp-tank{margin:.1em 0 .35em}
+.geo-fl{position:absolute;right:4%;top:6%;width:40%;max-height:22%;display:flex;justify-content:center;gap:4%;z-index:2}
+.geo-f{position:relative;width:46%;max-width:16em;padding-left:.5em}.geo-pole{position:absolute;left:0;top:-.4em;width:.32em;height:150%;border-radius:.2em;background:linear-gradient(90deg,#94a3b8,#e2e8f0,#94a3b8)}.geo-pole:before{content:'';position:absolute;left:-.12em;top:-.3em;width:.56em;height:.56em;border-radius:50%;background:#cbd5e1}
+.geo-cloth{display:block;transform-origin:left center;animation:geoWave 3.2s ease-in-out var(--d) infinite;filter:drop-shadow(0 .25em .4em rgba(30,58,138,.25))}.geo-cloth svg{display:block;width:100%;height:auto;border-radius:.15em}
+@keyframes geoWave{0%,100%{transform:perspective(30em) rotateY(0) skewY(0)}50%{transform:perspective(30em) rotateY(-14deg) skewY(-2deg)}}
+@media (prefers-reduced-motion:reduce){.geo-cloth{animation:none}}
+.st-rk{overflow:hidden}.rt-start.st-rk .in{position:relative;z-index:2;max-width:54%}
 .rp-sc{position:absolute;top:0;bottom:0;left:25%;width:100%;z-index:1;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 26%);mask-image:linear-gradient(90deg,transparent 0,#000 26%)}
 .rp-sc .rp-st{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
 .rp-sc-c{position:absolute;left:62%;top:5%;width:26%;z-index:2;text-align:center;color:#1e3a8a;padding:.4em .9em;border-radius:1em;background:rgba(255,255,255,.55);backdrop-filter:blur(4px)}.rp-sc-c .rp-tank{margin:.1em 0 .3em}.rp-sc-c b{font-size:1.25em;font-weight:800}
@@ -1841,7 +1850,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1636';let verTold=false;
+const BUILD='20261012-1809';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3868,6 +3877,58 @@ function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
     ${L!=='bild'&&(sl.title||E)?`<h1 class="sl-t${ab('t')}${on('t')}${sl.title?'':' sl-ph'}" data-ph="Überschrift" data-el="t" style="${slPos(P,'t')}${fs('t')}"${ce('t')}>${esc(sl.title)}${rz('t')}</h1>`:''}
     ${L!=='bild'&&(ls.length||E)?`<div class="sl-b${ab('b')}${on('b')}${ls.length?'':' sl-ph'}" data-ph="Text (doppelt tippen zum Schreiben)" data-el="b" style="${slPos(P,'b')}${fs('b')}"${ce('b')}>${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}${rz('b')}</div>`:''}
     ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="assets/elo/elo-${sl.elo}-512.png" alt="Elo" draggable="false">${eloLids(sl.elo)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
+/* ---------- Weltkugel für die Startfolie: dreht sich, markiert das Land der Stunde. Kartendaten: Natural Earth (gemeinfrei). ----------
+   Jedes Kind, das „Bereit“ drückt, füllt den Ring um die Kugel. Sind alle bereit, dreht sie sich zum Land und zoomt hinein. */
+const GEO={d:null,p:null,raf:0};
+const GEO_R={'uk-ie':{n:'Great Britain & Ireland',c:['826','372'],ll:[-4.5,54.5],z:5.2,fl:['gb','ie']},gb:{n:'Great Britain',c:['826'],ll:[-2.5,54.5],z:5.6,fl:['gb']},ie:{n:'Ireland',c:['372'],ll:[-8,53.4],z:8,fl:['ie']},
+  us:{n:'The USA',c:['840'],ll:[-98,40],z:2.1,fl:['us']},ca:{n:'Canada',c:['124'],ll:[-98,60],z:1.8,fl:['ca']},au:{n:'Australia',c:['036'],ll:[134,-26],z:2.2,fl:['au']},
+  nz:{n:'New Zealand',c:['554'],ll:[173,-41.5],z:5,fl:['nz']},in:{n:'India',c:['356'],ll:[79,22],z:2.6,fl:['in']},za:{n:'South Africa',c:['710'],ll:[25,-29],z:3.8,fl:['za']}};
+function geoLoad(){if(!GEO.p)GEO.p=fetch('assets/geo/welt.json').then(r=>r.json()).then(d=>{GEO.d=d}).catch(()=>{GEO.p=null});return GEO.p}
+const geoEase=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+function geoDraw(cv,now){const ctx=cv.getContext('2d');if(!ctx)return;const dpr=Math.min(2,window.devicePixelRatio||1),W=Math.round(cv.clientWidth*dpr),H=Math.round(cv.clientHeight*dpr);if(!W||!H)return;
+  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
+  const R=GEO_R[cv.dataset.reg]||GEO_R['uk-ie'],p=Math.max(0,Math.min(1,+cv.dataset.p||0)),full=cv.dataset.full==='1',g=+cv.dataset.g||now,still=cv.dataset.still==='1';
+  // Drehung: im Leerlauf langsam um die Erde, dann zum Land; bei „alle bereit“ hineinzoomen
+  const spin=R.ll[0]-150+((now/1000*12)%360),fz=full?geoEase(Math.min(1,Math.max(0,(now-g)/2600))):0;let lon,lat=18;
+  if(still){lon=R.ll[0];lat=Math.max(-35,Math.min(40,R.ll[1]))}else if(!full){lon=spin;cv._from=null}
+  else{if(cv._from==null)cv._from=cv._last!=null?cv._last:spin;const dl=((R.ll[0]-cv._from)%360+540)%360-180;lon=cv._from+dl*fz;lat=18+(R.ll[1]-18)*fz}cv._last=lon;
+  const k=1+(R.z-1)*fz*.85,r0=Math.min(W,H)*.46,r=r0*k,cx=W/2,cy=H/2;
+  const l0=lon*Math.PI/180,p0=lat*Math.PI/180,sp0=Math.sin(p0),cp0=Math.cos(p0);
+  const prj=(x,y)=>{const l=x*Math.PI/180-l0,f=y*Math.PI/180,cf=Math.cos(f),sf=Math.sin(f),cc=sp0*sf+cp0*cf*Math.cos(l);let X=cf*Math.sin(l),Y=cp0*sf-sp0*cf*Math.cos(l);if(cc<0){const m=Math.hypot(X,Y)||1;X/=m;Y/=m}return [cx+X*r,cy-Y*r,cc>=0]};
+  ctx.clearRect(0,0,W,H);
+  ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,7);const gr=ctx.createRadialGradient(cx-r*.35,cy-r*.4,r*.1,cx,cy,r);gr.addColorStop(0,'#ffffff');gr.addColorStop(1,'#dbe4f5');ctx.fillStyle=gr;ctx.fill();ctx.clip();
+  // Gradnetz
+  ctx.strokeStyle='rgba(30,58,138,.13)';ctx.lineWidth=dpr*.8;
+  for(let a=-180;a<180;a+=30){ctx.beginPath();let on=false;for(let b=-90;b<=90;b+=4){const q=prj(a,b);if(q[2]){on?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);on=true}else on=false}ctx.stroke()}
+  for(let b=-60;b<=60;b+=30){ctx.beginPath();let on=false;for(let a=-180;a<=180;a+=4){const q=prj(a,b);if(q[2]){on?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);on=true}else on=false}ctx.stroke()}
+  const D=GEO.d;if(D){const ring=rg=>{let vis=false;rg.forEach((pt,i)=>{const q=prj(pt[0],pt[1]);if(q[2])vis=true;i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])});return vis};
+    const poly=P=>{ctx.beginPath();let vis=false;P.forEach(pg=>pg.forEach(rg=>{if(ring(rg))vis=true;ctx.closePath()}));return vis};
+    ctx.lineWidth=dpr*.7;ctx.strokeStyle='#ffffff';
+    for(const id in D.w){if(R.c.includes(id))continue;if(poly(D.w[id])){ctx.fillStyle='#b8c0cf';ctx.fill('evenodd');ctx.stroke()}}
+    R.c.forEach(id=>{const P=(k>1.6&&D.hi[id])||D.w[id];if(P&&poly(P)){ctx.fillStyle='#4f46e5';ctx.fill('evenodd');ctx.strokeStyle='#1e3a8a';ctx.lineWidth=dpr*1.2;ctx.stroke()}})}
+  ctx.restore();
+  // Rand und Bereit-Ring
+  ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.strokeStyle='rgba(30,58,138,.35)';ctx.lineWidth=dpr*1.5;ctx.stroke();
+  if(cv.dataset.p!=null&&!still&&fz<1){const rr=Math.min(r0*1.06,Math.min(W,H)/2-dpr*6);ctx.globalAlpha=1-fz;ctx.lineCap='round';ctx.lineWidth=dpr*9;ctx.strokeStyle='#e0e7ff';ctx.beginPath();ctx.arc(cx,cy,rr,0,7);ctx.stroke();
+    if(p>0){ctx.strokeStyle='#f59e0b';ctx.beginPath();ctx.arc(cx,cy,rr,-Math.PI/2,-Math.PI/2+Math.PI*2*p);ctx.stroke()}ctx.globalAlpha=1}}
+function geoTick(){GEO.raf=0;const cs=document.querySelectorAll('canvas.geo-c');if(!cs.length)return;if(!GEO.d){geoLoad().then(()=>{if(!GEO.raf)GEO.raf=requestAnimationFrame(geoTick)});}
+  const now=Date.now();cs.forEach(cv=>{if(cv.dataset.still==='1'&&cv._done&&cv._sig===cv.dataset.reg+cv.clientWidth&&GEO.d)return;geoDraw(cv,now);if(cv.dataset.still==='1'&&GEO.d){cv._done=1;cv._sig=cv.dataset.reg+cv.clientWidth}});
+  GEO.raf=requestAnimationFrame(geoTick)}
+function geoKick(){if(!GEO.raf)GEO.raf=requestAnimationFrame(geoTick)}
+new MutationObserver(()=>{if(document.querySelector('canvas.geo-c'))geoKick()}).observe(document.documentElement,{childList:true,subtree:true});
+// Flaggen, selbst gezeichnet
+let FLN=0;const flStar=(x,y,ro,n=5,ri=ro*.4,a0=-90)=>`<polygon points="${Array.from({length:n*2},(_,i)=>{const a=(a0+i*180/n)*Math.PI/180,q=i%2?ri:ro;return (x+q*Math.cos(a)).toFixed(2)+','+(y+q*Math.sin(a)).toFixed(2)}).join(' ')}"/>`;
+function ujack(w,h){const u='uj'+(++FLN);return `<clipPath id="${u}a"><rect width="${w}" height="${h}"/></clipPath><clipPath id="${u}b"><path d="M${w/2},${h/2}h${w/2}v${h/2}zv${h/2}h-${w/2}zh-${w/2}v-${h/2}zv-${h/2}h${w/2}z"/></clipPath><g clip-path="url(#${u}a)"><rect width="${w}" height="${h}" fill="#012169"/><path d="M0,0L${w},${h}M${w},0L0,${h}" stroke="#fff" stroke-width="${h/5}"/><path d="M0,0L${w},${h}M${w},0L0,${h}" clip-path="url(#${u}b)" stroke="#C8102E" stroke-width="${h*2/15}"/><path d="M${w/2},0v${h}M0,${h/2}h${w}" stroke="#fff" stroke-width="${h/3}"/><path d="M${w/2},0v${h}M0,${h/2}h${w}" stroke="#C8102E" stroke-width="${h/5}"/></g>`}
+const FLAGS={
+  gb:()=>`<svg viewBox="0 0 60 30">${ujack(60,30)}</svg>`,
+  ie:()=>`<svg viewBox="0 0 60 30"><rect width="20" height="30" fill="#169B62"/><rect x="20" width="20" height="30" fill="#fff"/><rect x="40" width="20" height="30" fill="#FF883E"/></svg>`,
+  us:()=>`<svg viewBox="0 0 76 40">${Array.from({length:13},(_,i)=>`<rect y="${i*40/13}" width="76" height="${40/13+.05}" fill="${i%2?'#fff':'#B22234'}"/>`).join('')}<rect width="30.4" height="${40*7/13}" fill="#3C3B6E"/><g fill="#fff">${Array.from({length:9},(_,r)=>Array.from({length:r%2?5:6},(_,c)=>flStar(2.53+(r%2?2.53:0)+c*5.06,2.15+r*2.15,.95)).join('')).join('')}</g></svg>`,
+  ca:()=>`<svg viewBox="0 0 9600 4800"><path fill="#d52b1e" d="M0 0h2400v4800H0zM7200 0h2400v4800H7200z"/><path fill="#fff" d="M2400 0h4800v4800H2400z"/><path fill="#d52b1e" d="m4890 4430-45-863a95 95 0 0 1 111-98l859 151-116-320a65 65 0 0 1 20-73l941-762-212-99a65 65 0 0 1-34-79l186-572-542 115a65 65 0 0 1-73-38l-105-247-423 454a65 65 0 0 1-111-57l204-1052-327 189a65 65 0 0 1-91-27l-332-652-332 652a65 65 0 0 1-91 27l-327-189 204 1052a65 65 0 0 1-111 57l-423-454-105 247a65 65 0 0 1-73 38l-542-115 186 572a65 65 0 0 1-34 79l-212 99 941 762a65 65 0 0 1 20 73l-116 320 859-151a95 95 0 0 1 111 98l-45 863z"/></svg>`,
+  au:()=>`<svg viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/>${ujack(30,15)}<g fill="#fff">${flStar(15,22.5,4.2,7)}${flStar(45,24.5,1.9,7)}${flStar(37.5,13.4,1.9,7)}${flStar(45,4.5,1.9,7)}${flStar(51.5,11.6,1.9,7)}${flStar(48,15.8,1.1,5)}</g></svg>`,
+  nz:()=>`<svg viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/>${ujack(30,15)}${[[45,25,2],[39.5,13,1.8],[45,6,1.6],[50.5,11.5,1.6]].map(([x,y,s])=>`<g fill="#fff">${flStar(x,y,s*1.35)}</g><g fill="#C8102E">${flStar(x,y,s)}</g>`).join('')}</svg>`,
+  in:()=>`<svg viewBox="0 0 60 40"><rect width="60" height="13.34" fill="#FF9933"/><rect y="13.33" width="60" height="13.34" fill="#fff"/><rect y="26.66" width="60" height="13.34" fill="#138808"/><circle cx="30" cy="20" r="5.6" fill="none" stroke="#000080" stroke-width=".9"/><circle cx="30" cy="20" r="1" fill="#000080"/><g stroke="#000080" stroke-width=".35">${Array.from({length:24},(_,i)=>{const a=i*15*Math.PI/180;return `<line x1="30" y1="20" x2="${(30+5.4*Math.cos(a)).toFixed(2)}" y2="${(20+5.4*Math.sin(a)).toFixed(2)}"/>`}).join('')}</g></svg>`,
+  za:()=>{const u='za'+(++FLN);return `<svg viewBox="0 0 90 60"><clipPath id="${u}"><rect width="90" height="60"/></clipPath><g clip-path="url(#${u})"><rect width="90" height="30" fill="#E03C31"/><rect y="30" width="90" height="30" fill="#001489"/><path d="M0,0L45,30H90M0,60L45,30" fill="none" stroke="#fff" stroke-width="20"/><path d="M0,0L45,30H90M0,60L45,30" fill="none" stroke="#007749" stroke-width="12"/><path d="M0,9L31.5,30L0,51z" fill="#000" stroke="#FFB81C" stroke-width="5"/></g></svg>`}};
+function geoFlags(reg){const R=GEO_R[reg]||GEO_R['uk-ie'];return `<div class="geo-fl">${R.fl.map((f,i)=>`<span class="geo-f" style="--d:${i*.4}s"><i class="geo-pole"></i><span class="geo-cloth">${FLAGS[f]()}</span></span>`).join('')}</div>`}
 // Klassen-Rakete: jedes Kind, das „Bereit“ drückt, füllt den Tank. Sind alle bereit, hebt sie ab.
 // Startplattform wie beim Bereit-Check, als Ausschnitt in der Ecke der Startfolie
 function rpPad(d,n,g){const full=n>0&&d>=n,gd=full?(.5-Math.max(0,(Date.now()-(g||Date.now()))/1000)).toFixed(2):0;
@@ -3886,6 +3947,10 @@ let DLG=null,DLGK=0;function dlgSay(k,all){const st=(BOARD?BRCS:CS);const t=st&&
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
   if(t.id==='diary')return sceneHTML('lerntagebuch',`<h1>Lerntagebuch</h1><p>Trage jetzt deinen Eintrag auf deinem iPad ein.</p>${c.jn?`<b>${c.jn[0]} / ${c.jn[1]||'–'} eingetragen</b>${pgBar(c.jn[0],Math.max(c.jn[0],c.jn[1]||0))}`:''}`,'left:57%;top:12%;width:37%');
+  if(t.id==='start'&&t.bg==='welt'){const cw=cloudHTML(c.cw),rd=c.rd,reg=GEO_R[t.region]?t.region:'uk-ie',full=rd&&rd.n>0&&rd.d>=rd.n;
+    return `<div class="rt rt-start st-elio st-geo ${cw?'has-cw':''}"><div class="geo-w ${full?'geo-z':''}"><canvas class="geo-c" data-reg="${reg}" ${rd?`data-p="${rd.n?Math.min(1,rd.d/rd.n):0}" data-full="${full?1:0}" data-g="${rd.g||0}"`:''} ${c.mini?'data-still="1"':''}></canvas></div>${geoFlags(reg)}
+    <div class="in"><h1>${esc(t.title||'Welcome to English class')}</h1>${t.date!==false?`<p>${new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}
+</div>${rd?`<div class="geo-cnt" style="--pc:${rd.n?Math.min(1,rd.d/rd.n):0}"><div class="rp-tank"><i></i></div><b>${full?'Alle bereit! Let\'s go to '+esc(GEO_R[reg].n.replace(/^The /,'the '))+'!':rd.d+' / '+(rd.n||'–')+' bereit'}</b></div>`:''}${cw}</div>`}
   if(t.id==='start'){const bg=t.bg||'start',vid=bg==='video';fillBg();
     const cw=cloudHTML(c.cw);
     const rk=bg==='start';
@@ -3905,7 +3970,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   return '';
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
-  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:'start',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
+  return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:L.subject==='E'?'welt':'start',region:'uk-ie',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
@@ -3955,7 +4020,8 @@ function toolEditor(p,i,L){
       <label class="sl-row"><span class="sl-gl">Überschrift</span><span class="sl-v"><input type="text" data-f="ph.${i}.tool.title" value="${esc(t.title||'')}" placeholder="${esc('Du hast jetzt '+((SUBJECTS[L.subject]||{}).name||''))}"></span></label>
       <label class="sl-row"><span class="sl-gl">Anweisung an die SuS</span><span class="sl-v"><input type="text" data-f="ph.${i}.tool.hint" value="${esc(t.hint||p.txt||'')}" placeholder="Steht an der Tafel und auf den iPads"></span></label>
       <label class="sl-row"><span class="sl-gl">Liste zum Abhaken</span><span class="sl-v"><input type="text" data-f="ph.${i}.tool.items" value="${esc(t.items||'')}" placeholder="Mit Komma: Mathebuch, Heft, Regelheft"></span></label>
-      <div class="sl-row"><span class="sl-gl">Hintergrund</span><span class="sl-v"><span class="chip">${esc(bgName(t.bg||'start'))}</span><button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Eigenes Bild</button>${(t.bg||'start')!=='start'?`<button class="btn sm" data-act="sl-bg0" data-i="${i}" data-j="start">↺ ELIO Start</button>`:''}<input type="file" id="sl-file" accept="image/*" hidden></span></div>
+      <div class="sl-row"><span class="sl-gl">Hintergrund</span><span class="sl-v"><span class="chip">${esc(t.bg==='welt'?'Weltkugel':bgName(t.bg||'start'))}</span>${t.bg!=='welt'?`<button class="btn sm" type="button" data-act="st-welt" data-i="${i}">🌍 Weltkugel</button>`:''}<button class="btn sm" type="button" data-act="sl-up" data-i="${i}" data-j="start">📤 Eigenes Bild</button>${(t.bg||'start')!=='start'?`<button class="btn sm" data-act="sl-bg0" data-i="${i}" data-j="start">↺ ELIO Start</button>`:''}<input type="file" id="sl-file" accept="image/*" hidden></span></div>
+      ${t.bg==='welt'?`<label class="sl-row"><span class="sl-gl">Markiertes Land</span><span class="sl-v"><select data-f="ph.${i}.tool.region">${Object.entries(GEO_R).map(([k,r])=>`<option value="${k}" ${(t.region||'uk-ie')===k?'selected':''}>${esc(r.n.replace(/^The /,''))}</option>`).join('')}</select></span></label>`:''}
     </div></div>`:'';
   if(t.id==='wc')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage an die SuS',t.q,'Was ist eine Variable?')}<label>Wörter pro Kind<select data-f="ph.${i}.tool.n">${[1,2,3].map(n=>`<option value="${n}" ${n===(+t.n||3)?'selected':''}>${n}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem;margin:0">An der Tafel steht die Wolke groß. Unpassende Wörter nimmst du mit ✕ weg.</p></div>`;
   if(t.id==='thumbs'||t.id==='mood')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}</div>`;
@@ -6039,7 +6105,7 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
@@ -6170,6 +6236,7 @@ document.addEventListener('click',e=>{
     case 'sl-arr':V.sle={i:d.i,j:+d.j,sel:null};render();setTimeout(()=>{const b=$('.sl-ed-big');b&&b.scrollIntoView({block:'start'})},0);break;
     case 'sl-done':V.sle=null;render();break;
     case 'sl-lay':{const sl=slEdSlide(d);if(sl){sl.layout=d.v;save();render()}break}
+    case 'st-welt':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='welt';t.region=t.region||'uk-ie';save();render();break}
     case 'sl-bg0':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;if(d.j==='start')t.bg='start';else{const sl=slEdSlide(d);if(sl)sl.bg='allgemein'}save();render();break}
     case 'sl-rot':slRot(d);break;
     case 'sl-crop':case 'sl-uncrop':{const sl=slEdSlide(d);if(!sl||!V.sle||!V.sle.sel||V.sle.sel[0]!=='i')break;const m=(sl.imgs||[])[+V.sle.sel.slice(1)];if(!m)break;
