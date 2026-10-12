@@ -479,6 +479,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .et-warn{border-color:#f59e0b;background:#fffbeb}.et-good{border-color:#38bdf8;background:#f0f9ff}.et-s{font-weight:800;color:#1e3a8a}.et-i summary{cursor:pointer;font-weight:700;color:#4f46e5}.et-none{font-weight:700;color:#475569}
 .offl{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:90;display:flex;gap:10px;align-items:center;background:#1e3a8a;color:#fff;padding:10px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(30,58,138,.35);font-weight:700;max-width:calc(100% - 32px)}
 .offl i{width:12px;height:12px;border-radius:50%;background:#f59e0b;flex:none;animation:nsPulse 1.6s ease-in-out infinite}.offl[hidden]{display:none}
+.dup-w{color:#c2410c}.seat.dup{outline:3px solid #f59e0b;outline-offset:2px}.dup-b{background:#fff3db;color:#7c2d12;border-radius:10px;padding:6px 10px;font-weight:700;font-size:.9rem}
 .bycs{display:grid;gap:4px;margin-top:12px}.bycs small{font-size:.82rem}.foto,.quali{margin-top:16px}.foto-img{max-width:100%;max-height:340px;border-radius:12px;margin:8px 0;display:block}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
 .bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
@@ -1824,7 +1825,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1244';let verTold=false;
+const BUILD='20261012-1314';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2341,7 +2342,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.dup=dupNrs();CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2353,12 +2354,16 @@ function updPrev(){const el=$('#tprev');if(!el||!CS)return;mirListen();
   const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
 setInterval(()=>{if(V.name==='tafel'&&MIR&&Date.now()-MIR.at>=5000&&$('#tprev')&&$('#tprev').dataset.sig==='mir'){$('#tprev').dataset.sig='';updPrev()}},2000);
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
+// Gleiche Nummer auf mehreren Geräten: Geräte, die in den letzten 12 s gefunkt haben
+const devsOn=n=>{const D=ROSTER[n]&&ROSTER[n].dv||{},t=Date.now();return Object.keys(D).filter(k=>t-D[k]<12000).length};
+function dupNrs(){return online().filter(n=>devsOn(n)>1)}
+const devCount=()=>online().reduce((a,n)=>a+Math.max(1,devsOn(n)),0)
 function connTxt(){return `${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 Live geschützt · verbunden':'⚠️ Live offen · verbunden'):Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}${Live.kind==='server'?` · Rückkanal ${Live.upSt==='SUBSCRIBED'?(Live.upPriv?'🔒':'offen')+' ✓':esc(String(Live.upSt||'…'))} · Kanal …${esc(String(Live.code||'').slice(-4))} · von iPads: ${Live.stat.got}${Live.stat.bad?` (${Live.stat.bad} unlesbar)`:''}${Live.stat.last?` · zuletzt vor ${Math.round((Date.now()-Live.stat.last)/1000)} s`:''}`:''}`}
 function updConn(){const el=$('#t-conn');if(el)el.innerHTML=connTxt()}
 setInterval(()=>{if(V.name==='tafel'&&S.role==='teacher')updConn()},3000);
 function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
-  (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();
+  (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();if(typeof m.dv==='string'&&/^[a-z0-9]{4,12}$/.test(m.dv)){const D=(ROSTER[nr].dv=ROSTER[nr].dv||{});D[m.dv]=Date.now()}
   if(m.k==='diary'){if(TD.dk&&m.w)dDec(TD.dk.priv,m).then(o=>{if(!o||!/^\d{4}-\d\d-\d\d$/.test(o.d))return;const c=S.cls||'-';TD.diary=TD.diary||{};const B=(TD.diary[c]=TD.diary[c]||{}),P=(B[nr]=B[nr]||{});
     P[o.d]={t:String(o.t||'').slice(0,8000),at:Date.now(),nick:cleanNick(m.nick)};tsave();if(V.name==='obs'||(V.name==='obs-p'&&V.n===nr))render()}).catch(()=>{});return}
   if(m.av!=null&&ROSTER[nr].av!==cleanAv(m.av)){ROSTER[nr].av=cleanAv(m.av);TD.avs=TD.avs||{};TD.avs[nr]=ROSTER[nr].av;tsave();if(V.name==='tafel')updTafel()}
@@ -2457,9 +2462,9 @@ ${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-
 function updTafel(){
   if(!CS||!$('#seats'))return;updPrev();
   const on=online(),n=S.classSize;
-  $('#t-online').textContent=on.length;
+  const dup=dupNrs(),dc=devCount();$('#t-online').innerHTML=dup.length?`${dc} <b class="dup-w">· Nr. ${dup.join(', ')} doppelt angemeldet</b>`:String(on.length);
   $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':''].join(' ');
-    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
+    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}${dup.includes(k)?' dup':''}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||kidName(k))}</b> <span class="muted">${esc(kurzOf(k))}</span></span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   const md=CS.ready&&CS.ready.mood?((TD.moods||{})[S.cls||'-']||{})[todayISO()]||{}:null,EX=CS.exit?(TD.exits||{})[CS.exit.id]:null;
   $('#t-ready').innerHTML=CS.exit?`<span class="label">🎟️ Exit-Ticket · ${CS.exit.done.length} / ${on.length||'–'} abgegeben · nur für dich</span>${EX?`<div class="ex-l">${Object.entries(EX.ans).map(([k,x])=>`<div><b>${x.m!=null?AMP3[x.m][0]+' ':''}${esc(x.nick||kidName(+k))}</b>${x.a.map((y,j)=>y?`<p><small class="muted">${esc(EX.qs[j]||'')}</small> ${esc(y)}</p>`:'').join('')}</div>`).join('')}</div>`:'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}`
@@ -2630,7 +2635,8 @@ function onClassState(p){RCS=p;rcsAt=Date.now();if(S.role==='student'){wipeChk(p
 // Lehrkraft hat das Kind zurückgesetzt: Name, Avatar und Lernstand auf diesem iPad löschen, dann neu einrichten
 function stuWipe(){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk;S.acctAt=Date.now();save();ACCT.sig='';acctSave(true);V={name:'role',step:'nick',nr:S.nr,only:'student',school:S.school,cls:S.cls};render()}
 function wipeChk(W){if(S.role!=='student'||!W||!S.nr)return false;const at=+W[S.nr]||0;if(!at||(+S.nickAt||0)>at)return false;stuWipe();return true}
-function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av})}
+function devId(){if(!S.dev){S.dev=Math.random().toString(36).slice(2,10);save()}return S.dev}
+function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av,dv:devId()})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
 const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
 const b64e=b=>{const u=new Uint8Array(b);let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
@@ -2659,7 +2665,7 @@ function updBanner(){updRail();
   const G=!RCS.freeze&&RCS.game&&gInfo(RCS.game.g);
   el.innerHTML=`<div class="live-in"><span class="dot"></span><b>${G?G.icon+' '+esc(G.name):esc(ph.name)}</b><span class="ph-txt">${G?'Spiel mit! Alle spielen gleichzeitig.':esc(ph.txt)}</span><span class="spacer"></span>
     ${RCS.timer.run||tl<RCS.timer.total?`<span class="ltimer" id="ltimer">${fmt(tl)}</span>`:''}
-    <span class="chip">${myAv()} ${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</span>
+    ${(RCS.dup||[]).includes(+S.nr)?`<span class="dup-b">Nr. ${S.nr} ist zweimal angemeldet. Hast du die richtige Nummer?</span>`:''}<span class="chip">${myAv()} ${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</span>
     <button class="btn sm ${inHelp?'red':''}" data-act="help">${inHelp?'Hilfe angefragt · zurücknehmen':'Hilfe'}</button></div>`;
 updRail()}
 // Knopfleiste am Rand: immer erreichbar, auch wenn ein Tafel-Hinweis den Bildschirm verdeckt
