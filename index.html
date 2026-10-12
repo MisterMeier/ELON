@@ -475,6 +475,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .im-bad td{background:#fff7ed}.im-bad b{color:#b45309}.im-chip{display:block;color:#4f46e5;font-weight:700}.im-next{background:#eef2ff;border:2px solid #4f46e5;border-radius:12px;padding:10px 14px;margin:8px 0;color:#1e3a8a}
 .lv-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 12px;font-weight:800;color:#1e3a8a}.lv-b{border:2px solid #c7d2fe;background:#fff;color:#1e3a8a;border-radius:99px;padding:6px 16px;font:inherit;font-weight:800;cursor:pointer}
 .lv-on{background:#4f46e5!important;border-color:#4f46e5!important;color:#fff!important;border-radius:99px;padding:6px 16px}.lv-ed summary{font-weight:800;color:#1e3a8a;cursor:pointer}.lv-sel{width:auto;padding:4px 6px;font-size:.85rem}
+.et{margin-top:16px}.et-h{display:flex;gap:12px;align-items:center;margin-bottom:8px}.et-h h2{margin:0}.et-i{border-left:5px solid #4f46e5;background:#f5f7ff;border-radius:10px;padding:10px 14px;margin-top:8px}.et-i p{margin:4px 0}
+.et-warn{border-color:#f59e0b;background:#fffbeb}.et-good{border-color:#38bdf8;background:#f0f9ff}.et-s{font-weight:800;color:#1e3a8a}.et-i summary{cursor:pointer;font-weight:700;color:#4f46e5}.et-none{font-weight:700;color:#475569}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
 .bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
@@ -1812,7 +1814,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-0357';let verTold=false;
+const BUILD='20261012-0358';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -5249,7 +5251,7 @@ VIEWS.sus=()=>{const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll(
   <div class="tbl sus-t"><table><thead><tr>${cl?'':'<th>Nr.</th>'}<th>Kind</th>${cl?'<th>Kürzel</th><th>PIN</th>':''}<th>Lernstand</th><th>Neu</th><th></th></tr></thead><tbody>${ks.map(row).join('')}</tbody></table></div>
   <p class="muted" style="font-size:.85rem;margin-top:6px">Mehr Kinder? Ändere die Zahl unter Klassen → Klasse bearbeiten. Neue PIN: Die Sicherung des Kindes auf dem Server wird gelöscht, sein Gerät lädt beim nächsten Anmelden wieder alles hoch.</p>
   <div class="row" style="margin:10px 0 0;gap:8px"><button class="btn sm" data-act="obs-export">📝 Notizen als Textdatei</button><button class="btn sm" data-act="sa-printall">📄 Alle Akten als PDF</button></div>
-  ${aufTeachHTML(B,ks,act)}`};
+  ${eloTipsHTML(B,ks)}${aufTeachHTML(B,ks,act)}`};
 // Lehrkraft: Übungsaufträge der Klasse mit Stand pro Kind, dazu Mitteilungen aufs Dashboard der SuS
 // Statistik zu einem Übungsauftrag: wer ist fertig, wer hat angefangen, wie weit ist jedes Kind, wie hat sich die Klasse entwickelt
 function aufStats(a,act,pr){const its=aufItems(a),n=its.length||1,R=act.map(k=>{const p=pr(k),q=p?aufProg(a,p):{d:0,n:its.length,done:false};return {k,p,d:q.d,done:q.done}});
@@ -5264,6 +5266,21 @@ function aufStats(a,act,pr){const its=aufItems(a),n=its.length||1,R=act.map(k=>{
     <span class="au-lg"><b class="f">✓ ${fin} fertig</b><b class="b">◐ ${beg} angefangen</b><b class="n">○ ${non} noch nicht</b></span><span class="muted au-more">📊 Details</span></summary>
     <div class="au-g"><div><span class="label">Jedes Kind</span><div class="au-kids">${R.slice().sort((x,y)=>y.d-x.d).map(x=>`<button class="au-k" data-act="sus-p" data-n="${x.k}"><span>${esc(kidName(x.k))}</span><span class="bar sm"><i style="width:${Math.round(100*x.d/n)}%;${x.done?'background:var(--green)':''}"></i></span><small>${x.d}/${its.length}</small></button>`).join('')}</div></div>
       <div><span class="label">Verlauf der Klasse</span>${line}</div></div></details>`}
+/* ---------- Elo gibt Tipps (regelbasiert, ohne KI): häufige Hürden aus Minitests und Übungsaufträgen. Nur Lernstand, nur für die Lehrkraft. ---------- */
+function eloTips(B,ks){const T=[],act=ks.filter(k=>B[k]&&B[k].prog),pr=k=>B[k]&&B[k].prog,nm=L=>L.map(k=>nickOf(k)||(B[k]&&B[k].nick)||'Nr. '+k);
+  (TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.mt).forEach(e=>{const R=act.map(k=>({k,m:(pr(k).mt||{})[e.id]})).filter(x=>x.m&&x.m.n);if(!R.length)return;
+    const weak=R.filter(x=>x.m.f/x.m.n<.6).map(x=>x.k),strong=R.filter(x=>x.m.f/x.m.n>=.9).map(x=>x.k),u=ubList(e)[0],h=String(e.help||'').split('\n').map(l=>l.replace(/^[-*•\s]+/,'').trim()).filter(l=>l&&!/^(typische|hilfe)/i.test(l))[0];
+    if(weak.length>=2||(weak.length&&weak.length>=R.length*.3))T.push({w:weak.length*3,c:'warn',t:`${weak.length} ${weak.length===1?'Kind hängt':'Kinder hängen'} bei „${e.title}“`,d:`Im Minitest unter 60 % beim ersten Versuch.${h?' Häufiger Fehler laut Katalog: '+h:''}`,
+      sug:`Vorschlag: eine Förderrunde zu „${chName(e.ch)||e.title}“${u?` mit der Übung „${u.n&&u.n!=='Übung'?u.n:AKT[u.t].name}“`:''}.`,who:nm(weak),s:e.s,ch:e.ch});
+    else if(strong.length>=3&&strong.length>=R.length*.6)T.push({w:1,c:'good',t:`„${e.title}“ sitzt bei ${strong.length} Kindern`,d:'Mindestens 90 % beim ersten Minitest.',sug:'Vorschlag: für diese Kinder das Plus-Niveau anbieten.',who:nm(strong),s:e.s,ch:e.ch})});
+  aufAll().forEach(a=>{const R=act.map(k=>({k,q:aufProg(a,pr(k))}));const open=R.filter(x=>!x.q.done),none=R.filter(x=>x.q.d===0),late=daysUntil(a.due)<0;
+    if(late&&open.length)T.push({w:open.length*2,c:'warn',t:`${open.length} ${open.length===1?'Kind ist':'Kinder sind'} mit „${chName(a.ch)}“ noch nicht fertig`,d:`Der Übungsauftrag war fällig am ${new Date(a.due+'T12:00').toLocaleDateString('de-DE')}.`,sug:'Vorschlag: kurze Übungszeit in der nächsten Stunde oder eine Erinnerung an die Klasse.',who:nm(open.map(x=>x.k)),s:a.s,ch:a.ch});
+    else if(!late&&R.length>=3&&none.length>=R.length*.5&&Date.now()-(a.at||0)>2*864e5)T.push({w:none.length,c:'info',t:`„${chName(a.ch)}“ ist bei ${none.length} Kindern noch nicht angefangen`,d:'Der Auftrag läuft seit mehr als zwei Tagen.',sug:'Vorschlag: den Auftrag in der Stunde kurz gemeinsam starten.',who:nm(none.map(x=>x.k)),s:a.s,ch:a.ch})});
+  return T.sort((a,b)=>b.w-a.w).slice(0,5)}
+function eloTipsHTML(B,ks){const T=eloTips(B,ks);
+  return `<section class="panel et"><div class="et-h">${elo('think',52)}<div><h2>Elo gibt Tipps</h2><p class="muted">Aus dem Lernstand der Übungen. Keine Bewertung, keine Diagnose. Nur du siehst das.</p></div></div>
+    ${T.length?T.map(x=>`<div class="et-i et-${x.c}"><b>${esc(x.t)}</b><p>${esc(x.d)}</p><p class="et-s">${esc(x.sug)}</p><div class="row" style="gap:8px;flex-wrap:wrap">${x.s&&x.ch?`<button class="btn sm" data-act="mod-open" data-s="${esc(x.s)}" data-ch="${esc(x.ch)}">Modul öffnen</button>`:''}<details><summary>Welche Kinder?</summary>${x.who.map(esc).join(', ')}</details></div></div>`).join('')
+      :'<p class="et-none">Gerade gibt es nichts Auffälliges. Sobald Kinder Minitests und Übungsaufträge bearbeiten, sammelt Elo hier Hinweise.</p>'}</section>`}
 function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),N=annAll(),pr=k=>B[k]&&B[k].prog;
   const row=a=>{const P=act.map(k=>[k,pr(k)]).filter(x=>x[1]),fin=P.filter(([,p])=>aufProg(a,p).done),mts=P.flatMap(([,p])=>Object.entries(p.mt||{}).filter(([id])=>aufEntries(a).some(e=>e.id===id)).map(([,m])=>m.f/m.n));
     return `<div class="auf-t"><div style="flex:1;min-width:200px"><b>${esc(a.ch)}</b><small class="muted" style="display:block">bis ${fmtDate(a.due)} · Erinnerung ab ${esc(a.rem||'16:00')} Uhr${a.mt?' · mit Minitests':''}</small></div>
