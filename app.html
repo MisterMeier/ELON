@@ -1866,7 +1866,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2049';let verTold=false;
+const BUILD='20261012-2052';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -1986,6 +1986,114 @@ function heftBlocks(t){const out=[];let list=null,tab=null;
     else out.push(['p',esc(l)])});
   return out}
 const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,s:e.s,date:e.date,o:e.o,title:e.title,ch:e.ch,help:e.help,ub:e.ub,ubs:e.ubs,hx:e.hx,mt:e.mt,blocks:heftBlocks(e.text)})),...((S.heftRecv||[]).some(e=>e.s===k)?[]:(HEFT[k]||[]))];
+/* ===== Druckansicht (Baustein aus elon/material/druck-baustein) ===== */
+/* ELIO-Druckansicht für Hefteinträge und Übungen (Designstandard: elon/designstandard-material.md)
+   heftDruck(entries, opt) liefert ein komplettes HTML-Dokument (A4) als String.
+   entries: Einträge wie in assets/heft/*.json ({ch,title,text,help,hx}).
+   opt: {fach:'Mathematik', jg:7, farbe:'#2f63c8', teile:['heft','uebung','loesung'],
+         blocks:heftBlocks, FIGS, VIS, esc, figCSS:'…', fontsHref:'assets/fonts/fonts.css'}
+   In der App: const w=window.open(''); w.document.write(heftDruck(...)); w.document.close(); w.onload=()=>w.print(); */
+function heftDruck(entries, opt){
+  const o=Object.assign({fach:'',jg:7,farbe:'#2f63c8',teile:['heft','uebung','loesung'],figCSS:'',fontsHref:'assets/fonts/fonts.css'},opt||{});
+  const esc=o.esc||(s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])));
+  const fig=b=>b[0]==='fig'?(o.FIGS&&o.FIGS[b[1]]?o.FIGS[b[1]]():''):(()=>{try{return o.VIS[b[1]](b[2])}catch(e){return ''}})();
+  const stufe=l=>'●'.repeat(Math.min(3,Math.max(1,l||1)))+'○'.repeat(3-Math.min(3,Math.max(1,l||1)));
+  const band=(links,rechts)=>`<div class="band"><span>${esc(links)}</span><span class="meta">${esc(rechts)}</span></div>`;
+  const kopf=`${o.fach} ${o.jg}`.trim();
+
+  // Blöcke aus heftBlocks gruppieren: Überschrift + Text links, Abbildung rechts; Merke/Achtung als Kästen
+  function body(text){
+    const B=o.blocks(text||''),out=[];let sec=null,box=null;
+    const close=()=>{if(sec){out.push(rule(sec));sec=null}};
+    const closeBox=()=>{if(box){out.push(`<div class="box achtung"><b class="l">Achtung, typischer Fehler</b>${box.t.map(t=>`<p>${t}</p>`).join('')}${box.fr.length?`<div class="fr">${box.fr.join('')}</div>`:''}</div>`);box=null}};
+    const S=()=>sec||(sec={h:'',items:[],figs:[]});
+    for(const b of B){
+      if(b[0]==='achtung'||b[0]==='no'||b[0]==='yes'){close();box=box||{t:[],fr:[]};
+        if(b[0]==='achtung')box.t.push(b[1]);
+        else box.fr.push(b[0]==='no'?`<span class="f">Falsch:</span><span><s>${b[1]}</s></span>`:`<span class="r">Richtig:</span><span>${b[1]}</span>`);continue}
+      closeBox();
+      if(b[0]==='h'){close();sec={h:b[1],items:[],figs:[]};continue}
+      if(b[0]==='merke'){close();out.push(`<div class="box merke"><b class="l">Merke</b>${b[1]}</div>`);continue}
+      if(b[0]==='fig'||b[0]==='vis'){S().figs.push(fig(b));continue}
+      const s=S();
+      if(b[0]==='p')s.items.push(`<p>${b[1]}</p>`);
+      else if(b[0]==='list')s.items.push(`<ul class="bsp">${b[1].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`);
+      else if(b[0]==='table')s.items.push(`<table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
+    }
+    close();closeBox();return out.join('');
+  }
+  // Abbildung rechts neben dem Text, wenn genug Text da ist; sonst volle Breite darunter
+  function rule(s){
+    const txt=`${s.h?`<h2>${esc(s.h)}</h2>`:''}${s.items.join('')}`;
+    if(!s.figs.length)return `<div class="rule wide">${txt}</div>`;
+    const side=s.items.length>=2&&s.figs.length===1;
+    return side?`<div class="rule"><div>${txt}</div><div class="figs">${s.figs.join('')}</div></div>`
+               :`<div class="rule wide">${txt}<div class="figs full">${s.figs.join('')}</div></div>`;
+  }
+  const karo=q=>/zeichne|skizze|konstruiere|zeichnung/i.test(q)?'30mm':q.length>140?'20mm':'15mm';
+
+  const pages=[];
+  for(const e of entries){
+    const nr=(e.title.match(/^[\d.]+/)||[''])[0];
+    if(o.teile.includes('heft'))pages.push(`<section class="page">${band(`${kopf} · Kapitel ${e.ch||''}`,'Hefteintrag')}
+      <h1>${esc(e.title)}</h1>${body(e.text)}${e.help?`<div class="hilfe"><div class="hilfe-t">Typische Fehler und Hilfen</div>${body(e.help)}</div>`:''}</section>`);
+    const hx=e.hx||[];
+    if(hx.length&&o.teile.includes('uebung'))pages.push(`<section class="page">${band(`${kopf} · ${e.title}`,'Übung')}
+      <div class="name"><span>Name:</span><span>Datum:</span></div>
+      <div class="legende"><span><b class="stufe">●○○</b> Basis</span><span><b class="stufe">●●○</b> Standard</span><span><b class="stufe">●●●</b> Knobel</span></div>
+      ${hx.map((h,i)=>`<div class="auf"><p><b class="stufe">${stufe(h.l)}</b> <b class="anr">${i+1}</b> ${esc(h.q)}</p><div class="karo" style="--h:${karo(h.q)}"></div></div>`).join('')}</section>`);
+    if(hx.length&&o.teile.includes('loesung'))pages.push(`<section class="page">${band(`${kopf} · ${e.title}`,'Lösungen')}
+      <div class="loes">${hx.map((h,i)=>`<div><b>${i+1}</b> ${esc(h.a)}</div>`).join('')}</div></section>`);
+  }
+  const titel=entries.length===1?entries[0].title:`${kopf} · ${entries.length} Einträge`;
+  return `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(titel)}</title><link rel="stylesheet" href="${o.fontsHref}"><style>${HEFT_DRUCK_CSS.replace(/--fach:[^;]+;/,`--fach:${o.farbe};`)}\n${o.figCSS}</style></head>
+<body>${pages.join('')}</body></html>`;
+}
+
+const HEFT_DRUCK_CSS=`
+:root{--ink:#18203d;--muted:#586082;--line:#d8ddee;--fach:#2f63c8;--rot:#cf3a2c;--gruen:#1f8f5d;--gelb:#f2b51d;--gelb-bg:#fdf0d2;
+  --f-display:"Baloo 2","Arial Rounded MT Bold",system-ui,sans-serif;--f-body:"Nunito",system-ui,sans-serif}
+@page{size:A4;margin:12mm 15mm 14mm}
+*{box-sizing:border-box}
+html,body{margin:0;background:#e9ecf4;color:var(--ink);font-family:var(--f-body);font-weight:500;font-size:12.5pt;line-height:1.45}
+.page{width:210mm;min-height:297mm;margin:0 auto 10mm;background:#fff;padding:12mm 15mm 14mm}
+@media print{html,body{background:#fff}.page{width:auto;min-height:0;margin:0;padding:0;break-after:page}.page:last-child{break-after:auto}}
+@media screen and (max-width:700px){.page{width:100%;min-height:0;padding:16px}.rule{grid-template-columns:1fr!important}.loes{columns:1!important}}
+.band{display:flex;justify-content:space-between;gap:12px;background:var(--fach);color:#fff;border-radius:10px;padding:6px 14px;font-family:var(--f-display);font-weight:700;font-size:11pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.band .meta{font-family:var(--f-body);font-weight:600;font-size:10pt}
+h1{font-family:var(--f-display);font-weight:800;font-size:24pt;line-height:1.05;margin:10px 0 6px;color:var(--fach)}
+h2{break-after:avoid;font-family:var(--f-display);font-weight:800;font-size:15pt;line-height:1.1;margin:0 0 3px}
+p{margin:2px 0}
+.rule{display:grid;grid-template-columns:1fr 78mm;gap:6mm;align-items:center;border-top:2px solid var(--line);padding:9px 0 7px;break-inside:avoid}
+.rule.wide{display:block}
+.figs .hfig,.figs .v-wide{margin:4px 0}.figs.full{margin-top:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(70mm,1fr));gap:4mm;align-items:start}.figs.full>*{max-width:120mm}.figs .v-wide{padding:6px}
+.bsp{margin:4px 0 0;padding:0;list-style:none}.bsp li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:2px;background:var(--fach);margin-right:8px;vertical-align:2px}
+table{border-collapse:collapse;margin:6px 0}th,td{border:1.5px solid var(--line);padding:3px 10px;text-align:center}th{background:color-mix(in srgb,var(--fach) 12%,#fff)}
+.box{border-radius:12px;padding:8px 14px;margin:8px 0;break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.box b.l{font-family:var(--f-display);font-weight:800;font-size:12pt;display:block}
+.merke{background:var(--gelb-bg);border-left:7px solid var(--gelb)}
+.achtung{border:2px solid var(--line)}
+.fr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin-top:3px}.fr .f{color:var(--rot);font-weight:800}.fr .r{color:var(--gruen);font-weight:800}
+.fr s{text-decoration-color:var(--rot);text-decoration-thickness:2px}
+.hilfe{margin-top:12px;border-top:2px solid var(--line);padding-top:6px}.hilfe-t{break-after:avoid;font-family:var(--f-display);font-weight:800;font-size:13pt;color:var(--muted)}
+.hilfe .rule{border-top:0;padding-top:2px}
+.name{display:flex;gap:18px;margin:8px 2px 0;font-size:10.5pt;color:var(--muted)}.name span{flex:1;border-bottom:1.5px solid var(--line);padding-bottom:2px}
+.legende{display:flex;gap:16px;font-size:9.5pt;color:var(--muted);margin:4px 0 6px}
+.stufe{letter-spacing:2px;color:var(--fach);font-size:10.5pt;margin-right:4px}.anr{font-family:var(--f-display);font-weight:800;margin-right:4px}
+.auf{border-top:2px solid var(--line);padding:6px 0 3px;break-inside:avoid}
+.karo{height:var(--h,15mm);margin-top:5px;border-radius:6px;border:1px solid var(--line);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:5mm 5mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.loes{columns:2;column-gap:9mm;font-size:11pt;margin-top:10px}.loes div{break-inside:avoid;margin:0 0 9px}.loes b{font-family:var(--f-display);font-weight:800;color:var(--fach)}
+.hfig{color:var(--ink)}.hfig svg{width:100%;height:auto;display:block}.hfig figcaption{font-size:9.5pt;color:var(--muted);line-height:1.3;margin-top:3px}
+`;
+
+// Drucken / PDF im ELIO-Materialstil (designstandard-material.md): Hefteintrag, Übung, Lösungen als A4-Seiten
+function heftPrint(list,sk,teile){if(!list.length)return;const w=window.open('');if(!w){toast('Bitte Pop-ups für ELIO erlauben, dann klappt das Drucken.');return}
+  const figCSS=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n').split('\n').filter(l=>/^\.(v-|hf)/.test(l)).join('\n');
+  const farbe=(document.querySelector('style').textContent.match(new RegExp('\\.s-'+sk+'\\{--sc:(#[0-9a-f]{6})'))||[])[1]||'#2f63c8';
+  const E=list.map(e=>({...e,text:e.text!=null?e.text:e.blocks}));
+  w.document.write(heftDruck(E,{fach:(SUBJECTS[sk]||{}).name||'',jg:7,farbe,teile:teile||['heft','uebung','loesung'],blocks:x=>Array.isArray(x)?x:heftBlocks(x||''),FIGS,VIS,esc,figCSS,fontsHref:new URL('assets/fonts/fonts.css',location).href}));
+  w.document.close();const go=()=>{try{w.focus();w.print()}catch(e){}};(w.document.fonts&&w.document.fonts.ready?w.document.fonts.ready.then(()=>setTimeout(go,300)):setTimeout(go,800))}
 const heftSort=(a,b)=>a.o!=null&&b.o!=null?a.o-b.o:a.o!=null?-1:b.o!=null?1:b.date.localeCompare(a.date);
 // DaZ: Artikel in Farbe (der blau, die rot, das grün), nur wenn die Zeile mit dem Artikel beginnt
 const artC=x=>{const m=/^(der|die|das)\s/.exec(x);return m?`<span class="art-${m[1]}">${m[1]}</span>`+esc(x.slice(3)):esc(x)};
@@ -2051,9 +2159,9 @@ function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
-    case 'achtung':return `<div class="achtung"><b class="l">⚠️ Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
-    case 'no':return `<div class="vs no"><b>✗ falsch</b><span>${b[1]}</span></div>`;
-    case 'yes':return `<div class="vs yes"><b>✓ richtig</b><span>${b[1]}</span></div>`;
+    case 'achtung':return `<div class="achtung"><b class="l">Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
+    case 'no':return `<div class="vs no"><b>Falsch:</b><span>${b[1]}</span></div>`;
+    case 'yes':return `<div class="vs yes"><b>Richtig:</b><span>${b[1]}</span></div>`;
     case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${artC(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''}).join('')}
 function heftPage(e){
@@ -2063,9 +2171,9 @@ function heftPage(e){
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
-    case 'achtung':return `<div class="achtung"><b class="l">⚠️ Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
-    case 'no':return `<div class="vs no"><b>✗ falsch</b><span>${b[1]}</span></div>`;
-    case 'yes':return `<div class="vs yes"><b>✓ richtig</b><span>${b[1]}</span></div>`;
+    case 'achtung':return `<div class="achtung"><b class="l">Achtung, typischer Fehler:</b><br>${b[1]}</div>`;
+    case 'no':return `<div class="vs no"><b>Falsch:</b><span>${b[1]}</span></div>`;
+    case 'yes':return `<div class="vs yes"><b>Richtig:</b><span>${b[1]}</span></div>`;
     case 'table':return `<div class="tbl"><table><thead><tr>${b[1][0].map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map(x=>`<td>${artC(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }return ''};
   const c=!!S.copied[e.id];
@@ -5853,16 +5961,16 @@ VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice
     <div class="lgrid" style="margin-top:8px"><label>Fach<select id="hf-s">${Object.keys(SUBJECTS).map(x=>`<option value="${x}" ${x===k?'selected':''}>${SUBJECTS[x].name}</option>`).join('')}</select></label>
       <label>Titel<input id="hf-t" type="text" maxlength="80" placeholder="z. B. Terme vereinfachen"></label>
       <label style="grid-column:1/-1">Inhalt<textarea id="hf-x" rows="7" placeholder="${esc(HEFT_HELP)}"></textarea></label>
-      <label style="grid-column:1/-1">⚠️ Typische Fehler & Hilfen (erscheint in der Hilfestation, nicht im Heft)<textarea id="hf-h" rows="3" placeholder="Achtung: …&#10;Falsch: 3x + 5y = 8xy&#10;Richtig: 3x + 5y bleibt so"></textarea></label></div>
+      <label style="grid-column:1/-1">Typische Fehler & Hilfen (erscheint in der Hilfestation, nicht im Heft)<textarea id="hf-h" rows="3" placeholder="Achtung: …&#10;Falsch: 3x + 5y = 8xy&#10;Richtig: 3x + 5y bleibt so"></textarea></label></div>
     <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">So formatierst du: „# “ Überschrift, „- “ Aufzählung, „Merke:“ Merkkasten, „| a | b |“ Tabelle. Text aus Word oder PowerPoint einfach reinkopieren.</p>
     <p class="err" id="hf-err"></p><button class="btn pri" data-act="hf-add" style="margin-top:8px">${V.hedit?'Änderung speichern':'Veröffentlichen'}</button></section>
   ${V.msg?`<p class="saved" style="margin-top:12px">${esc(V.msg)}</p>`:''}
   <section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Jahresplan Mathematik 7 · nach LehrplanPLUS</span><button class="btn sm" data-act="hf-plan">📚 Jahresplan laden oder aktualisieren</button></div>
     <p class="muted" style="font-weight:700;margin-top:6px">34 fertige Einträge von 1.1 Terme bis 8.2 Kennwerte. Sie landen hier als Entwurf, und du veröffentlichst sie, wenn das Thema dran ist.</p></section>
   ${(()=>{const pub=list.filter(e=>e.pub!==false),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
-    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${heftBody(heftBlocks(e.text))}</article>`;
+    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${heftBody(heftBlocks(e.text))}</article>`;
     return `<h2 style="margin:18px 0 8px">Bei den SuS · ${pub.length}</h2><div class="entries">${pub.sort(heftSort).map(card).join('')||'<div class="empty">Noch nichts veröffentlicht.</div>'}</div>
-      ${chs.map(ch=>{const es=dr.filter(e=>(e.ch||'Entwürfe')===ch);return `<details class="panel" style="margin-top:12px"><summary class="row" style="justify-content:space-between;cursor:pointer"><b>📁 ${esc(ch)} · ${es.length} Entwürfe</b><button class="btn sm ok" data-act="hf-pubch" data-ch="${esc(ch)}">Ganzes Kapitel veröffentlichen</button></summary><div class="entries" style="margin-top:10px">${es.map(card).join('')}</div></details>`}).join('')}`})()}`};
+      ${chs.map(ch=>{const es=dr.filter(e=>(e.ch||'Entwürfe')===ch);return `<details class="panel" style="margin-top:12px"><summary class="row" style="justify-content:space-between;cursor:pointer"><b>📁 ${esc(ch)} · ${es.length} Entwürfe</b><span class="row" style="gap:6px"><button class="btn sm" data-act="hf-printch" data-ch="${esc(ch)}">Kapitel drucken / PDF</button><button class="btn sm ok" data-act="hf-pubch" data-ch="${esc(ch)}">Ganzes Kapitel veröffentlichen</button></span></summary><div class="entries" style="margin-top:10px">${es.map(card).join('')}</div></details>`}).join('')}`})()}`};
 /* --- Klassen-Stundenplan (alle Lehrkräfte der Klasse) --- */
 const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
 async function cttLoad(cid){
@@ -6460,6 +6568,8 @@ document.addEventListener('click',e=>{
     case 'hf-plan':heftLoadPlan(false,d.s||'M');break;
     case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){e.pub=a==='hf-pub';if(e.pub)e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
     case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(x.pub===false&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){x.pub=true;x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
+    case 'hf-print':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x)heftPrint([x],x.s);break}
+    case 'hf-printch':{const es=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false&&(e.ch||'Entwürfe')===d.ch).sort(heftSort);if(es.length)heftPrint(es,es[0].s);break}
     case 'hf-edit':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x){V.hedit=x.id;render();setTimeout(()=>{$('#hf-s').value=x.s;$('#hf-t').value=x.title;$('#hf-x').value=x.text;$('#hf-h').value=x.help||'';window.scrollTo(0,0)},0)}break}
     case 'hf-del':TD.heft=(TD.heft||[]).filter(e=>e.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'kl-cards':go('kl-cards',{cid:d.id});break;
