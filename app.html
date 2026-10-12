@@ -1850,7 +1850,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1809';let verTold=false;
+const BUILD='20261012-1812';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2560,7 +2560,9 @@ const phaseFrames=p=>{const q=phParts(p);return Math.max(1,q.nT+q.nX)};
 function phDeck(p,sub){const q=phParts(p),X={id:'slide',slides:p&&p.xs};if(!q.nT&&!q.nX)return {t:q.t,s:0};
   if(q.tf)return sub<q.nT?{t:q.t,s:sub}:{t:X,s:sub-q.nT,x:1};return sub<q.nX?{t:X,s:sub,x:1}:{t:q.t,s:sub-q.nX}}
 // Ältere Stunden: Werkzeug „Folien“ wird zu den festen Folien der Phase; jede Phase (außer Begrüßung) hat mindestens eine Folie mit ihrem Namen
-function phNorm(L){let ch=0;(L&&L.phases||[]).forEach(p=>{if(p.tool&&p.tool.id==='slide'){p.xs=[...deckSlides(p.tool),...(p.xs||[])];p.tool=null;ch=1}
+function phNorm(L){let ch=0;(L&&L.phases||[]).forEach(p=>{// Englisch: Startfolie mit Weltkugel statt Rakete (außer die Lehrkraft hat die Rakete bewusst zurückgeholt)
+  if(L.subject==='E'&&p.tool&&p.tool.id==='start'&&(p.tool.bg||'start')==='start'&&!p.tool.rk){p.tool.bg='welt';p.tool.region=p.tool.region||'uk-ie';ch=1}
+  if(p.tool&&p.tool.id==='slide'){p.xs=[...deckSlides(p.tool),...(p.xs||[])];p.tool=null;ch=1}
   if(!isGreet(p)&&(!p.xs||!p.xs.length&&!p.tool)){p.xs=[{layout:'std',bg:'allgemein',title:p.name||'',text:'',mat:'',elo:'',say:'',steps:false}];ch=1}});if(ch)save();return ch}
 function phT(L,i){i=String(i);if(i[0]==='x'){const p=L&&L.phases[+i.slice(1)];if(!p)return null;p.xs=p.xs||[];return {id:'slide',slides:p.xs,_x:1}}const p=L&&L.phases[+i];return p&&p.tool}
 // Weiter/Zurück: erst durch die Folien der Phase, dann zur nächsten Phase
@@ -6237,7 +6239,7 @@ document.addEventListener('click',e=>{
     case 'sl-done':V.sle=null;render();break;
     case 'sl-lay':{const sl=slEdSlide(d);if(sl){sl.layout=d.v;save();render()}break}
     case 'st-welt':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='welt';t.region=t.region||'uk-ie';save();render();break}
-    case 'sl-bg0':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;if(d.j==='start')t.bg='start';else{const sl=slEdSlide(d);if(sl)sl.bg='allgemein'}save();render();break}
+    case 'sl-bg0':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;if(d.j==='start'){t.bg='start';t.rk=1}else{const sl=slEdSlide(d);if(sl)sl.bg='allgemein'}save();render();break}
     case 'sl-rot':slRot(d);break;
     case 'sl-crop':case 'sl-uncrop':{const sl=slEdSlide(d);if(!sl||!V.sle||!V.sle.sel||V.sle.sel[0]!=='i')break;const m=(sl.imgs||[])[+V.sle.sel.slice(1)];if(!m)break;
       if(a==='sl-uncrop'){if(m.c){const cw=1-m.c.l-m.c.r,fw=m.w/cw;m.x=Math.round((m.x-m.c.l*fw)*10)/10;m.y=Math.round((m.y-m.c.t*fw*m.ar*slAR())*10)/10;m.w=Math.round(fw*10)/10;delete m.c}V.sle.crop=false}
@@ -6740,6 +6742,7 @@ document.addEventListener('click',e=>{
 function readClass(){const el=$('#cls');let n=el?parseInt(el.value,10):S.classSize;if(!(n>=2&&n<=40))n=S.classSize;S.classSize=n;save();return n}
 
 $('#star-ico').innerHTML=STAR;
+if(!BOARD&&S.role==='teacher'&&Array.isArray(S.lessons))try{S.lessons.forEach(phNorm)}catch(e){}
 if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};localBC(S.code);Live.start(S.code);libLoad();
   {const z=document.createElement('div');z.id='nz';z.className='nz';z.hidden=true;z.innerHTML='<span class="nz-e"><img src="assets/elo/elo-heft-512.png" alt=""><i class="nz-red"></i></span><b class="nz-b">Psst! Zu laut!</b>';document.body.appendChild(z);
    setInterval(()=>{let N=null;try{N=window.opener&&!window.opener.closed&&window.opener.NOISE}catch(e){}noiseUI(document,N||{on:false,lv:0})},120)}
