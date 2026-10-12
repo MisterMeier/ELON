@@ -1823,7 +1823,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1518';let verTold=false;
+const BUILD='20261012-1519';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
@@ -5839,8 +5839,6 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
     <label style="grid-column:1/-1">Titel der Stunde<input type="text" data-f="title" value="${esc(L.title)}"></label>
     <label>Fach<select data-f="subject">${opt(Object.fromEntries(Object.entries(SUBJECTS).map(([k,v])=>[k,v.name])),L.subject)}</select></label>
     <label style="grid-column:span 2">Mission (Stundenziel, „I can …“)<input type="text" data-f="mission" value="${esc(L.mission||'')}"></label>
-    <label>Jahrgangsstufe<select data-f="lpj"><option value="">–</option>${[5,6,7,8,9,10].map(g=>`<option ${String(L.lpj||'')===String(g)?'selected':''}>${g}</option>`).join('')}</select></label>
-    <label>Lernbereich (LehrplanPLUS)<input type="text" data-f="lplb" value="${esc(L.lplb||'')}" placeholder="z. B. M 7.2 Terme"></label>
     <label>Sequenz<input type="text" data-f="lpseq" value="${esc(L.lpseq||'')}" placeholder="z. B. Terme, Stunde 3 von 8"></label>
     ${CLOUD&&Cloud.prof?`<label style="grid-column:1/-1;flex-direction:row;display:flex;gap:10px;align-items:center;font-weight:800"><input type="checkbox" data-f="shared" ${L.shared?'checked':''} style="width:22px;height:22px" ${L.owner&&Cloud.user&&L.owner!==Cloud.user.id?'disabled':''}> Mit den Lehrkräften dieser Klasse teilen</label>`:''}
   </div>
