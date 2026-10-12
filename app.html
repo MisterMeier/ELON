@@ -1596,6 +1596,7 @@ let V={name:'dash'},stops=[];
 function go(name,arg={}){stops.forEach(f=>f());stops=[];if(typeof KF!=='undefined'&&KF&&V.name==='kfb'&&name!=='kfb')kfbStop();V={name,...arg};render();window.scrollTo(0,0)}
 function render(){
   $('#view').innerHTML=tdLocked()&&V.name!=='umzug'?lockHTML():VIEWS[V.name]();
+  if(V.name==='dash')dstripCenter();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name));
   $('#nav').hidden=V.name==='role'||tdLocked()||!S.role;{const f=$('#legal-f');if(f)f.hidden=BOARD||['present','beamer','tafel','kfb'].includes(V.name)||['impressum','datenschutz','umzug'].includes(V.name)}
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
@@ -1652,10 +1653,7 @@ VIEWS.dash=()=>{
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
       <span class="muted" style="font-weight:800">${new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}</span></div>
-    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${annAll().length?notifHTML():''}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${S.goalL?`<section class="panel gl-p"><span class="label">🎯 Unser Klassenziel · ${esc(S.goalL.t)}</span>${goalBar(S.goalL)}<p style="font-weight:800;margin-top:6px">${S.goalL.done?'Geschafft!':S.goalL.c+' / '+S.goalL.n+' Sterne · deine Sterne zählen mit'}</p></section>`:''}${areas}</div>
-    ${(()=>{const MAIN=['E','M','K'],rest=Object.keys(SUBJECTS).filter(k=>!MAIN.includes(k)&&(WEEK.some(r=>r.includes(k))||heftAll(k).length));
-      return `<section><span class="label">Meine Fächer</span><div class="subj-grid main3">${MAIN.map(subjTile).join('')}</div>
-        ${rest.length?`<div class="subj-more">${rest.map(k=>`<button class="s-${k}" data-act="subject" data-s="${k}">${esc(SUBJECTS[k].name)}</button>`).join('')}</div>`:''}</section>`})()}
+    <div style="display:grid;gap:18px;margin-bottom:18px">${annHTML()}${annAll().length?notifHTML():''}${remindHTML()}${now}${today}${aufOpen().map(a=>aufCard(a)).join('')}${S.goalL?`<section class="panel gl-p"><span class="label">🎯 Unser Klassenziel · ${esc(S.goalL.t)}</span>${goalBar(S.goalL)}<p style="font-weight:800;margin-top:6px">${S.goalL.done?'Geschafft!':S.goalL.c+' / '+S.goalL.n+' Sterne · deine Sterne zählen mit'}</p></section>`:''}</div>
     <p class="foot">Stand ${BUILD.slice(6,8)}.${BUILD.slice(4,6)}. ${BUILD.slice(9,11)}:${BUILD.slice(11)} · Dein Fortschritt ist mit deinem Kürzel gesichert. Keine Rangliste.</p>`;
 };
 // Schreibtisch: Fachordner mit Regelheft, Hausaufgaben, Lernmodulen + Lerntagebuch
@@ -1674,8 +1672,9 @@ VIEWS.desk=()=>{
 var FOTO={url:""};
 document.addEventListener('change',e=>{if(e.target.id!=='foto-in')return;const f=e.target.files&&e.target.files[0];if(!f)return;if(FOTO.url)try{URL.revokeObjectURL(FOTO.url)}catch(x){}
   medSmall(f).then(b=>{FOTO.url=URL.createObjectURL(b);render()})});
+function dstripCenter(){const c=document.querySelector('.dstrip .dcell.cur')||document.querySelector('.dstrip .dcell:not(.past)');const w=c&&c.parentElement;if(w&&!w.dataset.cx){w.dataset.cx=1;w.scrollLeft=Math.max(0,c.offsetLeft-w.offsetLeft-(w.clientWidth-c.offsetWidth)/2)}}
 function liveStrip(){
-  if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000)return '';
+  if(S.role!=='student'||!RCS||Date.now()-rcsAt>10000||!RCS.lesson)return '';
   const ph=phaseOf(RCS.phase),lp=RCS.lesson&&RCS.lesson.plan;
   const plan=lp?lp:PHASES.map(p=>p.name),cur=lp?RCS.step:PHASES.findIndex(p=>p.id===RCS.phase);
   return `<div class="pstrip"><span class="k">Live in der Klasse${RCS.lesson&&RCS.lesson.title?' · '+esc(RCS.lesson.title):''}</span>
@@ -1824,7 +1823,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1516';let verTold=false;
+const BUILD='20261012-1518';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
@@ -2681,6 +2680,8 @@ document.addEventListener('change',e=>{if(e.target&&e.target.id==='abg-f'&&e.tar
 function updBanner(){updRail();
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
+  // Leiste nur, wenn eine Stunde läuft (oder die Verbindung Hilfe braucht)
+  {const live=RCS&&Date.now()-rcsAt<=10000;if(live?!(RCS.lesson||(RCS.timer&&RCS.timer.run)):!(Live.needKey||Live.needJoin||Live.relinking)){el.hidden=true;return}}
   el.hidden=false;
   if(!RCS||Date.now()-rcsAt>10000){el.innerHTML=`<div class="live-in"><span class="dot off"></span><span class="muted" style="font-weight:700">${Live.relinking?'🔄 Verbinde neu mit deiner Klasse …':Live.needJoin?`Keine Verbindung zur Tafel. <button class="btn sm" data-act="live-re">🔄 Neu verbinden</button><small> (Kanal …${esc(String(S.code||'').slice(-4))}${Live.err?', '+esc(Live.err):''})</small>`:Live.needKey?'🔑 Scanne den Schlüssel-QR an der Tafel oder auf deiner Karte, dann geht es los.':'Warte auf die Tafel …'} · ${esc(className())} · <span title="Verbindung">${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 verbunden':'⚠️ offen verbunden'):'⏳ verbinde'):Live.kind==='demo'?'📴 nur dieses Gerät':'📴 offline'}</span> · ${esc(S.nick||"Nr. "+S.nr)}</span></div>`;return}
   const ph=phaseOf(RCS.phase),inHelp=helpOn(),tl=timerLeft(RCS.timer,OFF);
