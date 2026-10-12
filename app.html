@@ -647,6 +647,7 @@ body.tboard .bal{width:48px;height:60px}
 .adm-link{background:none;border:0;font:inherit;font-weight:700;font-size:.9rem;color:var(--muted);cursor:pointer;margin-top:6px;padding:6px 10px;border-radius:10px}.adm-link:hover{color:var(--ink);background:var(--surface-2)}
 .splash .roles .btn{min-height:84px;font-size:1.25rem;flex-direction:column;gap:4px}.splash .roles .btn small{font-size:.85rem;font-weight:700;opacity:.8}
 .tp td.tm{font-size:.8rem;font-weight:800;color:var(--muted);width:90px;vertical-align:top}
+.tpc.planned{touch-action:none;cursor:grab}.tpc.tp-src{opacity:.35}.tpc.tp-over{outline:3px solid #4f46e5;outline-offset:2px;background:#eef2ff}
 .tpc{min-height:74px;border-radius:12px;border:2px dashed var(--line);padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted)}
 .tpc.has{border:2px solid var(--sc);border-left-width:6px;background:var(--surface);color:var(--ink)}
 .tpc.planned{background:color-mix(in srgb,var(--sc) 10%,var(--surface))}
@@ -1867,7 +1868,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2144';let verTold=false;
+const BUILD='20261012-2148';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -4622,7 +4623,7 @@ function tpCopyTargets(key){const [date,i0]=key.split('|'),lid=TD.plan[key],L=le
   return out.sort((a,b)=>(a.c===src.c)-(b.c===src.c)||a.ds.localeCompare(b.ds)||a.i-b.i)}
 function tpCopyOv(key){const L=lessonById(TD.plan[key]);if(!L)return;const T=tpCopyTargets(key);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">Kopieren</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">Die Kopie ist eine eigene Stunde. Änderungen daran ändern das Original nicht.</p>
-    <label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-cp-noipad" style="width:22px;height:22px"> Diese Klasse hat keine iPads (alles läuft nur an der Tafel)</label>
+    <label class="row" style="margin-top:10px;font-weight:800;display:flex;gap:10px;align-items:center;flex-wrap:nowrap"><input type="checkbox" id="tp-cp-noipad" style="width:22px;height:22px"> Diese Klasse hat keine iPads (alles läuft nur an der Tafel)</label>
     ${T.length?`<div class="pool" style="margin-top:12px">${T.map(t=>`<button data-act="tp-cp-go" data-k="${key}" data-t="${t.ds}|${t.i}|${t.dbl?1:0}"><b>${DAYS[t.wd]}, ${new Date(t.ds+'T12:00').toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${t.i+1}.${t.dbl?'–'+(t.i+2)+'.':''} Stunde</b><small>${esc(t.c)}${t.dbl?' · Doppelstunde':''}</small></button>`).join('')}</div>`
       :'<p class="muted" style="font-weight:700;margin-top:12px">In den nächsten zwei Wochen ist keine freie Stunde in diesem Fach im Stundenplan.</p>'}
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`)}
@@ -4631,6 +4632,37 @@ function tpCopyGo(key,tgt){const L0=lessonById(TD.plan[key]);if(!L0)return;const
   if($('#tp-cp-noipad')&&$('#tp-cp-noipad').checked)L.phases.forEach(p=>p.noipad=true);lessons().push(L);save();
   const [d0,i0]=key.split('|'),srcDbl=TD.plan[d0+'|'+(+i0+1)]===L0.id||TD.plan[d0+'|'+(+i0-1)]===L0.id;
   TD.plan[ds+'|'+i]=L.id;cloudPlan(wd,+i,ds,L.id);if(db==='1'&&srcDbl){TD.plan[ds+'|'+(+i+1)]=L.id;cloudPlan(wd,+i+1,ds,L.id)}tsave()}
+// Wochenplanung: geplante Stunde anfassen und auf eine andere Stunde ziehen. Danach: verschieben (bei belegter Stunde: tauschen) oder duplizieren.
+const TPD={on:null};
+const tpBlock=(date,i)=>{const lid=TD.plan[date+'|'+i];if(!lid)return [];let a=i,b=i;while(TD.plan[date+'|'+(a-1)]===lid)a--;while(TD.plan[date+'|'+(b+1)]===lid)b++;const r=[];for(let k=a;k<=b;k++)r.push(k);return r};
+document.addEventListener('pointerdown',e=>{if(V.name!=='tplan'||V.ttEdit||e.button>0)return;const c=e.target.closest&&e.target.closest('.tpc.planned');if(!c||e.target.closest('button'))return;
+  TPD.on={c,x:e.clientX,y:e.clientY,date:c.dataset.date,i:+c.dataset.i,d:+c.dataset.d,drag:false,g:null}});
+document.addEventListener('pointermove',e=>{const D=TPD.on;if(!D)return;if(!D.drag){if(Math.hypot(e.clientX-D.x,e.clientY-D.y)<10)return;D.drag=true;
+    const r=D.c.getBoundingClientRect();D.g=D.c.cloneNode(true);Object.assign(D.g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',pointerEvents:'none',zIndex:999,opacity:.85,transform:'rotate(-2deg)',boxShadow:'0 12px 30px rgba(30,58,138,.3)',background:'#fff'});D.ox=e.clientX-r.left;D.oy=e.clientY-r.top;document.body.appendChild(D.g);D.c.classList.add('tp-src')}
+  e.preventDefault();D.g.style.left=(e.clientX-D.ox)+'px';D.g.style.top=(e.clientY-D.oy)+'px';
+  document.querySelectorAll('.tpc.tp-over').forEach(x=>x.classList.remove('tp-over'));const t=document.elementFromPoint(e.clientX,e.clientY),tc=t&&t.closest&&t.closest('.tpc.has');if(tc&&tc!==D.c)tc.classList.add('tp-over')},{passive:false});
+function tpDragEnd(e){const D=TPD.on;TPD.on=null;if(!D||!D.drag)return;if(D.g)D.g.remove();D.c.classList.remove('tp-src');document.querySelectorAll('.tpc.tp-over').forEach(x=>x.classList.remove('tp-over'));
+  TPD.noClick=Date.now();const t=e&&document.elementFromPoint(e.clientX,e.clientY),tc=t&&t.closest&&t.closest('.tpc.has');if(!tc||tc===D.c)return;
+  const to={date:tc.dataset.date,i:+tc.dataset.i,d:+tc.dataset.d};if(to.date===D.date&&tpBlock(D.date,D.i).includes(to.i))return;tpDropOv(D,to)}
+document.addEventListener('pointerup',tpDragEnd);document.addEventListener('pointercancel',()=>tpDragEnd(null));
+document.addEventListener('click',e=>{if(TPD.noClick&&Date.now()-TPD.noClick<400&&e.target.closest&&e.target.closest('.tpc')){e.stopPropagation();e.preventDefault()}},true);
+function tpDropOv(D,to){const L=lessonById(TD.plan[D.date+'|'+D.i]);if(!L)return;const blk=tpBlock(D.date,D.i),occ=TD.plan[to.date+'|'+to.i],O=occ&&lessonById(occ),sl=TD.tt[to.d+'-'+to.i]||{};
+  const f=(ds,i)=>`${DAYS[(new Date(ds+'T12:00').getDay()+6)%7]}, ${new Date(ds+'T12:00').toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
+  TPD.mv={from:D.date+'|'+blk[0],n:blk.length,to:to.date+'|'+to.i};
+  showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${esc(L.title)}${blk.length>1?' · Doppelstunde':''}</span><h2>${f(D.date,blk[0])}${blk.length>1?'–'+(blk[blk.length-1]+1)+'.':''} → ${f(to.date,to.i)}${sl.c?' · '+esc(sl.c):''}</h2>
+    ${O?`<p class="muted" style="font-weight:700">Dort ist schon „${esc(O.title)}“ geplant.</p>`:''}
+    <label class="row" style="margin-top:10px;font-weight:800;display:flex;gap:10px;align-items:center;flex-wrap:nowrap"><input type="checkbox" id="tp-mv-noipad" style="width:22px;height:22px"> Beim Duplizieren: Klasse ohne iPads (alles nur an der Tafel)</label>
+    <div class="row" style="margin-top:14px"><button class="btn pri" data-act="tp-mv" data-m="move">${O?'Tauschen':'Verschieben'}</button><button class="btn" data-act="tp-mv" data-m="dup" ${O?'disabled title="Die Stunde ist schon belegt"':''}>Duplizieren</button><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`)}
+function tpMove(mode){const M=TPD.mv;if(!M)return;const [fd,fi]=M.from.split('|'),[td,ti]=M.to.split('|'),lid0=TD.plan[M.from];const L0=lessonById(lid0);if(!L0)return;
+  const wd=ds=>(new Date(ds+'T12:00').getDay()+6)%7,set=(ds,i,id)=>{const k=ds+'|'+i;if(id){TD.plan[k]=id;cloudPlan(wd(ds),i,ds,id)}else{delete TD.plan[k];cloudUnplan(k)}};
+  // Ziel-Block: so lang wie die Quelle, solange dort Stunden im Stundenplan stehen
+  const tgt=[];for(let k=0;k<M.n;k++){const i=+ti+k;if(k&&!TD.tt[wd(td)+'-'+i])break;tgt.push(i)}
+  if(mode==='dup'){const L=clone(L0);L.id=lid();delete L.owner;delete L.shared;const sl=TD.tt[wd(td)+'-'+ti]||{},sf=TD.tt[wd(fd)+'-'+fi]||{};if(sl.c&&sl.c!==sf.c&&!L.title.includes(sl.c))L.title+=' · '+sl.c;
+    if($('#tp-mv-noipad')&&$('#tp-mv-noipad').checked)L.phases.forEach(p=>p.noipad=true);lessons().push(L);save();tgt.forEach(i=>set(td,i,L.id))}
+  else{const other=TD.plan[M.to],ob=other?tpBlock(td,+ti):[];const src=[];for(let k=0;k<M.n;k++)src.push(+fi+k);
+    src.forEach(i=>set(fd,i,null));ob.forEach(i=>set(td,i,null));tgt.forEach(i=>set(td,i,lid0));
+    if(other)ob.forEach((_,k)=>{if(k<src.length||TD.tt[wd(fd)+'-'+(+fi+k)])set(fd,+fi+k,other)})}
+  TPD.mv=null;tsave()}
 function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave();cloudPlan(d,i,date,lid);if(dbl)cloudPlan(d,i+1,date,lid)}
 
 /* =====================================================================
@@ -6763,6 +6795,7 @@ document.addEventListener('click',e=>{
     case 'my-subj':{const set=d.set.split('|');S.mySubj=(S.mySubj||[]).filter(x=>!set.includes(x)).concat(d.s);save();if(SLOTS_RAW)applyWeek(SLOTS_RAW);render();break}
     case 'ctt-split':{const k=d.d+'-'+d.i,used=new Set([...CT.slots.filter(x=>x.day===+d.d&&x.period===+d.i).map(x=>x.grp||0),...((CT.add||{})[k]||[])]);let g=0;while(used.has(g))g++;if(g<4){CT.add=CT.add||{};(CT.add[k]=CT.add[k]||[]).push(g)}render();break}
     case 'tt-edit':if(CLOUD&&Cloud.prof){go('ctt',{cid:S.cls,from:'tplan'});break}V.ttEdit=!V.ttEdit;render();break;
+    case 'tp-mv':tpMove(d.m);$('#ov').hidden=true;render();break;
     case 'tp-cp':tpCopyOv(d.k);break;
     case 'tp-cp-go':tpCopyGo(d.k,d.t);$('#ov').hidden=true;V.msg='Kopiert.';render();break;
     case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
