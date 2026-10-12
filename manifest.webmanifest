@@ -1,7 +1,7 @@
 {
  "name": "ELIO",
  "short_name": "ELIO",
- "start_url": "./",
+ "start_url": "app.html",
  "scope": "./",
  "display": "standalone",
  "background_color": "#eef1f8",
