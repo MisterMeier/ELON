@@ -1572,7 +1572,8 @@ function showOv(html,k=''){const ov=$('#ov');ov.innerHTML=html;ov.dataset.k=k;ov
 function checkSlot(){
   if(S.role!=='student')return;
   const sl=slotNow();
-  if(sl.kind!=='lesson')return;
+  // Kein automatisches Fenster mehr nach Stundenplan: Die Lehrkraft startet die Stunde an der Tafel (Bereit-Check). Nur der Test-Modus zeigt es noch.
+  if(sl.kind!=='lesson'||!sl.n.sim)return;
   const key=`${todayISO()}|${sl.n.day}|${sl.l.p}|${sl.n.sim?'sim':''}`;
   if(key===S.lastSlot)return;
   const prev=S.lastSubj;S.lastSlot=key;S.lastSubj=sl.l.s;save();
@@ -1826,7 +1827,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1453';let verTold=false;
+const BUILD='20261012-1455';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
