@@ -1,0 +1,210 @@
+{
+ "1 Naturwissenschaftlich arbeiten": {
+  "tipps": [
+   "Forscherweg: Frage – Vermutung – Versuch – Beobachtung – Ergebnis. Schreib die fünf Wörter vorne in dein Heft.",
+   "Erst sehen, dann erklären: In die Beobachtung kommt nur, was du siehst und misst. Das Warum kommt ins Ergebnis.",
+   "Einheit nicht vergessen: Eine Zahl ohne Einheit ist im Protokoll falsch. Schreib immer 20 °C, 5 g oder 3 min.",
+   "Sicherheit: Schutzbrille auf, Haare zusammen, nichts essen. Das gilt bei jedem Versuch.",
+   "Modell-Check: Frag dich bei jedem Modell: Was zeigt es gut? Was zeigt es nicht?"
+  ],
+  "fleiss": [
+   {
+    "q": "Plane einen eigenen kleinen Versuch für zu Hause (z. B. Welche Socke trocknet am schnellsten?). Schreib ein vollständiges Protokoll mit Skizze.",
+    "a": "Alle 6 Teile: Frage, Vermutung, Material, Durchführung, Beobachtung mit Messwerten, Ergebnis. Nur eine Sache wird verändert. Saubere Skizze mit Beschriftung.",
+    "p": 3
+   },
+   {
+    "q": "Miss eine Woche lang jeden Tag zur gleichen Uhrzeit die Temperatur draußen. Zeichne ein Liniendiagramm.",
+    "a": "Tabelle mit 7 Werten in °C. Diagramm: x-Achse Tage, y-Achse Temperatur in °C, gleiche Abstände, Punkte verbunden.",
+    "p": 2
+   },
+   {
+    "q": "Gestalte eine Sicherheitskarte für den Fachraum: alle 5 Gefahrensymbole mit Bedeutung und je einem Beispiel aus dem Haushalt.",
+    "a": "Flamme (Grillanzünder), Ätzwirkung (Abflussreiniger), Totenkopf (Rattengift), Ausrufezeichen (Entkalker), Umwelt (Lampenöl).",
+    "p": 2
+   }
+  ]
+ },
+ "2 Luft und Verbrennung": {
+  "tipps": [
+   "Luft in Zahlen: 78 – 21 – 1. Stickstoff, Sauerstoff, Rest. Sag es dreimal laut.",
+   "Kleine Zahl genau lesen: O₂ heißt ein Molekül aus zwei Atomen. CO₂ hat drei Atome.",
+   "Branddreieck: Brennstoff, Sauerstoff, Zündtemperatur. Zum Löschen nimmst du eine Seite weg.",
+   "Wortgleichung: Links die Ausgangsstoffe, dann der Pfeil, rechts das Produkt. Der Pfeil heißt „reagiert zu“.",
+   "Alltag beobachten: Wo siehst du Rost? Wo wird ein Apfel braun? Das ist Chemie in deiner Küche."
+  ],
+  "fleiss": [
+   {
+    "q": "Lege 3 Eisennägel in 3 Gläser: trocken, Leitungswasser, Salzwasser. Fotografiere sie eine Woche lang jeden zweiten Tag und erkläre das Ergebnis.",
+    "a": "Salzwasser: am meisten Rost. Leitungswasser: etwas Rost. Trocken: fast keiner. Rost braucht Sauerstoff und Wasser, Salz beschleunigt.",
+    "p": 3
+   },
+   {
+    "q": "Mach einen Brandschutz-Check bei dir zu Hause (mit einem Erwachsenen): Rauchmelder, Feuerlöscher, Fluchtweg. Schreib auf, was gut ist und was fehlt.",
+    "a": "Zum Beispiel: Rauchmelder in Schlafzimmer, Kinderzimmer und Flur (in Bayern Pflicht). Fluchtweg frei. Notruf 112 bekannt. Löschdecke in der Küche wäre gut.",
+    "p": 2
+   },
+   {
+    "q": "Suche eine Windkraftanlage in deiner Nähe oder im Internet. Wie hoch ist sie? Wie viele Haushalte versorgt sie? Mach einen Steckbrief.",
+    "a": "Steckbrief mit Ort, Höhe (oft 100 bis 200 m), Rotordurchmesser, Leistung und ungefährer Zahl der Haushalte. Quelle angeben.",
+    "p": 2
+   }
+  ]
+ },
+ "3 Atome und Periodensystem": {
+  "tipps": [
+   "P-N-E: Protonen und Neutronen im Kern, Elektronen in der Hülle.",
+   "Ordnungszahl = Protonen = Elektronen. Neutronen = Massenzahl minus Ordnungszahl.",
+   "Periodensystem: Zeile = Periode, Spalte = Hauptgruppe. Stell dir eine Familie in jeder Spalte vor.",
+   "Symbole lernen: Jeden Tag 5 Symbole auf Karteikarten. Vorne das Symbol, hinten der Name.",
+   "Elo sagt: Groß und klein ist wichtig! Co ist ein Metall, CO ist ein giftiges Gas."
+  ],
+  "fleiss": [
+   {
+    "q": "Baue ein Atommodell von Kohlenstoff oder Sauerstoff aus Knete oder Papier. Beschrifte Protonen, Neutronen und Elektronen.",
+    "a": "Kohlenstoff: Kern mit 6 Protonen und 6 Neutronen, Hülle mit 6 Elektronen. Sauerstoff: 8, 8, 8. Kern deutlich kleiner als die Hülle.",
+    "p": 3
+   },
+   {
+    "q": "Erstelle für 10 Elemente eine Tabelle: Symbol, Name, Ordnungszahl, Massenzahl, Protonen, Neutronen, Elektronen.",
+    "a": "Zum Beispiel H 1/1: 1, 0, 1. He 2/4: 2, 2, 2. C 6/12: 6, 6, 6. N 7/14: 7, 7, 7. O 8/16: 8, 8, 8. Na 11/23: 11, 12, 11. Mg 12/24: 12, 12, 12. Al 13/27: 13, 14, 13.",
+    "p": 2
+   },
+   {
+    "q": "Mach einen Steckbrief zu einem Element deiner Wahl: Symbol, Metall oder Nichtmetall, Eigenschaften, Verwendung, ein spannender Fakt.",
+    "a": "Zum Beispiel Kupfer: Cu, Metall, rotbraun, leitet sehr gut, Kabel und Münzen, Fakt: Die Freiheitsstatue ist aus Kupfer und wurde durch Oxidation grün.",
+    "p": 2
+   }
+  ]
+ },
+ "4 Wirbeltiere an Land, im Wasser und in der Luft": {
+  "tipps": [
+   "Fünf Klassen, fünf Finger: Fisch, Amphibie, Reptil, Vogel, Säugetier. Zähl sie an der Hand ab.",
+   "Haut verrät die Klasse: Schuppen mit Schleim, nackte feuchte Haut, Hornschuppen, Federn, Fell.",
+   "Nicht vom Lebensraum täuschen lassen: Wal und Delfin leben im Wasser, sind aber Säugetiere.",
+   "Anpassung heißt: Der Körper passt zum Lebensraum. Frag immer: Wozu ist das gut?",
+   "Draußen beobachten: Schau dir Vögel im Flug an. Schlagen sie mit den Flügeln oder segeln sie?"
+  ],
+  "fleiss": [
+   {
+    "q": "Mach ein Plakat zu den 5 Wirbeltierklassen mit je einem Tier aus Bayern, Bild und 3 Merkmalen.",
+    "a": "Zum Beispiel: Bachforelle, Grasfrosch, Zauneidechse, Amsel, Igel. Merkmale: Haut, Atmung, Fortpflanzung, Körpertemperatur.",
+    "p": 3
+   },
+   {
+    "q": "Beobachte 15 Minuten lang Vögel im Park oder am Fenster. Notiere Art (wenn bekannt), Flugart und Verhalten.",
+    "a": "Protokoll mit Uhrzeit, Ort, Wetter. Zum Beispiel: Taube Ruderflug, Krähe Gleitflug beim Landen, Bussard Segelflug.",
+    "p": 2
+   },
+   {
+    "q": "Vergleiche in einer Tabelle Forelle und Delfin: Klasse, Atmung, Haut, Schwanzflosse, Fortpflanzung.",
+    "a": "Forelle: Fisch, Kiemen, Schuppen, senkrechte Flosse, Laich. Delfin: Säugetier, Lunge, glatte Haut, waagrechte Flosse, lebende Junge, Milch.",
+    "p": 2
+   }
+  ]
+ },
+ "5 Atmung des Menschen": {
+  "tipps": [
+   "Weg der Luft: Nase – Rachen – Kehlkopf – Luftröhre – Bronchien – Lungenbläschen. Zeig ihn mit dem Finger an deinem Körper.",
+   "Einatmen = Brustraum größer. Ausatmen = Brustraum kleiner. Die Lunge macht nur mit.",
+   "Zwerchfell runter = Luft rein. Leg die Hand auf den Bauch und spür es.",
+   "Gasaustausch: Sauerstoff rein ins Blut, Kohlenstoffdioxid raus aus dem Blut.",
+   "Atme durch die Nase. Sie ist dein Luftfilter und deine Heizung."
+  ],
+  "fleiss": [
+   {
+    "q": "Baue ein Lungenmodell aus einer Plastikflasche und zwei Luftballons (Flasche von einem Erwachsenen aufschneiden lassen). Erkläre es in einem kurzen Video oder vor der Klasse.",
+    "a": "Flasche = Brustkorb, Ballon = Lunge, Gummihaut = Zwerchfell. Ziehen = Einatmen, Drücken = Ausatmen. Grenze des Modells nennen.",
+    "p": 3
+   },
+   {
+    "q": "Miss deine Atemzüge pro Minute: im Liegen, im Sitzen, nach 2 Minuten Treppensteigen. Zeichne ein Säulendiagramm.",
+    "a": "Zum Beispiel: Liegen 12, Sitzen 16, nach Treppe 30. Je mehr Bewegung, desto schneller atmen wir.",
+    "p": 2
+   },
+   {
+    "q": "Mach ein Infoblatt: „Warum Rauchen der Lunge schadet“. 5 Fakten mit Bildern.",
+    "a": "Teer verklebt Flimmerhärchen, Raucherhusten, Lungenbläschen gehen kaputt, Krebsgefahr, Nikotin macht süchtig. Auch Shisha und E-Zigarette schaden.",
+    "p": 2
+   }
+  ]
+ },
+ "6 Herz und Blutkreislauf": {
+  "tipps": [
+   "Arterie = Abweg vom Herzen. Beide Wörter beginnen mit A.",
+   "Rot, weiß, Plättchen: Transport, Abwehr, Wunde zu.",
+   "Zwei Kreisläufe: Der kleine geht zur Lunge, der große in den Körper.",
+   "Puls messen: 15 Sekunden zählen und mal 4 nehmen. Probiere es vor und nach dem Sport.",
+   "Dein Herz ist ein Muskel. Muskeln werden durch Training stark. Jeden Tag 60 Minuten Bewegung!"
+  ],
+  "fleiss": [
+   {
+    "q": "Zeichne einen großen Plan des Blutkreislaufs mit Herz, Lunge und Körper. Male sauerstoffreiches Blut rot, sauerstoffarmes blau und beschrifte Arterien, Venen und Kapillaren.",
+    "a": "Zwei Schleifen, Herz in der Mitte mit 4 Räumen, Pfeile für die Richtung, alle Gefäße richtig beschriftet und farbig.",
+    "p": 3
+   },
+   {
+    "q": "Miss eine Woche lang jeden Morgen deinen Ruhepuls und notiere, wie viel du dich am Vortag bewegt hast.",
+    "a": "Tabelle mit 7 Tagen, Puls pro Minute und Minuten Bewegung. Auswertung in 2 Sätzen.",
+    "p": 2
+   },
+   {
+    "q": "Recherchiere beim Blutspendedienst: Warum ist Blut so wichtig? Wer darf spenden? Wie läuft eine Spende ab? Schreib einen kurzen Bericht.",
+    "a": "Ab 18 Jahren, gesund, mind. 50 kg. Ca. 500 ml, dauert ca. 10 Minuten. Blut ist nur kurz haltbar und kann nicht künstlich hergestellt werden.",
+    "p": 2
+   }
+  ]
+ },
+ "7 Elektrische Spannung und Stromstärke": {
+  "tipps": [
+   "Kreis heißt Kreis: Strom braucht einen Hinweg und einen Rückweg.",
+   "U und V gehören zusammen: Spannung U in Volt. I und A gehören zusammen: Stromstärke I in Ampere.",
+   "Amperemeter in den Kreis, Voltmeter daneben. Merke: A wie „Auftrennen“.",
+   "Schaltpläne immer mit Lineal und rechten Winkeln zeichnen.",
+   "Experimentiere nur mit Batterien. Die Steckdose ist tabu."
+  ],
+  "fleiss": [
+   {
+    "q": "Baue einen Elektromagneten (Eisennagel, Kupferlackdraht, Flachbatterie, nur kurz anschließen). Teste mit 10, 20 und 30 Windungen, wie viele Büroklammern er hebt. Zeichne ein Diagramm.",
+    "a": "Tabelle Windungen und Klammern, z. B. 10: 1, 20: 3, 30: 5. Säulendiagramm. Ergebnis: Mehr Windungen, stärkerer Magnet.",
+    "p": 3
+   },
+   {
+    "q": "Schau dir 5 Ladegeräte oder Netzteile zu Hause an (nur lesen, nicht öffnen). Schreib Ausgangsspannung (Output) und Stromstärke ab.",
+    "a": "Zum Beispiel: Handy 5 V, 2 A. Laptop 19 V, 3,4 A. Router 12 V, 1 A. Alle viel kleiner als 230 V.",
+    "p": 2
+   },
+   {
+    "q": "Mach einen Steckbrief zu Alessandro Volta oder André-Marie Ampère: Leben, Erfindung, warum eine Einheit nach ihm benannt ist.",
+    "a": "Volta (1745–1827, Italien): erste Batterie, die Voltasche Säule. Ampère (1775–1836, Frankreich): erforschte Strom und Magnetismus.",
+    "p": 2
+   }
+  ]
+ },
+ "8 Elektrischer Widerstand": {
+  "tipps": [
+   "URI: U = R · I. Deck den gesuchten Buchstaben mit dem Finger ab, dann siehst du die Formel.",
+   "Rechne immer mit Einheit: 6 V : 0,5 A = 12 Ω.",
+   "Lang und dünn = großer Widerstand. Kurz und dick = kleiner Widerstand.",
+   "Georg Simon Ohm kommt aus Erlangen. Ein Forscher aus Bayern!",
+   "Bei einem Stromunfall: Erst Strom aus, dann 112, dann helfen."
+  ],
+  "fleiss": [
+   {
+    "q": "Rechne 10 Aufgaben zum Ohm'schen Gesetz. Erfinde selbst Werte für U und I und berechne R. Kontrolliere mit U = R · I.",
+    "a": "Zum Beispiel U = 9 V, I = 0,3 A, R = 30 Ω. Probe: 30 Ω · 0,3 A = 9 V. Alle 10 Aufgaben mit Einheit und Probe.",
+    "p": 3
+   },
+   {
+    "q": "Mach einen Strom-Sicherheits-Rundgang zu Hause: Gibt es kaputte Kabel, überlastete Mehrfachstecker, Geräte im Bad? Schreib eine Liste mit Verbesserungen.",
+    "a": "Zum Beispiel: Mehrfachstecker nicht hintereinander stecken, kaputtes Kabel austauschen, Föhn nicht neben der Badewanne, Kinderschutz an Steckdosen.",
+    "p": 2
+   },
+   {
+    "q": "Recherchiere: Was ist ein FI-Schalter, und warum ist er seit Jahren in neuen Wohnungen Pflicht? Erkläre es in 5 einfachen Sätzen.",
+    "a": "Er vergleicht den Strom, der hinfließt, mit dem Strom, der zurückfließt. Fließt Strom durch einen Menschen in die Erde, fehlt etwas. Dann schaltet er in Sekundenbruchteilen ab. So rettet er Leben. Er hat eine Testtaste.",
+    "p": 2
+   }
+  ]
+ }
+}

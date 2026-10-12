@@ -1,0 +1,1717 @@
+[
+ {
+  "ch": "1 Naturwissenschaftlich arbeiten",
+  "title": "1.1 Forschen wie Profis",
+  "text": "# Der Forscherweg\n[bilder: ❓ die Frage | 💡 die Vermutung | 🧪 der Versuch | 👀 die Beobachtung | ✅ das Ergebnis]\n- Forscher gehen immer in Schritten vor.\n- 1. Frage: Was will ich wissen?\n- 2. Vermutung (Fachwort: Hypothese): Was denke ich vorher?\n- 3. Versuch planen und durchführen.\n- 4. Beobachten und messen. Alles aufschreiben.\n- 5. Auswerten: Stimmt meine Vermutung oder nicht?\n# Das Versuchsprotokoll\n| Teil | Was schreibe ich? |\n|---|---|\n| Frage | Was wollen wir herausfinden? |\n| Vermutung | Was denke ich vorher? |\n| Material | Welche Geräte und Stoffe brauche ich? |\n| Durchführung | Was mache ich? Schritt für Schritt. |\n| Beobachtung | Was sehe, höre, rieche, messe ich? |\n| Ergebnis | Was bedeutet das? Stimmt die Vermutung? |\n- Eine Skizze hilft. Zeichne den Aufbau mit Lineal und beschrifte ihn.\n# Beobachtung oder Meinung?\n- Beobachtung: Das Wasser ist nach 5 Minuten 60 °C warm. Das ist beschreibend.\n- Meinung: Der Versuch ist langweilig. Das ist bewertend.\n- Im Protokoll stehen bei der Beobachtung nur Fakten.\nMerke: Frage – Vermutung – Versuch – Beobachtung – Ergebnis. Eine Vermutung darf auch falsch sein. Auch dann lernen wir etwas.",
+  "help": "# Vermutung\nFalsch: Meine Vermutung war falsch. Also ist mein Versuch schlecht.\nRichtig: Eine falsche Vermutung ist normal. Der Versuch zeigt, was wirklich passiert.\n# Beobachtung\nFalsch: Beobachtung: Das Wasser kocht, weil es heiß ist.\nRichtig: Beobachtung: Das Wasser blubbert. Die Erklärung kommt erst beim Ergebnis.\n# Protokoll\nAchtung: Schreib die Durchführung so genau, dass ein anderer Schüler den Versuch nachmachen kann.\n# Beschreibend oder bewertend\nAchtung: „Das Metall ist 20 cm lang“ ist beschreibend. „Das Metall ist schön“ ist bewertend.",
+  "ub": {
+   "t": "match",
+   "x": "Frage | Was wollen wir herausfinden?\nVermutung | Was denke ich vorher?\nMaterial | Geräte und Stoffe\nDurchführung | Was mache ich Schritt für Schritt?\nBeobachtung | Was sehe und messe ich?\nErgebnis | Stimmt die Vermutung?"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Protokoll-Teil und Inhalt",
+    "x": "Frage | Was wollen wir herausfinden?\nVermutung | Was denke ich vorher?\nMaterial | Geräte und Stoffe\nDurchführung | Was mache ich Schritt für Schritt?\nBeobachtung | Was sehe und messe ich?\nErgebnis | Stimmt die Vermutung?"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Der Forscherweg",
+    "x": "Am Anfang steht eine *Frage*.\nDann schreibe ich meine *Vermutung* auf. Das Fachwort ist *Hypothese*.\nIm *Versuch* teste ich die Vermutung.\nBei der *Beobachtung* schreibe ich nur Fakten auf.\nZum Schluss formuliere ich das *Ergebnis*."
+   },
+   {
+    "t": "mc",
+    "n": "Beschreibend oder bewertend?",
+    "x": "„Die Kerze brennt 4 Minuten.“ Was ist das?\n+ beschreibend\n- bewertend\n\n„Chemie ist das beste Fach.“ Was ist das?\n- beschreibend\n+ bewertend\n\nWas gehört in die Beobachtung?\n+ Die Flüssigkeit wird blau.\n- Ich finde die Farbe schön.\n- Der Versuch war zu lang.\n\nWas ist eine Hypothese?\n- das Ergebnis\n+ eine Vermutung\n- ein Messgerät\n\nWozu dient ein Protokoll?\n+ Andere können den Versuch nachmachen und prüfen.\n- Es ersetzt den Versuch.\n- Es ist nur für die Note."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Ordne die fünf Schritte des Forscherwegs in die richtige Reihenfolge: Ergebnis, Frage, Versuch, Vermutung, Beobachtung.",
+    "a": "Frage – Vermutung – Versuch – Beobachtung – Ergebnis."
+   },
+   {
+    "l": 1,
+    "q": "Schreib zu jedem Teil des Protokolls einen Satz zum Versuch: Ein Eiswürfel liegt in warmem und in kaltem Wasser.",
+    "a": "Frage: Wo schmilzt der Eiswürfel schneller? Vermutung: im warmen Wasser. Material: 2 Gläser, Wasser, 2 Eiswürfel, Uhr. Durchführung: je einen Eiswürfel ins Glas legen, Zeit messen. Beobachtung: warm nach ca. 2 Minuten geschmolzen, kalt nach ca. 10 Minuten. Ergebnis: Vermutung stimmt."
+   },
+   {
+    "l": 2,
+    "q": "Plane einen Versuch zur Frage: Trocknet ein nasses T-Shirt in der Sonne schneller als im Schatten? Schreib Vermutung, Material und Durchführung.",
+    "a": "Vermutung: In der Sonne trocknet es schneller. Material: 2 gleiche T-Shirts, gleich viel Wasser, Uhr. Durchführung: Beide gleich nass machen, eins in die Sonne, eins in den Schatten, alle 15 Minuten fühlen. Nur eine Sache ändern (Sonne oder Schatten)."
+   },
+   {
+    "l": 2,
+    "q": "Schreib je 3 beschreibende und 3 bewertende Sätze über dein Fahrrad oder deinen Rucksack.",
+    "a": "Beschreibend: Er ist blau. Er wiegt 2 kg. Er hat 3 Fächer. Bewertend: Er ist schön. Er ist zu schwer. Er ist praktisch."
+   },
+   {
+    "l": 3,
+    "q": "Warum darf man in einem Versuch immer nur eine Sache verändern? Erkläre mit einem Beispiel.",
+    "a": "Sonst weiß man nicht, was die Ursache ist. Beispiel: Ändere ich bei der Pflanze Licht und Wasser gleichzeitig, weiß ich nicht, was das Wachstum bewirkt hat."
+   },
+   {
+    "l": 3,
+    "q": "Ein Mitschüler schreibt: „Beobachtung: Die Kerze geht aus, weil der Sauerstoff fehlt.“ Was ist falsch? Verbessere den Satz.",
+    "a": "Er mischt Beobachtung und Erklärung. Besser: Beobachtung: Die Kerze geht nach 10 Sekunden aus. Ergebnis/Erklärung: Unter dem Glas fehlt Sauerstoff."
+   }
+  ],
+  "mt": "Was ist eine Hypothese?\n+ eine Vermutung\n- ein Ergebnis\n- ein Gerät\n\nWas kommt nach dem Versuch?\n- die Frage\n+ die Beobachtung\n- die Vermutung\n\nWelcher Satz ist beschreibend?\n+ Das Wasser hat 30 °C.\n- Das Wasser ist zu kalt zum Baden.\n- Das Experiment ist toll.\n\nWas steht im Teil Material?\n- was ich beobachte\n+ Geräte und Stoffe\n- das Ergebnis\n\nDie Vermutung war falsch. Was stimmt?\n- Der Versuch ist wertlos.\n+ Das ist normal. Wir lernen trotzdem etwas.\n- Ich ändere die Beobachtung."
+ },
+ {
+  "ch": "1 Naturwissenschaftlich arbeiten",
+  "title": "1.2 Sicher im Fachraum",
+  "text": "# Regeln im Fachraum\n[bilder: 🥽 die Schutzbrille | 🧤 die Handschuhe | 👩‍🏫 die Lehrkraft | 🧯 der Feuerlöscher | 🚿 die Augendusche]\n- Ich esse und trinke nicht im Fachraum.\n- Ich trage eine Schutzbrille, wenn die Lehrkraft es sagt.\n- Lange Haare binde ich zusammen.\n- Ich probiere nie Stoffe. Ich rieche nur vorsichtig: Ich fächle mit der Hand.\n- Ich mache nur Versuche, die die Lehrkraft erlaubt.\n- Ich melde jeden Unfall sofort.\n- Ich kenne den Not-Aus-Schalter, den Feuerlöscher und die Augendusche.\n# Gefahrensymbole\n| Symbol | Bedeutung | Beispiel |\n|---|---|---|\n| 🔥 Flamme | entzündbar | Spiritus, Benzin |\n| 🧪 Ätzwirkung | zerstört Haut und Augen | Salzsäure, Abflussreiniger |\n| ☠️ Totenkopf | giftig | manche Pflanzenschutzmittel |\n| ❗ Ausrufezeichen | reizend, gesundheitsschädlich | Entkalker |\n| 🌳 Umwelt | schädlich für Wasser und Tiere | Lampenöl |\n- Die Symbole sind rote Rauten mit schwarzem Bild auf weißem Grund.\n# Der Gasbrenner\n- Der Gasbrenner (z. B. Teclubrenner) macht eine heiße Flamme.\n- Vorher: Schutzbrille auf, Haare zusammen, nichts Brennbares in der Nähe.\n- Erst Luftzufuhr schließen. Dann Gas öffnen und sofort anzünden.\n- Leuchtende Flamme (gelb): wenig Luft, nicht so heiß.\n- Rauschende Flamme (blau): viel Luft, sehr heiß, bis ca. 1500 °C.\n- Am Ende: Gas zudrehen.\nMerke: Sicherheit zuerst. Ich arbeite nur mit Schutzbrille und nur, wenn die Lehrkraft es erlaubt.",
+  "help": "# Riechen\nFalsch: Ich halte die Nase direkt über das Glas.\nRichtig: Ich fächle mit der Hand etwas Luft zur Nase.\n# Gefahrensymbole\nAchtung: Auch im Haushalt gibt es Stoffe mit Gefahrensymbolen, z. B. Reiniger. Lies das Etikett.\n# Flamme\nFalsch: Die gelbe Flamme ist am heißesten.\nRichtig: Die blaue, rauschende Flamme ist am heißesten.\n# Unfall\nFalsch: Ein kleiner Unfall ist nicht schlimm. Ich sage nichts.\nRichtig: Ich melde jeden Unfall sofort der Lehrkraft.",
+  "ub": {
+   "t": "match",
+   "x": "Flamme | entzündbar\nÄtzwirkung | zerstört Haut und Augen\nTotenkopf | giftig\nAusrufezeichen | reizend\nUmwelt | schädlich für Tiere und Wasser\nSchutzbrille | schützt die Augen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Symbol und Bedeutung",
+    "x": "Flamme | entzündbar\nÄtzwirkung | zerstört Haut und Augen\nTotenkopf | giftig\nAusrufezeichen | reizend\nUmwelt | schädlich für Tiere und Wasser\nSchutzbrille | schützt die Augen"
+   },
+   {
+    "t": "mc",
+    "n": "Richtig oder falsch im Fachraum?",
+    "x": "Darf ich im Fachraum etwas trinken?\n- ja, wenn ich Durst habe\n+ nein, nie\n- nur Wasser\n\nWie rieche ich an einem Stoff?\n- Nase direkt über das Glas\n+ mit der Hand Luft zur Nase fächeln\n- gar nicht, ich probiere lieber\n\nWelche Flamme ist am heißesten?\n- die gelbe, leuchtende Flamme\n+ die blaue, rauschende Flamme\n- beide sind gleich heiß\n\nWas mache ich bei einem Unfall?\n+ sofort der Lehrkraft sagen\n- selbst aufräumen und schweigen\n- weitermachen\n\nWas mache ich mit langen Haaren am Brenner?\n- nichts\n+ zusammenbinden\n- nass machen"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Sicherheit",
+    "x": "SCHUTZBRILLE\nBRENNER\nFLAMME\nGIFTIG\nAETZEND\nNOTAUS\nLOESCHER\nKITTEL"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne die 5 Gefahrensymbole aus dem Hefteintrag als rote Rauten. Schreib die Bedeutung darunter.",
+    "a": "Flamme = entzündbar, Ätzwirkung = ätzend, Totenkopf = giftig, Ausrufezeichen = reizend, Baum und Fisch = umweltschädlich."
+   },
+   {
+    "l": 1,
+    "q": "Schreib 5 Regeln für den Fachraum als Plakat. Beginne jede Regel mit „Ich …“.",
+    "a": "Ich esse und trinke nicht. Ich trage eine Schutzbrille. Ich binde lange Haare zusammen. Ich probiere keine Stoffe. Ich melde Unfälle sofort."
+   },
+   {
+    "l": 2,
+    "q": "Such zu Hause 3 Produkte mit Gefahrensymbolen (nur anschauen, nicht öffnen). Schreib Produkt, Symbol und Bedeutung auf.",
+    "a": "Zum Beispiel: Abflussreiniger – Ätzwirkung; Grillanzünder – Flamme; Entkalker – Ausrufezeichen. Immer sicher aufbewahren, nicht für Kinder erreichbar."
+   },
+   {
+    "l": 2,
+    "q": "Beschreibe in 4 Schritten, wie man den Gasbrenner sicher anzündet.",
+    "a": "1. Schutzbrille auf, Haare zusammen. 2. Luftzufuhr schließen. 3. Gas öffnen und sofort anzünden. 4. Luftzufuhr langsam öffnen, bis die Flamme blau ist."
+   },
+   {
+    "l": 3,
+    "q": "Begründe: Warum soll man beim Gasbrenner zuerst die Luftzufuhr schließen?",
+    "a": "Mit wenig Luft entsteht eine ruhige, gelbe Flamme. Sie ist gut zu sehen und schlägt nicht zurück. So ist das Anzünden sicherer."
+   },
+   {
+    "l": 3,
+    "q": "Ein Abflussreiniger steht im Bad neben der Zahnpasta. Bewerte das und mache einen besseren Vorschlag.",
+    "a": "Gefährlich: Er ist ätzend und kann verwechselt werden. Kinder kommen dran. Besser: hoch oder im abgeschlossenen Schrank, in der Originalflasche, getrennt von Lebensmitteln und Hygieneartikeln."
+   }
+  ],
+  "mt": "Was bedeutet das Symbol mit der Flamme?\n+ entzündbar\n- giftig\n- ätzend\n\nWas trage ich bei Versuchen?\n- eine Sonnenbrille\n+ eine Schutzbrille\n- eine Mütze\n\nWelche Brennerflamme ist am heißesten?\n- gelb und leuchtend\n+ blau und rauschend\n- rot\n\nWas mache ich bei einem Unfall?\n- nichts\n- weiterarbeiten\n+ sofort der Lehrkraft melden\n\nWelches Symbol zeigt „giftig“?\n- Flamme\n+ Totenkopf\n- Baum mit Fisch"
+ },
+ {
+  "ch": "1 Naturwissenschaftlich arbeiten",
+  "title": "1.3 Messen und Darstellen",
+  "text": "# Größen und Einheiten\n[bilder: 🌡️ das Thermometer | ⚖️ die Waage | ⏱️ die Stoppuhr | 📏 das Lineal | 🧪 der Messzylinder]\n| Größe | Messgerät | Einheit |\n|---|---|---|\n| Temperatur | Thermometer | Grad Celsius (°C) |\n| Masse | Waage | Gramm (g), Kilogramm (kg) |\n| Zeit | Stoppuhr | Sekunde (s), Minute (min) |\n| Länge | Lineal, Maßband | Zentimeter (cm), Meter (m) |\n| Volumen | Messzylinder | Milliliter (ml), Liter (l) |\n- Zu jeder Zahl gehört eine Einheit. Nur „20“ ist falsch. Richtig ist „20 °C“.\n- Beim Messzylinder lese ich auf Augenhöhe ab.\n# Messwerte in der Tabelle\n| Zeit in min | 0 | 2 | 4 | 6 | 8 |\n|---|---|---|---|---|---|\n| Temperatur in °C | 20 | 35 | 50 | 65 | 80 |\n- Die Tabelle ordnet die Messwerte.\n# Vom Wert zum Diagramm\n- Liniendiagramm: zeigt, wie sich etwas mit der Zeit ändert.\n- Säulendiagramm: vergleicht Werte, z. B. die Größe von Tieren.\n- Kreisdiagramm: zeigt Anteile, z. B. woraus Luft besteht.\n- Die x-Achse (waagrecht) ist meist die Zeit. Die y-Achse (senkrecht) ist der Messwert.\n- Jede Achse bekommt eine Beschriftung mit Einheit.\nMerke: Messen heißt: Zahl und Einheit. Tabelle und Diagramm machen Messwerte übersichtlich.",
+  "help": "# Einheit\nFalsch: Die Masse ist 250.\nRichtig: Die Masse ist 250 g.\n# Ablesen\nFalsch: Ich schaue von oben auf den Messzylinder.\nRichtig: Ich lese auf Augenhöhe ab, an der Unterkante der Wasseroberfläche.\n# Diagramm\nAchtung: Die Abstände auf der Achse müssen gleich groß sein, z. B. 0, 10, 20, 30.\n# Masse und Gewicht\nAchtung: Im Alltag sagen wir „Gewicht“. In der Naturwissenschaft heißt es Masse, in g oder kg.",
+  "ub": {
+   "t": "match",
+   "x": "Temperatur | Thermometer\nMasse | Waage\nZeit | Stoppuhr\nLänge | Lineal\nVolumen | Messzylinder\nStromstärke | Amperemeter"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Größe und Messgerät",
+    "x": "Temperatur | Thermometer\nMasse | Waage\nZeit | Stoppuhr\nLänge | Lineal\nVolumen | Messzylinder\nStromstärke | Amperemeter"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Messen",
+    "x": "Die Temperatur messe ich mit dem *Thermometer*.\nDie Einheit der Masse ist *Gramm*.\nZu jeder Zahl gehört eine *Einheit*.\nAm Messzylinder lese ich auf *Augenhöhe* ab.\nWie sich etwas mit der Zeit ändert, zeigt ein *Liniendiagramm*.\nAnteile zeigt ein *Kreisdiagramm*."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Messen",
+    "x": "THERMOMETER | misst die Temperatur\nWAAGE | misst die Masse\nSTOPPUHR | misst die Zeit\nLITER | Einheit für das Volumen\nTABELLE | ordnet Messwerte in Zeilen und Spalten\nACHSE | Linie im Diagramm, z. B. x oder y\nEINHEIT | gehört immer zur Zahl, z. B. °C oder g"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Ergänze die Einheit: Ein Apfel hat eine Masse von 150 … Eine Flasche hat 1,5 … Wasser. Draußen sind 18 … Ein Lied dauert 3 …",
+    "a": "150 g, 1,5 l, 18 °C, 3 min."
+   },
+   {
+    "l": 1,
+    "q": "Miss die Länge von 5 Dingen auf deinem Tisch. Schreib sie in eine Tabelle mit Einheit.",
+    "a": "Zum Beispiel: Bleistift 17 cm, Radiergummi 5 cm, Heft 30 cm, Lineal 30 cm, Handy 15 cm. Tabelle mit Spalten „Ding“ und „Länge in cm“."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne zur Tabelle im Hefteintrag (Zeit und Temperatur) ein Liniendiagramm. Beschrifte beide Achsen.",
+    "a": "x-Achse: Zeit in min (0 bis 8). y-Achse: Temperatur in °C (0 bis 80). Punkte bei (0|20), (2|35), (4|50), (6|65), (8|80), verbunden: eine steigende Gerade."
+   },
+   {
+    "l": 2,
+    "q": "Miss 3 Tage lang morgens die Temperatur draußen. Stell sie in einem Säulendiagramm dar.",
+    "a": "Drei Säulen, je ein Tag, Höhe = Temperatur. y-Achse mit °C und gleichen Abständen beschriftet."
+   },
+   {
+    "l": 3,
+    "q": "Das Wasser wird weiter erhitzt. Was erwartest du nach 10 und nach 14 Minuten? Begründe mit der Tabelle und mit deinem Wissen.",
+    "a": "Nach 10 Minuten ca. 95 °C (es steigt um ca. 7,5 °C pro Minute). Danach bleibt es bei etwa 100 °C, denn Wasser kocht bei 100 °C und wird nicht heißer."
+   },
+   {
+    "l": 3,
+    "q": "Welches Diagramm passt? a) Woraus besteht die Luft? b) Wie schnell wächst eine Pflanze? c) Wie schwer sind 4 Haustiere? Begründe.",
+    "a": "a) Kreisdiagramm, weil es Anteile zeigt. b) Liniendiagramm, weil es eine Änderung über die Zeit zeigt. c) Säulendiagramm, weil es Werte vergleicht."
+   }
+  ],
+  "mt": "Womit misst man die Temperatur?\n+ mit dem Thermometer\n- mit der Waage\n- mit dem Lineal\n\nWas ist die Einheit der Masse?\n- Liter\n+ Gramm\n- Grad Celsius\n\nWelcher Wert ist richtig angegeben?\n- 25\n+ 25 °C\n- Grad 25\n\nWelches Diagramm zeigt Anteile?\n- Liniendiagramm\n- Säulendiagramm\n+ Kreisdiagramm\n\nWie lese ich am Messzylinder ab?\n+ auf Augenhöhe\n- von oben\n- von unten"
+ },
+ {
+  "ch": "1 Naturwissenschaftlich arbeiten",
+  "title": "1.4 Modelle erklären die Welt",
+  "text": "# Was ist ein Modell?\n[bilder: 🌍 der Globus | 🫁 das Lungenmodell | ⚪ die Kugel | 🗺️ die Landkarte]\n- Ein Modell ist ein vereinfachtes Bild der Wirklichkeit.\n- Es zeigt nur das Wichtige.\n- Beispiele: Globus (Erde), Landkarte (Gelände), Lungenmodell (Atmung).\n- Modelle helfen, Dinge zu verstehen, die zu klein, zu groß oder unsichtbar sind.\n# Das Teilchenmodell\n- Alle Stoffe bestehen aus winzigen Teilchen.\n- Die Teilchen sind so klein, dass wir sie nicht sehen.\n- Wir zeichnen sie als kleine Kugeln.\n| Zustand | Teilchen |\n|---|---|\n| fest (Eis) | dicht, ordentlich, schwingen nur am Platz |\n| flüssig (Wasser) | dicht, aber durcheinander, bewegen sich aneinander vorbei |\n| gasförmig (Dampf) | weit auseinander, fliegen schnell herum |\n- Wärmer heißt: Die Teilchen bewegen sich schneller.\n# Grenzen von Modellen\n- Ein Modell ist nie ganz gleich wie die Wirklichkeit.\n- Echte Teilchen sind keine bunten Kugeln.\n- Darum gibt es oft mehrere Modelle für eine Sache.\n- Wenn ein Modell etwas nicht erklären kann, wird es verbessert.\nMerke: Ein Modell vereinfacht die Wirklichkeit. Es erklärt viel, aber nicht alles.",
+  "help": "# Modell\nFalsch: Ein Modell ist eine genaue Kopie.\nRichtig: Ein Modell vereinfacht. Es zeigt nur das Wichtige.\n# Teilchen\nFalsch: Zwischen den Teilchen ist Luft.\nRichtig: Zwischen den Teilchen ist nichts, also leerer Raum.\n# Wärme\nFalsch: Beim Erwärmen werden die Teilchen größer.\nRichtig: Die Teilchen bewegen sich schneller und brauchen mehr Platz. Sie selbst bleiben gleich groß.\n# Farbe\nAchtung: Teilchen haben keine Farbe. Wir malen sie nur bunt, damit man sie unterscheiden kann.",
+  "ub": {
+   "t": "match",
+   "x": "Globus | die Erde\nLandkarte | eine Gegend von oben\nLungenmodell | die Atmung\nTeilchenmodell | Aufbau der Stoffe\nKugel im Teilchenmodell | ein winziges Teilchen\nFörderband | elektrischer Strom"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Modell und Wirklichkeit",
+    "x": "Globus | die Erde\nLandkarte | eine Gegend von oben\nLungenmodell | die Atmung\nTeilchenmodell | Aufbau der Stoffe\nKugel im Teilchenmodell | ein winziges Teilchen\nFörderband | elektrischer Strom"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Teilchenmodell",
+    "x": "Alle Stoffe bestehen aus winzigen *Teilchen*.\nIm Modell zeichnen wir sie als *Kugeln*.\nIm festen Stoff liegen sie *ordentlich* nebeneinander.\nIm Gas fliegen sie weit *auseinander*.\nWenn es wärmer wird, bewegen sie sich *schneller*.\nEin Modell *vereinfacht* die Wirklichkeit."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Modelle",
+    "x": "Was ist ein Globus?\n+ ein Modell der Erde\n- ein Ball zum Spielen\n- ein Messgerät\n- ein Planet\n\nWie liegen die Teilchen in Eis?\n- weit auseinander\n+ dicht und ordentlich\n- durcheinander und weit weg\n- gar nicht\n\nWas passiert mit Teilchen beim Erwärmen?\n- Sie werden größer.\n- Sie werden kleiner.\n+ Sie bewegen sich schneller.\n- Sie bleiben stehen.\n\nWas ist zwischen den Teilchen?\n- Luft\n- Wasser\n+ leerer Raum\n- Staub\n\nWarum gibt es mehrere Modelle für eine Sache?\n- weil Forscher sich nicht einigen\n+ weil jedes Modell nur einen Teil erklärt\n- weil Modelle teuer sind\n- weil es Spaß macht"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne je ein Kästchen für fest, flüssig und gasförmig. Male die Teilchen als Kreise hinein.",
+    "a": "Fest: viele Kreise in Reihen, dicht. Flüssig: viele Kreise dicht, aber unordentlich. Gasförmig: wenige Kreise weit verteilt, mit Bewegungspfeilen."
+   },
+   {
+    "l": 1,
+    "q": "Nenne 4 Modelle aus deinem Alltag und sag, was sie zeigen.",
+    "a": "Zum Beispiel: Spielzeugauto (Auto), Globus (Erde), Stadtplan (Stadt), Skelett im Biologieraum (Knochen des Menschen)."
+   },
+   {
+    "l": 2,
+    "q": "Erkläre mit dem Teilchenmodell: Warum riecht man Parfüm nach kurzer Zeit im ganzen Raum?",
+    "a": "Die Duftteilchen sind gasförmig. Sie bewegen sich schnell und stoßen mit den Luftteilchen zusammen. So verteilen sie sich im ganzen Raum."
+   },
+   {
+    "l": 2,
+    "q": "Was kann ein Globus gut zeigen? Was kann er nicht zeigen? Nenne je 2 Dinge.",
+    "a": "Gut: Form der Erde, Lage der Kontinente und Meere. Nicht: echte Größe, Häuser und Straßen, das Wetter, die Bewegung der Erde um die Sonne."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre mit dem Teilchenmodell: Warum sind Bahnschienen mit kleinen Lücken verlegt?",
+    "a": "Im Sommer wird die Schiene warm. Die Teilchen bewegen sich stärker und brauchen mehr Platz. Die Schiene wird länger. Ohne Lücken würde sie sich verbiegen."
+   },
+   {
+    "l": 3,
+    "q": "Ein Mitschüler sagt: „Das Teilchenmodell ist falsch, weil Teilchen keine Kugeln sind.“ Nimm Stellung.",
+    "a": "Das Modell ist nicht falsch, sondern vereinfacht. Echte Teilchen sehen anders aus. Aber mit Kugeln kann man gut erklären, wie Stoffe fest, flüssig oder gasförmig sind. Jedes Modell hat Grenzen."
+   }
+  ],
+  "mt": "Was ist ein Modell?\n+ ein vereinfachtes Bild der Wirklichkeit\n- eine genaue Kopie\n- ein Spielzeug\n\nWie liegen die Teilchen in einem Gas?\n- dicht und ordentlich\n+ weit auseinander\n- dicht und durcheinander\n\nWas passiert bei Wärme?\n- Die Teilchen werden größer.\n+ Die Teilchen bewegen sich schneller.\n- Die Teilchen verschwinden.\n\nWelches Modell zeigt die Erde?\n- der Stadtplan\n+ der Globus\n- das Lungenmodell\n\nWas stimmt?\n- Ein Modell erklärt immer alles.\n+ Jedes Modell hat Grenzen.\n- Modelle braucht man nicht."
+ },
+ {
+  "ch": "2 Luft und Verbrennung",
+  "title": "2.1 Woraus besteht Luft?",
+  "text": "# Luft ist ein Gemisch\n[bilder: 🌬️ die Luft | 🫁 der Sauerstoff | 🌫️ der Stickstoff | 🎈 das Edelgas | 🌳 das Kohlenstoffdioxid]\n- Luft kann man nicht sehen. Trotzdem ist sie ein Stoff.\n- Luft nimmt Raum ein und hat eine Masse.\n- Luft ist ein Gemisch aus mehreren Gasen.\n| Gas | Zeichen | Anteil in der Luft |\n|---|---|---|\n| Stickstoff | N₂ | ca. 78 % |\n| Sauerstoff | O₂ | ca. 21 % |\n| Edelgase (vor allem Argon) | Ar | ca. 1 % |\n| Kohlenstoffdioxid | CO₂ | ca. 0,04 % |\n- Dazu kommt noch etwas Wasserdampf (H₂O).\n- Sauerstoff brauchen wir zum Atmen und Feuer zum Brennen.\n# Atom, Molekül, Element, Verbindung\n- Atom: das kleinste Teilchen eines Elements, z. B. ein Sauerstoff-Atom O.\n- Molekül: mehrere Atome sind fest verbunden, z. B. O₂ (zwei Sauerstoff-Atome).\n- Element: ein Stoff aus nur einer Atomart, z. B. Sauerstoff O₂, Eisen Fe, Kohlenstoff C.\n- Verbindung: ein Stoff aus verschiedenen Atomarten, z. B. Wasser H₂O, Kohlenstoffdioxid CO₂.\n# Die Zeichensprache der Chemie\n| Zeichen | Name | Was ist es? |\n|---|---|---|\n| C | Kohlenstoff | Element |\n| Fe | Eisen | Element |\n| S | Schwefel | Element |\n| N₂ | Stickstoff | Element, Molekül |\n| O₂ | Sauerstoff | Element, Molekül |\n| H₂O | Wasser | Verbindung |\n| CO₂ | Kohlenstoffdioxid | Verbindung |\n| He, Ne, Ar | Helium, Neon, Argon | Edelgase, einzelne Atome |\n- Die kleine Zahl unten zeigt: So viele Atome dieser Art sind im Molekül.\nMerke: Luft = ca. 78 % Stickstoff + 21 % Sauerstoff + 1 % andere Gase. Element: eine Atomart. Verbindung: mehrere Atomarten.",
+  "help": "# Hauptbestandteil\nFalsch: Luft besteht vor allem aus Sauerstoff.\nRichtig: Luft besteht vor allem aus Stickstoff (ca. 78 %). Sauerstoff ist nur ca. 21 %.\n# Kleine Zahl\nFalsch: O₂ heißt: 2 Sauerstoff-Moleküle.\nRichtig: O₂ heißt: 1 Molekül aus 2 Sauerstoff-Atomen.\n# Luft ist nichts\nFalsch: Ein leeres Glas ist wirklich leer.\nRichtig: Im „leeren“ Glas ist Luft. Luft ist ein Stoff.\n# Element und Verbindung\nAchtung: Wasser H₂O ist eine Verbindung, weil es aus zwei Atomarten besteht: H und O.",
+  "ub": {
+   "t": "match",
+   "x": "N₂ | Stickstoff\nO₂ | Sauerstoff\nCO₂ | Kohlenstoffdioxid\nH₂O | Wasser\nFe | Eisen\nC | Kohlenstoff\nAr | Argon"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Zeichen und Name",
+    "x": "N₂ | Stickstoff\nO₂ | Sauerstoff\nCO₂ | Kohlenstoffdioxid\nH₂O | Wasser\nFe | Eisen\nC | Kohlenstoff\nAr | Argon"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Luft",
+    "x": "Luft ist ein *Gemisch* aus Gasen.\nDen größten Anteil hat der *Stickstoff*.\nCa. 21 % der Luft ist *Sauerstoff*.\nEin Stoff aus nur einer Atomart heißt *Element*.\nWasser ist eine *Verbindung* aus Wasserstoff und Sauerstoff.\nMehrere fest verbundene Atome nennt man *Molekül*."
+   },
+   {
+    "t": "mc",
+    "n": "Element oder Verbindung?",
+    "x": "Eisen (Fe) ist …\n+ ein Element\n- eine Verbindung\n\nWasser (H₂O) ist …\n- ein Element\n+ eine Verbindung\n\nSauerstoff (O₂) ist …\n+ ein Element\n- eine Verbindung\n\nKohlenstoffdioxid (CO₂) ist …\n- ein Element\n+ eine Verbindung\n\nWie viele Atome hat ein CO₂-Molekül?\n- 1\n- 2\n+ 3"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Luft",
+    "x": "STICKSTOFF | häufigstes Gas in der Luft\nSAUERSTOFF | brauchen wir zum Atmen\nARGON | häufigstes Edelgas in der Luft\nMOLEKUEL | mehrere fest verbundene Atome\nATOM | kleinstes Teilchen eines Elements\nELEMENT | Stoff aus nur einer Atomart\nGEMISCH | Luft ist ein … aus Gasen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne ein Kreisdiagramm zur Zusammensetzung der Luft. Beschrifte die Teile.",
+    "a": "Großer Teil (ca. drei Viertel): Stickstoff 78 %. Ca. ein Fünftel: Sauerstoff 21 %. Ganz kleiner Teil: Edelgase und Kohlenstoffdioxid ca. 1 %."
+   },
+   {
+    "l": 1,
+    "q": "Schreib die Namen: N₂, O₂, H₂O, CO₂, Fe, S, He.",
+    "a": "Stickstoff, Sauerstoff, Wasser, Kohlenstoffdioxid, Eisen, Schwefel, Helium."
+   },
+   {
+    "l": 2,
+    "q": "Zeichne die Moleküle O₂, N₂, H₂O und CO₂ als Kugeln. Nimm für jede Atomart eine eigene Farbe.",
+    "a": "O₂: 2 gleiche Kugeln. N₂: 2 gleiche Kugeln in anderer Farbe. H₂O: 1 große O-Kugel mit 2 kleinen H-Kugeln. CO₂: C in der Mitte, links und rechts je ein O."
+   },
+   {
+    "l": 2,
+    "q": "Versuch (nur mit Lehrkraft): Ein „leeres“ Glas wird mit der Öffnung nach unten ins Wasser gedrückt. Was beobachtest du? Was zeigt das?",
+    "a": "Das Wasser dringt kaum in das Glas ein. Ein Taschentuch im Glas bleibt trocken. Das zeigt: Im Glas ist Luft. Luft nimmt Raum ein."
+   },
+   {
+    "l": 3,
+    "q": "Ordne zu und begründe: Helium, Wasser, Kohlenstoff, Kohlenstoffdioxid, Stickstoff. Element oder Verbindung?",
+    "a": "Elemente (nur eine Atomart): Helium, Kohlenstoff, Stickstoff. Verbindungen (mehrere Atomarten): Wasser (H und O), Kohlenstoffdioxid (C und O)."
+   },
+   {
+    "l": 3,
+    "q": "In 100 Litern Luft: Wie viele Liter sind Stickstoff, Sauerstoff und andere Gase? Wie viel Sauerstoff ist in einem Klassenzimmer mit 200 000 Litern Luft?",
+    "a": "78 l Stickstoff, 21 l Sauerstoff, 1 l andere Gase. Im Klassenzimmer: 21 % von 200 000 l = 42 000 l Sauerstoff."
+   }
+  ],
+  "mt": "Welches Gas hat den größten Anteil an der Luft?\n- Sauerstoff\n+ Stickstoff\n- Kohlenstoffdioxid\n\nWie viel Sauerstoff ist ungefähr in der Luft?\n- 78 %\n+ 21 %\n- 1 %\n\nWas ist H₂O?\n+ Wasser\n- Wasserstoff\n- Sauerstoff\n\nWas ist eine Verbindung?\n- ein Stoff aus nur einer Atomart\n+ ein Stoff aus verschiedenen Atomarten\n- ein Gemisch aus Gasen\n\nWas bedeutet O₂?\n- 2 Sauerstoff-Moleküle\n+ 1 Molekül aus 2 Sauerstoff-Atomen\n- 2 Gramm Sauerstoff"
+ },
+ {
+  "ch": "2 Luft und Verbrennung",
+  "title": "2.2 Luft hat Gewicht: der Luftdruck",
+  "text": "# Luft hat eine Masse\n[bilder: 🎈 der Luftballon | ⚖️ die Waage | 🏔️ der Berg | 🌍 die Erde | 📉 das Barometer]\n- 1 Liter Luft hat eine Masse von ca. 1,3 g.\n- Das ist wenig. Aber über uns liegen viele Kilometer Luft.\n- Diese Luftschicht um die Erde heißt Atmosphäre.\n# Was ist Luftdruck?\n- Die Luft drückt mit ihrem Gewicht auf alles auf der Erde.\n- Das nennt man Luftdruck.\n- Der Luftdruck drückt von allen Seiten: von oben, von unten und von der Seite.\n- Wir spüren ihn nicht, weil in unserem Körper ein Gegendruck ist.\n| Ort | Luftdruck |\n|---|---|\n| am Meer | ca. 1013 hPa (Hektopascal) |\n| auf der Zugspitze (2962 m) | ca. 700 hPa |\n| im Flugzeug draußen (10 km Höhe) | ca. 260 hPa |\n- Je höher man ist, desto weniger Luft ist über einem. Der Luftdruck wird kleiner.\n- Den Luftdruck misst man mit dem Barometer.\n# Versuch: Das Wasserglas\n- Material: Glas, Wasser, Postkarte, Schüssel.\n- Durchführung: Glas ganz mit Wasser füllen. Postkarte auflegen. Über der Schüssel umdrehen und die Hand vorsichtig wegnehmen.\n- Beobachtung: Die Karte bleibt am Glas. Das Wasser fließt nicht heraus.\n- Ergebnis: Der Luftdruck drückt von unten gegen die Karte.\n# Im Teilchenmodell\n- Luftteilchen fliegen herum und stoßen gegen alle Wände.\n- Viele Stöße = großer Druck. Wenige Stöße = kleiner Druck.\nMerke: Luft hat eine Masse. Ihr Gewicht drückt auf die Erde. Das ist der Luftdruck. Oben auf dem Berg ist er kleiner.",
+  "help": "# Richtung\nFalsch: Der Luftdruck drückt nur von oben.\nRichtig: Der Luftdruck drückt von allen Seiten.\n# Höhe\nFalsch: Auf dem Berg ist der Luftdruck größer, weil man näher am Himmel ist.\nRichtig: Auf dem Berg ist weniger Luft über uns. Der Luftdruck ist kleiner.\n# Ansaugen\nAchtung: Beim Trinken mit dem Strohhalm „saugt“ man nicht wirklich. Man macht den Druck im Mund kleiner. Der Luftdruck außen drückt das Getränk nach oben.\n# Masse\nFalsch: Luft wiegt nichts.\nRichtig: 1 Liter Luft hat ca. 1,3 g Masse.",
+  "ub": {
+   "t": "match",
+   "x": "Luftdruck | Gewicht der Luft drückt auf alles\nAtmosphäre | Luftschicht um die Erde\nBarometer | misst den Luftdruck\nHektopascal | Einheit für den Luftdruck\n1,3 g | Masse von 1 Liter Luft\nBerg | hier ist der Luftdruck kleiner"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Luftdruck | Gewicht der Luft drückt auf alles\nAtmosphäre | Luftschicht um die Erde\nBarometer | misst den Luftdruck\nHektopascal | Einheit für den Luftdruck\n1,3 g | Masse von 1 Liter Luft\nBerg | hier ist der Luftdruck kleiner"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Luftdruck",
+    "x": "Luft hat eine *Masse*. 1 Liter Luft hat ca. *1,3* g.\nDie Luft drückt auf alles. Das ist der *Luftdruck*.\nEr drückt von allen *Seiten*.\nAuf einem hohen Berg ist der Luftdruck *kleiner*.\nDen Luftdruck misst man mit dem *Barometer*."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Luftdruck",
+    "x": "Hat Luft eine Masse?\n+ ja, ca. 1,3 g pro Liter\n- nein, Luft ist nichts\n- nur warme Luft\n- nur im Winter\n\nWomit misst man den Luftdruck?\n- mit dem Thermometer\n+ mit dem Barometer\n- mit dem Lineal\n- mit der Stoppuhr\n\nWo ist der Luftdruck am größten?\n+ am Meer\n- auf der Zugspitze\n- im Flugzeug außen\n- auf dem Mount Everest\n\nWarum bleibt die Karte am umgedrehten Wasserglas?\n- Das Wasser ist klebrig.\n- Die Karte ist magnetisch.\n+ Der Luftdruck drückt von unten.\n- Das Glas saugt.\n\nWie erklärt das Teilchenmodell den Luftdruck?\n- Die Teilchen sind schwer und liegen still.\n+ Die Teilchen stoßen ständig gegen die Wände.\n- Die Teilchen kleben an Wänden.\n- Es gibt keine Teilchen in der Luft."
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Mach den Wasserglas-Versuch über einem Waschbecken. Schreib ein Protokoll mit Material, Durchführung, Beobachtung und Ergebnis.",
+    "a": "Material: Glas, Wasser, Postkarte. Durchführung: Glas voll machen, Karte auflegen, umdrehen, Hand weg. Beobachtung: Karte bleibt, Wasser bleibt im Glas. Ergebnis: Der Luftdruck drückt von unten gegen die Karte."
+   },
+   {
+    "l": 1,
+    "q": "Ordne nach dem Luftdruck, vom größten zum kleinsten: Zugspitze, Strand in Italien, Flugzeug in 10 km Höhe, München (520 m).",
+    "a": "Strand (ca. 1013 hPa) – München (ca. 950 hPa) – Zugspitze (ca. 700 hPa) – Flugzeug außen (ca. 260 hPa)."
+   },
+   {
+    "l": 2,
+    "q": "Erkläre: Warum knacken die Ohren bei der Fahrt auf einen Berg?",
+    "a": "Oben ist der Luftdruck kleiner. Im Ohr hinter dem Trommelfell ist noch der alte, größere Druck. Das Trommelfell wird nach außen gedrückt. Beim Schlucken gleicht sich der Druck aus. Es knackt."
+   },
+   {
+    "l": 2,
+    "q": "Eine leere, geschlossene Plastikflasche wird vom Berg mit ins Tal genommen. Unten ist sie eingedrückt. Erkläre.",
+    "a": "Oben wurde sie bei kleinem Luftdruck verschlossen. Im Tal ist der Luftdruck außen größer. Die Luft außen drückt stärker als die Luft innen. Die Flasche wird eingedrückt."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre genau, wie Trinken mit dem Strohhalm funktioniert. Benutze das Wort Luftdruck.",
+    "a": "Man macht den Raum im Mund größer. Der Druck im Strohhalm wird kleiner. Der Luftdruck außen drückt auf die Oberfläche des Getränks. Das Getränk wird nach oben in den Strohhalm gedrückt."
+   },
+   {
+    "l": 3,
+    "q": "Auf jeden Quadratzentimeter deiner Haut drückt die Luft mit ca. 10 Newton, das ist wie 1 kg. Warum werden wir nicht zerquetscht?",
+    "a": "Der Druck kommt von allen Seiten gleich stark. In unserem Körper (Blut, Lunge, Gewebe) ist ein gleich großer Gegendruck. Die Kräfte heben sich auf."
+   }
+  ],
+  "mt": "Wie viel Masse hat 1 Liter Luft ungefähr?\n- 0 g\n+ 1,3 g\n- 1 kg\n\nWie heißt die Luftschicht um die Erde?\n+ Atmosphäre\n- Barometer\n- Hektopascal\n\nWo ist der Luftdruck kleiner?\n- am Meer\n+ auf einem Berg\n- in einem Keller\n\nAus welcher Richtung drückt die Luft?\n- nur von oben\n- nur von unten\n+ von allen Seiten\n\nWas ist die Einheit des Luftdrucks?\n- Grad Celsius\n+ Hektopascal\n- Liter"
+ },
+ {
+  "ch": "2 Luft und Verbrennung",
+  "title": "2.3 Verbrennung und Brandschutz",
+  "text": "# Was braucht ein Feuer?\n[bilder: 🪵 der Brennstoff | 🌬️ der Sauerstoff | 🌡️ die Zündtemperatur | 🔥 das Feuer | 🧯 der Feuerlöscher]\n- Ein Feuer braucht drei Dinge gleichzeitig. Das nennt man Branddreieck.\n- 1. Brennstoff: etwas, das brennen kann, z. B. Holz, Papier, Gas.\n- 2. Sauerstoff aus der Luft.\n- 3. Zündtemperatur: Der Stoff muss heiß genug sein.\n- Fehlt eines davon, gibt es kein Feuer.\n# Fein verteilt brennt besser\n- Ein dicker Holzklotz brennt schlecht. Dünne Späne brennen schnell.\n- Fachwort: Zerteilungsgrad. Je feiner der Stoff, desto mehr Oberfläche hat er.\n- Dann kommt mehr Sauerstoff an den Stoff.\n- Sehr feiner Staub (Mehl, Holzstaub) oder Gas kann explodieren: Staubexplosion, Gasexplosion.\n- Darum ist in Mühlen, Schreinereien und bei Gasgeruch jedes Feuer streng verboten.\n# Löschen\n| Was nehme ich weg? | Wie? | Beispiel |\n|---|---|---|\n| Brennstoff | Brennstoff entfernen | Gas zudrehen, Holz wegräumen |\n| Sauerstoff | Feuer ersticken | Löschdecke, Sand, Deckel auf den Topf |\n| Wärme | Abkühlen unter die Zündtemperatur | Wasser |\n- Brennendes Fett oder Öl nie mit Wasser löschen! Es gibt eine Stichflamme. Deckel drauf, Herd aus.\n- Elektrische Geräte nie mit Wasser löschen. Erst Strom aus.\n# Brandschutz\n- Rauchmelder warnen früh. Rauch ist die größte Gefahr.\n- Fluchtwege und Notausgänge freihalten.\n- Im Brandfall: Ruhe bewahren, warnen, Raum verlassen, Tür zu, Notruf 112.\nMerke: Feuer braucht Brennstoff, Sauerstoff und Zündtemperatur. Löschen heißt: Eines davon wegnehmen. Notruf: 112.",
+  "help": "# Fettbrand\nFalsch: Brennendes Öl in der Pfanne lösche ich mit Wasser.\nRichtig: Nie Wasser auf brennendes Fett! Deckel drauf und Herd aus.\n# Zündtemperatur\nFalsch: Holz brennt, sobald Sauerstoff da ist.\nRichtig: Holz braucht auch die Zündtemperatur. Sonst brennt es nicht.\n# Staub\nAchtung: Mehl in einer Schüssel brennt kaum. Fein in der Luft verteilt kann Mehlstaub explodieren.\n# Brandfall\nFalsch: Ich hole erst noch meine Sachen.\nRichtig: Ich gehe sofort raus. Menschen sind wichtiger als Sachen.",
+  "ub": {
+   "t": "match",
+   "x": "Löschdecke | nimmt den Sauerstoff weg\nWasser | kühlt unter die Zündtemperatur\nGas zudrehen | nimmt den Brennstoff weg\nDeckel auf die Pfanne | erstickt den Fettbrand\nRauchmelder | warnt früh vor Rauch\n112 | Notruf der Feuerwehr"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Löschen",
+    "x": "Löschdecke | nimmt den Sauerstoff weg\nWasser | kühlt unter die Zündtemperatur\nGas zudrehen | nimmt den Brennstoff weg\nDeckel auf die Pfanne | erstickt den Fettbrand\nRauchmelder | warnt früh vor Rauch\n112 | Notruf der Feuerwehr"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Branddreieck",
+    "x": "Ein Feuer braucht *Brennstoff*, *Sauerstoff* und die *Zündtemperatur*.\nFehlt eines davon, geht das Feuer *aus*.\nFein verteilte Stoffe brennen *schneller*.\nMehlstaub in der Luft kann *explodieren*.\nBrennendes Fett lösche ich nie mit *Wasser*."
+   },
+   {
+    "t": "mc",
+    "n": "Richtig löschen",
+    "x": "In der Pfanne brennt Öl. Was tust du?\n- Wasser darauf gießen\n+ Deckel drauf, Herd aus\n- in die Pfanne pusten\n\nWelche Sache gehört NICHT zum Branddreieck?\n- Sauerstoff\n- Brennstoff\n+ Wasser\n\nWarum brennt Holzwolle schneller als ein Holzklotz?\n+ Sie hat mehr Oberfläche für den Sauerstoff.\n- Sie ist aus anderem Holz.\n- Sie ist schwerer.\n\nWie wirkt eine Löschdecke?\n- Sie kühlt.\n+ Sie nimmt den Sauerstoff weg.\n- Sie nimmt den Brennstoff weg.\n\nWelche Nummer rufst du bei Feuer?\n- 110\n+ 112\n- 115"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Feuer",
+    "x": "BRENNSTOFF\nSAUERSTOFF\nFLAMME\nLOESCHEN\nRAUCHMELDER\nNOTRUF\nSAND\nDECKE"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne das Branddreieck. Schreib an jede Seite, was ein Feuer braucht.",
+    "a": "Dreieck mit den Seiten: Brennstoff, Sauerstoff, Zündtemperatur. In der Mitte eine Flamme."
+   },
+   {
+    "l": 1,
+    "q": "Schreib die 5 Schritte im Brandfall in der richtigen Reihenfolge auf.",
+    "a": "Ruhe bewahren – andere warnen – Raum verlassen – Tür schließen – Notruf 112 wählen."
+   },
+   {
+    "l": 2,
+    "q": "Lehrerversuch: Eine Kerze brennt. Ein Glas wird darübergestülpt. Beschreibe und erkläre mit dem Branddreieck.",
+    "a": "Beobachtung: Die Flamme wird kleiner und geht nach einigen Sekunden aus. Erklärung: Im Glas wird der Sauerstoff verbraucht. Neue Luft kommt nicht dazu. Eine Seite des Branddreiecks fehlt."
+   },
+   {
+    "l": 2,
+    "q": "Ordne jeder Löschmethode zu, was sie wegnimmt: Wasser, Sand, Waldbrandschneise, Löschdecke, Gashahn zu.",
+    "a": "Wasser: Wärme (Zündtemperatur). Sand: Sauerstoff. Schneise: Brennstoff. Löschdecke: Sauerstoff. Gashahn zu: Brennstoff."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre, warum brennendes Fett mit Wasser eine Stichflamme macht.",
+    "a": "Das Fett ist viel heißer als 100 °C. Das Wasser sinkt nach unten und verdampft sofort. Der Dampf reißt viele feine Fetttröpfchen mit nach oben. Fein verteiltes Fett hat viel Oberfläche und verbrennt explosionsartig."
+   },
+   {
+    "l": 3,
+    "q": "Warum ist in einer Mühle oder Schreinerei Rauchen und offenes Feuer streng verboten? Benutze das Wort Zerteilungsgrad.",
+    "a": "Dort ist viel feiner Staub in der Luft (Mehl, Holz). Er hat einen hohen Zerteilungsgrad und viel Oberfläche. Ein Funke reicht, und der Staub verbrennt in einem Moment: Staubexplosion."
+   }
+  ],
+  "mt": "Was braucht ein Feuer NICHT?\n- Brennstoff\n- Sauerstoff\n+ Wasser\n\nWie löschst du einen Fettbrand?\n+ Deckel drauf, Herd aus\n- mit Wasser\n- mit Pusten\n\nWas brennt am schnellsten?\n- ein Holzklotz\n- ein dicker Ast\n+ feine Holzspäne\n\nWie wirkt Wasser beim Löschen?\n- Es nimmt den Brennstoff weg.\n+ Es kühlt unter die Zündtemperatur.\n- Es macht mehr Sauerstoff.\n\nWas ist die Notrufnummer der Feuerwehr?\n- 110\n+ 112\n- 911"
+ },
+ {
+  "ch": "2 Luft und Verbrennung",
+  "title": "2.4 Oxidation: Stoffe reagieren mit Sauerstoff",
+  "text": "# Was ist eine Oxidation?\n[bilder: 🔥 die Verbrennung | 🧲 das Eisen | 🟫 der Rost | 🍎 der Apfel | ⚗️ die Reaktion]\n- Bei einer Verbrennung verbindet sich ein Stoff mit Sauerstoff.\n- Fachwort: Oxidation. Dabei entsteht ein neuer Stoff: ein Oxid.\n- Das ist eine chemische Reaktion: Aus alten Stoffen werden neue Stoffe.\n# Wortgleichungen\n- Kohlenstoff + Sauerstoff → Kohlenstoffdioxid\n- Magnesium + Sauerstoff → Magnesiumoxid\n- Eisen + Sauerstoff → Eisenoxid\n- Schwefel + Sauerstoff → Schwefeldioxid\n- Der Pfeil heißt: „reagiert zu“.\n- Links stehen die Ausgangsstoffe. Rechts steht das Produkt.\n# Metalloxide und Nichtmetalloxide\n| Art | Beispiel | Aussehen |\n|---|---|---|\n| Metalloxid | Magnesiumoxid, Eisenoxid, Kupferoxid | fest, oft Pulver |\n| Nichtmetalloxid | Kohlenstoffdioxid, Schwefeldioxid, Wasser (Wasserstoffoxid) | oft gasförmig |\n# Langsame Oxidation\n- Nicht jede Oxidation ist ein Feuer. Manche gehen langsam und ohne Flamme.\n- Rost: Eisen + Sauerstoff + Wasser → Rost. Rost macht das Eisen kaputt.\n- Ein angeschnittener Apfel wird braun. Auch das ist eine Oxidation.\n| Schutz gegen Rost | Schutz für Lebensmittel |\n|---|---|\n| Lack oder Farbe | Kühlschrank |\n| Öl oder Fett | Vakuum-Verpackung |\n| Verzinken (Zinkschicht) | Zitronensaft auf den Apfel |\n| trocken lagern | luftdicht verschließen |\n# Versuch: Nägel rosten\n- Lege je einen Eisennagel in: ein trockenes Glas, ein Glas mit Leitungswasser, ein Glas mit Salzwasser.\n- Nach einer Woche: Im Salzwasser ist am meisten Rost. Im trockenen Glas fast keiner.\nMerke: Oxidation = Reaktion mit Sauerstoff. Es entsteht ein Oxid. Rost ist eine langsame Oxidation. Lack, Öl und Zink schützen.",
+  "help": "# Verschwinden\nFalsch: Beim Verbrennen verschwindet der Stoff.\nRichtig: Es entstehen neue Stoffe, oft unsichtbare Gase wie Kohlenstoffdioxid.\n# Rost\nFalsch: Eisen rostet nur durch Wasser.\nRichtig: Eisen braucht zum Rosten Sauerstoff und Wasser.\n# Pfeil\nAchtung: Der Pfeil → heißt nicht „ist gleich“. Er heißt „reagiert zu“.\n# Name\nAchtung: Wasser ist auch ein Oxid. Es entsteht, wenn Wasserstoff mit Sauerstoff reagiert.",
+  "ub": {
+   "t": "match",
+   "x": "Kohlenstoff + Sauerstoff | Kohlenstoffdioxid\nMagnesium + Sauerstoff | Magnesiumoxid\nEisen + Sauerstoff | Eisenoxid\nSchwefel + Sauerstoff | Schwefeldioxid\nWasserstoff + Sauerstoff | Wasser\nKupfer + Sauerstoff | Kupferoxid"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Ausgangsstoffe und Produkt",
+    "x": "Kohlenstoff + Sauerstoff | Kohlenstoffdioxid\nMagnesium + Sauerstoff | Magnesiumoxid\nEisen + Sauerstoff | Eisenoxid\nSchwefel + Sauerstoff | Schwefeldioxid\nWasserstoff + Sauerstoff | Wasser\nKupfer + Sauerstoff | Kupferoxid"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Oxidation",
+    "x": "Wenn ein Stoff mit Sauerstoff reagiert, heißt das *Oxidation*.\nDabei entsteht ein *Oxid*.\nKohlenstoff + Sauerstoff → *Kohlenstoffdioxid*.\nRost ist eine *langsame* Oxidation.\nEisen rostet mit Sauerstoff und *Wasser*.\nGegen Rost hilft eine Schicht aus *Lack*."
+   },
+   {
+    "t": "mc",
+    "n": "Metalloxid oder Nichtmetalloxid?",
+    "x": "Magnesiumoxid ist …\n+ ein Metalloxid\n- ein Nichtmetalloxid\n\nKohlenstoffdioxid ist …\n- ein Metalloxid\n+ ein Nichtmetalloxid\n\nEisenoxid (Rost) ist …\n+ ein Metalloxid\n- ein Nichtmetalloxid\n\nWelche Dinge schützen Eisen vor Rost?\n+ Lack\n+ Öl\n- Salzwasser\n\nWo rostet ein Nagel am schnellsten?\n- im trockenen Glas\n- in Öl\n+ in Salzwasser"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Oxidation",
+    "x": "OXIDATION | Reaktion mit Sauerstoff\nROST | rotbraune Schicht auf Eisen\nLACK | schützt das Fahrrad vor Rost\nZINK | Metall, das Eisen schützt\nPFEIL | heißt in der Wortgleichung: reagiert zu\nMAGNESIUM | Metall, das hell weiß verbrennt\nPRODUKT | neuer Stoff nach der Reaktion"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Ergänze die Wortgleichungen: Kohlenstoff + Sauerstoff → … / Eisen + … → Eisenoxid / … + Sauerstoff → Magnesiumoxid.",
+    "a": "Kohlenstoffdioxid / Sauerstoff / Magnesium."
+   },
+   {
+    "l": 1,
+    "q": "Nenne 3 Dinge an deinem Fahrrad, die vor Rost geschützt sind. Wie sind sie geschützt?",
+    "a": "Zum Beispiel: Rahmen (Lack), Kette (Öl), Schrauben (verzinkt oder verchromt), Lenker (Chrom oder Lack)."
+   },
+   {
+    "l": 2,
+    "q": "Mach den Nagel-Versuch zu Hause (3 Gläser: trocken, Wasser, Salzwasser). Schreib eine Woche lang jeden zweiten Tag auf, was du siehst.",
+    "a": "Trocken: kaum Rost. Leitungswasser: etwas Rost, braune Flecken. Salzwasser: am meisten Rost, Wasser wird braun. Salz beschleunigt das Rosten."
+   },
+   {
+    "l": 2,
+    "q": "Schneide einen Apfel in zwei Hälften. Eine Hälfte mit Zitronensaft, eine ohne. Beschreibe nach 30 Minuten und erkläre.",
+    "a": "Ohne Zitronensaft wird die Hälfte braun, mit Zitronensaft bleibt sie hell. Braun werden ist eine langsame Oxidation mit Sauerstoff. Zitronensaft bremst diese Reaktion."
+   },
+   {
+    "l": 3,
+    "q": "Lehrerversuch: Ein Stück Eisenwolle wird auf einer Waage verbrannt. Danach ist sie schwerer. Erkläre das.",
+    "a": "Das Eisen verbindet sich mit Sauerstoff aus der Luft. Es entsteht Eisenoxid. Der Sauerstoff kommt dazu. Darum ist das Produkt schwerer als das Eisen vorher."
+   },
+   {
+    "l": 3,
+    "q": "Warum rosten Autos im Winter auf gesalzenen Straßen schneller? Was kann man dagegen tun?",
+    "a": "Salzwasser beschleunigt das Rosten. Es kommt in Ritzen und an den Unterboden. Dagegen: Auto im Winter öfter waschen (auch unten), Lack pflegen, Kratzer reparieren, Unterbodenschutz."
+   }
+  ],
+  "mt": "Was ist eine Oxidation?\n+ eine Reaktion mit Sauerstoff\n- eine Reaktion mit Wasser\n- ein Schmelzen\n\nWas entsteht, wenn Kohlenstoff verbrennt?\n- Sauerstoff\n+ Kohlenstoffdioxid\n- Eisenoxid\n\nWas braucht Eisen zum Rosten?\n- nur Wärme\n+ Sauerstoff und Wasser\n- nur Licht\n\nWas schützt vor Rost?\n- Salz\n+ Lack\n- Regen\n\nWas heißt der Pfeil in einer Wortgleichung?\n- ist gleich\n+ reagiert zu\n- plus"
+ },
+ {
+  "ch": "2 Luft und Verbrennung",
+  "title": "2.5 Energie aus Wind",
+  "text": "# Die Windkraftanlage\n[bilder: 🌬️ der Wind | 🌀 der Rotor | 🏠 die Gondel | 🗼 der Turm | ⚡ der Strom]\n- Wind ist bewegte Luft.\n- Bewegte Luft hat Energie: Bewegungsenergie.\n- Eine Windkraftanlage macht daraus elektrische Energie.\n# Aufbau\n| Teil | Aufgabe |\n|---|---|\n| Rotorblätter (meist 3) | Der Wind dreht sie. |\n| Nabe | Hier sind die Rotorblätter befestigt. |\n| Gondel | Gehäuse oben. Darin sind Getriebe und Generator. |\n| Getriebe | Macht die langsame Drehung schneller. |\n| Generator | Macht aus Bewegung elektrische Energie. |\n| Turm | Trägt alles. Oben ist mehr Wind. |\n| Fundament | Hält den Turm fest im Boden. |\n# Energieumwandlung\n- Bewegungsenergie des Windes → Bewegungsenergie des Rotors → elektrische Energie\n- Ein Teil der Energie wird zu Wärme. Diesen Teil kann man nicht nutzen.\n# Vorteile und Nachteile\n| Vorteile | Nachteile |\n|---|---|\n| Wind kostet nichts. | Ohne Wind kein Strom. |\n| Kein Kohlenstoffdioxid beim Betrieb | Geräusche, Schattenwurf |\n| Wind geht nicht aus (erneuerbar). | Verändert die Landschaft |\n| | Gefahr für Vögel und Fledermäuse |\nMerke: Eine Windkraftanlage wandelt Bewegungsenergie des Windes in elektrische Energie um. Das Herz ist der Generator.",
+  "help": "# Energie herstellen\nFalsch: Die Windkraftanlage stellt Energie her.\nRichtig: Sie wandelt Energie um: von Bewegungsenergie in elektrische Energie.\n# Generator\nAchtung: Der Generator ist wie ein Fahrrad-Dynamo, nur viel größer.\n# Höhe\nFalsch: Windräder sind hoch, damit man sie gut sieht.\nRichtig: Weit oben weht der Wind stärker und gleichmäßiger.\n# Windstille\nAchtung: Bei zu starkem Sturm schaltet sich die Anlage ab. Sonst geht sie kaputt.",
+  "ub": {
+   "t": "match",
+   "x": "Rotorblätter | werden vom Wind gedreht\nGenerator | macht elektrische Energie\nGetriebe | macht die Drehung schneller\nGondel | Gehäuse oben am Turm\nTurm | trägt alles, oben ist mehr Wind\nFundament | hält den Turm im Boden"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Teil und Aufgabe",
+    "x": "Rotorblätter | werden vom Wind gedreht\nGenerator | macht elektrische Energie\nGetriebe | macht die Drehung schneller\nGondel | Gehäuse oben am Turm\nTurm | trägt alles, oben ist mehr Wind\nFundament | hält den Turm im Boden"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Windkraft",
+    "x": "Wind ist bewegte *Luft*.\nDer Wind dreht die *Rotorblätter*.\nIm *Generator* entsteht elektrische Energie.\nAus *Bewegungsenergie* wird elektrische Energie.\nWind ist eine *erneuerbare* Energiequelle."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Windrad",
+    "x": "ROTOR\nGONDEL\nTURM\nGENERATOR\nGETRIEBE\nWIND\nENERGIE\nNABE"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Windkraftanlage. Beschrifte Rotorblatt, Nabe, Gondel, Turm und Fundament.",
+    "a": "Hoher Turm auf Fundament, oben die Gondel, vorne die Nabe mit 3 Rotorblättern. Alle Teile mit Linie beschriftet."
+   },
+   {
+    "l": 1,
+    "q": "Schreib die Energieumwandlung als Pfeilkette: Wind – Rotor – Generator – Steckdose.",
+    "a": "Bewegungsenergie (Wind) → Bewegungsenergie (Rotor) → elektrische Energie (Generator) → elektrische Energie in der Leitung zur Steckdose."
+   },
+   {
+    "l": 2,
+    "q": "Bastle ein Windrad aus Papier (quadratisches Blatt, 4 Schnitte zur Mitte, Ecken zur Mitte falten, mit Stecknadel an einem Stab). Teste: Wann dreht es schneller?",
+    "a": "Es dreht schneller bei stärkerem Wind (stärker pusten, Fön auf kalt) und wenn es genau gegen den Wind zeigt. Vorsicht mit der Nadel."
+   },
+   {
+    "l": 2,
+    "q": "Nenne je 2 Vorteile und 2 Nachteile von Windkraft. Was ist deine Meinung? Kennzeichne, was Fakt und was Meinung ist.",
+    "a": "Vorteile: kein CO₂ beim Betrieb, Wind kostet nichts. Nachteile: ohne Wind kein Strom, Geräusche. Meinung, z. B.: „Ich finde, die Vorteile sind wichtiger.“ (bewertend)"
+   },
+   {
+    "l": 3,
+    "q": "Warum stehen viele Windkraftanlagen an der Küste und auf Hügeln? Warum werden die Türme immer höher?",
+    "a": "Dort weht der Wind stärker und gleichmäßiger, es gibt wenig Hindernisse. In großer Höhe ist der Wind auch stärker. Mehr Wind bedeutet mehr elektrische Energie."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche eine Windkraftanlage mit einem Fahrrad-Dynamo. Was ist gleich, was ist anders?",
+    "a": "Gleich: Beide wandeln Bewegungsenergie mit einem Generator in elektrische Energie um. Anders: Beim Dynamo kommt die Bewegung vom Menschen (Muskeln), beim Windrad vom Wind. Das Windrad ist viel größer und liefert viel mehr Energie."
+   }
+  ],
+  "mt": "Welches Teil macht die elektrische Energie?\n- der Turm\n+ der Generator\n- das Fundament\n\nWelche Energie hat der Wind?\n+ Bewegungsenergie\n- elektrische Energie\n- chemische Energie\n\nWarum sind die Türme so hoch?\n- damit man sie gut sieht\n+ weil oben mehr Wind weht\n- für Vögel\n\nWas ist ein Nachteil von Windkraft?\n- Sie macht viel CO₂.\n+ Ohne Wind gibt es keinen Strom.\n- Wind ist teuer.\n\nWas macht das Getriebe?\n- Es hält den Turm.\n+ Es macht die Drehung schneller.\n- Es misst den Wind."
+ },
+ {
+  "ch": "3 Atome und Periodensystem",
+  "title": "3.1 Atommodelle: Wie sieht ein Atom aus?",
+  "text": "# Die Idee vom Atom\n[bilder: 🏛️ die Antike | ⚪ die Kugel | 🟡 die Goldfolie | ⚛️ das Atom | 🔬 die Forschung]\n- Niemand kann ein Atom mit bloßem Auge sehen.\n- Darum haben Forscher Modelle erfunden. Die Modelle wurden immer besser.\n# Drei Forscher, drei Modelle\n| Forscher | Zeit | Idee |\n|---|---|---|\n| Demokrit (Griechenland) | ca. 400 vor Christus | Alles besteht aus winzigen Teilchen. Man kann sie nicht teilen. „atomos“ = unteilbar. |\n| John Dalton (England) | ca. 1808 | Atome sind kleine, volle Kugeln. Jedes Element hat seine eigene Atomart mit eigener Masse. |\n| Ernest Rutherford (Neuseeland, England) | 1911 | Das Atom hat einen winzigen Kern in der Mitte. Darum ist die Hülle. Das Atom ist fast leer. |\n# Rutherfords Versuch\n- Rutherford schoss winzige Teilchen auf eine sehr dünne Goldfolie.\n- Fast alle Teilchen flogen einfach durch.\n- Nur ganz wenige prallten zurück.\n- Schluss: Ein Atom ist fast leer. In der Mitte ist ein sehr kleiner, schwerer Kern.\n# Wie klein ist der Kern?\n- Stell dir vor, das Atom ist so groß wie ein Fußballstadion.\n- Dann ist der Kern so groß wie eine Erbse am Mittelpunkt.\n- Trotzdem steckt fast die ganze Masse im Kern.\nMerke: Demokrit: unteilbare Teilchen. Dalton: volle Kugeln. Rutherford: kleiner Kern und Hülle, dazwischen fast leerer Raum.",
+  "help": "# Altes Modell\nFalsch: Daltons Modell ist falsch, also ist es nutzlos.\nRichtig: Daltons Modell erklärt vieles, z. B. Wortgleichungen. Es hat nur Grenzen.\n# Leer\nFalsch: Weil Atome fast leer sind, kann ich durch die Wand gehen.\nRichtig: Die Hüllen der Atome stoßen sich ab. Darum sind feste Stoffe trotzdem hart.\n# Unteilbar\nAchtung: Demokrit dachte, Atome sind unteilbar. Heute wissen wir: Sie bestehen aus noch kleineren Teilchen.\n# Größe\nAchtung: Der Kern ist ca. 100 000-mal kleiner als das ganze Atom.",
+  "ub": {
+   "t": "match",
+   "x": "Demokrit | atomos = unteilbar\nDalton | Atome sind volle Kugeln\nRutherford | kleiner Kern und Hülle\nGoldfolie | Rutherfords Versuch\nKern | fast die ganze Masse\nHülle | fast leerer Raum um den Kern"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Forscher und Idee",
+    "x": "Demokrit | atomos = unteilbar\nDalton | Atome sind volle Kugeln\nRutherford | kleiner Kern und Hülle\nGoldfolie | Rutherfords Versuch\nKern | fast die ganze Masse\nHülle | fast leerer Raum um den Kern"
+   },
+   {
+    "t": "mc",
+    "n": "Wer hatte welche Idee?",
+    "x": "Wer sagte: Alles besteht aus unteilbaren Teilchen?\n+ Demokrit\n- Rutherford\n- Dalton\n\nWas zeigte Rutherfords Goldfolien-Versuch?\n- Atome sind volle Kugeln.\n+ Atome sind fast leer und haben einen kleinen Kern.\n- Gold ist weich.\n\nWo ist fast die ganze Masse eines Atoms?\n+ im Kern\n- in der Hülle\n- gleich verteilt\n\nWas heißt „atomos“?\n- klein\n+ unteilbar\n- rund\n\nDas Atom ist ein Stadion. Wie groß ist der Kern?\n- wie das Spielfeld\n- wie ein Tor\n+ wie eine Erbse"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Atommodelle",
+    "x": "DEMOKRIT | Grieche, erfand das Wort Atom\nDALTON | sah Atome als volle Kugeln\nRUTHERFORD | entdeckte den Atomkern\nKERN | winzige Mitte des Atoms\nHUELLE | Teil um den Kern\nGOLDFOLIE | darauf schoss Rutherford Teilchen\nMODELL | vereinfachtes Bild der Wirklichkeit"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne die drei Atommodelle nebeneinander: Demokrit (kleines Teilchen), Dalton (volle Kugel), Rutherford (Punkt als Kern, großer Kreis als Hülle).",
+    "a": "Drei beschriftete Skizzen mit Name und Jahreszahl: ca. 400 v. Chr., 1808, 1911."
+   },
+   {
+    "l": 1,
+    "q": "Schreib einen Zeitstrahl: Demokrit, Dalton, Rutherford. Trage die Jahre ein.",
+    "a": "ca. 400 v. Chr. Demokrit – 1808 Dalton – 1911 Rutherford."
+   },
+   {
+    "l": 2,
+    "q": "Beschreibe Rutherfords Versuch in 4 Sätzen: Was tat er? Was sah er? Was schloss er daraus?",
+    "a": "Er schoss winzige Teilchen auf eine dünne Goldfolie. Fast alle flogen durch. Wenige prallten zurück. Daraus schloss er: Atome sind fast leer und haben einen kleinen, schweren Kern."
+   },
+   {
+    "l": 2,
+    "q": "Warum musste Daltons Modell verbessert werden?",
+    "a": "Mit vollen Kugeln kann man nicht erklären, warum fast alle Teilchen durch die Goldfolie fliegen. Rutherfords Versuch zeigte: Atome sind nicht voll, sondern fast leer mit kleinem Kern."
+   },
+   {
+    "l": 3,
+    "q": "Rechne: Ein Atomkern wäre 1 mm groß (wie ein Sandkorn). Das Atom ist ca. 100 000-mal größer. Wie groß wäre das Atom? Vergleiche mit einem Ort, den du kennst.",
+    "a": "1 mm · 100 000 = 100 000 mm = 100 m. Das ist ungefähr so groß wie ein Fußballfeld."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre mit dem Beispiel der Atommodelle, warum Naturwissenschaft sich ändert. Ist das gut oder schlecht?",
+    "a": "Neue Versuche zeigen neue Dinge. Dann wird das Modell verbessert. Das ist gut: Wissen wird genauer. Alte Modelle sind nicht wertlos, sie gelten für einfache Fragen weiter."
+   }
+  ],
+  "mt": "Wer erfand das Wort Atom?\n+ Demokrit\n- Dalton\n- Rutherford\n\nWie sah Dalton die Atome?\n- als fast leere Räume\n+ als kleine, volle Kugeln\n- als Würfel\n\nWorauf schoss Rutherford Teilchen?\n- auf Eisen\n+ auf eine Goldfolie\n- auf Wasser\n\nWas ist im Atom fast leer?\n- der Kern\n+ der Raum der Hülle\n- nichts\n\nWann machte Rutherford seinen Versuch?\n- ca. 400 v. Chr.\n- 1808\n+ 1911"
+ },
+ {
+  "ch": "3 Atome und Periodensystem",
+  "title": "3.2 Der Aufbau des Atoms",
+  "text": "# Die drei Elementarteilchen\n[bilder: ➕ das Proton | ⚪ das Neutron | ➖ das Elektron | ⚛️ der Atomkern]\n| Teilchen | Ladung | Ort |\n|---|---|---|\n| Proton (p⁺) | positiv (+) | im Kern |\n| Neutron (n) | neutral (keine Ladung) | im Kern |\n| Elektron (e⁻) | negativ (−) | in der Hülle |\n- Protonen und Neutronen sind fast gleich schwer.\n- Elektronen sind fast 2000-mal leichter.\n- Ein Atom hat gleich viele Protonen und Elektronen. Darum ist es nach außen neutral.\n# Wichtige Zahlen\n- Ordnungszahl = Anzahl der Protonen = Anzahl der Elektronen.\n- Massenzahl = Protonen + Neutronen.\n- Neutronen = Massenzahl − Ordnungszahl.\n| Element | Ordnungszahl | Massenzahl | Protonen | Neutronen | Elektronen |\n|---|---|---|---|---|---|\n| Wasserstoff H | 1 | 1 | 1 | 0 | 1 |\n| Kohlenstoff C | 6 | 12 | 6 | 6 | 6 |\n| Sauerstoff O | 8 | 16 | 8 | 8 | 8 |\n| Natrium Na | 11 | 23 | 11 | 12 | 11 |\n# Isotope\n- Isotope sind Atome vom gleichen Element mit verschiedener Neutronenzahl.\n- Beispiel: Kohlenstoff-12 hat 6 Neutronen. Kohlenstoff-14 hat 8 Neutronen.\n- Beide haben 6 Protonen. Darum sind beide Kohlenstoff.\nMerke: Kern: Protonen (+) und Neutronen. Hülle: Elektronen (−). Ordnungszahl = Protonenzahl. Massenzahl = Protonen + Neutronen.",
+  "help": "# Ordnungszahl\nFalsch: Die Ordnungszahl ist die Zahl der Neutronen.\nRichtig: Die Ordnungszahl ist die Zahl der Protonen.\n# Neutronen ausrechnen\nAchtung: Neutronen = Massenzahl minus Ordnungszahl. Beispiel Natrium: 23 − 11 = 12.\n# Element\nFalsch: Mehr Neutronen machen ein anderes Element.\nRichtig: Nur die Protonenzahl bestimmt das Element. Andere Neutronenzahl = Isotop.\n# Ladung\nAchtung: Neutron klingt wie neutral. So kannst du dir merken: Das Neutron hat keine Ladung.",
+  "ub": {
+   "t": "match",
+   "x": "Proton | positiv, im Kern\nNeutron | keine Ladung, im Kern\nElektron | negativ, in der Hülle\nOrdnungszahl | Anzahl der Protonen\nMassenzahl | Protonen plus Neutronen\nIsotop | gleiches Element, andere Neutronenzahl"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Teilchen und Eigenschaft",
+    "x": "Proton | positiv, im Kern\nNeutron | keine Ladung, im Kern\nElektron | negativ, in der Hülle\nOrdnungszahl | Anzahl der Protonen\nMassenzahl | Protonen plus Neutronen\nIsotop | gleiches Element, andere Neutronenzahl"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Atombau",
+    "x": "Im Atomkern sind *Protonen* und *Neutronen*.\nIn der Hülle sind die *Elektronen*.\nProtonen sind *positiv* geladen.\nDie Ordnungszahl gibt die Zahl der *Protonen* an.\nAtome mit gleicher Protonenzahl und anderer Neutronenzahl heißen *Isotope*."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Atombau",
+    "x": "Wo sind die Elektronen?\n- im Kern\n+ in der Hülle\n- außerhalb des Atoms\n- im Proton\n\nWelche Ladung hat ein Proton?\n+ positiv\n- negativ\n- keine\n- wechselnd\n\nSauerstoff hat die Ordnungszahl 8. Wie viele Protonen hat er?\n- 16\n- 4\n+ 8\n- 0\n\nNatrium: Massenzahl 23, Ordnungszahl 11. Wie viele Neutronen?\n- 11\n+ 12\n- 23\n- 34\n\nKohlenstoff-12 und Kohlenstoff-14 sind …\n- verschiedene Elemente\n- Moleküle\n+ Isotope\n- Edelgase"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne ein Kohlenstoff-Atom im Kern-Hülle-Modell: Kern mit 6 Protonen (+) und 6 Neutronen, Hülle mit 6 Elektronen (−).",
+    "a": "Kleiner Kreis in der Mitte mit 6 Plus-Kugeln und 6 neutralen Kugeln. Außen ein großer Kreis mit 6 Minus-Punkten."
+   },
+   {
+    "l": 1,
+    "q": "Fülle die Tabelle aus: Helium (Ordnungszahl 2, Massenzahl 4) – Protonen, Neutronen, Elektronen?",
+    "a": "Protonen 2, Neutronen 2, Elektronen 2."
+   },
+   {
+    "l": 2,
+    "q": "Berechne Protonen, Neutronen und Elektronen: Magnesium (12, 24), Aluminium (13, 27), Stickstoff (7, 14).",
+    "a": "Magnesium: 12 p, 12 n, 12 e. Aluminium: 13 p, 14 n, 13 e. Stickstoff: 7 p, 7 n, 7 e."
+   },
+   {
+    "l": 2,
+    "q": "Ein Atom hat 17 Protonen und 18 Neutronen. Welche Ordnungszahl und welche Massenzahl hat es? Wie viele Elektronen?",
+    "a": "Ordnungszahl 17 (das ist Chlor), Massenzahl 35, 17 Elektronen."
+   },
+   {
+    "l": 3,
+    "q": "Kohlenstoff-14 hilft beim Bestimmen des Alters von Knochen. Wie viele Protonen und Neutronen hat es? Warum ist es trotzdem Kohlenstoff?",
+    "a": "6 Protonen und 8 Neutronen (14 − 6). Es ist Kohlenstoff, weil das Element nur durch die Protonenzahl bestimmt wird. Es ist ein Isotop."
+   },
+   {
+    "l": 3,
+    "q": "Warum ist ein Atom nach außen ungeladen, obwohl es geladene Teilchen enthält?",
+    "a": "Es hat gleich viele Protonen (+) wie Elektronen (−). Die Ladungen gleichen sich aus. Die Neutronen haben keine Ladung."
+   }
+  ],
+  "mt": "Welches Teilchen ist negativ geladen?\n- Proton\n- Neutron\n+ Elektron\n\nWas gibt die Ordnungszahl an?\n+ die Zahl der Protonen\n- die Zahl der Neutronen\n- die Masse\n\nWas ist die Massenzahl?\n- Protonen + Elektronen\n+ Protonen + Neutronen\n- nur Neutronen\n\nWo sind die Neutronen?\n+ im Kern\n- in der Hülle\n- überall\n\nWas sind Isotope?\n- Atome verschiedener Elemente\n+ Atome eines Elements mit verschiedener Neutronenzahl\n- Moleküle aus zwei Atomen"
+ },
+ {
+  "ch": "3 Atome und Periodensystem",
+  "title": "3.3 Das Periodensystem",
+  "text": "# Ordnung für alle Elemente\n[bilder: 📋 die Tabelle | ↔️ die Periode | ↕️ die Hauptgruppe | 🔢 die Ordnungszahl]\n- Es gibt ca. 118 Elemente.\n- Im Periodensystem (PSE) sind sie nach der Ordnungszahl sortiert.\n- Jedes Element hat ein Kästchen mit Symbol, Name, Ordnungszahl und Massenzahl.\n# Perioden und Hauptgruppen\n- Periode: eine Zeile (waagrecht). Es gibt 7 Perioden.\n- Hauptgruppe: eine Spalte (senkrecht). Es gibt 8 Hauptgruppen.\n- Elemente in einer Hauptgruppe haben ähnliche Eigenschaften. Sie sind wie eine Familie.\n| Hauptgruppe | Name | Beispiele |\n|---|---|---|\n| I | Alkalimetalle | Lithium Li, Natrium Na, Kalium K |\n| II | Erdalkalimetalle | Magnesium Mg, Calcium Ca |\n| VII | Halogene | Fluor F, Chlor Cl |\n| VIII | Edelgase | Helium He, Neon Ne, Argon Ar |\n# Elementsymbole\n- Das Symbol hat einen oder zwei Buchstaben. Der erste ist immer groß.\n- Manche Symbole kommen aus dem Lateinischen.\n| Symbol | Name | lateinisch |\n|---|---|---|\n| Fe | Eisen | ferrum |\n| Cu | Kupfer | cuprum |\n| Au | Gold | aurum |\n| Ag | Silber | argentum |\n| Na | Natrium | natrium |\n- Links im PSE stehen Metalle. Rechts stehen Nichtmetalle. Ganz rechts die Edelgase.\nMerke: Periodensystem: sortiert nach Ordnungszahl. Zeile = Periode. Spalte = Hauptgruppe. Eine Hauptgruppe = ähnliche Eigenschaften.",
+  "help": "# Zeile und Spalte\nFalsch: Eine Periode ist eine Spalte.\nRichtig: Eine Periode ist eine Zeile (waagrecht). Eine Hauptgruppe ist eine Spalte (senkrecht).\n# Symbol\nFalsch: Das Symbol für Kohlenstoff ist K.\nRichtig: Kohlenstoff ist C. K ist Kalium.\n# Großbuchstabe\nAchtung: Co ist Cobalt. CO ist Kohlenstoffmonoxid, eine Verbindung aus C und O. Groß und klein ist wichtig.\n# Gold\nFalsch: Das Symbol für Gold ist G oder Go.\nRichtig: Gold ist Au, vom lateinischen aurum.",
+  "ub": {
+   "t": "match",
+   "x": "Fe | Eisen\nCu | Kupfer\nAu | Gold\nAg | Silber\nNa | Natrium\nHe | Helium\nMg | Magnesium"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Symbol und Element",
+    "x": "Fe | Eisen\nCu | Kupfer\nAu | Gold\nAg | Silber\nNa | Natrium\nHe | Helium\nMg | Magnesium"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Periodensystem",
+    "x": "Im Periodensystem sind die Elemente nach der *Ordnungszahl* sortiert.\nEine Zeile heißt *Periode*.\nEine Spalte heißt *Hauptgruppe*.\nIn der VIII. Hauptgruppe stehen die *Edelgase*.\nLinks im Periodensystem stehen die *Metalle*."
+   },
+   {
+    "t": "mc",
+    "n": "Periodensystem lesen",
+    "x": "Wie viele Hauptgruppen gibt es?\n- 7\n+ 8\n- 118\n\nWas ist eine Periode?\n+ eine Zeile\n- eine Spalte\n- ein Element\n\nWelches Symbol hat Gold?\n- G\n- Go\n+ Au\n\nWelche Elemente sind Edelgase?\n+ Helium\n+ Neon\n- Natrium\n\nWas haben Elemente einer Hauptgruppe gemeinsam?\n- die gleiche Masse\n+ ähnliche Eigenschaften\n- die gleiche Farbe"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Elemente",
+    "x": "EISEN\nKUPFER\nGOLD\nHELIUM\nNEON\nNATRIUM\nPERIODE\nHAUPTGRUPPE"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib die ersten 10 Elemente des Periodensystems mit Ordnungszahl und Symbol auf.",
+    "a": "1 H Wasserstoff, 2 He Helium, 3 Li Lithium, 4 Be Beryllium, 5 B Bor, 6 C Kohlenstoff, 7 N Stickstoff, 8 O Sauerstoff, 9 F Fluor, 10 Ne Neon."
+   },
+   {
+    "l": 1,
+    "q": "Mach ein Kästchen wie im Periodensystem für Sauerstoff: Symbol, Name, Ordnungszahl, Massenzahl.",
+    "a": "Großes O in der Mitte, darunter „Sauerstoff“, Ordnungszahl 8, Massenzahl 16."
+   },
+   {
+    "l": 2,
+    "q": "Schau ins Periodensystem: In welcher Periode und Hauptgruppe stehen Natrium, Kohlenstoff, Chlor und Argon?",
+    "a": "Natrium: 3. Periode, I. Hauptgruppe. Kohlenstoff: 2. Periode, IV. Hauptgruppe. Chlor: 3. Periode, VII. Hauptgruppe. Argon: 3. Periode, VIII. Hauptgruppe."
+   },
+   {
+    "l": 2,
+    "q": "Erkläre den Unterschied zwischen Co und CO.",
+    "a": "Co ist das Element Cobalt (ein Metall). CO ist eine Verbindung aus einem Kohlenstoff-Atom und einem Sauerstoff-Atom: Kohlenstoffmonoxid, ein giftiges Gas."
+   },
+   {
+    "l": 3,
+    "q": "Natrium und Kalium stehen in derselben Hauptgruppe. Natrium reagiert heftig mit Wasser. Was erwartest du von Kalium? Begründe.",
+    "a": "Kalium reagiert auch heftig mit Wasser, sogar noch heftiger. Elemente einer Hauptgruppe haben ähnliche Eigenschaften. (Nur Lehrerversuch mit winzigen Mengen hinter einer Schutzscheibe oder als Video.)"
+   },
+   {
+    "l": 3,
+    "q": "Erfinde eine Eselsbrücke für die Edelgase He, Ne, Ar, Kr, Xe, Rn.",
+    "a": "Zum Beispiel: „Hier Nehmen Artige Krokodile Xylofon-Ruder.“ Jede Eselsbrücke ist gut, wenn die Anfangsbuchstaben stimmen."
+   }
+  ],
+  "mt": "Wonach ist das Periodensystem sortiert?\n- nach dem Alphabet\n+ nach der Ordnungszahl\n- nach der Farbe\n\nWas ist eine Hauptgruppe?\n- eine Zeile\n+ eine Spalte\n- ein Metall\n\nWelches Symbol hat Eisen?\n- E\n- Ei\n+ Fe\n\nWo stehen die Edelgase?\n- ganz links\n- in der Mitte\n+ ganz rechts\n\nWas gilt für Elemente einer Hauptgruppe?\n+ Sie haben ähnliche Eigenschaften.\n- Sie sind alle gasförmig.\n- Sie haben die gleiche Masse."
+ },
+ {
+  "ch": "3 Atome und Periodensystem",
+  "title": "3.4 Metalle, Nichtmetalle und Edelgase",
+  "text": "# Metalle\n[bilder: 🔩 das Eisen | 🥇 das Gold | 🔌 das Kupfer | 🥫 das Aluminium | ✨ der Glanz]\n- Metalle glänzen.\n- Sie leiten Strom und Wärme gut.\n- Man kann sie verformen: biegen, hämmern, zu Draht ziehen.\n- Fast alle sind bei Zimmertemperatur fest. Ausnahme: Quecksilber ist flüssig.\n| Metall | Symbol | Verwendung |\n|---|---|---|\n| Eisen | Fe | Stahl für Brücken, Autos, Nägel |\n| Kupfer | Cu | Kabel, Leitungen |\n| Aluminium | Al | Dosen, Folie, Fahrräder |\n| Gold | Au | Schmuck, Kontakte im Handy |\n| Magnesium | Mg | leichte Teile, Wunderkerzen |\n# Nichtmetalle\n- Nichtmetalle glänzen meist nicht.\n- Sie leiten Strom meist nicht. Ausnahme: Graphit (eine Form von Kohlenstoff).\n- Feste Nichtmetalle sind oft spröde: Sie zerbrechen leicht.\n| Nichtmetall | Symbol | Verwendung |\n|---|---|---|\n| Kohlenstoff | C | Bleistiftmine (Graphit), Diamant, Grillkohle |\n| Schwefel | S | Streichhölzer, Gummi |\n| Sauerstoff | O | Atmung, Krankenhaus |\n| Stickstoff | N | Dünger, Kühlung |\n# Edelgase\n- Edelgase reagieren fast nie mit anderen Stoffen. Sie sind „edel“ und bleiben für sich.\n- Sie kommen als einzelne Atome vor.\n| Edelgas | Symbol | Verwendung |\n|---|---|---|\n| Helium | He | Ballons, Luftschiffe (leichter als Luft) |\n| Neon | Ne | Leuchtreklame (rot) |\n| Argon | Ar | Schutzgas beim Schweißen, in Lampen |\nMerke: Metalle glänzen, leiten Strom und Wärme und sind verformbar. Nichtmetalle leiten meist nicht. Edelgase reagieren fast nie.",
+  "help": "# Leiten\nFalsch: Alle Nichtmetalle leiten keinen Strom.\nRichtig: Fast alle. Graphit (Kohlenstoff) leitet Strom. Darum leitet auch eine Bleistiftlinie ein bisschen.\n# Fest\nFalsch: Alle Metalle sind fest.\nRichtig: Quecksilber ist bei Zimmertemperatur flüssig. Es ist sehr giftig.\n# Helium\nAchtung: Helium aus Ballons nie einatmen! Es verdrängt den Sauerstoff in der Lunge.\n# Edel\nAchtung: Edelgas heißt nicht teuer. Es heißt: Es reagiert fast nicht.",
+  "ub": {
+   "t": "match",
+   "x": "Kupfer | Kabel\nAluminium | Getränkedose\nHelium | Ballon\nNeon | Leuchtreklame\nGraphit | Bleistiftmine\nArgon | Schutzgas beim Schweißen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Stoff und Verwendung",
+    "x": "Kupfer | Kabel\nAluminium | Getränkedose\nHelium | Ballon\nNeon | Leuchtreklame\nGraphit | Bleistiftmine\nArgon | Schutzgas beim Schweißen"
+   },
+   {
+    "t": "mc",
+    "n": "Metall, Nichtmetall oder Edelgas?",
+    "x": "Eisen ist …\n+ ein Metall\n- ein Nichtmetall\n- ein Edelgas\n\nSchwefel ist …\n- ein Metall\n+ ein Nichtmetall\n- ein Edelgas\n\nNeon ist …\n- ein Metall\n- ein Nichtmetall\n+ ein Edelgas\n\nWelche Eigenschaften haben Metalle?\n+ Sie glänzen.\n+ Sie leiten Strom.\n- Sie sind spröde.\n\nWelches Nichtmetall leitet Strom?\n- Schwefel\n+ Graphit (Kohlenstoff)\n- Sauerstoff"
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Stoffe",
+    "x": "KUPFER | Metall für Kabel\nALUMINIUM | leichtes Metall für Dosen\nHELIUM | Edelgas im Ballon\nSCHWEFEL | gelbes Nichtmetall\nGRAPHIT | Kohlenstoff in der Bleistiftmine\nGLANZ | Eigenschaft von Metallen\nNEON | Edelgas für Leuchtreklame"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Sortiere in eine Tabelle mit 3 Spalten (Metall, Nichtmetall, Edelgas): Eisen, Helium, Schwefel, Gold, Argon, Kohlenstoff, Kupfer, Neon, Sauerstoff.",
+    "a": "Metall: Eisen, Gold, Kupfer. Nichtmetall: Schwefel, Kohlenstoff, Sauerstoff. Edelgas: Helium, Argon, Neon."
+   },
+   {
+    "l": 1,
+    "q": "Suche zu Hause 5 Gegenstände aus Metall. Schreib auf, welches Metall es ist und wofür es benutzt wird.",
+    "a": "Zum Beispiel: Topf (Eisen/Stahl), Alufolie (Aluminium), Ring (Gold oder Silber), Kabel innen (Kupfer), Schlüssel (Messing, eine Mischung aus Kupfer und Zink)."
+   },
+   {
+    "l": 2,
+    "q": "Versuch mit Lehrkraft: Teste mit einem einfachen Stromkreis (Flachbatterie 4,5 V, Lämpchen), welche Stoffe Strom leiten: Eisennagel, Alufolie, Kupferdraht, Bleistiftmine, Holz, Schwefelstück.",
+    "a": "Lampe leuchtet: Eisen, Aluminium, Kupfer (Metalle) und Graphit. Lampe bleibt aus: Holz, Schwefel. Nur mit Batterie, nie mit der Steckdose."
+   },
+   {
+    "l": 2,
+    "q": "Warum sind Kabel innen aus Kupfer und außen aus Kunststoff?",
+    "a": "Kupfer ist ein Metall und leitet den Strom sehr gut. Kunststoff leitet nicht. Er isoliert und schützt uns vor dem Strom."
+   },
+   {
+    "l": 3,
+    "q": "Warum füllt man Ballons mit Helium und nicht mit Wasserstoff, obwohl Wasserstoff noch leichter ist?",
+    "a": "Wasserstoff brennt und kann mit Luft explodieren. Helium ist ein Edelgas und reagiert nicht. Darum ist Helium sicher."
+   },
+   {
+    "l": 3,
+    "q": "Argon schützt beim Schweißen das heiße Metall. Erkläre mit dem Wort Oxidation, wovor es schützt.",
+    "a": "Heißes Metall reagiert schnell mit Sauerstoff aus der Luft (Oxidation). Die Schweißnaht wird dann schlecht. Argon reagiert nicht. Es hält die Luft fern."
+   }
+  ],
+  "mt": "Was gilt für Metalle?\n+ Sie leiten Strom.\n- Sie zerbrechen leicht.\n- Sie glänzen nie.\n\nWelches Metall ist bei Zimmertemperatur flüssig?\n- Eisen\n+ Quecksilber\n- Kupfer\n\nWas ist typisch für Edelgase?\n- Sie brennen gut.\n+ Sie reagieren fast nie.\n- Sie sind Metalle.\n\nWoraus ist eine Bleistiftmine?\n- Blei\n+ Graphit\n- Schwefel\n\nWelches Gas ist in Ballons?\n- Neon\n- Sauerstoff\n+ Helium"
+ },
+ {
+  "ch": "4 Wirbeltiere an Land, im Wasser und in der Luft",
+  "title": "4.1 Die fünf Klassen der Wirbeltiere",
+  "text": "# Was ist ein Wirbeltier?\n[bilder: 🐟 der Fisch | 🐸 der Frosch | 🦎 die Eidechse | 🐦 der Vogel | 🦔 der Igel]\n- Wirbeltiere haben eine Wirbelsäule aus vielen Wirbeln.\n- Ihr Körper ist gegliedert: Kopf, Rumpf und meist ein Schwanz.\n- Sie haben meist zwei Paar Gliedmaßen: Beine, Flossen oder Flügel.\n# Die fünf Klassen\n| Klasse | Haut | Atmung | Körpertemperatur | Fortpflanzung | Beispiel bei uns |\n|---|---|---|---|---|---|\n| Fische | Schuppen, Schleim | Kiemen | wechselwarm | Eier (Laich) im Wasser | Bachforelle |\n| Amphibien (Lurche) | nackt, feucht | Larve: Kiemen, später Lunge und Haut | wechselwarm | Laich im Wasser | Grasfrosch, Bergmolch |\n| Reptilien (Kriechtiere) | trocken, Hornschuppen | Lunge | wechselwarm | Eier mit Schale an Land | Zauneidechse, Ringelnatter |\n| Vögel | Federn | Lunge | gleichwarm | Eier mit Kalkschale, Brutpflege | Amsel, Mäusebussard |\n| Säugetiere | Haare, Fell | Lunge | gleichwarm | lebende Junge, säugen mit Milch | Igel, Reh, Fuchs |\n# Wechselwarm und gleichwarm\n- Wechselwarm: Die Körpertemperatur ist wie die Umgebung. Im Winter sind die Tiere starr (Winterstarre).\n- Gleichwarm: Die Körpertemperatur bleibt immer gleich, z. B. beim Menschen ca. 37 °C.\nMerke: Wirbeltiere haben eine Wirbelsäule. Es gibt 5 Klassen: Fische, Amphibien, Reptilien, Vögel, Säugetiere.",
+  "help": "# Wal\nFalsch: Der Wal ist ein Fisch, weil er im Meer lebt.\nRichtig: Der Wal ist ein Säugetier. Er atmet mit der Lunge und säugt seine Jungen.\n# Schlange\nFalsch: Die Schlange ist schleimig.\nRichtig: Schlangen sind Reptilien. Ihre Haut ist trocken mit Hornschuppen.\n# Frosch und Eidechse\nAchtung: Der Frosch (Amphibie) hat feuchte, nackte Haut. Die Eidechse (Reptil) hat trockene Schuppen.\n# Fledermaus\nFalsch: Die Fledermaus ist ein Vogel, weil sie fliegt.\nRichtig: Die Fledermaus hat Fell und säugt ihre Jungen. Sie ist ein Säugetier.",
+  "ub": {
+   "t": "match",
+   "x": "Bachforelle | Fisch\nGrasfrosch | Amphibie\nZauneidechse | Reptil\nAmsel | Vogel\nIgel | Säugetier\nFledermaus | Säugetier, kann fliegen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Tier und Klasse",
+    "x": "Bachforelle | Fisch\nGrasfrosch | Amphibie\nZauneidechse | Reptil\nAmsel | Vogel\nIgel | Säugetier\nFledermaus | Säugetier, kann fliegen"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Wirbeltiere",
+    "x": "Alle Wirbeltiere haben eine *Wirbelsäule*.\nFische atmen mit *Kiemen*.\nVögel haben *Federn*.\nSäugetiere füttern ihre Jungen mit *Milch*.\nReptilien haben eine trockene Haut mit *Hornschuppen*.\nFische, Amphibien und Reptilien sind *wechselwarm*."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Wer gehört wohin?",
+    "x": "Welches Tier ist ein Vogel?\n- Fledermaus\n+ Amsel\n- Maikäfer\n- Eidechse\n\nWelche Haut hat ein Frosch?\n+ nackt und feucht\n- trocken mit Schuppen\n- mit Federn\n- mit Fell\n\nWelches Tier ist ein Säugetier?\n- Hai\n- Pinguin\n+ Delfin\n- Krokodil\n\nWas heißt wechselwarm?\n- Das Tier wechselt die Farbe.\n+ Die Körpertemperatur ist wie die Umgebung.\n- Das Tier ist immer warm.\n- Das Tier wandert im Winter.\n\nWelche Klasse legt Eier mit Schale an Land und atmet nur mit Lunge?\n- Fische\n- Amphibien\n+ Reptilien\n- Säugetiere"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Male zu jeder Wirbeltierklasse ein Tier, das bei uns in Bayern lebt. Schreib die Klasse darunter.",
+    "a": "Zum Beispiel: Bachforelle (Fisch), Erdkröte (Amphibie), Zauneidechse (Reptil), Amsel (Vogel), Eichhörnchen (Säugetier)."
+   },
+   {
+    "l": 1,
+    "q": "Ordne zu: Federn, Fell, Kiemen, Hornschuppen, feuchte Haut. Zu welcher Klasse passt das?",
+    "a": "Federn – Vögel. Fell – Säugetiere. Kiemen – Fische. Hornschuppen – Reptilien. Feuchte Haut – Amphibien."
+   },
+   {
+    "l": 2,
+    "q": "Wal, Pinguin, Fledermaus, Blindschleiche: Zu welcher Klasse gehören sie? Begründe mit einem Merkmal.",
+    "a": "Wal: Säugetier (Lunge, säugt). Pinguin: Vogel (Federn, Eier). Fledermaus: Säugetier (Fell, säugt). Blindschleiche: Reptil (Hornschuppen, trockene Haut), keine Schlange, sondern eine Echse ohne Beine."
+   },
+   {
+    "l": 2,
+    "q": "Erkläre den Unterschied zwischen wechselwarm und gleichwarm. Was machen wechselwarme Tiere im Winter?",
+    "a": "Wechselwarm: Körpertemperatur wie die Umgebung. Gleichwarm: immer gleich warm. Wechselwarme Tiere fallen im Winter in Winterstarre. Sie verstecken sich frostfrei, z. B. im Boden oder im Schlamm."
+   },
+   {
+    "l": 3,
+    "q": "Warum brauchen Amphibien Wasser zur Fortpflanzung, Reptilien aber nicht?",
+    "a": "Amphibien legen Laich ohne Schale. Er würde an Land austrocknen. Die Larven (Kaulquappen) atmen mit Kiemen. Reptilien legen Eier mit Schale. Die Schale schützt vor dem Austrocknen."
+   },
+   {
+    "l": 3,
+    "q": "Der Grasfrosch steht in Deutschland unter Schutz. Nenne 3 Gründe, warum Amphibien gefährdet sind, und 2 Schutzmaßnahmen.",
+    "a": "Gründe: Teiche und Feuchtwiesen verschwinden, Straßen auf dem Weg zum Laichgewässer, Gift aus der Landwirtschaft, Krankheiten. Schutz: Krötenzäune und Tunnel an Straßen, neue Teiche anlegen, Gewässer sauber halten."
+   }
+  ],
+  "mt": "Was haben alle Wirbeltiere?\n+ eine Wirbelsäule\n- Federn\n- Kiemen\n\nWomit atmen Fische?\n- mit der Lunge\n+ mit Kiemen\n- mit der Haut\n\nZu welcher Klasse gehört der Wal?\n- Fische\n+ Säugetiere\n- Amphibien\n\nWelche Klasse hat Federn?\n- Reptilien\n+ Vögel\n- Säugetiere\n\nWelche Tiere sind gleichwarm?\n- Fische und Amphibien\n- Reptilien\n+ Vögel und Säugetiere"
+ },
+ {
+  "ch": "4 Wirbeltiere an Land, im Wasser und in der Luft",
+  "title": "4.2 Schwimmen: Fische sind angepasst",
+  "text": "# Leben im Wasser\n[bilder: 🐟 der Fisch | 🫧 die Schwimmblase | 🌊 das Wasser | 🚤 das Boot]\n- Wasser ist viel dichter als Luft. Man braucht viel Kraft, um sich zu bewegen.\n- Fische sind gut an das Leben im Wasser angepasst.\n# Angepasster Körperbau\n| Merkmal | Nutzen |\n|---|---|\n| Stromlinienform (spitz vorne, schmal hinten) | Das Wasser fließt gut vorbei. Wenig Widerstand. |\n| Schleimschicht auf der Haut | Der Fisch gleitet leichter. Schutz vor Krankheiten. |\n| Schuppen wie Dachziegel | schützen und biegen sich mit |\n| Schwanzflosse | Antrieb nach vorne |\n| Brust- und Bauchflossen | lenken, bremsen, Gleichgewicht |\n| Rückenflosse | verhindert, dass der Fisch umkippt |\n| Schwimmblase | Gasblase, der Fisch schwebt ohne Kraft |\n| Seitenlinie | spürt Wasserbewegungen |\n| Kiemen | holen Sauerstoff aus dem Wasser |\n# Wie schwimmt ein Fisch?\n- Der Fisch biegt seinen Körper wie eine Schlange hin und her.\n- Die Schwanzflosse drückt das Wasser nach hinten. Der Fisch bewegt sich nach vorne.\n- Mit Gas in der Schwimmblase steigt er. Mit weniger Gas sinkt er.\n# Andere Schwimmer\n- Auch andere Tiere schwimmen: Delfin (Säugetier), Pinguin (Vogel), Frosch (Amphibie).\n- Sie haben auch eine Stromlinienform. Das nennt man Anpassung.\nMerke: Fische sind ans Wasser angepasst: Stromlinienform, Flossen, Schleim, Schwimmblase und Kiemen.",
+  "help": "# Atmen\nFalsch: Fische atmen Wasser.\nRichtig: Fische holen mit den Kiemen den Sauerstoff, der im Wasser gelöst ist.\n# Schwimmblase\nFalsch: Die Schwimmblase ist zum Atmen.\nRichtig: Die Schwimmblase ist zum Schweben. Sie ist mit Gas gefüllt.\n# Delfin\nAchtung: Der Delfin sieht aus wie ein Fisch. Aber er ist ein Säugetier. Seine Schwanzflosse steht waagrecht, beim Fisch senkrecht.\n# Anpassung\nAchtung: Anpassung heißt: Der Körper passt gut zum Lebensraum.",
+  "ub": {
+   "t": "match",
+   "x": "Schwanzflosse | Antrieb nach vorne\nSchwimmblase | Schweben im Wasser\nKiemen | Sauerstoff aus dem Wasser\nSchleimschicht | gleiten und Schutz\nSeitenlinie | spürt Wasserbewegungen\nRückenflosse | Fisch kippt nicht um"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Körperteil und Aufgabe",
+    "x": "Schwanzflosse | Antrieb nach vorne\nSchwimmblase | Schweben im Wasser\nKiemen | Sauerstoff aus dem Wasser\nSchleimschicht | gleiten und Schutz\nSeitenlinie | spürt Wasserbewegungen\nRückenflosse | Fisch kippt nicht um"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Fische",
+    "x": "Fische haben eine *Stromlinienform*.\nDie *Schwanzflosse* treibt den Fisch an.\nMit der *Schwimmblase* schwebt der Fisch.\nMit den *Kiemen* holt er Sauerstoff aus dem Wasser.\nDie *Seitenlinie* spürt Bewegungen im Wasser."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Unter Wasser",
+    "x": "KIEMEN | Atmungsorgan der Fische\nFLOSSE | Ruder und Antrieb am Fisch\nSCHUPPEN | wie Dachziegel auf der Haut\nSCHLEIM | macht den Fisch glatt\nSCHWIMMBLASE | Gasblase zum Schweben\nDELFIN | schwimmendes Säugetier\nFORELLE | Fisch in kalten Bächen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne einen Fisch von der Seite. Beschrifte: Schwanzflosse, Rückenflosse, Brustflosse, Kiemendeckel, Seitenlinie, Auge.",
+    "a": "Fisch mit Stromlinienform, alle 6 Teile mit Linien beschriftet. Seitenlinie in der Mitte entlang des Körpers."
+   },
+   {
+    "l": 1,
+    "q": "Schreib zu jedem Merkmal den Nutzen: Stromlinienform, Schleim, Schwimmblase.",
+    "a": "Stromlinienform: wenig Widerstand. Schleim: gleiten und Schutz. Schwimmblase: schweben ohne Kraft."
+   },
+   {
+    "l": 2,
+    "q": "Versuch: Forme aus Knete eine Kugel, einen Würfel und eine Stromlinienform (gleich viel Knete). Lass sie in einem hohen, mit Wasser gefüllten Glas sinken. Miss die Zeit.",
+    "a": "Die Stromlinienform sinkt am schnellsten. Sie hat den kleinsten Widerstand im Wasser. Der Würfel ist am langsamsten."
+   },
+   {
+    "l": 2,
+    "q": "Vergleiche Hai und Delfin. Was ist gleich, was ist anders?",
+    "a": "Gleich: Stromlinienform, Flossen, schnelle Schwimmer. Anders: Hai ist ein Fisch (Kiemen, senkrechte Schwanzflosse). Delfin ist ein Säugetier (Lunge, muss auftauchen, waagrechte Schwanzflosse, säugt Junge)."
+   },
+   {
+    "l": 3,
+    "q": "U-Boote haben Tanks, die mit Wasser oder Luft gefüllt werden. Vergleiche mit der Schwimmblase.",
+    "a": "Mehr Luft im Tank: Das U-Boot steigt. Mehr Wasser: Es sinkt. Bei der Schwimmblase ist es ähnlich: Mehr Gas lässt den Fisch steigen, weniger Gas lässt ihn sinken."
+   },
+   {
+    "l": 3,
+    "q": "Warum haben Delfin, Pinguin und Hai eine ähnliche Körperform, obwohl sie zu verschiedenen Klassen gehören?",
+    "a": "Alle leben im Wasser und schwimmen schnell. Die Stromlinienform ist im Wasser von Vorteil. Unterschiedliche Tiere haben sich an den gleichen Lebensraum angepasst."
+   }
+  ],
+  "mt": "Wozu dient die Schwimmblase?\n- zum Atmen\n+ zum Schweben\n- zum Fressen\n\nWelche Flosse treibt den Fisch an?\n+ die Schwanzflosse\n- die Rückenflosse\n- die Brustflosse\n\nWarum haben Fische Schleim?\n- damit sie gut schmecken\n+ damit sie leichter gleiten\n- damit sie schwerer sind\n\nWomit spürt ein Fisch Wasserbewegungen?\n- mit der Schwimmblase\n- mit den Kiemen\n+ mit der Seitenlinie\n\nWelche Form hat ein Fisch?\n- Würfelform\n+ Stromlinienform\n- Kugelform"
+ },
+ {
+  "ch": "4 Wirbeltiere an Land, im Wasser und in der Luft",
+  "title": "4.3 Laufen, Springen, Fliegen",
+  "text": "# Fortbewegung an Land\n[bilder: 🦌 das Reh | 🐇 der Hase | 🐍 die Schlange | 🦫 der Maulwurf | 🐸 der Frosch]\n| Tier | Art | Anpassung |\n|---|---|---|\n| Reh | laufen | lange, dünne Beine, Hufe |\n| Hase | springen | lange, kräftige Hinterbeine |\n| Frosch | springen | lange Hinterbeine, Schwimmhäute |\n| Ringelnatter | schlängeln | viele Wirbel, keine Beine, Bauchschuppen |\n| Maulwurf | graben | Grabhände wie Schaufeln, kein Hals |\n| Zauneidechse | kriechen | Beine seitlich am Körper |\n# Fliegen: Vögel sind angepasst\n[bilder: 🐦 der Vogel | 🪶 die Feder | 🦴 der Röhrenknochen | 🪽 der Flügel]\n- Leichtbau: Vögel haben hohle Knochen (Röhrenknochen). Innen sind Luftkammern.\n- Kein schwerer Kiefer mit Zähnen, sondern ein leichter Schnabel.\n- Federn: leicht und stabil. Konturfedern geben die Form. Daunen wärmen.\n- Starke Brustmuskeln bewegen die Flügel. Sie sind am Brustbein (Kiel) befestigt.\n- Stromlinienform: Der Körper ist schmal und glatt.\n- Luftsäcke an der Lunge: Sie liefern viel Sauerstoff für das anstrengende Fliegen.\n# Flugarten\n| Flugart | Wie? | Beispiel |\n|---|---|---|\n| Ruderflug | Flügel schlagen auf und ab | Amsel, Taube |\n| Gleitflug | Flügel still, langsam nach unten gleiten | viele Vögel beim Landen |\n| Segelflug | auf warmer, aufsteigender Luft kreisen | Mäusebussard, Storch |\n| Rüttelflug | in der Luft auf der Stelle stehen | Turmfalke |\nMerke: Jedes Tier ist an seine Art der Fortbewegung angepasst. Vögel fliegen dank Leichtbau, Federn und starker Brustmuskeln.",
+  "help": "# Fliegen\nFalsch: Alle Vögel können fliegen.\nRichtig: Pinguin, Strauß und Huhn können nicht oder kaum fliegen. Sie sind trotzdem Vögel.\n# Knochen\nFalsch: Vogelknochen sind voll wie unsere.\nRichtig: Viele Vogelknochen sind hohl. Das macht den Vogel leicht.\n# Flügel\nAchtung: Auch Fledermäuse und Insekten fliegen. Ihre Flügel sind anders gebaut als Vogelflügel.\n# Segelflug\nAchtung: Beim Segelflug schlägt der Vogel kaum mit den Flügeln. Warme Luft trägt ihn nach oben.",
+  "ub": {
+   "t": "match",
+   "x": "Maulwurf | Grabhände wie Schaufeln\nHase | lange, kräftige Hinterbeine\nRingelnatter | viele Wirbel, keine Beine\nVogel | hohle Röhrenknochen\nTurmfalke | Rüttelflug\nMäusebussard | Segelflug"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Tier und Anpassung",
+    "x": "Maulwurf | Grabhände wie Schaufeln\nHase | lange, kräftige Hinterbeine\nRingelnatter | viele Wirbel, keine Beine\nVogel | hohle Röhrenknochen\nTurmfalke | Rüttelflug\nMäusebussard | Segelflug"
+   },
+   {
+    "t": "mc",
+    "n": "Wie bewegt es sich?",
+    "x": "Wie bewegt sich der Maulwurf durch die Erde?\n+ Er gräbt mit Schaufelhänden.\n- Er springt.\n- Er schlängelt.\n\nWarum sind Vögel leicht?\n+ hohle Knochen\n+ Schnabel statt Zähne\n- schwere Federn\n\nWelcher Vogel steht in der Luft auf der Stelle?\n- Storch\n+ Turmfalke\n- Amsel\n\nWofür sind Daunen?\n- zum Fliegen\n+ zum Wärmen\n- zum Schwimmen\n\nWelcher Flug nutzt warme, aufsteigende Luft?\n- Ruderflug\n+ Segelflug\n- Rüttelflug"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Fortbewegung",
+    "x": "FORTBEWEGUNG\nSPRINGEN\nGRABEN\nFLIEGEN\nFEDER\nFLUEGEL\nSCHNABEL\nSEGELFLUG"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne eine Feder. Beschrifte Kiel (Schaft) und Fahne. Schreib dazu: Konturfeder oder Daune?",
+    "a": "Konturfeder: fester Kiel in der Mitte, links und rechts die glatte Fahne. Daune: kurzer Kiel, flauschig, keine feste Fahne."
+   },
+   {
+    "l": 1,
+    "q": "Schreib zu jedem Tier, wie es sich bewegt: Reh, Frosch, Schlange, Amsel, Forelle, Maulwurf.",
+    "a": "Reh: laufen. Frosch: springen und schwimmen. Schlange: schlängeln. Amsel: fliegen (Ruderflug). Forelle: schwimmen. Maulwurf: graben."
+   },
+   {
+    "l": 2,
+    "q": "Nenne 4 Angepasstheiten des Vogels an das Fliegen. Erkläre jeweils den Nutzen.",
+    "a": "Hohle Knochen: leicht. Federn: leicht, tragen in der Luft. Starke Brustmuskeln: Kraft für den Flügelschlag. Stromlinienform: wenig Luftwiderstand. Luftsäcke: viel Sauerstoff."
+   },
+   {
+    "l": 2,
+    "q": "Beobachte 10 Minuten lang Vögel draußen. Notiere: Welche Flugart siehst du? Welcher Vogel?",
+    "a": "Zum Beispiel: Taube im Ruderflug, Krähe im Gleitflug beim Landen, Bussard im Segelflug über dem Feld. Beobachtung mit Uhrzeit und Ort im Protokoll."
+   },
+   {
+    "l": 3,
+    "q": "Vergleiche den Flügel eines Vogels mit dem Flügel einer Fledermaus. Was ist gleich, was ist anders?",
+    "a": "Gleich: Beide fliegen, beide haben Knochen im Flügel, beide sind Wirbeltiere. Anders: Vogelflügel mit Federn. Fledermausflügel ist eine Haut, die zwischen langen Fingern gespannt ist. Fledermaus ist ein Säugetier."
+   },
+   {
+    "l": 3,
+    "q": "Der Mensch hat Flugzeuge gebaut. Welche Ideen hat er sich bei den Vögeln abgeschaut?",
+    "a": "Gewölbte Flügel, Stromlinienform, Leichtbau (hohle Bauteile, leichte Materialien), Landeklappen ähnlich wie gespreizte Federn beim Landen, Segelflugzeuge nutzen warme Luft wie der Bussard."
+   }
+  ],
+  "mt": "Wie bewegt sich ein Hase?\n- schlängeln\n+ springen\n- graben\n\nWarum sind Vogelknochen leicht?\n+ Sie sind hohl.\n- Sie sind aus Federn.\n- Sie sind sehr klein.\n\nWelcher Vogel macht den Rüttelflug?\n- Amsel\n+ Turmfalke\n- Huhn\n\nWelches Tier gräbt mit Schaufelhänden?\n- Reh\n- Frosch\n+ Maulwurf\n\nWas trägt den Vogel beim Segelflug?\n- seine Muskeln\n+ warme, aufsteigende Luft\n- der Regen"
+ },
+ {
+  "ch": "5 Atmung des Menschen",
+  "title": "5.1 Der Weg der Atemluft",
+  "text": "# Die Atmungsorgane\n[bilder: 👃 die Nase | 👄 der Mund | 🗣️ der Kehlkopf | 🫁 die Lunge | 🫧 das Lungenbläschen]\n| Organ | Aufgabe |\n|---|---|\n| Nase (Nasenhöhle) | Luft wird gereinigt, angewärmt und feucht gemacht. Härchen und Schleim fangen Staub. |\n| Mundhöhle | Luft kommt auch hier herein, aber ohne Reinigung. |\n| Rachen | Hier kreuzen sich Luftweg und Speiseweg. |\n| Kehlkopf | Der Kehldeckel schließt beim Schlucken die Luftröhre. Die Stimmbänder machen die Stimme. |\n| Luftröhre | Rohr mit Knorpelringen. Sie hält immer offen. |\n| Bronchien | Die Luftröhre teilt sich in zwei Äste: zum linken und rechten Lungenflügel. |\n| Bronchiolen | ganz feine Äste der Bronchien |\n| Lungenbläschen | winzige Bläschen am Ende. Hier geht der Sauerstoff ins Blut. |\n| Kapillaren | haarfeine Blutgefäße um die Lungenbläschen |\n# Der Weg der Luft\n- Nase → Rachen → Kehlkopf → Luftröhre → Bronchien → Bronchiolen → Lungenbläschen\n- Die Bronchien verzweigen sich wie ein umgedrehter Baum. Darum heißt das auch Bronchialbaum.\n# Riesige Fläche\n- Wir haben ca. 300 Millionen Lungenbläschen.\n- Zusammen haben sie eine Fläche von ca. 100 m². Das ist so groß wie eine Wohnung.\n- Große Fläche bedeutet: Viel Sauerstoff kann gleichzeitig ins Blut.\nMerke: Die Luft geht durch Nase, Rachen, Kehlkopf, Luftröhre und Bronchien bis in die Lungenbläschen. Dort geht der Sauerstoff ins Blut.",
+  "help": "# Verschlucken\nFalsch: Essen und Luft haben getrennte Wege bis zum Mund.\nRichtig: Im Rachen kreuzen sich Luft und Essen. Der Kehldeckel verschließt beim Schlucken die Luftröhre. Darum nicht beim Essen lachen und reden.\n# Nase oder Mund\nAchtung: Atme möglichst durch die Nase. Dort wird die Luft gereinigt und angewärmt.\n# Lunge\nFalsch: Die Lunge ist ein großer, leerer Sack.\nRichtig: Die Lunge ist wie ein Schwamm aus vielen Millionen Bläschen.\n# Bronchien\nAchtung: Bronchien und Bronchiolen sind nicht dasselbe. Bronchiolen sind die ganz feinen Äste.",
+  "ub": {
+   "t": "match",
+   "x": "Nase | reinigt und wärmt die Luft\nKehldeckel | verschließt beim Schlucken die Luftröhre\nLuftröhre | Rohr mit Knorpelringen\nBronchien | zwei Äste zu den Lungenflügeln\nLungenbläschen | Sauerstoff geht ins Blut\nKapillaren | haarfeine Blutgefäße"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Organ und Aufgabe",
+    "x": "Nase | reinigt und wärmt die Luft\nKehldeckel | verschließt beim Schlucken die Luftröhre\nLuftröhre | Rohr mit Knorpelringen\nBronchien | zwei Äste zu den Lungenflügeln\nLungenbläschen | Sauerstoff geht ins Blut\nKapillaren | haarfeine Blutgefäße"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Der Weg der Luft",
+    "x": "Die Luft kommt zuerst in die *Nase*.\nDort wird sie gereinigt und *angewärmt*.\nDie *Luftröhre* hat Knorpelringe.\nSie teilt sich in zwei *Bronchien*.\nAm Ende sind die *Lungenbläschen*.\nDort geht der *Sauerstoff* ins Blut."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Atmung",
+    "x": "NASE | reinigt und wärmt die Luft\nKEHLKOPF | hier sitzen die Stimmbänder\nLUFTROEHRE | Rohr mit Knorpelringen\nBRONCHIEN | zwei Äste der Luftröhre\nLUNGE | Organ in der Brust zum Atmen\nKAPILLAREN | haarfeine Blutgefäße\nRACHEN | hier kreuzen sich Luft und Essen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne den Weg der Luft als Pfeilkette von der Nase bis zu den Lungenbläschen.",
+    "a": "Nase → Rachen → Kehlkopf → Luftröhre → Bronchien → Bronchiolen → Lungenbläschen."
+   },
+   {
+    "l": 1,
+    "q": "Schreib 3 Aufgaben der Nase auf.",
+    "a": "Die Nase reinigt die Luft (Härchen und Schleim). Sie wärmt die Luft an. Sie macht die Luft feucht. (Außerdem riechen wir mit ihr.)"
+   },
+   {
+    "l": 2,
+    "q": "Lege die Hand vorne an den Hals und schlucke. Was spürst du? Erkläre, was gerade passiert.",
+    "a": "Der Kehlkopf geht nach oben. Der Kehldeckel legt sich über die Luftröhre. So kommt das Essen in die Speiseröhre und nicht in die Lunge."
+   },
+   {
+    "l": 2,
+    "q": "Warum ist eine große Fläche der Lungenbläschen wichtig? Vergleiche mit einem Schwamm.",
+    "a": "Je größer die Fläche, desto mehr Sauerstoff kann gleichzeitig ins Blut. Ein Schwamm hat viele kleine Löcher und damit viel Oberfläche. Genauso ist die Lunge gebaut."
+   },
+   {
+    "l": 3,
+    "q": "Was passiert, wenn man sich verschluckt? Warum muss man dann husten?",
+    "a": "Etwas Essen oder Trinken kommt in die Luftröhre, weil der Kehldeckel nicht schnell genug zu war. Husten ist ein Schutzreflex. Ein starker Luftstoß schleudert das Essen wieder heraus."
+   },
+   {
+    "l": 3,
+    "q": "Warum ist Atmen durch die Nase im Winter besser als durch den Mund?",
+    "a": "In der Nase wird kalte Luft angewärmt und feucht gemacht. Staub und Keime bleiben im Schleim hängen. Kalte, trockene Luft durch den Mund reizt Hals und Bronchien. Man wird leichter krank."
+   }
+  ],
+  "mt": "Wo wird die Luft gereinigt und angewärmt?\n+ in der Nase\n- in der Luftröhre\n- in der Lunge\n\nWas verschließt beim Schlucken die Luftröhre?\n- die Zunge\n+ der Kehldeckel\n- die Bronchien\n\nWo geht der Sauerstoff ins Blut?\n- in der Nase\n- im Kehlkopf\n+ in den Lungenbläschen\n\nWas hält die Luftröhre offen?\n+ Knorpelringe\n- Muskeln\n- Haare\n\nWie viele Lungenbläschen hat der Mensch ungefähr?\n- 300\n- 3000\n+ 300 Millionen"
+ },
+ {
+  "ch": "5 Atmung des Menschen",
+  "title": "5.2 Wie atmen wir ein und aus?",
+  "text": "# Die Lunge kann sich nicht selbst bewegen\n[bilder: 🫁 die Lunge | 🦴 die Rippen | 💪 der Muskel | 🎈 der Luftballon | ⬇️ das Zwerchfell]\n- Die Lunge hat keine Muskeln.\n- Sie folgt dem Brustkorb. Wird der Brustraum größer, wird auch die Lunge größer.\n- Dann strömt Luft hinein. Wir atmen ein.\n# Zwei Arten zu atmen\n| | Brustatmung | Bauchatmung |\n|---|---|---|\n| Muskel | Zwischenrippenmuskeln | Zwerchfell |\n| Einatmen | Rippen werden gehoben. Der Brustkorb wird weiter. | Das Zwerchfell zieht sich zusammen und wird flach. Der Bauch wölbt sich nach vorne. |\n| Ausatmen | Rippen senken sich. Der Brustkorb wird enger. | Das Zwerchfell entspannt sich und wölbt sich nach oben. |\n- Das Zwerchfell ist eine Muskelplatte unter der Lunge. Es trennt Brust und Bauch.\n- Meist atmen wir mit beiden Arten gleichzeitig.\n# Das Lungenmodell\n- Material: Plastikflasche ohne Boden, Luftballon in der Flasche, Gummihaut (Handschuh oder Ballon) unten.\n- Zieh die Gummihaut nach unten: Der Ballon wird größer. Das ist Einatmen.\n- Drück sie nach oben: Der Ballon wird kleiner. Das ist Ausatmen.\n| Modell | Körper |\n|---|---|\n| Flasche | Brustkorb |\n| Luftballon | Lunge |\n| Strohhalm, Flaschenhals | Luftröhre |\n| Gummihaut unten | Zwerchfell |\n- Grenze des Modells: Die Flasche kann sich nicht bewegen. Echte Rippen schon.\n# Atemfrequenz\n- In Ruhe atmen Jugendliche ca. 12- bis 20-mal pro Minute.\n- Beim Sport atmen wir schneller und tiefer. Die Muskeln brauchen mehr Sauerstoff.\nMerke: Einatmen: Der Brustraum wird größer (Rippen heben sich, Zwerchfell wird flach). Luft strömt in die Lunge. Ausatmen: Der Brustraum wird kleiner.",
+  "help": "# Lunge\nFalsch: Die Lunge saugt die Luft mit eigenen Muskeln an.\nRichtig: Die Lunge hat keine Muskeln. Zwerchfell und Rippenmuskeln machen den Brustraum größer.\n# Zwerchfell\nFalsch: Beim Einatmen geht das Zwerchfell nach oben.\nRichtig: Beim Einatmen zieht es sich zusammen und wird flach. Es geht nach unten.\n# Bauchatmung\nAchtung: Bei der Bauchatmung kommt die Luft nicht in den Bauch. Sie kommt in die Lunge. Der Bauch wölbt sich nur nach vorne.\n# Modell\nAchtung: Im Modell ist die Flasche starr. Im Körper bewegen sich die Rippen mit.",
+  "ub": {
+   "t": "match",
+   "x": "Flasche | Brustkorb\nLuftballon | Lunge\nStrohhalm | Luftröhre\nGummihaut | Zwerchfell\nZwischenrippenmuskeln | heben die Rippen\nZwerchfell | Muskelplatte unter der Lunge"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Modell und Körper",
+    "x": "Flasche | Brustkorb\nLuftballon | Lunge\nStrohhalm | Luftröhre\nGummihaut | Zwerchfell\nZwischenrippenmuskeln | heben die Rippen\nZwerchfell | Muskelplatte unter der Lunge"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Einatmen",
+    "x": "Die Lunge hat keine *Muskeln*.\nBei der Brustatmung heben sich die *Rippen*.\nBei der Bauchatmung wird das *Zwerchfell* flach.\nDer Brustraum wird *größer*.\nDann strömt *Luft* in die Lunge."
+   },
+   {
+    "t": "mc",
+    "n": "Ein oder aus?",
+    "x": "Das Zwerchfell zieht sich zusammen und wird flach. Was passiert?\n+ Einatmen\n- Ausatmen\n\nDie Rippen senken sich. Was passiert?\n- Einatmen\n+ Ausatmen\n\nIm Lungenmodell ziehst du die Gummihaut nach unten. Was passiert mit dem Ballon?\n+ Er wird größer.\n- Er wird kleiner.\n- Nichts.\n\nWelcher Muskel macht die Bauchatmung?\n- das Herz\n+ das Zwerchfell\n- der Bizeps\n\nWarum atmen wir beim Sport schneller?\n- weil wir müde sind\n+ weil die Muskeln mehr Sauerstoff brauchen\n- weil die Lunge kleiner wird"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Leg eine Hand auf die Brust und eine auf den Bauch. Atme tief ein. Was bewegt sich? Schreib es auf.",
+    "a": "Bei der Brustatmung hebt sich vor allem die Brust. Bei der Bauchatmung wölbt sich vor allem der Bauch nach vorne. Oft bewegt sich beides."
+   },
+   {
+    "l": 1,
+    "q": "Zähle deine Atemzüge in Ruhe 1 Minute lang. Dann mach 30 Hampelmänner und zähle noch einmal. Vergleiche.",
+    "a": "Zum Beispiel: Ruhe 16 Atemzüge, nach dem Sport 35 Atemzüge. Nach dem Sport atmet man schneller und tiefer."
+   },
+   {
+    "l": 2,
+    "q": "Baue das Lungenmodell (Plastikflasche, 2 Luftballons, Klebeband; Flasche von der Lehrkraft aufschneiden lassen). Beschreibe, was du beim Ziehen und Drücken siehst.",
+    "a": "Ziehen an der Gummihaut: Der Ballon in der Flasche wird größer (Einatmen). Drücken: Er wird kleiner (Ausatmen). Der Druck im Inneren ändert sich."
+   },
+   {
+    "l": 2,
+    "q": "Nenne eine Grenze des Lungenmodells. Wie könnte man es verbessern?",
+    "a": "Die Flasche ist starr, echte Rippen bewegen sich. Es gibt nur einen Ballon statt zwei Lungenflügel. Verbesserung: Zwei Ballons über ein Y-Rohr, weiche Flasche, die man seitlich zusammendrücken kann."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre genau mit dem Wort Luftdruck, warum beim Einatmen Luft in die Lunge strömt.",
+    "a": "Der Brustraum wird größer. Die Lunge dehnt sich mit. In der Lunge ist jetzt weniger Druck als draußen. Der äußere Luftdruck drückt die Luft in die Lunge, bis der Druck gleich ist."
+   },
+   {
+    "l": 3,
+    "q": "Sänger und Bläser trainieren die Bauchatmung. Warum?",
+    "a": "Mit dem Zwerchfell kann man tiefer einatmen. Es passt mehr Luft in die Lunge. Man kann die Luft auch langsamer und gleichmäßiger wieder herauslassen. Der Ton wird länger und ruhiger."
+   }
+  ],
+  "mt": "Hat die Lunge eigene Muskeln?\n- ja\n+ nein\n- nur beim Sport\n\nWas macht das Zwerchfell beim Einatmen?\n+ Es zieht sich zusammen und wird flach.\n- Es wölbt sich nach oben.\n- Es bleibt still.\n\nWas heben die Zwischenrippenmuskeln?\n- den Bauch\n+ die Rippen\n- die Lunge\n\nIm Lungenmodell ist der Luftballon …\n- das Zwerchfell\n+ die Lunge\n- der Brustkorb\n\nWie oft atmen Jugendliche in Ruhe ungefähr pro Minute?\n- 2- bis 4-mal\n+ 12- bis 20-mal\n- 60- bis 80-mal"
+ },
+ {
+  "ch": "5 Atmung des Menschen",
+  "title": "5.3 Gasaustausch und gesunde Lunge",
+  "text": "# Gasaustausch in den Lungenbläschen\n[bilder: 🫧 das Lungenbläschen | 🩸 das Blut | ➡️ der Sauerstoff | ⬅️ das Kohlenstoffdioxid]\n- Um jedes Lungenbläschen liegen feine Blutgefäße (Kapillaren).\n- Die Wand ist sehr dünn. Gase können hindurch.\n- Sauerstoff geht aus dem Lungenbläschen ins Blut.\n- Kohlenstoffdioxid geht aus dem Blut ins Lungenbläschen. Wir atmen es aus.\n- Das nennt man Gasaustausch.\n# Einatmen und ausatmen im Vergleich\n| Gas | eingeatmete Luft | ausgeatmete Luft |\n|---|---|---|\n| Sauerstoff | ca. 21 % | ca. 16 % |\n| Kohlenstoffdioxid | ca. 0,04 % | ca. 4 % |\n| Stickstoff | ca. 78 % | ca. 78 % |\n- Wir atmen viel mehr Kohlenstoffdioxid aus, als wir einatmen.\n- Den Sauerstoff brauchen die Zellen, um aus der Nahrung Energie zu gewinnen.\n# Gefahr für die Lunge: Rauchen\n- Im Zigarettenrauch sind über 4000 Stoffe, viele sind giftig.\n- Teer verklebt die Flimmerhärchen in den Bronchien. Schleim und Schmutz bleiben in der Lunge. Raucherhusten entsteht.\n- Lungenbläschen gehen kaputt. Man bekommt schlechter Luft.\n- Rauchen kann Lungenkrebs machen.\n- Auch E-Zigaretten und Shishas schaden der Lunge.\n# Gut für die Lunge\n- nicht rauchen, Rauch meiden\n- Sport an der frischen Luft\n- Räume regelmäßig lüften\nMerke: Gasaustausch: Sauerstoff geht ins Blut, Kohlenstoffdioxid geht aus dem Blut in die Lunge. Rauchen schadet der Lunge.",
+  "help": "# Ausatmen\nFalsch: Wir atmen nur Kohlenstoffdioxid aus.\nRichtig: Ausgeatmete Luft hat noch ca. 16 % Sauerstoff. Darum funktioniert Mund-zu-Mund-Beatmung.\n# Stickstoff\nFalsch: Der Körper braucht den Stickstoff aus der Luft.\nRichtig: Stickstoff atmen wir ein und genauso wieder aus.\n# Shisha\nFalsch: Shisha ist harmlos, weil der Rauch durch Wasser geht.\nRichtig: Auch Shisha-Rauch enthält Giftstoffe und Kohlenstoffmonoxid.\n# Gasaustausch\nAchtung: Gase gehen immer von dort, wo viel ist, nach dort, wo wenig ist.",
+  "ub": {
+   "t": "match",
+   "x": "Gasaustausch | Sauerstoff ins Blut, CO₂ aus dem Blut\nKapillaren | feine Blutgefäße um die Bläschen\nTeer | verklebt die Flimmerhärchen\nFlimmerhärchen | transportieren Schleim nach oben\nRaucherhusten | Husten durch verklebte Bronchien\nausgeatmete Luft | ca. 4 % Kohlenstoffdioxid"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Gasaustausch | Sauerstoff ins Blut, CO₂ aus dem Blut\nKapillaren | feine Blutgefäße um die Bläschen\nTeer | verklebt die Flimmerhärchen\nFlimmerhärchen | transportieren Schleim nach oben\nRaucherhusten | Husten durch verklebte Bronchien\nausgeatmete Luft | ca. 4 % Kohlenstoffdioxid"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Gasaustausch",
+    "x": "In den Lungenbläschen findet der *Gasaustausch* statt.\n*Sauerstoff* geht ins Blut.\n*Kohlenstoffdioxid* geht aus dem Blut in die Lunge.\nAusgeatmete Luft hat noch ca. *16* % Sauerstoff.\nDer *Teer* im Zigarettenrauch verklebt die Flimmerhärchen."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Gesunde Lunge",
+    "x": "Was geht beim Gasaustausch ins Blut?\n+ Sauerstoff\n- Kohlenstoffdioxid\n- Stickstoff\n- Teer\n\nWie viel Kohlenstoffdioxid ist ungefähr in der ausgeatmeten Luft?\n- 0,04 %\n+ 4 %\n- 21 %\n- 78 %\n\nWas verklebt die Flimmerhärchen?\n- Wasser\n- Sauerstoff\n+ Teer aus dem Rauch\n- Staub vom Sport\n\nWas ist gut für die Lunge?\n- Shisha rauchen\n- in verrauchten Räumen sitzen\n+ Sport an der frischen Luft\n- nie lüften\n\nWarum funktioniert Mund-zu-Mund-Beatmung?\n- Ausgeatmete Luft ist warm.\n+ Ausgeatmete Luft hat noch viel Sauerstoff.\n- Ausgeatmete Luft hat kein CO₂.\n- Weil man laut pustet."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Lunge",
+    "x": "SAUERSTOFF\nBLUT\nLUNGE\nTEER\nRAUCHEN\nHUSTEN\nBLAESCHEN\nAUSTAUSCH"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne ein Lungenbläschen mit einer Kapillare. Zeichne einen Pfeil für Sauerstoff (ins Blut) und einen für Kohlenstoffdioxid (aus dem Blut).",
+    "a": "Runde Blase, daneben ein Blutgefäß. Pfeil O₂ vom Bläschen ins Blut. Pfeil CO₂ vom Blut ins Bläschen."
+   },
+   {
+    "l": 1,
+    "q": "Schreib 4 Tipps für eine gesunde Lunge.",
+    "a": "Nicht rauchen. Rauch und Shisha meiden. Viel Bewegung an der frischen Luft. Zimmer regelmäßig lüften."
+   },
+   {
+    "l": 2,
+    "q": "Lehrerversuch: Die Lehrkraft pumpt frische Luft und ausgeatmete Luft durch Kalkwasser (Schutzbrille!). Was erwartest du? Begründe mit der Tabelle.",
+    "a": "Ausgeatmete Luft trübt das Kalkwasser deutlich, frische Luft kaum. Kalkwasser ist ein Nachweis für Kohlenstoffdioxid. Ausgeatmete Luft hat ca. 4 % CO₂, frische Luft nur ca. 0,04 %."
+   },
+   {
+    "l": 2,
+    "q": "Erkläre, warum Raucher morgens oft husten.",
+    "a": "Der Teer verklebt die Flimmerhärchen. Sie können Schleim und Schmutz nicht mehr nach oben bringen. Über Nacht sammelt sich der Schleim. Am Morgen muss der Körper ihn heraushusten."
+   },
+   {
+    "l": 3,
+    "q": "Ein Freund sagt: „Ich rauche nur ab und zu, das schadet nicht.“ Schreib eine Antwort mit 3 Fakten.",
+    "a": "Zum Beispiel: Schon wenige Zigaretten machen abhängig, weil Nikotin süchtig macht. Jede Zigarette bringt Teer und Giftstoffe in die Lunge. Rauchen schadet auch Herz und Blutgefäßen. Außerdem kostet es viel Geld."
+   },
+   {
+    "l": 3,
+    "q": "Warum atmen wir schneller, wenn wir rennen? Erkläre mit Sauerstoff, Kohlenstoffdioxid und Muskeln.",
+    "a": "Die Muskeln arbeiten viel. Sie brauchen mehr Sauerstoff und machen mehr Kohlenstoffdioxid. Der Körper atmet schneller und tiefer, damit mehr Sauerstoff ins Blut und mehr CO₂ hinaus kommt."
+   }
+  ],
+  "mt": "Wo findet der Gasaustausch statt?\n- in der Nase\n+ in den Lungenbläschen\n- im Kehlkopf\n\nWelches Gas geben wir beim Ausatmen mehr ab?\n- Sauerstoff\n+ Kohlenstoffdioxid\n- Helium\n\nWas macht Teer aus Zigarettenrauch?\n+ Er verklebt die Flimmerhärchen.\n- Er reinigt die Lunge.\n- Er macht die Lunge größer.\n\nWie viel Sauerstoff hat die ausgeatmete Luft ungefähr?\n- 0 %\n+ 16 %\n- 50 %\n\nWas ist gut für die Lunge?\n- Shisha\n+ Sport an der frischen Luft\n- E-Zigarette"
+ },
+ {
+  "ch": "6 Herz und Blutkreislauf",
+  "title": "6.1 Das Blut",
+  "text": "# Blut ist ein flüssiges Organ\n[bilder: 🩸 das Blut | 🔴 das rote Blutkörperchen | ⚪ das weiße Blutkörperchen | 🩹 das Blutplättchen | 🧪 das Blutplasma]\n- Ein Erwachsener hat ca. 5 bis 6 Liter Blut.\n- Das Blut fließt durch den ganzen Körper.\n- Es bringt Sauerstoff, Nährstoffe und Wärme zu allen Zellen.\n- Es nimmt Kohlenstoffdioxid und Abfallstoffe mit.\n# Die Bestandteile des Blutes\n| Bestandteil | Aussehen | Aufgabe |\n|---|---|---|\n| Blutplasma (ca. 55 %) | gelbliche Flüssigkeit | transportiert Nährstoffe, Abfallstoffe, Wärme |\n| rote Blutkörperchen | rote, flache Scheiben ohne Kern | transportieren Sauerstoff (mit dem roten Farbstoff Hämoglobin) |\n| weiße Blutkörperchen | größer, mit Kern | Abwehr: Sie bekämpfen Krankheitserreger |\n| Blutplättchen | winzige Splitter | Blutgerinnung: Sie verschließen Wunden |\n- Lässt man Blut stehen, setzen sich die festen Teile unten ab. Oben ist das gelbe Plasma.\n# Blut spenden\n- Bei Unfällen und Operationen brauchen Menschen fremdes Blut.\n- Blut kann man nicht künstlich herstellen.\n- Spenden darf man ab 18 Jahren. Eine Spende ist ca. 500 ml.\n- Der Körper bildet das Blut in wenigen Wochen neu.\n- Blutgruppen (A, B, AB, 0) müssen zusammenpassen.\nMerke: Blut besteht aus Plasma, roten und weißen Blutkörperchen und Blutplättchen. Rote transportieren Sauerstoff. Weiße wehren ab. Plättchen verschließen Wunden.",
+  "help": "# Farbe\nFalsch: Blut ohne Sauerstoff ist blau.\nRichtig: Blut ist immer rot. Mit wenig Sauerstoff ist es dunkelrot. Venen sehen durch die Haut nur bläulich aus.\n# Plasma\nFalsch: Blut besteht nur aus roten Zellen.\nRichtig: Über die Hälfte ist flüssiges Plasma.\n# Gerinnung\nAchtung: Blutplättchen machen, dass eine Wunde aufhört zu bluten. Es bildet sich Schorf.\n# Spenden\nAchtung: Blutspenden ist erst ab 18 Jahren erlaubt.",
+  "ub": {
+   "t": "match",
+   "x": "rote Blutkörperchen | transportieren Sauerstoff\nweiße Blutkörperchen | bekämpfen Krankheitserreger\nBlutplättchen | verschließen Wunden\nBlutplasma | flüssiger Teil, transportiert Nährstoffe\nHämoglobin | roter Farbstoff, bindet Sauerstoff\nBlutspende | erst ab 18 Jahren"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Bestandteil und Aufgabe",
+    "x": "rote Blutkörperchen | transportieren Sauerstoff\nweiße Blutkörperchen | bekämpfen Krankheitserreger\nBlutplättchen | verschließen Wunden\nBlutplasma | flüssiger Teil, transportiert Nährstoffe\nHämoglobin | roter Farbstoff, bindet Sauerstoff\nBlutspende | erst ab 18 Jahren"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Blut",
+    "x": "Ein Erwachsener hat ca. *5* bis 6 Liter Blut.\nDie *roten* Blutkörperchen transportieren Sauerstoff.\nDie *weißen* Blutkörperchen wehren Krankheitserreger ab.\nDie *Blutplättchen* verschließen Wunden.\nDer flüssige Teil des Blutes heißt *Plasma*."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Blut",
+    "x": "PLASMA | flüssiger, gelblicher Teil des Blutes\nABWEHR | Aufgabe der weißen Blutkörperchen\nPLAETTCHEN | Blut… verschließen Wunden\nHAEMOGLOBIN | roter Farbstoff im Blut\nSPENDE | Blut geben für andere\nSCHORF | Kruste auf einer Wunde\nBLUTGRUPPE | A, B, AB oder 0"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne ein Reagenzglas mit Blut, das lange gestanden hat. Beschrifte die Schichten.",
+    "a": "Oben: gelbliches Blutplasma (ca. die Hälfte). Unten: dunkelrote Schicht mit roten Blutkörperchen. Dazwischen eine dünne weiße Schicht aus weißen Blutkörperchen und Blutplättchen."
+   },
+   {
+    "l": 1,
+    "q": "Schreib zu jedem Bestandteil ein Bild-Wort: rote Blutkörperchen = Lastwagen. Was passt zu weißen Blutkörperchen, Blutplättchen und Plasma?",
+    "a": "Zum Beispiel: weiße Blutkörperchen = Polizei. Blutplättchen = Pflaster oder Handwerker. Plasma = Fluss oder Straße."
+   },
+   {
+    "l": 2,
+    "q": "Du schneidest dich in den Finger. Beschreibe, was die Blutplättchen und die weißen Blutkörperchen jetzt tun.",
+    "a": "Die Blutplättchen sammeln sich an der Wunde und verschließen sie. Es bildet sich ein Pfropf und später Schorf. Die weißen Blutkörperchen bekämpfen Keime, die in die Wunde gekommen sind."
+   },
+   {
+    "l": 2,
+    "q": "Warum ist Blutspenden wichtig? Nenne 3 Gründe.",
+    "a": "Blut kann man nicht künstlich herstellen. Nach Unfällen verlieren Menschen viel Blut. Bei Operationen und bei manchen Krankheiten (z. B. Krebs) brauchen Patienten Blut. Blut ist nur kurz haltbar, darum braucht man immer neue Spenden."
+   },
+   {
+    "l": 3,
+    "q": "Warum sieht man die Venen am Arm bläulich, obwohl das Blut darin rot ist?",
+    "a": "Das Blut in den Venen ist dunkelrot, weil es wenig Sauerstoff hat. Die Haut schluckt rotes Licht stärker. Zu unserem Auge kommt vor allem bläuliches Licht zurück. Darum sieht die Vene blau aus."
+   },
+   {
+    "l": 3,
+    "q": "Menschen, die lange auf hohen Bergen leben, haben mehr rote Blutkörperchen. Erkläre warum.",
+    "a": "Auf dem Berg ist der Luftdruck kleiner. In jedem Atemzug ist weniger Sauerstoff. Mit mehr roten Blutkörperchen kann das Blut trotzdem genug Sauerstoff transportieren."
+   }
+  ],
+  "mt": "Was transportiert den Sauerstoff im Blut?\n+ die roten Blutkörperchen\n- die weißen Blutkörperchen\n- die Blutplättchen\n\nWas machen die weißen Blutkörperchen?\n- Sie färben das Blut rot.\n+ Sie bekämpfen Krankheitserreger.\n- Sie transportieren Wärme.\n\nWas verschließt eine Wunde?\n- das Plasma\n+ die Blutplättchen\n- das Hämoglobin\n\nWie viel Blut hat ein Erwachsener?\n- 1 Liter\n+ 5 bis 6 Liter\n- 20 Liter\n\nAb wie viel Jahren darf man Blut spenden?\n- ab 12\n- ab 16\n+ ab 18"
+ },
+ {
+  "ch": "6 Herz und Blutkreislauf",
+  "title": "6.2 Herz und Blutkreislauf",
+  "text": "# Das Herz ist eine Pumpe\n[bilder: ❤️ das Herz | 💪 der Muskel | 🚪 die Herzklappe | 🔁 der Kreislauf | ⏱️ der Puls]\n- Das Herz ist ein Hohlmuskel. Es ist so groß wie eine Faust.\n- Es liegt in der Brust, etwas links von der Mitte.\n- Eine Scheidewand teilt es in eine rechte und eine linke Hälfte.\n- Jede Hälfte hat einen Vorhof (oben) und eine Kammer (unten).\n- Herzklappen sind wie Ventile. Das Blut kann nur in eine Richtung fließen.\n# Zwei Kreisläufe\n| | Lungenkreislauf | Körperkreislauf |\n|---|---|---|\n| Start | rechte Herzkammer | linke Herzkammer |\n| Weg | zur Lunge und zurück | zu allen Organen und zurück |\n| Aufgabe | Blut nimmt Sauerstoff auf, gibt CO₂ ab | Blut gibt Sauerstoff an die Zellen ab |\n| zurück | in den linken Vorhof | in den rechten Vorhof |\n- Rechte Herzhälfte: sauerstoffarmes Blut. Linke Herzhälfte: sauerstoffreiches Blut.\n# Blutgefäße\n| Gefäß | Richtung | Merkmal |\n|---|---|---|\n| Arterien | vom Herzen weg | dicke, elastische Wand, hoher Druck, Puls |\n| Venen | zum Herzen hin | dünnere Wand, Venenklappen |\n| Kapillaren | dazwischen, in den Organen | haarfein, hier tauschen Blut und Zellen Stoffe aus |\n# Puls\n- Bei jedem Herzschlag spürt man eine Welle in den Arterien: den Puls.\n- Man fühlt ihn am Handgelenk oder am Hals.\n- In Ruhe schlägt das Herz bei Jugendlichen ca. 70- bis 90-mal pro Minute.\n- Das sind über 100 000 Schläge am Tag.\nMerke: Das Herz pumpt das Blut durch zwei Kreisläufe: Lungenkreislauf und Körperkreislauf. Arterien führen vom Herzen weg, Venen zum Herzen hin.",
+  "help": "# Arterie und Vene\nFalsch: In Arterien ist immer sauerstoffreiches Blut.\nRichtig: Arterie heißt nur: vom Herzen weg. Die Lungenarterie führt sauerstoffarmes Blut zur Lunge.\n# Links und rechts\nAchtung: Auf Bildern ist das Herz von vorne gezeichnet. Die linke Herzhälfte ist dann auf der rechten Bildseite.\n# Herzklappen\nFalsch: Das Blut kann im Herzen hin und her fließen.\nRichtig: Die Herzklappen sind Ventile. Das Blut fließt nur in eine Richtung.\n# Herz\nFalsch: Das Herz liegt ganz links in der Brust.\nRichtig: Es liegt fast in der Mitte, nur etwas nach links.",
+  "ub": {
+   "t": "match",
+   "x": "Arterie | führt vom Herzen weg\nVene | führt zum Herzen hin\nKapillare | haarfeines Gefäß für den Stoffaustausch\nHerzklappe | Ventil, nur eine Richtung\nLungenkreislauf | Herz – Lunge – Herz\nKörperkreislauf | Herz – Organe – Herz"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Arterie | führt vom Herzen weg\nVene | führt zum Herzen hin\nKapillare | haarfeines Gefäß für den Stoffaustausch\nHerzklappe | Ventil, nur eine Richtung\nLungenkreislauf | Herz – Lunge – Herz\nKörperkreislauf | Herz – Organe – Herz"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Herz",
+    "x": "Das Herz ist ein *Hohlmuskel*.\nEs ist so groß wie eine *Faust*.\nJede Hälfte hat einen *Vorhof* und eine Kammer.\nDie *Herzklappen* lassen das Blut nur in eine Richtung fließen.\nDie rechte Herzkammer pumpt das Blut zur *Lunge*.\nDie linke Herzkammer pumpt das Blut in den *Körper*."
+   },
+   {
+    "t": "mc",
+    "n": "Blutkreislauf",
+    "x": "Wohin pumpt die rechte Herzkammer das Blut?\n+ zur Lunge\n- in den Körper\n- ins Gehirn\n\nWelche Gefäße führen zum Herzen hin?\n- Arterien\n+ Venen\n- Bronchien\n\nWo tauschen Blut und Zellen Stoffe aus?\n- in den Herzklappen\n+ in den Kapillaren\n- in der Luftröhre\n\nWo fühlst du den Puls gut?\n+ am Handgelenk\n+ am Hals\n- am Knie\n\nWelche Herzhälfte hat sauerstoffreiches Blut?\n- die rechte\n+ die linke\n- beide gleich"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Miss deinen Puls am Handgelenk: 15 Sekunden zählen, mal 4. Dann 1 Minute auf der Stelle laufen und noch einmal messen.",
+    "a": "Zum Beispiel: Ruhe 20 Schläge in 15 s = 80 pro Minute. Nach dem Laufen 35 in 15 s = 140 pro Minute. Bei Bewegung schlägt das Herz schneller."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne den Blutkreislauf als zwei Schleifen: oben Lunge, unten Körper, in der Mitte das Herz. Male sauerstoffreiches Blut rot und sauerstoffarmes blau.",
+    "a": "Herz in der Mitte. Obere Schleife zur Lunge: hin blau, zurück rot. Untere Schleife zum Körper: hin rot, zurück blau. Pfeile zeigen die Richtung."
+   },
+   {
+    "l": 2,
+    "q": "Beschreibe den Weg eines roten Blutkörperchens: vom rechten Vorhof einmal durch beide Kreisläufe.",
+    "a": "Rechter Vorhof → rechte Kammer → Lungenarterie → Lunge (nimmt O₂ auf) → Lungenvene → linker Vorhof → linke Kammer → Aorta (Körperarterie) → Organe (gibt O₂ ab) → Körpervene → rechter Vorhof."
+   },
+   {
+    "l": 2,
+    "q": "Rechne: Dein Herz schlägt 80-mal pro Minute. Wie oft schlägt es in einer Stunde und an einem Tag?",
+    "a": "80 · 60 = 4800 pro Stunde. 4800 · 24 = 115 200 pro Tag."
+   },
+   {
+    "l": 3,
+    "q": "Warum ist die Wand der linken Herzkammer viel dicker als die der rechten?",
+    "a": "Die linke Kammer pumpt das Blut durch den ganzen Körper, bis in die Zehen und ins Gehirn. Dafür braucht sie viel mehr Kraft. Die rechte pumpt nur bis zur nahen Lunge."
+   },
+   {
+    "l": 3,
+    "q": "Venen in den Beinen haben Venenklappen. Wozu? Was hilft zusätzlich, das Blut nach oben zu bringen?",
+    "a": "Das Blut muss gegen die Schwerkraft zum Herzen zurück. Die Klappen verhindern, dass es zurückfließt. Zusätzlich drücken die Beinmuskeln beim Gehen die Venen zusammen. Darum ist Bewegung wichtig."
+   }
+  ],
+  "mt": "Wie groß ist das Herz ungefähr?\n- wie ein Fußball\n+ wie eine Faust\n- wie eine Erbse\n\nWas sind Arterien?\n+ Gefäße, die vom Herzen wegführen\n- Gefäße, die zum Herzen führen\n- Teile der Lunge\n\nWofür sind Herzklappen?\n- zum Atmen\n+ damit das Blut nur in eine Richtung fließt\n- damit das Herz leichter ist\n\nWohin führt der Lungenkreislauf?\n- zum Gehirn\n+ zur Lunge und zurück\n- zu den Beinen\n\nWie oft schlägt das Herz von Jugendlichen in Ruhe ungefähr?\n- 20-mal pro Minute\n+ 70- bis 90-mal pro Minute\n- 200-mal pro Minute"
+ },
+ {
+  "ch": "6 Herz und Blutkreislauf",
+  "title": "6.3 Gesund für Herz und Kreislauf",
+  "text": "# Herz-Kreislauf-Krankheiten\n[bilder: 🚬 das Rauchen | 🍟 das fettige Essen | 🛋️ der Bewegungsmangel | 😰 der Stress | 🏃 der Sport]\n- Herz-Kreislauf-Krankheiten sind in Deutschland die häufigste Todesursache.\n- Oft entstehen sie langsam über viele Jahre.\n- Bei Arterienverkalkung lagern sich Fett und Kalk in den Arterien ab. Die Arterie wird eng.\n- Wird eine Herzarterie verstopft, bekommt ein Teil des Herzens keinen Sauerstoff: Herzinfarkt.\n- Im Gehirn heißt das Schlaganfall.\n# Risikofaktoren\n| Risikofaktor | Was passiert? |\n|---|---|\n| Rauchen | Gefäße werden eng und geschädigt. |\n| Bewegungsmangel | Das Herz wird schwach. |\n| Übergewicht | Das Herz muss mehr arbeiten. |\n| fettes, süßes, salziges Essen | Ablagerungen, hoher Blutdruck |\n| Dauer-Stress | Blutdruck steigt. |\n| Alkohol | schädigt Herzmuskel und Gefäße |\n# Vorbeugen\n- Bewege dich jeden Tag mindestens 60 Minuten (Empfehlung für Jugendliche).\n- Iss viel Gemüse, Obst und Vollkorn. Weniger Fast Food, Zucker und Salz.\n- Trink Wasser statt Limo.\n- Rauche nicht.\n- Schlaf genug und mach Pausen vom Handy.\n# Notfall: Herzinfarkt\n- Zeichen: starker Schmerz in der Brust, oft bis in den linken Arm, Atemnot, Angst, kalter Schweiß.\n- Sofort 112 anrufen. Nicht allein lassen.\nMerke: Bewegung, gesundes Essen und Nichtrauchen schützen Herz und Gefäße. Bei Verdacht auf Herzinfarkt: sofort 112.",
+  "help": "# Alter\nFalsch: Herzkrankheiten betreffen nur alte Menschen. Mich geht das nichts an.\nRichtig: Die Ablagerungen beginnen oft schon in der Jugend. Was du jetzt tust, zählt später.\n# Sport\nFalsch: Sport ist schlecht fürs Herz, weil es schnell schlägt.\nRichtig: Regelmäßiger Sport trainiert das Herz. In Ruhe schlägt es dann langsamer und kräftiger.\n# Fett\nAchtung: Nicht alles Fett ist schlecht. Nüsse, Fisch und Pflanzenöl sind gut. Viel Wurst, Frittiertes und Süßes ist schlecht.\n# Notruf\nFalsch: Bei Brustschmerzen erst einmal abwarten.\nRichtig: Bei Verdacht auf Herzinfarkt sofort 112 anrufen.",
+  "ub": {
+   "t": "match",
+   "x": "Rauchen | Gefäße werden eng\nBewegungsmangel | Herz wird schwach\nzu viel Salz | hoher Blutdruck\nverstopfte Herzarterie | Herzinfarkt\nverstopfte Arterie im Gehirn | Schlaganfall\nregelmäßiger Sport | trainiertes Herz"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Ursache und Folge",
+    "x": "Rauchen | Gefäße werden eng\nBewegungsmangel | Herz wird schwach\nzu viel Salz | hoher Blutdruck\nverstopfte Herzarterie | Herzinfarkt\nverstopfte Arterie im Gehirn | Schlaganfall\nregelmäßiger Sport | trainiertes Herz"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Gesundes Herz",
+    "x": "Bei Arterienverkalkung lagern sich Fett und *Kalk* ab.\nIst eine Herzarterie verstopft, gibt es einen *Herzinfarkt*.\nJugendliche sollen sich jeden Tag *60* Minuten bewegen.\nTrink lieber *Wasser* statt Limo.\nBei Verdacht auf Herzinfarkt rufst du sofort die *112* an."
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Herz-Gesundheit",
+    "x": "Was ist gut für das Herz?\n+ jeden Tag Bewegung\n- viel Limo\n- Rauchen\n- den ganzen Tag sitzen\n\nWas ist ein Risikofaktor?\n- Obst essen\n- Fahrrad fahren\n+ Übergewicht\n- genug Schlaf\n\nWas passiert bei Arterienverkalkung?\n- Die Arterie wird weiter.\n+ Die Arterie wird eng.\n- Das Blut wird blau.\n- Das Herz wird größer.\n\nWas ist ein Zeichen für einen Herzinfarkt?\n- Bauchkribbeln\n- kalte Füße\n+ starker Schmerz in der Brust\n- Schluckauf\n\nWas tust du bei Verdacht auf Herzinfarkt?\n- abwarten\n- ein Glas Wasser holen\n- nach Hause schicken\n+ sofort 112 anrufen"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib einen Tagesplan mit 60 Minuten Bewegung. Was machst du wann?",
+    "a": "Zum Beispiel: 15 Minuten mit dem Rad zur Schule, 15 Minuten zurück, 30 Minuten Fußball am Nachmittag."
+   },
+   {
+    "l": 1,
+    "q": "Sortiere in „gut fürs Herz“ und „schlecht fürs Herz“: Rauchen, Schwimmen, Pommes jeden Tag, Apfel, Treppe steigen, Energy-Drink, Wasser, 6 Stunden Zocken.",
+    "a": "Gut: Schwimmen, Apfel, Treppe steigen, Wasser. Schlecht: Rauchen, Pommes jeden Tag, Energy-Drink, 6 Stunden Zocken (Bewegungsmangel)."
+   },
+   {
+    "l": 2,
+    "q": "Führe eine Woche lang ein Bewegungs-Tagebuch: Wie viele Minuten bewegst du dich jeden Tag? Erreichst du 60 Minuten?",
+    "a": "Tabelle mit Tag, Art der Bewegung und Minuten. Auswertung: An wie vielen Tagen waren es 60 Minuten? Was kann ich besser machen?"
+   },
+   {
+    "l": 2,
+    "q": "Lies das Etikett einer Limo: Wie viel Zucker ist in 1 Liter? Rechne um in Zuckerwürfel (1 Würfel = ca. 3 g).",
+    "a": "Zum Beispiel: 10 g Zucker pro 100 ml = 100 g pro Liter. 100 g : 3 g = ca. 33 Zuckerwürfel."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre, warum ein Sportler in Ruhe einen niedrigeren Puls hat als ein untrainierter Mensch.",
+    "a": "Durch Training wird der Herzmuskel stärker. Bei jedem Schlag pumpt er mehr Blut. Darum muss das Herz in Ruhe nicht so oft schlagen, um den Körper zu versorgen."
+   },
+   {
+    "l": 3,
+    "q": "Gestalte ein Plakat für die Schule: „5 Tipps für ein starkes Herz“. Begründe jeden Tipp in einem Satz.",
+    "a": "Zum Beispiel: Bewegen (trainiert das Herz), nicht rauchen (Gefäße bleiben weit), Wasser trinken (kein Zucker), Obst und Gemüse (weniger Fett), genug schlafen (weniger Stress). Klare Überschrift, Bilder, kurze Sätze."
+   }
+  ],
+  "mt": "Was ist ein Herzinfarkt?\n+ Eine Herzarterie ist verstopft.\n- Das Herz schlägt beim Sport schnell.\n- Man hat Schluckauf.\n\nWas ist ein Risikofaktor?\n- Gemüse\n+ Rauchen\n- Schwimmen\n\nWie viel Bewegung am Tag wird Jugendlichen empfohlen?\n- 5 Minuten\n+ 60 Minuten\n- 5 Stunden\n\nWas lagert sich bei Arterienverkalkung ab?\n- Wasser\n+ Fett und Kalk\n- Sauerstoff\n\nWelche Nummer rufst du bei einem Herzinfarkt?\n- 110\n+ 112\n- 116"
+ },
+ {
+  "ch": "7 Elektrische Spannung und Stromstärke",
+  "title": "7.1 Der Stromkreis und der Schaltplan",
+  "text": "# Der einfache Stromkreis\n[bilder: 🔋 die Batterie | 💡 die Lampe | 🔘 der Schalter | 〰️ das Kabel | 🔌 die Steckdose]\n- Strom fließt nur in einem geschlossenen Kreis.\n- Ein Stromkreis braucht:\n- 1. eine Quelle (Batterie, Netzgerät)\n- 2. einen Verbraucher (Lampe, Motor)\n- 3. Leitungen (Kabel) hin und zurück\n- Mit dem Schalter kann man den Kreis öffnen und schließen.\n- Ist der Kreis offen, fließt kein Strom. Die Lampe ist aus.\n# Schaltzeichen\n| Bauteil | Schaltzeichen (beschrieben) |\n|---|---|\n| Batterie | langer Strich (+) und kurzer, dicker Strich (−) |\n| Lampe | Kreis mit einem Kreuz |\n| Schalter offen | Linie mit schräg nach oben gestelltem Strich |\n| Leitung | gerade Linie |\n| Motor | Kreis mit M |\n| Amperemeter | Kreis mit A |\n| Voltmeter | Kreis mit V |\n| Widerstand | Rechteck |\n- Ein Schaltplan zeigt den Stromkreis mit Schaltzeichen. Linien zeichnet man mit Lineal, mit rechten Winkeln.\n# Fehler finden\n- Lampe leuchtet nicht? Prüfe: Ist der Kreis geschlossen? Ist die Lampe fest eingeschraubt? Ist die Batterie leer?\n- Kurzschluss: Strom fließt am Verbraucher vorbei direkt zurück zur Quelle. Die Kabel werden heiß. Gefahr!\n# Sicherheit\n- Versuche nur mit Batterien oder Schulnetzgeräten bis ca. 24 V.\n- Nie mit der Steckdose experimentieren! 230 V sind lebensgefährlich.\nMerke: Strom fließt nur im geschlossenen Kreis: Quelle – Leitung – Verbraucher – Leitung – zurück zur Quelle. Ein Schaltplan zeigt das mit Schaltzeichen.",
+  "help": "# Ein Kabel reicht nicht\nFalsch: Ein Kabel von der Batterie zur Lampe reicht.\nRichtig: Man braucht einen Hinweg und einen Rückweg. Der Kreis muss geschlossen sein.\n# Strom wird verbraucht\nFalsch: Die Lampe verbraucht den Strom.\nRichtig: Der Strom fließt ganz durch die Lampe und zurück. Die Lampe wandelt Energie um.\n# Kurzschluss\nAchtung: Ein Kurzschluss macht die Kabel heiß. Er kann einen Brand auslösen und die Batterie zerstören.\n# Schalter\nAchtung: Schalter offen = Strom aus. Schalter geschlossen = Strom an.",
+  "ub": {
+   "t": "match",
+   "x": "Kreis mit Kreuz | Lampe\nKreis mit M | Motor\nKreis mit A | Amperemeter\nKreis mit V | Voltmeter\nRechteck | Widerstand\nlanger und kurzer Strich | Batterie"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Schaltzeichen und Bauteil",
+    "x": "Kreis mit Kreuz | Lampe\nKreis mit M | Motor\nKreis mit A | Amperemeter\nKreis mit V | Voltmeter\nRechteck | Widerstand\nlanger und kurzer Strich | Batterie"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Stromkreis",
+    "x": "Strom fließt nur in einem *geschlossenen* Kreis.\nDie Batterie ist die *Quelle*.\nDie Lampe ist ein *Verbraucher*.\nMit dem *Schalter* öffnet und schließt man den Kreis.\nFließt der Strom an der Lampe vorbei, ist das ein *Kurzschluss*."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Stromkreis",
+    "x": "BATTERIE | Quelle für den Strom\nSCHALTER | öffnet und schließt den Kreis\nLAMPE | Verbraucher, der leuchtet\nKABEL | Leitung aus Kupfer\nKURZSCHLUSS | Strom fließt am Verbraucher vorbei\nSCHALTPLAN | Zeichnung mit Schaltzeichen\nMOTOR | Verbraucher, der sich dreht"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Zeichne den Schaltplan: Batterie, Schalter und Lampe in einem Kreis. Benutze ein Lineal.",
+    "a": "Rechteckiger Kreis aus Linien. Darin: Batterie-Zeichen, offener Schalter, Kreis mit Kreuz als Lampe."
+   },
+   {
+    "l": 1,
+    "q": "Nenne die 3 Dinge, die ein Stromkreis mindestens braucht.",
+    "a": "Eine Quelle (z. B. Batterie), einen Verbraucher (z. B. Lampe) und Leitungen hin und zurück."
+   },
+   {
+    "l": 2,
+    "q": "Versuch: Baue mit Flachbatterie (4,5 V), Lämpchen, Schalter und Kabeln den Stromkreis aus Aufgabe 1 auf. Was passiert, wenn du den Schalter öffnest?",
+    "a": "Schalter geschlossen: Die Lampe leuchtet. Schalter offen: Der Kreis ist unterbrochen, die Lampe geht aus."
+   },
+   {
+    "l": 2,
+    "q": "Eine Lampe leuchtet nicht. Nenne 4 mögliche Fehler.",
+    "a": "Batterie leer. Lampe kaputt oder nicht fest eingeschraubt. Kabel nicht richtig angeschlossen oder kaputt. Schalter offen."
+   },
+   {
+    "l": 3,
+    "q": "Zeichne einen Schaltplan mit Kurzschluss. Erkläre, warum ein Kurzschluss gefährlich ist.",
+    "a": "Ein Kabel verbindet die beiden Anschlüsse der Lampe direkt. Der Strom fließt am Verbraucher vorbei. Ohne Verbraucher wird der Strom sehr groß. Kabel und Batterie werden heiß. Es kann brennen. Nicht ausprobieren!"
+   },
+   {
+    "l": 3,
+    "q": "Eine Taschenlampe: Wo sind Quelle, Verbraucher, Schalter und Leitungen? Erkläre, wie der Stromkreis geschlossen wird.",
+    "a": "Quelle: Batterien. Verbraucher: LED oder Lampe. Schalter: Knopf außen. Leitungen: Metallstreifen und Feder im Gehäuse. Beim Drücken berühren sich zwei Metallteile im Schalter. Der Kreis ist geschlossen."
+   }
+  ],
+  "mt": "Wann fließt Strom?\n+ wenn der Kreis geschlossen ist\n- wenn der Kreis offen ist\n- immer\n\nWas ist das Schaltzeichen der Lampe?\n- Rechteck\n+ Kreis mit Kreuz\n- Kreis mit M\n\nWas ist ein Verbraucher?\n- die Batterie\n+ die Lampe\n- das Kabel\n\nWas ist ein Kurzschluss?\n+ Strom fließt am Verbraucher vorbei.\n- Der Schalter ist offen.\n- Das Kabel ist zu lang.\n\nMit welcher Quelle darfst du experimentieren?\n- mit der Steckdose\n+ mit einer Batterie\n- mit der Oberleitung"
+ },
+ {
+  "ch": "7 Elektrische Spannung und Stromstärke",
+  "title": "7.2 Wirkungen des Stroms",
+  "text": "# Was kann Strom?\n[bilder: 💡 die Lampe | 🔥 der Toaster | 🧲 der Elektromagnet | 🔋 der Akku | ⚡ der Blitz]\n- Strom selbst sieht man nicht. Man erkennt ihn an seinen Wirkungen.\n| Wirkung | Beispiel |\n|---|---|\n| Wärmewirkung | Toaster, Wasserkocher, Föhn, Herdplatte |\n| Lichtwirkung | Lampe, LED, Bildschirm |\n| magnetische Wirkung | Elektromagnet, Klingel, Elektromotor, Lautsprecher |\n| chemische Wirkung | Akku laden, Metall mit Kupfer beschichten |\n| Wirkung auf Lebewesen | Muskelkrampf, Stromschlag (gefährlich!) |\n# Energie wird umgewandelt\n- Die Quelle liefert elektrische Energie.\n- Der Verbraucher wandelt sie in andere Energieformen um.\n| Gerät | aus elektrischer Energie wird … |\n|---|---|\n| Lampe | Licht (und Wärme) |\n| Wasserkocher | Wärme |\n| Motor, Ventilator | Bewegungsenergie |\n| Lautsprecher | Schall (und Bewegung) |\n| Akku beim Laden | chemische Energie |\n- Fast immer entsteht auch Wärme, auch wenn wir sie nicht wollen. Darum wird ein Handy-Ladegerät warm.\n- Eine LED macht mehr Licht und weniger Wärme als eine alte Glühlampe. Sie spart Energie.\n# Elektromagnet\n- Wickle einen isolierten Draht um einen Eisennagel. Schließ ihn an eine Batterie an.\n- Der Nagel zieht Büroklammern an. Strom aus: Die Klammern fallen ab.\nMerke: Strom hat 5 Wirkungen: Wärme, Licht, Magnetismus, chemische Wirkung, Wirkung auf Lebewesen. Verbraucher wandeln elektrische Energie in andere Energie um.",
+  "help": "# Energie\nFalsch: Die Lampe verbraucht Energie, danach ist sie weg.\nRichtig: Energie geht nicht verloren. Sie wird umgewandelt: in Licht und Wärme.\n# Elektromagnet\nFalsch: Ein Elektromagnet ist immer magnetisch.\nRichtig: Er ist nur magnetisch, wenn Strom fließt.\n# LED\nAchtung: LED-Lampen sind sparsam. Sie wandeln mehr Energie in Licht und weniger in Wärme um.\n# Wärme\nAchtung: Wärme ist oft eine Nebenwirkung. Auch Handy und Laptop werden warm.",
+  "ub": {
+   "t": "match",
+   "x": "Toaster | Wärmewirkung\nLED | Lichtwirkung\nKlingel | magnetische Wirkung\nAkku laden | chemische Wirkung\nStromschlag | Wirkung auf Lebewesen\nElektromotor | magnetische Wirkung"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Gerät und Wirkung",
+    "x": "Toaster | Wärmewirkung\nLED | Lichtwirkung\nKlingel | magnetische Wirkung\nAkku laden | chemische Wirkung\nStromschlag | Wirkung auf Lebewesen\nElektromotor | magnetische Wirkung"
+   },
+   {
+    "t": "mc",
+    "n": "Welche Energie entsteht?",
+    "x": "Ein Ventilator wandelt elektrische Energie vor allem um in …\n- Licht\n+ Bewegungsenergie\n- chemische Energie\n\nEin Wasserkocher wandelt elektrische Energie um in …\n+ Wärme\n- Schall\n- Licht\n\nBeim Laden eines Akkus entsteht …\n- Licht\n- Bewegungsenergie\n+ chemische Energie\n\nWelche Lampe ist sparsamer?\n+ LED\n- alte Glühlampe\n- beide gleich\n\nWann zieht ein Elektromagnet Eisen an?\n- immer\n+ nur wenn Strom fließt\n- nur nachts"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Wirkungen",
+    "x": "WAERME\nLICHT\nMAGNET\nAKKU\nTOASTER\nKLINGEL\nMOTOR\nENERGIE"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Such in der Küche 5 elektrische Geräte. Schreib zu jedem die wichtigste Wirkung des Stroms auf.",
+    "a": "Zum Beispiel: Herd (Wärme), Kühlschranklicht (Licht), Mixer (Motor, magnetische Wirkung), Wasserkocher (Wärme), Radio (Lautsprecher, magnetische Wirkung)."
+   },
+   {
+    "l": 1,
+    "q": "Schreib als Pfeil: Was wird aus der elektrischen Energie bei Lampe, Föhn, Handy-Lautsprecher?",
+    "a": "Lampe: elektrische Energie → Licht + Wärme. Föhn: elektrische Energie → Wärme + Bewegungsenergie. Lautsprecher: elektrische Energie → Schall."
+   },
+   {
+    "l": 2,
+    "q": "Versuch: Baue einen Elektromagneten (Eisennagel, ca. 1 m Kupferlackdraht, Flachbatterie 4,5 V; nur kurz anschließen, der Draht wird warm). Wie viele Büroklammern hebt er? Was ändert sich mit mehr Windungen?",
+    "a": "Zum Beispiel: 20 Windungen heben 3 Klammern, 40 Windungen heben 6 Klammern. Mehr Windungen machen den Magneten stärker. Strom aus: Die Klammern fallen ab."
+   },
+   {
+    "l": 2,
+    "q": "Warum wird ein Ladegerät beim Laden warm? Ist das gewollt?",
+    "a": "Bei jeder Energieumwandlung entsteht auch Wärme. Diese Wärme ist nicht gewollt. Sie ist Energie, die wir nicht nutzen können."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre, warum man alte Glühlampen durch LEDs ersetzt hat. Benutze die Wörter Energie, Licht und Wärme.",
+    "a": "Eine Glühlampe wandelt nur ca. 5 % der elektrischen Energie in Licht um, der Rest wird Wärme. Eine LED wandelt viel mehr in Licht um. Für die gleiche Helligkeit braucht sie viel weniger Energie. Das spart Geld und schont die Umwelt."
+   },
+   {
+    "l": 3,
+    "q": "Ein Schrottplatz hebt Autos mit einem riesigen Elektromagneten. Warum nimmt man keinen normalen Magneten?",
+    "a": "Einen Elektromagneten kann man ein- und ausschalten. Man hebt das Auto mit Strom an und lässt es an der richtigen Stelle fallen, indem man den Strom ausschaltet. Ein normaler Magnet würde das Auto nicht loslassen."
+   }
+  ],
+  "mt": "Welche Wirkung nutzt der Toaster?\n+ Wärmewirkung\n- Lichtwirkung\n- chemische Wirkung\n\nWas wandelt ein Motor elektrische Energie um?\n- in Licht\n+ in Bewegungsenergie\n- in chemische Energie\n\nWelche Wirkung nutzt eine Klingel?\n- Wärmewirkung\n+ magnetische Wirkung\n- Lichtwirkung\n\nWarum wird ein Ladegerät warm?\n+ Bei der Umwandlung entsteht immer auch Wärme.\n- Es ist kaputt.\n- Weil Licht entsteht.\n\nWann ist ein Elektromagnet magnetisch?\n- immer\n+ wenn Strom fließt\n- nie"
+ },
+ {
+  "ch": "7 Elektrische Spannung und Stromstärke",
+  "title": "7.3 Stromstärke und Spannung messen",
+  "text": "# Was ist elektrischer Strom?\n[bilder: ⚡ der Strom | 🔋 die Spannung | 📟 das Messgerät | 🔄 das Förderband | 💧 der Wasserkreislauf]\n- In Metallen gibt es frei bewegliche Elektronen.\n- Elektrischer Strom ist die gerichtete Bewegung von Elektronen.\n- Die Elektronen fließen vom Minuspol der Quelle durch den Stromkreis zum Pluspol.\n# Das Förderband-Modell\n- Stell dir eine Fahrradkette oder ein Förderband vor.\n- Die Batterie ist der Motor. Sie treibt die Elektronen an. Das ist die Spannung.\n- Wie viele Elektronen pro Sekunde vorbeikommen, ist die Stromstärke.\n- Die Lampe ist eine Bremse. Dort wird Energie abgegeben.\n# Spannung und Stromstärke\n| | Spannung | Stromstärke |\n|---|---|---|\n| Zeichen | U | I |\n| Einheit | Volt (V) | Ampere (A) |\n| Bedeutung | Antrieb für die Elektronen | Elektronen pro Sekunde |\n| Messgerät | Voltmeter | Amperemeter |\n| Anschluss | parallel zum Bauteil (daneben) | in Reihe (im Kreis, Kreis auftrennen) |\n| Namensgeber | Alessandro Volta (Italien) | André-Marie Ampère (Frankreich) |\n# Spannungen im Alltag\n| Spannungsquelle | Spannung |\n|---|---|\n| Batterie (Mignon AA) | 1,5 V |\n| Flachbatterie | 4,5 V |\n| Handy-Akku | ca. 3,7 V |\n| Steckdose | 230 V (lebensgefährlich!) |\n| Oberleitung der Bahn | 15 000 V |\n# Die Reihenschaltung\n- Reihenschaltung: Alle Bauteile liegen hintereinander in einem Kreis, ohne Verzweigung.\n- Die Stromstärke ist überall gleich groß.\n- Die Spannungen an den Bauteilen zusammen sind so groß wie die Spannung der Quelle.\n- Beispiel: Quelle 6 V, zwei gleiche Lampen: An jeder Lampe sind 3 V.\n- Geht eine Lampe kaputt, gehen alle aus.\n# Messen mit dem Vielfachmessgerät\n- Erst den größten Messbereich einstellen. Dann kleiner stellen.\n- Auf die Pole achten: rotes Kabel an Plus, schwarzes an Minus.\nMerke: Spannung U in Volt (V) treibt den Strom an. Stromstärke I in Ampere (A) zeigt, wie viele Elektronen fließen. Amperemeter in Reihe, Voltmeter parallel.",
+  "help": "# Verwechslung\nFalsch: Spannung und Stromstärke sind dasselbe.\nRichtig: Spannung ist der Antrieb (Volt). Stromstärke ist die Menge pro Sekunde (Ampere).\n# Amperemeter\nFalsch: Das Amperemeter klemme ich parallel an die Lampe.\nRichtig: Das Amperemeter kommt in Reihe, in den Kreis. Das Voltmeter kommt parallel daneben.\n# Reihenschaltung\nFalsch: In der Reihenschaltung wird der Strom nach jeder Lampe weniger.\nRichtig: Die Stromstärke ist überall gleich. Die Spannung teilt sich auf.\n# Steckdose\nAchtung: Niemals an der Steckdose messen oder basteln. 230 V können töten.",
+  "ub": {
+   "t": "match",
+   "x": "Spannung | Antrieb für die Elektronen\nStromstärke | Elektronen pro Sekunde\nVolt | Einheit der Spannung\nAmpere | Einheit der Stromstärke\nVoltmeter | wird parallel angeschlossen\nAmperemeter | wird in Reihe angeschlossen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Begriff und Erklärung",
+    "x": "Spannung | Antrieb für die Elektronen\nStromstärke | Elektronen pro Sekunde\nVolt | Einheit der Spannung\nAmpere | Einheit der Stromstärke\nVoltmeter | wird parallel angeschlossen\nAmperemeter | wird in Reihe angeschlossen"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Messen",
+    "x": "Die Spannung hat das Zeichen *U* und die Einheit *Volt*.\nDie Stromstärke hat das Zeichen *I* und die Einheit *Ampere*.\nDas *Amperemeter* wird in Reihe angeschlossen.\nDas *Voltmeter* wird parallel angeschlossen.\nIn der Reihenschaltung ist die *Stromstärke* überall gleich."
+   },
+   {
+    "t": "mc",
+    "n": "Spannung oder Stromstärke?",
+    "x": "Welche Spannung hat eine Flachbatterie?\n- 1,5 V\n+ 4,5 V\n- 230 V\n\nWie schließt man das Amperemeter an?\n+ in Reihe\n- parallel\n- gar nicht\n\nQuelle 6 V, zwei gleiche Lampen in Reihe. Welche Spannung liegt an jeder Lampe?\n- 6 V\n+ 3 V\n- 12 V\n\nWas zeigt die Stromstärke?\n- wie stark die Batterie drückt\n+ wie viele Elektronen pro Sekunde fließen\n- wie hell die Sonne ist\n\nWelcher Messbereich zuerst?\n+ der größte\n- der kleinste\n- egal"
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Strom",
+    "x": "Welche Einheit hat die Spannung?\n- Ampere\n+ Volt\n- Ohm\n- Watt\n\nWas fließt in einem Metalldraht?\n- Protonen\n+ Elektronen\n- Wasser\n- Neutronen\n\nIm Förderband-Modell ist die Batterie …\n- die Bremse\n+ der Motor\n- das Band\n- die Last\n\nWas passiert in der Reihenschaltung, wenn eine Lampe kaputt geht?\n- Die anderen leuchten heller.\n- Nichts.\n+ Alle gehen aus.\n- Die Batterie explodiert.\n\nNach wem ist die Einheit Ampere benannt?\n- nach Alessandro Volta\n- nach Georg Simon Ohm\n+ nach André-Marie Ampère\n- nach Ernest Rutherford"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Schreib zu jeder Quelle die Spannung: AA-Batterie, Flachbatterie, Steckdose, Oberleitung der Bahn.",
+    "a": "AA-Batterie 1,5 V, Flachbatterie 4,5 V, Steckdose 230 V, Oberleitung 15 000 V."
+   },
+   {
+    "l": 1,
+    "q": "Zeichne einen Schaltplan: Batterie, Lampe, Amperemeter in Reihe. Und ein Voltmeter parallel zur Lampe.",
+    "a": "Kreis aus Batterie, Lampe und Kreis mit A hintereinander. Kreis mit V auf einer Extra-Leitung links und rechts an die Lampe angeschlossen."
+   },
+   {
+    "l": 2,
+    "q": "Versuch: Zwei Lämpchen in Reihe an einer Flachbatterie. Miss die Stromstärke vor, zwischen und nach den Lampen. Was stellst du fest?",
+    "a": "An allen drei Stellen ist die Stromstärke gleich, z. B. 0,2 A. In der Reihenschaltung ist die Stromstärke überall gleich."
+   },
+   {
+    "l": 2,
+    "q": "Quelle 9 V. Drei gleiche Lampen sind in Reihe geschaltet. Welche Spannung liegt an jeder Lampe?",
+    "a": "9 V : 3 = 3 V an jeder Lampe. Die Teilspannungen ergeben zusammen die Quellenspannung."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre mit dem Förderband-Modell, was Spannung und Stromstärke sind. Was passiert, wenn die Batterie stärker wird?",
+    "a": "Die Batterie ist der Motor, der das Band antreibt (Spannung). Die Stromstärke ist, wie viele Teile pro Sekunde vorbeikommen. Ein stärkerer Motor (mehr Spannung) treibt das Band schneller an: Die Stromstärke wird größer, die Lampe heller."
+   },
+   {
+    "l": 3,
+    "q": "Warum ist eine Reihenschaltung bei einer Lichterkette unpraktisch? Was wäre besser?",
+    "a": "Geht ein Lämpchen kaputt, ist der Kreis unterbrochen. Die ganze Kette geht aus, und man muss das kaputte Lämpchen suchen. Besser ist eine Schaltung, bei der jede Lampe ihren eigenen Weg hat (Parallelschaltung, lernst du später)."
+   }
+  ],
+  "mt": "Welches Zeichen hat die Stromstärke?\n- U\n+ I\n- V\n\nWelche Einheit hat die Stromstärke?\n+ Ampere\n- Volt\n- Meter\n\nWie schließt man das Voltmeter an?\n- in Reihe\n+ parallel zum Bauteil\n- an die Steckdose\n\nWie ist die Stromstärke in einer Reihenschaltung?\n+ überall gleich\n- nach jeder Lampe kleiner\n- am Anfang null\n\nWelche Spannung hat die Steckdose?\n- 4,5 V\n- 12 V\n+ 230 V"
+ },
+ {
+  "ch": "8 Elektrischer Widerstand",
+  "title": "8.1 Der Widerstand und das Ohm'sche Gesetz",
+  "text": "# Was ist ein Widerstand?\n[bilder: 🚧 das Hindernis | ⚡ der Strom | 🔥 die Wärme | 🧮 die Formel | 🏰 die Stadt Erlangen]\n- Elektronen fließen durch einen Draht. Dabei stoßen sie an die Atome des Metalls.\n- Sie werden gebremst. Das nennt man elektrischer Widerstand.\n- Je größer der Widerstand, desto kleiner die Stromstärke (bei gleicher Spannung).\n- Bei den Stößen entsteht Wärme.\n# Größe und Einheit\n| | Widerstand |\n|---|---|\n| Zeichen | R |\n| Einheit | Ohm (Ω) |\n| Formel | R = U : I |\n| Namensgeber | Georg Simon Ohm (1789–1854), aus Erlangen in Bayern |\n# So rechnest du\n- Gegeben: U = 6 V, I = 0,5 A\n- Gesucht: R\n- R = U : I = 6 V : 0,5 A = 12 Ω\n- Umgestellt: U = R · I und I = U : R\n# Das Ohm'sche Gesetz\n| Spannung U in V | 0 | 2 | 4 | 6 | 8 |\n|---|---|---|---|---|---|\n| Stromstärke I in A | 0 | 0,1 | 0,2 | 0,3 | 0,4 |\n| R = U : I in Ω | – | 20 | 20 | 20 | 20 |\n- Doppelte Spannung: doppelte Stromstärke.\n- Der Quotient U : I bleibt gleich. Er ist der Widerstand.\n- Das gilt, wenn die Temperatur gleich bleibt.\nMerke: Widerstand R = Spannung U : Stromstärke I. Einheit: Ohm (Ω). Je größer der Widerstand, desto kleiner der Strom.",
+  "help": "# Formel\nFalsch: R = I : U\nRichtig: R = U : I. Merkhilfe: „URI“ – U = R · I.\n# Einheit\nAchtung: Ω ist der griechische Buchstabe Omega. Man sagt „Ohm“.\n# Komma\nFalsch: 6 V : 0,5 A = 3 Ω\nRichtig: 6 : 0,5 = 12. Teilen durch 0,5 heißt mal 2.\n# Widerstand\nFalsch: Ein Widerstand hält den Strom ganz auf.\nRichtig: Er bremst den Strom nur. Es fließt weniger Strom.",
+  "ub": {
+   "t": "match",
+   "x": "U = 6 V, I = 0,5 A | R = 12 Ω\nU = 12 V, I = 2 A | R = 6 Ω\nU = 4,5 V, I = 0,1 A | R = 45 Ω\nU = 230 V, I = 1 A | R = 230 Ω\nR = 10 Ω, I = 0,3 A | U = 3 V\nU = 9 V, R = 3 Ω | I = 3 A"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Rechnung und Ergebnis",
+    "x": "U = 6 V, I = 0,5 A | R = 12 Ω\nU = 12 V, I = 2 A | R = 6 Ω\nU = 4,5 V, I = 0,1 A | R = 45 Ω\nU = 230 V, I = 1 A | R = 230 Ω\nR = 10 Ω, I = 0,3 A | U = 3 V\nU = 9 V, R = 3 Ω | I = 3 A"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Widerstand",
+    "x": "Die Elektronen stoßen an die *Atome* im Draht.\nDadurch werden sie *gebremst*.\nDas Zeichen für den Widerstand ist *R*.\nDie Einheit ist *Ohm*.\nDie Formel lautet: R = *U* : I.\nGeorg Simon Ohm kam aus *Erlangen*."
+   },
+   {
+    "t": "mc",
+    "n": "Rechnen mit Ohm",
+    "x": "U = 8 V, I = 2 A. Wie groß ist R?\n- 16 Ω\n+ 4 Ω\n- 10 Ω\n\nU = 3 V, I = 0,5 A. Wie groß ist R?\n+ 6 Ω\n- 1,5 Ω\n- 3,5 Ω\n\nR = 20 Ω, I = 0,2 A. Wie groß ist U?\n- 100 V\n+ 4 V\n- 20,2 V\n\nDie Spannung wird verdoppelt, R bleibt gleich. Was passiert mit I?\n+ I verdoppelt sich.\n- I halbiert sich.\n- I bleibt gleich.\n\nWelche Einheit hat der Widerstand?\n- Volt\n- Ampere\n+ Ohm"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Berechne R: a) U = 10 V, I = 2 A b) U = 12 V, I = 3 A c) U = 4,5 V, I = 0,5 A.",
+    "a": "a) 10 : 2 = 5 Ω b) 12 : 3 = 4 Ω c) 4,5 : 0,5 = 9 Ω."
+   },
+   {
+    "l": 1,
+    "q": "Schreib die drei Formen der Formel auf: R = …, U = …, I = …",
+    "a": "R = U : I, U = R · I, I = U : R."
+   },
+   {
+    "l": 2,
+    "q": "Ein Lämpchen hat bei 6 V eine Stromstärke von 0,3 A. Wie groß ist sein Widerstand? Welche Stromstärke erwartest du bei 3 V?",
+    "a": "R = 6 V : 0,3 A = 20 Ω. Bei 3 V (halbe Spannung): I = 3 V : 20 Ω = 0,15 A. (Bei echten Lampen ändert sich R etwas mit der Temperatur.)"
+   },
+   {
+    "l": 2,
+    "q": "Zeichne ein Diagramm zur Tabelle im Hefteintrag: x-Achse U in V, y-Achse I in A. Was für eine Linie entsteht?",
+    "a": "Die Punkte liegen auf einer geraden Linie durch den Nullpunkt (Ursprung). Das zeigt: I und U sind proportional."
+   },
+   {
+    "l": 3,
+    "q": "Ein Widerstand hat 100 Ω. Er verträgt höchstens 0,05 A. Welche Spannung darf man höchstens anlegen?",
+    "a": "U = R · I = 100 Ω · 0,05 A = 5 V. Mehr als 5 V darf man nicht anlegen, sonst wird er zu heiß."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre im Teilchenmodell, warum ein Draht mit großem Widerstand warm wird.",
+    "a": "Die Elektronen stoßen oft an die Atome des Metalls. Dabei geben sie Energie ab. Die Atome schwingen stärker. Stärkeres Schwingen der Teilchen bedeutet: Der Draht wird wärmer."
+   }
+  ],
+  "mt": "Was ist die Formel für den Widerstand?\n+ R = U : I\n- R = I : U\n- R = U + I\n\nWelche Einheit hat der Widerstand?\n- Volt\n+ Ohm\n- Ampere\n\nU = 12 V, I = 4 A. Wie groß ist R?\n- 48 Ω\n+ 3 Ω\n- 16 Ω\n\nWoher kam Georg Simon Ohm?\n- aus Italien\n+ aus Erlangen in Bayern\n- aus Frankreich\n\nWas passiert bei großem Widerstand?\n- Es fließt mehr Strom.\n+ Es fließt weniger Strom.\n- Es fließt gar kein Strom mehr."
+ },
+ {
+  "ch": "8 Elektrischer Widerstand",
+  "title": "8.2 Wovon hängt der Widerstand ab?",
+  "text": "# Vier wichtige Dinge\n[bilder: 📏 die Länge | ⭕ der Querschnitt | 🧱 das Material | 🌡️ die Temperatur]\n| Je … | desto … Widerstand | Erklärung |\n|---|---|---|\n| länger der Draht | größer | Die Elektronen müssen länger durch das Metall. Mehr Stöße. |\n| dicker der Draht (größerer Querschnitt) | kleiner | Mehr Platz für die Elektronen, wie eine breitere Straße |\n| wärmer der Draht (bei Metallen) | größer | Die Atome schwingen stärker. Mehr Stöße. |\n| Material | verschieden | Kupfer: klein. Eisen: größer. Konstantan: groß. |\n- Querschnitt: die Fläche, wenn man den Draht durchschneidet.\n# Gute und schlechte Leiter\n| Material | Widerstand | Verwendung |\n|---|---|---|\n| Silber, Kupfer | sehr klein | Kabel, Leitungen |\n| Aluminium | klein | Überlandleitungen (leicht) |\n| Eisen | mittel | Nägel, Stahlseile |\n| Konstantan, Chromnickel | groß | Heizdrähte, Widerstände |\n| Graphit | groß | Bleistiftmine |\n| Kunststoff, Glas, Gummi | riesig, leitet praktisch nicht | Isolator: Kabelhülle |\n# Der richtige Leiter\n- Ein Kabel soll den Strom gut leiten. Darum: Kupfer, nicht zu lang, dick genug.\n- Ein Heizdraht soll warm werden. Darum: Material mit großem Widerstand.\n- Ein zu dünnes Verlängerungskabel wird heiß. Das ist gefährlich.\n# Versuch: Bleistiftmine als Widerstand\n- Material: Flachbatterie (4,5 V), Lämpchen, 3 Kabel mit Krokodilklemmen, Mine aus einem Druckbleistift.\n- Baue einen Stromkreis mit Batterie, Lämpchen und Mine in Reihe.\n- Schiebe eine Klemme an der Mine entlang.\n- Kurzes Stück Mine: Die Lampe ist heller. Langes Stück: Sie wird dunkler.\n- Vorsicht: Die Mine kann warm werden.\nMerke: Langer, dünner, warmer Draht: großer Widerstand. Kurzer, dicker Draht aus Kupfer: kleiner Widerstand.",
+  "help": "# Dick und dünn\nFalsch: Ein dicker Draht hat mehr Widerstand, weil mehr Metall drin ist.\nRichtig: Ein dicker Draht hat weniger Widerstand. Die Elektronen haben mehr Platz.\n# Länge\nAchtung: Doppelte Länge = doppelter Widerstand.\n# Isolator\nFalsch: Kunststoff hat keinen Widerstand.\nRichtig: Kunststoff hat einen riesigen Widerstand. Darum fließt kein Strom durch.\n# Wärme\nAchtung: Bei Metallen steigt der Widerstand mit der Temperatur. Das ist bei Graphit anders.",
+  "ub": {
+   "t": "match",
+   "x": "langer Draht | großer Widerstand\nkurzer Draht | kleiner Widerstand\ndicker Draht | kleiner Widerstand\ndünner Draht | großer Widerstand\nKupfer | sehr kleiner Widerstand\nKunststoff | Isolator"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Draht und Widerstand",
+    "x": "langer Draht | großer Widerstand\nkurzer Draht | kleiner Widerstand\ndicker Draht | kleiner Widerstand\ndünner Draht | großer Widerstand\nKupfer | sehr kleiner Widerstand\nKunststoff | Isolator"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Abhängigkeiten",
+    "x": "Je länger der Draht, desto *größer* der Widerstand.\nJe dicker der Draht, desto *kleiner* der Widerstand.\nKabel macht man aus *Kupfer*.\nFür Heizdrähte nimmt man ein Material mit *großem* Widerstand.\nKunststoff ist ein *Isolator*."
+   },
+   {
+    "t": "cw",
+    "n": "Kreuzworträtsel: Widerstand",
+    "x": "KUPFER | Metall für Kabel\nISOLATOR | leitet keinen Strom\nLAENGE | doppelt so lang = doppelter Widerstand\nQUERSCHNITT | Fläche, wenn man den Draht durchschneidet\nGRAPHIT | Material der Bleistiftmine\nHEIZDRAHT | soll warm werden\nOHM | Einheit des Widerstands"
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Leiter",
+    "x": "KUPFER\nSILBER\nEISEN\nGRAPHIT\nGUMMI\nDRAHT\nLEITER\nKABEL"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Sortiere: Kupfer, Gummi, Eisen, Glas, Silber, Kunststoff, Aluminium. Leiter oder Isolator?",
+    "a": "Leiter: Kupfer, Eisen, Silber, Aluminium. Isolatoren: Gummi, Glas, Kunststoff."
+   },
+   {
+    "l": 1,
+    "q": "Ergänze: Je länger …, desto … Je dicker …, desto …",
+    "a": "Je länger der Draht, desto größer der Widerstand. Je dicker der Draht, desto kleiner der Widerstand."
+   },
+   {
+    "l": 2,
+    "q": "Mach den Versuch mit der Bleistiftmine (Flachbatterie, Lämpchen, Krokodilklemmen). Wie ändert sich die Helligkeit mit der Länge der Mine? Schreib ein Protokoll.",
+    "a": "Beobachtung: Kurzes Stück Mine, helle Lampe. Langes Stück, dunkle Lampe. Ergebnis: Je länger das Graphit-Stück, desto größer der Widerstand, desto kleiner die Stromstärke."
+   },
+   {
+    "l": 2,
+    "q": "Warum sind Kabel innen aus Kupfer und nicht aus Eisen?",
+    "a": "Kupfer hat einen viel kleineren Widerstand als Eisen. Der Strom fließt gut. Das Kabel wird kaum warm. Außerdem rostet Kupfer nicht und ist gut biegsam."
+   },
+   {
+    "l": 3,
+    "q": "Ein Wasserkocher braucht viel Strom. Warum ist sein Kabel dicker als das Kabel einer Nachttischlampe?",
+    "a": "Ein großer Strom macht ein dünnes Kabel heiß. Ein dickeres Kabel hat einen kleineren Widerstand. Es wird nicht so warm. So gibt es keinen Brand."
+   },
+   {
+    "l": 3,
+    "q": "Doppelte Länge: doppelter Widerstand. Ein Draht mit 1 m hat 4 Ω. Wie groß ist der Widerstand bei 3 m? Und wenn der 3-m-Draht doppelt so viel Querschnitt hat?",
+    "a": "3 m: 3 · 4 Ω = 12 Ω. Mit doppeltem Querschnitt halbiert sich der Widerstand: 12 Ω : 2 = 6 Ω."
+   }
+  ],
+  "mt": "Ein Draht wird länger. Was passiert mit dem Widerstand?\n+ Er wird größer.\n- Er wird kleiner.\n- Er bleibt gleich.\n\nEin Draht wird dicker. Was passiert mit dem Widerstand?\n- Er wird größer.\n+ Er wird kleiner.\n- Er bleibt gleich.\n\nWelches Material ist ein Isolator?\n- Kupfer\n- Eisen\n+ Gummi\n\nWelches Metall nimmt man für Kabel?\n+ Kupfer\n- Konstantan\n- Blei\n\nWas passiert bei Metallen, wenn sie wärmer werden?\n- Der Widerstand wird kleiner.\n+ Der Widerstand wird größer.\n- Sie leiten gar nicht mehr."
+ },
+ {
+  "ch": "8 Elektrischer Widerstand",
+  "title": "8.3 Gefahren durch Strom",
+  "text": "# Strom im Körper\n[bilder: ⚡ der Stromschlag | 🔌 die Steckdose | 🚃 die Oberleitung | 🛁 die Badewanne | 🧯 die Sicherung]\n- Unser Körper leitet Strom, besonders wenn die Haut nass ist.\n- Fließt Strom durch den Körper, verkrampfen die Muskeln. Man kann nicht mehr loslassen.\n- Strom durch das Herz kann es stoppen. Das ist lebensgefährlich.\n- Schon ab ca. 50 V (Wechselspannung) kann es gefährlich werden. Die Steckdose hat 230 V.\n- Batterien mit 1,5 V oder 4,5 V sind für den Körper ungefährlich.\n# Sicherheitsregeln\n- Nie an Steckdosen basteln. Keine Gegenstände hineinstecken.\n- Elektrische Geräte nie mit nassen Händen oder in der Badewanne benutzen.\n- Kaputte Kabel und Stecker nicht benutzen. Einem Erwachsenen sagen.\n- Stecker am Stecker ziehen, nicht am Kabel.\n- Bahngleise: Nie auf Waggons klettern! Die Oberleitung hat 15 000 V. Strom springt schon über einen Abstand von 1,5 m.\n- Bei Gewitter nicht unter einzelne Bäume stellen.\n# Schutz im Haus\n| Schutz | Wie wirkt er? |\n|---|---|\n| Sicherung (Leitungsschutzschalter) | schaltet ab, wenn zu viel Strom fließt, z. B. bei Kurzschluss |\n| FI-Schalter (Fehlerstromschutzschalter) | schaltet ab, wenn Strom durch einen Menschen fließt |\n| Isolierung | Kunststoff um die Kabel schützt vor Berührung |\n| Kinderschutz an Steckdosen | verhindert, dass Kinder etwas hineinstecken |\n# Erste Hilfe bei Stromunfall\n- 1. Nicht die Person anfassen! Sonst bekommst du auch einen Stromschlag.\n- 2. Strom abschalten: Stecker ziehen oder Sicherung aus.\n- 3. Notruf 112.\n- 4. Erst dann helfen.\n- Bei Hochspannung (Bahn, Überlandleitung): großen Abstand halten. Nur die Fachleute können abschalten.\nMerke: Steckdose und Oberleitung sind lebensgefährlich. Sicherung und FI-Schalter schützen. Bei einem Stromunfall: erst Strom aus, dann 112, dann helfen.",
+  "help": "# Batterie\nAchtung: Mit Batterien (1,5 V, 4,5 V) kannst du sicher experimentieren. Mit der Steckdose nie!\n# Bahn\nFalsch: Die Oberleitung muss man berühren, damit etwas passiert.\nRichtig: Bei 15 000 V springt der Strom schon über 1,5 m Abstand. Nie auf Waggons klettern.\n# Helfen\nFalsch: Bei einem Stromunfall ziehe ich die Person sofort weg.\nRichtig: Erst den Strom abschalten. Sonst fließt der Strom auch durch dich.\n# Sicherung\nAchtung: Die Sicherung springt raus, weil etwas nicht stimmt. Nicht einfach wieder einschalten. Einem Erwachsenen sagen.",
+  "ub": {
+   "t": "match",
+   "x": "Sicherung | schaltet ab bei zu viel Strom\nFI-Schalter | schaltet ab, wenn Strom durch einen Menschen fließt\nIsolierung | Kunststoff schützt vor Berührung\nKinderschutz | nichts in die Steckdose stecken\nOberleitung | 15 000 V, Abstand halten\nStromunfall | erst Strom aus, dann helfen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Schutz und Wirkung",
+    "x": "Sicherung | schaltet ab bei zu viel Strom\nFI-Schalter | schaltet ab, wenn Strom durch einen Menschen fließt\nIsolierung | Kunststoff schützt vor Berührung\nKinderschutz | nichts in die Steckdose stecken\nOberleitung | 15 000 V, Abstand halten\nStromunfall | erst Strom aus, dann helfen"
+   },
+   {
+    "t": "mc",
+    "n": "Sicher oder gefährlich?",
+    "x": "Föhnen in der Badewanne ist …\n- sicher\n+ lebensgefährlich\n\nExperimente mit einer 4,5-V-Batterie sind …\n+ sicher\n- lebensgefährlich\n\nAuf einen abgestellten Güterwaggon klettern ist …\n- sicher, wenn der Zug steht\n+ lebensgefährlich wegen der Oberleitung\n\nJemand hat einen Stromunfall. Was tust du zuerst?\n- die Person anfassen und wegziehen\n+ den Strom abschalten\n- weggehen\n\nWelche Spannung hat die Steckdose?\n- 4,5 V\n+ 230 V\n- 15 000 V"
+   },
+   {
+    "t": "mio",
+    "n": "Millionenspiel: Sicherheit",
+    "x": "Wie ziehst du einen Stecker richtig?\n- am Kabel\n+ am Stecker\n- mit nassen Händen\n- mit dem Fuß\n\nWas tust du mit einem kaputten Kabel?\n- mit Klebeband reparieren und benutzen\n- weiter benutzen\n+ nicht benutzen und einem Erwachsenen sagen\n- in Wasser legen\n\nWas macht eine Sicherung?\n- Sie macht den Strom stärker.\n+ Sie schaltet ab, wenn zu viel Strom fließt.\n- Sie speichert Strom.\n- Sie misst die Spannung.\n\nWarum ist nasse Haut gefährlich?\n- Sie wird kalt.\n+ Sie leitet den Strom besser.\n- Sie isoliert.\n- Sie ist rutschig.\n\nAb welchem Abstand kann Strom aus der Bahn-Oberleitung überspringen?\n- erst bei Berührung\n- 1 cm\n+ ca. 1,5 m\n- 100 m"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Mach ein Plakat „Strom – aber sicher!“ mit 5 Regeln und Bildern.",
+    "a": "Zum Beispiel: Nie an Steckdosen basteln. Keine Geräte mit nassen Händen. Kaputte Kabel nicht benutzen. Stecker am Stecker ziehen. Nie auf Bahnwaggons klettern."
+   },
+   {
+    "l": 1,
+    "q": "Schreib die 4 Schritte der Ersten Hilfe bei einem Stromunfall auf.",
+    "a": "1. Person nicht anfassen. 2. Strom abschalten (Stecker, Sicherung). 3. Notruf 112. 4. Dann helfen."
+   },
+   {
+    "l": 2,
+    "q": "Such zu Hause (mit einem Erwachsenen) den Sicherungskasten. Gibt es einen FI-Schalter? Zeichne, was du siehst.",
+    "a": "Viele kleine Schalter (Sicherungen) für einzelne Räume, oft beschriftet. Ein größerer FI-Schalter mit Testknopf „T“. Nur anschauen, nichts öffnen."
+   },
+   {
+    "l": 2,
+    "q": "Erkläre, warum Batterien ungefährlich sind, die Steckdose aber nicht.",
+    "a": "Eine Batterie hat nur 1,5 V oder 4,5 V. Die Spannung ist zu klein, um einen gefährlichen Strom durch den Körper zu treiben. Die Steckdose hat 230 V. Damit kann ein Strom fließen, der Muskeln verkrampft und das Herz stoppt."
+   },
+   {
+    "l": 3,
+    "q": "Erkläre mit dem Wort Widerstand, warum nasse Haut gefährlicher ist als trockene.",
+    "a": "Trockene Haut hat einen großen Widerstand. Nasse Haut hat einen viel kleineren Widerstand. Nach I = U : R fließt bei kleinerem Widerstand ein größerer Strom durch den Körper. Das ist gefährlicher."
+   },
+   {
+    "l": 3,
+    "q": "Ein Vogel sitzt auf einer Hochspannungsleitung und bekommt keinen Stromschlag. Ein Mensch auf einer Leiter, der die Leitung berührt, schon. Erkläre.",
+    "a": "Der Vogel berührt nur ein Kabel. Zwischen seinen Füßen ist fast keine Spannung, kein Strom fließt durch ihn. Der Mensch auf der Leiter berührt die Leitung und ist mit der Erde verbunden. Der Strom fließt durch seinen Körper in die Erde."
+   }
+  ],
+  "mt": "Ab welcher Spannung kann es für den Menschen gefährlich werden?\n- ab 1,5 V\n+ ab ca. 50 V\n- erst ab 15 000 V\n\nWas machst du bei einem Stromunfall zuerst?\n- die Person wegziehen\n+ den Strom abschalten\n- Wasser holen\n\nWas macht ein FI-Schalter?\n+ Er schaltet ab, wenn Strom durch einen Menschen fließt.\n- Er macht Licht.\n- Er lädt Akkus.\n\nWarum nie auf Bahnwaggons klettern?\n- Sie sind schmutzig.\n+ Die Oberleitung hat 15 000 V.\n- Sie sind zu hoch.\n\nWie ziehst du einen Stecker?\n- am Kabel\n+ am Stecker\n- mit nassen Händen"
+ }
+]

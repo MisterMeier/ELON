@@ -1841,7 +1841,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1622';let verTold=false;
+const BUILD='20261012-1625';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -5089,7 +5089,8 @@ async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.
 // Fertige Lernlandschaften pro Fach: Einträge, Übungen und Modul-Extras
 const PLANS={M:{f:'mathe7',pre:'m7-',t:'Jahresplan Mathematik 7',d:'8 Module mit 34 Unterkapiteln'},DZ:{f:'daz',pre:'dz-',t:'Lernlandschaft Deutsch als Zweitsprache',d:'Themenmodule mit Wortschatz, Dialogen und Grammatik'},
   E:{f:'englisch7',pre:'e7-',t:'Jahresplan Englisch 7',d:'8 Module mit Wortschatz, Dialogen, Grammatik und Ausspracheübungen'},
-  K:{f:'kunst7',pre:'k7-',t:'Jahresplan Kunst 7',d:'Module mit Fachwissen und Gestaltungsaufträgen'}};
+  K:{f:'kunst7',pre:'k7-',t:'Jahresplan Kunst 7',d:'Module mit Fachwissen und Gestaltungsaufträgen'},
+  N:{f:'nt7',pre:'nt7-',t:'Jahresplan Natur und Technik 7',d:'8 Kapitel nach LehrplanPLUS mit Fachwissen, Versuchen und Übungen'}};
 async function heftLoadPlan(quiet,sk){sk=PLANS[sk]?sk:'M';const PL=PLANS[sk];try{const [L,M]=await Promise.all([PL.f,PL.f+'_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
   let up=0;L.forEach((x,k)=>{const id=PL.pre+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
     // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
