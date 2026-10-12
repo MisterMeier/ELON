@@ -1824,9 +1824,28 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1513';let verTold=false;
+const BUILD='20261012-1516';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
+// Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
+function pushPlan(A){if(!CLOUD||!Cloud.sb||!Cloud.prof)return null;const d=new Date(A.until+'T18:00');d.setDate(d.getDate()-1);let at=d;
+  if(at.getTime()<Date.now()){const t=new Date();t.setHours(18,0,0,0);if(t.getTime()>Date.now()+5*60000&&A.until>todayISO())at=t;else return null}
+  A.pAt=at.getTime();Cloud.sb.from('push_jobs').insert({class_id:S.cls,send_at:at.toISOString()}).select('id').then(r=>{if(r.error){delete A.pAt;V.msg='Push-Erinnerung ging nicht (ist push.sql eingerichtet?)';render();return}A.pj=r.data&&r.data[0]&&r.data[0].id;tsave()});
+  return at.toLocaleString('de-DE',{weekday:'long',hour:'2-digit',minute:'2-digit'})+' Uhr'}
+let PUSHDAY='';
+async function pushSub(force){try{if(S.role!=='student'||!CLOUD||!('PushManager' in window)||!('Notification' in window)||Notification.permission!=='granted')return;
+  if(!force&&PUSHDAY===todayISO())return;PUSHDAY=todayISO();const sb=await sbClient(),r=await sb.from('push_cfg').select('vapid_pub').eq('id',1).maybeSingle(),k=r&&r.data&&r.data.vapid_pub;if(!k)return;
+  const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();
+  if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64ud(k)});await sb.rpc('push_save',{p_endpoint:sub.endpoint})}catch(e){console.warn('push',e)}}
+async function pushOff(){try{if(!('serviceWorker' in navigator))return;const reg=await navigator.serviceWorker.getRegistration();const sub=reg&&await reg.pushManager.getSubscription();if(!sub)return;if(CLOUD&&Cloud.sb)await Cloud.sb.rpc('push_del',{p_endpoint:sub.endpoint});await sub.unsubscribe()}catch(e){}}
+function pushKeyGen(){crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']).then(async kp=>{const jwk=await crypto.subtle.exportKey('jwk',kp.privateKey),pub=new Uint8Array(await crypto.subtle.exportKey('raw',kp.publicKey));
+  V.pk={jwk:JSON.stringify({kty:jwk.kty,crv:jwk.crv,x:jwk.x,y:jwk.y,d:jwk.d}),pub:b64u(pub)};render()})}
+function pushAdminHTML(){const P=V.pk;return `<section class="panel" style="margin-bottom:14px"><span class="label">Push-Erinnerungen einrichten (einmalig)</span>
+  ${P?`<p class="muted" style="font-weight:700">Kopiere die drei Werte in Supabase → Edge Functions → Secrets. Diese Seite speichert sie nicht. Danach die Seite neu laden, dann sind sie weg.</p>
+    <label class="label">VAPID_PUB<input type="text" readonly value="${esc(P.pub)}" onclick="this.select()"></label>
+    <label class="label">VAPID_JWK (geheim)<input type="text" readonly value="${esc(P.jwk)}" onclick="this.select()"></label>
+    <label class="label">SQL für push_cfg<input type="text" readonly value="${esc(`insert into public.push_cfg (id, vapid_pub) values (1, '${P.pub}') on conflict (id) do update set vapid_pub = excluded.vapid_pub;`)}" onclick="this.select()"></label>`
+  :`<p class="muted" style="font-weight:700">Erzeugt das Schlüsselpaar für die Mitteilungen. Nur einmal nötig. Ein neues Paar meldet alle iPads ab.</p><button class="btn" data-act="push-keys">Schlüssel erzeugen</button>`}</section>`}
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
 swReg();
 function notify(t,b){const o={body:b,icon:'assets/icon/icon-192.png',tag:'elio'};
@@ -4897,7 +4916,7 @@ VIEWS.admin=()=>{
   if(!(Cloud.prof&&Cloud.prof.role==='admin'))return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Nur für den Admin.</div>`;
   if(!A.ok){adminLoad();return '<div class="empty">Lädt …</div>'}
   const uid=Cloud.user.id,cls=A.classes;
-  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Admin</h1><span class="chip">nur für dich</span></div>
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Admin</h1><span class="chip">nur für dich</span></div>${pushAdminHTML()}
   ${A.msg?`<p class="saved">${esc(A.msg)}</p>`:''}
   <div class="adm">
   <section class="panel"><span class="label">Schulen und Klassen</span>
@@ -5380,8 +5399,8 @@ function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>b.due.local
   return `<section class="panel" style="margin:12px 0 16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">📚 Übungsaufträge</h2><button class="btn sm" data-act="tdesk">＋ Modul als Auftrag geben</button></div>
     ${A.length?A.map(row).join(''):'<p class="muted" style="font-weight:700">Noch keiner. Öffne im Schreibtisch ein Modul und tippe auf „📚 Als Übungsauftrag“.</p>'}
     <h2 style="font-size:1.15rem;margin-top:16px">📣 Erinnerung an die Klasse</h2><p class="muted" style="font-weight:700;margin:2px 0 8px">Steht ganz oben auf dem Dashboard der SuS, der Avatar liest sie auf Wunsch vor.</p>
-    <div class="row" style="gap:8px;align-items:flex-end"><input id="ann-t" type="text" maxlength="300" placeholder="z. B. Denkt morgen an Geodreieck und Zirkel!" style="flex:1;min-width:220px"><label style="display:flex;flex-direction:column;font-weight:800;font-size:.85rem;gap:4px">zeigen bis<input id="ann-u" type="date" value="${new Date(Date.now()+864e5).toISOString().slice(0,10)}"></label><button class="btn pri" data-act="ann-add">Senden</button></div>
-    ${N.map(a=>`<div class="auf-t"><span style="flex:1">📣 ${esc(a.t)} <small class="muted">· bis ${fmtDate(a.until)}</small></span><button class="btn sm red" data-act="ann-del" data-id="${esc(a.id)}">Entfernen</button></div>`).join('')}</section>`}
+    <div class="row" style="gap:8px;align-items:flex-end"><input id="ann-t" type="text" maxlength="300" placeholder="z. B. Denkt morgen an Geodreieck und Zirkel!" style="flex:1;min-width:220px"><label style="display:flex;flex-direction:column;font-weight:800;font-size:.85rem;gap:4px">zeigen bis<input id="ann-u" type="date" value="${new Date(Date.now()+864e5).toISOString().slice(0,10)}"></label><button class="btn pri" data-act="ann-add">Senden</button></div>${CLOUD?`<label style="display:flex;gap:8px;align-items:center;font-weight:700;margin-top:6px"><input type="checkbox" id="ann-p" checked> Am Abend vorher um 18 Uhr aufs iPad erinnern (ohne Text, nur „Denk an deine Erinnerung“)</label>`:''}
+    ${N.map(a=>`<div class="auf-t"><span style="flex:1">📣 ${esc(a.t)} <small class="muted">· bis ${fmtDate(a.until)}${a.pAt?' · Push '+new Date(a.pAt).toLocaleString('de-DE',{weekday:'short',hour:'2-digit',minute:'2-digit'}):''}</small></span><button class="btn sm red" data-act="ann-del" data-id="${esc(a.id)}">Entfernen</button></div>`).join('')}</section>`}
 const SUS_TABS=['stat','abg','chat'];
 function susTab(k,tab){const P=susP(k,false)||{chat:[],abg:{}};if((tab==='chat'&&P.un)||(tab==='abg'&&P.ua)){if(tab==='chat')P.un=0;else P.ua=0;setTimeout(tsave,0)}
   if(tab==='chat'){setTimeout(()=>{const l=$('#chat-l');if(l)l.scrollTop=l.scrollHeight},0);
@@ -6101,10 +6120,11 @@ document.addEventListener('click',e=>{
       TD.auf=TD.auf||[];TD.auf.push({id:'au'+Date.now().toString(36),cls:S.cls,s:d.s,ch:d.ch,due,rem,mt:mt?1:0,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.auff=false;
       V.msg='Übungsauftrag „'+chName(d.ch)+'“ ist bei den SuS, erledigt bis '+fmtDate(due)+', Erinnerung ab '+rem+' Uhr. Den Stand pro Kind siehst du unter Klassen → Schüler/innen.';render();break}
     case 'auf-del':TD.auf=(TD.auf||[]).filter(a=>a.id!==d.id);tsave();if(CS)pushCS();render();break;
-    case 'ann-add':{const t=(($('#ann-t')||{}).value||'').trim().slice(0,300),u=($('#ann-u')||{}).value||todayISO();if(!t)break;TD.ann=(TD.ann||[]).filter(a=>a.until>=todayISO());TD.ann.push({id:'an'+Date.now().toString(36),cls:S.cls,t,until:u,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.msg='Erinnerung ist auf dem Dashboard der SuS.';render();break}
-    case 'ann-del':TD.ann=(TD.ann||[]).filter(a=>a.id!==d.id);tsave();if(CS)pushCS();render();break;
+    case 'push-keys':pushKeyGen();break;
+    case 'ann-add':{const t=(($('#ann-t')||{}).value||'').trim().slice(0,300),u=($('#ann-u')||{}).value||todayISO();if(!t)break;TD.ann=(TD.ann||[]).filter(a=>a.until>=todayISO());const A={id:'an'+Date.now().toString(36),cls:S.cls,t,until:u,at:Date.now()};TD.ann.push(A);tsave();if(!CS)initTeacher();pushCS();const pj=($('#ann-p')||{}).checked?pushPlan(A):null;V.msg='Erinnerung ist auf dem Dashboard der SuS.'+(pj?' Push-Erinnerung: '+pj+'.':'');render();break}
+    case 'ann-del':{const A=(TD.ann||[]).find(a=>a.id===d.id);if(A&&A.pj&&CLOUD&&Cloud.sb)Cloud.sb.from('push_jobs').delete().eq('id',A.pj).then(()=>{},()=>{})}TD.ann=(TD.ann||[]).filter(a=>a.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'ann-say':{const a=annAll().find(x=>x.id===d.id);if(a)avSay(a.t);break}
-    case 'notif-ok':try{Notification.requestPermission().then(()=>{swReg();aufNotify();render()})}catch(e){}break;
+    case 'notif-ok':try{Notification.requestPermission().then(()=>{swReg();aufNotify();pushSub(true);render()})}catch(e){}break;
     case 'st-go':{const sd=stData(d.s,d.ch);if(!sd.qs.length)break;AK.G=null;akStart({g:'mc',at:stId(d.s,d.ch),title:'Selbsttest: '+d.ch,data:sd,eid:stId(d.s,d.ch),mt:1,back:{...V}});go('akt');break}
     case 'mt-go':{const x=ubFind(d.id);if(!x||!x.mt)break;AK.G=null;akStart({g:'mc',at:'mt-'+x.id,title:'Minitest: '+x.title,data:mtData(x),eid:x.id,mt:1,back:{...V}});go('akt');break}
     case 'hw-form':{const k=d.id+'#'+(d.i||0);V.hwf=V.hwf===k?null:k;render();break}
@@ -6154,7 +6174,7 @@ document.addEventListener('click',e=>{
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
-    case 'role-reset':$('#umenu').hidden=true;if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;S.locked=false;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'role-reset':$('#umenu').hidden=true;if(S.role==='student')pushOff();if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;S.locked=false;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'l-live-edit':{const i=CS?CS.step:0;go('lesson-edit',{id:d.id});setTimeout(()=>{const el=$('#ph-card-'+i);if(el)el.scrollIntoView({block:'start',behavior:'smooth'})},60);break}
     case 'elo-read':{if(b.classList.contains('on')){rdStop();break}if(d.live){const x=rdLive();rdSpeak(rdParts(x.i,x.tx),b);break}rdSpeak(rdParts(d.i!=null&&d.i!==''?+d.i:null,rdText(b)),b);break}
@@ -6492,7 +6512,7 @@ else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k
 if(!BOARD&&/^#(impressum|datenschutz)$/.test(location.hash)){V={name:location.hash.slice(1),back:{...V}};try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 hdr();tickClock();render();
 if(S.role==='teacher')libLoad();
-if(CLOUD&&!BOARD)cloudBoot().then(()=>{if(S.role==='student'&&S.acct&&!Cloud.anon)acctLogin(S.acct.u,S.acct.p,true).then(ok=>{if(ok){Live.start(S.code);acctSave(true)}})});
+if(CLOUD&&!BOARD)cloudBoot().then(()=>{if(S.role==='student'&&S.acct&&!Cloud.anon)acctLogin(S.acct.u,S.acct.p,true).then(ok=>{if(ok){Live.start(S.code);acctSave(true)}setTimeout(pushSub,3000)});else setTimeout(pushSub,3000)});
 try{speechSynthesis.getVoices()}catch(e){}
 eloLife(document);
 let lastMin=-1;
