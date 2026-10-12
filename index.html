@@ -471,6 +471,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .mood small{font-size:.75rem;font-weight:800;color:var(--muted)}
 .mood.on{border-color:var(--green);background:var(--ok-bg)}
 .lesson-list{display:grid;gap:12px}
+.bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
+.bx-warn{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:10px 14px;margin:12px 0;color:#78350f}.bx-msg{font-weight:800;color:#1e3a8a}.bx-lp{font-size:.92rem;color:#334155}.bx-form .lgrid{margin-top:8px}
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
 .lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
 .lgrid label{display:grid;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);min-width:0}
@@ -1806,7 +1808,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-0346';let verTold=false;
+const BUILD='20261012-0352';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -5488,12 +5490,57 @@ async function cttSave(key){
   if(CT.add&&CT.add[d+'-'+i])CT.add[d+'-'+i]=CT.add[d+'-'+i].filter(x=>x!==g);
   CT.ok=false;await cttLoad(cid);await cloudSync();
 }
+/* ---------- Stundenbörse: Stunden als Kopie teilen (an ein Kürzel oder in die Börse der Schule). Nur Unterrichtsmaterial. ---------- */
+let BX={tab:'in',rows:null,busy:false,msg:'',f:{}};
+document.addEventListener('input',e=>{const k=e.target&&e.target.dataset&&e.target.dataset.bxf;if(!k)return;BX.fl=BX.fl||{};BX.fl[k]=e.target.value;const id=e.target.id,pos=e.target.selectionStart;render();const n=$('#'+id);if(n&&n.focus){n.focus();try{if(pos!=null)n.setSelectionRange(pos,pos)}catch(x){}}});
+const bxForm=()=>{const g=id=>{const e=$('#'+id);return e?e.value:undefined},o={};[['to','bx-to'],['sch','bx-sch'],['gr','bx-gr'],['top','bx-top'],['lp','bx-lp'],['note','bx-note']].forEach(([k,id])=>{const v=g(id);if(v!==undefined)o[k]=v});return o};
+const bxOk=()=>CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'&&S.role==='teacher';
+const bxSchools=()=>{const ids=[...new Set(Cloud.myClasses.map(c=>c.school_id))];return ids.map(id=>schoolBy(id)||{id,name:'Schule'})};
+// Kopie ohne eigene Bilder (die liegen nur auf diesem Gerät und haben oft fremde Rechte)
+function bxSnap(L){const d=clone(lessonRow(L).data);let n=0;const nb=b=>b&&b!=='none'&&!SL_BG[b];
+  ['alit_priv','obs','notes'].forEach(k=>delete d[k]);
+  (d.phases||[]).forEach(p=>{const t=p.tool||{};if(nb(t.bg)){t.bg='allgemein';n++}[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;if(nb(sl.bg)){sl.bg='allgemein';n++}if((sl.imgs||[]).length){n+=sl.imgs.length;sl.imgs=[]}})});
+  return {d,n}}
+async function bxLoad(){if(!bxOk())return;BX.busy=true;render();
+  try{BX.rows=await q(Cloud.sb.from('lesson_pool').select('id,owner,school_id,scope,to_short,to_profile,from_short,subject,grade,topic,lp,note,title,created_at').order('created_at',{ascending:false}).limit(300))}
+  catch(e){BX.rows=[];BX.msg=/lesson_pool|relation|schema cache/i.test(e.message||'')?'Die Börse ist auf dem Server noch nicht eingerichtet: bitte boerse.sql einmal im Supabase SQL Editor ausführen.':'Laden hat nicht geklappt: '+(e.message||e)}
+  BX.busy=false;render()}
+VIEWS.boerse=()=>{const uid=Cloud.user&&Cloud.user.id;
+  if(!bxOk())return `<h1>Stundenbörse</h1><div class="empty">Die Stundenbörse braucht die Anmeldung mit deinem Lehrkräfte-Konto.</div>`;
+  if(BX.rows===null&&!BX.busy)setTimeout(bxLoad,0);
+  const share=V.share&&lessonById(V.share);
+  if(share){const sn=bxSnap(share),sc=bxSchools(),f=BX.f;
+    return `<div class="row" style="justify-content:space-between"><h1>Stunde teilen</h1><button class="btn" data-act="bx-back">Zurück</button></div>
+    <section class="panel bx-form"><h2>${esc(share.title)}</h2>
+      <div class="bx-seg"><button class="btn ${f.scope!=='school'?'pri':''}" data-act="bx-scope" data-s="person">An eine Kollegin / einen Kollegen</button><button class="btn ${f.scope==='school'?'pri':''}" data-act="bx-scope" data-s="school">In die Börse meiner Schule</button></div>
+      <div class="lgrid">${f.scope!=='school'?`<label>Kürzel der Lehrkraft<input type="text" id="bx-to" maxlength="12" value="${esc(f.to||'')}" placeholder="z. B. MÜL" autocapitalize="characters"></label>`:''}
+        ${sc.length>1?`<label>Schule<select id="bx-sch">${sc.map(x=>`<option value="${x.id}" ${x.id===(f.sch||S.school)?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label>`:''}
+        <label>Jahrgangsstufe<select id="bx-gr">${[5,6,7,8,9,10].map(g=>`<option ${g===(+f.gr||7)?'selected':''}>${g}</option>`).join('')}</select></label>
+        <label>Thema<input type="text" id="bx-top" maxlength="120" value="${esc(f.top||share.title)}"></label>
+        <label style="grid-column:1/-1">Lehrplanbezug<input type="text" id="bx-lp" maxlength="400" value="${esc(f.lp||share.alp||'')}" placeholder="z. B. LehrplanPLUS M 7, Lernbereich 2: Terme"></label>
+        <label style="grid-column:1/-1">Kurze Beschreibung<textarea id="bx-note" rows="2" maxlength="600" placeholder="Wofür passt die Stunde? Was braucht man?">${esc(f.note||'')}</textarea></label></div>
+      <div class="bx-warn"><b>Bitte beachten:</b> Geteilt wird nur das Unterrichtsmaterial, nie Schülerdaten. Keine Schulbuchseiten oder fremden Bilder ohne Lizenz.${sn.n?` Deine ${sn.n} eigenen Bilder bleiben auf deinem Gerät und werden nicht mitgeschickt.`:''} Die andere Lehrkraft bekommt eine Kopie, dein Original bleibt unverändert.</div>
+      ${BX.msg?`<p class="bx-msg">${esc(BX.msg)}</p>`:''}
+      <div class="row"><button class="btn pri" data-act="bx-send" ${BX.busy?'disabled':''}>${f.scope==='school'?'In die Börse stellen':'Teilen'}</button></div></section>`}
+  const R=BX.rows||[],tabs=[['in','Mit mir geteilt',R.filter(r=>r.to_profile===uid&&r.owner!==uid)],['pool','Börse meiner Schule',R.filter(r=>r.scope==='school')],['mine','Meine Freigaben',R.filter(r=>r.owner===uid)]];
+  const cur=tabs.find(t=>t[0]===BX.tab)||tabs[0],F=BX.fl||{};let list=cur[2];
+  if(BX.tab==='pool')list=list.filter(r=>(!F.s||r.subject===F.s)&&(!F.g||+r.grade===+F.g)&&(!F.t||(r.title+' '+r.topic+' '+r.lp+' '+r.note).toLowerCase().includes(F.t.toLowerCase())));
+  const subs=[...new Set((tabs[1][2]).map(r=>r.subject).filter(k=>SUBJECTS[k]))];
+  return `<div class="row" style="justify-content:space-between"><h1>Stundenbörse</h1><button class="btn" data-act="bx-reload">Aktualisieren</button></div>
+  <p class="muted">Teile Stunden mit Kolleginnen und Kollegen deiner Schule. Wer übernimmt, bekommt eine eigene Kopie. Zum Teilen tippe bei einer Stunde unter „Meine Stunden“ auf „Teilen“.</p>
+  <div class="bx-seg">${tabs.map(([k,n,l])=>`<button class="btn ${k===cur[0]?'pri':''}" data-act="bx-tab" data-t="${k}">${n}${l.length?` <b class="bx-n">${l.length}</b>`:''}</button>`).join('')}</div>
+  ${BX.tab==='pool'?`<div class="row bx-fl"><select id="bx-fs" data-bxf="s"><option value="">Alle Fächer</option>${subs.map(k=>`<option value="${k}" ${F.s===k?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select><select id="bx-fg" data-bxf="g"><option value="">Alle Jahrgänge</option>${[5,6,7,8,9,10].map(g=>`<option ${+F.g===g?'selected':''}>${g}</option>`).join('')}</select><input type="text" id="bx-ft" data-bxf="t" placeholder="Thema oder Lehrplan suchen" value="${esc(F.t||'')}"></div>`:''}
+  ${BX.msg?`<p class="bx-msg">${esc(BX.msg)}</p>`:''}${BX.busy?'<p class="muted">Lädt …</p>':''}
+  <div class="lesson-list">${list.map(r=>`<article class="lcard bx-card"><div class="row" style="justify-content:space-between;align-items:flex-start"><div class="row">${SUBJECTS[r.subject]?badge(r.subject):''}<div><h2>${esc(r.title)}</h2>
+      <span class="muted" style="font-weight:700">${r.grade?'Jgst. '+r.grade:''}${r.topic&&r.topic!==r.title?' · '+esc(r.topic):''}${r.owner===uid?(r.scope==='school'?' · in der Börse':' · an '+esc(r.to_short||'')):' · von '+esc(r.from_short||'LK')}</span></div></div>
+      <div class="row">${r.owner!==uid?`<button class="btn pri" data-act="bx-take" data-id="${r.id}">Als Kopie übernehmen</button>`:''}${r.owner===uid?`<button class="btn sm" data-act="bx-del" data-id="${r.id}">Zurückziehen</button>`:r.to_profile===uid?`<button class="btn sm" data-act="bx-del" data-id="${r.id}">Ausblenden</button>`:''}</div></div>
+      ${r.lp?`<p class="bx-lp"><b>Lehrplan:</b> ${esc(r.lp)}</p>`:''}${r.note?`<p>${esc(r.note)}</p>`:''}</article>`).join('')||`<div class="empty">${{in:'Noch nichts mit dir geteilt.',pool:'In der Börse deiner Schule liegt noch keine passende Stunde.',mine:'Du hast noch nichts geteilt.'}[cur[0]]}</div>`}</div>`};
 VIEWS.lessons=()=>{
   const list=lessons();
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div>
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Meine Stunden</h1><div class="row">${bxOk()?`<button class="btn" data-act="bx-open">Stundenbörse</button>`:''}<button class="btn pri" data-act="l-new">Neue Stunde aus dem Gerüst</button></div></div>
   <div class="lesson-list">${list.map(L=>`<article class="lcard s-${L.subject}"><div class="row" style="justify-content:space-between">
-      <div class="row">${badge(L.subject)}<div><h2>${esc(L.title)}</h2><span class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</span></div></div>
-      <div class="row"><button class="btn ok" data-act="l-start" data-id="${L.id}">An der Tafel starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-dup" data-id="${L.id}">Kopieren</button>
+      <div class="row">${badge(L.subject)}<div><h2>${esc(L.title)}</h2><span class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten${L.from?' · '+esc(L.from):''}</span></div></div>
+      <div class="row"><button class="btn ok" data-act="l-start" data-id="${L.id}">An der Tafel starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-dup" data-id="${L.id}">Kopieren</button>${bxOk()&&(!L.owner||!Cloud.user||L.owner===Cloud.user.id)?`<button class="btn sm" data-act="bx-share" data-id="${L.id}">Teilen</button>`:''}
       ${V.del===L.id?`<button class="btn sm red" data-act="l-del-yes" data-id="${L.id}">Wirklich löschen</button><button class="btn sm" data-act="l-del-no">Abbrechen</button>`:`<button class="btn sm" data-act="l-del" data-id="${L.id}">Löschen</button>`}</div></div>
       <div class="strip">${L.phases.map((p,i)=>`<span class="chip">${i+1}. ${esc(p.name)} · ${+p.min||0} min</span>`).join('')}</div></article>`).join('')||'<div class="empty">Noch keine Stunden. Leg die erste aus dem Gerüst an.</div>'}</div>
   <p class="muted" style="margin-top:14px;font-size:.9rem">Die Stunden sind auf diesem Gerät gespeichert. Das Gerüst ist vorläufig und wird an deine Referendariats-Vorlage angepasst.</p>`;
@@ -5709,6 +5756,22 @@ document.addEventListener('click',e=>{
     case 'lessons':go('lessons');break;
     case 'l-new':{const L=newLessonFrom(curSubj()||'M',45,'Neue Stunde');go('lesson-edit',{id:L.id});break}
     case 'l-edit':{const o=$('#ov');if(o)o.hidden=true;go('lesson-edit',{id:d.id});break}
+    case 'bx-open':BX.rows=null;BX.msg='';go('boerse');break;
+    case 'bx-share':BX.f={scope:'person'};BX.msg='';go('boerse',{share:d.id});break;
+    case 'bx-back':BX.msg='';go('lessons');break;
+    case 'bx-tab':BX.tab=d.t;render();break;
+    case 'bx-reload':bxLoad();break;
+    case 'bx-scope':Object.assign(BX.f,bxForm());BX.f.scope=d.s;render();break;
+    case 'bx-send':{const L=lessonById(V.share);if(!L||BX.busy)break;Object.assign(BX.f,bxForm());const f=BX.f,sc=bxSchools(),sch=f.sch||(sc.find(x=>x.id===S.school)||sc[0]||{}).id;
+      if(f.scope!=='school'&&!String(f.to||'').trim()){BX.msg='Bitte das Kürzel der Lehrkraft eintragen.';render();break}if(!sch){BX.msg='Keine Schule gefunden.';render();break}
+      const sn=bxSnap(L);BX.busy=true;BX.msg='';render();
+      (async()=>{try{await q(Cloud.sb.from('lesson_pool').insert({school_id:sch,scope:f.scope==='school'?'school':'person',to_short:f.scope==='school'?null:String(f.to).trim(),subject:L.subject||'',grade:+f.gr||null,topic:String(f.top||'').slice(0,120),lp:String(f.lp||'').slice(0,400),note:String(f.note||'').slice(0,600),title:String(L.title||'Stunde').slice(0,160),data:sn.d}));
+          BX.busy=false;BX.rows=null;BX.tab='mine';BX.msg=f.scope==='school'?'Die Stunde liegt jetzt in der Börse deiner Schule.':'Geteilt mit '+String(f.to).trim().toUpperCase()+'.';go('boerse')}
+        catch(e){BX.busy=false;const m=e.message||String(e);BX.msg=/kuerzel/.test(m)?'Dieses Kürzel gibt es an deiner Schule nicht oder es ist noch mit keinem Konto verknüpft.':/lesson_pool|relation|schema cache/i.test(m)?'Die Börse ist auf dem Server noch nicht eingerichtet: bitte boerse.sql einmal im Supabase SQL Editor ausführen.':'Teilen hat nicht geklappt: '+m;render()}})();break}
+    case 'bx-take':{const r=(BX.rows||[]).find(x=>x.id===d.id);if(!r)break;(async()=>{try{const x=(await q(Cloud.sb.from('lesson_pool').select('data,title,from_short').eq('id',r.id)))[0];if(!x)throw new Error('weg');
+        const L=Object.assign(clone(x.data),{id:lid(),title:x.title,from:'von '+(x.from_short||'LK')});delete L.owner;delete L.shared;delete L.cid;if(!Array.isArray(L.phases))L.phases=[];lessons().push(L);save();BX.msg='„'+x.title+'“ liegt jetzt als Kopie unter „Meine Stunden“.';render()}
+      catch(e){BX.msg='Übernehmen hat nicht geklappt: '+(e.message||e);render()}})();break}
+    case 'bx-del':(async()=>{try{await q(Cloud.sb.from('lesson_pool').delete().eq('id',d.id));BX.rows=(BX.rows||[]).filter(x=>x.id!==d.id);render()}catch(e){BX.msg='Das hat nicht geklappt: '+(e.message||e);render()}})();break;
     case 'l-dup':{const L=clone(lessonById(d.id));L.id=lid();delete L.owner;delete L.shared;L.title+=' (Kopie)';lessons().push(L);save();render();break}
     case 'l-del':V.del=d.id;render();break;
     case 'l-del-no':V.del=null;render();break;
