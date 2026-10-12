@@ -1867,7 +1867,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2134';let verTold=false;
+const BUILD='20261012-2144';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -4605,7 +4605,7 @@ function tpCell(d,i,date){
   const nx=TD.tt[d+'-'+(i+1)],dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
   const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
   if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
-    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
   const others=lessons().filter(x=>x.subject===sl.s);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
@@ -4613,6 +4613,24 @@ function tpCell(d,i,date){
     ${others.length?`<div class="row" style="margin-top:12px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div>`:''}
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
 }
+// Stunde für eine andere Klasse kopieren: freie Stunden im gleichen Fach in den nächsten zwei Wochen, Doppelstunde bleibt Doppelstunde
+function tpCopyTargets(key){const [date,i0]=key.split('|'),lid=TD.plan[key],L=lessonById(lid);if(!L)return [];const src=TD.tt[((new Date(date+'T12:00').getDay()+6)%7)+'-'+i0]||{};
+  const out=[],d0=new Date(date);for(let k=0;k<15;k++){const dt=new Date(d0);dt.setDate(d0.getDate()+k);const wd=(dt.getDay()+6)%7;if(wd>4)continue;const ds=isoD(dt);if(dayFree(ds))continue;
+    PERIODS.forEach((_,i)=>{const sl=TD.tt[wd+'-'+i];if(!sl||sl.s!==L.subject||TD.plan[ds+'|'+i])return;if(ds===date&&sl.c===src.c)return;
+      const pv=TD.tt[wd+'-'+(i-1)];if(i>0&&pv&&pv.s===sl.s&&pv.c===sl.c&&!TD.plan[ds+'|'+(i-1)])return;
+      const nx=TD.tt[wd+'-'+(i+1)],dbl=!!(nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[ds+'|'+(i+1)]);out.push({ds,wd,i,dbl,c:sl.c||''})})}
+  return out.sort((a,b)=>(a.c===src.c)-(b.c===src.c)||a.ds.localeCompare(b.ds)||a.i-b.i)}
+function tpCopyOv(key){const L=lessonById(TD.plan[key]);if(!L)return;const T=tpCopyTargets(key);
+  showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">Kopieren</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">Die Kopie ist eine eigene Stunde. Änderungen daran ändern das Original nicht.</p>
+    <label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-cp-noipad" style="width:22px;height:22px"> Diese Klasse hat keine iPads (alles läuft nur an der Tafel)</label>
+    ${T.length?`<div class="pool" style="margin-top:12px">${T.map(t=>`<button data-act="tp-cp-go" data-k="${key}" data-t="${t.ds}|${t.i}|${t.dbl?1:0}"><b>${DAYS[t.wd]}, ${new Date(t.ds+'T12:00').toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${t.i+1}.${t.dbl?'–'+(t.i+2)+'.':''} Stunde</b><small>${esc(t.c)}${t.dbl?' · Doppelstunde':''}</small></button>`).join('')}</div>`
+      :'<p class="muted" style="font-weight:700;margin-top:12px">In den nächsten zwei Wochen ist keine freie Stunde in diesem Fach im Stundenplan.</p>'}
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`)}
+function tpCopyGo(key,tgt){const L0=lessonById(TD.plan[key]);if(!L0)return;const [ds,i,db]=tgt.split('|'),wd=(new Date(ds+'T12:00').getDay()+6)%7,sl=TD.tt[wd+'-'+i]||{};
+  const L=clone(L0);L.id=lid();delete L.owner;delete L.shared;if(sl.c&&!L.title.includes(sl.c))L.title+=' · '+sl.c;
+  if($('#tp-cp-noipad')&&$('#tp-cp-noipad').checked)L.phases.forEach(p=>p.noipad=true);lessons().push(L);save();
+  const [d0,i0]=key.split('|'),srcDbl=TD.plan[d0+'|'+(+i0+1)]===L0.id||TD.plan[d0+'|'+(+i0-1)]===L0.id;
+  TD.plan[ds+'|'+i]=L.id;cloudPlan(wd,+i,ds,L.id);if(db==='1'&&srcDbl){TD.plan[ds+'|'+(+i+1)]=L.id;cloudPlan(wd,+i+1,ds,L.id)}tsave()}
 function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave();cloudPlan(d,i,date,lid);if(dbl)cloudPlan(d,i+1,date,lid)}
 
 /* =====================================================================
@@ -6745,6 +6763,8 @@ document.addEventListener('click',e=>{
     case 'my-subj':{const set=d.set.split('|');S.mySubj=(S.mySubj||[]).filter(x=>!set.includes(x)).concat(d.s);save();if(SLOTS_RAW)applyWeek(SLOTS_RAW);render();break}
     case 'ctt-split':{const k=d.d+'-'+d.i,used=new Set([...CT.slots.filter(x=>x.day===+d.d&&x.period===+d.i).map(x=>x.grp||0),...((CT.add||{})[k]||[])]);let g=0;while(used.has(g))g++;if(g<4){CT.add=CT.add||{};(CT.add[k]=CT.add[k]||[]).push(g)}render();break}
     case 'tt-edit':if(CLOUD&&Cloud.prof){go('ctt',{cid:S.cls,from:'tplan'});break}V.ttEdit=!V.ttEdit;render();break;
+    case 'tp-cp':tpCopyOv(d.k);break;
+    case 'tp-cp-go':tpCopyGo(d.k,d.t);$('#ov').hidden=true;V.msg='Kopiert.';render();break;
     case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
     case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
     case 'tp-new':{const sl=TD.tt[d.d+'-'+d.i],dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
