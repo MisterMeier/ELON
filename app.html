@@ -1867,7 +1867,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2129';let verTold=false;
+const BUILD='20261012-2134';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -4442,29 +4442,35 @@ const AKT={
       if(a.k==='next'){if(s.i+1<d.qs.length){s.i++;s.sel=null;s.lock=false;s.out={}}else{s.win=true;s.msg='Ihr habt '+MIO[d.qs.length-1]+' Punkte geknackt!'}return}
       if(a.k==='lost'){s.res='lost';return}
       if(a.k==='again'){Object.assign(s,AKT.mio.init(d));return}}},
-  vok:{name:'Vokabeltrainer',icon:'📗',txt:'Vokabeln abfragen wie im Vokabelheft: Die SuS tippen die Übersetzung, falsche Wörter kommen wieder, bis alle sitzen. Danach landen die Wörter im Vokabelheft.',fit:/vokabel|wortschatz|wort|wiederhol|übung|warm/i,
+  vok:{name:'Vokabeltrainer',icon:'📗',txt:'Vokabeln abfragen wie bei Phase 6: Die SuS tippen die Übersetzung, falsche Wörter kommen wieder, bis alle sitzen. Verbunden mit dem Vokabelheft: fällige Wörter kommen dazu, und jede Antwort zählt im Karteikasten.',fit:/vokabel|wortschatz|wort|wiederhol|übung|warm/i,
     help:'Eine Vokabel pro Zeile: englisch = deutsch. Optional erste Zeile: Richtung: Englisch → Deutsch',
     ex:'Richtung: Deutsch → Englisch\nzoo = Zoo\nto feed = füttern\ngiraffe = Giraffe\nkeeper = Tierpfleger/in\nenclosure = Gehege\ndangerous = gefährlich',
     exE:'Richtung: Deutsch → Englisch\nzoo = Zoo\nto feed = füttern\ngiraffe = Giraffe\nkeeper = Tierpfleger/in\nenclosure = Gehege\ndangerous = gefährlich',
     parse:t=>{let L=String(t||'').split('\n'),en=false;const m=(L.find(x=>x.trim())||'').match(/^\s*(richtung|direction)\s*:\s*(.+)$/i);
       if(m){en=/^\s*(engl|en\b)/i.test(m[2]);L=L.filter(x=>x!==L.find(y=>y.trim()))}return {en,words:vokParse(L.join('\n')).slice(0,60)}},
-    count:d=>d.words.length+(d.words.length===1?' Vokabel':' Vokabeln')+' · '+(d.en?'Englisch → Deutsch':'Deutsch → Englisch'),
-    init:d=>({q:shuffle(d.words.map((_,i)=>i)),ok:{},res:null,ans:'',tries:0}),
-    view:(d,s)=>{if(!d.words.length)return '<div class="empty">Keine Vokabeln eingetragen.</div>';const i=s.q[0],w=d.words[i],n=Object.keys(s.ok).length;
-      if(i==null)return `<div class="vk-card"><b style="font-size:1.4em">Alle ${d.words.length} Vokabeln sitzen!</b><p class="muted">Die Wörter stehen jetzt in deinem Vokabelheft.</p></div>`;
+    count:d=>d.words.length+(d.words.length===1?' Vokabel':' Vokabeln')+' · '+(d.en?'Englisch → Deutsch':'Deutsch → Englisch')+' · mit Vokabelheft',
+    // Auf dem iPad kommen die fälligen Wörter aus dem eigenen Vokabelheft dazu (höchstens 10)
+    init:d=>{const w=d.words.map(x=>[x[0],x[1]]);let ext=0;
+      if(S.role==='student'){const D=vokD(),have=new Set(w.map(x=>vokNorm(x[0])));Object.entries(D.c).filter(([,c])=>vokDue(c)&&!have.has(vokNorm(c.en))).sort((a,b)=>(a[1].b||0)-(b[1].b||0)).slice(0,10).forEach(([id,c])=>{w.push([c.en,c.de,id]);ext++})}
+      return {w,ext,q:shuffle(w.map((_,i)=>i)),ok:{},wr:{},res:null,ans:'',tries:0}},
+    view:(d,s)=>{const W=s.w||d.words;if(!W.length)return '<div class="empty">Keine Vokabeln eingetragen.</div>';const i=s.q[0],w=W[i],n=Object.keys(s.ok).length;
+      if(i==null)return `<div class="vk-card"><b style="font-size:1.4em">Alle ${W.length} Vokabeln sitzen!</b><p class="muted">Dein Vokabelheft ist auf dem neuesten Stand.</p></div>`;
       const ask=d.en?w[0]:w[1],sol=d.en?w[1]:w[0],r=s.res;
-      return `<div class="say-prog"><i style="width:${n/d.words.length*100}%"></i></div><p class="say-stat">${n} von ${d.words.length} sitzen</p>
-      <div class="vk-card"><span class="label">${d.en?'Englisch → Deutsch':'Deutsch → Englisch'}</span><div class="say-w">${esc(ask)}</div>
+      return `<div class="say-prog"><i style="width:${n/W.length*100}%"></i></div><p class="say-stat">${n} von ${W.length} sitzen${s.ext?` · davon ${s.ext} aus deinem Vokabelheft, die heute dran sind`:''}</p>
+      <div class="vk-card"><span class="label">${d.en?'Englisch → Deutsch':'Deutsch → Englisch'}${w[2]?' · aus deinem Vokabelheft':''}</span><div class="say-w">${esc(ask)}</div>
         <input id="ak-vok-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${d.en?'auf Deutsch …':'in English …'}" value="${esc(s.ans)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">
         ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht.'}</b> ${r==='ok'?'':'Richtig ist: '}<b>${esc(sol)}</b></p>
           <div class="row" style="justify-content:center"><button class="btn" data-act="ak" data-k="hear">Anhören</button><button class="btn pri" data-act="ak" data-k="next" id="ak-vok-go">Weiter</button></div>`
         :`<div class="row" style="justify-content:center"><button class="btn pri" data-act="ak" data-k="chk" id="ak-vok-go">Prüfen</button><button class="btn" data-act="ak" data-k="skip">Weiß ich nicht</button></div>`}</div>`},
-    act:(d,s,a)=>{const i=s.q[0],w=d.words[i];if(w==null)return;
+    act:(d,s,a)=>{const W=s.w||d.words,i=s.q[0],w=W[i];if(w==null)return;
       if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w[0]);u.lang='en-GB';u.rate=.85;const v=bestVoice('en-GB');if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
       if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const ok=a.k==='chk'&&vokOk(d.en?w[1]:w[0],s.ans);s.res=ok?'ok':'no';s.tries++;
-        if(ok){s.ok[i]=1;SND.right()}else SND.oops();return}
+        if(ok){s.ok[i]=1;SND.right()}else{SND.oops()}
+        // Karteikasten wie bei Phase 6: richtig = ein Fach weiter (war es vorher falsch: Fach 1), falsch = zurück in Fach 0
+        if(S.role==='student'){const c=vokCard(w);if(ok){c.b=s.wr[i]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}else{c.b=0;c.due=''}save()}
+        if(!ok)s.wr[i]=1;return}
       if(a.k==='next'){s.q.shift();if(s.res!=='ok')s.q.splice(Math.min(s.q.length,2),0,i);s.res=null;s.ans='';
-        if(!s.q.length){s.win=true;if(S.role==='student'){const D=vokD(),src='stunde';d.words.forEach(([en,de])=>{const id=src+':'+vokNorm(en).slice(0,60);if(!D.c[id])D.c[id]={en,de,b:0,due:'',src,t:'Aus dem Unterricht',at:Date.now()}});save()}}
+        if(!s.q.length)s.win=true;
         setTimeout(()=>{const el=document.getElementById('ak-vok-in');if(el)el.focus()},60)}}},
   say:{name:'Aussprach-Assistent',icon:'🎤',txt:'Wörter und Sätze anhören, nachsprechen, ELIO prüft die Aussprache. Für DaZ und Englisch.',fit:/sprech|ausspr|daz|vokabel|wort|übung|warm/i,
     help:'Erste Zeile: Sprache: Deutsch oder Sprache: Englisch. Danach ein Wort oder Satz pro Zeile.',
@@ -5965,6 +5971,8 @@ function vokQuiz(){const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c){VQ=null;return VIE
       <input id="vk-a" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(VQ.ans||'')}" ${st?'readonly':''} aria-label="Deine Antwort">
       ${st==='ok'?`<p class="vk-fb">✓ Richtig!${VQ.free?'':` Kommt wieder in: ${VOK_F[c.b||0]}`}</p>`:st==='bad'?`<p class="vk-fb">Richtig ist: <b>${esc(sol)}</b>${de?` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`:''}<br><small>Die Karte kommt gleich nochmal.</small></p>`:VQ.rec?`<p class="say-live">Sprich jetzt deutlich ins iPad …</p>`:VQ.err?`<p class="say-live">${esc(VQ.err)}</p>`:''}${st&&VQ.heard?`<p class="muted" style="font-weight:700">ELIO hat gehört: „${esc(VQ.heard)}“</p>`:''}</div>
     ${st?nsHTML('vok:'+id,c.en,'en-GB',`data-act="vok-say" data-t="${esc(c.en)}"`):''}<div class="row" style="justify-content:center">${st?`<button class="btn pri" data-act="vok-next">Weiter ➜</button>`:`<button class="btn pri" data-act="vok-chk">Prüfen</button>${api?`<button class="btn ${VQ.rec?'on':''}" data-act="vok-mic">🎤 ${VQ.rec?'Ich bin fertig':'Sagen'}</button>`:''}<button class="btn ghost" data-act="vok-skip">Weiß ich nicht</button>`}</div></div>`}
+// Karte im eigenen Vokabelheft finden (gleiches englisches Wort) oder neu anlegen
+function vokCard(w){const D=vokD();if(w[2]&&D.c[w[2]])return D.c[w[2]];const n=vokNorm(w[0]),f=Object.values(D.c).find(c=>vokNorm(c.en)===n);if(f)return f;const id='stunde:'+n.slice(0,60);return D.c[id]=D.c[id]||{en:vokClean(w[0]),de:vokClean(w[1]),b:0,due:'',src:'stunde',t:'Aus dem Unterricht',at:Date.now()}}
 function vokStart(free){const D=vokD(),C=Object.keys(D.c);let q=free?shuffle(C).slice(0,15):shuffle(C.filter(id=>vokDue(D.c[id]))).sort((a,b)=>(D.c[a].b||0)-(D.c[b].b||0)).slice(0,20);if(!q.length)return;VQ={q,done:0,res:null,ans:'',w:{},free:!!free};render();vokFocus()}
 const vokFocus=()=>setTimeout(()=>{const i=$('#vk-a');if(i&&!i.readOnly)i.focus()},30);
 function vokCheck(ans,skip){if(!VQ||VQ.res)return;const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c)return;const de=D.dir!=='en',ok=!skip&&vokOk(de?c.en:c.de,ans);VQ.ans=ans;VQ.res=ok?'ok':'bad';
