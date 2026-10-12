@@ -479,7 +479,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .et-warn{border-color:#f59e0b;background:#fffbeb}.et-good{border-color:#38bdf8;background:#f0f9ff}.et-s{font-weight:800;color:#1e3a8a}.et-i summary{cursor:pointer;font-weight:700;color:#4f46e5}.et-none{font-weight:700;color:#475569}
 .offl{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:90;display:flex;gap:10px;align-items:center;background:#1e3a8a;color:#fff;padding:10px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(30,58,138,.35);font-weight:700;max-width:calc(100% - 32px)}
 .offl i{width:12px;height:12px;border-radius:50%;background:#f59e0b;flex:none;animation:nsPulse 1.6s ease-in-out infinite}.offl[hidden]{display:none}
-.mn-tag{display:inline-block;background:#e0e7ff;color:#1e3a8a;border-radius:6px;padding:0 6px;font-size:.8em;font-weight:700;margin-left:4px}.mn-in{width:9em;padding:4px 8px;border:1px solid var(--line,#cbd5e1);border-radius:8px;font:inherit}.dm-ks{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.dm-k{display:flex;align-items:center;gap:6px;border:2px solid var(--line,#cbd5e1);background:#fff;border-radius:999px;padding:3px 10px 3px 4px;font:inherit;font-weight:700;cursor:pointer}.dm-k.on{border-color:#4f46e5;background:#e0e7ff}.dm-q{display:flex;flex-wrap:wrap;gap:6px}.dm-l{display:grid;gap:4px;margin:8px 0}.dm-l>div{display:grid;background:var(--surface-2,#f1f5f9);border-radius:8px;padding:4px 8px}.dm-ov{z-index:90}.dm-box{display:grid;justify-items:center;gap:10px;text-align:center;max-width:460px;border-color:#4f46e5}.dm-box h2{font-size:1.6rem}
+.mn-tag{display:inline-block;background:#e0e7ff;color:#1e3a8a;border-radius:6px;padding:0 6px;font-size:.8em;font-weight:700;margin-left:4px}.mn-in{width:9em;padding:4px 8px;border:1px solid var(--line,#cbd5e1);border-radius:8px;font:inherit}.dm-ks{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.dm-k{display:flex;align-items:center;gap:6px;border:2px solid var(--line,#cbd5e1);background:#fff;border-radius:999px;padding:3px 10px 3px 4px;font:inherit;font-weight:700;cursor:pointer}.dm-k.on{border-color:#4f46e5;background:#e0e7ff}.dm-q{display:flex;flex-wrap:wrap;gap:6px}.dm-l{display:grid;gap:4px;margin:8px 0}.dm-l>div{display:grid;background:var(--surface-2,#f1f5f9);border-radius:8px;padding:4px 8px}.dm-ov{z-index:90}.lk-box{display:grid;justify-items:center;gap:10px;text-align:center;max-width:460px}.dm-box{display:grid;justify-items:center;gap:10px;text-align:center;max-width:460px;border-color:#4f46e5}.dm-box h2{font-size:1.6rem}
 .dup-w{color:#c2410c}.seat.dup{outline:3px solid #f59e0b;outline-offset:2px}.dup-b{background:#fff3db;color:#7c2d12;border-radius:10px;padding:6px 10px;font-weight:700;font-size:.9rem}
 .bycs{display:grid;gap:4px;margin-top:12px}.bycs small{font-size:.82rem}.foto,.quali{margin-top:16px}.foto-img{max-width:100%;max-height:340px;border-radius:12px;margin:8px 0;display:block}
 .bx-seg{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.bx-n{background:#f59e0b;color:#fff;border-radius:99px;padding:0 7px;margin-left:4px}.bx-fl{gap:8px;margin-bottom:12px;flex-wrap:wrap}.bx-fl input{flex:1;min-width:180px}
@@ -1826,7 +1826,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-1325';let verTold=false;
+const BUILD='20261012-1450';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   const ae=document.activeElement;if(S.role==='student'||BOARD){if(!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 function swReg(){try{if('serviceWorker' in navigator&&(location.protocol==='https:'||/swtest/.test(location.search))&&window.top===window)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
@@ -2343,7 +2343,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.dup=dupNrs();CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2630,7 +2630,7 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){RCS=p;rcsAt=Date.now();try{onDM(p);onOut(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
+function onClassState(p){RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
   OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
@@ -3536,17 +3536,32 @@ function dmSend(t){t=String(t||'').replace(/[<>]/g,'').trim().slice(0,200);if(!t
   CS.dm=(CS.dm||[]).filter(m=>Date.now()-m.at<20*60000).slice(-9);CS.dm.push({id:'d'+Date.now().toString(36),to:DMSEL.slice(),t,at:Date.now(),ok:[]});DMSEL=[];pushCS();render()}
 function outPanel(){return `<div class="grp ct-o"><span class="label">🚪 Für geteilte iPads: Am Stundenende melden sich alle iPads ab</span>
     <p class="muted" style="font-weight:700;margin:4px 0 8px">Jedes iPad sichert zuerst den Lernstand (bei Kürzel und PIN verschlüsselt auf dem Server) und meldet sich dann ab. Nächstes Mal meldet sich jedes Kind auf irgendeinem iPad mit Kürzel und PIN an und hat alles wieder.</p>
-    ${CS.out?`<span class="chip ok">Abmeldung läuft …</span>`:`<button class="btn red" data-act="out-go">Alle iPads jetzt abmelden</button>`}</div>`}
+    ${CS.out?`<span class="chip ok">Abmeldung gesendet</span>`:`<button class="btn red" data-act="out-go">Alle iPads jetzt abmelden</button>`}
+    <p class="muted" style="font-size:.85rem;margin-top:8px">iPads, die gerade schlafen, melden sich ab, sobald sie wieder aufwachen und die Tafel offen ist. Außerdem fragt jedes iPad nach mehr als 3 Stunden Pause oder am nächsten Tag: „Bist du es?“ mit PIN.</p></div>`}
 function onDM(p){if(S.role!=='student'||!p||!Array.isArray(p.dm))return;S.dmSeen=S.dmSeen||{};
   const m=p.dm.find(x=>x&&Array.isArray(x.to)&&x.to.includes(+S.nr)&&!S.dmSeen[x.id]&&!(x.ok||[]).includes(+S.nr));
   const O=$('#dm-ov');if(!m||!O.hidden)return;
   try{SND.right()}catch(e){}
   O.hidden=false;O.innerHTML=(`<div class="box dm-box"><img src="assets/elo/elo-hilfe-512.png" alt="" width="84" height="84"><span class="label">Nachricht von deiner Lehrkraft · nur für dich</span><h2>${esc(m.t)}</h2><button class="btn pri big" data-act="dm-ok" data-id="${esc(m.id)}">OK, gelesen</button></div>`)}
-let OUTDONE='';
-async function onOut(p){if(S.role!=='student'||!p||!p.out||!p.out.id||OUTDONE===p.out.id)return;if(Date.now()-rcsAt>5000)return;OUTDONE=p.out.id;
-  const O=$('#dm-ov');O.hidden=false;O.innerHTML=`<div class="box"><span class="label">Stundenende</span><h2>Dein Lernstand wird gesichert …</h2><p class="muted">Danach meldet sich dieses iPad ab.</p></div>`;
-  try{if(S.acct){ACCT.sig='';for(let i=0;i<20&&ACCT.busy;i++)await new Promise(r=>setTimeout(r,250));await acctFlush()}}catch(e){}
-  save();O.hidden=true;$('#ov').hidden=true;const b=document.createElement('button');b.dataset.act='role-reset';b.hidden=true;document.body.appendChild(b);b.click();b.remove()}
+// Abmelden für geteilte iPads: Die Tafel schickt die Zeit der letzten Sammel-Abmeldung bei jedem Takt mit.
+// Wer sich davor angemeldet hat, wird abgemeldet, auch wenn das iPad erst Stunden später wieder aufwacht.
+let OUTBUSY=false;
+async function stuOut(msg){if(OUTBUSY||S.role!=='student')return;OUTBUSY=true;
+  const O=$('#dm-ov');O.hidden=false;O.innerHTML=`<div class="box"><span class="label">${esc(msg||'Abmelden')}</span><h2>Dein Lernstand wird gesichert …</h2><p class="muted">Danach meldet sich dieses iPad ab.</p></div>`;
+  try{if(S.acct){ACCT.sig='';for(let i=0;i<20&&ACCT.busy;i++)await new Promise(r=>setTimeout(r,250));await Promise.race([acctFlush(),new Promise(r=>setTimeout(r,6000))])}}catch(e){}
+  save();O.hidden=true;$('#ov').hidden=true;const b=document.createElement('button');b.dataset.act='role-reset';b.hidden=true;document.body.appendChild(b);b.click();b.remove();OUTBUSY=false}
+function onOut(p){if(S.role!=='student'||!p)return;const at=+p.outAt||0;if(at&&at>(+S.inAt||0)&&at<Date.now()+600000)stuOut('Stundenende')}
+// Sperre nach langer Pause: Wer ein iPad nach Stunden wieder öffnet, muss zeigen, dass er es selbst ist.
+const LOCK_MS=3*3600000;
+function lockDue(){if(S.role!=='student')return false;const l=+S.lastAct||0;return !l||Date.now()-l>LOCK_MS||new Date(l).toDateString()!==new Date().toDateString()}
+function lockShow(){if(!lockDue()||S.locked&&!$('#dm-ov').hidden)return;S.locked=true;save();const O=$('#dm-ov');O.hidden=false;
+  const who=esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr);
+  O.innerHTML=`<div class="box lk-box"><span class="label">Willkommen zurück</span><h2>Bist du ${who}${S.acct&&S.acct.u&&S.nick?` <small class="muted">(${esc(S.acct.u)})</small>`:''}?</h2>
+    ${S.acct&&S.acct.p?`<p class="muted" style="font-weight:700">Gib deine PIN ein.</p><input id="lk-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" style="font-size:1.6rem;text-align:center;width:8em;letter-spacing:.3em"><p class="err" id="lk-err"></p><button class="btn pri big" data-act="lk-un">Weiter</button>`:`<button class="btn pri big" data-act="lk-un">Ja, das bin ich</button>`}
+    <button class="btn" data-act="lk-out">Nein, abmelden</button></div>`;setTimeout(()=>{const i=$('#lk-pin');if(i)i.focus()},60)}
+function lockChk(){if(S.role==='student'&&(S.locked||lockDue()))lockShow();else if(S.role==='student'){S.lastAct=Date.now()}}
+let LACT=0;['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,()=>{if(S.role!=='student'||S.locked)return;const t=Date.now();if(t-LACT>60000){LACT=t;S.lastAct=t;save()}},true));
+document.addEventListener('visibilitychange',()=>{if(S.role!=='student')return;if(document.hidden){if(!S.locked){S.lastAct=Date.now();save()}}else lockChk()});
 function obsQuick(k){
   OQ={n:k,cat:OQ.cat||'Mitarbeit'};
   showOv(`<div class="box" style="text-align:left;max-width:520px;border-color:var(--navy)"><span class="label">Beobachtung · nur für dich</span><h2>${pupilName(k)}</h2>
@@ -5235,7 +5250,7 @@ async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p
     V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.nr=+r.nr;meLoad();
     // Sicherung vom Server: übernehmen, wenn sie neuer ist als das, was auf diesem iPad liegt
     if(r.prof&&r.prof.ct){try{const o=await acctOpen(u,p,r.prof);if(o&&o.wipe&&(+S.nickAt||0)<+o.wipe){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk}else if(o&&(+o.acctAt||0)>=(+S.acctAt||0))ACCT_KEYS.concat('acctAt').forEach(k=>{if(k in o)S[k]=o[k]})}catch(e){console.warn('acct open',e)}}
-    S.acct={u,p};S.phaseSeen='';V.busy=0;ACCT.sig='';
+    S.acct={u,p};S.phaseSeen='';V.busy=0;ACCT.sig='';S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;
     if(!S.nick||S.av==null){V.nr=S.nr;V.only='student';V.step='nick';V.av=null;saveRole();render();return true}
     saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});acctSave(true);cloudLoadWeek(S.cls).then(render);return true}
   catch(e){if(quiet)return false;V.busy=0;V.err=/pupil_login|function|schema|404|PGRST202/i.test(String(e&&(e.message||e.code)))?'Die persönlichen Zugänge sind noch nicht eingerichtet. Melde dich mit Klassencode an.':'ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';V.step='join';render();return false}}
@@ -6118,12 +6133,12 @@ document.addEventListener('click',e=>{
     case 'nick-more':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;V.sugg=Object.assign(avNames(V.av),{av:V.av});render();break}
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Gib deinem Avatar einen Namen.';break}
-      setClass();S.role='student';S.nr=V.nr;meLoad();S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      setClass();S.role='student';S.nr=V.nr;meLoad();S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
-    case 'role-reset':$('#umenu').hidden=true;if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'role-reset':$('#umenu').hidden=true;if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;S.locked=false;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'l-live-edit':{const i=CS?CS.step:0;go('lesson-edit',{id:d.id});setTimeout(()=>{const el=$('#ph-card-'+i);if(el)el.scrollIntoView({block:'start',behavior:'smooth'})},60);break}
     case 'elo-read':{if(b.classList.contains('on')){rdStop();break}if(d.live){const x=rdLive();rdSpeak(rdParts(x.i,x.tx),b);break}rdSpeak(rdParts(d.i!=null&&d.i!==''?+d.i:null,rdText(b)),b);break}
@@ -6314,12 +6329,14 @@ document.addEventListener('click',e=>{
     case 'b-fs':boardFs();{const x=$('#b-fs');if(x)x.remove()}break;
     case 't-poll-f':V.pollF=!V.pollF;render();break;
     case 'ct':V.ctl=V.ctl===d.k?null:d.k;render();break;
+    case 'lk-un':{if(S.acct&&S.acct.p){const i=$('#lk-pin');if(!i||i.value!==S.acct.p){const er=$('#lk-err');if(er)er.textContent='Die PIN stimmt nicht.';if(i){i.value='';i.focus()}break}}S.locked=false;S.lastAct=Date.now();save();$('#dm-ov').hidden=true;render();break}
+    case 'lk-out':S.locked=false;save();stuOut('Abmelden');break;
     case 'dm-k':{const n=+d.n;DMSEL=DMSEL.includes(n)?DMSEL.filter(x=>x!==n):[...DMSEL,n];const t=$('#dm-t'),v=t&&t.value;render();const t2=$('#dm-t');if(t2&&v)t2.value=v;break}
     case 'dm-q':dmSend(DM_QUICK[+d.i]);break;
     case 'dm-send':{const t=$('#dm-t');dmSend(t&&t.value);break}
     case 'dm-to':{const n=+d.n;DMSEL=[n];$('#ov').hidden=true;V.ctl='dm';if(V.name!=='tafel')go('tafel');else render();setTimeout(()=>{const t=$('#dm-t');if(t)t.focus()},60);break}
     case 'dm-ok':{S.dmSeen=S.dmSeen||{};S.dmSeen[d.id]=1;const ks=Object.keys(S.dmSeen);if(ks.length>40)ks.slice(0,ks.length-40).forEach(k=>delete S.dmSeen[k]);save();sendMsg({k:'dmok',id:String(d.id).slice(0,20)});$('#dm-ov').hidden=true;setTimeout(()=>onDM(RCS),300);break}
-    case 'out-go':if(!CS)break;CS.out={id:'o'+Date.now().toString(36),at:Date.now()};pushCS();render();setTimeout(()=>{if(CS&&CS.out){CS.out=null;pushCS();if(V.name==='tafel')render()}},45000);break;
+    case 'out-go':if(!CS)break;TD.outAt=TD.outAt||{};TD.outAt[S.cls||'-']=Date.now();tsave();CS.out={id:'o'+Date.now().toString(36),at:Date.now()};pushCS();render();setTimeout(()=>{if(CS&&CS.out){CS.out=null;pushCS();if(V.name==='tafel')render()}},45000);break;
     case 'lay-pre':{const P={mid:{x:50,y:50,s:3},tr:{x:88,y:9,s:1},tl:{x:12,y:9,s:1}};CS.lay=CS.lay||{};if(d.p==='reset')delete CS.lay.timer;else CS.lay.timer={...P[d.p]};pushCS();render();break}
     case 't-poll-c':V.pollC=!V.pollC;render();if(V.pollC){const x=$('#cp-q');if(x)x.focus()}break;
     case 'ct-nz':if(NOISE.on){noiseOff();V.ctl=null}else{V.ctl='noise';noiseOn()}render();break;
@@ -6455,7 +6472,7 @@ if(BOARD){document.body.classList.add('boardwin');V={name:'beamer'};localBC(S.co
 else if(QS.get('j')&&CLOUD){const m=QS.get('j').match(/^(\d{4,8})-(\w{4,20})-(\d{1,2})$/);try{history.replaceState(null,'',location.pathname+(QS.has('live')?'?live=1':''))}catch(e){}
   V={name:'role',step:'join'};if(m){V.err='';setTimeout(()=>joinClass(m[1],m[2],+m[3]),0)}else V.err='Dieser QR-Code ist ungültig. Frag deine Lehrkraft.'}
 else if(!S.role)V=HK.u&&CLOUD?{name:'role',step:'join',u:HK.u}:{name:'role'};
-else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
+else{Live.start(S.code).then(()=>{if(S.role==='teacher')pushCS();else sendMsg({k:'hi'})});if(S.role==='student')setTimeout(lockChk,400);if(S.role==='teacher'){initTeacher();V={name:'tdash'}}}
 if(!BOARD&&/^#(impressum|datenschutz)$/.test(location.hash)){V={name:location.hash.slice(1),back:{...V}};try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 hdr();tickClock();render();
 if(S.role==='teacher')libLoad();
