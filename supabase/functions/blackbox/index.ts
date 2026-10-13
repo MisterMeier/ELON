@@ -9,7 +9,8 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
 const REGION = "eu-central-1";
-const MODEL = { big: "anthropic.claude-sonnet-5-5", small: "anthropic.claude-haiku-5-5" };
+// Erst die neuesten Modelle, dann die, die AWS jedem Konto freigibt (Sonnet 5, Haiku 4.5).
+const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
 // Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
 const ROUTES = ["eu.", "global.", ""];
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
@@ -17,7 +18,7 @@ const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { sta
 
 const SUBJ: Record<string, string> = { M: "Mathematik", D: "Deutsch", E: "Englisch", K: "Kunst", G: "Geschichte/Politik/Geographie", N: "Natur und Technik", R: "Religion/Ethik", S: "Sport", W: "Wirtschaft und Beruf", I: "Informatik", Mu: "Musik" };
 const BASE = "Du arbeitest für ELIO, eine Lern-App einer bayerischen Mittelschule (Klassen 5 bis 10). Schreib einfach, klar und kindgerecht. Keine Emojis. Keine echten Personennamen.";
-const KINDS: Record<string, { model: string; max: number; sys: string }> = {
+const KINDS: Record<string, { model: string[]; max: number; sys: string }> = {
   bild: {
     model: MODEL.big, max: 12000,
     sys: BASE + `
@@ -74,11 +75,11 @@ Deno.serve(async (req) => {
   }).finalMessage();
   try {
     let msg, last: unknown;
-    for (const r of ROUTES) {
-      try { msg = await ask(r + K.model); break; } catch (e) {
+    outer: for (const m of K.model) for (const r of ROUTES) {
+      try { msg = await ask(r + m); break outer; } catch (e) {
         last = e;
         const st = (e as { status?: number }).status;
-        if (st !== 400 && st !== 404) throw e; // nur bei falscher Modell-ID das nächste Profil probieren
+        if (st !== 400 && st !== 403 && st !== 404) throw e; // Modell/Profil nicht freigegeben: nächstes probieren
       }
     }
     if (!msg) throw last;
