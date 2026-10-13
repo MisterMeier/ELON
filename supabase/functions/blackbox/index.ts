@@ -8,7 +8,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 import { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
-const REGION = "eu-central-1";
+// Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
+const REGIONS = ["eu-central-1", "eu-west-1", "eu-north-1"];
 // Erst die neuesten Modelle, dann die, die AWS jedem Konto freigibt (Sonnet 5, Haiku 4.5).
 const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
 // Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
@@ -69,24 +70,29 @@ Deno.serve(async (req) => {
   if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
   await sb.from("blackbox_log").insert({ kind });
 
-  // Offizieller Bedrock-Client: schickt den Schlüssel als „Authorization: Bearer“, wie Bedrock es erwartet.
-  // Bevorzugt IAM-Zugangsschlüssel (SigV4), sonst Bedrock-API-Schlüssel als Bearer.
-  const client = awsId && awsSecret
-    ? new AnthropicBedrockMantle({ awsAccessKey: awsId, awsSecretAccessKey: awsSecret, awsRegion: REGION })
-    : new AnthropicBedrockMantle({ apiKey: key, awsRegion: REGION });
-  const ask = (model: string) => client.messages.stream({
+  // Offizieller Bedrock-Client. Bevorzugt IAM-Zugangsschlüssel (SigV4), sonst Bedrock-API-Schlüssel als Bearer.
+  const mk = (awsRegion: string) => awsId && awsSecret
+    ? new AnthropicBedrockMantle({ awsAccessKey: awsId, awsSecretAccessKey: awsSecret, awsRegion })
+    : new AnthropicBedrockMantle({ apiKey: key, awsRegion });
+  const ask = (c: AnthropicBedrockMantle, model: string) => c.messages.stream({
     model, max_tokens: K.max, system: K.sys,
     messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
   }).finalMessage();
   try {
     let msg, last: unknown;
-    outer: for (const m of K.model) for (const r of ROUTES) {
-      try { msg = await ask(r + m); break outer; } catch (e) {
-        last = e;
-        const st = (e as { status?: number }).status;
-        if (st !== 400 && st !== 403 && st !== 404) throw e; // Modell/Profil nicht freigegeben: nächstes probieren
+    const tried: string[] = [];
+    outer: for (const reg of REGIONS) {
+      const c = mk(reg);
+      for (const m of K.model) for (const r of ROUTES) {
+        try { msg = await ask(c, r + m); console.log("blackbox ok", reg, r + m); break outer; } catch (e) {
+          last = e;
+          const st = (e as { status?: number }).status;
+          tried.push(`${reg} ${r + m} ${st}`);
+          if (st !== 400 && st !== 403 && st !== 404) throw e; // Modell/Profil/Region nicht freigegeben: nächstes probieren
+        }
       }
     }
+    if (!msg) console.error("blackbox versucht:", tried.join(" | "));
     if (!msg) throw last;
     if (msg.stop_reason === "refusal") return json({ err: "refusal" });
     const text = msg.content.map((b) => (b.type === "text" ? b.text : "")).join("").trim();
