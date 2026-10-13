@@ -1896,7 +1896,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261013-1244';let verTold=false;
+const BUILD='20261013-1247';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3845,7 +3845,7 @@ function obsExport(){
 /* --- Lehrerzimmer --- */
 // Tagesleiste im Lehrerzimmer: alle Stunden von heute, die aktuelle hervorgehoben, dazu der passende Schnellstart
 function dayStrip(){const n=nowInfo(),d=n.day;if(d<0||d>4)return `<section class="panel daybar"><span class="label">Heute</span><p class="muted" style="font-weight:700;margin-top:6px">Heute ist kein Schultag. Schönes Wochenende!</p></section>`;
-  const today=isoD(new Date()),rows=PERIODS.map((p,i)=>({i,p,st:toMin(p[1]),en:toMin(p[2]),sl:TD.tt[d+'-'+i]}));
+  const today=isoD(new Date()),rows=PERIODS.map((p,i)=>({i,p,st:toMin(p[1]),en:toMin(p[2]),sl:slotOf(d,i,today)}));
   const cur=rows.find(r=>n.min>=r.st&&n.min<r.en),mine=rows.filter(r=>r.sl);
   const focus=(cur&&cur.sl)?cur:mine.find(r=>r.st>n.min)||null,isNow=focus&&cur&&focus.i===cur.i;
   const cells=rows.filter(r=>r.sl||r===cur).map(r=>{const st=r===cur?'cur':n.min>=r.en?'past':'',L=r.sl&&lessonById(TD.plan[today+'|'+r.i]);
@@ -3864,7 +3864,7 @@ function planNext(max){const out=[],n=nowInfo(),today=isoD(new Date()),d0=new Da
   for(let k=0;k<21&&out.length<max;k++){const dt=new Date(d0);dt.setDate(d0.getDate()+k);const wd=(dt.getDay()+6)%7;if(wd>4)continue;const ds=isoD(dt);
     PERIODS.forEach((p,i)=>{const lid=TD.plan[ds+'|'+i];if(!lid||out.length>=max)return;if(ds===today&&toMin(p[2])<=n.min)return;
       const last=out[out.length-1];if(last&&last.ds===ds&&last.lid===lid&&last.i2===i-1){last.i2=i;last.en=p[2];return}
-      const L=lessonById(lid);if(L)out.push({ds,wd,i,i2:i,lid,L,st:p[1],en:p[2],sl:TD.tt[wd+'-'+i]||null,dt})})}
+      const L=lessonById(lid);if(L)out.push({ds,wd,i,i2:i,lid,L,st:p[1],en:p[2],sl:slotOf(wd,i,ds)||null,dt})})}
   return out}
 function dashNext(){const N=planNext(5),today=isoD(new Date()),n=nowInfo();
   return `<section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Schnellstart · deine nächsten Stunden</span><span class="row"><button class="btn sm" data-act="tplan">Woche planen</button><button class="btn sm" data-act="l-new">Neue Stunde</button></span></div>
@@ -4662,6 +4662,8 @@ function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){AK.st=AKT[G.g].
 function ttDefault(){const t={};WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c:'7bG'}}));return t}
 if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}
 TD.plan=TD.plan||{};
+// Einzelstunden (Vertretung, Zusatzstunde): gelten nur an einem Datum, liegen nur bei der Lehrkraft und überleben den Abgleich mit dem Klassen-Stundenplan
+const slotOf=(d,i,date)=>((TD.one||{})[date+'|'+i])||TD.tt[d+'-'+i];
 function monday(off){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7)+7*off);return d}
 const isoD=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x.toISOString().slice(0,10)};
 function weekOff(){if(V.w!=null)return V.w;const n=new Date(),g=n.getDay();return g===0||g===6||(g===5&&n.getHours()>=13)?1:0}
@@ -4673,13 +4675,13 @@ VIEWS.toolbox=()=>{const G=((TD.games||{})[S.cls||'-'])||{},off=TD.toolsOff||[];
 VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();if(pt==='seq')return seqView();
   const off=weekOff(),mo=monday(off),days=[0,1,2,3,4].map(d=>{const x=new Date(mo);x.setDate(mo.getDate()+d);return x});
   const td=isoD(new Date()),ed=!!V.ttEdit;
-  const cell=(d,i)=>{const sl=TD.tt[d+'-'+i],date=isoD(days[d]),lid=TD.plan[date+'|'+i],L=lid&&lessonById(lid);
+  const cell=(d,i)=>{const date=isoD(days[d]),sl=ed?TD.tt[d+'-'+i]:slotOf(d,i,date),one=!ed&&!!(TD.one||{})[date+'|'+i],lid=TD.plan[date+'|'+i],L=lid&&lessonById(lid);
     const prev=i>0&&TD.plan[date+'|'+(i-1)]===lid&&L;
     if(!sl)return `<div class="tpc" data-act="tp-cell" data-d="${d}" data-i="${i}" data-date="${date}">${ed?'+ Fach eintragen':''}</div>`;
     const fr=!ed&&!L&&dayFree(date);if(fr)return `<div class="tpc off s-${sl.s}"><span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span></span><small>${esc(fr.n)}</small></div>`;
     const sq=!L&&(yrD().seq[date+'|'+i]||{});
     return `<div class="tpc has s-${sl.s} ${L?'planned':''} ${date===td?'today':''}" data-act="tp-cell" data-d="${d}" data-i="${i}" data-date="${date}" role="button" tabindex="0">
-      <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span></span>
+      <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span>${one?'<small class="chip">einmalig</small>':''}</span>
       ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):(sq.t||sq.typ?`<span class="sq-h">${esc((sq.typ?sq.typ+': ':'')+(sq.t||''))}</span>`:'')+'<span class="add">+ Stunde planen</span>'}</div>`};
   return `${planTabs('woche')}<div class="row" style="justify-content:space-between;margin:12px 0 10px"><h1>Wochenplanung</h1>
     <div class="row"><button class="btn sm" data-act="wk-print">🖨️ Wochenplan exportieren (A4)</button><button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
@@ -4692,7 +4694,12 @@ VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();i
     ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${days.map((_,d)=>`<td>${cell(d,i)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 };
 function tpCell(d,i,date){
-  const sl=TD.tt[d+'-'+i];
+  const sl=V.ttEdit?TD.tt[d+'-'+i]:slotOf(d,i,date),one=(TD.one||{})[date+'|'+i];
+  if(!V.ttEdit&&!sl){const dl=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
+    showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${dl} · nur an diesem Tag</span><h2>Einzelstunde eintragen</h2><p class="muted" style="font-weight:700">Für Vertretungen und Zusatzstunden. Dein Stundenplan bleibt, wie er ist.</p>
+      <label class="label" style="display:block;margin-top:10px">Klasse<input id="tt-c" type="text" maxlength="16" value="${esc(className().replace(/^Klasse /,'')||'')}"></label>
+      <div class="cats" style="margin-top:10px">${Object.entries(SUBJECTS).map(([k,v])=>`<button data-act="tp-one" data-d="${d}" data-i="${i}" data-date="${date}" data-s="${k}">${v.name}</button>`).join('')}</div>
+      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);return}
   if(V.ttEdit||!sl){
     showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${DAYS[d]} · ${i+1}. Stunde · jede Woche</span><h2>Fach und Klasse</h2>
       <label class="label" style="display:block;margin-top:10px">Klasse<input id="tt-c" type="text" value="${esc(sl?sl.c:'7bG')}"></label>
@@ -4700,16 +4707,16 @@ function tpCell(d,i,date){
         <button data-act="tt-set" data-d="${d}" data-i="${i}" data-s="">frei</button></div>
       <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Schließen</button></div></div>`);return}
   const key=date+'|'+i,L=lessonById(TD.plan[key]);
-  const nx=TD.tt[d+'-'+(i+1)],dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
+  const nx=slotOf(d,i+1,date),dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
   const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
   if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
-    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button>${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
   const others=lessons().filter(x=>x.subject===sl.s);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
     <button class="btn pri" style="width:100%;margin-top:12px" data-act="tp-new" data-d="${d}" data-i="${i}" data-date="${date}">Neue Stunde aus der ${SUBJECTS[sl.s].name}-Vorlage</button>
     ${others.length?`<div class="row" style="margin-top:12px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div>`:''}
-    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
+    <div class="row" style="justify-content:flex-end;margin-top:12px">${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
 }
 // Stunde für eine andere Klasse kopieren: freie Stunden im gleichen Fach in den nächsten zwei Wochen, Doppelstunde bleibt Doppelstunde
 function tpCopyTargets(key){const [date,i0]=key.split('|'),lid=TD.plan[key],L=lessonById(lid);if(!L)return [];const src=TD.tt[((new Date(date+'T12:00').getDay()+6)%7)+'-'+i0]||{};
@@ -5233,7 +5240,7 @@ async function cloudSync(){
     const sl=ids.length?await q(sb.from('slots').select('class_id,day,period,subject,teacher_id,grp').in('class_id',ids)):[];
     TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);const split=sl.filter(y=>y.class_id===x.class_id&&y.day===x.day&&y.period===x.period).length>1;TD.tt[x.day+'-'+x.period]={s:x.subject,c:(c?c.name:'')+(split?' (Gruppe)':''),cid:x.class_id,g:x.grp||0}});ttOwnApply();TD.ttEx=false;
     const pl=ids.length?await q(sb.from('plans').select('class_id,date,period,lesson_id,teacher_id,grp').in('class_id',ids)):[];
-    TD.plan={};pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id&&(t.g||0)===(x.grp||0))TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
+    const keep={};Object.keys(TD.plan||{}).forEach(k=>{if((TD.one||{})[k])keep[k]=TD.plan[k]});TD.plan=keep;pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id&&(t.g||0)===(x.grp||0))TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
     const ls=await q(sb.from('lessons').select('id,owner,class_id,shared,data'));
     const planned=new Set(Object.values(TD.plan));
     // Die Demo-Stunde wandert nur in die Cloud, wenn sie verplant ist
@@ -6986,8 +6993,10 @@ document.addEventListener('click',e=>{
     case 'tp-cp':tpCopyOv(d.k);break;
     case 'tp-cp-go':tpCopyGo(d.k,d.t);$('#ov').hidden=true;V.msg='Kopiert.';render();break;
     case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
-    case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
-    case 'tp-new':{const sl=TD.tt[d.d+'-'+d.i],dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
+    case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];if(CLOUD&&Cloud.prof){TD.ttOwn=TD.ttOwn||{};TD.ttOwn[d.d+'-'+d.i]={s:d.s||'',c:d.s?c:''}}TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
+    case 'tp-one':{const c=($('#tt-c').value||'').trim().slice(0,16)||'Vertretung',mc=(Cloud.myClasses||[]).find(x=>x.name===c);TD.one=TD.one||{};TD.one[d.date+'|'+d.i]=mc?{s:d.s,c,cid:mc.id}:{s:d.s,c};tsave();render();tpCell(+d.d,+d.i,d.date);break}
+    case 'tp-one-del':{const k=d.k;if(TD.one&&TD.one[k]){delete TD.plan[k];delete TD.one[k]}tsave();$('#ov').hidden=true;render();break}
+    case 'tp-new':{const sl=slotOf(+d.d,+d.i,d.date),dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
       const sq=yrD().seq[d.date+'|'+d.i]||{},L=newLessonFrom(sl.s,dbl?90:45,sq.t||`${SUBJECTS[sl.s].name} ${sl.c} · ${DAYS[+d.d]} ${new Date(d.date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${dbl?' (Doppelstunde)':''}`);if(sq.k&&!L.akomp)L.akomp=sq.k;
       tpAssign(+d.d,+d.i,d.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
     case 'tp-assign':tpAssign(+d.d,+d.i,d.date,$('#tp-ex').value);$('#ov').hidden=true;render();break;
