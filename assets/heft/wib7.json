@@ -2,7 +2,7 @@
  {
   "ch": "1 Arbeit und Beruf",
   "title": "1.1 Warum arbeiten Menschen?",
-  "text": "# Arbeit bringt Geld\n[bild: motive]\n- Ein Motiv ist ein Beweggrund. Es sagt, warum jemand etwas tut.\n- Die meisten Menschen arbeiten für ihren Lebensunterhalt. Sie brauchen Geld für Miete, Essen und Kleidung.\n- Manche wollen mehr verdienen oder im Beruf aufsteigen. Zum Beispiel vom Azubi zur Chefin.\n- Ein fester Job gibt Sicherheit für die Zukunft.\n- Fachwort: materielle Motive. Es geht um Geld und Sicherheit.\n# Arbeit macht zufrieden\n- Viele Menschen haben Freude an ihrem Beruf.\n- Wer gute Arbeit macht, bekommt Anerkennung. Das stärkt das Selbstwertgefühl. Man ist mit sich zufrieden.\n- Bei der Arbeit trifft man andere Menschen. Man gehört zu einem Team.\n- Eine interessante Aufgabe macht den Tag spannend.\n- Fachwort: immaterielle Motive. Man kann sie nicht mit Geld kaufen.\n# Arbeit für andere\n- Manche Menschen fühlen sich zu ihrem Beruf berufen. Sie wollen helfen, zum Beispiel als Pflegerin oder Feuerwehrmann.\n- Andere schaffen etwas, das lange bleibt: ein Haus, ein Buch, ein Lied.\n- So hilft Arbeit auch der ganzen Gesellschaft.\nMerke: Menschen arbeiten aus mehreren Motiven. Materielle Motive: Geld und Sicherheit. Immaterielle Motive: Freude, Anerkennung, Gemeinschaft und Sinn.",
+  "text": "[bild: motive]\nMenschen arbeiten aus den unterschiedlichsten Motiven (Beweggründen). Im Vordergrund steht wohl bei den meisten Menschen der Lebensunterhalt. Manchen Menschen geht es nur um den Verdienst und um die Aufstiegschancen. Wieder andere arbeiten aus Freude am Beruf, der ihnen ein besseres Selbstwertgefühl und eine persönliche Befriedigung gibt. Natürlich betrachten viele Menschen ihre Arbeit auch als eine interessante Aufgabe, während nur wenige Menschen sich berufen fühlen, bleibende kulturelle Werte zu schaffen.",
   "help": "# Nur wegen Geld?\nFalsch: Alle Menschen arbeiten nur für Geld.\nRichtig: Geld ist für die meisten wichtig. Aber Freude, Anerkennung und Kontakte zählen auch.\n# Motiv oder Beruf?\nFalsch: Ein Motiv von Frau Kaya ist Bäckerin.\nRichtig: Frau Kaya ist Bäckerin. Ihr Motiv: Sie backt gern und freut sich, wenn es den Kunden schmeckt.\n# Materiell oder immateriell?\nAchtung: Materiell hat mit Geld und Dingen zu tun. Immateriell sind Gefühle wie Freude, Stolz oder Gemeinschaft.",
   "ub": {
    "t": "match",
@@ -35,9 +35,9 @@
     "l": 1,
     "q": "Nenne drei Gründe, warum Menschen arbeiten.",
     "a": "Zum Beispiel: Geld für den Lebensunterhalt, Freude am Beruf, Anerkennung, Kontakte im Team, Aufstieg, Sicherheit, anderen helfen."
-  },
-  {
-   "l": 1,
+   },
+   {
+    "l": 1,
     "q": "Sortiere in zwei Spalten, materiell oder immateriell: Gehalt, Freude, Lob, Aufstieg, Team, sicherer Job.",
     "a": "Materiell: Gehalt, Aufstieg, sicherer Job. Immateriell: Freude, Lob, Team."
    },

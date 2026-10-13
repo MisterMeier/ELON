@@ -212,6 +212,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .qc summary{cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.qc-l{list-style:none;padding:0;margin:10px 0;display:grid;gap:6px}.qc-l li{display:flex;gap:8px;align-items:flex-start}.qc-l li.y{opacity:.8}.qc-h{display:block;color:var(--ink);font-weight:600}
 .kcs{display:inline-flex;gap:3px;margin:0 4px;vertical-align:middle}.kc{font-size:.68rem;font-weight:800;padding:1px 5px;border-radius:6px;color:#fff;background:#5b6b8c}.kc.k1{background:#8e44ad}.kc.k2{background:#c0392b}.kc.k3{background:#16825d}.kc.k4{background:#2f6fd6}.kc.k5{background:#5b6b8c}.kc.k6{background:#c26a00}.kc.off{background:transparent;color:var(--muted);border:1px dashed var(--line)}
 .kcov{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:10px}.kcov .label{margin:0 4px 0 0}
+.hfoto img{display:block;max-width:min(100%,520px);max-height:420px;width:auto;height:auto;border-radius:10px;border:1px solid #d8ddee;background:#f4f6fb}
 .hfig{margin:10px 0;color:var(--ink)}.hfig svg{width:100%;max-width:520px;height:auto;display:block}.hfig figcaption{font-size:.85rem;color:var(--muted);margin-top:2px}
 .hf-a{fill:color-mix(in srgb,#2f6fd6 18%,transparent);stroke:currentColor;stroke-width:2}.hf-c{fill:color-mix(in srgb,#e08a00 30%,transparent);stroke:currentColor;stroke-width:2;stroke-dasharray:6 4}
 .hfig.mo{cursor:pointer}
@@ -1895,7 +1896,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261013-1240';let verTold=false;
+const BUILD='20261013-1244';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2000,6 +2001,11 @@ VIEWS.subject=()=>{
     <div class="s-${k}">${body}</div>`;
 };
 // Hefteintrag aus einfachem Text: "# Überschrift", "- Punkt", "Merke: …", "| a | b |" für Tabellen
+// Eigene Bilder im Hefteintrag: Zeile „[Foto: id | Bildunterschrift]“, das Bild liegt in der Bibliothek (IDB) und geht verschlüsselt auf die iPads
+const FOTO_RE=/^\[foto:\s*([a-z0-9]+)\s*(?:\|\s*(.*?))?\s*\]$/i;
+function fotoH(id,cap){fillBg();return `<figure class="hfig hfoto"><img data-libimg="${esc(id)}" ${BGURL[id]?`src="${BGURL[id]}"`:''} alt="${esc(cap||'Bild')}">${cap?`<figcaption>${esc(cap)}</figcaption>`:''}</figure>`}
+const figOf=(n,c)=>String(n)[0]==='@'?fotoH(String(n).slice(1),c):FIGS[n]?FIGS[n]():'';
+const heftFotos=t=>String(t||'').split('\n').map(l=>FOTO_RE.exec(l.trim())).filter(Boolean).map(m=>m[1]);
 function heftBlocks(t){const out=[];let list=null,tab=null;
   String(t||'').split('\n').forEach(raw=>{const l=raw.trim();
     if(/^[-•*]\s+/.test(l)){tab=null;if(!list){list=[];out.push(['list',list])}list.push(l.replace(/^[-•*]\s+/,''));return}list=null;
@@ -2011,6 +2017,7 @@ function heftBlocks(t){const out=[];let list=null,tab=null;
     else if(/^(falsch|✗)\s*:?/i.test(l))out.push(['no',esc(l.replace(/^(falsch|✗)\s*:?\s*/i,''))]);
     else if(/^(richtig|✓)\s*:?/i.test(l))out.push(['yes',esc(l.replace(/^(richtig|✓)\s*:?\s*/i,''))]);
     else if(VISRE.test(l)){const m=VISRE.exec(l);out.push(['vis',m[1].toLowerCase(),m[2]])}
+    else if(FOTO_RE.test(l)){const m=FOTO_RE.exec(l);out.push(['fig','@'+m[1],(m[2]||'').trim()])}
     else if(/^\[bild:\s*[a-z]+\s*\]$/i.test(l))out.push(['fig',l.replace(/^\[bild:\s*|\s*\]$/gi,'').toLowerCase()]);
     else out.push(['p',esc(l)])});
   return out}
@@ -2025,7 +2032,7 @@ const heftAll=k=>[...(S.heftRecv||[]).filter(e=>e.s===k).map(e=>({id:e.id,s:e.s,
 function heftDruck(entries, opt){
   const o=Object.assign({fach:'',jg:7,farbe:'#2f63c8',teile:['heft','uebung','loesung'],figCSS:'',fontsHref:'assets/fonts/fonts.css'},opt||{});
   const esc=o.esc||(s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])));
-  const fig=b=>b[0]==='fig'?(o.FIGS&&o.FIGS[b[1]]?o.FIGS[b[1]]():''):(()=>{try{return o.VIS[b[1]](b[2])}catch(e){return ''}})();
+  const fig=b=>b[0]==='fig'?(o.figOf?o.figOf(b[1],b[2]):o.FIGS&&o.FIGS[b[1]]?o.FIGS[b[1]]():''):(()=>{try{return o.VIS[b[1]](b[2])}catch(e){return ''}})();
   const stufe=l=>'●'.repeat(Math.min(3,Math.max(1,l||1)))+'○'.repeat(3-Math.min(3,Math.max(1,l||1)));
   const band=(links,rechts)=>`<div class="band"><span>${esc(links)}</span><span class="meta">${esc(rechts)}</span></div>`;
   const kopf=`${o.fach} ${o.jg}`.trim();
@@ -2120,9 +2127,10 @@ table{border-collapse:collapse;margin:6px 0}th,td{border:1.5px solid var(--line)
 function heftPrint(list,sk,teile){if(!list.length)return;const w=window.open('');if(!w){toast('Bitte Pop-ups für ELIO erlauben, dann klappt das Drucken.');return}
   const figCSS=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n').split('\n').filter(l=>/^\.(v-|hf)/.test(l)).join('\n');
   const farbe=(document.querySelector('style').textContent.match(new RegExp('\\.s-'+sk+'\\{--sc:(#[0-9a-f]{6})'))||[])[1]||'#2f63c8';
-  const E=list.map(e=>({...e,text:e.text!=null?e.text:e.blocks}));
-  w.document.write(heftDruck(E,{fach:(SUBJECTS[sk]||{}).name||'',jg:7,farbe,teile:teile||['heft','uebung','loesung'],blocks:x=>Array.isArray(x)?x:heftBlocks(x||''),FIGS,VIS,esc,figCSS,fontsHref:new URL('assets/fonts/fonts.css',location).href}));
-  w.document.close();const go=()=>{try{w.focus();w.print()}catch(e){}};(w.document.fonts&&w.document.fonts.ready?w.document.fonts.ready.then(()=>setTimeout(go,300)):setTimeout(go,800))}
+  const E=list.map(e=>({...e,text:e.text!=null?e.text:e.blocks})),ids=E.flatMap(e=>Array.isArray(e.text)?e.text.filter(b=>b[0]==='fig'&&String(b[1])[0]==='@').map(b=>b[1].slice(1)):heftFotos(e.text));
+  (async()=>{for(const id of ids)if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id))||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}
+  w.document.write(heftDruck(E,{fach:(SUBJECTS[sk]||{}).name||'',jg:7,farbe,teile:teile||['heft','uebung','loesung'],blocks:x=>Array.isArray(x)?x:heftBlocks(x||''),FIGS,VIS,figOf,esc,figCSS,fontsHref:new URL('assets/fonts/fonts.css',location).href}));
+  w.document.close();const go=()=>{try{w.focus();w.print()}catch(e){}};(w.document.fonts&&w.document.fonts.ready?w.document.fonts.ready.then(()=>setTimeout(go,300)):setTimeout(go,800))})()}
 const heftSort=(a,b)=>a.o!=null&&b.o!=null?a.o-b.o:a.o!=null?-1:b.o!=null?1:b.date.localeCompare(a.date);
 // DaZ: Artikel in Farbe (der blau, die rot, das grün), nur wenn die Zeile mit dem Artikel beginnt
 const artC=x=>{const m=/^(der|die|das)\s/.exec(x);return m?`<span class="art-${m[1]}">${m[1]}</span>`+esc(x.slice(3)):esc(x)};
@@ -2183,7 +2191,7 @@ const VISRE=/^\[(uhr|bilder|farben|dialog|satz|zahl|geld|praep|waage|kacheln|pro
 const vesc=x=>esc(x).replace(/\[uhr (\d{1,2}):(\d\d)\]/g,(_,h,m)=>clockSVG(h,m,'4.2em'));
 function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
-    case 'fig':return FIGS[b[1]]?FIGS[b[1]]():'';
+    case 'fig':return figOf(b[1],b[2]);
     case 'vis':try{return VIS[b[1]](b[2])}catch(e){return ''}
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
@@ -2196,7 +2204,7 @@ function heftBody(blocks){return blocks.map(b=>{switch(b[0]){
 function heftPage(e){
   const blk=b=>{switch(b[0]){
     case 'h':return `<h4>${esc(b[1])}</h4>`;
-    case 'fig':return FIGS[b[1]]?FIGS[b[1]]():'';
+    case 'fig':return figOf(b[1],b[2]);
     case 'p':return `<p>${b[1]}</p>`;
     case 'list':return `<ul>${b[1].map(x=>`<li>${artC(x)}</li>`).join('')}</ul>`;
     case 'merke':return `<div class="merke"><b class="l">Merke:</b><br>${b[1]}</div>`;
@@ -5482,7 +5490,7 @@ VIEWS['kl-cards']=()=>{
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
-const HEFT_V=6;
+const HEFT_V=7;
 async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.heft||[]).some(e=>e.id.startsWith(PLANS[k].pre))){try{await heftLoadPlan(true,k)}catch(e){}}TD.heftV=HEFT_V;tsave()}const bad=e=>String(e.text||'').split('\n').some(l=>HELPRE.test(l.trim()));if(!(TD.heft||[]).some(bad))return 0;
   if(TD.heft.some(e=>/^m7-/.test(e.id)&&bad(e))){try{await heftLoadPlan(true)}catch(e){}}
   let n=0;TD.heft.forEach(e=>{const ls=String(e.text||'').split('\n'),mv=ls.filter(l=>HELPRE.test(l.trim()));if(!mv.length)return;
@@ -5533,8 +5541,8 @@ const MED={up:{},miss:false,neg:{}};
 function lessonMedia(L){const ids=new Set(),bg=b=>{if(b&&b!=='none'&&!SL_BG[b])ids.add(b)};(L&&L.phases||[]).forEach(p=>{const t=p.tool||{};bg(t.bg);[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;bg(sl.bg);(sl.imgs||[]).forEach(m=>m&&m.id&&!m.t&&ids.add(m.id))})});return [...ids]}// Audio/Video (m.t) bleibt auf dem Gerät der Lehrkraft: kein Hochladen, oft Verlagsmaterial
 async function medSmall(b){try{const bm=await createImageBitmap(b),f=Math.min(1,1600/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*f);cv.height=Math.round(bm.height*f);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
   const o=await new Promise(r=>cv.toBlob(r,'image/webp',.82));return o&&o.size<b.size?o:b}catch(e){return b}}
-let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
-  for(const id of lessonMedia(L)){if(done[id])continue;try{const b=await idb('blob','readonly',st=>st.get(id));if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
+let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id),hf=heftFor().flatMap(e=>heftFotos(e.text));if(!L&&!hf.length)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
+  for(const id of [...new Set([...(L?lessonMedia(L):[]),...hf])]){if(done[id])continue;try{const b=await idb('blob','readonly',st=>st.get(id));if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
     const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),await sm.arrayBuffer());if(ct.byteLength>2500000){done[id]=1;continue}
     const sb=await sbClient();await q(sb.from('class_media').upsert({class_id:S.cls,id:String(id).slice(0,80),body:{iv:b64e(iv),ct:b64e(ct),ty:sm.type||'image/webp'},updated_at:new Date().toISOString()}));done[id]=1}
   catch(e){if(mbMissing(e)){MED.miss=true;return}console.warn('mediaPush',e)}}},1500)}
@@ -6190,13 +6198,14 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
   <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
   <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
-const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |';
+const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |\n[Foto: …] kommt über „Bild einfügen“';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
   return `<div class="subj-head"><button class="btn sm" data-act="tdesk">← Schreibtisch</button><h1>Regelheft · ${esc(className())}</h1></div>
   <section class="panel"><span class="label">Neuer Hefteintrag · erscheint im Regelheft aller SuS</span>
     <div class="lgrid" style="margin-top:8px"><label>Fach<select id="hf-s">${Object.keys(SUBJECTS).map(x=>`<option value="${x}" ${x===k?'selected':''}>${SUBJECTS[x].name}</option>`).join('')}</select></label>
       <label>Titel<input id="hf-t" type="text" maxlength="80" placeholder="z. B. Terme vereinfachen"></label>
       <label style="grid-column:1/-1">Inhalt<textarea id="hf-x" rows="7" placeholder="${esc(HEFT_HELP)}"></textarea></label>
+      <div class="row" style="grid-column:1/-1;gap:8px;align-items:center"><button class="btn sm" type="button" data-act="hf-img">Bild einfügen</button><input type="file" id="hf-file" accept="image/*" hidden><small class="muted" style="font-weight:700">Das Bild kommt an die Stelle, an der der Cursor steht. Die Bildunterschrift kannst du danach ändern.</small></div>
       <label style="grid-column:1/-1">Typische Fehler & Hilfen (erscheint in der Hilfestation, nicht im Heft)<textarea id="hf-h" rows="3" placeholder="Achtung: …&#10;Falsch: 3x + 5y = 8xy&#10;Richtig: 3x + 5y bleibt so"></textarea></label></div>
     <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">So formatierst du: „# “ Überschrift, „- “ Aufzählung, „Merke:“ Merkkasten, „| a | b |“ Tabelle. Text aus Word oder PowerPoint einfach reinkopieren.</p>
     <p class="err" id="hf-err"></p><button class="btn pri" data-act="hf-add" style="margin-top:8px">${V.hedit?'Änderung speichern':'Veröffentlichen'}</button></section>
@@ -6839,6 +6848,9 @@ document.addEventListener('click',e=>{
     case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(x.pub===false&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){x.pub=true;x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
     case 'hf-print':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x)heftPrint([x],x.s);break}
     case 'hf-printch':{const es=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false&&(e.ch||'Entwürfe')===d.ch).sort(heftSort);if(es.length)heftPrint(es,es[0].s);break}
+    case 'hf-img':{const fi=$('#hf-file'),ta=$('#hf-x');if(!fi||!ta)break;const pos=ta.selectionStart!=null?ta.selectionStart:ta.value.length;fi.value='';fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f||!/^image\//.test(f.type||''))return;
+      const id=newId(),b=await medSmall(f);try{await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:b.type||f.type||'',size:b.size,subject:$('#hf-s')?$('#hf-s').value:'',src:'heft',added:Date.now()}))}catch(e){$('#hf-err').textContent='Bild konnte nicht gespeichert werden. Ist der Speicher voll?';return}
+      const v=ta.value,a=v.slice(0,pos),z=v.slice(pos),cap='Bildunterschrift',ins=(a&&!a.endsWith('\n')?'\n':'')+'[Foto: '+id+' | '+cap+']'+(z&&!z.startsWith('\n')?'\n':'');ta.value=a+ins+z;const st=a.length+ins.indexOf(cap);ta.focus();ta.setSelectionRange(st,st+cap.length)};fi.click();break}
     case 'hf-edit':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x){V.hedit=x.id;render();setTimeout(()=>{$('#hf-s').value=x.s;$('#hf-t').value=x.title;$('#hf-x').value=x.text;$('#hf-h').value=x.help||'';window.scrollTo(0,0)},0)}break}
     case 'hf-del':TD.heft=(TD.heft||[]).filter(e=>e.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'kl-cards':go('kl-cards',{cid:d.id});break;
