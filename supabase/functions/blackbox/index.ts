@@ -5,7 +5,7 @@
 //   supabase functions deploy blackbox
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
-import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
+import { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
 const REGION = "eu-central-1";
@@ -68,7 +68,8 @@ Deno.serve(async (req) => {
   if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
   await sb.from("blackbox_log").insert({ kind });
 
-  const client = new Anthropic({ apiKey: key, baseURL: `https://bedrock-mantle.${REGION}.api.aws/anthropic` });
+  // Offizieller Bedrock-Client: schickt den Schlüssel als „Authorization: Bearer“, wie Bedrock es erwartet.
+  const client = new AnthropicBedrockMantle({ apiKey: key, awsRegion: REGION });
   const ask = (model: string) => client.messages.stream({
     model, max_tokens: K.max, system: K.sys,
     messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
