@@ -11,7 +11,7 @@ const LIMIT = 30; // Anfragen pro Admin und Tag
 // Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
 const REGIONS = ["eu-central-1", "eu-west-1", "eu-north-1"];
 // Erst die neuesten Modelle, dann die, die AWS jedem Konto freigibt (Sonnet 5, Haiku 4.5).
-const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
+const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5", "anthropic.claude-haiku-4-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
 // Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
 const ROUTES = ["eu.", "global.", ""];
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
