@@ -10,6 +10,8 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
 const LIMIT = 30; // Anfragen pro Admin und Tag
 const REGION = "eu-central-1";
 const MODEL = { big: "anthropic.claude-sonnet-5-5", small: "anthropic.claude-haiku-5-5" };
+// Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
+const ROUTES = ["eu.", "global.", ""];
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
@@ -66,12 +68,20 @@ Deno.serve(async (req) => {
   await sb.from("blackbox_log").insert({ kind });
 
   const client = new Anthropic({ apiKey: key, baseURL: `https://bedrock-mantle.${REGION}.api.aws/anthropic` });
+  const ask = (model: string) => client.messages.stream({
+    model, max_tokens: K.max, system: K.sys,
+    messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
+  }).finalMessage();
   try {
-    const stream = client.messages.stream({
-      model: K.model, max_tokens: K.max, system: K.sys,
-      messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
-    });
-    const msg = await stream.finalMessage();
+    let msg, last: unknown;
+    for (const r of ROUTES) {
+      try { msg = await ask(r + K.model); break; } catch (e) {
+        last = e;
+        const st = (e as { status?: number }).status;
+        if (st !== 400 && st !== 404) throw e; // nur bei falscher Modell-ID das nächste Profil probieren
+      }
+    }
+    if (!msg) throw last;
     if (msg.stop_reason === "refusal") return json({ err: "refusal" });
     const text = msg.content.map((b) => (b.type === "text" ? b.text : "")).join("").trim();
     if (kind === "bild") {
@@ -81,7 +91,8 @@ Deno.serve(async (req) => {
     const ls = text.replace(/^```\w*|```$/g, "").split("\n").map((x) => x.trim()).filter(Boolean);
     return json({ kind, title: (ls[0] || "").replace(/^#+\s*/, "").slice(0, 200), text: ls.slice(1).join("\n").slice(0, 4000), n: (n ?? 0) + 1, limit: LIMIT });
   } catch (e) {
-    console.error("blackbox", (e as Error).message);
-    return json({ err: "ki" });
+    const st = (e as { status?: number }).status, m = String((e as Error).message || e).slice(0, 300);
+    console.error("blackbox", st, m);
+    return json({ err: "ki", st, detail: m }); // nur Admins sehen das; enthält keinen Schlüssel
   }
 });
