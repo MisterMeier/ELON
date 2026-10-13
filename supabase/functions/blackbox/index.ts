@@ -10,7 +10,7 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
 const LIMIT = 30; // Anfragen pro Admin und Tag
 const REGION = "eu-central-1";
 const MODEL = { big: "anthropic.claude-sonnet-5-5", small: "anthropic.claude-haiku-5-5" };
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
 const SUBJ: Record<string, string> = { M: "Mathematik", D: "Deutsch", E: "Englisch", K: "Kunst", G: "Geschichte/Politik/Geographie", N: "Natur und Technik", R: "Religion/Ethik", S: "Sport", W: "Wirtschaft und Beruf", I: "Informatik", Mu: "Musik" };

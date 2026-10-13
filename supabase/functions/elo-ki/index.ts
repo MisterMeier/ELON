@@ -5,7 +5,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 const LIMIT = 30; // Anfragen pro Kind und Tag
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 
 // Regeln aus dem Fehlerkatalog: Stichwort im Thema → Hinweis. Elo hilft und ermutigt, Elo bewertet nicht.
 const RULES: [RegExp, string][] = [
