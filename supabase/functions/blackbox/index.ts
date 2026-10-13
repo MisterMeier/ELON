@@ -5,7 +5,7 @@
 //   supabase functions deploy blackbox
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
-import { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
+import AnthropicBedrock, { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
 // Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
@@ -14,14 +14,19 @@ const REGIONS = ["eu-central-1", "eu-west-1", "eu-north-1"];
 const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5", "anthropic.claude-haiku-4-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
 // Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
 const ROUTES = ["eu.", "global.", ""];
+// Klassischer Bedrock-Weg (wie das AWS-Testfenster), mit EU-Inferenzprofil ab Frankfurt. Läuft, wenn Mantle das Modell nicht kennt.
+const CLASSIC = {
+  big: ["eu.anthropic.claude-sonnet-4-5-20250929-v1:0", "eu.anthropic.claude-haiku-4-5-20251001-v1:0"],
+  small: ["eu.anthropic.claude-haiku-4-5-20251001-v1:0"],
+};
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
 const SUBJ: Record<string, string> = { M: "Mathematik", D: "Deutsch", E: "Englisch", K: "Kunst", G: "Geschichte/Politik/Geographie", N: "Natur und Technik", R: "Religion/Ethik", S: "Sport", W: "Wirtschaft und Beruf", I: "Informatik", Mu: "Musik" };
 const BASE = "Du arbeitest für ELIO, eine Lern-App einer bayerischen Mittelschule (Klassen 5 bis 10). Schreib einfach, klar und kindgerecht. Keine Emojis. Keine echten Personennamen.";
-const KINDS: Record<string, { model: string[]; max: number; sys: string }> = {
+const KINDS: Record<string, { model: string[]; classic: string[]; max: number; sys: string }> = {
   bild: {
-    model: MODEL.big, max: 12000,
+    model: MODEL.big, classic: CLASSIC.big, max: 12000,
     sys: BASE + `
 Erzeuge genau EIN eigenständiges SVG für eine Tafelfolie. Antworte nur mit dem SVG-Code, ohne Erklärung, ohne Markdown.
 Regeln:
@@ -32,9 +37,9 @@ Regeln:
 - Verboten: <script>, Event-Attribute (on...), <foreignObject>, <image>, externe Links, @import, Schriften von außen.
 - Höchstens ca. 15 KB. Fachlich korrekt.`,
   },
-  folie: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib den Inhalt einer Tafelfolie. Zeile 1: kurzer Titel. Danach 2 bis 6 kurze Zeilen Folientext, je ein Gedanke pro Zeile, ganze Sätze, ohne Aufzählungszeichen. Nur dieser Text, kein Markdown." },
-  uebung: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib eine Übung für eine Tafelfolie. Zeile 1: kurzer Titel. Danach 3 bis 6 Aufgaben, je eine Zeile, beginnend mit ●○○, ●●○ oder ●●● für leicht, mittel, schwer. Nur dieser Text, kein Markdown, keine Lösungen." },
-  dialog: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib einen kurzen Dialog zum Nachspielen für zwei Personen. Zeile 1: kurzer Titel. Danach 6 bis 10 Zeilen, abwechselnd beginnend mit \"A: \" und \"B: \". Bei Englisch auf Englisch (Niveau A1 bis A2). Nur dieser Text, kein Markdown." },
+  folie: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib den Inhalt einer Tafelfolie. Zeile 1: kurzer Titel. Danach 2 bis 6 kurze Zeilen Folientext, je ein Gedanke pro Zeile, ganze Sätze, ohne Aufzählungszeichen. Nur dieser Text, kein Markdown." },
+  uebung: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib eine Übung für eine Tafelfolie. Zeile 1: kurzer Titel. Danach 3 bis 6 Aufgaben, je eine Zeile, beginnend mit ●○○, ●●○ oder ●●● für leicht, mittel, schwer. Nur dieser Text, kein Markdown, keine Lösungen." },
+  dialog: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib einen kurzen Dialog zum Nachspielen für zwei Personen. Zeile 1: kurzer Titel. Danach 6 bis 10 Zeilen, abwechselnd beginnend mit \"A: \" und \"B: \". Bei Englisch auf Englisch (Niveau A1 bis A2). Nur dieser Text, kein Markdown." },
 };
 
 // Entfernt alles Ausführbare aus dem SVG. Die App prüft ein zweites Mal und zeigt es nur als <img>.
@@ -74,22 +79,25 @@ Deno.serve(async (req) => {
   const mk = (awsRegion: string) => awsId && awsSecret
     ? new AnthropicBedrockMantle({ awsAccessKey: awsId, awsSecretAccessKey: awsSecret, awsRegion })
     : new AnthropicBedrockMantle({ apiKey: key, awsRegion });
-  const ask = (c: AnthropicBedrockMantle, model: string) => c.messages.stream({
+  // deno-lint-ignore no-explicit-any
+  const ask = (c: any, model: string) => c.messages.stream({
     model, max_tokens: K.max, system: K.sys,
     messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
   }).finalMessage();
+  // Alle Wege der Reihe nach: erst klassisch (wie das AWS-Testfenster, läuft sicher), dann Mantle.
+  // deno-lint-ignore no-explicit-any
+  const tries: [string, () => any, string][] = [];
+  if (awsId && awsSecret) for (const m of K.classic) tries.push(["eu-central-1 klassisch", () => new AnthropicBedrock({ awsAccessKey: awsId, awsSecretKey: awsSecret, awsRegion: "eu-central-1" }), m]);
+  for (const reg of REGIONS) for (const m of K.model) for (const r of ROUTES) tries.push([reg, () => mk(reg), r + m]);
   try {
     let msg, last: unknown;
     const tried: string[] = [];
-    outer: for (const reg of REGIONS) {
-      const c = mk(reg);
-      for (const m of K.model) for (const r of ROUTES) {
-        try { msg = await ask(c, r + m); console.log("blackbox ok", reg, r + m); break outer; } catch (e) {
-          last = e;
-          const st = (e as { status?: number }).status;
-          tried.push(`${reg} ${r + m} ${st}`);
-          if (st !== 400 && st !== 403 && st !== 404) throw e; // Modell/Profil/Region nicht freigegeben: nächstes probieren
-        }
+    for (const [reg, c, m] of tries) {
+      try { msg = await ask(c(), m); console.log("blackbox ok", reg, m); break; } catch (e) {
+        last = e;
+        const st = (e as { status?: number }).status;
+        tried.push(`${reg} ${m} ${st ?? String((e as Error).message || e).slice(0, 60)}`);
+        if (st === 429) throw e; // zu viele Anfragen: nicht weiter durchprobieren
       }
     }
     if (!msg) console.error("blackbox versucht:", tried.join(" | "));
