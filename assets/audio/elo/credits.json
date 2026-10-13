@@ -1,141 +1,141 @@
 {
- "stimme": "de_DE-thorsten-high, Klang „weise-tief“",
+ "stimme": "ElevenLabs, Bibliotheksstimme „Oswald – Kind & Gentle Grandpa“ (voice_id YyYOpSknZlewhHezK5bv), Modell eleven_v4",
  "saetze": [
   {
    "id": "elo-hallo",
    "datei": "assets/audio/elo/hallo.mp3",
    "text": "Hallo zusammen! Schön, dass ihr da seid.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-bereit",
    "datei": "assets/audio/elo/bereit.mp3",
    "text": "Seid ihr bereit? Dann kann es losgehen.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-super",
    "datei": "assets/audio/elo/super.mp3",
    "text": "Super gemacht!",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-geloest",
    "datei": "assets/audio/elo/geloest.mp3",
    "text": "Das habt ihr richtig gut gelöst.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-dran",
    "datei": "assets/audio/elo/dran.mp3",
    "text": "Jetzt seid ihr dran.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-zuhoeren",
    "datei": "assets/audio/elo/zuhoeren.mp3",
    "text": "Hört gut zu.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-nachvorne",
    "datei": "assets/audio/elo/nachvorne.mp3",
    "text": "Schaut mal nach vorne.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-zeitum",
    "datei": "assets/audio/elo/zeitum.mp3",
    "text": "Die Zeit ist um.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-partner",
    "datei": "assets/audio/elo/partner.mp3",
    "text": "Arbeitet jetzt zu zweit.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-gelernt",
    "datei": "assets/audio/elo/gelernt.mp3",
    "text": "Was habt ihr heute gelernt?",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-fehler",
    "datei": "assets/audio/elo/fehler.mp3",
    "text": "Fehler sind Helfer. Probiert es nochmal.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-tschuess",
    "datei": "assets/audio/elo/tschuess.mp3",
    "text": "Tschüss, bis zum nächsten Mal!",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-leiser1",
    "datei": "assets/audio/elo/leiser1.mp3",
    "text": "Bitte wieder leiser.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-leiser2",
    "datei": "assets/audio/elo/leiser2.mp3",
    "text": "Es ist zu laut.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-leiser3",
    "datei": "assets/audio/elo/leiser3.mp3",
    "text": "Leise, bitte.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-leiser4",
    "datei": "assets/audio/elo/leiser4.mp3",
    "text": "Huhu! Ich kann nichts mehr hören.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   },
   {
    "id": "elo-leiser5",
    "datei": "assets/audio/elo/leiser5.mp3",
    "text": "Pause für die Ohren, bitte leiser.",
-   "quelle": "tools/gen_elo_voice.py",
-   "urheber": "ELIO, erzeugt mit Piper (rhasspy) und der Stimme „Thorsten“ (Thorsten Müller)",
-   "lizenz": "Stimmdatensatz Thorsten-Voice: CC0; Piper: MIT; Ergebnis frei nutzbar"
+   "quelle": "ElevenLabs (elevenlabs.io), erzeugt am 2026-10-13, lautheitsangeglichen mit ffmpeg",
+   "urheber": "ELIO, erzeugt mit ElevenLabs, Stimme „Oswald“ aus der ElevenLabs-Stimmbibliothek",
+   "lizenz": "ElevenLabs-Nutzungsbedingungen: kommerzielle Nutzung nur bei Erzeugung in einem bezahlten Tarif; Stand Probe-Abo, vor Vermarktung prüfen"
   }
  ]
 }
