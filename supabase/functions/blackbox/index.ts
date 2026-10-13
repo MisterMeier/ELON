@@ -57,8 +57,9 @@ Deno.serve(async (req) => {
   if (!u?.user) return json({ err: "auth" }, 401);
   const { data: admin } = await sb.rpc("is_admin");
   if (!admin) return json({ err: "admin" }, 403); // nur Admins
-  const key = (Deno.env.get("BLACKBOX_KEY") || "").trim().replace(/^["']|["']$/g, ""); // Leerzeichen/Anführungszeichen vom Einfügen weg
-  if (!key) return json({ err: "nokey" });
+  const clean = (n: string) => (Deno.env.get(n) || "").trim().replace(/^["']|["']$/g, ""); // Leerzeichen/Anführungszeichen vom Einfügen weg
+  const key = clean("BLACKBOX_KEY"), awsId = clean("BLACKBOX_AWS_ID"), awsSecret = clean("BLACKBOX_AWS_SECRET");
+  if (!key && !(awsId && awsSecret)) return json({ err: "nokey" });
   let body: { kind?: string; prompt?: string; subj?: string } = {};
   try { body = await req.json(); } catch (_) { /* leer */ }
   const kind = KINDS[String(body.kind)] ? String(body.kind) : "bild", K = KINDS[kind];
@@ -69,7 +70,10 @@ Deno.serve(async (req) => {
   await sb.from("blackbox_log").insert({ kind });
 
   // Offizieller Bedrock-Client: schickt den Schlüssel als „Authorization: Bearer“, wie Bedrock es erwartet.
-  const client = new AnthropicBedrockMantle({ apiKey: key, awsRegion: REGION });
+  // Bevorzugt IAM-Zugangsschlüssel (SigV4), sonst Bedrock-API-Schlüssel als Bearer.
+  const client = awsId && awsSecret
+    ? new AnthropicBedrockMantle({ awsAccessKey: awsId, awsSecretAccessKey: awsSecret, awsRegion: REGION })
+    : new AnthropicBedrockMantle({ apiKey: key, awsRegion: REGION });
   const ask = (model: string) => client.messages.stream({
     model, max_tokens: K.max, system: K.sys,
     messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
