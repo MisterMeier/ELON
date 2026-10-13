@@ -1,3 +1,4 @@
+# Hinweis 13.10.2026: Die Dateien in assets/audio/elo stammen jetzt von ElevenLabs (Stimme „Oswald“). Dieses Skript erzeugt die alte Piper-Fassung; es überschreibt die neuen Dateien.
 # Elos Stimme: feste Sätze mit Piper (Stimme „Thorsten“, high, Datensatz CC0) erzeugen und als „weise-tief“ klingen lassen.
 # Aufruf: python3 tools/gen_elo_voice.py <pfad/de_DE-thorsten-high.onnx>   (braucht piper-tts und ffmpeg)
 import json, subprocess, sys, os, tempfile

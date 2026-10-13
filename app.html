@@ -1909,7 +1909,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261013-1251';let verTold=false;
+const BUILD='20261013-1445';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3373,7 +3373,7 @@ function vwDo(k){const v=CS&&CS.vw;if(!v)return;const L=lessonById(CS.lesson.id)
   if(k==='team')v.team=1-v.team;
   if(k==='reset'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0}}
   pushCS();if(V.name==='tafel')render()}
-// Elos Stimme: feste Sätze als Aufnahme (Piper, Stimme „Thorsten“, Klang „weise-tief“, tools/gen_elo_voice.py). Eigene Sätze stehen nur in der Sprechblase.
+// Elos Stimme: feste Sätze als Aufnahme (ElevenLabs, Stimme „Oswald“, 13.10.2026; früher Piper/Thorsten über tools/gen_elo_voice.py). Eigene Sätze stehen nur in der Sprechblase.
 const ELO_VO={hallo:'Hallo zusammen! Schön, dass ihr da seid.',bereit:'Seid ihr bereit? Dann kann es losgehen.',super:'Super gemacht!',geloest:'Das habt ihr richtig gut gelöst.',dran:'Jetzt seid ihr dran.',zuhoeren:'Hört gut zu.',nachvorne:'Schaut mal nach vorne.',zeitum:'Die Zeit ist um.',partner:'Arbeitet jetzt zu zweit.',gelernt:'Was habt ihr heute gelernt?',fehler:'Fehler sind Helfer. Probiert es nochmal.',tschuess:'Tschüss, bis zum nächsten Mal!'};
 const eloVoKey=t=>{const n=x=>String(x||'').trim().toLowerCase().replace(/[^a-zäöüß ]/g,'');return Object.keys(ELO_VO).find(k=>n(ELO_VO[k])===n(t))||''};
 let eloVoEl=null;function eloVoice(k){try{if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();eloVoEl.src='assets/audio/elo/'+k+'.mp3';eloVoEl.currentTime=0;eloVoEl.play().catch(()=>{})}catch(e){}}
