@@ -56,7 +56,7 @@ Deno.serve(async (req) => {
   if (!u?.user) return json({ err: "auth" }, 401);
   const { data: admin } = await sb.rpc("is_admin");
   if (!admin) return json({ err: "admin" }, 403); // nur Admins
-  const key = Deno.env.get("BLACKBOX_KEY");
+  const key = (Deno.env.get("BLACKBOX_KEY") || "").trim().replace(/^["']|["']$/g, ""); // Leerzeichen/Anführungszeichen vom Einfügen weg
   if (!key) return json({ err: "nokey" });
   let body: { kind?: string; prompt?: string; subj?: string } = {};
   try { body = await req.json(); } catch (_) { /* leer */ }
