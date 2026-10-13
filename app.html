@@ -214,6 +214,10 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .kcov{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:10px}.kcov .label{margin:0 4px 0 0}
 .hfig{margin:10px 0;color:var(--ink)}.hfig svg{width:100%;max-width:520px;height:auto;display:block}.hfig figcaption{font-size:.85rem;color:var(--muted);margin-top:2px}
 .hf-a{fill:color-mix(in srgb,#2f6fd6 18%,transparent);stroke:currentColor;stroke-width:2}.hf-c{fill:color-mix(in srgb,#e08a00 30%,transparent);stroke:currentColor;stroke-width:2;stroke-dasharray:6 4}
+.hfig.mo{cursor:pointer}
+@media screen and (prefers-reduced-motion:no-preference){.hfig.mo svg>*{transform-box:fill-box;transform-origin:center}.hfig.mo:not(.mo-play) svg>*:not(defs):not(.mo-bg){opacity:0}
+.hfig.mo-play svg>*:not(defs):not(.mo-bg){animation:hfIn .55s cubic-bezier(.2,.8,.3,1.2) both;animation-delay:calc(var(--i,0)*.16s)}.hfig.mo-play svg>path.hf-ar{stroke-dasharray:600;animation:hfDraw 1s ease-out both;animation-delay:calc(var(--i,0)*.16s)}.hfig.mo-play svg>text.hf-hl{animation:hfIn .55s both,hfPop .7s ease-in-out 2;animation-delay:calc(var(--i,0)*.16s),calc(var(--i,0)*.16s + .6s)}.hfig.mo-play figcaption{animation:hfIn .6s both;animation-delay:calc(var(--n,0)*.16s + .3s)}}
+@keyframes hfIn{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:none}}@keyframes hfDraw{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}@keyframes hfPop{50%{transform:scale(1.25)}}
 .hf-h{stroke:#d33;stroke-width:2;stroke-dasharray:6 4;fill:none}.hf-t{font:600 14px system-ui,sans-serif;fill:currentColor}.hf-t.hf-hl{fill:#d33}.hf-ar{stroke:currentColor;stroke-width:2;fill:none}.hf-dot{fill:#d33}
 .ub-list{display:grid;gap:8px;margin:4px 0 12px}.ub-item{border:1px solid var(--line);border-radius:12px;padding:8px 10px}.ub-item .sub-btns{margin-top:6px}.hx{border-top:1px dashed var(--line);padding-top:8px}.hx-list{margin:0;padding-left:1.4em;display:grid;gap:10px}.hx-list li.dn .hx-q{opacity:.6}.hx-q{line-height:1.45}.hx-list .sub-btns{margin-top:4px}.hx-a{margin-top:6px;padding:6px 10px;border-radius:8px;background:var(--surface-2);font-weight:600}.hxl{color:#c98f00;letter-spacing:-1px;white-space:nowrap}.hxl .off{opacity:.25}
 .sub-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -1871,7 +1875,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261013-0804';let verTold=false;
+const BUILD='20261013-0823';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -5898,6 +5902,14 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.role==='
 const FIGW=(vb,body,cap)=>`<figure class="hfig"><svg viewBox="${vb}" role="img" aria-label="${cap}" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="hg" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="currentColor" stroke-opacity=".08"/></pattern></defs><rect width="100%" height="100%" fill="url(#hg)"/>${body}</svg><figcaption>${cap}</figcaption></figure>`;
 const FRA=(x,y,s,dx=1,dy=-1)=>`<path d="M${x+dx*s} ${y}V${y+dy*s}H${x}" fill="none" stroke="currentColor" stroke-width="1.2"/>`;
 const FT=(x,y,t,c='')=>`<text x="${x}" y="${y}" class="hf-t ${c}">${t}</text>`;
+// Motion: Skizzen bauen sich Schritt für Schritt auf, sobald sie sichtbar werden. Antippen spielt es noch einmal ab. Im Druck und bei „Bewegung reduzieren“ bleiben sie still.
+function hfMotion(){document.querySelectorAll('.hfig:not([data-mo])').forEach(f=>{f.dataset.mo=1;const sv=f.querySelector('svg');if(!sv)return;let i=0,prev='';
+  [...sv.children].forEach((el,k)=>{const t=el.tagName.toLowerCase();if(t==='defs')return;if(k<=1&&t==='rect'&&/url\(#hg\)/.test(el.getAttribute('fill')||'')){el.classList.add('mo-bg');return}
+    if(t==='circle'&&prev==='circle')i+=.15;else i+=1;prev=t;el.style.setProperty('--i',i.toFixed(2))});
+  f.style.setProperty('--n',Math.ceil(i));f.classList.add('mo');f.title='Antippen: noch einmal abspielen';
+  f.addEventListener('click',()=>{f.classList.remove('mo-play');void f.offsetWidth;f.classList.add('mo-play')});
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){f.classList.add('mo-play');io.disconnect()}}),{threshold:.4});io.observe(f)}else f.classList.add('mo-play')})}
+{let moT;new MutationObserver(()=>{clearTimeout(moT);moT=setTimeout(hfMotion,60)}).observe(document.documentElement,{childList:true,subtree:true})}
 const FIGS={
   para:()=>FIGW('0 0 420 150',`<polygon points="20,120 140,120 180,30 60,30" class="hf-a"/><polygon points="20,120 60,120 60,30" class="hf-c"/><line x1="60" y1="30" x2="60" y2="120" class="hf-h"/>${FRA(60,120,8)}${FT(75,138,'g')}${FT(64,80,'h','hf-hl')}
     <path d="M195 75h40" class="hf-ar"/><polygon points="235,75 227,70 227,80" fill="currentColor"/>
