@@ -978,6 +978,22 @@ span.pill{cursor:default}.pill-sel{border:1.5px solid #c7d2fe;border-radius:999p
 @media(max-width:720px){.sq-r{grid-template-columns:auto 1fr}.sq-r>*:nth-child(n+3){grid-column:1/-1}.yt-r{grid-template-columns:auto 1fr 70px}.yt-r small{grid-column:1/-1}}
 .tpc.off{opacity:.55;background:repeating-linear-gradient(135deg,#f1f5f9 0 8px,#fff 8px 16px)}.tpc.off small{font-weight:800;color:#0369a1}.tp-fr{color:#0369a1;font-weight:800}.sq-h{font-size:.82rem;font-weight:800;color:#4f46e5}
 .ph-ins{display:flex;justify-content:center;margin:-6px 0;position:relative;z-index:1}.ph-ins::before{content:'';position:absolute;left:10%;right:10%;top:50%;border-top:2px dashed #c7d2fe}.ph-plus{position:relative;width:38px;height:38px;border-radius:50%;border:2px solid #4f46e5;background:#fff;color:#4f46e5;font-size:1.3rem;font-weight:900;cursor:pointer;box-shadow:0 2px 6px rgba(30,58,138,.15)}.ph-plus:hover{background:#4f46e5;color:#fff}.xs-add{margin-top:8px}.xs-box{margin-top:12px;padding:10px;border:2px dashed #c7d2fe;border-radius:12px;background:#f5f7ff}
+:root[data-sl-tr]::view-transition-group(*){animation-duration:.8s;animation-timing-function:cubic-bezier(.45,0,.2,1)}
+:root[data-sl-tr]::view-transition-old(*),:root[data-sl-tr]::view-transition-new(*){animation-duration:.8s}
+:root[data-sl-tr]::view-transition-group(slst){overflow:clip}
+:root[data-sl-tr="schieben"]::view-transition-old(slst){animation:slOutL .8s cubic-bezier(.45,0,.2,1) both}
+:root[data-sl-tr="schieben"]::view-transition-new(slst){animation:slInR .8s cubic-bezier(.45,0,.2,1) both}
+:root.sl-tr-back[data-sl-tr="schieben"]::view-transition-old(slst){animation-name:slOutR}
+:root.sl-tr-back[data-sl-tr="schieben"]::view-transition-new(slst){animation-name:slInL}
+:root[data-sl-tr="zoom"]::view-transition-old(slst){animation:slZoomOut .8s ease both}
+:root[data-sl-tr="zoom"]::view-transition-new(slst){animation:slZoomIn .8s ease both}
+@keyframes slOutL{to{transform:translateX(-100%)}}@keyframes slInR{from{transform:translateX(100%)}}
+@keyframes slOutR{to{transform:translateX(100%)}}@keyframes slInL{from{transform:translateX(-100%)}}
+@keyframes slZoomOut{to{transform:scale(1.25);opacity:0}}@keyframes slZoomIn{from{transform:scale(.7);opacity:0}}
+@keyframes slFadeIn{from{opacity:0}}
+.rt.sl-in-blend,.rt.sl-in-morph{animation:slFadeIn .8s ease both}.rt.sl-in-schieben{animation:slInR .8s cubic-bezier(.45,0,.2,1) both}.rt.sl-in-schieben.sl-back-in{animation-name:slInL}.rt.sl-in-zoom{animation:slZoomIn .8s ease both}
+.sl-big.sl-play{pointer-events:none;overflow:hidden}
+.sl-hint{display:block;width:100%;color:#64748b;font-weight:700;font-size:.78rem;line-height:1.3;margin-top:4px}
 .sl-ed2,.sl-ed-big.sl-ed2{display:grid;grid-template-columns:minmax(0,1fr) 285px!important;gap:12px;align-items:start;padding:10px;border:2px solid #e0e7ff;border-radius:16px;background:#f8faff}
 .sl-ed2 .sl-stage{min-width:0;display:grid;gap:10px}.sl-ed2 .st-big{margin-top:0}
 .sl-side{display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid #e0e7ff;border-radius:12px;padding:10px 12px;position:sticky;top:70px;max-height:calc(100vh - 86px);overflow:auto}
@@ -1909,7 +1925,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261013-1640';let verTold=false;
+const BUILD='20261013-1649';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2782,7 +2798,7 @@ function stageOf(){
     sf:p.sf||'',min:+p.min||0,sub:CS.sub||0,tool:t.id?stageTool(t,L,D.s):null};
 }
 function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof libById==='function'?libById(t.mat):null,o={...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''};
-  if(t.id==='slide'){const F=deckFrames(t),f=F[Math.min(sub,F.length-1)]||{j:0,k:-1};o.cur={...deckSlides(t)[f.j],shown:f.k};o.nf=F.length;delete o.slides}
+  if(t.id==='slide'){const F=deckFrames(t),f=F[Math.min(sub,F.length-1)]||{j:0,k:-1};o.cur={...deckSlides(t)[f.j],shown:f.k};o.j=f.j;o.nf=F.length;delete o.slides}
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
   if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
   return o}
@@ -2853,7 +2869,7 @@ function onBoardState(p){const old=BRCS;BRCS=p;updPod(p);
   // Spiel läuft: die Tafel zeigt es spielbar (Touch), sonst die normale Tafelansicht
   const G=!p.freeze&&!p.kfb&&p.game&&gInfo(p.game.g)?p.game:null;
   let ch=false;if(G&&V.gat!==G.at){V=AKT[G.g]?{name:'akt',gat:G.at}:{name:G.g,s:G.s,gat:G.at};if(AKT[G.g])akStart(G);ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
-  if(V.name==='beamer'){render();fillMedia()}else if(ch)render()}
+  if(V.name==='beamer'){const go=()=>{render();fillMedia()},tr=!ch&&slTrOf(old,p);tr?slTrans(tr.k,go,()=>document.querySelector('#view .bw'),tr.back):go()}else if(ch)render()}
 let MINI='off',miniSig='',HELPL=null,MINI_L=null;
 function toast(t){let el=$('#toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');document.body.appendChild(el)}el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),3200)}
 // Hilfe sofort anzeigen, auch bevor die Tafel antwortet
@@ -4055,6 +4071,24 @@ function slMedH(m,n,cls,E,c){if(S.role==='student')return '';const v=m.t==='v',h
 function slImgH(m,n,cls,E,c){if(m.t)return slMedH(m,n,cls,E,c);const C=m.c||{l:0,t:0,r:0,b:0},cw=1-C.l-C.r,ch=1-C.t-C.b,cut=!!(m.c&&m.ar),crop=E&&c.crop&&c.sel==='i'+n;
   const hs=E&&!c.ed?['n','s','e','w','ne','nw','se','sw'].map(d=>`<i class="sl-ih sl-ih-${d}" data-ih="${d}" title="${crop?'Ziehen zum Zuschneiden':'Ziehen zum Vergrößern oder Verkleinern'}"></i>`).join(''):'';
   return `<div class="sl-img sl-abs${cls}${m.back?' sl-back':''}${cut?' cut':''}${crop?' crop':''}" data-el="i${n}" style="left:${m.x}%;top:${m.y}%;width:${m.w}%${cut?`;aspect-ratio:${Math.round(cw*1e4)}/${Math.round(ch*m.ar*1e4)}`:''}"><div class="sl-imc"><img data-libimg="${esc(m.id)}" ${BGURL[m.id]?`src="${BGURL[m.id]}"`:''} alt="" draggable="false"${cut?` style="width:${100/cw}%;left:${-C.l/cw*100}%;top:${-C.t/ch*100}%"`:''}></div>${hs}</div>`}
+// Folien-Übergänge wie in PowerPoint. Der Übergang gehört zur Folie, die neu kommt.
+// Morph: Gleiche Teile (Überschrift, Text, Elo, gleiches Bild) gleiten von der alten an die neue Stelle, der Rest blendet über.
+const SL_TR={'':'Keiner',blend:'Blenden',schieben:'Schieben',zoom:'Zoom',morph:'Morph'};
+function slVTTag(box,on){if(!box)return;const seen={};box.querySelectorAll('.rt [data-el]').forEach(el=>{const im=el.querySelector('[data-libimg]');let k=/^i\d/.test(el.dataset.el)&&im?'i'+im.dataset.libimg:el.dataset.el;k=String(k).replace(/[^a-z0-9_-]/gi,'');seen[k]=(seen[k]||0)+1;el.style.viewTransitionName=on?'slm-'+k+'-'+seen[k]:''})}
+let SLVT=null;
+function slTrans(tr,fn,box,back){const R=document.documentElement,qb=()=>typeof box==='function'?box():box;
+  if(!tr||!SL_TR[tr]||matchMedia('(prefers-reduced-motion: reduce)').matches)return fn();
+  try{SLVT&&SLVT.skipTransition()}catch(e){}
+  if(!document.startViewTransition){fn();const b=qb(),r=b&&b.querySelector('.rt');if(r){r.classList.add('sl-in-'+tr);if(back)r.classList.add('sl-back-in')}return}
+  const tag=on=>{const b=qb();if(!b)return;b.style.viewTransitionName=on?'slst':'';if(tr==='morph')slVTTag(b,on)};
+  R.dataset.slTr=tr;R.classList.toggle('sl-tr-back',!!back);tag(1);
+  const vt=SLVT=document.startViewTransition(()=>{fn();tag(1)});
+  vt.finished.finally(()=>{tag(0);if(SLVT===vt){SLVT=null;delete R.dataset.slTr;R.classList.remove('sl-tr-back')}})}
+// Tafel: Übergang nur, wenn wirklich eine andere Folie kommt (nicht beim Einblenden der nächsten Zeile)
+function slTrOf(o,n){const a=o&&o.stage,b=n&&n.stage,t=b&&b.tool;if(!a||!t||t.id!=='slide'||!t.cur||!t.cur.tr)return null;
+  if(n.freeze||n.kfb||n.groups||n.wheel||n.media||n.game||(n.ready&&!n.ready.msg&&!n.ready.only)||(n.poll&&n.poll.show)||(n.goal&&n.goal.show))return null;
+  const ta=a.tool||{};if(a.step===b.step&&a.sub===b.sub)return null;if(a.step===b.step&&ta.id==='slide'&&ta.j===t.j)return null;
+  return {k:t.cur.tr,back:b.step<a.step||(b.step===a.step&&b.sub<a.sub)}}
 function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
   const fx=fxOn(c.fx)?c.fx.k:'',ls=lines(sl.text),sh=sl.shown>=0?sl.shown:ls.length,P=sl.pos||{},E=c.edit,sel=E&&c.sel,
     ce=k=>E&&c.ed===k?' contenteditable="true" spellcheck="true"':'',rz=k=>E&&k&&c.ed===k?'':E?(k==='t'||k==='b'?`<i class="sl-rz sl-rz-r" data-rz="w" title="Breite ändern"></i><i class="sl-rz sl-rz-b" data-rz="h" title="Höhe ändern"></i>`:'')+`<i class="sl-rz" data-rz="${k==='t'||k==='b'?'wh':'w'}" title="Größe ändern"></i>`:'',ab=k=>P[k]?' sl-abs':'',on=k=>sel===k?' sl-sel':'',fs=k=>P[k]&&P[k].f&&P[k].f!==1?`font-size:${(k==='t'?3:1.6)*P[k].f}em;`:'';
@@ -4263,6 +4297,7 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       ${img?`<div class="sl-sec"><span class="sl-st">${mk}</span><div class="sl-line">${img?`${(()=>{const mm=(sl.imgs||[])[+ED.sel.slice(1)]||{};return mm.t==='a'?`<input type="text" id="sl-med-name" data-i="${i}" data-j="${j}" data-n="${ED.sel.slice(1)}" value="${esc(mm.name||'')}" placeholder="Name auf der Folie" maxlength="60" style="width:180px;padding:5px 8px" aria-label="Name des Hörtexts"><button class="btn sm ${mm.ico?'on':''}" data-act="sl-med-ico" data-i="${i}" data-j="${j}">${mm.ico?'Mit Player zeigen':'Nur Lautsprecher'}</button>`:''})()}${((sl.imgs||[])[+ED.sel.slice(1)]||{}).t?'':`<button class="btn sm" data-act="sl-rot" data-i="${i}" data-j="${j}" data-d="-1" title="Nach links drehen" aria-label="Nach links drehen">↺</button><button class="btn sm" data-act="sl-rot" data-i="${i}" data-j="${j}" data-d="1" title="Nach rechts drehen" aria-label="Nach rechts drehen">↻</button><button class="btn sm ${ED.crop?'on':''}" data-act="sl-crop" data-i="${i}" data-j="${j}">${ED.crop?'Fertig':'Zuschneiden'}</button>${((sl.imgs||[])[+ED.sel.slice(1)]||{}).c?`<button class="btn sm" data-act="sl-uncrop" data-i="${i}" data-j="${j}">Ganzes Bild</button>`:''}`}${((sl.imgs||[])[+ED.sel.slice(1)]||{}).back?`<button class="btn sm" data-act="sl-img-z" data-i="${i}" data-j="${j}" data-v="0" title="Bild über die Schrift legen">Nach vorne</button>`:`<button class="btn sm" data-act="sl-img-z" data-i="${i}" data-j="${j}" data-v="1" title="Schrift über das Bild legen">Nach hinten</button>`}<button class="btn sm red" data-act="sl-img-del" data-i="${i}" data-j="${j}">Entfernen</button>`:''}</div></div>`:''}
       <div class="sl-sec sl-set2"><span class="sl-st">Folie</span>
         <div class="sl-row"><span class="sl-gl">Art</span><span class="sl-v">${Object.entries(SL_LAY).map(([k,n])=>`<button class="pill ${k===(sl.layout||'std')?'on':''}" data-act="sl-lay" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}</span></div>
+        <div class="sl-row"><span class="sl-gl">Übergang</span><span class="sl-v">${Object.entries(SL_TR).map(([k,n])=>`<button class="pill ${k===(sl.tr||'')?'on':''}" data-act="sl-tr" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}${sl.tr?`<button class="btn sm" data-act="sl-trp" data-i="${i}" data-j="${j}">Vorschau</button>`:''}${sl.tr==='morph'?`<small class="sl-hint">Gleiche Teile gleiten von der Folie davor an ihren neuen Platz. Tipp: Folie duplizieren, dann Überschrift, Bilder oder Elo verschieben.</small>`:''}</span></div>
         <label class="sl-row"><span class="sl-gl">Anweisung an die SuS</span><span class="sl-v"><input type="text" data-f="ph.${pi}.txt" value="${esc(ph.txt||'')}" placeholder="Steht an der Tafel und auf den iPads"></span></label>
         <div class="sl-row"><span class="sl-gl">Elo</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo?`<input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="flex:1;min-width:200px"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist>${eloVoKey(sl.say)?'<span title="Elo spricht diesen Satz mit seiner Stimme">🔊</span>':''}`:''}</span></div>
         <div class="sl-row"><span class="sl-gl">Hintergrund</span><span class="sl-v"><span class="chip">${esc(bgName(bg))}</span><button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}">Eigenes Bild</button>${bg!=='allgemein'?`<button class="btn sm" data-act="sl-bg0" data-i="${i}" data-j="${j}">↺ ELIO allgemein</button>`:''}</span></div>
@@ -6675,6 +6710,10 @@ document.addEventListener('click',e=>{
     case 'bb-use':bbUse(d);break;
     case 'bb-x':BB.res=null;BB.err='';render();break;
     case 'sl-lay':{const sl=slEdSlide(d);if(sl){sl.layout=d.v;save();render()}break}
+    case 'sl-tr':{const sl=slEdSlide(d);if(sl){if(d.v)sl.tr=d.v;else delete sl.tr;save();render();if(d.v)setTimeout(()=>{const x=document.querySelector('[data-act="sl-trp"]');x&&x.click()},60)}break}
+    case 'sl-trp':{const L=lessonById(V.id),t=phT(L,d.i),A=t?deckSlides(t):[],j=+d.j,sl=A[j],box=document.querySelector('.sl-big');if(!sl||!box||box.classList.contains('sl-play'))break;
+      const pv=A[j-1],sj=x=>slideHTML({...x,shown:-1},{subj:L.subject,mini:1});box.classList.add('sl-play');
+      box.innerHTML=pv?sj(pv):'<div class="rt rt-sl sl-white"></div>';setTimeout(()=>slTrans(sl.tr,()=>{box.innerHTML=sj(sl)},box),450);setTimeout(()=>{box.classList.remove('sl-play');if(V.name==='lesson-edit')render()},2300);break}
     case 'st-boerse':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='boerse';save();render();break}
     case 'st-atelier':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='atelier';save();render();break}
     case 'st-welt':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='welt';t.region=t.region||'uk-ie';save();render();break}
