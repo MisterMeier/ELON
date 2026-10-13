@@ -437,6 +437,8 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .seat.on{border:2px solid var(--line);background:var(--surface-2);color:var(--ink)}
 .seat.ready{background:var(--ok-bg);border-color:var(--green)}
 .seat.voted::after{content:"";position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
+.seats.sp{grid-template-columns:repeat(var(--c),minmax(0,1fr));gap:5px}.seats.sp .seat{min-height:62px;font-size:1rem;padding:4px 2px}.seats.sp .seat .av{width:24px;height:24px}.sp-board{grid-column:1/-1;text-align:center;background:#1e3a8a;color:#fff;font-weight:800;border-radius:8px;padding:3px 0;font-size:.8rem;letter-spacing:.08em;margin-bottom:4px}.sp-gap{visibility:hidden}.sp-gap.thin,.sp-cell.sp-gap.thin{min-height:16px;height:16px}.sp-free{border:2px dashed var(--line);border-radius:14px;min-height:40px}.sp-rest{grid-column:1/-1;font-weight:800;font-size:.8rem;color:var(--muted);margin-top:6px}
+.sp-grid{display:grid;grid-template-columns:repeat(var(--c),minmax(0,1fr));gap:6px}.sp-cell{min-height:70px;min-width:0}.sp-cell.sp-gap{visibility:visible;background:none;border:2px dashed transparent;border-radius:14px;cursor:default}.sp-cell.sp-gap.ed{border-color:#c7d2fe;cursor:pointer}.sp-cell.sp-gap.ed:hover{background:#eef2ff}.sp-cell.seat.on,.sp-un{cursor:pointer;font-family:var(--f-display)}.sp-cell.sel,.sp-un.sel{outline:3px solid #4f46e5;outline-offset:2px;background:#eef2ff}.sp-un{min-width:90px}
 .seat.away,.seats.frz .seat.on.away{background:#fff4dc;border:2px solid #f59e0b;color:#92400e}.seat .aw-t{color:#b45309;font-size:.7rem}.aw-w{color:#b45309}
 .seat.help{background:#e3edff;border-color:#2f6fe4;color:#2f6fe4;animation:pulse 1.4s infinite}
 .seats.frz .seat.on{background:#ffe1e1;border-color:#d33;color:#b22}.seats.frz .seat.on.help{background:#e3edff;border-color:#2f6fe4;color:#2f6fe4}
@@ -1868,7 +1870,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261012-2201';let verTold=false;
+const BUILD='20261013-0752';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2630,7 +2632,7 @@ ${NOISE.on?`<span class="nz-t"><span class="nz-e"><img src="assets/elo/elo-heft-
   </section>
   <div class="tafel">
     <section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Klasse · <span id="t-online">0 online</span></span>
-      <span class="chip conn" id="t-conn">${connTxt()}</span></div>
+      <span class="row" style="gap:6px"><button class="btn sm" data-act="sp-open" data-from="tafel">Sitzplan</button><span class="chip conn" id="t-conn">${connTxt()}</span></span></div>
       <div class="seats" id="seats"></div>
       <div class="legend"><span><i style="background:var(--surface-2)"></i>online</span><span><i style="background:var(--ok-bg);border-color:var(--green)"></i>bereit</span><span><i style="background:#e3edff;border-color:#2f6fe4"></i>braucht Hilfe</span><span><i style="background:#fff4dc;border-color:#f59e0b"></i>App verlassen</span><span><i style="background:#ffe1e1;border-color:#d33"></i>Freeze</span><span><i style="background:var(--blue);border-color:var(--blue);border-radius:50%"></i>hat abgestimmt</span></div></section>
     <div class="t-side">
@@ -2646,8 +2648,11 @@ function updTafel(){
   if(!CS||!$('#seats'))return;updPrev();
   const on=online(),n=S.classSize;
   const dup=dupNrs(),dc=devCount(),aw=Object.keys(ROSTER).filter(k=>ROSTER[k].away).length;$('#t-online').innerHTML=(dup.length?`${dc} online <b class="dup-w">· Nr. ${dup.join(', ')} doppelt angemeldet</b>`:on.length+' online')+(aw?` <b class="aw-w">· ${aw} ${aw===1?'hat':'haben'} die App verlassen</b>`:'');
-  $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').innerHTML=Array.from({length:n},(_,i)=>{const k=i+1,cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':'',ROSTER[k]&&ROSTER[k].away?'away':''].join(' ');
-    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}${dup.includes(k)?' dup':''}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${mnOf(k)?`<small class="mn-tag">${esc(mnOf(k))}</small>`:''}${ROSTER[k]&&ROSTER[k].away?`<small class="aw-t">App verlassen</small><small class="aw-t">${awMin(ROSTER[k].away)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`}).join('');
+  const SPP=spOf(),seatH=k=>{const cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':'',ROSTER[k]&&ROSTER[k].away?'away':''].join(' ');
+    const nk=nickOf(k);const no=(TD.obs[k]||[]).length;return `<button class="seat ${cls}${dup.includes(k)?' dup':''}" data-act="obs-quick" data-n="${k}" title="Beobachtung notieren">${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${mnOf(k)?`<small class="mn-tag">${esc(mnOf(k))}</small>`:''}${ROSTER[k]&&ROSTER[k].away?`<small class="aw-t">App verlassen</small><small class="aw-t">${awMin(ROSTER[k].away)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`};
+  $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').classList.toggle('sp',!!SPP);
+  if(SPP){const un=spUnplaced(SPP,n);$('#seats').style.setProperty('--c',SPP.c);$('#seats').innerHTML=`<div class="sp-board">Tafel</div>`+SPP.g.map((x,i)=>x===null?`<i class="sp-gap${spThin(SPP,i)?' thin':''}"></i>`:x>0&&x<=n?seatH(x):'<i class="sp-free"></i>').join('')+(un.length?`<div class="sp-rest">Ohne Platz</div>`+un.map(seatH).join(''):'')}
+  else{$('#seats').style.removeProperty('--c');$('#seats').innerHTML=Array.from({length:n},(_,i)=>seatH(i+1)).join('')}
   $('#helpq').innerHTML=CS.help.length?CS.help.map(k=>`<div><span><b>${esc((ROSTER[k]&&ROSTER[k].nick)||kidName(k))}</b> <span class="muted">${esc(kurzOf(k))}</span>${mnTag(k)}</span><button class="btn sm" data-act="t-help-done" data-n="${k}">Erledigt</button></div>`).join(''):'<p class="muted" style="font-weight:700">Gerade braucht niemand Hilfe.</p>';
   const md=CS.ready&&CS.ready.mood?((TD.moods||{})[S.cls||'-']||{})[todayISO()]||{}:null,EX=CS.exit?(TD.exits||{})[CS.exit.id]:null;
   const rdH=CS.exit?`<span class="label">🎟️ Exit-Ticket · ${CS.exit.done.length} / ${Math.max(on.length,CS.exit.done.length)||'–'} abgegeben · nur für dich</span>${pgBar(CS.exit.done.length,Math.max(on.length,CS.exit.done.length))}${EX?`<div class="ex-l">${Object.entries(EX.ans).map(([k,x])=>`<div><b>${x.m!=null?AMP3[x.m][0]+' ':''}${esc(x.nick||kidName(+k))}</b>${x.a.map((y,j)=>y?`<p><small class="muted">${esc(EX.qs[j]||'')}</small> ${esc(y)}</p>`:'').join('')}</div>`).join('')}</div>`:'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}`
@@ -5402,7 +5407,7 @@ VIEWS.klassen=()=>{
   <div class="kl">${mc.map(c=>{const lead=isLead(c.id),ac=K.access.find(a=>a.class_id===c.id),ts=K.ct.filter(x=>x.class_id===c.id),sc=SCHOOLS.find(x=>x.id===c.school_id)||{};
     return `<section class="panel"><div class="row" style="justify-content:space-between"><div><h2 style="font-size:1.5rem">${esc(c.name)}</h2><span class="muted" style="font-weight:700">${esc(sc.name||'')} · ${c.size} SuS</span>
       ${(Cloud.lead||[]).includes(c.id)?'<span class="chip" style="margin-left:8px">Klassenleitung</span>':''}</div>
-      <div class="row"><button class="btn pri" data-act="kl-sus" data-id="${c.id}">👥 Schüler/innen und Zugänge${S.cls===c.id&&susUnread('abg')?' · '+susUnread('abg')+' neu':''}</button><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls===c.id?'<span class="chip">aktiv</span>':`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`}</div></div>
+      <div class="row"><button class="btn pri" data-act="kl-sus" data-id="${c.id}">👥 Schüler/innen und Zugänge${S.cls===c.id&&susUnread('abg')?' · '+susUnread('abg')+' neu':''}</button><button class="btn" data-act="sp-open" data-id="${c.id}" data-from="klassen">Sitzplan</button><button class="btn" data-act="ctt-open" data-id="${c.id}" data-from="klassen">Stundenplan</button>${S.cls===c.id?'<span class="chip">aktiv</span>':`<button class="btn sm" data-act="lg-cls" data-id="${c.id}">Zu dieser Klasse wechseln</button>`}</div></div>
       ${V.keyFor===c.code?`<div class="panel" style="margin-top:8px"><b>Klassenschlüssel teilen</b><p class="muted" style="font-weight:700">Schick diesen Link nur an Lehrkräfte dieser Klasse, am besten über den Dienst-Messenger. Sie öffnen ihn auf ihrem Gerät und entsperren dort ELIO. Dann können sie mit denselben iPads arbeiten.</p><textarea rows="2" readonly onclick="this.select()">${esc(location.origin+location.pathname+'#ck='+c.code+'.'+myCk(c.code))}</textarea></div>`:''}
       <div style="margin-top:12px"><span class="label">Lehrkräfte</span><div class="row" style="margin-top:6px">${ts.map(x=>`<span class="chip">${x.lead?'★ ':''}${esc(pName(K.profiles,x.teacher_id))}${lead&&x.teacher_id!==uid&&!x.lead?` <button class="btn sm" data-act="kl-rm" data-id="${c.id}" data-t="${x.teacher_id}" aria-label="Entfernen" style="min-height:26px;padding:0 8px">✕</button>`:''}</span>`).join('')}</div>
 <small class="muted" style="font-weight:700">Lehrkräfte kommen automatisch dazu, sobald du sie im Stundenplan der Klasse einträgst.</small></div>
@@ -5765,6 +5770,46 @@ function imHTML(){const I=V.imp,size=S.classSize||24,P=imParse(I.txt,size,!!TD.v
     ${P.info.map(t=>`<p class="im-info">${esc(t)}</p>`).join('')}
     ${P.rows.length?`<div class="tbl"><table><thead><tr><th>Zeile</th><th>Nr.</th><th>Name</th><th>Erstsprache</th><th>Gruppe</th><th>Hinweis</th></tr></thead><tbody>${P.rows.map(r=>`<tr class="${r.errs.length?'im-bad':''}"><td>${r.line}</td><td>${esc(String(r.nr||''))}</td><td>${esc(r.vn||r.nick||'–')}</td><td>${r.l1?esc((LANGS.find(l=>l[0]===r.l1)||[,''])[1]):'–'}</td><td>${esc(r.grp||'–')}</td><td>${[...r.errs.map(e=>`<b>${esc(e)}</b>`),...r.warns.map(esc)].join('<br>')||'passt'}</td></tr>`).join('')}</tbody></table></div>
     <div class="row" style="gap:8px;margin-top:10px"><button class="btn pri" data-act="im-go" ${ok?'':'disabled'}>${ok} ${ok===1?'Kind':'Kinder'} übernehmen</button>${bad?`<span class="err">${bad} ${bad===1?'Zeile wird':'Zeilen werden'} übersprungen. Korrigiere sie oben, wenn sie mit sollen.</span>`:''}</div>`:''}</section>`}
+/* --- Sitzplan je Klasse: Vorlagen (Zweiertische, Gruppentische, U-Form, Einzeltische), frei änderbar. Liegt verschlüsselt in TD.sp, nur Nummern, keine Namen. --- */
+const SP_LAY={zweier:'Zweiertische',gruppen:'Gruppentische',u:'U-Form',einzel:'Einzeltische',frei:'Frei'};
+// g: Zellen von links nach rechts, Zeile für Zeile, die Tafel ist oben. null = Gang, 0 = leerer Platz, Zahl = Nummer des Kindes
+function spGen(lay,n){n=Math.max(1,Math.min(40,n||24));let c,g=[];const S_=1,G_=null,rowsOf=(pat,need)=>{const per=pat.filter(Boolean).length;for(let r=0;r<Math.ceil(need/per);r++)g.push(...pat.map(x=>x?0:null))};
+  if(lay==='zweier'){c=8;rowsOf([S_,S_,G_,S_,S_,G_,S_,S_],n)}
+  else if(lay==='einzel'){c=9;rowsOf([S_,G_,S_,G_,S_,G_,S_,G_,S_],n)}
+  else if(lay==='gruppen'){c=8;const pat=[S_,S_,G_,S_,S_,G_,S_,S_];for(let b=0;b<Math.ceil(n/12);b++){if(b)g.push(...Array(c).fill(null));rowsOf(pat,6);rowsOf(pat,6)}}
+  else{/* U-Form: offen zur Tafel, Seiten links und rechts, hinten eine Reihe */c=Math.max(4,Math.min(14,Math.round(n/2)));const d=Math.max(1,Math.ceil((n-c)/2));
+    for(let r=0;r<d;r++){const row=Array(c).fill(null);row[0]=0;row[c-1]=0;g.push(...row)}g.push(...Array(c).fill(0))}
+  let k=1;g=g.map(x=>x===0&&k<=n?k++:x);return {lay,c,g}}
+const spKey=()=>S.cls||'-';
+const spOf=(key)=>((TD.sp||{})[key||spKey()])||null;
+function spSet(P){TD.sp=TD.sp||{};TD.sp[spKey()]=P;tsave()}
+const spThin=(P,i)=>{const r=Math.floor(i/P.c);return P.g.slice(r*P.c,r*P.c+P.c).every(x=>x===null)};
+const spUnplaced=(P,n)=>{const has=new Set(P.g.filter(x=>x>0));return Array.from({length:n},(_,i)=>i+1).filter(k=>!has.has(k))};
+const SPE={sel:null,mode:'swap'};
+VIEWS.sitzplan=()=>{const n=S.classSize||24,P=spOf();
+  if(CLOUD&&Cloud.sb&&S.cls&&(ZG.cid!==S.cls||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=S.cls;zgLoad(S.cls)}
+  const lbl=k=>`${avOf(k)}<small>${esc(nickOf(k)||kurzOf(k)||'Nr. '+k)}</small>`,un=P?spUnplaced(P,n):[];
+  return `<div class="st-head"><button class="btn sm" data-act="sp-back">← Zurück</button><h1 style="font-size:1.6rem">Sitzplan · ${esc(className())}</h1></div>
+  <section class="panel"><span class="label">Sitzordnung wählen</span><div class="row" style="margin-top:8px">${Object.entries(SP_LAY).filter(([k])=>k!=='frei').map(([k,v])=>`<button class="pill ${P&&P.lay===k?'on':''}" data-act="sp-gen" data-v="${k}">${v}</button>`).join('')}</div>
+    <p class="muted" style="font-weight:700;margin-top:8px">${P?'Eine neue Vorlage ersetzt den jetzigen Plan.':'Wähle eine Vorlage. Danach kannst du alles anpassen.'} Die Tafel ist oben. Gespeichert werden nur die Nummern, verschlüsselt auf diesem Gerät.</p></section>
+  ${P?`<section class="panel" style="margin-top:12px"><div class="row" style="justify-content:space-between"><span class="label">${esc(SP_LAY[P.lay]||'Frei')} · ${P.g.filter(x=>x!==null).length} Plätze für ${n} SuS</span>
+      <div class="row"><button class="btn sm ${SPE.mode==='swap'?'on':''}" data-act="sp-mode" data-v="swap">Kinder tauschen</button><button class="btn sm ${SPE.mode==='desk'?'on':''}" data-act="sp-mode" data-v="desk">Tische setzen</button><button class="btn sm" data-act="sp-shuffle">Zufällig mischen</button><button class="btn sm" data-act="sp-sort">Nach Nummer</button></div></div>
+    <p class="sl-hint">${SPE.mode==='desk'?'Tippe auf eine Stelle, um dort einen Tisch hinzustellen oder wegzunehmen.':SPE.sel!=null?'Jetzt den zweiten Platz antippen. Die beiden tauschen.':'Tippe zwei Plätze nacheinander an, dann tauschen sie.'}</p>
+    <div class="sp-board">Tafel</div>
+    <div class="sp-grid" style="--c:${P.c}">${P.g.map((x,i)=>x===null?`<button class="sp-cell sp-gap ${SPE.mode==='desk'?'ed':''}${spThin(P,i)?' thin':''}" data-act="sp-cell" data-i="${i}" ${SPE.mode==='desk'?'':'tabindex="-1"'} aria-label="Gang"></button>`:`<button class="sp-cell seat on ${SPE.sel===i?'sel':''}" data-act="sp-cell" data-i="${i}">${x?lbl(x):'<small>frei</small>'}</button>`).join('')}</div>
+    <div class="row" style="margin-top:10px"><span class="sl-gl">Reihen</span><button class="btn sm" data-act="sp-row" data-d="-1">−</button><button class="btn sm" data-act="sp-row" data-d="1">+</button><span class="sl-gl">Spalten</span><button class="btn sm" data-act="sp-col" data-d="-1">−</button><button class="btn sm" data-act="sp-col" data-d="1">+</button><span class="spacer"></span><button class="btn sm red" data-act="sp-del">Sitzplan löschen</button></div>
+    ${un.length?`<div style="margin-top:12px"><span class="label">Noch ohne Platz · tippe ein Kind und dann einen Platz an</span><div class="row" style="margin-top:6px">${un.map(k=>`<button class="seat on sp-un ${SPE.sel==='u'+k?'sel':''}" data-act="sp-un" data-n="${k}">${lbl(k)}</button>`).join('')}</div></div>`:''}
+  </section>`:''}`};
+function spCell(i){const P=spOf();if(!P)return;i=+i;const g=P.g;
+  if(SPE.mode==='desk'){if(g[i]===null)g[i]=0;else g[i]=null;P.lay='frei';SPE.sel=null;spSet(P);render();return}
+  if(g[i]===null)return;
+  if(SPE.sel==null){SPE.sel=i;render();return}
+  if(typeof SPE.sel==='string'){const k=+SPE.sel.slice(1);g[i]=k;SPE.sel=null;spSet(P);render();return}
+  if(SPE.sel!==i){const a=g[SPE.sel];g[SPE.sel]=g[i];g[i]=a;spSet(P)}SPE.sel=null;render()}
+function spResize(dr,dc){const P=spOf();if(!P)return;let R=Math.ceil(P.g.length/P.c),C=P.c;const old=P.g,oc=C;
+  if(dc){C=Math.max(1,Math.min(14,C+dc))}if(dr){R=Math.max(1,Math.min(14,R+dr))}
+  const g=[];for(let r=0;r<R;r++)for(let c=0;c<C;c++){const v=r*oc+c<old.length&&c<oc?old[r*oc+c]:null;g.push(v===undefined?null:v)}
+  P.g=g;P.c=C;P.lay='frei';SPE.sel=null;spSet(P);render()}
 VIEWS.sus=()=>{clsSync();const on=CS?online():[],B=(TD.sus||{})[S.cls||'-']||{},AU=aufAll().filter(a=>daysUntil(a.due)>=-14),cl=mbCls();
   if(cl&&CLOUD&&Cloud.sb&&(ZG.cid!==S.cls||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=S.cls;zgLoad(S.cls)}
   const st=cl?zgStore(S.cls):{},by={};(cl&&ZG.cid===S.cls?ZG.list||[]:[]).forEach(r=>by[r.nr]=r);
@@ -6680,6 +6725,17 @@ document.addEventListener('click',e=>{
     case 't-lotsen':if(CS){CS.lotsen=d.n==='0'?[0]:d.n!=null?[]:kidsFrom(($('#t-lotsen')||{}).value||'');pushCS();render()}break;
     case 't-pod':if(CS&&CS.game){CS.game.pod=!CS.game.pod;pushCS();render()}break;
     case 'sus':go('sus');mbPull();break;
+    case 'sp-open':{SPE.sel=null;SPE.mode='swap';if(d.id){const c=(Cloud.myClasses||[]).find(x=>x.id===d.id);if(c&&S.cls!==c.id){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS)}}go('sitzplan',{from:d.from||V.name});break}
+    case 'sp-back':go(V.from==='tafel'?'tafel':V.from==='klassen'?'klassen':'sus');break;
+    case 'sp-gen':{const P=spOf();SPE.sel=null;spSet(spGen(d.v,S.classSize||24));render();break}
+    case 'sp-mode':SPE.mode=d.v;SPE.sel=null;render();break;
+    case 'sp-cell':spCell(d.i);break;
+    case 'sp-un':SPE.sel=SPE.sel==='u'+d.n?null:'u'+d.n;SPE.mode='swap';render();break;
+    case 'sp-shuffle':{const P=spOf();if(!P)break;const ks=Array.from({length:S.classSize||24},(_,i)=>i+1).sort(()=>Math.random()-.5);let j=0;P.g=P.g.map(x=>x===null?null:(ks[j++]||0));SPE.sel=null;spSet(P);render();break}
+    case 'sp-sort':{const P=spOf();if(!P)break;let k=1;const n=S.classSize||24;P.g=P.g.map(x=>x===null?null:(k<=n?k++:0));SPE.sel=null;spSet(P);render();break}
+    case 'sp-row':spResize(+d.d,0);break;
+    case 'sp-col':spResize(0,+d.d);break;
+    case 'sp-del':if(confirm('Sitzplan für diese Klasse löschen?')){delete (TD.sp||{})[spKey()];tsave();render()}break;
     case 'todo-tog':{const x=(TD.todo||[]).find(y=>y.id===d.id);if(x){x.done=!x.done;tsave();render()}break}
     case 'todo-del':TD.todo=(TD.todo||[]).filter(y=>y.id!==d.id);tsave();render();break;
     case 'todo-clr':TD.todo=(TD.todo||[]).filter(y=>!y.done);tsave();render();break;
