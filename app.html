@@ -1343,7 +1343,7 @@ const SUBJECTS={
   G:{name:'GPG',short:'GPG',prep:['GPG-Heft','Atlas']},
   N:{name:'N&T',short:'NT',prep:['N&T-Heft','Buntstifte']},
   I:{name:'Informatik',short:'In',prep:['iPad geladen','Informatik-Heft']},
-  W:{name:'Wirtschaft im Beruf',short:'WiB',prep:['WiB-Heft','Mappe']},
+  W:{name:'Wirtschaft und Beruf',short:'WiB',prep:['WiB-Heft','Mappe']},
   WK:{name:'Wirtschaft und Kommunikation',short:'WiK',prep:['WiK-Heft','iPad geladen']},
   ES:{name:'Ernährung & Soziales',short:'ES',prep:['ES-Heft','Schürze','Haargummi']},
   T:{name:'Technik',short:'Te',prep:['Technik-Heft','Bleistift und Lineal']},
@@ -1895,7 +1895,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261013-1230';let verTold=false;
+const BUILD='20261013-1240';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -5482,7 +5482,7 @@ VIEWS['kl-cards']=()=>{
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
-const HEFT_V=5;
+const HEFT_V=6;
 async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.heft||[]).some(e=>e.id.startsWith(PLANS[k].pre))){try{await heftLoadPlan(true,k)}catch(e){}}TD.heftV=HEFT_V;tsave()}const bad=e=>String(e.text||'').split('\n').some(l=>HELPRE.test(l.trim()));if(!(TD.heft||[]).some(bad))return 0;
   if(TD.heft.some(e=>/^m7-/.test(e.id)&&bad(e))){try{await heftLoadPlan(true)}catch(e){}}
   let n=0;TD.heft.forEach(e=>{const ls=String(e.text||'').split('\n'),mv=ls.filter(l=>HELPRE.test(l.trim()));if(!mv.length)return;
@@ -5492,14 +5492,15 @@ async function heftClean(){if((TD.heftV||0)<HEFT_V){for(const k in PLANS)if((TD.
 const PLANS={M:{f:'mathe7',pre:'m7-',t:'Jahresplan Mathematik 7',d:'8 Module mit 34 Unterkapiteln'},DZ:{f:'daz',pre:'dz-',t:'Lernlandschaft Deutsch als Zweitsprache',d:'Themenmodule mit Wortschatz, Dialogen und Grammatik'},
   E:{f:'englisch7',pre:'e7-',t:'Jahresplan Englisch 7',d:'8 Module mit Wortschatz, Dialogen, Grammatik und Ausspracheübungen'},
   K:{f:'kunst7',pre:'k7-',t:'Jahresplan Kunst 7',d:'Module mit Fachwissen und Gestaltungsaufträgen'},
-  N:{f:'nt7',pre:'nt7-',t:'Jahresplan Natur und Technik 7',d:'8 Kapitel nach LehrplanPLUS mit Fachwissen, Versuchen und Übungen'}};
+  N:{f:'nt7',pre:'nt7-',t:'Jahresplan Natur und Technik 7',d:'8 Kapitel nach LehrplanPLUS mit Fachwissen, Versuchen und Übungen'},
+  W:{f:'wib7',pre:'w7-',t:'Einträge Wirtschaft und Beruf 7',d:'Einträge mit Fachwissen und Übungen (wächst mit)'}};
 async function heftLoadPlan(quiet,sk){sk=PLANS[sk]?sk:'M';const PL=PLANS[sk];try{const [L,M]=await Promise.all([PL.f,PL.f+'_mod'].map(f=>fetch('assets/heft/'+f+'.json').then(r=>r.json())));TD.heft=TD.heft||[];TD.modx={...(TD.modx||{}),...M};let n=0;
   let up=0;L.forEach((x,k)=>{const id=PL.pre+S.cls+'-'+k,o=TD.heft.find(e=>e.id===id);
     // Neue Fassung übernehmen, solange die Lehrkraft den Eintrag nicht selbst geändert hat. Typische Fehler stehen jetzt extra (help), nicht mehr im Eintrag.
     if(o){let c=0;const ot=o.text.trim();const nb=t=>t.split('\n').filter(l=>!/^\[[a-zäöü]+:/i.test(l.trim())).join('\n').trim(),xb=nb(x.text),same=o.src?strHash(o.text)===o.src:sk==='N';if(ot!==x.text&&(same||x.text.startsWith(ot)||ot.startsWith(x.text.trim())||ot===xb||nb(ot)===xb)){o.text=x.text;c=1}if(o.text===x.text&&o.src!==strHash(x.text)){o.src=strHash(x.text);c=1}
       if(o.help!==x.help||JSON.stringify([o.ub,o.ubs,o.hx,o.mt])!==JSON.stringify([x.ub,x.ubs,x.hx,x.mt])||o.ch!==x.ch){o.help=x.help;o.ub=x.ub;o.ubs=x.ubs;o.hx=x.hx;o.mt=x.mt;o.ch=x.ch;c=1}up+=c;return}
     TD.heft.push({id,s:sk,title:x.title,text:x.text,src:strHash(x.text),help:x.help,ub:x.ub,ubs:x.ubs,hx:x.hx,mt:x.mt,ch:x.ch,o:k,pub:false,cls:S.cls,date:todayISO()});n++});
-  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?n+' Einträge in '+new Set(L.map(x=>x.ch)).size+' Modulen geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':(sk==='M'?'Der Jahresplan':'Die '+PL.t)+' ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
+  tsave();if(CS)pushCS();if(quiet===true)return;V.msg=n?(n===1?'1 Eintrag':n+' Einträge')+' in '+(new Set(L.map(x=>x.ch)).size===1?'1 Modul':new Set(L.map(x=>x.ch)).size+' Modulen')+' geladen. Sie sind noch nicht bei den SuS: Du gibst sie Modul für Modul frei.':up?up+' Einträge auf die neue Fassung gebracht (typische Fehler, Hilfen und Übungen jetzt extra).':(sk==='M'?'Der Jahresplan':'Die '+PL.t)+' ist schon geladen.'}catch(e){if(quiet!==true)V.msg='Laden hat nicht geklappt.'}if(quiet!==true)render()}
 /* ---------- Podium an der Tafel: Avatare der SuS, die das Spiel geschafft haben ---------- */
 function liveWin(at){if(S.role!=='student'||!RCS||!RCS.game||RCS.game.at!==at)return;S.gwin=S.gwin||{};if(S.gwin[at])return;S.gwin={[at]:1};save();sendMsg({k:'gwin',at})}
 function podHTML(G,mini){const F=(G.fin||[]).slice(0,40),top=[F[1],F[0],F[2]],H=['p2','p1','p3'],N=[2,1,3];
@@ -5980,6 +5981,12 @@ const FIGS={
 // Abbildungen für Natur und Technik (selbst gezeichnet, ELIO-Farben)
 const FC=(x,y,t,c='',st='')=>`<text x="${x}" y="${y}" text-anchor="middle" class="hf-t ${c}" ${st?`style="${st}"`:''}>${t}</text>`;
 Object.assign(FIGS,{
+  motive:()=>{const W='#c03a74',box=(x,t,f,d)=>`<rect x="${x}" y="78" width="240" height="40" rx="10" fill="${f}" stroke="currentColor" stroke-width="2" ${d?'stroke-dasharray="6 4"':''}/>${FC(x+120,104,t,'','font-weight:800')}`,li=(x,L)=>L.map((t,i)=>`<circle cx="${x+22}" cy="${140+i*26}" r="4" fill="currentColor"/>${FT(x+34,145+i*26,t)}`).join('');
+    return FIGW('0 0 540 250',`<rect x="160" y="8" width="220" height="38" rx="19" fill="color-mix(in srgb,${W} 18%,transparent)" stroke="currentColor" stroke-width="2"/>${FC(270,33,'Warum arbeiten Menschen?','','font-weight:800')}
+    <path d="M230 46L150 76M310 46L390 76" stroke="currentColor" stroke-width="2" fill="none"/>
+    ${box(20,'materielle Motive','color-mix(in srgb,#2f6fd6 18%,transparent)',0)}${box(280,'immaterielle Motive','color-mix(in srgb,#e08a00 30%,transparent)',1)}
+    ${li(20,['Lebensunterhalt','mehr verdienen, aufsteigen','sicherer Arbeitsplatz'])}${li(280,['Freude am Beruf','Anerkennung, Selbstwertgefühl','Team und Kontakte','Sinn: anderen helfen'])}`,
+    'Materielle Motive haben mit Geld und Sicherheit zu tun, immaterielle Motive nicht. Meist kommen beide zusammen.')},
   forscher:()=>FIGW('0 0 520 80',['Frage','Vermutung','Versuch','Beobachtung','Ergebnis'].map((t,i)=>`<rect x="${4+i*104}" y="18" width="92" height="44" rx="10" fill="${i%2?'#e0f2fe':'#e0e7ff'}" stroke="#1e3a8a" stroke-width="2"/>${FC(50+i*104,45,t,'','font-size:13px')}${i<4?`<path d="M${97+i*104} 40h5" stroke="#1e3a8a" stroke-width="2"/><polygon points="${107+i*104},40 ${100+i*104},35 ${100+i*104},45" fill="#1e3a8a"/>`:''}`).join(''),'Der Forscherweg: Schritt für Schritt zur Erkenntnis'),
   ghs:()=>FIGW('0 0 520 135',[['Flamme',c=>`<path d="M${c} 78c-14 0-20-10-16-22 3-8 9-12 8-22 8 6 12 14 10 22 3-2 5-6 5-10 6 6 9 14 7 21-2 7-7 11-14 11z" fill="#111"/>`],
     ['Ätzwirkung',c=>`<path d="M${c-16} 34l6 10M${c+8} 34l6 10" stroke="#111" stroke-width="3"/><circle cx="${c-9}" cy="50" r="3" fill="#111"/><circle cx="${c+15}" cy="50" r="3" fill="#111"/><rect x="${c-22}" y="62" width="16" height="8" fill="#111"/><rect x="${c+2}" y="62" width="20" height="8" fill="#111" transform="rotate(12 ${c+12} 66)"/>`],

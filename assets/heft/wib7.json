@@ -1,0 +1,67 @@
+[
+ {
+  "ch": "1 Arbeit und Beruf",
+  "title": "1.1 Warum arbeiten Menschen?",
+  "text": "# Arbeit bringt Geld\n[bild: motive]\n- Ein Motiv ist ein Beweggrund. Es sagt, warum jemand etwas tut.\n- Die meisten Menschen arbeiten für ihren Lebensunterhalt. Sie brauchen Geld für Miete, Essen und Kleidung.\n- Manche wollen mehr verdienen oder im Beruf aufsteigen. Zum Beispiel vom Azubi zur Chefin.\n- Ein fester Job gibt Sicherheit für die Zukunft.\n- Fachwort: materielle Motive. Es geht um Geld und Sicherheit.\n# Arbeit macht zufrieden\n- Viele Menschen haben Freude an ihrem Beruf.\n- Wer gute Arbeit macht, bekommt Anerkennung. Das stärkt das Selbstwertgefühl. Man ist mit sich zufrieden.\n- Bei der Arbeit trifft man andere Menschen. Man gehört zu einem Team.\n- Eine interessante Aufgabe macht den Tag spannend.\n- Fachwort: immaterielle Motive. Man kann sie nicht mit Geld kaufen.\n# Arbeit für andere\n- Manche Menschen fühlen sich zu ihrem Beruf berufen. Sie wollen helfen, zum Beispiel als Pflegerin oder Feuerwehrmann.\n- Andere schaffen etwas, das lange bleibt: ein Haus, ein Buch, ein Lied.\n- So hilft Arbeit auch der ganzen Gesellschaft.\nMerke: Menschen arbeiten aus mehreren Motiven. Materielle Motive: Geld und Sicherheit. Immaterielle Motive: Freude, Anerkennung, Gemeinschaft und Sinn.",
+  "help": "# Nur wegen Geld?\nFalsch: Alle Menschen arbeiten nur für Geld.\nRichtig: Geld ist für die meisten wichtig. Aber Freude, Anerkennung und Kontakte zählen auch.\n# Motiv oder Beruf?\nFalsch: Ein Motiv von Frau Kaya ist Bäckerin.\nRichtig: Frau Kaya ist Bäckerin. Ihr Motiv: Sie backt gern und freut sich, wenn es den Kunden schmeckt.\n# Materiell oder immateriell?\nAchtung: Materiell hat mit Geld und Dingen zu tun. Immateriell sind Gefühle wie Freude, Stolz oder Gemeinschaft.",
+  "ub": {
+   "t": "match",
+   "x": "Lebensunterhalt | Geld für Miete, Essen und Kleidung\nAufstieg | vom Azubi zur Chefin werden\nSicherheit | einen festen Job für die Zukunft haben\nAnerkennung | Lob für gute Arbeit bekommen\nGemeinschaft | mit Kollegen im Team arbeiten\nSinn | anderen Menschen helfen"
+  },
+  "ubs": [
+   {
+    "t": "match",
+    "n": "Paare: Motiv und Beispiel",
+    "x": "Lebensunterhalt | Geld für Miete, Essen und Kleidung\nAufstieg | vom Azubi zur Chefin werden\nSicherheit | einen festen Job für die Zukunft haben\nAnerkennung | Lob für gute Arbeit bekommen\nGemeinschaft | mit Kollegen im Team arbeiten\nSinn | anderen Menschen helfen"
+   },
+   {
+    "t": "mc",
+    "n": "Materiell oder immateriell?",
+    "x": "Tom arbeitet, weil er seine Miete zahlen muss.\n+ materiell\n- immateriell\n\nLea arbeitet, weil ihr der Beruf Spaß macht.\n- materiell\n+ immateriell\n\nAli will mehr verdienen und Chef werden.\n+ materiell\n- immateriell\n\nFrau Berg freut sich über das Lob ihrer Kunden.\n- materiell\n+ immateriell\n\nHerr Novak mag seine Kollegen im Team.\n- materiell\n+ immateriell\n\nSara will einen sicheren Arbeitsplatz für die Zukunft.\n+ materiell\n- immateriell"
+   },
+   {
+    "t": "gap",
+    "n": "Lückentext: Motive für Arbeit",
+    "x": "Ein *Motiv* ist ein Beweggrund.\nDie meisten Menschen arbeiten für ihren *Lebensunterhalt*.\nGeld und Sicherheit nennt man *materielle* Motive.\nFreude und Anerkennung nennt man *immaterielle* Motive.\nWer Lob bekommt, hat ein besseres *Selbstwertgefühl*.\nMeist arbeiten Menschen aus *mehreren* Motiven."
+   },
+   {
+    "t": "wg",
+    "n": "Wortgitter: Warum arbeiten?",
+    "x": "GELD\nMOTIV\nFREUDE\nAUFSTIEG\nTEAM\nSINN\nLOB\nSICHERHEIT"
+   }
+  ],
+  "hx": [
+   {
+    "l": 1,
+    "q": "Nenne drei Gründe, warum Menschen arbeiten.",
+    "a": "Zum Beispiel: Geld für den Lebensunterhalt, Freude am Beruf, Anerkennung, Kontakte im Team, Aufstieg, Sicherheit, anderen helfen."
+  },
+  {
+   "l": 1,
+    "q": "Sortiere in zwei Spalten, materiell oder immateriell: Gehalt, Freude, Lob, Aufstieg, Team, sicherer Job.",
+    "a": "Materiell: Gehalt, Aufstieg, sicherer Job. Immateriell: Freude, Lob, Team."
+   },
+   {
+    "l": 2,
+    "q": "Frag eine erwachsene Person aus deiner Familie: Warum arbeitest du? Schreib ihre zwei wichtigsten Motive auf. Sind sie materiell oder immateriell?",
+    "a": "Individuelle Antwort. Beispiel: Mein Onkel arbeitet für das Geld (materiell) und weil er gern mit Autos schraubt (immateriell)."
+   },
+   {
+    "l": 2,
+    "q": "Ein Lottogewinner hat genug Geld für sein ganzes Leben. Trotzdem geht er weiter arbeiten. Erkläre, warum das sein kann.",
+    "a": "Er arbeitet aus immateriellen Motiven: Die Arbeit macht ihm Freude, er mag seine Kollegen, er bekommt Anerkennung und sein Tag hat eine feste Aufgabe."
+   },
+   {
+    "l": 3,
+    "q": "Welche Motive sind dir für deinen späteren Beruf am wichtigsten? Wähle drei aus und begründe.",
+    "a": "Individuelle Antwort mit drei Motiven und je einem Weil-Satz. Beispiel: Sicherheit, weil ich später eine Familie will. Freude, weil ich den Beruf lange mache. Team, weil ich nicht gern allein arbeite."
+   },
+   {
+    "l": 3,
+    "q": "Fehlersuche: Ben schreibt: „Menschen arbeiten nur für Geld. Sonst würde niemand arbeiten.“ Erkläre, was daran falsch ist.",
+    "a": "Geld ist wichtig, aber nicht der einzige Grund. Es gibt immaterielle Motive wie Freude, Anerkennung, Gemeinschaft und Sinn. Beispiel: Viele Menschen arbeiten ehrenamtlich ohne Geld, etwa bei der Feuerwehr."
+   }
+  ],
+  "mt": "Was ist ein Motiv?\n+ ein Beweggrund\n- ein Beruf\n- ein Gehalt\n\nWas ist ein materielles Motiv?\n+ Geld verdienen\n- Freude am Beruf\n- Lob vom Chef\n\nWas ist ein immaterielles Motiv?\n- ein höheres Gehalt\n+ im Team dazugehören\n- ein sicherer Job\n\nWofür brauchen die meisten Menschen ihre Arbeit zuerst?\n+ für den Lebensunterhalt\n- für den Urlaub\n- für das Handy\n\nWas stimmt?\n- Menschen arbeiten nur für Geld.\n+ Meist kommen mehrere Motive zusammen.\n- Freude spielt bei der Arbeit keine Rolle."
+ }
+]

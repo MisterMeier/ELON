@@ -1,0 +1,21 @@
+{
+ "1 Arbeit und Beruf": {
+  "tipps": [
+   "Motiv heißt Beweggrund. Frag dich immer: Warum macht die Person das?",
+   "Materiell hat mit Geld und Dingen zu tun. Immateriell sind Gefühle wie Freude, Stolz oder Gemeinschaft.",
+   "Fast niemand arbeitet nur aus einem Grund. Such immer nach mehreren Motiven."
+  ],
+  "fleiss": [
+   {
+    "q": "Mach ein kurzes Interview mit zwei Erwachsenen über ihren Beruf: Was machst du? Warum arbeitest du? Was gefällt dir? Schreib die Antworten auf.",
+    "a": "Zwei Interviews mit Beruf, mindestens zwei Motiven pro Person und der Einteilung in materiell und immateriell.",
+    "p": 3
+   },
+   {
+    "q": "Gestalte ein Plakat: Warum arbeiten Menschen? Links materielle Motive, rechts immaterielle Motive, je mit einem Beispiel.",
+    "a": "Mindestens drei materielle Motive (z. B. Lebensunterhalt, Aufstieg, Sicherheit) und drei immaterielle Motive (z. B. Freude, Anerkennung, Gemeinschaft, Sinn) mit Beispielen.",
+    "p": 2
+   }
+  ]
+ }
+}
