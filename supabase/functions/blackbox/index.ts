@@ -3,11 +3,13 @@
 // KI: Claude über Amazon Bedrock, Rechenzentrum Frankfurt (eu-central-1). Der Schlüssel liegt NUR hier als Secret:
 //   supabase secrets set BLACKBOX_KEY=<Bedrock-API-Schlüssel>
 //   supabase functions deploy blackbox
+// Foto: Stability AI über Bedrock (Oregon, nur der Bildwunsch geht raus), gleiche AWS-Schlüssel. Sonst ElevenLabs (braucht dort den Pro-Tarif).
 // Geräusch, Musik, Hördialog, Foto und Kurzvideo: ElevenLabs. Nur der Wunsch der Lehrkraft geht raus. Schlüssel wie bei „elo-stimme“:
 //   supabase secrets set ELEVEN_KEY=<ElevenLabs-API-Schlüssel>
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 import AnthropicBedrock, { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
+import { AwsClient } from "npm:aws4fetch@1.0.20";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
 // Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
@@ -114,30 +116,48 @@ async function xiAudio(path: string, key: string, payload: unknown): Promise<str
 }
 
 // Bild und Video laufen als Auftrag: anlegen, dann nachsehen, bis fertig. Dauert es länger, bekommt die App die Auftragsnummer und fragt nochmal.
-async function flowStart(type: "image" | "video", key: string, prompt: string): Promise<string | null> {
-  const r = await fetch(`${XI}/v1/flows/${type}`, {
-    method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json" },
-    body: JSON.stringify({ model_id: type === "image" ? IMG_MODEL : VID_MODEL, prompt, aspect_ratio: "16:9" }),
-  });
-  if (!r.ok) { console.error("blackbox flow", type, r.status, (await r.text()).slice(0, 300)); return null; }
-  const d = await r.json();
-  return String(d.generation_id || d.id || "") || null;
+// Modelle der Reihe nach: das eingestellte zuerst, dann bewährte Ausweichmodelle. Fehlertext geht (nur an Admins) zurück in die App.
+const FLOW_MODELS = { image: [IMG_MODEL, "bytedance-seedream-5-lite", "gpt-image-2"], video: [VID_MODEL, "ltx-v2", "bytedance-seedance-v2-fast"] };
+type FlowErr = { st?: number; detail?: string };
+async function flowStart(type: "image" | "video", key: string, prompt: string): Promise<{ id?: string } & FlowErr> {
+  let last: FlowErr = {};
+  for (const model_id of [...new Set(FLOW_MODELS[type])]) {
+    for (const body of [{ model_id, prompt, aspect_ratio: "16:9" }, { model_id, prompt }]) {
+      const r = await fetch(`${XI}/v1/flows/${type}`, { method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const t = await r.text();
+      if (r.ok) {
+        let d: Record<string, unknown> = {};
+        try { d = JSON.parse(t); } catch (_) { /* leer */ }
+        const id = String(d.id || d.generation_id || "");
+        if (id) { console.log("blackbox flow ok", type, model_id); return { id }; }
+      }
+      console.error("blackbox flow", type, model_id, r.status, t.slice(0, 300));
+      last = { st: r.status, detail: `${model_id}: ${t.slice(0, 200)}` };
+      if (r.status === 401 || r.status === 402 || r.status === 403 || r.status === 429) return last; // 402: Tarif reicht nicht (Bild/Video per API erst ab ElevenLabs Pro) // Schlüssel/Rechte/Guthaben: Weiterprobieren hilft nicht
+    }
+  }
+  return last;
 }
-async function flowWait(type: "image" | "video", key: string, gid: string, maxMs: number): Promise<{ data?: string; mime?: string; wait?: boolean; fail?: boolean }> {
+// Adresse des fertigen Ergebnisses finden (die Antwort ist noch Beta, daher mehrere mögliche Felder)
+// deno-lint-ignore no-explicit-any
+const flowUrl = (d: any): string => d.content_url || d.output?.content_url || d.output?.url || d.url || (Array.isArray(d.outputs) && (d.outputs[0]?.content_url || d.outputs[0]?.url)) || "";
+async function flowWait(type: "image" | "video", key: string, gid: string, maxMs: number): Promise<{ data?: string; mime?: string; wait?: boolean; fail?: boolean } & FlowErr> {
   const t0 = Date.now(), step = type === "image" ? 3000 : 10000;
   while (Date.now() - t0 < maxMs) {
     const r = await fetch(`${XI}/v1/flows/${type}/${encodeURIComponent(gid)}`, { headers: { "xi-api-key": key } });
     if (r.ok) {
       const d = await r.json();
-      if (d.status === "failed") { console.error("blackbox flow failed", d.failure_reason || d.error_message); return { fail: true }; }
-      if (d.status === "completed" && d.content_url) {
-        const f = await fetch(d.content_url);
-        if (!f.ok) return { fail: true };
+      if (d.status === "failed") { const why = String(d.failure_reason || d.error_message || ""); console.error("blackbox flow failed", why); return { fail: true, detail: why.slice(0, 200) }; }
+      const url = flowUrl(d);
+      if (d.status === "completed" || url) {
+        if (!url) { console.error("blackbox flow ohne url", JSON.stringify(d).slice(0, 300)); return { fail: true, detail: "fertig, aber ohne Adresse: " + JSON.stringify(d).slice(0, 150) }; }
+        const f = await fetch(url);
+        if (!f.ok) return { fail: true, st: f.status, detail: "Download" };
         const buf = new Uint8Array(await f.arrayBuffer());
-        if (buf.length > 25e6) return { fail: true };
-        return { data: b64(buf), mime: d.content_mime_type || f.headers.get("content-type") || (type === "image" ? "image/png" : "video/mp4") };
+        if (buf.length > 25e6) return { fail: true, detail: "Datei größer als 25 MB" };
+        return { data: b64(buf), mime: d.content_mime_type || d.output?.content_mime_type || f.headers.get("content-type") || (type === "image" ? "image/png" : "video/mp4") };
       }
-    } else if (r.status !== 404 && r.status !== 429) { console.error("blackbox flow get", r.status); return { fail: true }; }
+    } else if (r.status !== 404 && r.status !== 429) { const t = await r.text(); console.error("blackbox flow get", r.status, t.slice(0, 200)); return { fail: true, st: r.status, detail: t.slice(0, 200) }; }
     await sleep(step);
   }
   return { wait: true };
@@ -157,11 +177,12 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
     const type = kind === "foto" ? "image" : "video";
     let id = gid;
     if (!id) {
-      id = (await flowStart(type, key, await english(kind, prompt, claude))) || "";
-      if (!id) return json({ err: kind });
+      const st = await flowStart(type, key, await english(kind, prompt, claude));
+      if (!st.id) return json({ err: st.st === 402 ? "plan" : kind, st: st.st, detail: st.st === 402 ? "" : st.detail });
+      id = st.id;
     }
     const o = await flowWait(type, key, id, type === "image" ? 90000 : 110000);
-    if (o.fail) return json({ err: kind });
+    if (o.fail) return json({ err: kind, st: o.st, detail: o.detail });
     if (o.wait) return json({ ...extra, kind, err: "warten", gid: id });
     return json({ ...extra, kind, data: o.data, mime: o.mime });
   }
@@ -180,6 +201,51 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
     return json({ ...extra, kind, title, text: lines.join("\n").slice(0, 4000), audio: audio || "", audioErr: !audio });
   }
   return json({ err: "leer" });
+}
+
+// ---------- Foto über AWS Bedrock ----------
+// Amazon hat Nova Canvas und Titan Image am 30.9.2026 abgeschaltet; in der EU bietet Bedrock derzeit kein Bildmodell an.
+// Darum Stability AI in Oregon (us-west-2). Es geht nur der englische Bildwunsch der Lehrkraft raus, nie Schülerdaten.
+// Eintrag = "region/modell", per Secret BLACKBOX_IMG_MODELS änderbar (z. B. sobald es ein EU-Modell gibt).
+const IMG_AWS = (Deno.env.get("BLACKBOX_IMG_MODELS") || "us-west-2/stability.stable-image-core-v1:1,us-west-2/stability.sd3-5-large-v1:0,us-west-2/stability.stable-image-ultra-v1:1")
+  .split(",").map((x) => x.trim().split("/")).filter((x) => x.length === 2 && x[0] && x[1]) as [string, string][];
+const NEG = "text, letters, words, numbers, watermark, logo, signature";
+function imgBody(m: string, prompt: string): string {
+  if (m.startsWith("stability.")) return JSON.stringify({ prompt: prompt.slice(0, 2000), negative_prompt: NEG, aspect_ratio: "16:9", output_format: "png" });
+  // Amazon-Format (Nova Canvas/Titan), falls per Secret eingestellt. Titan kennt nur feste Größen.
+  return JSON.stringify({
+    taskType: "TEXT_IMAGE",
+    textToImageParams: { text: prompt.slice(0, m.includes("titan") ? 500 : 1000), negativeText: NEG },
+    imageGenerationConfig: { numberOfImages: 1, width: 1280, height: m.includes("titan") ? 768 : 720, quality: "standard", cfgScale: 6.5 },
+  });
+}
+async function awsFoto(prompt: string, key: string, awsId: string, awsSecret: string): Promise<{ data?: string; st?: number; detail?: string }> {
+  const aws = awsId && awsSecret ? new AwsClient({ accessKeyId: awsId, secretAccessKey: awsSecret, service: "bedrock" }) : null;
+  const tried: string[] = [];
+  let best: { st?: number; detail?: string } | null = null;
+  for (const [reg, m] of IMG_AWS) {
+    const url = `https://bedrock-runtime.${reg}.amazonaws.com/model/${encodeURIComponent(m)}/invoke`;
+    const init = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: imgBody(m, prompt) };
+    let cur: { st?: number; detail?: string };
+    try {
+      const r = aws ? await aws.fetch(url, { ...init, aws: { region: reg } } as RequestInit) : await fetch(url, { ...init, headers: { ...init.headers, Authorization: `Bearer ${key}` } });
+      const t = await r.text();
+      if (r.ok) {
+        const o = JSON.parse(t) as { images?: string[]; error?: string; finish_reasons?: (string | null)[] };
+        const why = o.finish_reasons?.[0];
+        if (o.images?.[0] && !why) { console.log("blackbox foto ok", reg, m); return { data: o.images[0] }; }
+        if (why && /filter/i.test(why)) return { st: 400, detail: "content filtered" };
+        cur = { st: r.status, detail: o.error || why || "kein Bild" };
+      } else cur = { st: r.status, detail: t.slice(0, 300) };
+      // Inhaltsfilter oder zu viele Anfragen: anderes Modell hilft nicht.
+      if (r.status === 429 || (r.status === 400 && /blocked|filter|content/i.test(t))) return cur;
+    } catch (e) { cur = { detail: String((e as Error).message || e).slice(0, 200) }; }
+    tried.push(`${reg} ${m} ${cur.st ?? ""} ${String(cur.detail).slice(0, 120)}`);
+    // „Modell gibt es hier nicht“ ist der uninteressanteste Fehler; ein anderer (z. B. fehlende Freigabe) wird gemeldet.
+    if (!best || /model identifier is invalid|end of its life/i.test(String(best.detail))) best = { st: cur.st, detail: `${reg} ${m}: ${cur.detail}` };
+  }
+  console.error("blackbox foto versucht:", tried.join(" | "));
+  return best || {};
 }
 
 // Entfernt alles Ausführbare aus dem SVG. Die App prüft ein zweites Mal und zeigt es nur als <img>.
@@ -245,13 +311,22 @@ Deno.serve(async (req) => {
   if (xi) {
     try {
       // Nachfragen zu einem laufenden Bild- oder Video-Auftrag zählen nicht noch einmal fürs Tageslimit.
+      if (kind === "foto" && !gid && hasAws) {
+        if (prompt.length < 3) return json({ err: "leer" });
+        const { data: n } = await sb.rpc("blackbox_count");
+        if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
+        await sb.from("blackbox_log").insert({ kind });
+        const o = await awsFoto(await english("foto", prompt, claude), key, awsId, awsSecret);
+        if (o.data) return json({ kind, data: o.data, mime: "image/png", n: (n ?? 0) + 1, limit: LIMIT });
+        return json({ err: o.st === 400 && /blocked|filter|content/i.test(String(o.detail)) ? "filter" : "awsfoto", st: o.st, detail: o.detail });
+      }
       if (gid && (kind === "foto" || kind === "film")) return await eleven(kind, prompt, subj, gid, hasAws ? claude : null, {});
       if (prompt.length < 3) return json({ err: "leer" });
       const { data: n } = await sb.rpc("blackbox_count");
       if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
       await sb.from("blackbox_log").insert({ kind });
       return await eleven(kind, prompt, subj, "", hasAws ? claude : null, { n: (n ?? 0) + 1, limit: LIMIT });
-    } catch (e) { console.error("blackbox", kind, (e as Error).message); return json({ err: kind }); }
+    } catch (e) { const m = String((e as Error).message || e).slice(0, 200); console.error("blackbox", kind, m); return json({ err: kind, detail: m }); }
   }
   if (prompt.length < 3) return json({ err: "leer" });
   const { data: n } = await sb.rpc("blackbox_count");

@@ -1085,6 +1085,12 @@ label.cbl input{width:auto!important;margin:0}
 .wlw-ci{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;color:#fff;background:#2f8f9d}.wlw-ci.area{background:#7a5bd0}.wlw-ci svg{width:26px;height:26px}
 .wlw-hero{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}.wlw-hero h1{font-size:clamp(1.6rem,4vw,2.3rem)}.wlw-hero p{font-weight:700;color:var(--muted)}
 .wlw-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin:6px 0 18px}
+.wlw-regs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:6px 0 16px}
+.wlw-reg{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;border-radius:16px;border:2px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink);font:inherit;min-height:96px;touch-action:manipulation}
+.wlw-reg b{font-weight:800;font-size:1.05rem}.wlw-reg small{color:var(--muted);font-weight:700;font-size:.8rem}
+.wlw-ri{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;color:#fff;background:#2f8f9d}.wlw-ri svg{width:24px;height:24px}
+.wlw-reg.on{border-color:var(--navy);background:var(--surface-2);box-shadow:0 0 0 3px rgba(38,51,122,.18)}.wlw-reg.on .wlw-ri{background:var(--navy)}
+@media (max-width:520px){.wlw-regs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .wlw-cat{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;border:2px solid var(--line);background:var(--surface);text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-height:64px;touch-action:manipulation}
 .wlw-cat b{display:block;font-weight:800;line-height:1.2}.wlw-cat small{color:var(--muted);font-weight:700;font-size:.85rem}
 .wlw-cat.on{border-color:var(--navy);background:var(--surface-2);box-shadow:0 0 0 3px rgba(38,51,122,.18)}
@@ -2064,7 +2070,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261014-1700';let verTold=false;
+const BUILD='20261014-1740';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -4460,7 +4466,7 @@ async function bbGo(){const q=(($('#bb-in')||{}).value||BB.q).trim();BB.q=q;BB.e
     for(let k=0;k<5&&d&&d.err==='warten'&&d.gid;k++){BB.wait=kind==='film'?'Das Video wird gerade gedreht. Das dauert ein bis drei Minuten …':'Das Foto ist gleich fertig …';render();({r,d,st}=await call({...body,gid:d.gid}))}
     BB.wait='';
     if(r.error&&!(d&&d.err)||!d)BB.err=st===404?'Die Blackbox ist auf dem Server noch nicht eingerichtet (Funktion „blackbox“ fehlt).':st?`Die Blackbox meldet einen Serverfehler (${st}). Schau in Supabase unter Edge Functions → blackbox → Logs.`:'Die Blackbox ist nicht erreichbar. Ist die Funktion „blackbox“ in Supabase angelegt?';
-    else if(d.err)BB.err=({nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',nokey11:'Das ist noch aus. Auf dem Server fehlt noch der ElevenLabs-Schlüssel.',ton:'Das Geräusch ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',musik:'Die Musik ging gerade nicht. Versuch es bitte nochmal oder beschreib sie anders.',foto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',film:'Das Video ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',hoer:'Der Hördialog ging gerade nicht. Versuch es bitte nochmal.',warten:'Das dauert gerade ungewöhnlich lange. Versuch es später nochmal.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Das Ergebnis kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.'+(d.detail?` (AWS meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:''));
+    else if(d.err)BB.err=(({nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',nokey11:'Das ist noch aus. Auf dem Server fehlt noch der ElevenLabs-Schlüssel.',ton:'Das Geräusch ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',musik:'Die Musik ging gerade nicht. Versuch es bitte nochmal oder beschreib sie anders.',foto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',film:'Das Video ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',hoer:'Der Hördialog ging gerade nicht. Versuch es bitte nochmal.',warten:'Das dauert gerade ungewöhnlich lange. Versuch es später nochmal.',plan:'Fotos und Videos aus der App brauchen bei ElevenLabs den Pro-Tarif. Geräusch, Musik und Hördialog gehen auch so.',awsfoto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',filter:'Dieses Foto erzeugt die KI nicht. Beschreib es bitte anders.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Das Ergebnis kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.')+(d.detail?` (${['foto','film','ton','musik','hoer'].includes(d.err)?'ElevenLabs':'AWS'} meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:''));
     else if(bbSvg(d.kind)){const svg=bbCleanSvg(d.svg);if(!svg)BB.err='Die Grafik kam unvollständig an. Versuch es bitte nochmal.';else{bbUrl(new Blob([svg],{type:'image/svg+xml'}));BB.res={...d,svg}}}
     else{const res={kind:d.kind,title:String(d.title||''),text:String(d.text||''),n:meta.n,limit:meta.limit};
       if(d.audio){res.blob=bbBlob(d.audio,'audio/mpeg');bbUrl(res.blob)}
@@ -4872,33 +4878,79 @@ const AKT={
    Karten und Orte liegen in assets/geo/wlw/ (erzeugt mit tools/gen_geo_quiz.py aus Natural Earth und GeoNames).
    Bewusst kein fremder Kartenserver: keine Daten der SuS gehen nach außen, es gibt keine Beschriftung, die die Lösung verrät, und das Spiel läuft offline.
    Gleiche Einstellungen und gleicher Startwert (data.seed) ergeben auf Tafel und allen iPads dieselben Fragen: Grundlage für spätere gemeinsame Runden. */
-const WLW={orte:null,op:null,maps:{},mp:{},cv:null,ro:null,raf:0,ptr:new Map(),gest:null,tick:0,va:null};
+const WLW={orte:null,op:null,maps:{},mp:{},cv:null,ro:null,raf:0,ptr:new Map(),gest:null,tick:0,va:null,spin:null};
 // Kategorien: [Schlüssel, Name, Modus]; Bewertungsradius (maxKm) steht zentral in orte.json
 const WLW_CATS=[['eu-hst','Europa – Hauptstädte','pin'],['de-st','Deutschland – Städte','pin'],['by-st','Bayern – Städte','pin'],['de-bl','Deutschland – Bundesländer','area'],
   ['eu-la','Europa – Länder','area'],['welt-hst','Welt – Hauptstädte','pin'],['welt-st','Welt – wichtige Städte','pin'],['welt-la','Welt – Länder','area']];
 const WLW_LV={1:'leicht',2:'mittel',3:'schwer'},WLW_N=[5,10,15,20],WLW_T=[0,15,30,60];
-const WLW_ZMAX={welt:8,europa:8,de:9,by:7};// so weit darf man hineinzoomen, ohne dass die Kartengenauigkeit stört
+const WLW_ZMAX={welt:12,europa:8,de:9,by:7};// so weit darf man hineinzoomen, ohne dass die Kartengenauigkeit stört
 const WLW_DEF={cat:'eu-hst',lv:1,n:10,t:0,lbl:false};
 const wlwCat=k=>WLW_CATS.find(c=>c[0]===k)||WLW_CATS[0];
+// Auswahl in zwei Schritten: erst das Gebiet, dann was gesucht wird
+const WLW_REG=[['Welt','auf dem Globus'],['Europa','Karte'],['Deutschland','Karte'],['Bayern','Karte']],wlwReg=k=>wlwCat(k)[1].split(' – ')[0];
 // Web-Mercator in „Weltpunkten“ (Welt = 1024 breit)
 const wlwX=lo=>(lo+180)/360*1024,wlwY=la=>{const s=Math.sin(Math.max(-85,Math.min(85,la))*Math.PI/180);return (.5-Math.log((1+s)/(1-s))/(4*Math.PI))*1024};
 const wlwLon=x=>x/1024*360-180,wlwLat=y=>180/Math.PI*Math.atan(Math.sinh(Math.PI-2*Math.PI*y/1024));
+// Globus (Welt): orthografische Projektion, Ansicht {lo,la,k} = Mittelpunkt und Radius in Bildschirmpunkten
+const WLW_D=Math.PI/180;
+function wlwV(lo,la){const a=lo*WLW_D,b=la*WLW_D,c=Math.cos(b);return [c*Math.cos(a),c*Math.sin(a),Math.sin(b)]}
+function wlwB(v,W,H){const l=v.lo*WLW_D,p=v.la*WLW_D,sl=Math.sin(l),cl=Math.cos(l),sp=Math.sin(p),cp=Math.cos(p);
+  return {e:[-sl,cl,0],n:[-sp*cl,-sp*sl,cp],c:[cp*cl,cp*sl,sp],k:v.k,cx:W/2,cy:H/2}}
+// Ort → [x, y, Tiefe] auf dem Bildschirm; Tiefe unter 0 = Rückseite der Kugel
+function wlwGP(B,lo,la){const v=wlwV(lo,la);return [B.cx+B.k*(v[0]*B.e[0]+v[1]*B.e[1]),B.cy-B.k*(v[0]*B.n[0]+v[1]*B.n[1]+v[2]*B.n[2]),v[0]*B.c[0]+v[1]*B.c[1]+v[2]*B.c[2]]}
+// Bildschirm → Ort, null neben der Kugel
+function wlwGI(B,x,y){const a=(x-B.cx)/B.k,b=-(y-B.cy)/B.k,q=a*a+b*b;if(q>1)return null;const d=Math.sqrt(1-q),v=[0,1,2].map(i=>a*B.e[i]+b*B.n[i]+d*B.c[i]);
+  return [Math.atan2(v[1],v[0])/WLW_D,Math.asin(Math.max(-1,Math.min(1,v[2])))/WLW_D]}
+// Ring auf die Kugel zeichnen: Fläche (fp) läuft auf der Rückseite am Kugelrand entlang, Grenzlinie (sp) nur auf der Vorderseite
+let WLW_S=new Float64Array(3*4096);
+function wlwRing(V,B,fp,sp,closed){const n=V.length/3;if(WLW_S.length<3*n)WLW_S=new Float64Array(3*n);const S=WLW_S,e=B.e,N=B.n,c=B.c,k=B.k,cx=B.cx,cy=B.cy,TAU=2*Math.PI;let i0=-1;
+  for(let i=0;i<n;i++){const x=V[3*i],y=V[3*i+1],z=V[3*i+2];S[3*i]=cx+k*(x*e[0]+y*e[1]);S[3*i+1]=cy-k*(x*N[0]+y*N[1]+z*N[2]);S[3*i+2]=x*c[0]+y*c[1]+z*c[2];if(i0<0&&S[3*i+2]>=0)i0=i}
+  if(i0<0)return false;
+  const lim=(i,j)=>{const t=S[3*i+2]/(S[3*i+2]-S[3*j+2]),x=S[3*i]+t*(S[3*j]-S[3*i])-cx,y=S[3*i+1]+t*(S[3*j+1]-S[3*i+1])-cy,r=Math.hypot(x,y)||1;return [cx+x*k/r,cy+y*k/r,Math.atan2(y,x)]};
+  if(!closed){for(let i=0;i<n;i++){const f=S[3*i+2]>=0,pf=i>0&&S[3*i-1]>=0;
+      if(f){if(i>0&&!pf){const E=lim(i-1,i);sp.moveTo(E[0],E[1]);sp.lineTo(S[3*i],S[3*i+1])}else if(i)sp.lineTo(S[3*i],S[3*i+1]);else sp.moveTo(S[0],S[1])}
+      else if(pf){const X=lim(i-1,i);sp.lineTo(X[0],X[1])}}return true}
+  let pv=-1,a0=0,acc=0,ap=0;
+  for(let j=0;j<=n;j++){const i=(i0+j)%n;
+    if(S[3*i+2]>=0){if(pv>=0&&S[3*pv+2]<0){const E=lim(pv,i);let da=E[2]-ap;da-=TAU*Math.round(da/TAU);acc+=da;fp.arc(cx,cy,k,a0,a0+acc,acc<0);sp.moveTo(E[0],E[1])}
+      if(j){fp.lineTo(S[3*i],S[3*i+1]);sp.lineTo(S[3*i],S[3*i+1])}else{fp.moveTo(S[3*i],S[3*i+1]);sp.moveTo(S[3*i],S[3*i+1])}}
+    else{if(S[3*pv+2]>=0){const X=lim(pv,i);fp.lineTo(X[0],X[1]);sp.lineTo(X[0],X[1]);a0=ap=X[2];acc=0}
+      const a=Math.atan2(S[3*i+1]-cy,S[3*i]-cx);let da=a-ap;da-=TAU*Math.round(da/TAU);acc+=da;ap=a}
+    pv=i}
+  fp.closePath();return true}
+// Zwischen zwei Globus-Ansichten überblenden (kürzester Weg über die Kugel)
+function wlwMix(a,b,t){const A=wlwV(a.lo,a.la),Bv=wlwV(b.lo,b.la),d=Math.acos(Math.max(-1,Math.min(1,A[0]*Bv[0]+A[1]*Bv[1]+A[2]*Bv[2])));let v=A;
+  if(d>1e-6){const p=Math.sin((1-t)*d)/Math.sin(d),q=Math.sin(t*d)/Math.sin(d);v=[0,1,2].map(i=>p*A[i]+q*Bv[i])}
+  return {lo:Math.atan2(v[1],v[0])/WLW_D,la:Math.asin(Math.max(-1,Math.min(1,v[2])))/WLW_D,k:a.k*Math.pow(b.k/a.k,t)}}
 // Luftlinie (Haversine), Erdradius 6371 km
 function wlwKm(a,b){const r=Math.PI/180,f1=a[1]*r,f2=b[1]*r,h=Math.sin((f2-f1)/2)**2+Math.cos(f1)*Math.cos(f2)*Math.sin((b[0]-a[0])*r/2)**2;return 2*6371*Math.asin(Math.min(1,Math.sqrt(h)))}
 const wlwScore=(km,max)=>Math.round(1000*Math.max(0,1-km/max));
 function wlwRng(seed){let h=1779033703^String(seed).length;for(const c of String(seed)){h=Math.imul(h^c.charCodeAt(0),3432918353);h=h<<13|h>>>19}
   return ()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}}
 function wlwOrte(){if(!WLW.op)WLW.op=fetch('assets/geo/wlw/orte.json').then(r=>{if(!r.ok)throw new Error('orte');return r.json()}).then(d=>WLW.orte=d).catch(e=>{WLW.op=null;throw e});return WLW.op}
-function wlwMap(k){if(!WLW.mp[k])WLW.mp[k]=fetch('assets/geo/wlw/karte-'+k+'.json').then(r=>{if(!r.ok)throw new Error('karte');return r.json()}).then(d=>WLW.maps[k]=wlwBuild(d)).catch(e=>{delete WLW.mp[k];throw e});return WLW.mp[k]}
+function wlwMap(k){if(!WLW.mp[k])WLW.mp[k]=fetch('assets/geo/wlw/karte-'+k+'.json').then(r=>{if(!r.ok)throw new Error('karte');return r.json()}).then(d=>WLW.maps[k]=wlwBuild(d,k==='welt')).catch(e=>{delete WLW.mp[k];throw e});return WLW.mp[k]}
 // Linien kommen als ganze Zahlen (Grad × f), erster Punkt absolut, dann Differenzen
 function wlwDec(r,f){const o=[];let x=0,y=0;for(let i=0;i<r.length;i+=2){x+=r[i];y+=r[i+1];o.push([x/f,y/f])}return o}
-function wlwBuild(d){const F=d.f||1;
-  const mk=f=>{const p=new Path2D(),rs=[];let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,a=0;
-    (f.r||[]).map(r=>wlwDec(r,F)).forEach(r=>{const A=new Float64Array(r.length*2);let s=0;r.forEach(([lo,la],i)=>{const x=wlwX(lo),y=wlwY(la);A[2*i]=x;A[2*i+1]=y;i?p.lineTo(x,y):p.moveTo(x,y);
-      if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;if(i)s+=A[2*i-2]*y-x*A[2*i-1]});p.closePath();rs.push(A);a+=Math.abs(s)/2});
-    return {id:f.id,n:f.n,p,rs,bb:[x0,y0,x1,y1],a}};
+function wlwBuild(d,globe){const F=d.f||1;
+  const mk=f=>{const p=new Path2D(),rs=[],vs=[];let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,a=0,big=0,cen=null;
+    (f.r||[]).map(r=>wlwDec(r,F)).forEach(r=>{const A=new Float64Array(r.length*2);let s=0,cx=0,cy=0;r.forEach(([lo,la],i)=>{const x=wlwX(lo),y=wlwY(la);A[2*i]=x;A[2*i+1]=y;i?p.lineTo(x,y):p.moveTo(x,y);
+      if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;if(i){const t=A[2*i-2]*y-x*A[2*i-1];s+=t;cx+=(A[2*i-2]+x)*t;cy+=(A[2*i-1]+y)*t}});p.closePath();rs.push(A);{const n=r.length-1,t=A[2*n]*A[1]-A[0]*A[2*n+1];s+=t;cx+=(A[2*n]+A[0])*t;cy+=(A[2*n+1]+A[1])*t}a+=Math.abs(s)/2;
+      // Schwerpunkt der größten Teilfläche: dort steht nach der Antwort der Name
+      if(Math.abs(s)>big&&s){big=Math.abs(s);cen=[cx/(3*s),cy/(3*s),A]}
+      if(globe){const V=new Float32Array(r.length*3);r.forEach(([lo,la],i)=>{const v=wlwV(lo,la);V[3*i]=v[0];V[3*i+1]=v[1];V[3*i+2]=v[2]});vs.push(V)}});
+    return {id:f.id,n:f.n,p,rs,vs,bb:[x0,y0,x1,y1],a,c:cen||[(x0+x1)/2,(y0+y1)/2,null]}};
   const riv=new Path2D();(d.riv||[]).forEach(r=>wlwDec(r.l,F).forEach(([lo,la],i)=>{const x=wlwX(lo),y=wlwY(la);i?riv.lineTo(x,y):riv.moveTo(x,y)}));
-  return {b:[wlwX(d.bb[0]),wlwY(d.bb[3]),wlwX(d.bb[2]),wlwY(d.bb[1])],land:(d.land||[]).map(mk),adm:(d.adm||[]).map(mk),lake:(d.lake||[]).map(mk),riv,hasRiv:!!(d.riv||[]).length,lbl:d.lbl||[],hl:d.hl||null}}
+  // Gradnetz für den Globus: alle 30° Länge, alle 30° Breite
+  const grat=[];if(globe){for(let lo=-180;lo<180;lo+=30){const V=[];for(let la=-84;la<=84;la+=3)V.push(...wlwV(lo,la));grat.push(new Float32Array(V))}
+    for(let la=-60;la<=60;la+=30){const V=[];for(let lo=-180;lo<=180;lo+=3)V.push(...wlwV(lo,la));grat.push(new Float32Array(V))}}
+  const M={g:!!globe,grat,b:[wlwX(d.bb[0]),wlwY(d.bb[3]),wlwX(d.bb[2]),wlwY(d.bb[1])],land:(d.land||[]).map(mk),deco:(d.deco||[]).map(mk),adm:(d.adm||[]).map(mk),lake:(d.lake||[]).map(mk),riv,hasRiv:!!(d.riv||[]).length,lbl:d.lbl||[],hl:d.hl||null};
+  // Namenspunkt muss in der eigenen Fläche liegen (Schwerpunkt von Bogenformen liegt oft draußen): sonst den nächsten Punkt im Raster nehmen, der trifft
+  ['land','adm'].forEach(L=>M[L].forEach(f=>{let [x,y,A]=f.c;const hit=(x,y)=>{const h=wlwHit(M[L],x,y);return h&&h.id===f.id};
+    if(!hit(x,y)&&A){let b0=1e9,b1=1e9,b2=-1e9,b3=-1e9;for(let i=0;i<A.length;i+=2){b0=Math.min(b0,A[i]);b2=Math.max(b2,A[i]);b1=Math.min(b1,A[i+1]);b3=Math.max(b3,A[i+1])}
+      let best=null,bd=1e18;for(let i=1;i<24;i++)for(let j=1;j<24;j++){const px=b0+(b2-b0)*i/24,py=b1+(b3-b1)*j/24,d=(px-x)**2+(py-y)**2;if(d<bd&&hit(px,py)){bd=d;best=[px,py]}}if(best)[x,y]=best}
+    f.ll=[wlwLon(x),wlwLat(y)];delete f.c}));
+  M.deco.forEach(f=>{f.ll=[wlwLon(f.c[0]),wlwLat(f.c[1])];delete f.c});
+  return M}
 // Welche Fläche liegt unter dem Punkt? Bei Überlappung gewinnt die kleinste (Berlin in Brandenburg).
 function wlwHit(L,x,y){let best=null;(L||[]).forEach(f=>{const b=f.bb;if(x<b[0]||x>b[2]||y<b[1]||y>b[3])return;let ins=false;
   f.rs.forEach(A=>{const n=A.length/2;for(let i=0,j=n-1;i<n;j=i++){const yi=A[2*i+1],yj=A[2*j+1];if((yi>y)!==(yj>y)&&x<(A[2*j]-A[2*i])*(y-yi)/(yj-yi)+A[2*i])ins=!ins}});
@@ -4920,6 +4972,7 @@ function wlwConfirm(s,late){if(s.ph!=='play')return;const q=s.q[s.i],M=WLW.maps[
   wlwShow(s,r)}
 // Nach der Antwort: Ansicht so verschieben, dass Tipp und Lösung zu sehen sind
 function wlwShow(s,r){const M=WLW.maps[s.map],cv=WLW.cv;if(!M||!cv||!s.view)return;const W=cv.clientWidth,H=cv.clientHeight,pts=[];
+  if(M.g)return wlwShowG(s,r,M,W,H);
   if(s.mode==='pin'){pts.push([wlwX(r.ll[0]),wlwY(r.ll[1])]);if(r.g)pts.push([wlwX(r.g[0]),wlwY(r.g[1])])}
   else{const f=M[s.layer].find(x=>x.id===r.id);if(f)pts.push([f.bb[0],f.bb[1]],[f.bb[2],f.bb[3]]);const g=r.g&&M[s.layer].find(x=>x.id===r.g);if(g)pts.push([g.bb[0],g.bb[1]],[g.bb[2],g.bb[3]])}
   if(!pts.length)return;const v=s.view,pl=56,pr=72,pt=80,pb=28,xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
@@ -4927,10 +4980,19 @@ function wlwShow(s,r){const M=WLW.maps[s.map],cv=WLW.cv;if(!M||!cv||!s.view)retu
   const k=Math.min(v.k,(W-pl-pr)/Math.max(1e-6,x1-x0),(H-pt-pb)/Math.max(1e-6,y1-y0)),hw=W/2/k,hh=H/2/k;
   let x=v.x,y=v.y;x=Math.min(x,x0-pl/k+hw);x=Math.max(x,x1+pr/k-hw);y=Math.min(y,y0-pt/k+hh);y=Math.max(y,y1+pb/k-hh);
   if(k===v.k&&Math.abs(x-v.x)<1e-9&&Math.abs(y-v.y)<1e-9)return;WLW.va={f:{...v},t:wlwClamp({x,y,k},M),at:performance.now()};wlwKick()}
+// Globus: nur drehen, wenn Tipp oder Lösung nicht gut zu sehen sind; dann auf die Mitte zwischen beiden drehen und so weit herauszoomen wie nötig
+function wlwShowG(s,r,M,W,H){const L=M[s.layer]||[],ll=[];
+  if(s.mode==='pin'){ll.push(r.ll);if(r.g)ll.push(r.g)}else[r.id,r.g].forEach(id=>{const f=id&&L.find(x=>x.id===id);if(f)ll.push(f.ll)});
+  if(!ll.length)return;const v=s.view,B=wlwB(v,W,H),pad=70,ok=ll.every(p=>{const q=wlwGP(B,p[0],p[1]);return q[2]>.45&&q[0]>pad&&q[0]<W-pad&&q[1]>pad+20&&q[1]<H-pad});
+  if(ok)return;const V=ll.map(p=>wlwV(p[0],p[1])),m=[0,1,2].map(i=>V.reduce((a,x)=>a+x[i],0)),ml=Math.hypot(...m);
+  const c=ml<1e-6?V[0]:m.map(x=>x/ml),lo=Math.atan2(c[1],c[0])/WLW_D,la=Math.asin(c[2])/WLW_D,th=Math.max(...V.map(x=>Math.acos(Math.max(-1,Math.min(1,x[0]*c[0]+x[1]*c[1]+x[2]*c[2]))))),
+    k0=wlwFit(M,W,H).k,need=th>1.2?k0:Math.max(k0,(Math.min(W,H)/2-pad)/Math.max(.02,Math.sin(th)));
+  WLW.va={f:{...v},t:wlwClamp({lo,la,k:Math.min(v.k,need)},M),at:performance.now()};WLW.spin=null;wlwKick()}
 function wlwNext(s){if(s.ph!=='shown')return;s.i++;s.guess=null;if(s.i>=s.q.length){s.ph='end';s.win=true;s.msg='';return}
   s.ph='play';s.dl=s.cfg.t?Date.now()+s.cfg.t*1000:0}
-function wlwFit(M,W,H){const b=M.b,k=Math.min(W/(b[2]-b[0]),H/(b[3]-b[1]))*.98;return {x:(b[0]+b[2])/2,y:(b[1]+b[3])/2,k}}
+function wlwFit(M,W,H){if(M.g){const v=AK.st&&AK.st.view;return {lo:v&&v.lo!=null?v.lo:12,la:v&&v.la!=null?Math.max(-30,Math.min(45,v.la)):22,k:Math.min(W,H)*.46}}const b=M.b,k=Math.min(W/(b[2]-b[0]),H/(b[3]-b[1]))*.98;return {x:(b[0]+b[2])/2,y:(b[1]+b[3])/2,k}}
 function wlwClamp(v,M){const cv=WLW.cv,W=cv?cv.clientWidth:800,H=cv?cv.clientHeight:600,f=wlwFit(M,W,H),b=M.b,z=WLW_ZMAX[AK.st&&AK.st.map]||8;
+  if(M.g){if(v.lo==null)return f;return {lo:((v.lo%360)+540)%360-180,la:Math.max(-85,Math.min(85,v.la)),k:Math.max(f.k*.8,Math.min(f.k*z,v.k))}}
   const k=Math.max(f.k*.9,Math.min(f.k*z,v.k));return {x:Math.max(b[0],Math.min(b[2],v.x)),y:Math.max(b[1],Math.min(b[3],v.y)),k}}
 // ---- Zeichnen
 function wlwPin(c,x,y,col,sc){c.save();c.translate(x,y);c.scale(sc,sc);c.beginPath();c.moveTo(0,0);c.bezierCurveTo(-3,-8,-11,-13,-11,-22);c.arc(0,-22,11,Math.PI,0);c.bezierCurveTo(11,-13,3,-8,0,0);c.closePath();
@@ -4943,12 +5005,17 @@ function wlwDraw(now){const cv=WLW.cv,s=AK.st;if(!cv||!cv.isConnected||!s)return
   const M=WLW.maps[s.map];if(!M)return false;
   if(!s.view)s.view=wlwFit(M,W,H);let anim=false;
   if(WLW.va){const t=Math.min(1,(now-WLW.va.at)/650),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,a=WLW.va.f,b=WLW.va.t;
-    s.view={x:a.x+(b.x-a.x)*e,y:a.y+(b.y-a.y)*e,k:a.k*Math.pow(b.k/a.k,e)};if(t<1)anim=true;else WLW.va=null}
-  s.view=wlwClamp(s.view,M);const v=s.view,k=v.k*dpr,px=1/v.k;
-  c.setTransform(k,0,0,k,dpr*W/2-v.x*k,dpr*H/2-v.y*k);c.lineJoin='round';c.lineCap='round';
+    s.view=M.g?wlwMix(a,b,e):{x:a.x+(b.x-a.x)*e,y:a.y+(b.y-a.y)*e,k:a.k*Math.pow(b.k/a.k,e)};if(t<1)anim=true;else WLW.va=null}
+  if(WLW.spin&&M.g){const sp=WLW.spin,dt=Math.min(50,now-sp.t);sp.t=now;const v=s.view;s.view={lo:v.lo-sp.vx*dt/v.k/WLW_D/Math.max(.3,Math.cos(v.la*WLW_D)),la:v.la+sp.vy*dt/v.k/WLW_D,k:v.k};
+    const f=Math.exp(-dt/300);sp.vx*=f;sp.vy*=f;if(Math.hypot(sp.vx,sp.vy)<.02)WLW.spin=null;else anim=true}
+  s.view=wlwClamp(s.view,M);const v=s.view;
   const q=s.q&&s.q[s.i],r=s.ph==='shown'?s.res[s.res.length-1]:null,area=s.mode==='area',L=M[s.layer]||[];
   const sel=area&&s.ph==='play'&&s.guess?s.guess.id:null,okId=area&&r?r.id:null,badId=area&&r&&!r.ok?r.g:null,de=!!M.adm.length;
   const fillOf=(f,base)=>f.id===okId?'#a9dfbf':f.id===badId?'#f6b9b0':f.id===sel?'#ffd769':base;
+  let P;
+  if(M.g)P=wlwGlobe(c,M,v,W,H,dpr,fillOf,[okId,badId,sel],L);
+  else{const k=v.k*dpr,px=1/v.k;
+  c.setTransform(k,0,0,k,dpr*W/2-v.x*k,dpr*H/2-v.y*k);c.lineJoin='round';c.lineCap='round';
   M.land.forEach(f=>{c.fillStyle=fillOf(f,de?'#e9e7df':'#f8f5ec');c.fill(f.p,'evenodd')});
   M.adm.forEach(f=>{c.fillStyle=fillOf(f,M.hl&&f.id!==M.hl?'#efede6':'#fffdf7');c.fill(f.p,'evenodd')});
   c.fillStyle='#cfe3f4';M.lake.forEach(f=>c.fill(f.p,'evenodd'));
@@ -4958,55 +5025,78 @@ function wlwDraw(now){const cv=WLW.cv,s=AK.st;if(!cv||!cv.isConnected||!s)return
   if(M.hl){const h=M.adm.find(f=>f.id===M.hl);if(h){c.strokeStyle='#26337a';c.lineWidth=px*2.2;c.stroke(h.p)}}
   [okId,badId,sel].forEach((id,n)=>{const f=id&&L.find(x=>x.id===id);if(f){c.strokeStyle=['#1f8f5d','#cf3a2c','#c98a00'][n];c.lineWidth=px*2.6;c.stroke(f.p)}});
   // ab hier in Bildschirmpunkten
-  c.setTransform(dpr,0,0,dpr,0,0);const P=(lo,la)=>[(wlwX(lo)-v.x)*v.k+W/2,(wlwY(la)-v.y)*v.k+H/2];
+  c.setTransform(dpr,0,0,dpr,0,0);P=(lo,la)=>[(wlwX(lo)-v.x)*v.k+W/2,(wlwY(la)-v.y)*v.k+H/2]}
   if(s.cfg.lbl&&M.lbl.length){const hide=new Set([q&&q.n,q&&q.i].filter(Boolean));c.textAlign='center';c.textBaseline='middle';
-    M.lbl.forEach(l=>{if(hide.has(l.t)||(area&&s.layer==='adm'&&l.k==='adm'))return;const [x,y]=P(l.ll[0],l.ll[1]);if(x<-80||x>W+80||y<-20||y>H+20)return;
+    M.lbl.forEach(l=>{if(hide.has(l.t)||(area&&s.layer==='adm'&&l.k==='adm'))return;const p=P(l.ll[0],l.ll[1]);if(!p)return;const [x,y]=p;if(x<-80||x>W+80||y<-20||y>H+20)return;
       c.font=(l.k==='sea'?'italic 700 14px ':l.k==='riv'?'italic 700 12px ':l.k==='cont'?'800 15px ':'700 12.5px ')+'Nunito,system-ui,sans-serif';
       c.lineWidth=3.5;c.strokeStyle='rgba(255,255,255,.85)';c.strokeText(l.t,x,y);c.fillStyle=l.k==='sea'||l.k==='riv'?'#2f6fb0':l.k==='cont'?'rgba(38,51,122,.55)':'#6b6553';c.fillText(l.t,x,y)})}
-  const dur=now-(s.at||0),grow=t=>Math.min(1,Math.max(0,t));
+  const dur=now-(s.at||0),grow=t=>Math.min(1,Math.max(0,t)),lab=(t,x,y,base,sz)=>{c.font='800 '+sz+'px Nunito,system-ui,sans-serif';c.textAlign='center';c.textBaseline=base;c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(t,x,y);c.fillStyle='#16603f';c.fillText(t,x,y)};
   if(!area&&r&&r.g){// Verbindungslinie als Großkreis (echte Luftlinie), wächst vom Tipp zur Lösung
     const t=grow(dur/700),N=64,a=r.g.map(x=>x*Math.PI/180),b=r.ll.map(x=>x*Math.PI/180),d=r.km/6371;c.beginPath();let last=null;
     for(let i=0;i<=N*t;i++){const f=i/N;let lo,la;if(d<1e-6){lo=r.g[0];la=r.g[1]}else{const A=Math.sin((1-f)*d)/Math.sin(d),B=Math.sin(f*d)/Math.sin(d),
       x=A*Math.cos(a[1])*Math.cos(a[0])+B*Math.cos(b[1])*Math.cos(b[0]),y=A*Math.cos(a[1])*Math.sin(a[0])+B*Math.cos(b[1])*Math.sin(b[0]),z=A*Math.sin(a[1])+B*Math.sin(b[1]);
       la=Math.atan2(z,Math.hypot(x,y))*180/Math.PI;lo=Math.atan2(y,x)*180/Math.PI}
-      const p=P(lo,la);if(last&&Math.abs(p[0]-last[0])>W*.5)c.moveTo(p[0],p[1]);else if(i)c.lineTo(p[0],p[1]);else c.moveTo(p[0],p[1]);last=p}
+      const p=P(lo,la);if(!p){last=null;continue}if(!last||Math.abs(p[0]-last[0])>W*.5)c.moveTo(p[0],p[1]);else c.lineTo(p[0],p[1]);last=p}
     c.setLineDash([7,6]);c.lineWidth=3;c.strokeStyle='#26337a';c.stroke();c.setLineDash([]);if(t<1)anim=true}
   if(!area){const g=s.ph==='play'?s.guess&&s.guess.ll:r&&r.g;
-    if(g){const [x,y]=P(g[0],g[1]),t=s.ph==='play'?grow((now-s.guess.at)/220):1;wlwPin(c,x,y,'#26337a',.6+.4*t);if(t<1)anim=true}
-    if(r){const [x,y]=P(r.ll[0],r.ll[1]),t=grow((dur-(r.g?650:0))/260);if(t>0){wlwPin(c,x,y,'#1f8f5d',.4+.6*(1-Math.pow(1-t,3)));
-      if(t>=1){c.font='800 15px Nunito,system-ui,sans-serif';c.textAlign='center';c.textBaseline='bottom';c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(r.n,x,y-40);c.fillStyle='#16603f';c.fillText(r.n,x,y-40)}}
+    if(g){const p=P(g[0],g[1]),t=s.ph==='play'?grow((now-s.guess.at)/220):1;if(p)wlwPin(c,p[0],p[1],'#26337a',.6+.4*t);if(t<1)anim=true}
+    if(r){const p=P(r.ll[0],r.ll[1]),t=grow((dur-(r.g?650:0))/260);if(t>0&&p){wlwPin(c,p[0],p[1],'#1f8f5d',.4+.6*(1-Math.pow(1-t,3)));if(t>=1)lab(r.n,p[0],p[1]-40,'bottom',15)}
       if(t<1)anim=true}}
-  if(area&&r&&dur>0){const f=L.find(x=>x.id===r.id);if(f){const [x,y]=[(f.bb[0]+f.bb[2])/2,(f.bb[1]+f.bb[3])/2].map((w,i)=>(w-(i?v.y:v.x))*v.k+(i?H:W)/2);
-    c.font='800 16px Nunito,system-ui,sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(r.n,x,y);c.fillStyle='#16603f';c.fillText(r.n,x,y)}}
+  if(area&&r&&dur>0){const f=L.find(x=>x.id===r.id),p=f&&P(f.ll[0],f.ll[1]);if(p)lab(r.n,p[0],p[1],'middle',16)}
   return anim}
+// Globus zeichnen; gibt die Projektion für Beschriftung und Pins zurück (null = Rückseite)
+function wlwGlobe(c,M,v,W,H,dpr,fillOf,hi,L){c.setTransform(dpr,0,0,dpr,0,0);const B=wlwB(v,W,H),cx=B.cx,cy=B.cy,k=B.k,TAU=2*Math.PI;
+  const bg=c.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#141d44');bg.addColorStop(1,'#26337a');c.fillStyle=bg;c.fillRect(0,0,W,H);
+  const gl=c.createRadialGradient(cx,cy,k*.97,cx,cy,k*1.13);gl.addColorStop(0,'rgba(160,205,255,.6)');gl.addColorStop(1,'rgba(160,205,255,0)');c.fillStyle=gl;c.beginPath();c.arc(cx,cy,k*1.13,0,TAU);c.fill();
+  const oc=c.createRadialGradient(cx-k*.35,cy-k*.4,k*.05,cx,cy,k);oc.addColorStop(0,'#e4f1fc');oc.addColorStop(1,'#a8c8e6');c.fillStyle=oc;c.beginPath();c.arc(cx,cy,k,0,TAU);c.fill();
+  c.save();c.beginPath();c.arc(cx,cy,k+.5,0,TAU);c.clip();c.lineJoin='round';c.lineCap='round';
+  const gp=new Path2D();M.grat.forEach(V=>wlwRing(V,B,null,gp,false));c.strokeStyle='rgba(38,51,122,.14)';c.lineWidth=1;c.stroke(gp);
+  const draw=(f,base)=>{const fp=new Path2D(),sp=new Path2D();let vis=false;f.vs.forEach(V=>{if(wlwRing(V,B,fp,sp,true))vis=true});f.gs=vis?sp:null;if(!vis)return;
+    c.fillStyle=fillOf(f,base);c.fill(fp,'evenodd');if(base!=='#f3f1ec'){c.strokeStyle='#bdb49b';c.lineWidth=.9;c.stroke(sp)}};// Antarktis ohne Rand: ihr Umriss hat eine Naht vom Pol zur Küste
+  M.deco.forEach(f=>draw(f,'#f3f1ec'));M.land.forEach(f=>draw(f,'#f8f5ec'));
+  hi.forEach((id,n)=>{const f=id&&L.find(x=>x.id===id);if(f&&f.gs){c.strokeStyle=['#1f8f5d','#cf3a2c','#c98a00'][n];c.lineWidth=2.6;c.stroke(f.gs)}});
+  const sh=c.createRadialGradient(cx-k*.35,cy-k*.4,k*.1,cx,cy,k);sh.addColorStop(0,'rgba(255,255,255,.14)');sh.addColorStop(.65,'rgba(255,255,255,0)');sh.addColorStop(1,'rgba(14,22,60,.26)');
+  c.fillStyle=sh;c.fillRect(0,0,W,H);c.restore();
+  return (lo,la)=>{const p=wlwGP(B,lo,la);return p[2]<.03?null:p}}
 function wlwKick(){if(!WLW.raf)WLW.raf=requestAnimationFrame(t=>{WLW.raf=0;if(wlwDraw(t))wlwKick()})}
 // ---- Bedienung: ein Finger verschiebt, zwei Finger zoomen, kurzer Tipp setzt den Pin (Maus: Rad zoomt)
 function wlwPt(e){const r=WLW.cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]}
 function wlwZoomAt(p,f){const s=AK.st,M=s&&WLW.maps[s.map];if(!M||!s.view)return;const cv=WLW.cv,W=cv.clientWidth,H=cv.clientHeight,v=s.view;
+  if(M.g){const n=wlwClamp({...v,k:v.k*f},M);s.view=wlwClamp(wlwTurn(v,(p[0]-W/2)*(1/v.k-1/n.k),(p[1]-H/2)*(1/v.k-1/n.k),n.k),M);WLW.va=WLW.spin=null;wlwKick();return}
   const wx=v.x+(p[0]-W/2)/v.k,wy=v.y+(p[1]-H/2)/v.k,n=wlwClamp({x:v.x,y:v.y,k:v.k*f},M);s.view=wlwClamp({x:wx-(p[0]-W/2)/n.k,y:wy-(p[1]-H/2)/n.k,k:n.k},M);WLW.va=null;wlwKick()}
+// Globus drehen: dx/dy in Bogenmaß auf der Kugel (Finger nach rechts = Kugel dreht mit)
+const wlwTurn=(v,dx,dy,k)=>({lo:v.lo+dx/WLW_D/Math.max(.3,Math.cos(v.la*WLW_D)),la:v.la-dy/WLW_D,k:k||v.k});
 function wlwInit(){const cv=document.createElement('canvas');cv.className='wlw-cv';cv.setAttribute('aria-label','Karte. Tippe, um deinen Tipp zu setzen.');WLW.cv=cv;
   cv.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(x){}const s=AK.st;if(!s||!s.view)return;
-    WLW.ptr.set(e.pointerId,wlwPt(e));WLW.va=null;const P=[...WLW.ptr.values()];
+    WLW.ptr.set(e.pointerId,wlwPt(e));WLW.va=WLW.spin=null;const P=[...WLW.ptr.values()];
     if(P.length===1)WLW.gest={t:'pan',p0:P[0],v0:{...s.view},tm:performance.now(),moved:false};
     else if(P.length===2)WLW.gest={t:'pinch',d0:Math.hypot(P[0][0]-P[1][0],P[0][1]-P[1][1])||1,m0:[(P[0][0]+P[1][0])/2,(P[0][1]+P[1][1])/2],v0:{...s.view},moved:true}});
   cv.addEventListener('pointermove',e=>{if(!WLW.ptr.has(e.pointerId))return;WLW.ptr.set(e.pointerId,wlwPt(e));const G=WLW.gest,s=AK.st,M=s&&WLW.maps[s.map];if(!G||!M)return;const P=[...WLW.ptr.values()];
-    if(G.t==='pan'&&P.length===1){const dx=P[0][0]-G.p0[0],dy=P[0][1]-G.p0[1];if(!G.moved&&Math.hypot(dx,dy)<8)return;G.moved=true;s.view=wlwClamp({x:G.v0.x-dx/G.v0.k,y:G.v0.y-dy/G.v0.k,k:G.v0.k},M)}
+    if(G.t==='pan'&&P.length===1){const dx=P[0][0]-G.p0[0],dy=P[0][1]-G.p0[1];if(!G.moved&&Math.hypot(dx,dy)<8)return;G.moved=true;
+      if(M.g){const t=performance.now(),q=G.lp||[G.p0,G.tm||t],dt=Math.max(1,t-q[1]);G.vel=[(P[0][0]-q[0][0])/dt,(P[0][1]-q[0][1])/dt].map(x=>Math.max(-1.5,Math.min(1.5,x)));G.lp=[P[0],t];s.view=wlwClamp(wlwTurn(G.v0,-dx/G.v0.k,-dy/G.v0.k),M)}
+      else s.view=wlwClamp({x:G.v0.x-dx/G.v0.k,y:G.v0.y-dy/G.v0.k,k:G.v0.k},M)}
+    else if(G.t==='pinch'&&P.length>=2&&M.g){const d=Math.hypot(P[0][0]-P[1][0],P[0][1]-P[1][1])||1,m=[(P[0][0]+P[1][0])/2,(P[0][1]+P[1][1])/2],v=G.v0,n=wlwClamp({...v,k:v.k*d/G.d0},M);
+      s.view=wlwClamp(wlwTurn(v,-(m[0]-G.m0[0])/n.k,-(m[1]-G.m0[1])/n.k,n.k),M)}
     else if(G.t==='pinch'&&P.length>=2){const d=Math.hypot(P[0][0]-P[1][0],P[0][1]-P[1][1])||1,m=[(P[0][0]+P[1][0])/2,(P[0][1]+P[1][1])/2],W=WLW.cv.clientWidth,H=WLW.cv.clientHeight,v=G.v0;
       const wx=v.x+(G.m0[0]-W/2)/v.k,wy=v.y+(G.m0[1]-H/2)/v.k,n=wlwClamp({x:v.x,y:v.y,k:v.k*d/G.d0},M);s.view=wlwClamp({x:wx-(m[0]-W/2)/n.k,y:wy-(m[1]-H/2)/n.k,k:n.k},M)}
     wlwKick()});
   const up=e=>{if(!WLW.ptr.has(e.pointerId))return;const G=WLW.gest,p=wlwPt(e);WLW.ptr.delete(e.pointerId);
     if(G&&G.t==='pan'&&!G.moved&&e.type==='pointerup'&&performance.now()-G.tm<800)wlwTap(p);
+    // Globus mit Schwung weiterdrehen, wenn der Finger schnell losgelassen wird
+    if(G&&G.vel&&!WLW.ptr.size&&G.lp&&performance.now()-G.lp[1]<80&&Math.hypot(...G.vel)>.25){WLW.spin={vx:G.vel[0],vy:G.vel[1],t:performance.now()};wlwKick()}
     const R=[...WLW.ptr.values()],s=AK.st;WLW.gest=R.length===1&&s&&s.view?{t:'pan',p0:R[0],v0:{...s.view},tm:0,moved:true}:null};
   cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
   cv.addEventListener('wheel',e=>{e.preventDefault();wlwZoomAt(wlwPt(e),Math.exp(-e.deltaY*(e.deltaMode?.05:.0018)))},{passive:false});
   cv.addEventListener('contextmenu',e=>e.preventDefault());
   if(window.ResizeObserver){WLW.ro=new ResizeObserver(()=>wlwKick());WLW.ro.observe(cv)}else window.addEventListener('resize',wlwKick)}
-function wlwTap(p){const s=AK.st,M=s&&WLW.maps[s.map];if(!s||s.ph!=='play'||!M||!s.view)return;const cv=WLW.cv,v=s.view,x=v.x+(p[0]-cv.clientWidth/2)/v.k,y=v.y+(p[1]-cv.clientHeight/2)/v.k;
-  if(s.mode==='pin')s.guess={ll:[+wlwLon(x).toFixed(4),+wlwLat(y).toFixed(4)],at:performance.now()};
+function wlwTap(p){const s=AK.st,M=s&&WLW.maps[s.map];if(!s||s.ph!=='play'||!M||!s.view)return;const cv=WLW.cv,v=s.view;let x,y,ll;
+  if(M.g){ll=wlwGI(wlwB(v,cv.clientWidth,cv.clientHeight),p[0],p[1]);if(!ll){wlwBar(s,'Tippe auf die Erdkugel.');return}x=wlwX(ll[0]);y=wlwY(ll[1])}
+  else{x=v.x+(p[0]-cv.clientWidth/2)/v.k;y=v.y+(p[1]-cv.clientHeight/2)/v.k;ll=[wlwLon(x),wlwLat(y)]}
+  if(s.mode==='pin')s.guess={ll:[+ll[0].toFixed(4),+ll[1].toFixed(4)],at:performance.now()};
   else{const f=wlwHit(M[s.layer],x,y);if(!f){wlwBar(s,s.layer==='adm'?'Tippe direkt auf ein Bundesland.':'Tippe direkt auf ein Land.');return}s.guess={id:f.id,at:performance.now()}}
   tone(700,0,.07,'sine',.08);wlwBar(s);wlwKick()}
 // ---- Oberfläche
-const WLW_IC={pin:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s-7-7.2-7-12.2A7 7 0 0 1 19 9.8C19 14.8 12 22 12 22z" fill="currentColor"/><circle cx="12" cy="9.8" r="2.6" fill="#fff"/></svg>',
+const WLW_IC={globe:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3.2 3 3.2 14 0 17M12 3.5c-3.2 3-3.2 14 0 17"/></g></svg>',pin:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s-7-7.2-7-12.2A7 7 0 0 1 19 9.8C19 14.8 12 22 12 22z" fill="currentColor"/><circle cx="12" cy="9.8" r="2.6" fill="#fff"/></svg>',
   area:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l6-3 5 3 5-2v12l-5 3-5-3-6 2z" fill="currentColor" opacity=".9"/><path d="M10 4v13M15 7v13" stroke="#fff" stroke-width="1.4" fill="none"/></svg>'};
 const wlwNum=n=>Number(n).toLocaleString('de-DE');
 const wlwKmT=km=>km==null?'–':km<1?'unter 1 km':km<10?wlwNum(Math.round(km*10)/10)+' km':wlwNum(Math.round(km))+' km';
@@ -5024,12 +5114,14 @@ function wlwHTML(G,s){const back=G.eid?'<button class="btn sm" data-act="ub-back
   if(s.ph==='setup'){const opt=(k,L,cur,lab)=>`<div class="wlw-seg" role="group" aria-label="${lab}">${L.map(([v,t])=>`<button class="${v===cur?'on':''}" data-act="ak" data-k="${k}" data-i="${v}" aria-pressed="${v===cur}">${t}</button>`).join('')}</div>`;
     return `<div class="wlw-set"><div class="wlw-hero">${elo('happy',76)}<div style="flex:1;min-width:0"><h1>Wo liegt was?</h1><p>Such den Ort auf der Karte. Je näher dein Tipp, desto mehr Punkte.</p></div>${back}</div>
       ${s.err?`<p class="err">${esc(s.err)}</p>`:''}
-      <span class="label">Was willst du üben?</span>
-      <div class="wlw-cats">${WLW_CATS.map(([k,n,m])=>`<button class="wlw-cat ${k===cfg.cat?'on':''}" data-act="ak" data-k="cat" data-i="${k}" aria-pressed="${k===cfg.cat}"><span class="wlw-ci ${m}">${WLW_IC[m]}</span><span><b>${esc(n)}</b><small>${m==='area'?'Fläche antippen':'Ort mit Pin markieren'}</small></span></button>`).join('')}</div>
+      <span class="label">Wo?</span>
+      <div class="wlw-regs" role="group" aria-label="Gebiet">${WLW_REG.map(([g,t])=>`<button class="wlw-reg ${g===wlwReg(cfg.cat)?'on':''}" data-act="ak" data-k="reg" data-i="${g}" aria-pressed="${g===wlwReg(cfg.cat)}"><span class="wlw-ri">${WLW_IC[g==='Welt'?'globe':'pin']}</span><b>${g}</b><small>${t}</small></button>`).join('')}</div>
+      <span class="label">Was suchst du?</span>
+      <div class="wlw-cats">${WLW_CATS.filter(c=>wlwReg(c[0])===wlwReg(cfg.cat)).map(([k,n,m])=>`<button class="wlw-cat ${k===cfg.cat?'on':''}" data-act="ak" data-k="cat" data-i="${k}" aria-pressed="${k===cfg.cat}"><span class="wlw-ci ${m}">${WLW_IC[m]}</span><span><b>${esc(n.split(' – ')[1].replace(/^./,x=>x.toUpperCase()))}</b><small>${m==='area'?'Fläche antippen':'Ort mit Pin markieren'}</small></span></button>`).join('')}</div>
       <div class="wlw-opts"><div><span class="label">Schwierigkeit</span>${opt('lv',[[1,'leicht'],[2,'mittel'],[3,'schwer']],cfg.lv,'Schwierigkeit')}</div>
         <div><span class="label">Fragen</span>${opt('n',WLW_N.map(n=>[n,String(n)]),cfg.n,'Anzahl der Fragen')}</div>
         <div><span class="label">Zeit pro Frage</span>${opt('t',WLW_T.map(t=>[t,t?t+' s':'ohne']),cfg.t,'Zeit pro Frage')}</div>
-        <div><span class="label">Hilfen auf der Karte</span>${opt('lbl',[[0,'aus'],[1,C[2]==='area'?'Meere, Flüsse':'Meere, Flüsse, Nachbarn']],cfg.lbl?1:0,'Beschriftung')}</div></div>
+        <div><span class="label">Hilfen auf der Karte</span>${opt('lbl',[[0,'aus'],[1,wlwReg(cfg.cat)==='Welt'?'Meere, Kontinente':C[2]==='area'?'Meere, Flüsse':'Meere, Flüsse, Nachbarn']],cfg.lbl?1:0,'Beschriftung')}</div></div>
       <div class="row" style="margin-top:18px"><button class="btn pri big" data-act="ak" data-k="start">Los geht's</button><span class="muted" style="font-weight:700">Die Karte verrät keine Namen. Hilfen zeigen nie die Lösung.</span></div></div>`}
   if(s.ph==='end'){const n=s.res.length,pin=s.mode==='pin',gs=s.res.filter(r=>r.g),avg=pin&&gs.length?gs.reduce((a,r)=>a+r.km,0)/gs.length:null,ok=s.res.filter(r=>r.ok).length;
     return `<div class="wlw-end"><div class="wlw-hero">${elo('cheer',80)}<div style="flex:1;min-width:0"><h1>Geschafft!</h1><p>${esc(C[1])} · ${WLW_LV[cfg.lv]} · ${n} Fragen</p></div>${back}</div>
@@ -5074,6 +5166,8 @@ AKT.geo={name:'Wo liegt was?',icon:'🌍',txt:'Geografiespiel: Orte und Länder 
   init:d=>{const cfg={...WLW_DEF,...(S.wlwCfg||{}),...(d.cfg||{})};return {ph:d.cfg&&d.lock?'go':'setup',cfg,lock:!!(d.cfg&&d.lock),seed:d.seed!=null?d.seed+'|'+cfg.cat+'|'+cfg.lv+'|'+cfg.n:Math.random(),q:[],res:[],total:0,i:0}},
   view:(d,s)=>'',
   act:(d,s,a)=>{const k=a.k,c=s.cfg;
+    if(k==='reg'&&s.ph==='setup'){const L=WLW_CATS.filter(x=>wlwReg(x[0])===a.i),same=L.find(x=>x[1].split(' – ')[1]===wlwCat(c.cat)[1].split(' – ')[1]);
+      if(L.length){c.cat=(same||L[0])[0];S.wlwCfg={...c};save();s.err=''}return}
     if(['cat','lv','n','t','lbl'].includes(k)&&s.ph==='setup'){c[k]=k==='cat'?a.i:k==='lbl'?a.i==='1':+a.i;S.wlwCfg={...c};save();s.err='';return}
     if(k==='start'&&s.ph==='setup'){s.seed=Math.random();s.ph='go';return}
     if(k==='ok')return wlwConfirm(s);
@@ -5084,7 +5178,7 @@ AKT.geo={name:'Wo liegt was?',icon:'🌍',txt:'Geografiespiel: Orte und Länder 
 // Zoom-Knöpfe ohne neues render(), damit nichts flackert
 function wlwBtn(d){const s=AK.st,cv=WLW.cv,M=s&&WLW.maps[s.map];if(!cv||!M||!s.view)return;
   if(d.k==='zin'||d.k==='zout')wlwZoomAt([cv.clientWidth/2,cv.clientHeight/2],d.k==='zin'?1.6:1/1.6);
-  if(d.k==='home'){WLW.va={f:{...s.view},t:wlwFit(M,cv.clientWidth,cv.clientHeight),at:performance.now()};wlwKick()}}
+  if(d.k==='home'){WLW.spin=null;WLW.va={f:{...s.view},t:wlwFit(M,cv.clientWidth,cv.clientHeight),at:performance.now()};wlwKick()}}
 // Freies Spielen (Schüler: Freies Üben, Lehrkraft: Werkzeugkasten), ohne Live-Stunde
 function wlwFree(){const back={...V};AK.G=null;akStart({g:'geo',at:'wlw-'+todayISO(),title:'Wo liegt was?',data:{},free:1,back});go('akt')}
 Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt,fit:a.fit});
