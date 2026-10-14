@@ -7,19 +7,28 @@
 //   supabase secrets set ELEVEN_KEY=<ElevenLabs-API-Schlüssel>
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
-import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
+import AnthropicBedrock, { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
-const REGION = "eu-central-1";
-const MODEL = { big: "anthropic.claude-sonnet-5-5", small: "anthropic.claude-haiku-5-5" };
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
+// Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
+const REGIONS = ["eu-central-1", "eu-west-1", "eu-north-1"];
+// Erst die neuesten Modelle, dann die, die AWS jedem Konto freigibt (Sonnet 5, Haiku 4.5).
+const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5", "anthropic.claude-haiku-4-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
+// Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
+const ROUTES = ["eu.", "global.", ""];
+// Klassischer Bedrock-Weg (wie das AWS-Testfenster), mit EU-Inferenzprofil ab Frankfurt. Läuft, wenn Mantle das Modell nicht kennt.
+const CLASSIC = {
+  big: ["eu.anthropic.claude-sonnet-4-5-20250929-v1:0", "eu.anthropic.claude-haiku-4-5-20251001-v1:0"],
+  small: ["eu.anthropic.claude-haiku-4-5-20251001-v1:0"],
+};
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
 const SUBJ: Record<string, string> = { M: "Mathematik", D: "Deutsch", E: "Englisch", K: "Kunst", G: "Geschichte/Politik/Geographie", N: "Natur und Technik", R: "Religion/Ethik", S: "Sport", W: "Wirtschaft und Beruf", I: "Informatik", Mu: "Musik" };
 const BASE = "Du arbeitest für ELIO, eine Lern-App einer bayerischen Mittelschule (Klassen 5 bis 10). Schreib einfach, klar und kindgerecht. Keine Emojis. Keine echten Personennamen.";
-const KINDS: Record<string, { model: string; max: number; sys: string }> = {
+const KINDS: Record<string, { model: string[]; classic: string[]; max: number; sys: string }> = {
   bild: {
-    model: MODEL.big, max: 12000,
+    model: MODEL.big, classic: CLASSIC.big, max: 12000,
     sys: BASE + `
 Erzeuge genau EIN eigenständiges SVG für eine Tafelfolie. Antworte nur mit dem SVG-Code, ohne Erklärung, ohne Markdown.
 Regeln:
@@ -31,7 +40,7 @@ Regeln:
 - Höchstens ca. 15 KB. Fachlich korrekt.`,
   },
   szene: {
-    model: MODEL.big, max: 16000,
+    model: MODEL.big, classic: CLASSIC.big, max: 16000,
     sys: BASE + `
 Erzeuge genau EIN eigenständiges SVG als kurze Erklär-Animation für eine Tafelfolie, wie ein kleiner Erklärfilm. Antworte nur mit dem SVG-Code, ohne Erklärung, ohne Markdown.
 Aufbau:
@@ -46,9 +55,9 @@ Aufbau:
 - Verboten: <script>, Event-Attribute (on...), <foreignObject>, <image>, externe Links, @import, Schriften von außen, Start per Klick (begin="click").
 - Höchstens ca. 25 KB. Fachlich korrekt.`,
   },
-  folie: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib den Inhalt einer Tafelfolie. Zeile 1: kurzer Titel. Danach 2 bis 6 kurze Zeilen Folientext, je ein Gedanke pro Zeile, ganze Sätze, ohne Aufzählungszeichen. Nur dieser Text, kein Markdown." },
-  uebung: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib eine Übung für eine Tafelfolie. Zeile 1: kurzer Titel. Danach 3 bis 6 Aufgaben, je eine Zeile, beginnend mit ●○○, ●●○ oder ●●● für leicht, mittel, schwer. Nur dieser Text, kein Markdown, keine Lösungen." },
-  dialog: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib einen kurzen Dialog zum Nachspielen für zwei Personen. Zeile 1: kurzer Titel. Danach 6 bis 10 Zeilen, abwechselnd beginnend mit \"A: \" und \"B: \". Bei Englisch auf Englisch (Niveau A1 bis A2). Nur dieser Text, kein Markdown." },
+  folie: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib den Inhalt einer Tafelfolie. Zeile 1: kurzer Titel. Danach 2 bis 6 kurze Zeilen Folientext, je ein Gedanke pro Zeile, ganze Sätze, ohne Aufzählungszeichen. Nur dieser Text, kein Markdown." },
+  uebung: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib eine Übung für eine Tafelfolie. Zeile 1: kurzer Titel. Danach 3 bis 6 Aufgaben, je eine Zeile, beginnend mit ●○○, ●●○ oder ●●● für leicht, mittel, schwer. Nur dieser Text, kein Markdown, keine Lösungen." },
+  dialog: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib einen kurzen Dialog zum Nachspielen für zwei Personen. Zeile 1: kurzer Titel. Danach 6 bis 10 Zeilen, abwechselnd beginnend mit \"A: \" und \"B: \". Bei Englisch auf Englisch (Niveau A1 bis A2). Nur dieser Text, kein Markdown." },
 };
 
 // ---------- ElevenLabs (Geräusch, Musik, Hördialog, Foto, Kurzvideo) ----------
@@ -77,12 +86,13 @@ const EN: Record<string, string> = {
   foto: "Turn the teacher's wish into one English image prompt for a school slide (max. 60 words): subject, setting, style, light. Child-friendly, no real persons, no brands. End with: No text, no letters, no numbers in the image.",
   film: "Turn the teacher's wish into one English prompt for a 5-second video clip for a school slide (max. 60 words): subject, motion, camera, style. Child-friendly, calm, no real persons, no brands, no text in the video.",
 };
-async function english(kind: string, prompt: string, bedrockKey: string | undefined): Promise<string> {
-  if (!bedrockKey) return prompt + (kind === "foto" ? " No text in the image." : "");
+// Claude-Aufruf mit allen Bedrock-Wegen (siehe unten in Deno.serve); null, wenn kein Bedrock-Schlüssel da ist.
+type Ask = (K: { model: string[]; classic: string[]; max: number; sys: string }, user: string) => Promise<{ stop_reason?: string; content: { type: string; text?: string }[] }>;
+const msgText = (m: { content: { type: string; text?: string }[] }) => m.content.map((b) => (b.type === "text" ? b.text || "" : "")).join("").trim();
+async function english(kind: string, prompt: string, claude: Ask | null): Promise<string> {
+  if (!claude) return prompt + (kind === "foto" ? " No text in the image." : "");
   try {
-    const c = new Anthropic({ apiKey: bedrockKey, baseURL: `https://bedrock-mantle.${REGION}.api.aws/anthropic` });
-    const m = await c.messages.create({ model: MODEL.small, max_tokens: 300, system: EN[kind] + " Answer with the prompt only.", messages: [{ role: "user", content: prompt }] });
-    const t = m.content.map((b) => (b.type === "text" ? b.text : "")).join("").trim();
+    const t = msgText(await claude({ model: MODEL.small, classic: CLASSIC.small, max: 300, sys: EN[kind] + " Answer with the prompt only." }, prompt));
     return t ? t.slice(0, 800) : prompt;
   } catch (_) { return prompt; }
 }
@@ -125,11 +135,11 @@ async function flowWait(type: "image" | "video", key: string, gid: string, maxMs
   return { wait: true };
 }
 
-async function eleven(kind: string, prompt: string, subj: string, gid: string, bedrockKey: string | undefined, extra: Record<string, unknown>): Promise<Response> {
+async function eleven(kind: string, prompt: string, subj: string, gid: string, claude: Ask | null, extra: Record<string, unknown>): Promise<Response> {
   const key = Deno.env.get("ELEVEN_KEY");
   if (!key) return json({ err: "nokey11" });
   if (kind === "ton" || kind === "musik") {
-    const text = await english(kind, prompt, bedrockKey);
+    const text = await english(kind, prompt, claude);
     const audio = kind === "ton"
       ? await xiAudio("/v1/sound-generation", key, { text, prompt_influence: 0.5 })
       : await xiAudio("/v1/music", key, { prompt: text, music_length_ms: 30000, force_instrumental: true });
@@ -139,7 +149,7 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, b
     const type = kind === "foto" ? "image" : "video";
     let id = gid;
     if (!id) {
-      id = (await flowStart(type, key, await english(kind, prompt, bedrockKey))) || "";
+      id = (await flowStart(type, key, await english(kind, prompt, claude))) || "";
       if (!id) return json({ err: kind });
     }
     const o = await flowWait(type, key, id, type === "image" ? 90000 : 110000);
@@ -148,14 +158,10 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, b
     return json({ ...extra, kind, data: o.data, mime: o.mime });
   }
   if (kind === "hoer") {
-    if (!bedrockKey) return json({ err: "nokey" });
-    const c = new Anthropic({ apiKey: bedrockKey, baseURL: `https://bedrock-mantle.${REGION}.api.aws/anthropic` });
-    const m = await c.messages.create({
-      model: MODEL.small, max_tokens: 1500, system: KINDS.dialog.sys,
-      messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
-    });
+    if (!claude) return json({ err: "nokey" });
+    const m = await claude(KINDS.dialog, (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}`);
     if (m.stop_reason === "refusal") return json({ err: "refusal" });
-    const ls = m.content.map((b) => (b.type === "text" ? b.text : "")).join("").replace(/^```\w*|```$/g, "").split("\n").map((x) => x.trim()).filter(Boolean);
+    const ls = msgText(m).replace(/^```\w*|```$/g, "").split("\n").map((x) => x.trim()).filter(Boolean);
     const title = (ls[0] || "").replace(/^#+\s*/, "").slice(0, 200), lines = ls.slice(1);
     const en = subj === SUBJ.E, V = en ? VOICES.en : VOICES.de;
     const inputs = lines.map((l) => { const x = l.match(/^([AB])\s*:\s*(.+)$/); return x ? { text: x[2].slice(0, 300), voice_id: V[x[1] === "A" ? 0 : 1] } : null; }).filter(Boolean) as { text: string; voice_id: string }[];
@@ -189,33 +195,62 @@ Deno.serve(async (req) => {
   if (!u?.user) return json({ err: "auth" }, 401);
   const { data: admin } = await sb.rpc("is_admin");
   if (!admin) return json({ err: "admin" }, 403); // nur Admins
-  const key = Deno.env.get("BLACKBOX_KEY");
+  const clean = (n: string) => (Deno.env.get(n) || "").trim().replace(/^["']|["']$/g, ""); // Leerzeichen/Anführungszeichen vom Einfügen weg
+  const key = clean("BLACKBOX_KEY"), awsId = clean("BLACKBOX_AWS_ID"), awsSecret = clean("BLACKBOX_AWS_SECRET");
+  const hasAws = !!(key || (awsId && awsSecret));
   let body: { kind?: string; prompt?: string; subj?: string; gid?: string } = {};
   try { body = await req.json(); } catch (_) { /* leer */ }
   const xi = ELEVEN_KINDS.includes(String(body.kind));
-  if (!key && !xi) return json({ err: "nokey" });
+  if (!hasAws && !xi) return json({ err: "nokey" });
   const kind = xi ? String(body.kind) : KINDS[String(body.kind)] ? String(body.kind) : "bild", K = KINDS[kind];
   const prompt = String(body.prompt || "").trim().slice(0, 600), subj = SUBJ[String(body.subj || "")] || "";
   const gid = /^[\w-]{4,100}$/.test(String(body.gid || "")) ? String(body.gid) : "";
-  if (gid && (kind === "foto" || kind === "film")) {
-    // Nachfragen zu einem laufenden Bild- oder Video-Auftrag zählen nicht noch einmal fürs Tageslimit.
-    try { return await eleven(kind, prompt, subj, gid, key, {}); } catch (e) { console.error("blackbox", (e as Error).message); return json({ err: kind }); }
+
+  // Offizieller Bedrock-Client. Bevorzugt IAM-Zugangsschlüssel (SigV4), sonst Bedrock-API-Schlüssel als Bearer.
+  const mk = (awsRegion: string) => awsId && awsSecret
+    ? new AnthropicBedrockMantle({ awsAccessKey: awsId, awsSecretAccessKey: awsSecret, awsRegion })
+    : new AnthropicBedrockMantle({ apiKey: key, awsRegion });
+  // deno-lint-ignore no-explicit-any
+  const ask = (c: any, model: string, k: { max: number; sys: string }, user: string) => c.messages.stream({
+    model, max_tokens: k.max, system: k.sys, messages: [{ role: "user", content: user }],
+  }).finalMessage();
+  // Alle Wege der Reihe nach: erst klassisch (wie das AWS-Testfenster, läuft sicher), dann Mantle.
+  const claude: Ask = async (k, user) => {
+    // deno-lint-ignore no-explicit-any
+    const tries: [string, () => any, string][] = [];
+    if (awsId && awsSecret) for (const m of k.classic) tries.push(["eu-central-1 klassisch", () => new AnthropicBedrock({ awsAccessKey: awsId, awsSecretKey: awsSecret, awsRegion: "eu-central-1" }), m]);
+    for (const reg of REGIONS) for (const m of k.model) for (const r of ROUTES) tries.push([reg, () => mk(reg), r + m]);
+    let last: unknown;
+    const tried: string[] = [];
+    for (const [reg, c, m] of tries) {
+      try { const msg = await ask(c(), m, k, user); console.log("blackbox ok", reg, m); return msg; } catch (e) {
+        last = e;
+        const st = (e as { status?: number }).status;
+        tried.push(`${reg} ${m} ${st ?? String((e as Error).message || e).slice(0, 60)}`);
+        if (st === 429) throw e; // zu viele Anfragen: nicht weiter durchprobieren
+      }
+    }
+    console.error("blackbox versucht:", tried.join(" | "));
+    throw last;
+  };
+
+  if (xi) {
+    try {
+      // Nachfragen zu einem laufenden Bild- oder Video-Auftrag zählen nicht noch einmal fürs Tageslimit.
+      if (gid && (kind === "foto" || kind === "film")) return await eleven(kind, prompt, subj, gid, hasAws ? claude : null, {});
+      if (prompt.length < 3) return json({ err: "leer" });
+      const { data: n } = await sb.rpc("blackbox_count");
+      if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
+      await sb.from("blackbox_log").insert({ kind });
+      return await eleven(kind, prompt, subj, "", hasAws ? claude : null, { n: (n ?? 0) + 1, limit: LIMIT });
+    } catch (e) { console.error("blackbox", kind, (e as Error).message); return json({ err: kind }); }
   }
   if (prompt.length < 3) return json({ err: "leer" });
   const { data: n } = await sb.rpc("blackbox_count");
   if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
   await sb.from("blackbox_log").insert({ kind });
-  if (xi) {
-    try { return await eleven(kind, prompt, subj, "", key, { n: (n ?? 0) + 1, limit: LIMIT }); } catch (e) { console.error("blackbox", (e as Error).message); return json({ err: kind }); }
-  }
-
-  const client = new Anthropic({ apiKey: key, baseURL: `https://bedrock-mantle.${REGION}.api.aws/anthropic` });
   try {
-    const stream = client.messages.stream({
-      model: K.model, max_tokens: K.max, system: K.sys,
-      messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
-    });
-    const msg = await stream.finalMessage();
+    const msg = await claude(K, (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}`);
     if (msg.stop_reason === "refusal") return json({ err: "refusal" });
     const text = msg.content.map((b) => (b.type === "text" ? b.text : "")).join("").trim();
     if (kind === "bild" || kind === "szene") {
@@ -225,7 +260,8 @@ Deno.serve(async (req) => {
     const ls = text.replace(/^```\w*|```$/g, "").split("\n").map((x) => x.trim()).filter(Boolean);
     return json({ kind, title: (ls[0] || "").replace(/^#+\s*/, "").slice(0, 200), text: ls.slice(1).join("\n").slice(0, 4000), n: (n ?? 0) + 1, limit: LIMIT });
   } catch (e) {
-    console.error("blackbox", (e as Error).message);
-    return json({ err: "ki" });
+    const st = (e as { status?: number }).status, m = String((e as Error).message || e).slice(0, 300);
+    console.error("blackbox", st, m);
+    return json({ err: "ki", st, detail: m }); // nur Admins sehen das; enthält keinen Schlüssel
   }
 });
