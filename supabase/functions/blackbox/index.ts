@@ -5,19 +5,28 @@
 //   supabase functions deploy blackbox
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
-import Anthropic from "npm:@anthropic-ai/sdk@0.130.0";
+import AnthropicBedrock, { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
-const REGION = "eu-central-1";
-const MODEL = { big: "anthropic.claude-sonnet-5-5", small: "anthropic.claude-haiku-5-5" };
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
+// Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
+const REGIONS = ["eu-central-1", "eu-west-1", "eu-north-1"];
+// Erst die neuesten Modelle, dann die, die AWS jedem Konto freigibt (Sonnet 5, Haiku 4.5).
+const MODEL = { big: ["anthropic.claude-sonnet-5-5", "anthropic.claude-sonnet-5", "anthropic.claude-haiku-4-5"], small: ["anthropic.claude-haiku-5-5", "anthropic.claude-haiku-4-5"] };
+// Frankfurt bedient Claude nur über ein Inferenzprofil: zuerst EU-Profil (Daten bleiben in der EU), dann global, dann die reine ID.
+const ROUTES = ["eu.", "global.", ""];
+// Klassischer Bedrock-Weg (wie das AWS-Testfenster), mit EU-Inferenzprofil ab Frankfurt. Läuft, wenn Mantle das Modell nicht kennt.
+const CLASSIC = {
+  big: ["eu.anthropic.claude-sonnet-4-5-20250929-v1:0", "eu.anthropic.claude-haiku-4-5-20251001-v1:0"],
+  small: ["eu.anthropic.claude-haiku-4-5-20251001-v1:0"],
+};
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
 const SUBJ: Record<string, string> = { M: "Mathematik", D: "Deutsch", E: "Englisch", K: "Kunst", G: "Geschichte/Politik/Geographie", N: "Natur und Technik", R: "Religion/Ethik", S: "Sport", W: "Wirtschaft und Beruf", I: "Informatik", Mu: "Musik" };
 const BASE = "Du arbeitest für ELIO, eine Lern-App einer bayerischen Mittelschule (Klassen 5 bis 10). Schreib einfach, klar und kindgerecht. Keine Emojis. Keine echten Personennamen.";
-const KINDS: Record<string, { model: string; max: number; sys: string }> = {
+const KINDS: Record<string, { model: string[]; classic: string[]; max: number; sys: string }> = {
   bild: {
-    model: MODEL.big, max: 12000,
+    model: MODEL.big, classic: CLASSIC.big, max: 12000,
     sys: BASE + `
 Erzeuge genau EIN eigenständiges SVG für eine Tafelfolie. Antworte nur mit dem SVG-Code, ohne Erklärung, ohne Markdown.
 Regeln:
@@ -28,9 +37,9 @@ Regeln:
 - Verboten: <script>, Event-Attribute (on...), <foreignObject>, <image>, externe Links, @import, Schriften von außen.
 - Höchstens ca. 15 KB. Fachlich korrekt.`,
   },
-  folie: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib den Inhalt einer Tafelfolie. Zeile 1: kurzer Titel. Danach 2 bis 6 kurze Zeilen Folientext, je ein Gedanke pro Zeile, ganze Sätze, ohne Aufzählungszeichen. Nur dieser Text, kein Markdown." },
-  uebung: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib eine Übung für eine Tafelfolie. Zeile 1: kurzer Titel. Danach 3 bis 6 Aufgaben, je eine Zeile, beginnend mit ●○○, ●●○ oder ●●● für leicht, mittel, schwer. Nur dieser Text, kein Markdown, keine Lösungen." },
-  dialog: { model: MODEL.small, max: 1500, sys: BASE + "\nSchreib einen kurzen Dialog zum Nachspielen für zwei Personen. Zeile 1: kurzer Titel. Danach 6 bis 10 Zeilen, abwechselnd beginnend mit \"A: \" und \"B: \". Bei Englisch auf Englisch (Niveau A1 bis A2). Nur dieser Text, kein Markdown." },
+  folie: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib den Inhalt einer Tafelfolie. Zeile 1: kurzer Titel. Danach 2 bis 6 kurze Zeilen Folientext, je ein Gedanke pro Zeile, ganze Sätze, ohne Aufzählungszeichen. Nur dieser Text, kein Markdown." },
+  uebung: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib eine Übung für eine Tafelfolie. Zeile 1: kurzer Titel. Danach 3 bis 6 Aufgaben, je eine Zeile, beginnend mit ●○○, ●●○ oder ●●● für leicht, mittel, schwer. Nur dieser Text, kein Markdown, keine Lösungen." },
+  dialog: { model: MODEL.small, classic: CLASSIC.small, max: 1500, sys: BASE + "\nSchreib einen kurzen Dialog zum Nachspielen für zwei Personen. Zeile 1: kurzer Titel. Danach 6 bis 10 Zeilen, abwechselnd beginnend mit \"A: \" und \"B: \". Bei Englisch auf Englisch (Niveau A1 bis A2). Nur dieser Text, kein Markdown." },
 };
 
 // Entfernt alles Ausführbare aus dem SVG. Die App prüft ein zweites Mal und zeigt es nur als <img>.
@@ -54,8 +63,9 @@ Deno.serve(async (req) => {
   if (!u?.user) return json({ err: "auth" }, 401);
   const { data: admin } = await sb.rpc("is_admin");
   if (!admin) return json({ err: "admin" }, 403); // nur Admins
-  const key = Deno.env.get("BLACKBOX_KEY");
-  if (!key) return json({ err: "nokey" });
+  const clean = (n: string) => (Deno.env.get(n) || "").trim().replace(/^["']|["']$/g, ""); // Leerzeichen/Anführungszeichen vom Einfügen weg
+  const key = clean("BLACKBOX_KEY"), awsId = clean("BLACKBOX_AWS_ID"), awsSecret = clean("BLACKBOX_AWS_SECRET");
+  if (!key && !(awsId && awsSecret)) return json({ err: "nokey" });
   let body: { kind?: string; prompt?: string; subj?: string } = {};
   try { body = await req.json(); } catch (_) { /* leer */ }
   const kind = KINDS[String(body.kind)] ? String(body.kind) : "bild", K = KINDS[kind];
@@ -65,13 +75,33 @@ Deno.serve(async (req) => {
   if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
   await sb.from("blackbox_log").insert({ kind });
 
-  const client = new Anthropic({ apiKey: key, baseURL: `https://bedrock-mantle.${REGION}.api.aws/anthropic` });
+  // Offizieller Bedrock-Client. Bevorzugt IAM-Zugangsschlüssel (SigV4), sonst Bedrock-API-Schlüssel als Bearer.
+  const mk = (awsRegion: string) => awsId && awsSecret
+    ? new AnthropicBedrockMantle({ awsAccessKey: awsId, awsSecretAccessKey: awsSecret, awsRegion })
+    : new AnthropicBedrockMantle({ apiKey: key, awsRegion });
+  // deno-lint-ignore no-explicit-any
+  const ask = (c: any, model: string) => c.messages.stream({
+    model, max_tokens: K.max, system: K.sys,
+    messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
+  }).finalMessage();
+  // Alle Wege der Reihe nach: erst klassisch (wie das AWS-Testfenster, läuft sicher), dann Mantle.
+  // deno-lint-ignore no-explicit-any
+  const tries: [string, () => any, string][] = [];
+  if (awsId && awsSecret) for (const m of K.classic) tries.push(["eu-central-1 klassisch", () => new AnthropicBedrock({ awsAccessKey: awsId, awsSecretKey: awsSecret, awsRegion: "eu-central-1" }), m]);
+  for (const reg of REGIONS) for (const m of K.model) for (const r of ROUTES) tries.push([reg, () => mk(reg), r + m]);
   try {
-    const stream = client.messages.stream({
-      model: K.model, max_tokens: K.max, system: K.sys,
-      messages: [{ role: "user", content: (subj ? `Fach: ${subj}\n` : "") + `Wunsch der Lehrkraft: ${prompt}` }],
-    });
-    const msg = await stream.finalMessage();
+    let msg, last: unknown;
+    const tried: string[] = [];
+    for (const [reg, c, m] of tries) {
+      try { msg = await ask(c(), m); console.log("blackbox ok", reg, m); break; } catch (e) {
+        last = e;
+        const st = (e as { status?: number }).status;
+        tried.push(`${reg} ${m} ${st ?? String((e as Error).message || e).slice(0, 60)}`);
+        if (st === 429) throw e; // zu viele Anfragen: nicht weiter durchprobieren
+      }
+    }
+    if (!msg) console.error("blackbox versucht:", tried.join(" | "));
+    if (!msg) throw last;
     if (msg.stop_reason === "refusal") return json({ err: "refusal" });
     const text = msg.content.map((b) => (b.type === "text" ? b.text : "")).join("").trim();
     if (kind === "bild") {
@@ -81,7 +111,8 @@ Deno.serve(async (req) => {
     const ls = text.replace(/^```\w*|```$/g, "").split("\n").map((x) => x.trim()).filter(Boolean);
     return json({ kind, title: (ls[0] || "").replace(/^#+\s*/, "").slice(0, 200), text: ls.slice(1).join("\n").slice(0, 4000), n: (n ?? 0) + 1, limit: LIMIT });
   } catch (e) {
-    console.error("blackbox", (e as Error).message);
-    return json({ err: "ki" });
+    const st = (e as { status?: number }).status, m = String((e as Error).message || e).slice(0, 300);
+    console.error("blackbox", st, m);
+    return json({ err: "ki", st, detail: m }); // nur Admins sehen das; enthält keinen Schlüssel
   }
 });

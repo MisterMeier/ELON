@@ -4450,9 +4450,10 @@ async function bbGo(){const q=(($('#bb-in')||{}).value||BB.q).trim();BB.q=q;BB.e
   if(q.length<3){BB.err='Schreib bitte kurz, was du brauchst.';render();return}
   if(!bbAdmin()){BB.err='Die Blackbox ist nur für Admins.';render();return}
   BB.busy=true;render();
-  try{const sb=await sbClient(),L=lessonById(V.id)||{},r=await sb.functions.invoke('blackbox',{body:{kind:BB.kind,prompt:q.slice(0,600),subj:L.subject||''}}),d=r&&r.data;
-    if(r.error||!d)BB.err='Die Blackbox ist auf dem Server noch nicht eingerichtet.';
-    else if(d.err)BB.err={nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Die Grafik kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.';
+  try{const sb=await sbClient(),L=lessonById(V.id)||{},r=await sb.functions.invoke('blackbox',{body:{kind:BB.kind,prompt:q.slice(0,600),subj:L.subject||''}});let d=r&&r.data;
+    let st=0;if(r.error){const c=r.error.context;st=c&&c.status||0;if(c&&c.json)try{d=await c.json()}catch(_){}}
+    if(r.error&&!(d&&d.err))BB.err=st===404?'Die Blackbox ist auf dem Server noch nicht eingerichtet (Funktion „blackbox“ fehlt).':st?`Die Blackbox meldet einen Serverfehler (${st}). Schau in Supabase unter Edge Functions → blackbox → Logs.`:'Die Blackbox ist nicht erreichbar. Ist die Funktion „blackbox“ in Supabase angelegt?';
+    else if(d.err)BB.err={nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Die Grafik kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.'+(d.detail?` (AWS meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:'');
     else if(d.kind==='bild'){const svg=bbCleanSvg(d.svg);if(!svg)BB.err='Die Grafik kam unvollständig an. Versuch es bitte nochmal.';else{if(BB.url)URL.revokeObjectURL(BB.url);BB.url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));BB.res={...d,svg}}}
     else BB.res={kind:d.kind,title:String(d.title||''),text:String(d.text||''),n:d.n,limit:d.limit};
   }catch(e){BB.err='Das hat gerade nicht geklappt. Ist das Internet da?'}
