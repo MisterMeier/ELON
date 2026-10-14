@@ -114,30 +114,48 @@ async function xiAudio(path: string, key: string, payload: unknown): Promise<str
 }
 
 // Bild und Video laufen als Auftrag: anlegen, dann nachsehen, bis fertig. Dauert es länger, bekommt die App die Auftragsnummer und fragt nochmal.
-async function flowStart(type: "image" | "video", key: string, prompt: string): Promise<string | null> {
-  const r = await fetch(`${XI}/v1/flows/${type}`, {
-    method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json" },
-    body: JSON.stringify({ model_id: type === "image" ? IMG_MODEL : VID_MODEL, prompt, aspect_ratio: "16:9" }),
-  });
-  if (!r.ok) { console.error("blackbox flow", type, r.status, (await r.text()).slice(0, 300)); return null; }
-  const d = await r.json();
-  return String(d.generation_id || d.id || "") || null;
+// Modelle der Reihe nach: das eingestellte zuerst, dann bewährte Ausweichmodelle. Fehlertext geht (nur an Admins) zurück in die App.
+const FLOW_MODELS = { image: [IMG_MODEL, "bytedance-seedream-5-lite", "gpt-image-2"], video: [VID_MODEL, "ltx-v2", "bytedance-seedance-v2-fast"] };
+type FlowErr = { st?: number; detail?: string };
+async function flowStart(type: "image" | "video", key: string, prompt: string): Promise<{ id?: string } & FlowErr> {
+  let last: FlowErr = {};
+  for (const model_id of [...new Set(FLOW_MODELS[type])]) {
+    for (const body of [{ model_id, prompt, aspect_ratio: "16:9" }, { model_id, prompt }]) {
+      const r = await fetch(`${XI}/v1/flows/${type}`, { method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const t = await r.text();
+      if (r.ok) {
+        let d: Record<string, unknown> = {};
+        try { d = JSON.parse(t); } catch (_) { /* leer */ }
+        const id = String(d.id || d.generation_id || "");
+        if (id) { console.log("blackbox flow ok", type, model_id); return { id }; }
+      }
+      console.error("blackbox flow", type, model_id, r.status, t.slice(0, 300));
+      last = { st: r.status, detail: `${model_id}: ${t.slice(0, 200)}` };
+      if (r.status === 401 || r.status === 403 || r.status === 429) return last; // Schlüssel/Rechte/Guthaben: Weiterprobieren hilft nicht
+    }
+  }
+  return last;
 }
-async function flowWait(type: "image" | "video", key: string, gid: string, maxMs: number): Promise<{ data?: string; mime?: string; wait?: boolean; fail?: boolean }> {
+// Adresse des fertigen Ergebnisses finden (die Antwort ist noch Beta, daher mehrere mögliche Felder)
+// deno-lint-ignore no-explicit-any
+const flowUrl = (d: any): string => d.content_url || d.output?.content_url || d.output?.url || d.url || (Array.isArray(d.outputs) && (d.outputs[0]?.content_url || d.outputs[0]?.url)) || "";
+async function flowWait(type: "image" | "video", key: string, gid: string, maxMs: number): Promise<{ data?: string; mime?: string; wait?: boolean; fail?: boolean } & FlowErr> {
   const t0 = Date.now(), step = type === "image" ? 3000 : 10000;
   while (Date.now() - t0 < maxMs) {
     const r = await fetch(`${XI}/v1/flows/${type}/${encodeURIComponent(gid)}`, { headers: { "xi-api-key": key } });
     if (r.ok) {
       const d = await r.json();
-      if (d.status === "failed") { console.error("blackbox flow failed", d.failure_reason || d.error_message); return { fail: true }; }
-      if (d.status === "completed" && d.content_url) {
-        const f = await fetch(d.content_url);
-        if (!f.ok) return { fail: true };
+      if (d.status === "failed") { const why = String(d.failure_reason || d.error_message || ""); console.error("blackbox flow failed", why); return { fail: true, detail: why.slice(0, 200) }; }
+      const url = flowUrl(d);
+      if (d.status === "completed" || url) {
+        if (!url) { console.error("blackbox flow ohne url", JSON.stringify(d).slice(0, 300)); return { fail: true, detail: "fertig, aber ohne Adresse: " + JSON.stringify(d).slice(0, 150) }; }
+        const f = await fetch(url);
+        if (!f.ok) return { fail: true, st: f.status, detail: "Download" };
         const buf = new Uint8Array(await f.arrayBuffer());
-        if (buf.length > 25e6) return { fail: true };
-        return { data: b64(buf), mime: d.content_mime_type || f.headers.get("content-type") || (type === "image" ? "image/png" : "video/mp4") };
+        if (buf.length > 25e6) return { fail: true, detail: "Datei größer als 25 MB" };
+        return { data: b64(buf), mime: d.content_mime_type || d.output?.content_mime_type || f.headers.get("content-type") || (type === "image" ? "image/png" : "video/mp4") };
       }
-    } else if (r.status !== 404 && r.status !== 429) { console.error("blackbox flow get", r.status); return { fail: true }; }
+    } else if (r.status !== 404 && r.status !== 429) { const t = await r.text(); console.error("blackbox flow get", r.status, t.slice(0, 200)); return { fail: true, st: r.status, detail: t.slice(0, 200) }; }
     await sleep(step);
   }
   return { wait: true };
@@ -157,11 +175,12 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
     const type = kind === "foto" ? "image" : "video";
     let id = gid;
     if (!id) {
-      id = (await flowStart(type, key, await english(kind, prompt, claude))) || "";
-      if (!id) return json({ err: kind });
+      const st = await flowStart(type, key, await english(kind, prompt, claude));
+      if (!st.id) return json({ err: kind, st: st.st, detail: st.detail });
+      id = st.id;
     }
     const o = await flowWait(type, key, id, type === "image" ? 90000 : 110000);
-    if (o.fail) return json({ err: kind });
+    if (o.fail) return json({ err: kind, st: o.st, detail: o.detail });
     if (o.wait) return json({ ...extra, kind, err: "warten", gid: id });
     return json({ ...extra, kind, data: o.data, mime: o.mime });
   }
