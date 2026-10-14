@@ -97,6 +97,14 @@ async function english(kind: string, prompt: string, claude: Ask | null): Promis
   } catch (_) { return prompt; }
 }
 
+// Längenangabe aus dem Wunsch lesen: „5 Sekunden“, „5 s“, „2 Minuten“, „1,5 min“. Ohne Angabe wählt die KI selbst (Geräusch) bzw. 30 s (Musik).
+function seconds(p: string): number {
+  const m = p.match(/(\d+(?:[.,]\d+)?)\s*(sekunden|sekunde|sek|sec|seconds?|s|minuten|minute|min|m)\b/i);
+  if (!m) return 0;
+  const v = parseFloat(m[1].replace(",", "."));
+  return /^m/i.test(m[2]) ? v * 60 : v;
+}
+
 async function xiAudio(path: string, key: string, payload: unknown): Promise<string | null> {
   const r = await fetch(`${XI}${path}${path.includes("?") ? "&" : "?"}output_format=mp3_44100_64`, {
     method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json", Accept: "audio/mpeg" }, body: JSON.stringify(payload),
@@ -139,10 +147,10 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
   const key = Deno.env.get("ELEVEN_KEY");
   if (!key) return json({ err: "nokey11" });
   if (kind === "ton" || kind === "musik") {
-    const text = await english(kind, prompt, claude);
+    const text = await english(kind, prompt, claude), sec = seconds(prompt);
     const audio = kind === "ton"
-      ? await xiAudio("/v1/sound-generation", key, { text, prompt_influence: 0.5 })
-      : await xiAudio("/v1/music", key, { prompt: text, music_length_ms: 30000, force_instrumental: true });
+      ? await xiAudio("/v1/sound-generation", key, { text, prompt_influence: 0.5, ...(sec ? { duration_seconds: Math.min(30, Math.max(0.5, sec)) } : {}) })
+      : await xiAudio("/v1/music", key, { prompt: text, music_length_ms: Math.round(Math.min(600, Math.max(5, sec || 30)) * 1000), force_instrumental: true });
     return audio ? json({ ...extra, kind, audio }) : json({ err: kind });
   }
   if (kind === "foto" || kind === "film") {
