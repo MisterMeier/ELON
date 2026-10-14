@@ -769,6 +769,19 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 
 .diary{position:relative;border:0;cursor:pointer;font:inherit;min-height:150px;border-radius:8px 16px 16px 8px;background:#3b4a8a;color:#fff;display:grid;align-content:center;justify-items:center;gap:6px;padding:16px 16px 16px 30px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
 .diary .spine{position:absolute;left:0;top:0;bottom:0;width:16px;border-radius:8px 0 0 8px;background:#2a3566}.diary b{font-family:var(--f-display);font-size:1.5rem}.diary.vokb{background:#4f46e5}.diary.vokb .spine{background:#1e3a8a}.diary em{font-style:normal;background:#f59e0b;color:#1e3a8a;border-radius:8px;padding:0 6px;font-weight:800}
+/* Skizzenbuch (Kunst) */
+body:has(#skz-host) #tk-fab{display:none}
+.diary.skzb{background:#c0392b}.diary.skzb .spine{background:#7d241b}
+.rt-skz{background:#fffaf0}.skz-b-in{flex:1;display:flex;align-items:center;gap:1.4em;padding:1.2em 2em}.skz-b-in>div{flex:1;min-width:0}.rt-skz h1{font-family:var(--f-display);font-size:2.2em;line-height:1.15;margin:0 0 .6em;color:#7d241b}
+.rt-skz p{font-size:1.15em;font-weight:700;margin:.8em 0}.rt-skz b{font-size:1.2em}.skz-b-elo{height:70%;max-height:16em;object-fit:contain}
+.skz-flow{display:flex;align-items:center;gap:.5em;flex-wrap:wrap;font-weight:800;font-size:1.2em}.skz-flow .st{border:.14em dashed #c0392b;border-radius:.6em;padding:.4em .8em;background:#fff}.skz-flow .st.werk{border-style:solid;background:#c0392b;color:#fff}.skz-flow i{font-style:normal;color:#7d241b}
+.bw.skz-sh{background:#1d1f27;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqh;padding:2cqh;position:relative}.skz-sh img{max-width:96%;max-height:84cqh;object-fit:contain;border-radius:.6cqh;box-shadow:0 1cqh 4cqh rgba(0,0,0,.5);background:#fff}
+.skz-sh-k{position:absolute;left:2cqh;top:1.6cqh;color:#fff;font-family:var(--f-display);font-size:3cqh;opacity:.85}.skz-sh-p{color:#fff;font-weight:800;font-size:3cqh;margin:0}.skz-sh img+.skz-sh-p{display:none}.skz-sh.nobild img{display:none}.skz-sh.nobild .skz-sh-p{display:block}
+.skzt-k{margin-bottom:12px}.skzt-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:10px}
+.skzt-i{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0;overflow:hidden;cursor:pointer;text-align:left;font:inherit}.skzt-i.neu{box-shadow:0 0 0 3px var(--orange)}
+.skzt-i img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff}.skzt-i small{display:block;padding:6px 8px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skzt-kd{position:absolute;left:6px;top:6px;font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:var(--warn-bg);color:#8a5a00}.skzt-kd.werk{background:var(--ok-bg);color:#17643f}.skzt-kd.frei{background:var(--surface-2);color:var(--muted)}
+.skzt-ov{align-content:center}.skzt-box{background:var(--surface);border-radius:18px;padding:14px;width:min(1100px,96vw);box-shadow:0 20px 50px rgba(0,0,0,.3)}.skzt-box img{display:block;width:100%;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px}
 .vk-box{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}.vk-box div{background:#eef2ff;border-radius:10px;padding:8px 4px;text-align:center}.vk-box b{display:block;font-size:1.4rem;color:#1e3a8a}.vk-box small{font-size:.7rem;font-weight:800;color:#64748b}
 .vk-list{display:grid;gap:6px;margin-top:8px}.vk-w{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e0e7ff;border-radius:10px;padding:6px 10px}.vk-w .en{font-weight:800;color:#1e3a8a;flex:1}.vk-w .de{flex:1}.vk-f{font-size:.75rem;font-weight:800;background:#e0f2fe;color:#1e3a8a;border-radius:8px;padding:2px 8px;white-space:nowrap}
 .vk-q{max-width:640px;margin:0 auto;text-align:center}.vk-card{background:#fff;border:3px solid #c7d2fe;border-radius:22px;padding:28px 18px;margin:14px 0;box-shadow:0 8px 24px rgba(30,58,138,.08)}.vk-card .lang{font-size:.8rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em}.vk-card .w{font-family:var(--f-display);font-size:clamp(1.8rem,6vw,2.8rem);color:#1e3a8a;margin:8px 0}
@@ -1559,7 +1572,7 @@ const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
 // Klassenschlüssel kommt nur im #-Teil der Adresse (QR-Karte, Tafel-QR): der wird nie an einen Server geschickt
 const HK=(()=>{const h=new URLSearchParams(location.hash.slice(1));const o={k:h.get('k'),ck:h.get('ck'),u:(h.get('u')||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,4)};if(o.k||o.ck||o.u){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}return o})();
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
-const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','gameGrp','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd'];
+const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','gameGrp','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd','skzT','skzSent'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
 const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
 function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
@@ -1771,7 +1784,7 @@ function render(){
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')||(S.role==='student'&&['practice','memory','salad','balloon','game'].includes(V.name)&&b.dataset.nav==='homework')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
-  kfAnimate();wlwMount();
+  kfAnimate();skzFill();wlwMount();
 }
 function tickClock(){
   const n=nowInfo(),c=$('#clock');
@@ -1822,10 +1835,80 @@ VIEWS.desk=()=>{
   <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
-    ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}</div>
+    ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}
+    <button class="diary skzb" data-act="skizze"><span class="spine"></span><b>Skizzenbuch</b><small>${S.skzT?'Kunst · Auftrag: '+esc(String(S.skzT.text||'').slice(0,40)):'Kunst · zeichnen mit dem Stift'}</small></button></div>
   ${jgst()>=9?`<section class="panel quali"><h2>Quali-Trainer (kommt)</h2><p class="muted">Hier übst du bald mit echten Prüfungsaufgaben für den Quali: ${Object.values(QUALI).map(q=>q.name).join(', ')}.</p></section>`:''}
   <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
 };
+/* ---------- Skizzenbuch (Kunst) ----------
+   Die Zeichen-App steht in assets/skizze/skizze.js und wird erst beim Öffnen geladen. Blätter bleiben auf dem Gerät (IndexedDB 'elio-skizze').
+   Phasen-Werkzeug „Skizzenphase“: CS.skz={id,text,n,werk,p:{nr:[Skizzen,Werk]}}. Erst n Skizzen, dann geht das Werk auf (oder die Lehrkraft gibt es frei).
+   Was ein Kind „an die Lehrkraft schickt“, geht verschlüsselt über das Postfach (k:'skz') und liegt bei der Lehrkraft verschlüsselt in IndexedDB. */
+let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0;
+function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze)return res();const s=document.createElement('script');s.src='assets/skizze/skizze.js?v='+BUILD;s.onload=()=>res();s.onerror=()=>{SKZ_P=null;s.remove();rej(new Error('skizze'))};document.head.appendChild(s)}))}
+const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
+function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;
+  if(R&&R.id){const t={id:String(R.id).slice(0,20),text:String(R.text||'').slice(0,200),n:Math.max(1,Math.min(4,+R.n||2)),werk:!!R.werk};if(JSON.stringify(t)!==JSON.stringify(S.skzT)){S.skzT=t;save()}return t}
+  return S.skzT||null}
+function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(skzClose);let host=$('#skz-host');if(!host){host=document.createElement('div');host.id='skz-host';document.body.appendChild(host)}
+  const from=V.from||(S.role==='teacher'?'tdesk':'desk');
+  skzLoad().then(()=>{if(!SKZ_ON)return;return Skizze.mount(host,{owner:skzOwner(),who:S.role==='teacher'?'teacher':'student',task:skzTask(),elo:eloImg('kunst','K'),
+      onShare:S.role==='student'?skzShare:null,onProgress:skzProg,onExit:()=>{SKZ_ON=false;const h=$('#skz-host');if(h)h.remove();go(from)}})})
+    .catch(()=>{SKZ_ON=false;const h=$('#skz-host');if(h)h.remove();toast('Das Skizzenbuch konnte nicht geladen werden. Bist du online?');go(from)})}
+function skzClose(){if(!SKZ_ON)return;SKZ_ON=false;const h=$('#skz-host');if(window.Skizze)Skizze.unmount().then(()=>{if(h&&!SKZ_ON)h.remove()});else if(h)h.remove()}
+VIEWS.skizze=()=>{setTimeout(skzMount,0);return `<div class="empty" style="margin-top:40px">Das Skizzenbuch öffnet sich …</div>`};
+// SuS: Skizze an die Lehrkraft (höchstens 3 Bilder warten gleichzeitig, damit der Speicher nicht vollläuft)
+function skzShare(o){if(S.role!=='student')return false;S.mbq=(S.mbq||[]).filter(x=>!(x.k==='skz'&&x.id===o.id));const q=S.mbq.filter(x=>x.k==='skz');if(q.length>=3)S.mbq=S.mbq.filter(x=>x!==q[0]);
+  mbQueue({k:'skz',id:String(o.id).slice(0,40),title:String(o.title||'').slice(0,80),kind:o.kind,task:o.task||'',tt:String(o.taskText||'').slice(0,200),img:o.img,at:Date.now()});return !!S.tpk}
+// SuS: Stand im Auftrag an die Tafel (nur Zahlen: Skizzen und ob das Werk begonnen ist)
+function skzProg(p){const R=RCS&&RCS.skz;if(S.role!=='student'||!R||R.id!==p.id)return;const k=p.id+':'+p.s+':'+p.w;if(S.skzSent===k)return;S.skzSent=k;save();sendMsg({k:'skz',id:p.id,s:p.s,w:p.w})}
+function skzSync(p){if(S.role!=='student'||!p||!p.skz||!p.skz.id)return;const t=skzTask();if(window.Skizze&&SKZ_ON)Skizze.setTask(t);
+  const m=String(S.skzSent||'').split(':');if(m[0]===p.skz.id&&Date.now()-SKZ_SYNC>8000){const mine=(p.skz.p||{})[S.nr];if(!mine||mine[0]!==+m[1]||mine[1]!==+m[2]){SKZ_SYNC=Date.now();sendMsg({k:'skz',id:m[0],s:+m[1],w:+m[2]})}}}
+// Lehrkraft: geschickte Bilder verschlüsselt ablegen (eigener Schlüssel im Lehrer-Tresor, übersteht einen Passwortwechsel)
+async function skzCK(){if(!TD.skzK){TD.skzK=b64e(crypto.getRandomValues(new Uint8Array(32)));tsave()}return crypto.subtle.importKey('raw',b64d(TD.skzK),'AES-GCM',false,['encrypt','decrypt'])}
+const SKZU={};
+async function skzStore(nr,o){if(!TDKEY)return;const c=S.cls||'-',key='skz:'+c+':'+nr+':'+String(o.id||'x').replace(/[^\w-]/g,'').slice(0,40);
+  try{const raw=b64d(o.img.split(',')[1]),iv=crypto.getRandomValues(new Uint8Array(12)),ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await skzCK(),raw);await idb('blob','readwrite',st=>st.put({iv,ct},key))}catch(e){console.warn(e);return}
+  TD.skz=TD.skz||{};const B=(TD.skz[c]=TD.skz[c]||{}),L=(B[nr]=B[nr]||[]),i=L.findIndex(x=>x.key===key);if(i>=0)L.splice(i,1);
+  L.unshift({key,t:String(o.title||'Skizze').slice(0,80),kind:['skizze','werk','frei'].includes(o.kind)?o.kind:'frei',task:String(o.task||'').slice(0,20),tt:String(o.tt||'').slice(0,200),at:Date.now(),neu:1});
+  while(L.length>30){const x=L.pop();idb('blob','readwrite',st=>st.delete(x.key)).catch(()=>{})}if(SKZU[key]){URL.revokeObjectURL(SKZU[key]);delete SKZU[key]}
+  tsave();navTBadge();if(['skzT','tsubj','tafel'].includes(V.name))V.name==='tafel'?updTafel():render()}
+async function skzUrl(key){if(SKZU[key])return SKZU[key];const r=await idb('blob','readonly',st=>st.get(key));if(!r)return '';
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:r.iv},await skzCK(),r.ct);return SKZU[key]=URL.createObjectURL(new Blob([pt],{type:'image/jpeg'}))}
+function skzFill(){document.querySelectorAll('img[data-skz]:not([src])').forEach(im=>{im.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');skzUrl(im.dataset.skz).then(u=>{if(u)im.src=u;else im.alt='Bild fehlt'}).catch(()=>{im.alt='Bild fehlt'})});
+  const sh=document.querySelector('img[data-skzshow]:not([src])');if(sh&&(S.role==='teacher'||BOARD)){sh.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');idb('blob','readonly',st=>st.get('skzshow')).then(b=>{if(b)sh.src=URL.createObjectURL(b);else sh.closest('.skz-sh').classList.add('nobild')}).catch(()=>sh.closest('.skz-sh').classList.add('nobild'))}}
+const skzAll=()=>{const B=(TD.skz||{})[S.cls||'-']||{};return Object.keys(B).map(Number).flatMap(n=>(B[n]||[]).map(x=>({...x,nr:n})))};
+const skzNew=()=>skzAll().filter(x=>x.neu).length;
+function skzSeen(key){const x=skzAll().find(y=>y.key===key);if(!x)return;const L=TD.skz[S.cls||'-'][x.nr],o=L.find(y=>y.key===key);if(o&&o.neu){o.neu=0;tsave()}}
+function skzDel(key){if(!confirm('Dieses Bild bei dir löschen? Im Skizzenbuch des Kindes bleibt es erhalten.'))return;const B=(TD.skz||{})[S.cls||'-']||{};Object.keys(B).forEach(n=>{B[n]=B[n].filter(x=>x.key!==key);if(!B[n].length)delete B[n]});
+  idb('blob','readwrite',st=>st.delete(key)).catch(()=>{});if(SKZU[key]){URL.revokeObjectURL(SKZU[key]);delete SKZU[key]}V.big=null;tsave();render()}
+// Werkbetrachtung: ein Bild groß an der Tafel, ohne Namen. Die Bilddatei liegt nur auf dem Lehrergerät (das Tafel-Fenster liest sie dort), die iPads sehen nur den Hinweis.
+async function skzShow(key){if(!CS)return;try{const u=await skzUrl(key),b=await fetch(u).then(r=>r.blob());await idb('blob','readwrite',st=>st.put(b,'skzshow'));CS.skzShow={at:Date.now()};pushCS();toast('Das Bild ist jetzt groß an der Tafel (ohne Namen).');render()}catch(e){toast('Das Bild konnte nicht gezeigt werden.')}}
+const skzShowHTML=(X,mini)=>`<div class="bw skz-sh"><span class="skz-sh-k">Werkbetrachtung</span>${S.role==='teacher'||BOARD?`<img data-skzshow="${X.at}" alt="Bild aus der Klasse">`:''}<p class="skz-sh-p">Schau zur Tafel: Was fällt dir an diesem Bild auf?</p></div>`;
+const skzCount=(K,onN)=>{const P=K.p||{},v=Object.values(P);return {n:K.n,full:v.filter(x=>x[0]>=K.n||x[1]).length,w:v.filter(x=>x[1]).length,of:Math.max(onN||0,v.length)}};
+function skzBoard(t,c){const n=Math.max(1,Math.min(4,+t.n||2)),k=c.sk;
+  return `<div class="rt rt-skz"><div class="band">Kunst · Erst skizzieren, dann gestalten</div><div class="skz-b-in"><div><h1>${esc(t.text||c.name||'Skizziere deine Ideen')}</h1>
+    <div class="skz-flow">${Array.from({length:n},(_,i)=>`<span class="st">Skizze ${i+1}</span>`).join('<i>→</i>')}<i>→</i><span class="st werk">Werk</span></div>
+    <p>Öffne dein Skizzenbuch auf dem iPad. Probiere in jeder Skizze eine andere Idee aus.</p>${k?`<b>${k.full} / ${k.of||'–'} haben ihre Skizzen${k.w?` · ${k.w} am Werk`:''}</b>${pgBar(k.full,Math.max(k.full,k.of||0))}`:''}</div>
+    <img class="skz-b-elo" src="${eloImg('kunst','K')}" alt="Elo mit Palette"></div></div>`}
+function skzCtl(on){if(!CS.skz)return `<span class="label">Werkbetrachtung an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">Ein Bild aus dem Skizzenbuch ist groß an der Tafel, ohne Namen.</p><button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>`;const K=CS.skz,P=K.p||{},ids=[...new Set([...(on||[]).map(Number),...Object.keys(P).map(Number)])].sort((a,b)=>a-b),c=skzCount(K,(on||[]).length),nn=skzNew();
+  return `<span class="label">✏️ Skizzenphase · ${c.full} / ${ids.length||'–'} mit ${K.n} Skizze${K.n>1?'n':''}${c.w?` · ${c.w} am Werk`:''}</span>${pgBar(c.full,Math.max(1,ids.length))}<p style="font-weight:800;margin-top:4px">${esc(K.text)}</p>
+    <div class="cw-t">${ids.map(k=>{const v=P[k]||[0,0];return `<span class="chip ${v[1]||v[0]>=K.n?'ok':''}">${esc(nickOf(k)||kidName(k))} · ${v[1]?'Werk':Math.min(v[0],K.n)+'/'+K.n}</span>`}).join(' ')}</div>
+    <div class="row" style="margin-top:8px"><button class="btn sm ${K.werk?'on':''}" data-act="skz-werk">${K.werk?'Werk ist für alle frei':'Werk für alle freigeben'}</button>${V.name==='skzT'?'':`<button class="btn sm" data-act="skzT" data-from="tafel">Geschickte Bilder${nn?' · '+nn+' neu':''}</button>`}${CS.skzShow?'<button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>':''}</div>`}
+function skzTeach(){const n=skzAll().length,nn=skzNew();
+  return `<button class="mod-card heft-card" data-act="skzT" data-from="tdesk" style="margin-top:12px"><span class="mi">✏️</span><span class="t"><span class="label">Skizzenbuch</span><b>${n?n+' Bild'+(n>1?'er':'')+' von der Klasse'+(nn?` · ${nn} neu`:''):'Noch keine Bilder geschickt'}</b><span class="muted">Skizzen und Werke, die dir die SuS geschickt haben. Werkbetrachtung an der Tafel.</span></span><span class="btn">Ansehen</span></button>
+    <button class="mod-card heft-card" data-act="skizze" style="margin-top:12px"><span class="mi">🖌️</span><span class="t"><span class="label">Mein Skizzenbuch</span><b>Selbst zeichnen</b><span class="muted">Zum Vorzeichnen an der Tafel oder für Beispiele. Bleibt auf diesem Gerät.</span></span><span class="btn">Öffnen</span></button>`}
+VIEWS.skzT=()=>{const all=skzAll(),tasks=[...new Map(all.filter(x=>x.task).map(x=>[x.task,x.tt])).entries()],f=V.task||'',L=all.filter(x=>!f||x.task===f).sort((a,b)=>b.at-a.at);
+  const kids=[...new Set(L.map(x=>x.nr))].sort((a,b)=>a-b),big=V.big&&all.find(x=>x.key===V.big);
+  return `<div class="subj-head s-K"><button class="btn sm" data-act="${V.from==='tafel'?'tafel':'tdesk'}">← Zurück</button>${badge('K')}<h1>Skizzenbuch · Bilder der Klasse</h1></div>
+  ${CS&&CS.skz?`<section class="panel" style="margin-bottom:14px">${skzCtl(online())}</section>`:''}
+  ${tasks.length?`<div class="row" style="gap:6px;margin-bottom:12px"><button class="btn sm ${!f?'on':''}" data-act="skz-task" data-t="">Alle</button>${tasks.map(([id,tt])=>`<button class="btn sm ${f===id?'on':''}" data-act="skz-task" data-t="${esc(id)}">${esc(String(tt||'Auftrag').slice(0,40))}</button>`).join('')}</div>`:''}
+  ${kids.length?kids.map(n=>`<section class="panel skzt-k"><div class="row" style="gap:8px"><b>${avOf(n)} ${esc(nickOf(n)||kidName(n))}</b><span class="muted" style="font-weight:700">${L.filter(x=>x.nr===n).length} Bild${L.filter(x=>x.nr===n).length>1?'er':''}</span></div>
+    <div class="skzt-g">${L.filter(x=>x.nr===n).map(x=>`<button class="skzt-i ${x.neu?'neu':''}" data-act="skz-big" data-key="${esc(x.key)}"><img data-skz="${esc(x.key)}" alt="${esc(x.t)}"><span class="skzt-kd ${x.kind}">${{skizze:'Skizze',werk:'Werk',frei:'Blatt'}[x.kind]}</span><small>${esc(x.t)} · ${new Date(x.at).toLocaleDateString('de-DE',{day:'numeric',month:'short'})}</small></button>`).join('')}</div></section>`).join('')
+    :'<div class="empty">Noch keine Bilder. Die SuS schicken Skizzen aus ihrem Skizzenbuch über „Exportieren → An meine Lehrkraft schicken“.</div>'}
+  <p class="foot">Die Bilder liegen verschlüsselt nur auf diesem Gerät. An der Tafel erscheinen sie ohne Namen.</p>
+  ${big?`<div class="lov skzt-ov"><div class="skzt-box"><img data-skz="${esc(big.key)}" alt="${esc(big.t)}"><div class="row" style="justify-content:space-between;margin-top:10px"><span><b>${esc(nickOf(big.nr)||kidName(big.nr))}</b> · ${esc(big.t)}${big.tt?` <span class="muted">· ${esc(big.tt)}</span>`:''}</span>
+    <span class="row" style="gap:6px">${CS?`<button class="btn sm pri" data-act="skz-show" data-key="${esc(big.key)}">An der Tafel zeigen (ohne Namen)</button>`:''}${CS&&CS.skzShow?'<button class="btn sm" data-act="skz-hide">Tafel: Bild ausblenden</button>':''}<button class="btn sm red" data-act="skz-del" data-key="${esc(big.key)}">Löschen</button><button class="btn sm" data-act="skz-big" data-key="">Schließen</button></span></div></div></div>`:''}`};
 var FOTO={url:""};
 document.addEventListener('change',e=>{if(e.target.id!=='foto-in')return;const f=e.target.files&&e.target.files[0];if(!f)return;if(FOTO.url)try{URL.revokeObjectURL(FOTO.url)}catch(x){}
   medSmall(f).then(b=>{FOTO.url=URL.createObjectURL(b);render()})});
@@ -1981,7 +2064,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261014-0815';let verTold=false;
+const BUILD='20261014-1245';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2080,7 +2163,7 @@ VIEWS.subject=()=>{
     <div class="tabs s-${k}" role="tablist">
       <button class="${tab==='module'?'on':''}" data-act="tab" data-t="module">Lernmodule</button>
       <button class="${tab==='heft'?'on':''}" data-act="tab" data-t="heft">Regelheft · ${entries.length}</button>
-      ${k==='E'?'<button data-act="vok">📗 Vokabelheft</button>':''}
+      ${k==='E'?'<button data-act="vok">📗 Vokabelheft</button>':''}${k==='K'?'<button data-act="skizze">✏️ Skizzenbuch</button>':''}
       <button class="${tab==='hw'?'on':''}" data-act="tab" data-t="hw">Übungen · ${hws.filter(h=>!S.hwDone[h.id]).length}</button>
     </div>
     <div class="s-${k}">${body}</div>`;
@@ -2663,6 +2746,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.nick){const nk=cleanNick(m.nick);if(nk&&nk!==ROSTER[nr].nick){ROSTER[nr].nick=nk;if(TD.nicks[nr]!==nk){TD.nicks[nr]=nk;tsave()}if(V.name==='tafel')updTafel()}}
   let ch=false;
   if(m.k==='kfb'){kfbAnswer(nr,m);return}
+  if(m.k==='skz'&&CS.skz&&m.id===CS.skz.id){const v=[Math.max(0,Math.min(9,+m.s||0)),m.w?1:0],o=(CS.skz.p=CS.skz.p||{})[nr];if(!o||o[0]!==v[0]||o[1]!==v[1]){CS.skz.p[nr]=v;ch=true;if(V.name==='skzT')render()}}
   if(m.k==='help'){const has=CS.help.includes(nr);if(m.on&&!has){CS.help.push(nr);ch=true;SND.right()}if(!m.on&&has){CS.help=CS.help.filter(x=>x!==nr);ch=true}}
   if(m.k==='ready'&&CS.ready&&m.id===CS.ready.id&&!CS.ready.done.includes(nr)){CS.ready.done.push(nr);ch=true;
     if(CS.ready.words&&Array.isArray(m.words)){const C=(CS.ready.cloud=CS.ready.cloud||{});[...new Set(m.words.slice(0,4).map(mwClean).filter(Boolean))].forEach(w=>{const k=w.toLowerCase();if((CS.ready.hide||[]).includes(k))return;C[k]=C[k]||[w,0];C[k][1]++})}
@@ -2777,6 +2861,7 @@ function updTafel(){
     :md?`<span class="label">${CS.ready.only?'Stimmungsbarometer':'Bereit-Check mit Stimmung'} · ${CS.ready.done.length} / ${on.length||'–'} · nur für dich</span><p style="font-size:1.6rem;margin-top:4px">${MOOD5.map((e,k)=>{const c=Object.values(md).filter(v=>v===k).length;return c?`${e} ${c}`:''}).filter(Boolean).join(' &nbsp; ')||'–'}</p>${Object.entries(md).filter(([,v])=>v>=3).map(([k,v])=>`<span class="chip">${MOOD5[v]} ${esc(kidName(+k))}</span>`).join(' ')}`
     :CS.ready&&CS.ready.words?`<span class="label">Bereit-Check mit Stimmungswörtern · ${CS.ready.done.length} / ${on.length||'–'} bereit</span><div class="cw-t">${Object.entries(CS.ready.cloud||{}).map(([k,[w,n]])=>`<span class="chip">${esc(w)}${n>1?' ×'+n:''} <button class="cw-x" data-act="cw-del" data-k="${esc(k)}" title="Von der Tafel nehmen" aria-label="${esc(w)} von der Tafel nehmen">✕</button></span>`).join(' ')||'<p class="muted" style="font-weight:700">Noch keine Wörter.</p>'}</div>`
     :CS.cloud?`<span class="label">☁️ Wortwolke · ${CS.cloud.done.length} / ${Math.max(on.length,CS.cloud.done.length)||'–'} geantwortet</span>${pgBar(CS.cloud.done.length,Math.max(on.length,CS.cloud.done.length))}<p style="font-weight:800;margin-top:4px">${esc(CS.cloud.q)}</p><div class="cw-t">${Object.entries(CS.cloud.words).map(([k,[w,n]])=>`<span class="chip">${esc(w)}${n>1?' ×'+n:''} <button class="cw-x" data-act="cl-del" data-k="${esc(k)}" title="Von der Tafel nehmen" aria-label="${esc(w)} von der Tafel nehmen">✕</button></span>`).join(' ')||'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}</div><div class="row" style="margin-top:8px"><button class="btn sm ${CS.cloud.big?'on':''}" data-act="cl-big">${CS.cloud.big?'Wolke klein (Folie zeigen)':'☁️ Wolke groß an der Tafel'}</button><button class="btn sm" data-act="cl-end">Beenden</button></div>`
+    :CS.skz||CS.skzShow?skzCtl(on)
     :CS.journal?`<span class="label">📔 Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${Math.max(on.length,CS.journal.done.length)||'–'} eingetragen</p>${pgBar(CS.journal.done.length,Math.max(on.length,CS.journal.done.length))}`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${Math.max(on.length,CS.ready.done.length)||'–'} bereit</p>${pgBar(CS.ready.done.length,Math.max(on.length,CS.ready.done.length))}${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
   if(CS.poll){const tot=Math.max(1,CS.poll.voted.length);
@@ -2874,6 +2959,7 @@ function boardHTML(R,mini){const h=boardHTMLc(R,mini),fx=R&&fxOn(R.fx)?R.fx.k:''
   const ek=fx==='snd'&&ELO_SND_FIG[R.fx.s]||'hilfe',sj=R&&R.stage&&R.stage.subj;
   return h.replace(/<\/div>\s*$/,`<div class="bw-elo" style="animation-duration:${(R.fx.d||6000)/1000}s"><div class="sl-elo fx-${fx}" style="position:relative;right:auto;bottom:auto;width:100%"><img src="${eloImg(ek,sj)}" alt="Elo" draggable="false">${eloLidsS(ek,sj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}</div></div></div>`)}
 function boardHTMLc(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL.big):'';
+  if(R&&R.skzShow&&!(R.freeze&&R.lesson))return skzShowHTML(R.skzShow,mini);
   // Abstimmungs-Ergebnis groß an der Tafel (die Lehrkraft blendet es ein), immer ohne Namen
   if(R&&R.poll&&R.poll.show&&R.poll.res&&R.poll.type!=='quiz'){const P=R.poll,tot=Math.max(1,P.res.reduce((a,b)=>a+b,0));
     return `<div class="bw bw-rt"><div class="rt rt-res" ${bgAttr('allgemein')}><span class="res-l">Ergebnis · ${P.voted.length} abgestimmt</span><h1>${esc(P.q||'')}</h1><div class="res-b">${P.opts.map((o,i)=>`<div class="res-r"><span>${esc(o)}</span><i style="--w:${(P.res[i]||0)/tot*100}%"></i><b>${P.res[i]||0}</b></div>`).join('')}</div></div></div>`}
@@ -2904,7 +2990,7 @@ function boardHTML0(R,mini){
     return `<div class="bw bw-rt s-${st.subj}"><div class="rt rt-ask" ${bgAttr('allgemein')}><span class="ask-i">${t.id==='thumbs'?'👍 👌 👎':t.id==='mood'?MOOD5.join(' '):'🎟️'}</span><h1>${esc(t.id==='exit'?'Exit-Ticket':t.q||I.name)}</h1>${t.id==='exit'&&R.exit?`<ol>${R.exit.qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`:''}<p>Tippe auf deinem iPad.</p><b class="ask-n">${n} / ${Math.max(R.onN||0,n)||'–'} fertig</b><img class="ask-e" src="assets/elo/elo-uebung-512.png" alt=""></div>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`}
   else if(st&&t.id==='vw')return `<div class="bw bw-rt s-${st.subj}">${vwHTML(t,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='heftlink')return `<div class="bw bw-rt s-${st.subj}">${richTool({id:'heft',title:t.title,text:t.text},{subj:st.subj,name:st.name,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
-  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&(R.ready.msg||t.id==='start')?{g:R.ready.goAt||R.now,d:R.ready.done.length,n:Math.max(R.onN||0,R.ready.done.length)}:null,cw:R.ready&&R.ready.cloud,jn:R.journal?[R.journal.done.length,Math.max(R.onN||0,R.journal.done.length)]:null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&(R.ready.msg||t.id==='start')?{g:R.ready.goAt||R.now,d:R.ready.done.length,n:Math.max(R.onN||0,R.ready.done.length)}:null,cw:R.ready&&R.ready.cloud,jn:R.journal?[R.journal.done.length,Math.max(R.onN||0,R.journal.done.length)]:null,sk:R.skz?skzCount(R.skz,R.onN):null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='kfb')return `<div class="bw bw-rt"><div class="rt rt-kfl"><i class="kfl-ln"></i><i class="kfl-c"></i><div class="kfl-t"><span>Kopfrechnen</span><b>Fußball</b></div><div class="kfl-b"><img src="assets/kfb/ball.webp" alt=""><i class="kfl-sh"></i></div><p>Gleich geht's los!</p></div>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
@@ -2961,7 +3047,7 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
 function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
-  OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
+  skzSync(p);OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 // Lehrkraft hat das Kind zurückgesetzt: Name, Avatar und Lernstand auf diesem iPad löschen, dann neu einrichten
 function stuWipe(){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk;S.acctAt=Date.now();save();ACCT.sig='';acctSave(true);V={name:'role',step:'nick',nr:S.nr,only:'student',school:S.school,cls:S.cls};render()}
@@ -3302,7 +3388,7 @@ const lessonById=id=>lessons().find(l=>l.id===id);
 const lessonMin=L=>L.phases.reduce((a,p)=>a+(+p.min||0),0);
 function goTarget(t){
   if(!t)return;
-  if(t==='module')go('module');else if(t==='homework')go('homework');else if(t==='journal')go('journal');
+  if(t==='module')go('module');else if(t==='homework')go('homework');else if(t==='journal')go('journal');else if(t==='skizze')go('skizze',{from:'dash'});
   else if(t.startsWith('heft:')){const r=t.slice(5),k=r.indexOf(':');go('subject',k<0?{s:r,tab:'heft'}:{s:r.slice(0,k),tab:'heft',hl:r.slice(k+1)})}
   else if(t.startsWith('station:')){const id=t.slice(8);W={};({words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[id]||(()=>{}))();go('station',{id})}
 }
@@ -3517,7 +3603,7 @@ function startStep(i){
 }
 // Werkzeug der Phase starten (beim ersten Bild des Werkzeugs) bzw. beim Zurück auf die Folien wieder beenden
 function toolClear(L,i){const p=L.phases[i]||{},T=p.tool||{};CS.game=null;if(typeof KF!=='undefined'&&KF)kfbStop(true);CS.vw=null;CS.exit=null;
-  if(T.id==='start'||T.id==='mood')CS.ready=null;if(['thumbs','corners4','quiz'].includes(T.id))CS.poll=null;if(T.id==='diary')CS.journal=null;if(T.id==='wc')CS.cloud=null;
+  if(T.id==='start'||T.id==='mood')CS.ready=null;if(['thumbs','corners4','quiz'].includes(T.id))CS.poll=null;if(T.id==='diary')CS.journal=null;if(T.id==='wc')CS.cloud=null;if(T.id==='skizze'){CS.skz=null;CS.skzShow=null}
   if(CS.phase){CS.phase.look=p.act==='look'||p.act==='mission';CS.phase.go=p.act==='goto'?p.target:null;CS.phase.txt=p.txt||p.goal||''}}
 // Übungen einer Phase: jedes Weiter der Lehrkraft schickt alle iPads zur nächsten Übung; dazwischen geht es nach dem Schaffen automatisch weiter
 function uebGame(L,i){const p=L.phases[i],T=p.tool||{},all=ubSeq(T).map(q=>{const x=ubFind(q.eid),u=x&&ubList(x)[q.ui];return u?{g:u.t,title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)}:null}),it=all.filter(Boolean);
@@ -3534,6 +3620,7 @@ function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='question'&&T.q)CS.phase.txt=T.q;
   if(T.id==='quiz'||T.id==='corners4'||T.id==='diary')CS.phase.look=false;
   if(T.id==='diary')CS.journal={id:'j'+Date.now(),done:[],prompt:T.prompt||''};
+  if(T.id==='skizze'){CS.skz={id:'s'+Date.now().toString(36),text:String(T.text||p.goal||p.name||'').slice(0,200),n:Math.max(1,Math.min(4,+T.n||2)),werk:false,p:{}};if(!p.noipad){CS.phase.go='skizze';CS.phase.look=false}}
   if(T.id==='heft'&&(T.title||T.text))heftPublish({id:'ph-'+L.id+'-'+i,s:L.subject,title:T.title||p.name,text:T.text||''});// Abstimmen braucht das iPad
   if(T.id==='quiz')quizStart(T,p);
   if(AKT[T.id]){akLive(T,p);CS.phase.look=false}
@@ -4101,7 +4188,7 @@ function newLessonFrom(subj,min,title){
   const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:'Vorlage'};
   lessons().push(L);save();return L;
 }
-const RICH=['dialog','heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
+const RICH=['skizze','dialog','heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
 const TOOLS={
   slide:{name:'Folien',icon:'🖼️',txt:'Eine oder mehrere Folien im ELIO-Design: Überschrift, Text, eigenes Hintergrundbild, Elo als Figur. Weiter wie bei PowerPoint.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
@@ -4123,17 +4210,18 @@ const TOOLS={
   ueb:{name:'Übung aus dem Schreibtisch',icon:'✏️',txt:'Eine interaktive Übung aus deinem Schreibtisch, z. B. aus 1.6 Gleichungen. Läuft an der Tafel und auf allen iPads.',fit:/erarb|übung|anwend|vertief|wiederhol/i},
   heftlink:{name:'Hefteintrag zeigen',icon:'📖',txt:'Einen fertigen Hefteintrag an Tafel und iPads zeigen. Die SuS schreiben ihn ins Heft ab.',fit:/sicherung|merke|heft|regel|abschreib/i},
   heft:{name:'Hefteintrag',icon:'📒',txt:'Groß an der Tafel und automatisch im Regelheft aller SuS. Text einfach reinkopieren.',fit:/sicherung|merke|heft|regel/i},
+  skizze:{name:'Skizzenphase',icon:'✏️',txt:'Erst skizzieren, dann gestalten: Die SuS legen im Skizzenbuch auf dem iPad Skizzen zu deinem Auftrag an. Erst danach geht ihr Werk auf, mit der besten Skizze als Vorlage. Du siehst, wer wie weit ist.',fit:/skizz|entwurf|erarb|gestalt|werk|ideen/i},
   diary:{name:'Lerntagebuch',icon:'📔',txt:'Leitfragen an der Tafel, die SuS schreiben in ihr Lerntagebuch auf dem iPad.',fit:/tagebuch|reflex|abschluss|ausblick/i},
   quiz:{name:'Abstimmung / Quiz',icon:'🗳️',txt:'Eigene Frage mit A, B, C … wie bei Kahoot. Eine oder mehrere richtige Antworten, auf Wunsch mit Folie. Du löst auf, wann du willst.',fit:/vorwissen|wiederhol|abstimm|quiz|hypo|vermut|sicherung|überprüf/i},
   dialog:{name:'Dialog',icon:'💬',txt:'Einen Dialog zeigen und anhören. Jede Zeile „Name: Satz“. Ein Tipp auf eine Sprechblase liest sie vor, zum Nachsprechen.',fit:/dialog|gespräch|sprech|rollen|role/i},
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['🧩','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
-const TOOL_IPAD={wc:'Die SuS schreiben ihre Wörter auf dem iPad. Die Tafel zeigt die Wortwolke.',ueb:'Die Übung geht auf allen iPads auf, alle üben mit.',thumbs:'Die SuS stimmen mit 👍 👌 👎 ab. Das Ergebnis siehst nur du.',exit:'Die SuS füllen das Exit-Ticket auf dem iPad aus. Die Antworten siehst nur du.',mood:'Die SuS tippen, wie es ihnen geht. Das siehst nur du.',vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Alle tippen ihr Ergebnis ein und sehen sofort, ob es stimmt. Du nimmst in der Steuerung ein Kind dran, es sagt sein Ergebnis laut.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
+const TOOL_IPAD={skizze:'Die iPads öffnen das Skizzenbuch mit deinem Auftrag. Erst wenn die Skizzen da sind, geht das Werk auf.',wc:'Die SuS schreiben ihre Wörter auf dem iPad. Die Tafel zeigt die Wortwolke.',ueb:'Die Übung geht auf allen iPads auf, alle üben mit.',thumbs:'Die SuS stimmen mit 👍 👌 👎 ab. Das Ergebnis siehst nur du.',exit:'Die SuS füllen das Exit-Ticket auf dem iPad aus. Die Antworten siehst nur du.',mood:'Die SuS tippen, wie es ihnen geht. Das siehst nur du.',vw:'Die iPads bleiben gesperrt, alle schauen nach vorne.',start:'Die SuS sehen die Liste, haken ab und tippen auf „Bereit“. Die Rakete tankt.',kfb:'Alle tippen ihr Ergebnis ein und sehen sofort, ob es stimmt. Du nimmst in der Steuerung ein Kind dran, es sagt sein Ergebnis laut.',heftlink:'Der Hefteintrag geht auf den iPads auf, die SuS schreiben ihn ins Heft ab.',
   quiz:'Die SuS stimmen auf dem iPad ab.',corners4:'Die SuS stimmen auf dem iPad ab.',diary:'Die SuS schreiben in ihr Lerntagebuch.'};
 const IPAD_OFF=['start','kfb','heftlink','ueb'];
 const SF_TXT={EA:'Du arbeitest allein',PA:'Du arbeitest mit deinem Partner',GA:'Ihr arbeitet in der Gruppe',Plenum:'Wir arbeiten gemeinsam'};
@@ -4307,6 +4395,7 @@ let DLG=null,DLGK=0;function dlgSay(k,all){const st=(BOARD?BRCS:CS);const t=st&&
     document.querySelectorAll('.rt-dlg .b').forEach((b,i)=>b.classList.toggle('on',i===j));speechSynthesis.speak(u)}catch(e){}};one(k)}
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
+  if(t.id==='skizze')return skzBoard(t,c);
   if(t.id==='diary')return sceneHTML('lerntagebuch',`<h1>Lerntagebuch</h1><p>Trage jetzt deinen Eintrag auf deinem iPad ein.</p>${c.jn?`<b>${c.jn[0]} / ${c.jn[1]||'–'} eingetragen</b>${pgBar(c.jn[0],Math.max(c.jn[0],c.jn[1]||0))}`:''}`,'left:57%;top:12%;width:37%');
   if(t.id==='start'&&t.bg==='atelier'){const cw=cloudHTML(c.cw);
     return `<div class="rt rt-start st-elio st-at ${cw?'has-cw':''}">${atScene(c.rd,c.mini)}<div class="in"><h1>${esc(t.title||'Willkommen im Atelier')}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}</div>${cw}</div>`}
@@ -4336,7 +4425,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
   return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:L.subject==='E'?'welt':L.subject==='K'?'atelier':L.subject==='W'||L.subject==='WK'?'boerse':'start',region:'uk-ie',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
-    task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
+    task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},skizze:{id,text:'',n:2},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
 const showable=m=>m.kind==='link'||canShow(m);
 /* --- Blackbox: KI erzeugt auf Wunsch Grafiken, Animationen, Folientexte, Übungen, Dialoge (nur Admin, über den ELIO-Server, Rechenzentrum Frankfurt) --- */
@@ -4463,6 +4552,7 @@ function toolEditor(p,i,L){
       <label class="cbl"><input type="checkbox" data-f="ph.${i}.tool.wlbl" ${t.wlbl?'checked':''}> Hilfen auf der Karte (Meere, Flüsse, Nachbarn)</label>`:''}
       <p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">${t.wcat?'Alle bekommen dieselben Fragen in derselben Reihenfolge, an der Tafel und auf jedem iPad.':'Jedes Kind wählt auf dem iPad Kategorie, Schwierigkeit, Fragen und Zeit selbst.'} Die Karte zeigt keine Namen.</p></div>`}
   if(t.id==='heft')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
+  if(t.id==='skizze')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Gestaltungsauftrag',t.text,2)}<label>Wie viele Skizzen vor dem Werk?<select data-f="ph.${i}.tool.n">${[1,2,3,4].map(n=>`<option value="${n}" ${(+t.n||2)===n?'selected':''}>${n} Skizze${n>1?'n':''}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Eine Skizze zählt ab 5 Strichen. Das Werk kannst du an der Tafel auch vorher für alle freigeben.</p></div>`;
   if(t.id==='diary')cfg=`<div class="lgrid" style="margin-top:8px">${ta('prompt','Leitfragen (eine pro Zeile)',t.prompt,3)}</div>`;
   if(t.id==='quiz')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q,'Welcher Term passt zur Folie?')}${ta('opts','Antworten (eine pro Zeile, bis zu 8: A, B, C …)',t.opts,4)}
     ${inp('right','Richtig ist (Buchstaben)',t.right,'z. B. B oder A, C · leer = Meinungsumfrage')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.multi" ${t.multi?'checked':''} style="width:auto"> SuS dürfen mehrere ankreuzen</label>
@@ -5980,6 +6070,7 @@ async function mbUp(r){if(!TDKEY||!TD.dk||!r||!r.body||r.fp!==mbFp(TD.dk.pub))re
   if(o.k==='chat'){const id=String(o.id||'').slice(0,20);if(!P.chat.some(c=>c.id===id)){P.chat.push({id,me:0,t:String(o.t||'').slice(0,2000),at:+o.at||Date.now()});P.un=(P.un||0)+1;if(P.chat.length>200)P.chat=P.chat.slice(-200)}}
   if(o.k==='abg'){const hw=String(o.hw||'').slice(0,40);if(hw){const img=typeof o.img==='string'&&IMGRE.test(o.img)&&o.img.length<1500000?o.img:null;P.abg[hw]={title:String(o.title||'').slice(0,200),t:String(o.t||'').slice(0,4000),img,at:+o.at||Date.now()};P.ua=(P.ua||0)+1}}
   if(o.k==='prog'&&o.p&&typeof o.p==='object'){const A=x=>Array.isArray(x)?x.slice(0,600).map(v=>String(v).slice(0,60)):[];P.prog={ub:A(o.p.ub),hx:A(o.p.hx),hw:A(o.p.hw),ab:A(o.p.ab),st:+o.p.st||0,fl:+o.p.fl||0,ut:progObj(o.p.ut,v=>+v>0?+v:null),mt:progObj(o.p.mt,v=>v&&typeof v==='object'&&+v.n>0?{f:+v.f||0,b:+v.b||0,n:+v.n,at:+v.at||0,la:+v.la||0,x:+v.x||0}:null),at:+o.at||Date.now()}}
+  if(o.k==='skz'&&typeof o.img==='string'&&IMGRE.test(o.img)&&o.img.length<1500000)skzStore(nr,o);
   if(o.k==='prog'&&goalOf()){goalChk();if(CS)pushCS()}
   tsave();navTBadge();if(['sus','obs-p','klassen','inbox','tdash'].includes(V.name))render();return true}
 /* Klassenziel: Die Klasse sammelt gemeinsam Sterne. Gezählt wird nur die Summe, keine Rangliste. */
@@ -6575,7 +6666,7 @@ VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='DZ'?'Lernlandschaft':'Jahresplan'} laden</button></div></section>`:''}
-  ${k==='E'?vokTeach():''}
+  ${k==='E'?vokTeach():''}${k==='K'?skzTeach():''}
   <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
   <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
@@ -7167,6 +7258,14 @@ document.addEventListener('click',e=>{
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
+    case 'skizze':go('skizze',{from:V.name==='subject'?'desk':V.name==='tsubj'?'tdesk':V.name});break;
+    case 'skzT':go('skzT',{from:d.from||(V.name==='tafel'?'tafel':'tdesk')});break;
+    case 'skz-werk':if(CS&&CS.skz){CS.skz.werk=!CS.skz.werk;pushCS();if(V.name==='tafel')updTafel();else render()}break;
+    case 'skz-task':V.task=d.t||'';render();break;
+    case 'skz-big':V.big=d.key||null;if(V.big)skzSeen(V.big);render();break;
+    case 'skz-show':skzShow(d.key);break;
+    case 'skz-hide':if(CS){CS.skzShow=null;pushCS();idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{});render()}break;
+    case 'skz-del':skzDel(d.key);break;
     case 'theft':go('theft',{hs:d.s});break;
     case 'tdesk':go('tdesk');break;
     case 'tsubj':go('tsubj',{s:d.s});break;
