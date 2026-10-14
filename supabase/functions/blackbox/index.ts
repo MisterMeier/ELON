@@ -85,7 +85,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const EN: Record<string, string> = {
   ton: "Turn the teacher's wish into one short English sound-effect description (max. 25 words). No speech, no music with lyrics.",
   musik: "Turn the teacher's wish into one short English music prompt (genre, mood, instruments, tempo; max. 40 words). Instrumental, suitable for a classroom.",
-  foto: "Turn the teacher's wish into one English image prompt for a school slide (max. 60 words): subject, setting, style, light. Child-friendly, no real persons, no brands. End with: No text, no letters, no numbers in the image.",
+  foto: "Turn the teacher's wish into one English image prompt for a school slide (max. 70 words). Start with the main subject. Keep every concrete detail of the wish exactly: objects, how many, colours, positions (left/right/front/behind), actions, perspective. Do not add extra objects. Then setting, style (e.g. photo, flat illustration), light. Child-friendly, no real persons, no brands. End with: No text, no letters, no numbers in the image.",
   film: "Turn the teacher's wish into one English prompt for a 5-second video clip for a school slide (max. 60 words): subject, motion, camera, style. Child-friendly, calm, no real persons, no brands, no text in the video.",
 };
 // Claude-Aufruf mit allen Bedrock-Wegen (siehe unten in Deno.serve); null, wenn kein Bedrock-Schlüssel da ist.
@@ -318,7 +318,10 @@ Deno.serve(async (req) => {
         await sb.from("blackbox_log").insert({ kind });
         const o = await awsFoto(await english("foto", prompt, claude), key, awsId, awsSecret);
         if (o.data) return json({ kind, data: o.data, mime: "image/png", n: (n ?? 0) + 1, limit: LIMIT });
-        return json({ err: o.st === 400 && /blocked|filter|content/i.test(String(o.detail)) ? "filter" : "awsfoto", st: o.st, detail: o.detail });
+        // 403 mit „Marketplace“: Stability-Modelle laufen über den AWS Marketplace, der IAM-Nutzer braucht dafür eigene Rechte (siehe anleitungen/bedrock-einrichten.md)
+        const dt = String(o.detail || "");
+        const err = o.st === 400 && /blocked|filter|content/i.test(dt) ? "filter" : /marketplace/i.test(dt) ? "awsmarket" : o.st === 403 || /access ?denied|not authorized/i.test(dt) ? "awszugang" : "awsfoto";
+        return json({ err, st: o.st, detail: o.detail });
       }
       if (gid && (kind === "foto" || kind === "film")) return await eleven(kind, prompt, subj, gid, hasAws ? claude : null, {});
       if (prompt.length < 3) return json({ err: "leer" });
