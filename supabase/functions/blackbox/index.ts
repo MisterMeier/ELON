@@ -3,11 +3,13 @@
 // KI: Claude über Amazon Bedrock, Rechenzentrum Frankfurt (eu-central-1). Der Schlüssel liegt NUR hier als Secret:
 //   supabase secrets set BLACKBOX_KEY=<Bedrock-API-Schlüssel>
 //   supabase functions deploy blackbox
+// Foto: zuerst Amazon Nova Canvas über Bedrock in der EU (Irland), gleiche AWS-Schlüssel. Sonst ElevenLabs (braucht dort den Pro-Tarif).
 // Geräusch, Musik, Hördialog, Foto und Kurzvideo: ElevenLabs. Nur der Wunsch der Lehrkraft geht raus. Schlüssel wie bei „elo-stimme“:
 //   supabase secrets set ELEVEN_KEY=<ElevenLabs-API-Schlüssel>
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 import AnthropicBedrock, { AnthropicBedrockMantle } from "npm:@anthropic-ai/bedrock-sdk@0.34.4";
+import { AwsClient } from "npm:aws4fetch@1.0.20";
 
 const LIMIT = 30; // Anfragen pro Admin und Tag
 // Frankfurt zuerst, dann Irland und Stockholm (dort laufen Modelle auch ohne Inferenzprofil). Alles EU.
@@ -201,6 +203,37 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
   return json({ err: "leer" });
 }
 
+// ---------- Foto über AWS (Amazon Nova Canvas, EU) ----------
+// Nova Canvas läuft in Irland (eu-west-1). Modell und Regionen lassen sich per Secret ändern.
+const IMG_AWS = (Deno.env.get("BLACKBOX_IMG_MODEL") || "amazon.nova-canvas-v1:0").split(",").map((x) => x.trim()).filter(Boolean);
+const IMG_REGIONS = (Deno.env.get("BLACKBOX_IMG_REGIONS") || "eu-west-1,eu-central-1").split(",").map((x) => x.trim()).filter(Boolean);
+async function awsFoto(prompt: string, key: string, awsId: string, awsSecret: string): Promise<{ data?: string; st?: number; detail?: string }> {
+  const aws = awsId && awsSecret ? new AwsClient({ accessKeyId: awsId, secretAccessKey: awsSecret, service: "bedrock" }) : null;
+  const body = JSON.stringify({
+    taskType: "TEXT_IMAGE",
+    textToImageParams: { text: prompt.slice(0, 1000), negativeText: "text, letters, words, numbers, watermark, logo, signature" },
+    imageGenerationConfig: { numberOfImages: 1, width: 1280, height: 720, quality: "standard", cfgScale: 6.5 },
+  });
+  let last: { st?: number; detail?: string } = {};
+  for (const reg of IMG_REGIONS) for (const m of IMG_AWS) {
+    const url = `https://bedrock-runtime.${reg}.amazonaws.com/model/${encodeURIComponent(m)}/invoke`;
+    const init = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body };
+    try {
+      const r = aws ? await aws.fetch(url, { ...init, aws: { region: reg } } as RequestInit) : await fetch(url, { ...init, headers: { ...init.headers, Authorization: `Bearer ${key}` } });
+      const t = await r.text();
+      if (r.ok) {
+        const o = JSON.parse(t) as { images?: string[]; error?: string };
+        if (o.images?.[0]) { console.log("blackbox foto ok", reg, m); return { data: o.images[0] }; }
+        last = { st: r.status, detail: o.error || "kein Bild" };
+      } else last = { st: r.status, detail: t.slice(0, 300) };
+      console.error("blackbox foto", reg, m, last.st, String(last.detail).slice(0, 200));
+      // Inhaltsfilter oder zu viele Anfragen: andere Region hilft nicht.
+      if (r.status === 429 || (r.status === 400 && /blocked|filter|content/i.test(t))) return last;
+    } catch (e) { last = { detail: String((e as Error).message || e).slice(0, 200) }; console.error("blackbox foto", reg, m, last.detail); }
+  }
+  return last;
+}
+
 // Entfernt alles Ausführbare aus dem SVG. Die App prüft ein zweites Mal und zeigt es nur als <img>.
 function cleanSvg(s: string): string | null {
   const m = s.match(/<svg[\s\S]*<\/svg>/i);
@@ -264,6 +297,15 @@ Deno.serve(async (req) => {
   if (xi) {
     try {
       // Nachfragen zu einem laufenden Bild- oder Video-Auftrag zählen nicht noch einmal fürs Tageslimit.
+      if (kind === "foto" && !gid && hasAws) {
+        if (prompt.length < 3) return json({ err: "leer" });
+        const { data: n } = await sb.rpc("blackbox_count");
+        if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
+        await sb.from("blackbox_log").insert({ kind });
+        const o = await awsFoto(await english("foto", prompt, claude), key, awsId, awsSecret);
+        if (o.data) return json({ kind, data: o.data, mime: "image/png", n: (n ?? 0) + 1, limit: LIMIT });
+        return json({ err: o.st === 400 && /blocked|filter|content/i.test(String(o.detail)) ? "filter" : "awsfoto", st: o.st, detail: o.detail });
+      }
       if (gid && (kind === "foto" || kind === "film")) return await eleven(kind, prompt, subj, gid, hasAws ? claude : null, {});
       if (prompt.length < 3) return json({ err: "leer" });
       const { data: n } = await sb.rpc("blackbox_count");
