@@ -395,12 +395,15 @@ def river_label(rs, name, near):
 MAPS = {}
 # Welt
 wb = [-180, -60, 180, 84]
-MAPS['welt'] = {'bb': [-170, -56, 190, 78], 'land': [c for c in country_layer(c50, 0.03, 2, min_area=0.01) if c['id'] not in ('ATA', 'ATF')],
+welt_all = country_layer(c50, 0.03, 2, min_area=0.01)
+# Antarktis nur als Kulisse für den Globus: nicht antippbar, keine Frage
+MAPS['welt'] = {'bb': [-170, -56, 190, 78], 'land': [c for c in welt_all if c['id'] not in ('ATA', 'ATF')], 'deco': [c for c in welt_all if c['id'] == 'ATA'],
                 'lbl': [{'t': 'Atlantischer Ozean', 'll': [-38, 25], 'k': 'sea'}, {'t': 'Atlantischer Ozean', 'll': [-18, -22], 'k': 'sea'},
                         {'t': 'Pazifischer Ozean', 'll': [-140, 8], 'k': 'sea'}, {'t': 'Indischer Ozean', 'll': [78, -22], 'k': 'sea'}, {'t': 'Nordpolarmeer', 'll': [-10, 77], 'k': 'sea'},
                         {'t': 'Nordamerika', 'll': [-100, 47], 'k': 'cont'}, {'t': 'Südamerika', 'll': [-60, -12], 'k': 'cont'},
                         {'t': 'Europa', 'll': [20, 54], 'k': 'cont'}, {'t': 'Afrika', 'll': [19, 4], 'k': 'cont'},
-                        {'t': 'Asien', 'll': [92, 48], 'k': 'cont'}, {'t': 'Australien', 'll': [134, -24], 'k': 'cont'}]}
+                        {'t': 'Asien', 'll': [92, 48], 'k': 'cont'}, {'t': 'Australien', 'll': [134, -24], 'k': 'cont'},
+                        {'t': 'Antarktis', 'll': [20, -80], 'k': 'cont'}]}
 # Europa
 eb = [-32, 30, 60, 74]
 MAPS['europa'] = {'bb': [-25, 34, 45, 71.5], 'land': country_layer(c50, 0.012, 3, bb=eb),
@@ -446,7 +449,7 @@ def enc(pts, f):
 F = {'welt': 100, 'europa': 1000, 'de': 1000, 'by': 10000}
 for k, m in MAPS.items():
     f = F[k]; m['f'] = f; m['src'] = 'Natural Earth (gemeinfrei)'
-    for lay in ('land', 'adm', 'lake'):
+    for lay in ('land', 'deco', 'adm', 'lake'):
         for o in m.get(lay, []):
             o['r'] = [enc(r, f) for r in o['r']]
     for o in m.get('riv', []):
