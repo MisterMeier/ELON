@@ -3,7 +3,7 @@
 // KI: Claude über Amazon Bedrock, Rechenzentrum Frankfurt (eu-central-1). Der Schlüssel liegt NUR hier als Secret:
 //   supabase secrets set BLACKBOX_KEY=<Bedrock-API-Schlüssel>
 //   supabase functions deploy blackbox
-// Foto: zuerst Amazon Nova Canvas (sonst Titan Image) über Bedrock in der EU, gleiche AWS-Schlüssel. Sonst ElevenLabs (braucht dort den Pro-Tarif).
+// Foto: Stability AI über Bedrock (Oregon, nur der Bildwunsch geht raus), gleiche AWS-Schlüssel. Sonst ElevenLabs (braucht dort den Pro-Tarif).
 // Geräusch, Musik, Hördialog, Foto und Kurzvideo: ElevenLabs. Nur der Wunsch der Lehrkraft geht raus. Schlüssel wie bei „elo-stimme“:
 //   supabase secrets set ELEVEN_KEY=<ElevenLabs-API-Schlüssel>
 // Tabelle für Tageslimit und Protokoll: supabase/blackbox.sql
@@ -203,38 +203,46 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
   return json({ err: "leer" });
 }
 
-// ---------- Foto über AWS (Amazon Nova Canvas, EU) ----------
-// Nova Canvas läuft in Irland (eu-west-1). Titan Image als Ausweichmodell. Modelle und Regionen lassen sich per Secret ändern.
-const IMG_AWS = (Deno.env.get("BLACKBOX_IMG_MODEL") || "amazon.nova-canvas-v1:0,amazon.titan-image-generator-v2:0,amazon.titan-image-generator-v1").split(",").map((x) => x.trim()).filter(Boolean);
-const IMG_REGIONS = (Deno.env.get("BLACKBOX_IMG_REGIONS") || "eu-west-1,eu-central-1,eu-west-2").split(",").map((x) => x.trim()).filter(Boolean);
-async function awsFoto(prompt: string, key: string, awsId: string, awsSecret: string): Promise<{ data?: string; st?: number; detail?: string }> {
-  const aws = awsId && awsSecret ? new AwsClient({ accessKeyId: awsId, secretAccessKey: awsSecret, service: "bedrock" }) : null;
-  // Titan kennt nur feste Größen (1280×768), Nova Canvas kann 16:9 (1280×720).
-  const body = (m: string) => JSON.stringify({
+// ---------- Foto über AWS Bedrock ----------
+// Amazon hat Nova Canvas und Titan Image am 30.9.2026 abgeschaltet; in der EU bietet Bedrock derzeit kein Bildmodell an.
+// Darum Stability AI in Oregon (us-west-2). Es geht nur der englische Bildwunsch der Lehrkraft raus, nie Schülerdaten.
+// Eintrag = "region/modell", per Secret BLACKBOX_IMG_MODELS änderbar (z. B. sobald es ein EU-Modell gibt).
+const IMG_AWS = (Deno.env.get("BLACKBOX_IMG_MODELS") || "us-west-2/stability.stable-image-core-v1:1,us-west-2/stability.sd3-5-large-v1:0,us-west-2/stability.stable-image-ultra-v1:1")
+  .split(",").map((x) => x.trim().split("/")).filter((x) => x.length === 2 && x[0] && x[1]) as [string, string][];
+const NEG = "text, letters, words, numbers, watermark, logo, signature";
+function imgBody(m: string, prompt: string): string {
+  if (m.startsWith("stability.")) return JSON.stringify({ prompt: prompt.slice(0, 2000), negative_prompt: NEG, aspect_ratio: "16:9", output_format: "png" });
+  // Amazon-Format (Nova Canvas/Titan), falls per Secret eingestellt. Titan kennt nur feste Größen.
+  return JSON.stringify({
     taskType: "TEXT_IMAGE",
-    textToImageParams: { text: prompt.slice(0, m.includes("titan") ? 500 : 1000), negativeText: "text, letters, words, numbers, watermark, logo, signature" },
+    textToImageParams: { text: prompt.slice(0, m.includes("titan") ? 500 : 1000), negativeText: NEG },
     imageGenerationConfig: { numberOfImages: 1, width: 1280, height: m.includes("titan") ? 768 : 720, quality: "standard", cfgScale: 6.5 },
   });
+}
+async function awsFoto(prompt: string, key: string, awsId: string, awsSecret: string): Promise<{ data?: string; st?: number; detail?: string }> {
+  const aws = awsId && awsSecret ? new AwsClient({ accessKeyId: awsId, secretAccessKey: awsSecret, service: "bedrock" }) : null;
   const tried: string[] = [];
   let best: { st?: number; detail?: string } | null = null;
-  for (const reg of IMG_REGIONS) for (const m of IMG_AWS) {
+  for (const [reg, m] of IMG_AWS) {
     const url = `https://bedrock-runtime.${reg}.amazonaws.com/model/${encodeURIComponent(m)}/invoke`;
-    const init = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: body(m) };
+    const init = { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: imgBody(m, prompt) };
     let cur: { st?: number; detail?: string };
     try {
       const r = aws ? await aws.fetch(url, { ...init, aws: { region: reg } } as RequestInit) : await fetch(url, { ...init, headers: { ...init.headers, Authorization: `Bearer ${key}` } });
       const t = await r.text();
       if (r.ok) {
-        const o = JSON.parse(t) as { images?: string[]; error?: string };
-        if (o.images?.[0]) { console.log("blackbox foto ok", reg, m); return { data: o.images[0] }; }
-        cur = { st: r.status, detail: o.error || "kein Bild" };
+        const o = JSON.parse(t) as { images?: string[]; error?: string; finish_reasons?: (string | null)[] };
+        const why = o.finish_reasons?.[0];
+        if (o.images?.[0] && !why) { console.log("blackbox foto ok", reg, m); return { data: o.images[0] }; }
+        if (why && /filter/i.test(why)) return { st: 400, detail: "content filtered" };
+        cur = { st: r.status, detail: o.error || why || "kein Bild" };
       } else cur = { st: r.status, detail: t.slice(0, 300) };
-      // Inhaltsfilter oder zu viele Anfragen: anderes Modell oder andere Region hilft nicht.
+      // Inhaltsfilter oder zu viele Anfragen: anderes Modell hilft nicht.
       if (r.status === 429 || (r.status === 400 && /blocked|filter|content/i.test(t))) return cur;
     } catch (e) { cur = { detail: String((e as Error).message || e).slice(0, 200) }; }
     tried.push(`${reg} ${m} ${cur.st ?? ""} ${String(cur.detail).slice(0, 120)}`);
     // „Modell gibt es hier nicht“ ist der uninteressanteste Fehler; ein anderer (z. B. fehlende Freigabe) wird gemeldet.
-    if (!best || /model identifier is invalid/i.test(String(best.detail))) best = { st: cur.st, detail: `${reg} ${m}: ${cur.detail}` };
+    if (!best || /model identifier is invalid|end of its life/i.test(String(best.detail))) best = { st: cur.st, detail: `${reg} ${m}: ${cur.detail}` };
   }
   console.error("blackbox foto versucht:", tried.join(" | "));
   return best || {};
