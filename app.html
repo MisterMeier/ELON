@@ -1879,10 +1879,10 @@ async function skzStore(nr,o){if(!TDKEY)return;const c=S.cls||'-',key='skz:'+c+'
   L.unshift({key,t:String(o.title||'Skizze').slice(0,80),kind:['skizze','werk','frei'].includes(o.kind)?o.kind:'frei',task:String(o.task||'').slice(0,20),tt:String(o.tt||'').slice(0,200),at:Date.now(),neu:1});
   while(L.length>30){const x=L.pop();idb('blob','readwrite',st=>st.delete(x.key)).catch(()=>{})}if(SKZU[key]){URL.revokeObjectURL(SKZU[key]);delete SKZU[key]}
   tsave();navTBadge();if(['skzT','tsubj','tafel'].includes(V.name))V.name==='tafel'?updTafel():render()}
-async function skzUrl(key){if(SKZU[key])return SKZU[key];const r=await idb('blob','readonly',st=>st.get(key));if(!r)return '';
+async function skzUrl(key){if(SKZU[key])return SKZU[key];const r=await libBlob(key);if(!r)return '';
   const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:r.iv},await skzCK(),r.ct);return SKZU[key]=URL.createObjectURL(new Blob([pt],{type:'image/jpeg'}))}
 function skzFill(){document.querySelectorAll('img[data-skz]:not([src])').forEach(im=>{im.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');skzUrl(im.dataset.skz).then(u=>{if(u)im.src=u;else im.alt='Bild fehlt'}).catch(()=>{im.alt='Bild fehlt'})});
-  const sh=document.querySelector('img[data-skzshow]:not([src])');if(sh&&(S.role==='teacher'||BOARD)){sh.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');idb('blob','readonly',st=>st.get('skzshow')).then(b=>{if(b)sh.src=URL.createObjectURL(b);else sh.closest('.skz-sh').classList.add('nobild')}).catch(()=>sh.closest('.skz-sh').classList.add('nobild'))}}
+  const sh=document.querySelector('img[data-skzshow]:not([src])');if(sh&&(S.role==='teacher'||BOARD)){sh.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');libBlob('skzshow').then(b=>{if(b)sh.src=URL.createObjectURL(b);else sh.closest('.skz-sh').classList.add('nobild')}).catch(()=>sh.closest('.skz-sh').classList.add('nobild'))}}
 const skzAll=()=>{const B=(TD.skz||{})[S.cls||'-']||{};return Object.keys(B).map(Number).flatMap(n=>(B[n]||[]).map(x=>({...x,nr:n})))};
 const skzNew=()=>skzAll().filter(x=>x.neu).length;
 function skzSeen(key){const x=skzAll().find(y=>y.key===key);if(!x)return;const L=TD.skz[S.cls||'-'][x.nr],o=L.find(y=>y.key===key);if(o&&o.neu){o.neu=0;tsave()}}
@@ -2070,7 +2070,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261014-1740';let verTold=false;
+const BUILD='20261014-1810';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2302,7 +2302,7 @@ function heftPrint(list,sk,teile){if(!list.length)return;const w=window.open('')
   const figCSS=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n').split('\n').filter(l=>/^\.(v-|hf)/.test(l)).join('\n');
   const farbe=(document.querySelector('style').textContent.match(new RegExp('\\.s-'+sk+'\\{--sc:(#[0-9a-f]{6})'))||[])[1]||'#2f63c8';
   const E=list.map(e=>({...e,text:e.text!=null?e.text:e.blocks})),ids=E.flatMap(e=>Array.isArray(e.text)?e.text.filter(b=>b[0]==='fig'&&String(b[1])[0]==='@').map(b=>b[1].slice(1)):heftFotos(e.text));
-  (async()=>{for(const id of ids)if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id))||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}
+  (async()=>{for(const id of ids)if(!BGURL[id]){try{const b=await libBlob(id)||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}
   w.document.write(heftDruck(E,{fach:(SUBJECTS[sk]||{}).name||'',jg:7,farbe,teile:teile||['heft','uebung','loesung'],blocks:x=>Array.isArray(x)?x:heftBlocks(x||''),FIGS,VIS,figOf,esc,figCSS,fontsHref:new URL('assets/fonts/fonts.css',location).href}));
   w.document.close();const go=()=>{try{w.focus();w.print()}catch(e){}};(w.document.fonts&&w.document.fonts.ready?w.document.fonts.ready.then(()=>setTimeout(go,300)):setTimeout(go,800))})()}
 const heftSort=(a,b)=>a.o!=null&&b.o!=null?a.o-b.o:a.o!=null?-1:b.o!=null?1:b.date.localeCompare(a.date);
@@ -2904,10 +2904,27 @@ const ELO_FX={wave:['👋','Winken'],hop:['⤴️','Hüpfen'],tweet:['🎵','Zwi
 function deckSlides(t){if(!t)return [];if(!Array.isArray(t.slides)||!t.slides.length)t.slides=[{layout:'std',bg:'allgemein',title:t.title||'',text:t.text||'',mat:t.mat||'',elo:'',say:'',steps:false}];return t.slides}
 function deckFrames(t){const F=[];deckSlides(t).forEach((sl,j)=>{const n=sl.steps?lines(sl.text).length:0;if(n>1)for(let k=1;k<=n;k++)F.push({j,k});else F.push({j,k:-1})});return F}
 // Jede Phase hat Folien (p.xs). Das Werkzeug kommt zusätzlich nach den Folien; nur die Startfolie der Begrüßung steht vorne.
-function phParts(p){const t=p&&p.tool,nT=!t?0:t.id==='slide'?deckFrames(t).length:t.id==='ueb'?Math.max(1,ubSeq(t).length):1,nX=p&&p.xs&&p.xs.length?deckFrames({slides:p.xs}).length:0;return {t,nT,nX,tf:!!t&&(t.id==='start'||t.id==='slide')}}
-const phaseFrames=p=>{const q=phParts(p);return Math.max(1,q.nT+q.nX)};
-function phDeck(p,sub){const q=phParts(p),X={id:'slide',slides:p&&p.xs};if(!q.nT&&!q.nX)return {t:q.t,s:0};
-  if(q.tf)return sub<q.nT?{t:q.t,s:sub}:{t:X,s:sub-q.nT,x:1};return sub<q.nX?{t:X,s:sub,x:1}:{t:q.t,s:sub-q.nX}}
+// Jede Folie hat eine feste ID (sid). Werkzeuge hängen an einer Folie (t.after = sid) und ziehen beim Verschieben mit.
+// Mehrere Werkzeuge pro Phase: p.tools ist die Liste, p.tool zeigt auf das gerade aktive (p.tk). Code, der p.tool direkt setzt oder leert, wird hier übernommen.
+const newSid=()=>'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function phTl(p){if(!p)return [];const seen=new Set();(p.xs||[]).forEach(sl=>{if(sl&&(!sl.sid||seen.has(sl.sid)))sl.sid=newSid();if(sl)seen.add(sl.sid)});
+  let A=p.tools;if(!Array.isArray(A)){A=p.tools=p.tool?[p.tool]:[];p.tk=0;return A}
+  let k=Math.max(0,Math.min(A.length-1,+p.tk||0));
+  if(p.tool!==A[k]){if(p.tool)A[k]=p.tool;else if(A.length)A.splice(k,1)}
+  k=Math.max(0,Math.min(A.length-1,k));p.tk=k;p.tool=A[k]||null;return A}
+const tlN=t=>!t?0:t.id==='slide'?deckFrames(t).length:t.id==='ueb'?Math.max(1,ubSeq(t).length):1;
+// Ablauf einer Phase: Startfolie, dann jede Folie mit ihren Werkzeugen, am Ende Werkzeuge ohne Folie
+function phSeq(p){const F=[];if(!p)return F;const T=phTl(p),X={id:'slide',slides:p.xs||[]},xf=p.xs&&p.xs.length?deckFrames(X):[],sids=(p.xs||[]).map(sl=>sl&&sl.sid);
+  const pos=T.map(t=>t.id==='start'||t.id==='slide'?-1:t.after&&sids.includes(t.after)?sids.indexOf(t.after):1e9),add=k=>{for(let s=0;s<tlN(T[k]);s++)F.push({t:T[k],s,k})};
+  T.forEach((t,k)=>{if(pos[k]===-1)add(k)});
+  xf.forEach((f,n)=>{F.push({t:X,s:n,x:1});if(n===xf.length-1||xf[n+1].j!==f.j)T.forEach((t,k)=>{if(pos[k]===f.j)add(k)})});
+  T.forEach((t,k)=>{if(pos[k]===1e9)add(k)});return F}
+const phaseFrames=p=>Math.max(1,phSeq(p).length);
+function phDeck(p,sub){const F=phSeq(p);if(!F.length)return {t:p&&p.tool,s:0};return F[Math.max(0,Math.min(+sub||0,F.length-1))]}
+// Das Werkzeug des Abschnitts aktiv machen (p.tool), damit Start/Ende/Tafel das richtige Werkzeug nehmen
+function phOn(p,f){if(p&&f&&!f.x&&f.k!=null){const A=phTl(p);if(A[f.k]){p.tk=f.k;p.tool=A[f.k]}}}
+// Wechsel innerhalb einer Phase: altes Werkzeug beenden, neues starten
+function phSwitch(L,i,o,n){const p=L.phases[i];if(!!o.x!==!!n.x||o.k!==n.k){if(!o.x&&o.t){phOn(p,o);toolClear(L,i)}if(!n.x&&n.t){phOn(p,n);toolStart(L,i)}}else if(!n.x&&n.t&&n.t.id==='ueb')uebGame(L,i)}
 // Ältere Stunden: Werkzeug „Folien“ wird zu den festen Folien der Phase; jede Phase (außer Begrüßung) hat mindestens eine Folie mit ihrem Namen
 function phNorm(L){let ch=0;(L&&L.phases||[]).forEach(p=>{// Englisch: Startfolie mit Weltkugel statt Rakete (außer die Lehrkraft hat die Rakete bewusst zurückgeholt)
   if(L.subject==='E'&&p.tool&&p.tool.id==='start'&&(p.tool.bg||'start')==='start'&&!p.tool.rk){p.tool.bg='welt';p.tool.region=p.tool.region||'uk-ie';ch=1}
@@ -2921,8 +2938,8 @@ function lNav(dir){const L=CS&&CS.lesson&&lessonById(CS.lesson.id);if(!L)return 
   // Weiterklicken beendet laufende Geräusche und Elos Stimme
   try{audStop();eloVoEl&&eloVoEl.pause();speechSynthesis.cancel()}catch(e){}
 const p=L.phases[CS.step],s=(CS.sub||0)+dir;
-  if(s>=0&&s<phaseFrames(p)){const was=!!phDeck(p,CS.sub||0).x,now=!!phDeck(p,s).x;CS.sub=s;CS.fx=null;if(now&&!was)toolClear(L,CS.step);else if(!now&&was)toolStart(L,CS.step);else if(!now&&p.tool&&p.tool.id==='ueb')uebGame(L,CS.step);pushCS();if(V.name==='tafel')render();return true}
-  const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(dir<0){const P=L.phases[i],n=phaseFrames(P);if(n>1){const was=!!phDeck(P,0).x;CS.sub=n-1;const now=!!phDeck(P,n-1).x;if(was&&!now)toolStart(L,i);else if(!was&&now)toolClear(L,i);else if(!now&&P.tool&&P.tool.id==='ueb')uebGame(L,i);pushCS()}}if(V.name==='tafel')render();return true}
+  if(s>=0&&s<phaseFrames(p)){const o=phDeck(p,CS.sub||0),n=phDeck(p,s);CS.sub=s;CS.fx=null;phSwitch(L,CS.step,o,n);pushCS();if(V.name==='tafel')render();return true}
+  const i=CS.step+dir;if(i<0||i>=L.phases.length)return false;startStep(i);if(dir<0){const P=L.phases[i],n=phaseFrames(P);if(n>1){const o=phDeck(P,0);CS.sub=n-1;phSwitch(L,i,o,phDeck(P,n-1));pushCS()}}if(V.name==='tafel')render();return true}
 /* --- Verbotene Wörter: eine Person dreht der Tafel den Rücken zu, die Klasse erklärt das Wort ohne die verbotenen Wörter --- */
 function vwCards(t){return lines(t&&t.cards).map(x=>{const m=x.split(/\s*[:|]\s*/);const w=m.shift().trim();return {w,no:m.join(',').split(/\s*[,|;]\s*/).map(y=>y.trim()).filter(Boolean).slice(0,5)}}).filter(c=>c.w)}
 const vwTeams=t=>{const a=String(t&&t.teams||'').split(',').map(x=>x.trim()).filter(Boolean);return [a[0]||'Team A',a[1]||'Team B']};
@@ -3390,7 +3407,7 @@ function exampleLesson(){return {id:'L-bsp',title:'BUV Englisch: Shopping in Lon
   {name:'Lerntagebuch & Ausblick',goal:'Lernen festhalten, Hausaufgabe',min:5,sf:'EA',method:'Lerntagebuch',txt:'Trag ein, was du heute gelernt hast.',act:'journal'},
 ]}}
 function lessons(){if(!Array.isArray(S.lessons)){S.lessons=[exampleLesson()];save()}return S.lessons}
-const lessonById=id=>lessons().find(l=>l.id===id);
+const lessonById=id=>{const L=lessons().find(l=>l.id===id);if(L&&Array.isArray(L.phases))L.phases.forEach(phTl);return L};
 const lessonMin=L=>L.phases.reduce((a,p)=>a+(+p.min||0),0);
 function goTarget(t){
   if(!t)return;
@@ -3437,7 +3454,7 @@ document.addEventListener('keydown',e=>{if(V.name!=='lesson-edit'||!V.sle)return
   else if(e.key==='Escape'&&V.sle.sel){V.sle.sel=null;V.sle.crop=false;render()}});
 // Hintergrund entfernen: einfarbige Fläche vom Rand her durchsichtig machen (läuft nur auf dem Gerät). Das Original bleibt erhalten.
 async function slBgRemove(d){const sl=slEdSlide(d);if(!sl||!V.sle||!V.sle.sel||V.sle.sel[0]!=='i')return;const m=(sl.imgs||[])[+V.sle.sel.slice(1)];if(!m||m.t)return;
-  try{const b=await idb('blob','readonly',st=>st.get(m.id));if(!b)return;const bm=await createImageBitmap(b),f=Math.min(1,1600/Math.max(bm.width,bm.height)),W=Math.round(bm.width*f),H=Math.round(bm.height*f),cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  try{const b=await libBlob(m.id);if(!b)return;const bm=await createImageBitmap(b),f=Math.min(1,1600/Math.max(bm.width,bm.height)),W=Math.round(bm.width*f),H=Math.round(bm.height*f),cv=document.createElement('canvas');cv.width=W;cv.height=H;
     const g=cv.getContext('2d',{willReadFrequently:true});g.drawImage(bm,0,0,W,H);const im=g.getImageData(0,0,W,H),px=im.data,N=W*H,gone=new Uint8Array(N),q=new Int32Array(N),tol=48*48;let qh=0,qt=0,n=0;
     const seed=[];for(let x=0;x<W;x++){seed.push(x,(H-1)*W+x)}for(let y=0;y<H;y++){seed.push(y*W,y*W+W-1)}
     // Startfarbe je Randpunkt; ein Nachbar wird entfernt, wenn er der Farbe seines Randpunkts ähnlich ist
@@ -3479,7 +3496,7 @@ document.addEventListener('pointermove',e=>{if(!SLD)return;const D=SLD,dx=(e.cli
     D.P.x=r(x);D.P.y=r(y);D.el.style.left=D.P.x+'%';D.el.style.top=D.P.y+'%';slGuides(D.box,gv,gh)}});
 // Bild um 90° drehen: die Pixel werden gedreht und als Kopie gespeichert (Original in der Bibliothek bleibt), Zuschnitt dreht mit
 async function slRot(d){const sl=slEdSlide(d);if(!sl||!V.sle||!V.sle.sel||V.sle.sel[0]!=='i')return;const m=(sl.imgs||[])[+V.sle.sel.slice(1)];if(!m)return;const cw=+d.d>0;
-  try{const b=await idb('blob','readonly',st=>st.get(m.id));if(!b)return;const bm=await createImageBitmap(b),cv=document.createElement('canvas');cv.width=bm.height;cv.height=bm.width;const g=cv.getContext('2d');
+  try{const b=await libBlob(m.id);if(!b)return;const bm=await createImageBitmap(b),cv=document.createElement('canvas');cv.width=bm.height;cv.height=bm.width;const g=cv.getContext('2d');
     g.translate(cv.width/2,cv.height/2);g.rotate((cw?90:-90)*Math.PI/180);g.drawImage(bm,-bm.width/2,-bm.height/2);
     const typ=/png|webp|gif|svg/.test(b.type||'')?'image/png':'image/jpeg',nb=await new Promise(r=>cv.toBlob(r,typ,.92));if(!nb)return;
     const meta=await idb('meta','readonly',st=>st.get(m.id)),mine=meta&&meta.rotOf;const id=mine?m.id:newId();
@@ -3571,14 +3588,31 @@ function eloSnd(id){const x=audById(id);if(!CS||!x)return;CS.fx={k:'snd',s:id,at
 function ttsSay(t,subj){try{const S2=speechSynthesis,en=subj==='E',u=new SpeechSynthesisUtterance(t),vs=S2.getVoices().filter(v=>en?/^en-GB/i.test(v.lang):/^de/i.test(v.lang));u.lang=en?'en-GB':'de-DE';
   const v=vs.find(v=>/Markus|Yannick|Conrad|Stefan|Hans|Daniel|Arthur|Male|männlich/i.test(v.name))||vs[0];if(v)u.voice=v;u.rate=.95;u.pitch=1.15;S2.cancel();S2.speak(u)}catch(e){}}
 async function eloSay(sl,subj){if(!sl||!sl.say)return;const vk=eloVoKey(sl.say);if(vk)return eloVoice(vk);if(!sl.speak)return;
-  if(sl.vo&&sl.voT===sl.say){try{const b=await idb('blob','readonly',st=>st.get(sl.vo));if(b){if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>ttsSay(sl.say,subj));return}}catch(e){}}
+  if(sl.vo&&sl.voT===sl.say){try{const b=await libBlob(sl.vo);if(b){if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>ttsSay(sl.say,subj));return}}catch(e){}}
   ttsSay(sl.say,subj)}
 // Elo-Stimme für einen eigenen Satz erzeugen (nur Admins, ElevenLabs über die ELIO-Funktion; es geht nur der Satz raus, keine Schülerdaten)
-async function slVoGen(d,btn){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin())return;if(btn){btn.disabled=true;btn.textContent='Elo spricht ein …'}
-  try{const sb=await sbClient(),r=await sb.functions.invoke('elo-stimme',{body:{text:String(sl.say).slice(0,300),lang:L&&L.subject==='E'?'en':'de'}}),o=r&&r.data;
-    if(!o||!o.audio){alert(o&&o.err==='nokey'?'Die Elo-Stimme ist noch nicht eingerichtet (Schlüssel fehlt auf dem Server).':o&&o.err==='admin'?'Nur für Admins.':'Die Elo-Stimme ging gerade nicht. Die Computerstimme liest trotzdem vor.');render();return}
+// Erst Probehören, dann übernehmen. Zeitlimit statt Hängen, Meldung in der Seite statt Pop-up. Ein Aufruf pro Klick (kostet Geld).
+const VO={st:'',msg:'',id:'',txt:'',sid:''};
+function voPlay(id){libBlob(id).then(b=>{if(!b)return;if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>{})})}
+async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin()||VO.st==='busy')return;
+  Object.assign(VO,{st:'busy',msg:'',id:'',txt:sl.say,sid:sl.sid||''});render();
+  const why=async r=>{const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zum Server. Bist du online?';
+    if(st===404)return 'Die Funktion „elo-stimme“ ist noch nicht auf dem Server. Sie muss einmal deployt werden (siehe Anleitung ElevenLabs).';
+    let o=r&&r.data;if(!o&&e&&e.context&&e.context.json)try{o=await e.context.json()}catch(x){}
+    if(o&&o.err==='nokey')return 'Die Elo-Stimme ist noch nicht eingerichtet: Auf dem Server fehlt der ElevenLabs-Schlüssel (ELEVEN_KEY).';
+    if(o&&o.err==='admin')return 'Die Elo-Stimme ist nur für Admins.';if(o&&o.err==='auth'||st===401)return 'Bitte melde dich neu an.';
+    if(o&&o.err==='tts')return o.status===401?'ElevenLabs lehnt den Schlüssel ab. Bitte ELEVEN_KEY prüfen.':o.status===402||o.status===429?'Bei ElevenLabs ist das Guthaben oder Limit erreicht.':'ElevenLabs hat gerade nicht geantwortet ('+(o.status||'?')+'). Versuch es später nochmal.';
+    return 'Die Elo-Stimme ging gerade nicht'+(st?' ('+st+')':'')+'. Die Computerstimme liest trotzdem vor.'};
+  try{const sb=await sbClient(),r=await Promise.race([sb.functions.invoke('elo-stimme',{body:{text:String(sl.say).slice(0,300),lang:L&&L.subject==='E'?'en':'de'}}),new Promise(res=>setTimeout(()=>res({timeout:1}),30000))]);
+    if(r.timeout){Object.assign(VO,{st:'err',msg:'Der Server hat nach 30 Sekunden nicht geantwortet. Versuch es später nochmal.'});render();return}
+    const o=r&&r.data;if(!o||!o.audio){Object.assign(VO,{st:'err',msg:await why(r)});render();return}
     const bin=atob(o.audio),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);const id=newId();await idb('blob','readwrite',st=>st.put(new Blob([u],{type:'audio/mpeg'}),id));
-    sl.vo=id;sl.voT=sl.say;sl.speak=true;save();render();eloSay(sl,L&&L.subject)}catch(e){alert('Die Elo-Stimme ging gerade nicht.');render()}}
+    Object.assign(VO,{st:'prev',id});render();voPlay(id)}
+  catch(e){Object.assign(VO,{st:'err',msg:'Die Elo-Stimme ging gerade nicht ('+String(e&&e.message||e).slice(0,80)+').'});render()}}
+async function voTake(d,ok){const sl=slEdSlide(d);if(VO.st!=='prev')return;const id=VO.id;
+  if(ok&&sl&&sl.say===VO.txt){sl.vo=id;sl.voT=VO.txt;sl.speak=true;save();if(lcOk())libBlob(id).then(b=>b&&lcUp(id,b)).catch(()=>{})}
+  else try{await idb('blob','readwrite',st=>st.delete(id))}catch(e){}
+  Object.assign(VO,{st:'',id:'',msg:''});render()}
 function eloFx(k){if(!CS||!ELO_FX[k])return;CS.fx={k,at:Date.now()};pushCS();if(k==='say'){const st=CS.stage&&CS.stage.tool,sl=st&&st.cur;eloSay(sl,CS.stage&&CS.stage.subj)}if(k==='tweet')audPlay('zwitschern',false);if(k==='hoot')audPlay('eule',false);if(k==='wave')audPlay('zwitschern',false);setTimeout(()=>{if(CS&&CS.fx&&Date.now()-CS.fx.at>=5900){pushCS()}},6000)}
 window.eloFx=eloFx;
 function tafelSet(L){phNorm(L);if(!CS)initTeacher();if(CS.lesson&&CS.lesson.id!==L.id){CS.lesson=null;CS.ready=null;CS.poll=null;CS.journal=null;CS.phase='arrive'}if(!CS.lesson||CS.lesson.id!==L.id)CS.pick=L.id;if(L.mission)S.mission=L.mission;save();pushCS();$('#ov').hidden=true;go('tafel')}
@@ -3595,7 +3629,7 @@ if(BOARD)setTimeout(()=>{if(document.fullscreenElement||innerHeight>=screen.heig
 function boardFs(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
-  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.sub=0;CS.fx=null;CS.game=null;CS.media=null;const p=L.phases[i],TT=p.tool&&p.tool.id,act=TT&&(TOOL_IPAD[TT]||AKT[TT]||GAME_INFO[TT])?'none':p.act;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
+  i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.sub=0;CS.fx=null;CS.game=null;CS.media=null;const p=L.phases[i],f0=phDeck(p,0);phOn(p,f0.x?phSeq(p).find(f=>!f.x):f0);const TT=p.tool&&p.tool.id,act=TT&&(TOOL_IPAD[TT]||AKT[TT]||GAME_INFO[TT])?'none':p.act;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
   CS.phase={name:p.name,txt:p.txt||p.goal||'',look:act==='look'||act==='mission',go:act==='goto'?p.target:null,sf:p.sf,method:p.method};
   CS.phaseAt=Date.now();CS.freeze=false;CS.poll=null;CS.ready=null;CS.journal=null;CS.cloud=null;if(p.snd&&!BOARD)audPlay(p.snd,false);
   const m=+p.min||0;CS.timer=m?{run:false,total:m*60,left:m*60,endsAt:0}:{run:false,total:300,left:300,endsAt:0};// Timer startet nur von Hand in der Steuerung
@@ -3732,8 +3766,33 @@ function libOpen(){return new Promise((res,rej)=>{if(LIB.db)return res(LIB.db);c
   r.onupgradeneeded=()=>{r.result.createObjectStore('meta',{keyPath:'id'});r.result.createObjectStore('blob')};
   r.onsuccess=()=>{LIB.db=r.result;res(LIB.db)};r.onerror=()=>rej(r.error)})}
 async function idb(store,mode,op){const db=await libOpen();return new Promise((res,rej)=>{const q=op(db.transaction(store,mode).objectStore(store));q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
-async function libLoad(){try{LIB.items=(await idb('meta','readonly',st=>st.getAll())).sort((a,b)=>b.added-a.added);LIB.err=0}catch(e){LIB.err=1}
-  LIB.ready=true;if(['library','lesson-edit','tdash','tafel'].includes(V.name))render()}
+// Bibliothek in der Cloud (supabase/bibliothek.sql): privat, nur die Lehrkraft selbst kommt an ihre Dateien.
+// So gibt es das Material auf jedem Gerät und unter jeder Adresse (der Browser-Speicher hängt am Gerät und an der Adresse).
+// Lokal bleibt alles wie bisher, die Cloud ist Sicherung und Weg zum anderen Gerät. Verlags-Audio/-Video (lic:'verlag') bleibt nur auf dem Gerät.
+const LC={miss:false,busy:false,t:0,neg:{}};
+const lcOk=()=>typeof CLOUD!=='undefined'&&CLOUD&&!BOARD&&Cloud.user&&Cloud.prof&&Cloud.prof.role!=='pending'&&S.role==='teacher'&&!LC.miss;
+const lcMiss=e=>/42P01|does not exist|schema cache|PGRST20[05]|bucket not found/i.test(String(e&&(e.code||'')+' '+(e&&(e.message||e.error)||e)));
+const lcMeta=m=>{const o={...m};delete o.up;delete o.id;return o};
+async function lcUp(id,blob,meta){const sb=await sbClient(),uid=Cloud.user.id;
+  if(blob){if(blob.size>50e6)return false;const r=await sb.storage.from('lib').upload(uid+'/'+id,blob,{upsert:true,contentType:blob.type||'application/octet-stream'});if(r.error)throw r.error}
+  if(meta)await q(sb.from('teacher_lib').upsert({owner:uid,id,meta:lcMeta(meta),updated_at:new Date().toISOString()}));return true}
+async function libBlob(id){let b;try{b=await idb('blob','readonly',st=>st.get(id))}catch(e){}if(b||!id||!lcOk()||LC.neg[id])return b;
+  try{const sb=await sbClient(),r=await sb.storage.from('lib').download(Cloud.user.id+'/'+id);if(r.error||!r.data)throw r.error||new Error('leer');b=r.data;
+    const m=libById(id);if(m&&m.mime&&!b.type)b=new Blob([b],{type:m.mime});try{await idb('blob','readwrite',st=>st.put(b,id))}catch(e){}return b}
+  catch(e){if(lcMiss(e))LC.miss=true;LC.neg[id]=1;return undefined}}
+function libCloudLater(){clearTimeout(LC.t);LC.t=setTimeout(libCloudSync,1500)}
+async function libCloudSync(){if(!lcOk()||LC.busy)return;LC.busy=true;let ch=0;
+  try{const sb=await sbClient(),rows=await q(sb.from('teacher_lib').select('id,meta')),have=new Set(rows.map(r=>r.id));
+    for(const r of rows)if(!libById(r.id)){await idb('meta','readwrite',st=>st.put({...r.meta,id:r.id,up:1}));ch=1}
+    for(const m of LIB.items){if(have.has(m.id)){if(m.up!==1){m.up=1;await idb('meta','readwrite',st=>st.put(m))}continue}
+      if(m.up===1){m.up=-1;await idb('meta','readwrite',st=>st.put(m));continue}// in der Cloud gelöscht: hier behalten, nicht wieder hochladen
+      if(m.up===-1||m.lic==='verlag')continue;
+      try{if(m.kind==='file'){const b=await idb('blob','readonly',st=>st.get(m.id));if(!b||b.size>50e6)continue;await lcUp(m.id,b)}
+        await lcUp(m.id,null,m);m.up=1;await idb('meta','readwrite',st=>st.put(m));ch=1}catch(e){if(lcMiss(e))throw e;console.warn('lib up',m.id,e)}}}
+  catch(e){if(lcMiss(e))LC.miss=true;console.warn('libCloudSync',e)}
+  LC.busy=false;if(ch)await libLoad(1)}
+async function libLoad(noCloud){try{LIB.items=(await idb('meta','readonly',st=>st.getAll())).sort((a,b)=>b.added-a.added);LIB.err=0}catch(e){LIB.err=1}
+  LIB.ready=true;if(!noCloud&&lcOk())libCloudLater();if(['library','lesson-edit','tdash','tafel'].includes(V.name))render()}
 const libById=id=>LIB.items.find(m=>m.id===id);
 const newId=()=>'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 async function libAddFiles(files,subj){
@@ -3751,6 +3810,7 @@ async function libAddLink(url,name,subj){
 }
 async function libDel(id){
   await idb('meta','readwrite',st=>st.delete(id));try{await idb('blob','readwrite',st=>st.delete(id))}catch(e){}
+  if(lcOk())try{const sb=await sbClient();await q(sb.from('teacher_lib').delete().eq('owner',Cloud.user.id).eq('id',id));await sb.storage.from('lib').remove([Cloud.user.id+'/'+id])}catch(e){}
   lessons().forEach(L=>L.phases.forEach(p=>{if(p.mats)p.mats=p.mats.filter(x=>x!==id)}));save();
   if(CS&&CS.share&&CS.share.id===id){CS.share=null;pushCS()}
   LIB.msg='Gelöscht.';await libLoad();
@@ -3771,7 +3831,7 @@ async function unzipFiles(buf){const u=new Uint8Array(buf),dv=new DataView(buf),
 async function pptImport(id){const m=libById(id);if(!m)return;
   if(typeof DecompressionStream==='undefined'){LIB.msg='Dieser Browser kann PowerPoint nicht entpacken. Bitte Chrome, Edge oder Safari aktuell verwenden.';render();return}
   LIB.msg='PowerPoint wird umgewandelt …';render();
-  try{const b=await idb('blob','readonly',st=>st.get(id)),get=await unzipFiles(await b.arrayBuffer()),td=new TextDecoder(),xml=async n=>{const d=await get(n);return d?new DOMParser().parseFromString(td.decode(d),'application/xml'):null};
+  try{const b=await libBlob(id),get=await unzipFiles(await b.arrayBuffer()),td=new TextDecoder(),xml=async n=>{const d=await get(n);return d?new DOMParser().parseFromString(td.decode(d),'application/xml'):null};
     const rels=async n=>{const d=await xml(n);const R={};if(d)for(const r of d.getElementsByTagName('Relationship'))R[r.getAttribute('Id')]=r.getAttribute('Target');return R};
     const pres=await xml('ppt/presentation.xml'),pr=await rels('ppt/_rels/presentation.xml.rels');
     const order=[...pres.getElementsByTagName('p:sldId')].map(x=>'ppt/'+String(pr[x.getAttribute('r:id')]||'').replace(/^\/?ppt\//,'')).filter(x=>/slides\/slide\d+\.xml$/.test(x));
@@ -3831,7 +3891,7 @@ VIEWS.library=()=>{
     <section class="panel"><span class="label">Link speichern</span><p class="muted" style="font-weight:700;margin:4px 0 10px">z. B. LearningApps, YouTube, Padlet. Links kannst du an die iPads senden.</p>
       <div class="row"><input id="lib-url" type="url" placeholder="https://…" style="flex:2;min-width:180px"><input id="lib-title" type="text" placeholder="Titel (freiwillig)" style="flex:1;min-width:130px"><button class="btn" data-act="lib-link">Speichern</button></div></section>
   </div>
-  ${LIB.msg?`<p class="saved">${esc(LIB.msg)}</p>`:''}${LIB.err?'<p class="err">Die Bibliothek konnte auf diesem Gerät nicht geöffnet werden (privates Surfen?).</p>':''}
+  ${LIB.msg?`<p class="saved">${esc(LIB.msg)}</p>`:''}${CLOUD&&S.role==='teacher'&&LC.miss?'<p class="err">Die Cloud-Bibliothek ist noch aus. Führ einmal supabase/bibliothek.sql im Supabase SQL Editor aus, dann ist dein Material auf allen Geräten.</p>':''}${LIB.err?'<p class="err">Die Bibliothek konnte auf diesem Gerät nicht geöffnet werden (privates Surfen?).</p>':''}
   <div class="lib-types">${MTYPES.map(([k,n])=>{const c=LIB.items.filter(m=>k==='all'||matType(m)===k).length;return `<button class="lt-b ${(V.lt||'all')===k?'on':''}" data-act="lib-t" data-t="${k}"><span class="ct-i">${LIB_ICO[k]}</span><b>${n}</b><small>${c}</small></button>`}).join('')}<button class="lt-b ${(V.lt||'all')==='lic'?'on':''}" data-act="lib-t" data-t="lic" title="Fremde Rechte, z. B. Verlags-CDs: nie veröffentlichen"><span class="ct-i"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="21" width="28" height="20" rx="4" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.6"/><path d="M16 21v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#1e3a8a" stroke-width="2.6" stroke-linecap="round"/></svg></span><b>Verlag</b><small>${LIB.items.filter(m=>m.lic).length}</small></button></div>
   <div class="row" style="margin-top:18px;justify-content:space-between"><div class="psub" style="margin:0">${['all',...Object.keys(SUBJECTS)].filter(k=>k==='all'||cnt(k)).map(k=>`<button class="${k==='all'?'':'s-'+k} ${f===k?'on':''}" data-act="lib-f" data-f="${k}" ${k==='all'?'style="--sc:var(--navy)"':''}>${k==='all'?'Alle':SUBJECTS[k].name} · ${cnt(k)}</button>`).join('')}</div>
     <input id="lib-q" type="search" placeholder="Suchen …" value="${esc(V.q||'')}" style="min-width:200px;width:auto"></div>
@@ -3852,14 +3912,14 @@ async function libView(id){
   if(m.kind==='link'){const e=embedHTML(m,1);if(!e){window.open(m.url,'_blank','noopener');return}
     showOv(`<div class="box viewer" role="dialog" aria-label="${esc(m.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${matIcon(m)} ${esc(m.name)}</b>
       <div class="row"><a class="btn sm" href="${esc(m.url)}" target="_blank" rel="noopener">Im Browser öffnen</a><button class="btn sm pri" data-act="close-ov">Schließen</button></div></div><div class="vbody">${e}</div></div>`);return}
-  const b=await idb('blob','readonly',st=>st.get(id));if(!b)return;
+  const b=await libBlob(id);if(!b)return;
   if(!canShow(m)){dl(b,m.name);return}
   const u=URL.createObjectURL(b),t=m.mime||'';
   const body=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls style="max-width:100%;max-height:100%"></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
   showOv(`<div class="box viewer" role="dialog" aria-label="${esc(m.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${matIcon(m)} ${esc(m.name)}</b>
     <div class="row"><button class="btn sm" data-act="lib-dl" data-id="${m.id}">Herunterladen</button><button class="btn sm pri" data-act="close-ov">Schließen</button></div></div><div class="vbody">${body}</div></div>`);
 }
-async function libDownload(id){const m=libById(id);if(!m||m.kind!=='file')return;const b=await idb('blob','readonly',st=>st.get(id));if(b)dl(b,m.name)}
+async function libDownload(id){const m=libById(id);if(!m||m.kind!=='file')return;const b=await libBlob(id);if(b)dl(b,m.name)}
 function tafelMats(L){
   if(!L)return '';const p=L.phases[CS.step];const ms=((p&&p.mats)||[]).map(libById).filter(Boolean);if(!ms.length)return '';
   return `<div class="row" style="margin-top:10px"><span class="label">Material</span>${ms.map(m=>`<button class="btn sm" data-act="lib-view" data-id="${m.id}">${matIcon(m)} ${esc(m.name)}</button>${(m.kind==='link'?embedUrl(m.url):canShow(m))?`<button class="btn sm ${CS.media&&CS.media.id===m.id?'on':''}" data-act="t-media" data-id="${m.id}">📺 ${CS.media&&CS.media.id===m.id?'Von der Tafel nehmen':'An der Tafel zeigen'}</button>`:''}${m.kind==='link'?`<button class="btn sm ${CS.share&&CS.share.id===m.id?'on':''}" data-act="t-share" data-id="${m.id}">An iPads senden</button>`:''}`).join('')}</div>`;
@@ -4247,7 +4307,7 @@ function quizHTML(P,c){const res=P.res||(c.tally?P.opts.map((_,i)=>c.tally[i]||0
 // Hintergründe aus der Bibliothek (auf diesem Gerät) nachladen
 const BGURL={};let bgT=0;
 function bgAttr(bg){if(!bg||bg==='none')return '';if(SL_BG[bg])return `style="background-image:url(assets/folien/${bg}.webp)"`;return `data-bglib="${esc(bg)}"${BGURL[bg]?` style="background-image:url(${BGURL[bg]})"`:''}`}
-function fillBg(){clearTimeout(bgT);bgT=setTimeout(async()=>{for(const el of document.querySelectorAll('[data-bglib]')){const id=el.dataset.bglib;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id))||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id])el.style.backgroundImage=`url(${BGURL[id]})`}for(const el of document.querySelectorAll('[data-libimg]')){const id=el.dataset.libimg;if(!BGURL[id]){try{const b=await idb('blob','readonly',st=>st.get(id))||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id]&&el.getAttribute('src')!==BGURL[id])el.src=BGURL[id]}
+function fillBg(){clearTimeout(bgT);bgT=setTimeout(async()=>{for(const el of document.querySelectorAll('[data-bglib]')){const id=el.dataset.bglib;if(!BGURL[id]){try{const b=await libBlob(id)||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id])el.style.backgroundImage=`url(${BGURL[id]})`}for(const el of document.querySelectorAll('[data-libimg]')){const id=el.dataset.libimg;if(!BGURL[id]){try{const b=await libBlob(id)||await mediaGet(id);if(b)BGURL[id]=URL.createObjectURL(b)}catch(e){}}if(BGURL[id]&&el.getAttribute('src')!==BGURL[id])el.src=BGURL[id]}
   if(S.role==='student'&&[...document.querySelectorAll('[data-bglib],img[data-libimg]')].some(el=>!BGURL[el.dataset.bglib||el.dataset.libimg]))bgT=setTimeout(fillBg,9000)},0)}
 const slPos=(P,k)=>P&&P[k]?`left:${P[k].x}%;top:${P[k].y}%;width:${P[k].w}%;${P[k].h?`height:${P[k].h}%;`:''}${P[k].a?`text-align:${{l:'left',c:'center',r:'right'}[P[k].a]};`:''}`:'';
 // Bild auf der Folie: Griffe an allen Seiten und Ecken (Größe, Seitenverhältnis bleibt) und Zuschneiden (m.c = weggeschnittene Anteile links/oben/rechts/unten)
@@ -4466,7 +4526,7 @@ async function bbGo(){const q=(($('#bb-in')||{}).value||BB.q).trim();BB.q=q;BB.e
     for(let k=0;k<5&&d&&d.err==='warten'&&d.gid;k++){BB.wait=kind==='film'?'Das Video wird gerade gedreht. Das dauert ein bis drei Minuten …':'Das Foto ist gleich fertig …';render();({r,d,st}=await call({...body,gid:d.gid}))}
     BB.wait='';
     if(r.error&&!(d&&d.err)||!d)BB.err=st===404?'Die Blackbox ist auf dem Server noch nicht eingerichtet (Funktion „blackbox“ fehlt).':st?`Die Blackbox meldet einen Serverfehler (${st}). Schau in Supabase unter Edge Functions → blackbox → Logs.`:'Die Blackbox ist nicht erreichbar. Ist die Funktion „blackbox“ in Supabase angelegt?';
-    else if(d.err)BB.err=(({nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',nokey11:'Das ist noch aus. Auf dem Server fehlt noch der ElevenLabs-Schlüssel.',ton:'Das Geräusch ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',musik:'Die Musik ging gerade nicht. Versuch es bitte nochmal oder beschreib sie anders.',foto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',film:'Das Video ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',hoer:'Der Hördialog ging gerade nicht. Versuch es bitte nochmal.',warten:'Das dauert gerade ungewöhnlich lange. Versuch es später nochmal.',plan:'Fotos und Videos aus der App brauchen bei ElevenLabs den Pro-Tarif. Geräusch, Musik und Hördialog gehen auch so.',awsfoto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',filter:'Dieses Foto erzeugt die KI nicht. Beschreib es bitte anders.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Das Ergebnis kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.')+(d.detail?` (${['foto','film','ton','musik','hoer'].includes(d.err)?'ElevenLabs':'AWS'} meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:''));
+    else if(d.err)BB.err=(({nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',nokey11:'Das ist noch aus. Auf dem Server fehlt noch der ElevenLabs-Schlüssel.',ton:'Das Geräusch ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',musik:'Die Musik ging gerade nicht. Versuch es bitte nochmal oder beschreib sie anders.',foto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',film:'Das Video ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',hoer:'Der Hördialog ging gerade nicht. Versuch es bitte nochmal.',warten:'Das dauert gerade ungewöhnlich lange. Versuch es später nochmal.',plan:'Fotos und Videos aus der App brauchen bei ElevenLabs den Pro-Tarif. Geräusch, Musik und Hördialog gehen auch so.',awsfoto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',filter:'Dieses Foto erzeugt die KI nicht. Beschreib es bitte anders.',awsmarket:'AWS gibt das Bildmodell noch nicht frei. Einmal in der AWS-Konsole erledigen: Dem IAM-Nutzer der Blackbox die Marketplace-Rechte geben und das Modell in Oregon (us-west-2) einmal öffnen. Anleitung: anleitungen/bedrock-einrichten.md, Abschnitt Fotos.',awszugang:'AWS verweigert den Zugriff auf das Bildmodell. Prüf in der AWS-Konsole die Rechte des IAM-Nutzers der Blackbox (bedrock:InvokeModel in us-west-2).',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Das Ergebnis kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.')+(d.detail?` (${['foto','film','ton','musik','hoer'].includes(d.err)?'ElevenLabs':'AWS'} meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:''));
     else if(bbSvg(d.kind)){const svg=bbCleanSvg(d.svg);if(!svg)BB.err='Die Grafik kam unvollständig an. Versuch es bitte nochmal.';else{bbUrl(new Blob([svg],{type:'image/svg+xml'}));BB.res={...d,svg}}}
     else{const res={kind:d.kind,title:String(d.title||''),text:String(d.text||''),n:meta.n,limit:meta.limit};
       if(d.audio){res.blob=bbBlob(d.audio,'audio/mpeg');bbUrl(res.blob)}
@@ -4513,7 +4573,8 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       `:''}
       ${tab==='elo'?`<div class="sl-row"><span class="sl-gl">Figur</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo?`</span></div><div class="sl-row"><span class="sl-gl">Elo sagt</span><span class="sl-v"><input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="width:100%"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></span></div>
         <div class="sl-row"><span class="sl-v">${eloVoKey(sl.say)?'<span class="chip">Elo spricht diesen Satz mit seiner Stimme</span>':swH(f(j,'speak'),sl.speak,'Elo spricht den Satz','Beim Antippen von Elo an der Tafel')}</span></div>
-        ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">${sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>`:''}</div>${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
+        ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()&&VO.st!=='prev'?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}" ${VO.st==='busy'?'disabled':''}>${VO.st==='busy'?'Elo spricht ein …':sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>`:''}</div>
+        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button></div>`:''}${VO.st==='err'&&VO.sid===(sl.sid||'')?`<p class="err" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
       ${tab==='ueb'?`
         <div class="sl-row"><span class="sl-gl">Übergang</span><span class="sl-v">${Object.entries(SL_TR).map(([k,n])=>`<button class="pill ${k===(sl.tr||'')?'on':''}" data-act="sl-tr" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}${sl.tr?`<button class="btn sm" data-act="sl-trp" data-i="${i}" data-j="${j}">Vorschau</button>`:''}${sl.tr==='morph'?`<small class="sl-hint">Gleiche Teile gleiten von der Folie davor an ihren neuen Platz. Tipp: Folie duplizieren, dann Überschrift, Bilder oder Elo verschieben.</small>`:''}</span></div>
         <div class="sl-line"><button class="btn sm ${ED.zo?'on':''}" data-act="sl-zo">${ED.zo?'Zurück zur Folie':'Rand um die Folie zeigen'}</button></div><small class="sl-hint">Am Rand geparkte Teile sieht die Klasse nicht. Mit Morph gleiten sie auf der nächsten Folie herein oder hinaus.</small>`:''}
@@ -4590,7 +4651,7 @@ function phBody(p,i,L){const t=p.tool,T=t&&TOOLS[t.id],G=isGreet(p),own=t&&(TOOL
   const strip=`<div class="ph-strip">${G&&tt&&tt.id==='start'?`<div class="sl-th ${V.stOpen===i?'on':''}"><button class="sl-th-b" data-act="st-open" data-i="${i}" title="Startfolie bearbeiten"><div class="sl-pv">${richTool(tt,{subj:L.subject,mini:1})}</div><span class="chip">Startfolie</span></button></div>`:''}${deckEd({id:'slide',slides:p.xs||[]},'x'+i,L)}</div>`;
   const md=actMode(p.act),M=ACT_MODES[md];
   const chips=`<div class="ph-chips">
-    ${G?'':`<span class="ph-c"><span class="ph-l">🧰 Werkzeug</span>${T?`<button class="pill on" data-act="tool-pool" data-i="${i}" title="Werkzeug ändern">${T.icon} ${esc(T.name)}</button><button class="pill x" data-act="tool-pick" data-i="${i}" data-t="" title="Werkzeug entfernen" aria-label="Werkzeug entfernen">✕</button>`:`<button class="pill" data-act="tool-pool" data-i="${i}">＋ Werkzeug</button>`}</span>`}
+    ${G?'':`<span class="ph-c"><span class="ph-l">🧰 Werkzeug</span>${phTl(p).map((x,k)=>{const X=TOOLS[x.id];if(!X)return '';const n=(p.xs||[]).findIndex(sl=>sl&&sl.sid===x.after),at=n>=0?' · nach Folie '+(n+1):'';return x===p.tool?`<button class="pill on" data-act="tool-pool" data-i="${i}" data-r="1" title="Werkzeug ändern">${X.icon} ${esc(X.name)}${at}</button><button class="pill x" data-act="tool-rm" data-i="${i}" data-k="${k}" title="Werkzeug entfernen" aria-label="${esc(X.name)} entfernen">✕</button>`:`<button class="pill" data-act="tool-sel" data-i="${i}" data-k="${k}" title="Dieses Werkzeug bearbeiten">${X.icon} ${esc(X.name)}${at}</button>`}).join('')}<button class="pill" data-act="tool-pool" data-i="${i}" title="Weiteres Werkzeug hinter die geöffnete Folie">＋ Werkzeug</button></span>`}
     <span class="ph-c"><span class="ph-l">📱 iPads</span>${own?`${IPAD_OFF.includes(t.id)?`<button class="pill ${p.noipad?'':'on'}" data-act="ph-ipad" data-i="${i}" data-v="1" title="${esc(TOOL_IPAD[t.id]||'Die SuS machen auf dem iPad mit.')}">Mit iPads</button><button class="pill ${p.noipad?'on':''}" data-act="ph-ipad" data-i="${i}" data-v="0" title="Alle schauen nach vorne.">Ohne iPads</button>`:`<span class="pill on" title="${esc(TOOL_IPAD[t.id]||'')}">✨ läuft mit dem Werkzeug</span>`}`
       :`${Object.entries(ACT_MODES).map(([k,x])=>`<button class="pill ${k===md?'on':''}" data-act="ph-mode" data-i="${i}" data-m="${k}" title="${esc(x.d)}">${x.l}</button>`).join('')}${M.acts.length>1?`<select class="pill-sel" data-f="ph.${i}.act" aria-label="Art der Interaktion">${M.acts.map(a=>`<option value="${a}" ${a===(p.act||M.acts[0])?'selected':''}>${esc(ACTS[a])}</option>`).join('')}</select>`:''}`}</span></div>`;
   const extra=own?'':`${p.act==='goto'?`<label class="ph-mini">Welche Seite?<select data-f="ph.${i}.target">${Object.entries(TARGETS).map(([k,v])=>`<option value="${k}" ${k===(p.target||'module')?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:''}${p.act==='cloud'?`<label class="ph-mini">Frage an die SuS (Wortwolke)<input type="text" data-f="ph.${i}.cq" value="${esc(p.cq||'')}" placeholder="Schreib deine Vermutung auf."></label>`:''}${p.act==='poll'?`<label class="ph-mini">Welche Abstimmung?<select data-f="ph.${i}.poll">${[['thumbs','Daumen: verstanden?'],['corners','4 Ecken']].map(([k,v])=>`<option value="${k}" ${k===(p.poll||'thumbs')?'selected':''}>${v}</option>`).join('')}</select></label>`:''}`;
@@ -5694,7 +5755,7 @@ KS.load();
 /* --- Präsentation (Live an der Tafel) --- */
 function toolStage(p,L){
   const D=phDeck(p,CS.sub||0);if(D.x||(D.t&&D.t.id==='slide'))return `<div class="tprev pres-sl">${boardHTML({...CS,now:Date.now(),stage:stageOf()},false)}</div>`;
-  const t=p.tool||{};
+  const t=D.t||p.tool||{};
   if(AKT[t.id]){if(CS.game&&CS.game.g===t.id){akStart(CS.game);return akHTML()}return `<div class="slide"><h1>${esc(t.title||AKT[t.id].name)}</h1><button class="btn pri" data-act="ak-go">Starten</button></div>`}
   if(t.id==='quiz'){const P=CS.poll&&CS.poll.type==='quiz'?CS.poll:null;if(!P)return `<div class="slide"><h1>${esc(t.q||p.name)}</h1><button class="btn pri" data-act="quiz-again">Abstimmung starten</button></div>`;
     const R=quizRight(t,P.opts.length);
@@ -5711,9 +5772,10 @@ function toolStage(p,L){
 async function fillMedia(){
   const el=$('#slide-media');if(!el||el.dataset.done)return;el.dataset.done=1;
   if(!LIB.ready)await libLoad();
-  const m=libById(el.dataset.id);if(!m){el.innerHTML='<p class="muted">Material nicht gefunden (liegt es auf diesem Gerät?).</p>';return}
+  let m=libById(el.dataset.id);if(!m&&lcOk()){el.innerHTML='<p class="muted">Material wird aus der Cloud geholt …</p>';await libCloudSync();m=libById(el.dataset.id)}
+  if(!m){el.innerHTML=`<p class="muted">Dieses Material ist auf diesem Gerät noch nicht da. ${lcOk()?'Öffne ELIO einmal auf dem Gerät, auf dem du es hochgeladen hast. Dann kommt es von selbst in deine Cloud-Bibliothek.':LC.miss?'Die Cloud-Bibliothek ist noch nicht eingerichtet (bibliothek.sql in Supabase ausführen).':'Melde dich als Lehrkraft an, dann holt ELIO es aus deiner Cloud-Bibliothek.'}</p>`;return}
   if(m.kind==='link'){el.innerHTML=embedHTML(m)||`<button class="btn pri" style="font-size:1.4rem" data-act="lib-view" data-id="${m.id}">🔗 ${esc(m.name)} öffnen</button>`;return}
-  const b=await idb('blob','readonly',st=>st.get(m.id));if(!b||!$('#slide-media'))return;
+  const b=await libBlob(m.id);if(!$('#slide-media'))return;if(!b){el.innerHTML=`<p class="muted">„${esc(m.name)}“ liegt nur auf einem anderen Gerät${m.lic==='verlag'?' (Verlagsmaterial bleibt dort)':''}. Öffne ELIO dort einmal mit Internet, dann lädt es sich hoch.</p>`;return}
   const u=URL.createObjectURL(b),t=m.mime||'';
   el.innerHTML=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
 }
@@ -5810,7 +5872,7 @@ async function cloudLoadWeek(cid){
 }
 // Lehrkraft: eigener Stundenplan (alle Klassen), Wochenplanung, Stunden
 async function cloudSync(){
-  if(!Cloud.prof||Cloud.prof.role==='pending')return;
+  if(!Cloud.prof||Cloud.prof.role==='pending')return;if(Cloud.synced)await cloudPush();
   const sb=Cloud.sb,uid=Cloud.user.id,ids=Cloud.myClasses.map(c=>c.id);
   try{
     const sl=ids.length?await q(sb.from('slots').select('class_id,day,period,subject,teacher_id,grp').in('class_id',ids)):[];
@@ -5824,20 +5886,25 @@ async function cloudSync(){
     // Lokale Stunden beim ersten Login hochladen
     mine.forEach(L=>{if(!ls.some(x=>x.id===L.id)){if(L.id==='L-bsp'){const nid=lid();Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===L.id)TD.plan[k]=nid});L.id=nid}L.owner=uid;L.cid=L.cid||S.cls}});
     const fromCloud=ls.map(x=>Object.assign({},x.data,{id:x.id,owner:x.owner,cid:x.class_id,shared:x.shared}));
-    const merged=fromCloud.concat(mine.filter(L=>!ls.some(x=>x.id===L.id)));
-    S.lessons=merged;Cloud.sig={};ls.forEach(x=>{Cloud.sig[x.id]=JSON.stringify(lessonRow(fromCloud.find(L=>L.id===x.id)))});
+    Cloud.sig={};fromCloud.forEach(L=>{Cloud.sig[L.id]=JSON.stringify(lessonRow(L))});
+    // Neuere eigene Änderungen auf diesem Gerät (L.ts) gewinnen gegen einen älteren Cloud-Stand und werden gleich hochgeladen
+    const merged=fromCloud.map(c=>{const loc=mine.find(L=>L.id===c.id);return loc&&(+loc.ts||0)>(+c.ts||0)?loc:c}).concat(mine.filter(L=>!ls.some(x=>x.id===L.id)));
+    S.lessons=merged;Cloud.synced=true;setTimeout(()=>LIB.ready?libCloudSync():libLoad(),500);
     try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}cloudQueue();
   }catch(e){console.warn(e);Cloud.err='Sync fehlgeschlagen.'}
 }
 function lessonRow(L){const d=Object.assign({},L);['id','owner','cid','shared'].forEach(k=>delete d[k]);return {id:L.id,class_id:L.cid||null,subject:L.subject,title:L.title,data:d,shared:!!L.shared}}
 let cloudT=null;
+// Hochladen erst nach dem ersten Abgleich: sonst überschreibt ein Gerät mit altem Stand die neueren Stunden in der Cloud
 function cloudQueue(){
-  if(!CLOUD||!Cloud.prof||Cloud.prof.role==='pending'||S.role!=='teacher')return;
-  clearTimeout(cloudT);cloudT=setTimeout(async()=>{if(!Cloud.user||S.role!=='teacher')return;
-    const uid=Cloud.user.id,rows=[];
-    (S.lessons||[]).forEach(L=>{if(L.owner&&L.owner!==uid)return;L.owner=uid;const r=lessonRow(L),sg=JSON.stringify(r);if(Cloud.sig[L.id]!==sg){rows.push(r);Cloud.sig[L.id]=sg}});
+  if(!CLOUD||!Cloud.prof||Cloud.prof.role==='pending'||S.role!=='teacher'||!Cloud.synced)return;
+  clearTimeout(cloudT);cloudT=setTimeout(cloudPush,1200);
+}
+async function cloudPush(){clearTimeout(cloudT);if(!Cloud.user||S.role!=='teacher'||!Cloud.synced)return;
+    const uid=Cloud.user.id,rows=[];let ch=0;
+    (S.lessons||[]).forEach(L=>{if(L.owner&&L.owner!==uid)return;L.owner=uid;if(Cloud.sig[L.id]!==JSON.stringify(lessonRow(L))){L.ts=Date.now();ch=1}const r=lessonRow(L),sg=JSON.stringify(r);if(Cloud.sig[L.id]!==sg){rows.push(r);Cloud.sig[L.id]=sg}});
+    if(ch)try{localStorage.setItem(KEY,JSON.stringify(Object.fromEntries(Object.entries(S).filter(([k])=>!MINE.includes(k)))))}catch(e){}
     if(rows.length){try{await q(Cloud.sb.from('lessons').upsert(rows))}catch(e){console.warn(e);rows.forEach(r=>delete Cloud.sig[r.id])}}
-  },1200);
 }
 async function cloudDelLesson(id){if(!CLOUD||!Cloud.prof)return;try{await q(Cloud.sb.from('lessons').delete().eq('id',id));delete Cloud.sig[id]}catch(e){}}
 async function cloudPlan(d,i,date,lessonId){if(!CLOUD||!Cloud.prof)return;const t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
@@ -6126,7 +6193,7 @@ function lessonMedia(L){const ids=new Set(),bg=b=>{if(b&&b!=='none'&&!SL_BG[b])i
 async function medSmall(b){if(/svg|gif/.test(b&&b.type||''))return b;try{const bm=await createImageBitmap(b),f=Math.min(1,1600/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*f);cv.height=Math.round(bm.height*f);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
   let o=await new Promise(r=>cv.toBlob(r,'image/webp',.82));if(!o||o.type!=='image/webp')o=await new Promise(r=>cv.toBlob(r,'image/jpeg',.85));return o||b}catch(e){return b}}
 let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id),hf=heftFor().flatMap(e=>heftFotos(e.text));if(!L&&!hf.length)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
-  for(const id of [...new Set([...(L?lessonMedia(L):[]),...hf])]){if(done[id])continue;try{const b=await idb('blob','readonly',st=>st.get(id));if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
+  for(const id of [...new Set([...(L?lessonMedia(L):[]),...hf])]){if(done[id])continue;try{const b=await libBlob(id);if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
     const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),await sm.arrayBuffer());if(ct.byteLength>2500000){done[id]=1;continue}
     const sb=await sbClient();await q(sb.from('class_media').upsert({class_id:S.cls,id:String(id).slice(0,80),body:{iv:b64e(iv),ct:b64e(ct),ty:sm.type||'image/webp'},updated_at:new Date().toISOString()}));done[id]=1}
   catch(e){if(mbMissing(e)){MED.miss=true;return}console.warn('mediaPush',e)}}},1500)}
@@ -6863,7 +6930,7 @@ const b64blob=async b=>{const u=new Uint8Array(await b.arrayBuffer());let s='';f
 async function arcMake(list,name){ARC.busy=1;ARC.msg='Archiv wird gepackt …';ARC.err=0;render();
   try{const files={},heft={};let skip=0,size=0;
     for(const L0 of list){const r=arcRefs(L0);for(const id of [...r.img,...r.mat]){if(files[id])continue;const m=libById(id);if(!m)continue;
-        if(m.kind==='link'){files[id]={meta:m};continue}const b=await idb('blob','readonly',st=>st.get(id));if(!b)continue;
+        if(m.kind==='link'){files[id]={meta:m};continue}const b=await libBlob(id);if(!b)continue;
         if(size+b.size>ARC_MAX){skip++;files[id]={meta:m,big:1};continue}size+=b.size;files[id]={meta:m,data:await b64blob(b)}}
       r.eid.forEach(id=>{const e=(TD.heft||[]).find(x=>x.id===id);if(e)heft[id]=clone(e)})}
     const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes'].forEach(k=>delete d[k]);return d});
@@ -7227,9 +7294,13 @@ document.addEventListener('click',e=>{
     case 'shop-on':case 'shop-off':{const it=WEAR[d.id];if(!it||!(S.owned||[]).includes(d.id))break;const W=avParse(S.av).w;if(a==='shop-on')W[it.s]=d.id;else delete W[it.s];avSave(avWith(S.av,W));break}
     case 'nz-tog':NOISE.on?noiseOff():noiseOn();break;
     case 'sl-add':case 'sl-del':case 'sl-mv':case 'sl-dup':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;const A=deckSlides(t),j=+d.j;
-      if(a==='sl-add')A.push({layout:'std',bg:(A[A.length-1]||{}).bg||'allgemein',title:'',text:'',mat:'',elo:'',say:'',steps:false});
-      if(a==='sl-del')A.splice(j,1);if(a==='sl-dup')A.splice(j+1,0,clone(A[j]));
-      if(a==='sl-mv'){const k=j+(+d.d);if(k>=0&&k<A.length)[A[j],A[k]]=[A[k],A[j]]}if(t._x&&!A.length){const ph=L.phases[+String(d.i).slice(1)];if(isGreet(ph))delete ph.xs}save();render();break}
+      // Der Editor bleibt auf derselben Folie (vorher blieb er auf dem Platz, und man schrieb in die falsche Folie)
+      const E=V.sle&&String(V.sle.i)===String(d.i)?V.sle:null;
+      if(a==='sl-add'){A.push({sid:newSid(),layout:'std',bg:(A[A.length-1]||{}).bg||'allgemein',title:'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:d.i,j:A.length-1,sel:null}}
+      if(a==='sl-del'){const gone=A[j]&&A[j].sid,prev=A[j-1]&&A[j-1].sid;A.splice(j,1);if(t._x){const ph=L.phases[+String(d.i).slice(1)];phTl(ph).forEach(x=>{if(gone&&x.after===gone){if(prev)x.after=prev;else delete x.after}})}
+        if(E){if(!A.length)V.sle=null;else if(E.j===j){E.j=Math.min(j,A.length-1);E.sel=null}else if(E.j>j)E.j--}}
+      if(a==='sl-dup'){const c=clone(A[j]);c.sid=newSid();A.splice(j+1,0,c);if(E&&E.j>j)E.j++}
+      if(a==='sl-mv'){const k=j+(+d.d);if(k>=0&&k<A.length){[A[j],A[k]]=[A[k],A[j]];if(E){if(E.j===j)E.j=k;else if(E.j===k)E.j=j}}}if(t._x&&!A.length){const ph=L.phases[+String(d.i).slice(1)];if(isGreet(ph))delete ph.xs}save();render();break}
     case 'ph-ipad':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.noipad=d.v==='0';save();render();break}
     case 'kf-lvl':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;p.tool.level=d.v;save();render();break}
     case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:'x'+d.i,j:p.xs.length-1,sel:null};save();render();break}
@@ -7243,7 +7314,10 @@ document.addEventListener('click',e=>{
     case 'sl-bgrm':slBgRemove(d);break;
     case 'sl-bgback':{const sl=slEdSlide(d);if(!sl||!V.sle||!V.sle.sel||V.sle.sel[0]!=='i')break;const m=(sl.imgs||[])[+V.sle.sel.slice(1)];if(m&&m.orig){m.id=m.orig;delete m.orig;save();render()}break}
     case 'sl-vo-play':{const sl=slEdSlide(d),L=lessonById(V.id);if(sl)eloSay({...sl,speak:true},L&&L.subject);break}
-    case 'sl-vo-gen':slVoGen(d,b);break;
+    case 'sl-vo-gen':slVoGen(d);break;
+    case 'vo-prev':voPlay(VO.id);break;
+    case 'vo-ok':voTake(d,true);break;
+    case 'vo-no':voTake(d,false);break;
     case 'bb-open':BB.q=(($('#bb-in')||{}).value||BB.q);BB.open=!BB.open;render();break;
     case 'bb-kind':BB.q=(($('#bb-in')||{}).value||BB.q);BB.kind=d.v;BB.err='';render();break;
     case 'bb-go':if(!BB.busy)bbGo();break;
@@ -7603,8 +7677,12 @@ document.addEventListener('click',e=>{
       tpAssign(+d.d,+d.i,d.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
     case 'tp-assign':tpAssign(+d.d,+d.i,d.date,$('#tp-ex').value);$('#ov').hidden=true;render();break;
     case 'tp-unset':{const lid=TD.plan[d.k];Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===lid&&k.split('|')[0]===d.k.split('|')[0]){cloudUnplan(k);delete TD.plan[k]}});tsave();$('#ov').hidden=true;render();break}
-    case 'tool-pool':toolPool(+d.i);break;
-    case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id];p.tool=d.t?toolDefaults(d.t,p,L):null;
+    case 'tool-pool':V.tpR=d.r==='1';toolPool(+d.i);break;
+    case 'tool-sel':{const L=lessonById(V.id),p=L&&L.phases[+d.i],A=phTl(p);if(!A[+d.k])break;p.tk=+d.k;p.tool=A[+d.k];render();break}
+    case 'tool-rm':{const L=lessonById(V.id),p=L&&L.phases[+d.i],A=phTl(p);if(!A[+d.k])break;A.splice(+d.k,1);p.tk=0;p.tool=A[0]||null;save();render();break}
+    case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id],A=phTl(p);
+      // Ändern ersetzt nur das aktive Werkzeug, „＋ Werkzeug“ hängt ein neues hinter die geöffnete Folie. Nichts anderes geht verloren.
+      if(!d.t)p.tool=null;else{const nt=toolDefaults(d.t,p,L);if(V.tpR&&p.tool){if(p.tool.after)nt.after=p.tool.after;p.tool=nt}else{const sl=V.sle&&String(V.sle.i)==='x'+d.i&&(p.xs||[])[V.sle.j];if(sl&&sl.sid)nt.after=sl.sid;A.push(nt);p.tk=A.length-1;p.tool=nt}}phTl(p);V.tpR=false;
       if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render();if(d.t==='heftlink'||d.t==='ueb')tpOpen(+d.i,d.t==='ueb'?'ueb':'heft')}break}
     case 'tp-open':tpOpen(+d.i,d.k);break;
     case 'tp-set':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;
