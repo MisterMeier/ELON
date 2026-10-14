@@ -1079,6 +1079,50 @@ label.cbl input{width:auto!important;margin:0}
 .say-cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}.say-cmp div{background:rgba(255,255,255,.75);border-radius:10px;padding:8px;text-align:center}.say-cmp small{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;opacity:.7}
 .say-stat{text-align:center;color:var(--muted);font-weight:700}
 .ak .st-head{margin-bottom:8px}.ak-ic{font-size:2rem}.ak-hint{font-weight:700;color:var(--muted);margin-bottom:10px}
+/* Wo liegt was? (Geografiespiel) */
+.wlw-card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;margin:4px 0 16px;padding:14px 16px;border-radius:var(--r);border:2px solid var(--line);border-left:7px solid #2f8f9d;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--ink);font:inherit}
+.wlw-card b{display:block;font-family:var(--f-display);font-size:1.25rem;line-height:1.2}.wlw-card small{display:block;color:var(--muted);font-weight:700}
+.wlw-ci{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;color:#fff;background:#2f8f9d}.wlw-ci.area{background:#7a5bd0}.wlw-ci svg{width:26px;height:26px}
+.wlw-hero{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}.wlw-hero h1{font-size:clamp(1.6rem,4vw,2.3rem)}.wlw-hero p{font-weight:700;color:var(--muted)}
+.wlw-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin:6px 0 18px}
+.wlw-cat{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;border:2px solid var(--line);background:var(--surface);text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-height:64px;touch-action:manipulation}
+.wlw-cat b{display:block;font-weight:800;line-height:1.2}.wlw-cat small{color:var(--muted);font-weight:700;font-size:.85rem}
+.wlw-cat.on{border-color:var(--navy);background:var(--surface-2);box-shadow:0 0 0 3px rgba(38,51,122,.18)}
+.wlw-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.wlw-seg{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.wlw-seg button{min-height:44px;min-width:56px;padding:6px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;color:var(--ink);cursor:pointer;touch-action:manipulation}
+.wlw-seg button.on{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
+.wlw-game{display:flex;flex-direction:column;gap:10px}
+.wlw-game.wlw-fs{position:fixed;inset:0;z-index:400;background:var(--bg);padding:12px max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+.wlw-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.wlw-q{font-family:var(--f-display);font-size:clamp(1.4rem,3.6vw,2.2rem);line-height:1.15;font-weight:700}.wlw-q b{color:var(--navy);font-weight:800}
+.wlw-q small{display:block;font-family:var(--f-body);font-size:.95rem;font-weight:700;color:var(--muted)}
+.wlw-chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.wlw-chips .chip{font-size:.95rem;padding:5px 12px}.wlw-sum{color:var(--navy)!important}
+.wlw-time.low{background:var(--late-bg);color:var(--red);border-color:var(--red)}
+.wlw-tbar{height:6px;border-radius:6px;background:var(--surface-2);overflow:hidden}.wlw-tbar i{display:block;height:100%;background:var(--orange);transition:width .2s linear}
+.wlw-mapw{position:relative;border-radius:var(--r);overflow:hidden;border:2px solid var(--line);background:#cfe3f4;height:clamp(300px,calc(100vh - 330px),1100px);height:clamp(300px,calc(100dvh - 330px),1100px)}
+.wlw-fs .wlw-mapw{flex:1;height:auto;min-height:0}
+body.tboard .wlw-mapw{height:clamp(320px,calc(100vh - 260px),1400px)}
+.wlw-map{position:absolute;inset:0}.wlw-cv{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.wlw-load{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;color:#26337a;background:rgba(207,227,244,.7)}
+.wlw-zoom{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px}
+.wlw-zoom button{width:46px;height:46px;border-radius:12px;border:2px solid #d8ddee;background:#fff;color:#26337a;font:800 1.4rem/1 var(--f-body);cursor:pointer;box-shadow:0 2px 6px rgba(24,32,61,.15);touch-action:manipulation}
+.wlw-attr{position:absolute;left:8px;bottom:6px;font-size:.7rem;font-weight:700;color:#4b5a7a;background:rgba(255,255,255,.75);padding:1px 6px;border-radius:6px}
+.wlw-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;min-height:68px}
+.wlw-hint{font-weight:800;color:var(--muted);flex:1;min-width:200px}.wlw-hint.warn{color:var(--orange)}
+.wlw-res{display:flex;align-items:center;gap:14px;flex:1;min-width:240px;animation:wlwIn .35s ease both}
+.wlw-pts{display:grid;place-items:center;min-width:92px;padding:6px 12px;border-radius:16px;background:var(--surface-2);border:2px solid var(--line);animation:wlwPop .45s cubic-bezier(.2,1.4,.4,1) both}
+.wlw-pts b{font-family:var(--f-display);font-size:2rem;line-height:1}.wlw-pts small{font-weight:800;color:var(--muted);font-size:.8rem}
+.wlw-pts.hi{background:var(--ok-bg);border-color:var(--green)}.wlw-pts.hi b{color:var(--green)}.wlw-pts.mid{background:var(--warn-bg);border-color:var(--yellow)}.wlw-pts.lo{background:var(--late-bg);border-color:var(--red)}.wlw-pts.lo b{color:var(--red)}
+.wlw-info b{display:block;font-family:var(--f-display);font-size:1.35rem;line-height:1.15}.wlw-info small{display:block;font-weight:800;color:var(--muted)}.wlw-info span{display:block;font-weight:700}
+@keyframes wlwPop{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}@keyframes wlwIn{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.wlw-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.wlw-stats>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);animation:wlwPop .5s ease both}
+.wlw-stats b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1.1;color:var(--navy)}.wlw-stats small{font-weight:800;color:var(--muted)}
+.wlw-tab{width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.wlw-tab th,.wlw-tab td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}.wlw-tab th{font-size:.85rem;color:var(--muted)}.wlw-tab td small{color:var(--muted);font-weight:700}
+.wlw-pb{display:inline-block;width:70px;height:8px;border-radius:8px;background:var(--surface-2);margin-right:8px;vertical-align:middle;overflow:hidden}.wlw-pb i{display:block;height:100%;background:var(--green)}
+@media (max-width:600px){.wlw-tab th:first-child,.wlw-tab td:first-child{display:none}.wlw-pb{display:none}.wlw-bar .btn.big{width:100%}}
+@media (prefers-reduced-motion:reduce){.wlw-res,.wlw-pts,.wlw-stats>div{animation:none}}
 .ak-match{display:grid;grid-template-columns:1fr 1fr;gap:16px}.ak-match>div{display:grid;gap:10px;align-content:start}
 .ak-c{min-height:58px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;font-size:1.15rem;cursor:pointer;padding:8px 12px;color:var(--ink)}
 .ak-c.on{border-color:var(--navy);background:#e6ebff}.ak-c.ok{background:var(--ok-bg);border-color:var(--green);opacity:.75}.ak-c.no{animation:shake .4s;border-color:var(--red);background:var(--late-bg)}
@@ -1740,7 +1784,7 @@ function render(){
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')||(S.role==='student'&&['practice','memory','salad','balloon','game'].includes(V.name)&&b.dataset.nav==='homework')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
-  kfAnimate();skzFill();
+  kfAnimate();skzFill();wlwMount();
 }
 function tickClock(){
   const n=nowInfo(),c=$('#clock');
@@ -1931,6 +1975,7 @@ VIEWS.practice=()=>{
   const s=V.s||S.lastPs||'E';
   const G=gamesOn(),ks=Object.keys(G),s2=G[s]?s:ks[0];
   return `<div class="row" style="margin-bottom:14px"><button class="btn sm" data-act="homework">← Aufgaben</button><h1>Freies Üben</h1></div>${lvlBar()}
+    <button class="wlw-card" data-act="wlw-free"><span class="wlw-ci pin">${WLW_IC.pin}</span><span style="flex:1;min-width:0"><b>Wo liegt was?</b><small>Städte, Länder und Bundesländer auf der Karte finden. Je näher dein Tipp, desto mehr Punkte.</small></span><span class="btn sm pri">Spielen</span></button>
     <span class="label">Lernspiele nach Fächern</span>
     ${ks.length?`<div class="psub">${ks.map(k=>`<button class="s-${k} ${k===s2?'on':''}" data-act="ps" data-s="${k}">${SUBJECTS[k].name}</button>`).join('')}</div>
     <div class="games s-${s2}">${G[s2].map(g=>`<button class="gcard" style="border-top:7px solid var(--sc)" data-act="game" data-g="${g}" data-s="${s2}">
@@ -2019,7 +2064,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261014-0830';let verTold=false;
+const BUILD='20261014-1245';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3347,7 +3392,7 @@ function goTarget(t){
   else if(t.startsWith('heft:')){const r=t.slice(5),k=r.indexOf(':');go('subject',k<0?{s:r,tab:'heft'}:{s:r.slice(0,k),tab:'heft',hl:r.slice(k+1)})}
   else if(t.startsWith('station:')){const id=t.slice(8);W={};({words:initWords,phrases:initPhrases,order:initOrder,ladder:initLadder,swap:initSwap,reflect:initReflect}[id]||(()=>{}))();go('station',{id})}
 }
-function akLive(T,p){const A=AKT[T.id],L=CS.lesson&&lessonById(CS.lesson.id);CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:A.parse(T.text||(L&&L.subject==='E'&&A.exE)||A.ex)};
+function akLive(T,p){const A=AKT[T.id],L=CS.lesson&&lessonById(CS.lesson.id);CS.game={g:T.id,at:Date.now(),title:T.title||p.name,data:A.fromTool?A.fromTool(T):A.parse(T.text||(L&&L.subject==='E'&&A.exE)||A.ex)};
   // Drei Niveaus: Standard ist der normale Inhalt, Grund und Plus sind freiwillig
   const lv={};try{if(String(T.tg||'').trim())lv.g=A.parse(T.tg);if(String(T.tp||'').trim())lv.p=A.parse(T.tp)}catch(e){}if(lv.g||lv.p){CS.game.lv=lv;CS.game.lvm=T.lvm==='teacher'?'teacher':'self'}}
 function quizStart(T,p){CS.poll={id:'p'+Date.now(),type:'quiz',q:T.q||p.name,opts:lines(T.opts).slice(0,8),voted:[],multi:!!T.multi,mat:T.mat||''};if(!CS.poll.opts.length)CS.poll.opts=['Ja','Nein'];TALLY={}}
@@ -4172,7 +4217,7 @@ const TOOLS={
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['🧩','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
@@ -4501,6 +4546,11 @@ function toolEditor(p,i,L){
         <div class="lgrid">${ta('tg','Grund (leichter)',t.tg,4)}${ta('tp','Plus (schwerer)',t.tp,4)}
         <label>Wer wählt das Niveau?<select data-f="ph.${i}.tool.lvm"><option value="self" ${t.lvm!=='teacher'?'selected':''}>Jedes Kind wählt selbst</option><option value="teacher" ${t.lvm==='teacher'?'selected':''}>Ich weise zu (Klasse → Schüler/innen)</option></select></label>
         <div><button class="btn sm" disabled title="Kommt mit Elo-KI">Leichter/schwerer erzeugen (bald)</button></div></div></details></div>`}
+  if(t.id==='geo'){const sel=(k,L,cur,lab)=>`<label>${lab}<select data-f="ph.${i}.tool.${k}">${L.map(([v,n])=>`<option value="${v}" ${String(cur==null?L[0][0]:cur)===String(v)?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`;
+    cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel an der Tafel (freiwillig)',t.title,'Wo liegt was?')}${sel('wcat',[['','Die SuS wählen selbst'],...WLW_CATS.map(c=>[c[0],c[1]])],t.wcat||'','Kategorie')}
+      ${t.wcat?`${sel('wlv',[[1,'leicht'],[2,'mittel'],[3,'schwer']],t.wlv,'Schwierigkeit')}${sel('wn',WLW_N.map(n=>[n,n+' Fragen']),t.wn||10,'Anzahl')}${sel('wt',WLW_T.map(x=>[x,x?x+' Sekunden':'ohne Zeitlimit']),t.wt||0,'Zeit pro Frage')}
+      <label class="cbl"><input type="checkbox" data-f="ph.${i}.tool.wlbl" ${t.wlbl?'checked':''}> Hilfen auf der Karte (Meere, Flüsse, Nachbarn)</label>`:''}
+      <p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">${t.wcat?'Alle bekommen dieselben Fragen in derselben Reihenfolge, an der Tafel und auf jedem iPad.':'Jedes Kind wählt auf dem iPad Kategorie, Schwierigkeit, Fragen und Zeit selbst.'} Die Karte zeigt keine Namen.</p></div>`}
   if(t.id==='heft')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
   if(t.id==='skizze')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Gestaltungsauftrag',t.text,2)}<label>Wie viele Skizzen vor dem Werk?<select data-f="ph.${i}.tool.n">${[1,2,3,4].map(n=>`<option value="${n}" ${(+t.n||2)===n?'selected':''}>${n} Skizze${n>1?'n':''}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Eine Skizze zählt ab 5 Strichen. Das Werk kannst du an der Tafel auch vorher für alle freigeben.</p></div>`;
   if(t.id==='diary')cfg=`<div class="lgrid" style="margin-top:8px">${ta('prompt','Leitfragen (eine pro Zeile)',t.prompt,3)}</div>`;
@@ -4800,6 +4850,225 @@ const AKT={
           if(Object.keys(s.done).length>=d.items.length&&!s.win){s.win=true;s.msg=`${s.ok} von ${d.items.length} gleich beim ersten Mal sehr gut`}
           if(AK.st===s)render()},e=>{s.rec=false;s.err=srErr(e);if(AK.st===s)render()});if(!s._rc)s.rec=false;return}}},
 };
+/* ---------- Wo liegt was? Geografiespiel: Orte und Flächen auf einer eigenen Karte finden ----------
+   Karten und Orte liegen in assets/geo/wlw/ (erzeugt mit tools/gen_geo_quiz.py aus Natural Earth und GeoNames).
+   Bewusst kein fremder Kartenserver: keine Daten der SuS gehen nach außen, es gibt keine Beschriftung, die die Lösung verrät, und das Spiel läuft offline.
+   Gleiche Einstellungen und gleicher Startwert (data.seed) ergeben auf Tafel und allen iPads dieselben Fragen: Grundlage für spätere gemeinsame Runden. */
+const WLW={orte:null,op:null,maps:{},mp:{},cv:null,ro:null,raf:0,ptr:new Map(),gest:null,tick:0,va:null};
+// Kategorien: [Schlüssel, Name, Modus]; Bewertungsradius (maxKm) steht zentral in orte.json
+const WLW_CATS=[['eu-hst','Europa – Hauptstädte','pin'],['de-st','Deutschland – Städte','pin'],['by-st','Bayern – Städte','pin'],['de-bl','Deutschland – Bundesländer','area'],
+  ['eu-la','Europa – Länder','area'],['welt-hst','Welt – Hauptstädte','pin'],['welt-st','Welt – wichtige Städte','pin'],['welt-la','Welt – Länder','area']];
+const WLW_LV={1:'leicht',2:'mittel',3:'schwer'},WLW_N=[5,10,15,20],WLW_T=[0,15,30,60];
+const WLW_ZMAX={welt:8,europa:8,de:9,by:7};// so weit darf man hineinzoomen, ohne dass die Kartengenauigkeit stört
+const WLW_DEF={cat:'eu-hst',lv:1,n:10,t:0,lbl:false};
+const wlwCat=k=>WLW_CATS.find(c=>c[0]===k)||WLW_CATS[0];
+// Web-Mercator in „Weltpunkten“ (Welt = 1024 breit)
+const wlwX=lo=>(lo+180)/360*1024,wlwY=la=>{const s=Math.sin(Math.max(-85,Math.min(85,la))*Math.PI/180);return (.5-Math.log((1+s)/(1-s))/(4*Math.PI))*1024};
+const wlwLon=x=>x/1024*360-180,wlwLat=y=>180/Math.PI*Math.atan(Math.sinh(Math.PI-2*Math.PI*y/1024));
+// Luftlinie (Haversine), Erdradius 6371 km
+function wlwKm(a,b){const r=Math.PI/180,f1=a[1]*r,f2=b[1]*r,h=Math.sin((f2-f1)/2)**2+Math.cos(f1)*Math.cos(f2)*Math.sin((b[0]-a[0])*r/2)**2;return 2*6371*Math.asin(Math.min(1,Math.sqrt(h)))}
+const wlwScore=(km,max)=>Math.round(1000*Math.max(0,1-km/max));
+function wlwRng(seed){let h=1779033703^String(seed).length;for(const c of String(seed)){h=Math.imul(h^c.charCodeAt(0),3432918353);h=h<<13|h>>>19}
+  return ()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}}
+function wlwOrte(){if(!WLW.op)WLW.op=fetch('assets/geo/wlw/orte.json').then(r=>{if(!r.ok)throw new Error('orte');return r.json()}).then(d=>WLW.orte=d).catch(e=>{WLW.op=null;throw e});return WLW.op}
+function wlwMap(k){if(!WLW.mp[k])WLW.mp[k]=fetch('assets/geo/wlw/karte-'+k+'.json').then(r=>{if(!r.ok)throw new Error('karte');return r.json()}).then(d=>WLW.maps[k]=wlwBuild(d)).catch(e=>{delete WLW.mp[k];throw e});return WLW.mp[k]}
+// Linien kommen als ganze Zahlen (Grad × f), erster Punkt absolut, dann Differenzen
+function wlwDec(r,f){const o=[];let x=0,y=0;for(let i=0;i<r.length;i+=2){x+=r[i];y+=r[i+1];o.push([x/f,y/f])}return o}
+function wlwBuild(d){const F=d.f||1;
+  const mk=f=>{const p=new Path2D(),rs=[];let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,a=0;
+    (f.r||[]).map(r=>wlwDec(r,F)).forEach(r=>{const A=new Float64Array(r.length*2);let s=0;r.forEach(([lo,la],i)=>{const x=wlwX(lo),y=wlwY(la);A[2*i]=x;A[2*i+1]=y;i?p.lineTo(x,y):p.moveTo(x,y);
+      if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;if(i)s+=A[2*i-2]*y-x*A[2*i-1]});p.closePath();rs.push(A);a+=Math.abs(s)/2});
+    return {id:f.id,n:f.n,p,rs,bb:[x0,y0,x1,y1],a}};
+  const riv=new Path2D();(d.riv||[]).forEach(r=>wlwDec(r.l,F).forEach(([lo,la],i)=>{const x=wlwX(lo),y=wlwY(la);i?riv.lineTo(x,y):riv.moveTo(x,y)}));
+  return {b:[wlwX(d.bb[0]),wlwY(d.bb[3]),wlwX(d.bb[2]),wlwY(d.bb[1])],land:(d.land||[]).map(mk),adm:(d.adm||[]).map(mk),lake:(d.lake||[]).map(mk),riv,hasRiv:!!(d.riv||[]).length,lbl:d.lbl||[],hl:d.hl||null}}
+// Welche Fläche liegt unter dem Punkt? Bei Überlappung gewinnt die kleinste (Berlin in Brandenburg).
+function wlwHit(L,x,y){let best=null;(L||[]).forEach(f=>{const b=f.bb;if(x<b[0]||x>b[2]||y<b[1]||y>b[3])return;let ins=false;
+  f.rs.forEach(A=>{const n=A.length/2;for(let i=0,j=n-1;i<n;j=i++){const yi=A[2*i+1],yj=A[2*j+1];if((yi>y)!==(yj>y)&&x<(A[2*j]-A[2*i])*(y-yi)/(yj-yi)+A[2*i])ins=!ins}});
+  if(ins&&(!best||f.a<best.a))best=f});return best}
+function wlwPick(cat,lv,n,seed){const C=WLW.orte.cats[cat];let P=C.q.filter(q=>lv===1?q.d===1:lv===2?q.d<=2:q.d>=2);if(P.length<n&&lv!==1)P=C.q.slice();
+  const R=wlwRng(seed);for(let i=P.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[P[i],P[j]]=[P[j],P[i]]}return P.slice(0,Math.min(n,P.length))}
+// Spiel starten: Orte und Karte laden, Fragen ziehen (ohne Wiederholung)
+function wlwGo(s){if(s.ph==='load')return;s.ph='load';s.err='';const cfg=s.cfg;
+  wlwOrte().then(O=>wlwMap(O.cats[cfg.cat].map).then(()=>O)).then(O=>{if(AK.st!==s)return;const c=O.cats[cfg.cat];
+    s.mode=c.mode;s.map=c.map;s.layer=c.layer||'land';s.maxKm=c.maxKm||1000;s.q=wlwPick(cfg.cat,cfg.lv,cfg.n,s.seed);s.i=0;s.res=[];s.total=0;s.guess=null;s.view=null;
+    if(!s.q.length){s.ph='setup';s.err='Für diese Auswahl gibt es keine Fragen.';render();return}
+    s.ph='play';s.dl=cfg.t?Date.now()+cfg.t*1000:0;render()})
+  .catch(()=>{if(AK.st!==s)return;s.ph='setup';s.err='Die Karte konnte nicht geladen werden. Prüfe die Internetverbindung und versuch es noch einmal.';render()});}
+function wlwConfirm(s,late){if(s.ph!=='play')return;const q=s.q[s.i],M=WLW.maps[s.map];let r;
+  if(s.mode==='pin'){const g=s.guess&&s.guess.ll,km=g?wlwKm(g,q.ll):null;r={id:q.id,n:q.n,i:q.i,ll:q.ll,g,km,pts:g?wlwScore(km,s.maxKm):0}}
+  else{const g=s.guess&&s.guess.id,f=g&&M&&M[s.layer].find(x=>x.id===g);r={id:q.id,n:q.n,g,gn:f?f.n:'',ok:g===q.id,pts:g===q.id?1000:0}}
+  r.late=!!late;s.res.push(r);s.total+=r.pts;s.ph='shown';s.at=performance.now();
+  if(r.pts>=800)SND.right();else if(r.pts>0)tone(520,0,.18,'sine',.12);else SND.oops();
+  wlwShow(s,r)}
+// Nach der Antwort: Ansicht so verschieben, dass Tipp und Lösung zu sehen sind
+function wlwShow(s,r){const M=WLW.maps[s.map],cv=WLW.cv;if(!M||!cv||!s.view)return;const W=cv.clientWidth,H=cv.clientHeight,pts=[];
+  if(s.mode==='pin'){pts.push([wlwX(r.ll[0]),wlwY(r.ll[1])]);if(r.g)pts.push([wlwX(r.g[0]),wlwY(r.g[1])])}
+  else{const f=M[s.layer].find(x=>x.id===r.id);if(f)pts.push([f.bb[0],f.bb[1]],[f.bb[2],f.bb[3]]);const g=r.g&&M[s.layer].find(x=>x.id===r.g);if(g)pts.push([g.bb[0],g.bb[1]],[g.bb[2],g.bb[3]])}
+  if(!pts.length)return;const v=s.view,pl=56,pr=72,pt=80,pb=28,xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+  // so wenig wie möglich bewegen: erst nur verschieben, nur wenn es nicht passt auch herauszoomen
+  const k=Math.min(v.k,(W-pl-pr)/Math.max(1e-6,x1-x0),(H-pt-pb)/Math.max(1e-6,y1-y0)),hw=W/2/k,hh=H/2/k;
+  let x=v.x,y=v.y;x=Math.min(x,x0-pl/k+hw);x=Math.max(x,x1+pr/k-hw);y=Math.min(y,y0-pt/k+hh);y=Math.max(y,y1+pb/k-hh);
+  if(k===v.k&&Math.abs(x-v.x)<1e-9&&Math.abs(y-v.y)<1e-9)return;WLW.va={f:{...v},t:wlwClamp({x,y,k},M),at:performance.now()};wlwKick()}
+function wlwNext(s){if(s.ph!=='shown')return;s.i++;s.guess=null;if(s.i>=s.q.length){s.ph='end';s.win=true;s.msg='';return}
+  s.ph='play';s.dl=s.cfg.t?Date.now()+s.cfg.t*1000:0}
+function wlwFit(M,W,H){const b=M.b,k=Math.min(W/(b[2]-b[0]),H/(b[3]-b[1]))*.98;return {x:(b[0]+b[2])/2,y:(b[1]+b[3])/2,k}}
+function wlwClamp(v,M){const cv=WLW.cv,W=cv?cv.clientWidth:800,H=cv?cv.clientHeight:600,f=wlwFit(M,W,H),b=M.b,z=WLW_ZMAX[AK.st&&AK.st.map]||8;
+  const k=Math.max(f.k*.9,Math.min(f.k*z,v.k));return {x:Math.max(b[0],Math.min(b[2],v.x)),y:Math.max(b[1],Math.min(b[3],v.y)),k}}
+// ---- Zeichnen
+function wlwPin(c,x,y,col,sc){c.save();c.translate(x,y);c.scale(sc,sc);c.beginPath();c.moveTo(0,0);c.bezierCurveTo(-3,-8,-11,-13,-11,-22);c.arc(0,-22,11,Math.PI,0);c.bezierCurveTo(11,-13,3,-8,0,0);c.closePath();
+  c.shadowColor='rgba(24,32,61,.35)';c.shadowBlur=6;c.shadowOffsetY=2;c.fillStyle=col;c.fill();c.shadowColor='transparent';c.lineWidth=2.5;c.strokeStyle='#fff';c.stroke();
+  c.beginPath();c.arc(0,-22,4.2,0,7);c.fillStyle='#fff';c.fill();c.restore()}
+function wlwDraw(now){const cv=WLW.cv,s=AK.st;if(!cv||!cv.isConnected||!s)return false;const c=cv.getContext('2d');if(!c)return false;
+  const dpr=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return false;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  c.setTransform(1,0,0,1,0,0);c.fillStyle='#cfe3f4';c.fillRect(0,0,cv.width,cv.height);
+  const M=WLW.maps[s.map];if(!M)return false;
+  if(!s.view)s.view=wlwFit(M,W,H);let anim=false;
+  if(WLW.va){const t=Math.min(1,(now-WLW.va.at)/650),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,a=WLW.va.f,b=WLW.va.t;
+    s.view={x:a.x+(b.x-a.x)*e,y:a.y+(b.y-a.y)*e,k:a.k*Math.pow(b.k/a.k,e)};if(t<1)anim=true;else WLW.va=null}
+  s.view=wlwClamp(s.view,M);const v=s.view,k=v.k*dpr,px=1/v.k;
+  c.setTransform(k,0,0,k,dpr*W/2-v.x*k,dpr*H/2-v.y*k);c.lineJoin='round';c.lineCap='round';
+  const q=s.q&&s.q[s.i],r=s.ph==='shown'?s.res[s.res.length-1]:null,area=s.mode==='area',L=M[s.layer]||[];
+  const sel=area&&s.ph==='play'&&s.guess?s.guess.id:null,okId=area&&r?r.id:null,badId=area&&r&&!r.ok?r.g:null,de=!!M.adm.length;
+  const fillOf=(f,base)=>f.id===okId?'#a9dfbf':f.id===badId?'#f6b9b0':f.id===sel?'#ffd769':base;
+  M.land.forEach(f=>{c.fillStyle=fillOf(f,de?'#e9e7df':'#f8f5ec');c.fill(f.p,'evenodd')});
+  M.adm.forEach(f=>{c.fillStyle=fillOf(f,M.hl&&f.id!==M.hl?'#efede6':'#fffdf7');c.fill(f.p,'evenodd')});
+  c.fillStyle='#cfe3f4';M.lake.forEach(f=>c.fill(f.p,'evenodd'));
+  if(M.hasRiv){c.strokeStyle='#8fbde6';c.lineWidth=px*(de?1.6:1.1);c.stroke(M.riv)}
+  c.strokeStyle='#c2b9a0';c.lineWidth=px*(de?1.1:.8);M.adm.forEach(f=>c.stroke(f.p));
+  c.strokeStyle=de?'#9a9278':'#bdb49b';c.lineWidth=px*(de?1.6:.9);M.land.forEach(f=>c.stroke(f.p));
+  if(M.hl){const h=M.adm.find(f=>f.id===M.hl);if(h){c.strokeStyle='#26337a';c.lineWidth=px*2.2;c.stroke(h.p)}}
+  [okId,badId,sel].forEach((id,n)=>{const f=id&&L.find(x=>x.id===id);if(f){c.strokeStyle=['#1f8f5d','#cf3a2c','#c98a00'][n];c.lineWidth=px*2.6;c.stroke(f.p)}});
+  // ab hier in Bildschirmpunkten
+  c.setTransform(dpr,0,0,dpr,0,0);const P=(lo,la)=>[(wlwX(lo)-v.x)*v.k+W/2,(wlwY(la)-v.y)*v.k+H/2];
+  if(s.cfg.lbl&&M.lbl.length){const hide=new Set([q&&q.n,q&&q.i].filter(Boolean));c.textAlign='center';c.textBaseline='middle';
+    M.lbl.forEach(l=>{if(hide.has(l.t)||(area&&s.layer==='adm'&&l.k==='adm'))return;const [x,y]=P(l.ll[0],l.ll[1]);if(x<-80||x>W+80||y<-20||y>H+20)return;
+      c.font=(l.k==='sea'?'italic 700 14px ':l.k==='riv'?'italic 700 12px ':l.k==='cont'?'800 15px ':'700 12.5px ')+'Nunito,system-ui,sans-serif';
+      c.lineWidth=3.5;c.strokeStyle='rgba(255,255,255,.85)';c.strokeText(l.t,x,y);c.fillStyle=l.k==='sea'||l.k==='riv'?'#2f6fb0':l.k==='cont'?'rgba(38,51,122,.55)':'#6b6553';c.fillText(l.t,x,y)})}
+  const dur=now-(s.at||0),grow=t=>Math.min(1,Math.max(0,t));
+  if(!area&&r&&r.g){// Verbindungslinie als Großkreis (echte Luftlinie), wächst vom Tipp zur Lösung
+    const t=grow(dur/700),N=64,a=r.g.map(x=>x*Math.PI/180),b=r.ll.map(x=>x*Math.PI/180),d=r.km/6371;c.beginPath();let last=null;
+    for(let i=0;i<=N*t;i++){const f=i/N;let lo,la;if(d<1e-6){lo=r.g[0];la=r.g[1]}else{const A=Math.sin((1-f)*d)/Math.sin(d),B=Math.sin(f*d)/Math.sin(d),
+      x=A*Math.cos(a[1])*Math.cos(a[0])+B*Math.cos(b[1])*Math.cos(b[0]),y=A*Math.cos(a[1])*Math.sin(a[0])+B*Math.cos(b[1])*Math.sin(b[0]),z=A*Math.sin(a[1])+B*Math.sin(b[1]);
+      la=Math.atan2(z,Math.hypot(x,y))*180/Math.PI;lo=Math.atan2(y,x)*180/Math.PI}
+      const p=P(lo,la);if(last&&Math.abs(p[0]-last[0])>W*.5)c.moveTo(p[0],p[1]);else if(i)c.lineTo(p[0],p[1]);else c.moveTo(p[0],p[1]);last=p}
+    c.setLineDash([7,6]);c.lineWidth=3;c.strokeStyle='#26337a';c.stroke();c.setLineDash([]);if(t<1)anim=true}
+  if(!area){const g=s.ph==='play'?s.guess&&s.guess.ll:r&&r.g;
+    if(g){const [x,y]=P(g[0],g[1]),t=s.ph==='play'?grow((now-s.guess.at)/220):1;wlwPin(c,x,y,'#26337a',.6+.4*t);if(t<1)anim=true}
+    if(r){const [x,y]=P(r.ll[0],r.ll[1]),t=grow((dur-(r.g?650:0))/260);if(t>0){wlwPin(c,x,y,'#1f8f5d',.4+.6*(1-Math.pow(1-t,3)));
+      if(t>=1){c.font='800 15px Nunito,system-ui,sans-serif';c.textAlign='center';c.textBaseline='bottom';c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(r.n,x,y-40);c.fillStyle='#16603f';c.fillText(r.n,x,y-40)}}
+      if(t<1)anim=true}}
+  if(area&&r&&dur>0){const f=L.find(x=>x.id===r.id);if(f){const [x,y]=[(f.bb[0]+f.bb[2])/2,(f.bb[1]+f.bb[3])/2].map((w,i)=>(w-(i?v.y:v.x))*v.k+(i?H:W)/2);
+    c.font='800 16px Nunito,system-ui,sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineWidth=4;c.strokeStyle='#fff';c.strokeText(r.n,x,y);c.fillStyle='#16603f';c.fillText(r.n,x,y)}}
+  return anim}
+function wlwKick(){if(!WLW.raf)WLW.raf=requestAnimationFrame(t=>{WLW.raf=0;if(wlwDraw(t))wlwKick()})}
+// ---- Bedienung: ein Finger verschiebt, zwei Finger zoomen, kurzer Tipp setzt den Pin (Maus: Rad zoomt)
+function wlwPt(e){const r=WLW.cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]}
+function wlwZoomAt(p,f){const s=AK.st,M=s&&WLW.maps[s.map];if(!M||!s.view)return;const cv=WLW.cv,W=cv.clientWidth,H=cv.clientHeight,v=s.view;
+  const wx=v.x+(p[0]-W/2)/v.k,wy=v.y+(p[1]-H/2)/v.k,n=wlwClamp({x:v.x,y:v.y,k:v.k*f},M);s.view=wlwClamp({x:wx-(p[0]-W/2)/n.k,y:wy-(p[1]-H/2)/n.k,k:n.k},M);WLW.va=null;wlwKick()}
+function wlwInit(){const cv=document.createElement('canvas');cv.className='wlw-cv';cv.setAttribute('aria-label','Karte. Tippe, um deinen Tipp zu setzen.');WLW.cv=cv;
+  cv.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(x){}const s=AK.st;if(!s||!s.view)return;
+    WLW.ptr.set(e.pointerId,wlwPt(e));WLW.va=null;const P=[...WLW.ptr.values()];
+    if(P.length===1)WLW.gest={t:'pan',p0:P[0],v0:{...s.view},tm:performance.now(),moved:false};
+    else if(P.length===2)WLW.gest={t:'pinch',d0:Math.hypot(P[0][0]-P[1][0],P[0][1]-P[1][1])||1,m0:[(P[0][0]+P[1][0])/2,(P[0][1]+P[1][1])/2],v0:{...s.view},moved:true}});
+  cv.addEventListener('pointermove',e=>{if(!WLW.ptr.has(e.pointerId))return;WLW.ptr.set(e.pointerId,wlwPt(e));const G=WLW.gest,s=AK.st,M=s&&WLW.maps[s.map];if(!G||!M)return;const P=[...WLW.ptr.values()];
+    if(G.t==='pan'&&P.length===1){const dx=P[0][0]-G.p0[0],dy=P[0][1]-G.p0[1];if(!G.moved&&Math.hypot(dx,dy)<8)return;G.moved=true;s.view=wlwClamp({x:G.v0.x-dx/G.v0.k,y:G.v0.y-dy/G.v0.k,k:G.v0.k},M)}
+    else if(G.t==='pinch'&&P.length>=2){const d=Math.hypot(P[0][0]-P[1][0],P[0][1]-P[1][1])||1,m=[(P[0][0]+P[1][0])/2,(P[0][1]+P[1][1])/2],W=WLW.cv.clientWidth,H=WLW.cv.clientHeight,v=G.v0;
+      const wx=v.x+(G.m0[0]-W/2)/v.k,wy=v.y+(G.m0[1]-H/2)/v.k,n=wlwClamp({x:v.x,y:v.y,k:v.k*d/G.d0},M);s.view=wlwClamp({x:wx-(m[0]-W/2)/n.k,y:wy-(m[1]-H/2)/n.k,k:n.k},M)}
+    wlwKick()});
+  const up=e=>{if(!WLW.ptr.has(e.pointerId))return;const G=WLW.gest,p=wlwPt(e);WLW.ptr.delete(e.pointerId);
+    if(G&&G.t==='pan'&&!G.moved&&e.type==='pointerup'&&performance.now()-G.tm<800)wlwTap(p);
+    const R=[...WLW.ptr.values()],s=AK.st;WLW.gest=R.length===1&&s&&s.view?{t:'pan',p0:R[0],v0:{...s.view},tm:0,moved:true}:null};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  cv.addEventListener('wheel',e=>{e.preventDefault();wlwZoomAt(wlwPt(e),Math.exp(-e.deltaY*(e.deltaMode?.05:.0018)))},{passive:false});
+  cv.addEventListener('contextmenu',e=>e.preventDefault());
+  if(window.ResizeObserver){WLW.ro=new ResizeObserver(()=>wlwKick());WLW.ro.observe(cv)}else window.addEventListener('resize',wlwKick)}
+function wlwTap(p){const s=AK.st,M=s&&WLW.maps[s.map];if(!s||s.ph!=='play'||!M||!s.view)return;const cv=WLW.cv,v=s.view,x=v.x+(p[0]-cv.clientWidth/2)/v.k,y=v.y+(p[1]-cv.clientHeight/2)/v.k;
+  if(s.mode==='pin')s.guess={ll:[+wlwLon(x).toFixed(4),+wlwLat(y).toFixed(4)],at:performance.now()};
+  else{const f=wlwHit(M[s.layer],x,y);if(!f){wlwBar(s,s.layer==='adm'?'Tippe direkt auf ein Bundesland.':'Tippe direkt auf ein Land.');return}s.guess={id:f.id,at:performance.now()}}
+  tone(700,0,.07,'sine',.08);wlwBar(s);wlwKick()}
+// ---- Oberfläche
+const WLW_IC={pin:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s-7-7.2-7-12.2A7 7 0 0 1 19 9.8C19 14.8 12 22 12 22z" fill="currentColor"/><circle cx="12" cy="9.8" r="2.6" fill="#fff"/></svg>',
+  area:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l6-3 5 3 5-2v12l-5 3-5-3-6 2z" fill="currentColor" opacity=".9"/><path d="M10 4v13M15 7v13" stroke="#fff" stroke-width="1.4" fill="none"/></svg>'};
+const wlwNum=n=>Number(n).toLocaleString('de-DE');
+const wlwKmT=km=>km==null?'–':km<1?'unter 1 km':km<10?wlwNum(Math.round(km*10)/10)+' km':wlwNum(Math.round(km))+' km';
+function wlwBarHTML(s,hint){const q=s.q[s.i],last=s.i>=s.q.length-1;
+  if(s.ph==='play')return `<p class="wlw-hint ${hint?'warn':''}" aria-live="polite">${esc(hint||(s.guess?(s.mode==='pin'?'Passt dein Tipp? Du kannst ihn noch verschieben.':'Passt das? Du kannst noch eine andere Fläche antippen.'):(s.mode==='pin'?'Tippe auf die Karte, wo du den Ort vermutest.':'Tippe auf die richtige Fläche.')))}</p>
+    <button class="btn ok big" id="wlw-ok" data-act="ak" data-k="ok" ${s.guess?'':'disabled'}>Antwort bestätigen</button>`;
+  const r=s.res[s.res.length-1];if(!r)return '';
+  const info=s.mode==='pin'?`<b>${esc(r.n)}</b>${r.i?`<small>${esc(r.i)}</small>`:''}<span>${r.g?`Dein Tipp: ${wlwKmT(r.km)} entfernt`:r.late?'Die Zeit war um, bevor du getippt hast.':'Kein Tipp gesetzt.'}</span>`
+    :`<b>${r.ok?'Richtig!':esc(r.n)}</b><span>${r.ok?esc(r.n)+' hast du gefunden.':r.g?'Du hast '+esc(r.gn)+' angetippt. Grün ist '+esc(r.n)+'.':r.late?'Die Zeit war um. Grün ist '+esc(r.n)+'.':'Grün ist '+esc(r.n)+'.'}</span>`;
+  return `<div class="wlw-res"><div class="wlw-pts ${r.pts>=800?'hi':r.pts>0?'mid':'lo'}"><b data-to="${r.pts}">${wlwNum(r.pts)}</b><small>Punkte</small></div><div class="wlw-info">${info}</div></div>
+    <button class="btn pri big" data-act="ak" data-k="next">${last?'Zum Ergebnis':'Weiter'}</button>`}
+function wlwBar(s,hint){const b=document.getElementById('wlw-bar');if(b)b.innerHTML=wlwBarHTML(s,hint)}
+function wlwHTML(G,s){const back=G.eid?'<button class="btn sm" data-act="ub-back">← Zurück</button>':G.free?'<button class="btn sm" data-act="wlw-back">← Zurück</button>':'';
+  const cfg=s.cfg,C=wlwCat(cfg.cat);
+  if(s.ph==='setup'){const opt=(k,L,cur,lab)=>`<div class="wlw-seg" role="group" aria-label="${lab}">${L.map(([v,t])=>`<button class="${v===cur?'on':''}" data-act="ak" data-k="${k}" data-i="${v}" aria-pressed="${v===cur}">${t}</button>`).join('')}</div>`;
+    return `<div class="wlw-set"><div class="wlw-hero">${elo('happy',76)}<div style="flex:1;min-width:0"><h1>Wo liegt was?</h1><p>Such den Ort auf der Karte. Je näher dein Tipp, desto mehr Punkte.</p></div>${back}</div>
+      ${s.err?`<p class="err">${esc(s.err)}</p>`:''}
+      <span class="label">Was willst du üben?</span>
+      <div class="wlw-cats">${WLW_CATS.map(([k,n,m])=>`<button class="wlw-cat ${k===cfg.cat?'on':''}" data-act="ak" data-k="cat" data-i="${k}" aria-pressed="${k===cfg.cat}"><span class="wlw-ci ${m}">${WLW_IC[m]}</span><span><b>${esc(n)}</b><small>${m==='area'?'Fläche antippen':'Ort mit Pin markieren'}</small></span></button>`).join('')}</div>
+      <div class="wlw-opts"><div><span class="label">Schwierigkeit</span>${opt('lv',[[1,'leicht'],[2,'mittel'],[3,'schwer']],cfg.lv,'Schwierigkeit')}</div>
+        <div><span class="label">Fragen</span>${opt('n',WLW_N.map(n=>[n,String(n)]),cfg.n,'Anzahl der Fragen')}</div>
+        <div><span class="label">Zeit pro Frage</span>${opt('t',WLW_T.map(t=>[t,t?t+' s':'ohne']),cfg.t,'Zeit pro Frage')}</div>
+        <div><span class="label">Hilfen auf der Karte</span>${opt('lbl',[[0,'aus'],[1,C[2]==='area'?'Meere, Flüsse':'Meere, Flüsse, Nachbarn']],cfg.lbl?1:0,'Beschriftung')}</div></div>
+      <div class="row" style="margin-top:18px"><button class="btn pri big" data-act="ak" data-k="start">Los geht's</button><span class="muted" style="font-weight:700">Die Karte verrät keine Namen. Hilfen zeigen nie die Lösung.</span></div></div>`}
+  if(s.ph==='end'){const n=s.res.length,pin=s.mode==='pin',gs=s.res.filter(r=>r.g),avg=pin&&gs.length?gs.reduce((a,r)=>a+r.km,0)/gs.length:null,ok=s.res.filter(r=>r.ok).length;
+    return `<div class="wlw-end"><div class="wlw-hero">${elo('cheer',80)}<div style="flex:1;min-width:0"><h1>Geschafft!</h1><p>${esc(C[1])} · ${WLW_LV[cfg.lv]} · ${n} Fragen</p></div>${back}</div>
+      <div class="wlw-stats"><div><b>${wlwNum(s.total)}</b><small>Punkte von ${wlwNum(n*1000)}</small></div>${pin?`<div><b>${wlwKmT(avg)}</b><small>Ø Entfernung</small></div>`:`<div><b>${ok} von ${n}</b><small>richtig</small></div>`}<div><b>${n}</b><small>Fragen gespielt</small></div></div>
+      <table class="wlw-tab"><thead><tr><th>#</th><th>${pin?'Ort':'Fläche'}</th><th>${pin?'Entfernung':'Dein Tipp'}</th><th>Punkte</th></tr></thead><tbody>
+      ${s.res.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(r.n)}</b>${r.i?`<small> · ${esc(r.i)}</small>`:''}</td><td>${pin?(r.g?wlwKmT(r.km):'kein Tipp'):r.ok?'richtig':r.g?esc(r.gn):'kein Tipp'}</td><td><span class="wlw-pb"><i style="width:${r.pts/10}%"></i></span>${r.pts}</td></tr>`).join('')}</tbody></table>
+      <div class="row" style="margin-top:16px"><button class="btn pri big" data-act="ak" data-k="again">Erneut spielen</button>${s.lock?'':'<button class="btn" data-act="ak" data-k="setup">Andere Einstellungen</button>'}</div>
+      ${S.role==='student'?'<p class="foot">Keine Rangliste. Den Stern gibt es fürs Mitmachen.</p>':''}</div>`}
+  // Spiel
+  const q=s.q&&s.q[s.i],tm=s.ph==='play'&&cfg.t;
+  return `<div class="wlw-game ${s.fs?'wlw-fs':''}" id="wlw"><div class="wlw-top">
+      <div class="wlw-q" aria-live="polite">${q?`Wo liegt <b>${esc(q.n)}</b>?${s.mode==='area'?`<small>${s.layer==='adm'?'Tippe auf das Bundesland.':'Tippe auf das Land.'}</small>`:''}`:'Karte lädt …'}</div>
+      <div class="wlw-chips">${q?`<span class="chip">Frage ${s.i+1}/${s.q.length}</span><span class="chip wlw-sum">${wlwNum(s.total)} Punkte</span>`:''}${tm?`<span class="chip wlw-time" id="wlw-time">${cfg.t} s</span>`:''}${back}</div></div>
+    ${tm?'<div class="wlw-tbar"><i id="wlw-tbar"></i></div>':''}
+    <div class="wlw-mapw"><div class="wlw-map" id="wlw-map"></div>${s.ph==='load'||!q?'<div class="wlw-load">Karte lädt …</div>':''}
+      <div class="wlw-zoom"><button data-act="wlw" data-k="zin" aria-label="Hineinzoomen">+</button><button data-act="wlw" data-k="zout" aria-label="Herauszoomen">−</button><button data-act="wlw" data-k="home" aria-label="Ganze Karte">⌂</button><button data-act="ak" data-k="fs" aria-label="${s.fs?'Vollbild beenden':'Vollbild'}">${s.fs?'⤡':'⤢'}</button></div>
+      <small class="wlw-attr">Karte: Natural Earth${s.map==='de'||s.map==='by'?' · Orte: GeoNames (CC BY 4.0)':''}</small></div>
+    <div class="wlw-bar" id="wlw-bar">${q?wlwBarHTML(s):''}</div></div>`}
+// Nach jedem render(): Karte einhängen, Punkte hochzählen, Zeitmodus
+function wlwMount(){const host=document.getElementById('wlw-map'),s=AK.st;
+  if(!host||!s||!AK.G||AK.G.g!=='geo'){if(WLW.tick){clearInterval(WLW.tick);WLW.tick=0}return}
+  if(s.ph==='go')wlwGo(s);if(!WLW.cv)wlwInit();if(WLW.cv.parentNode!==host)host.appendChild(WLW.cv);
+  if(s.map&&!WLW.maps[s.map])wlwMap(s.map).then(wlwKick).catch(()=>{});wlwKick();
+  const b=host.closest('.wlw-game')&&document.querySelector('#wlw-bar .wlw-pts b[data-to]');if(b&&!b.dataset.done){b.dataset.done=1;const to=+b.dataset.to,t0=performance.now();
+    const st=()=>{const t=Math.min(1,(performance.now()-t0)/700);b.textContent=wlwNum(Math.round(to*(1-Math.pow(1-t,3))));if(t<1&&b.isConnected)requestAnimationFrame(st)};if(to)st()}
+  if(s.ph==='play'&&s.cfg.t){if(!WLW.tick)WLW.tick=setInterval(wlwTime,200);wlwTime()}else if(WLW.tick){clearInterval(WLW.tick);WLW.tick=0}}
+function wlwTime(){const s=AK.st,el=document.getElementById('wlw-time');if(!s||s.ph!=='play'||!s.dl||!el){clearInterval(WLW.tick);WLW.tick=0;return}
+  const left=Math.max(0,s.dl-Date.now()),sec=Math.ceil(left/1000);el.textContent=sec+' s';el.classList.toggle('low',sec<=5);
+  const bar=document.getElementById('wlw-tbar');if(bar)bar.style.width=(left/(s.cfg.t*10))+'%';
+  if(left<=0){clearInterval(WLW.tick);WLW.tick=0;wlwConfirm(s,true);render()}}
+// Text aus dem Schreibtisch oder der Stunde, z. B. „Europa – Hauptstädte, mittel, 10 Fragen, 30 Sekunden, Hilfen“. Leer = die SuS wählen selbst.
+function wlwParse(t){const x=String(t||'').toLowerCase();if(!x.trim())return {};const c=WLW_CATS.find(([k,n])=>x.includes(n.toLowerCase())||x.includes(k))||
+    WLW_CATS.find(([k,n])=>n.toLowerCase().split(' – ').every(w=>x.includes(w.replace(/e$/,''))));
+  const lv=/schwer/.test(x)?3:/mittel/.test(x)?2:1,n=+(x.match(/(\d+)\s*fragen/)||[])[1],tt=+(x.match(/(\d+)\s*(s\b|sek)/)||[])[1];
+  return {cfg:{cat:c?c[0]:WLW_DEF.cat,lv,n:WLW_N.includes(n)?n:10,t:WLW_T.includes(tt)?tt:0,lbl:/hilfe|beschrift/.test(x)},lock:!!c}}
+AKT.geo={name:'Wo liegt was?',icon:'🌍',txt:'Geografiespiel: Orte und Länder auf einer Karte ohne Beschriftung finden. Punkte nach Entfernung. Läuft an der Tafel und auf allen iPads, alle bekommen dieselben Fragen.',fit:/übung|warm|wiederhol|vertief|einstieg|geo|karte|orient/i,
+  help:'leer lassen, dann wählen die SuS selbst. Oder z. B. „Europa – Hauptstädte, mittel, 10 Fragen, 30 Sekunden, Hilfen“',
+  ex:'Europa – Hauptstädte, leicht, 10 Fragen',
+  parse:t=>({...wlwParse(t),seed:Math.floor(Math.random()*1e9)}),
+  fromTool:T=>T.wcat?{cfg:{cat:T.wcat,lv:+T.wlv||1,n:+T.wn||10,t:+T.wt||0,lbl:!!T.wlbl},lock:true,seed:Math.floor(Math.random()*1e9)}:{seed:Math.floor(Math.random()*1e9)},
+  count:d=>d.cfg?wlwCat(d.cfg.cat)[1]+' · '+WLW_LV[d.cfg.lv]+' · '+d.cfg.n+' Fragen':'Die SuS wählen selbst',
+  init:d=>{const cfg={...WLW_DEF,...(S.wlwCfg||{}),...(d.cfg||{})};return {ph:d.cfg&&d.lock?'go':'setup',cfg,lock:!!(d.cfg&&d.lock),seed:d.seed!=null?d.seed+'|'+cfg.cat+'|'+cfg.lv+'|'+cfg.n:Math.random(),q:[],res:[],total:0,i:0}},
+  view:(d,s)=>'',
+  act:(d,s,a)=>{const k=a.k,c=s.cfg;
+    if(['cat','lv','n','t','lbl'].includes(k)&&s.ph==='setup'){c[k]=k==='cat'?a.i:k==='lbl'?a.i==='1':+a.i;S.wlwCfg={...c};save();s.err='';return}
+    if(k==='start'&&s.ph==='setup'){s.seed=Math.random();s.ph='go';return}
+    if(k==='ok')return wlwConfirm(s);
+    if(k==='next')return wlwNext(s);
+    if(k==='again'){Object.assign(s,{ph:'go',seed:Math.random(),win:false,cheered:0});return}
+    if(k==='setup'&&!s.lock){Object.assign(s,{ph:'setup',win:false,cheered:0});return}
+    if(k==='fs'){s.fs=!s.fs;return}}};
+// Zoom-Knöpfe ohne neues render(), damit nichts flackert
+function wlwBtn(d){const s=AK.st,cv=WLW.cv,M=s&&WLW.maps[s.map];if(!cv||!M||!s.view)return;
+  if(d.k==='zin'||d.k==='zout')wlwZoomAt([cv.clientWidth/2,cv.clientHeight/2],d.k==='zin'?1.6:1/1.6);
+  if(d.k==='home'){WLW.va={f:{...s.view},t:wlwFit(M,cv.clientWidth,cv.clientHeight),at:performance.now()};wlwKick()}}
+// Freies Spielen (Schüler: Freies Üben, Lehrkraft: Werkzeugkasten), ohne Live-Stunde
+function wlwFree(){const back={...V};AK.G=null;akStart({g:'geo',at:'wlw-'+todayISO(),title:'Wo liegt was?',data:{},free:1,back});go('akt')}
 Object.entries(AKT).forEach(([k,a])=>TOOLS[k]={name:a.name,icon:a.icon,txt:a.txt,fit:a.fit});
 const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
 const LV_N={g:'Grund',s:'Standard',p:'Plus'};
@@ -4808,7 +5077,7 @@ function akStart(G){if(G&&G.lv0)G=G.lv0;if(!AK.G||(AK.G.lv0||AK.G).at!==G.at||(A
 function akLvlHTML(G){if(!G||!G.lv||BOARD||S.role!=='student')return '';const as=G.lvm==='teacher'&&RCS&&RCS.lvl&&RCS.lvl[S.nr];
   if(as)return `<div class="lv-bar"><span>Dein Niveau:</span><b class="lv-on">${LV_N[G.lvc]}</b></div>`;
   return `<div class="lv-bar"><span>Wähle dein Niveau:</span>${['g','s','p'].filter(k=>k==='s'||G.lv0.lv[k]).map(k=>`<button class="lv-b ${G.lvc===k?'lv-on':''}" data-act="ak-lvl" data-l="${k}">${LV_N[k]}</button>`).join('')}</div>`}
-function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Kein Spiel aktiv.</div>';const s=AK.st;
+function akHTML(){const G=AK.G,A=G&&AKT[G.g];if(!A)return '<div class="empty">Kein Spiel aktiv.</div>';const s=AK.st;if(G.g==='geo')return `<div class="ak akg-geo">${wlwHTML(G,s)}</div>`;
   const head=`<div class="st-head"><span class="ak-ic">${A.icon}</span><h1 style="font-size:1.6rem">${esc(G.title||A.name)}</h1>${!BOARD&&S.role==='student'?rdBtn(AK_HOW[G.g],G.title||''):''}${G.eid?'':BOARD?'<span class="chip">Zum Spielen auf die Tafel tippen</span>':S.role==='student'?'':`<span class="chip">Läuft an Tafel und iPads</span>`}${G.eid?`<span class="spacer"></span>${G.mt?'<span class="chip">🎯 Minitest</span>':S.ubDone&&S.ubDone[G.eid]?'<span class="chip ok">✓ geübt</span>':''}<button class="btn sm" data-act="ub-back">← Zurück</button>`:''}</div>`;
   const sq=G.seq?`<div class="ak-seq">${G.seq.map((x,n)=>`<span class="${n<(G.sk||0)?'done':n===(G.sk||0)?'on':''}">${n+1}</span>`).join('')}<b>Übung ${(G.sk||0)+1} von ${G.seq.length}</b></div>`:'';
   return `<div class="ak akg-${G.g}">${sq}${head}${akLvlHTML(G)}${s.win?(G.seq&&(G.sk||0)<G.seq.length-1?`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>Gleich geht es weiter mit Übung ${(G.sk||0)+2} …</p></div></div>`:`<div class="win">${elo('cheer',64)}<div style="flex:1;min-width:180px"><b style="font-size:1.2rem">Geschafft!</b><p>${esc(G.seq?'Alle '+G.seq.length+' Übungen geschafft. Stark!':s.msg||'Stark gemacht!')}</p></div><button class="btn pri" data-act="ak" data-k="reset">Nochmal</button></div>`):''}${A.view(G.data,s)}</div>`}
@@ -4864,6 +5133,7 @@ function weekOff(){if(V.w!=null)return V.w;const n=new Date(),g=n.getDay();retur
 // Werkzeugkasten der Lehrkraft: Lernspiele für die Klasse freigeben, Werkzeuge für die Planung ein- und ausblenden
 VIEWS.toolbox=()=>{const G=((TD.games||{})[S.cls||'-'])||{},off=TD.toolsOff||[];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row"><button class="btn sm" data-act="tplan">← Planung</button><h1>🧰 Werkzeugkasten</h1></div><span class="chip">${esc(className())}</span></div>
+  <button class="wlw-card" data-act="wlw-free"><span class="wlw-ci pin">${WLW_IC.pin}</span><span style="flex:1;min-width:0"><b>Wo liegt was? ausprobieren</b><small>Das Geografiespiel selbst spielen, z. B. am Whiteboard. Für die ganze Klasse planst du es als Werkzeug in einer Stunde ein. Die SuS finden es außerdem unter Freies Üben.</small></span><span class="btn sm pri">Öffnen</span></button>
   <section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">🛠️ Werkzeuge für die Planung</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Ausgeblendete Werkzeuge erscheinen nicht mehr im Werkzeug-Pool, wenn du eine Stunde planst.</p>
     ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide')).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}"><span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div>`).join('')}</section>`};
 VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();if(pt==='seq')return seqView();
@@ -6722,7 +6992,7 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
@@ -6981,6 +7251,9 @@ document.addEventListener('click',e=>{
     case 'me-save':{const nk=cleanNick($('#me-n').value);if(!nk||nk.length<2){$('#me-err').textContent='Gib deinem Avatar einen Namen.';break}S.nick=nk;S.av=cleanAv(V.av);V.nd=null;acctSave();saveRole();sendMsg({k:'hi'});mbQueue({k:'hi',at:Date.now()});V.ok=1;render();break}
     case 'me-tname':if(Cloud.sb&&Cloud.user){const n=$('#me-tn').value.trim().slice(0,60);Cloud.sb.from('profiles').update({name:n}).eq('id',Cloud.user.id).then(r=>{if(!r.error){Cloud.prof.name=n;V.ok=1}else V.err=r.error.message;render()})}break;
     case 'ak':akAct(d,e);break;
+    case 'wlw':wlwBtn(d);break;
+    case 'wlw-free':wlwFree();break;
+    case 'wlw-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'toolbox':'practice');break}
     case 'ak-lvl':{const G0=AK.G&&(AK.G.lv0||AK.G);if(!G0)break;S.lvlPick=S.lvlPick||{};S.lvlPick[G0.at]=d.l;const ks=Object.keys(S.lvlPick);if(ks.length>30)delete S.lvlPick[ks[0]];save();akStart(G0);render();break}
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
