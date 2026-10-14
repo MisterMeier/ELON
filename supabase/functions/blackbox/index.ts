@@ -131,7 +131,7 @@ async function flowStart(type: "image" | "video", key: string, prompt: string): 
       }
       console.error("blackbox flow", type, model_id, r.status, t.slice(0, 300));
       last = { st: r.status, detail: `${model_id}: ${t.slice(0, 200)}` };
-      if (r.status === 401 || r.status === 403 || r.status === 429) return last; // Schlüssel/Rechte/Guthaben: Weiterprobieren hilft nicht
+      if (r.status === 401 || r.status === 402 || r.status === 403 || r.status === 429) return last; // 402: Tarif reicht nicht (Bild/Video per API erst ab ElevenLabs Pro) // Schlüssel/Rechte/Guthaben: Weiterprobieren hilft nicht
     }
   }
   return last;
@@ -176,7 +176,7 @@ async function eleven(kind: string, prompt: string, subj: string, gid: string, c
     let id = gid;
     if (!id) {
       const st = await flowStart(type, key, await english(kind, prompt, claude));
-      if (!st.id) return json({ err: kind, st: st.st, detail: st.detail });
+      if (!st.id) return json({ err: st.st === 402 ? "plan" : kind, st: st.st, detail: st.st === 402 ? "" : st.detail });
       id = st.id;
     }
     const o = await flowWait(type, key, id, type === "image" ? 90000 : 110000);
