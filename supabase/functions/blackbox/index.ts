@@ -270,7 +270,7 @@ Deno.serve(async (req) => {
       if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
       await sb.from("blackbox_log").insert({ kind });
       return await eleven(kind, prompt, subj, "", hasAws ? claude : null, { n: (n ?? 0) + 1, limit: LIMIT });
-    } catch (e) { console.error("blackbox", kind, (e as Error).message); return json({ err: kind }); }
+    } catch (e) { const m = String((e as Error).message || e).slice(0, 200); console.error("blackbox", kind, m); return json({ err: kind, detail: m }); }
   }
   if (prompt.length < 3) return json({ err: "leer" });
   const { data: n } = await sb.rpc("blackbox_count");
