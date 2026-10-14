@@ -4025,11 +4025,11 @@ async function stuOut(msg){if(OUTBUSY||S.role!=='student')return;OUTBUSY=true;
 function onOut(p){if(S.role!=='student'||!p)return;const at=+p.outAt||0;if(at&&at>(+S.inAt||0)&&at<Date.now()+600000)stuOut('Stundenende')}
 // Sperre nach langer Pause: Wer ein iPad nach Stunden wieder öffnet, muss zeigen, dass er es selbst ist.
 const LOCK_MS=3*3600000;
-function lockDue(){if(S.role!=='student')return false;const l=+S.lastAct||0;return !l||Date.now()-l>LOCK_MS||new Date(l).toDateString()!==new Date().toDateString()}
+function lockDue(){if(S.role!=='student')return false;if(ACCT.stale)return true;const l=+S.lastAct||0;return !l||Date.now()-l>LOCK_MS||new Date(l).toDateString()!==new Date().toDateString()}
 function lockShow(){if(!lockDue()||S.locked&&!$('#dm-ov').hidden)return;S.locked=true;save();const O=$('#dm-ov');O.hidden=false;
   const who=esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr);
   O.innerHTML=`<div class="box lk-box"><span class="label">Willkommen zurück</span><h2>Bist du ${who}${S.acct&&S.acct.u&&S.nick?` <small class="muted">(${esc(S.acct.u)})</small>`:''}?</h2>
-    ${S.acct&&S.acct.p?`<p class="muted" style="font-weight:700">Gib deine PIN ein.</p><input id="lk-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" style="font-size:1.6rem;text-align:center;width:8em;letter-spacing:.3em"><p class="err" id="lk-err"></p><button class="btn pri big" data-act="lk-un">Weiter</button>`:`<button class="btn pri big" data-act="lk-un">Ja, das bin ich</button>`}
+    ${S.acct&&S.acct.p?`<p class="muted" style="font-weight:700">${ACCT.stale?'Deine PIN wurde geändert. Gib deine neue PIN ein.':'Gib deine PIN ein.'}</p><input id="lk-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" style="font-size:1.6rem;text-align:center;width:8em;letter-spacing:.3em"><p class="err" id="lk-err"></p><button class="btn pri big" data-act="lk-un">Weiter</button>`:`<button class="btn pri big" data-act="lk-un">Ja, das bin ich</button>`}
     <button class="btn" data-act="lk-out">Nein, abmelden</button></div>`;setTimeout(()=>{const i=$('#lk-pin');if(i)i.focus()},60)}
 function lockChk(){if(S.role==='student'&&(S.locked||lockDue()))lockShow();else if(S.role==='student'){S.lastAct=Date.now()}}
 let LACT=0;['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,()=>{if(S.role!=='student'||S.locked)return;const t=Date.now();if(t-LACT>60000){LACT=t;S.lastAct=t;save()}},true));
@@ -6224,15 +6224,18 @@ async function acctOpen(u,p,e){return JSON.parse(new TextDecoder().decode(await 
 function acctSnap(){const o={};ACCT_KEYS.forEach(k=>{if(k in S)o[k]=S[k]});if(Array.isArray(o.chat)&&o.chat.length>150)o.chat=o.chat.slice(-150);return o}
 // Sicherung hochladen: höchstens alle 20 Sekunden und nur, wenn sich etwas geändert hat
 function acctSave(force){if(S.role!=='student'||!S.acct||!CLOUD)return;clearTimeout(ACCT.t);ACCT.t=setTimeout(acctFlush,force?200:20000)}
-async function acctFlush(){if(ACCT.busy||S.role!=='student'||!S.acct)return;const snap=acctSnap(),sig=JSON.stringify(snap),{u,p}=S.acct;if(sig===ACCT.sig)return;ACCT.busy=true;
+async function acctFlush(){if(ACCT.busy||ACCT.stale||S.role!=='student'||!S.acct)return;const snap=acctSnap(),sig=JSON.stringify(snap),{u,p}=S.acct;if(sig===ACCT.sig)return;ACCT.busy=true;
   try{const sb=await sbClient();S.acctAt=Date.now();const body=await acctSeal(u,p,{...snap,acctAt:S.acctAt});if(JSON.stringify(body).length>390000)throw new Error('zu groß');
-    const r=await q(sb.rpc('pupil_prof_save',{p_uname:u,p_pin:p,p_prof:body}));if(r==='ok'){ACCT.sig=sig;save()}else if(r==='wrong'){ACCT.bad=1}}catch(e){console.warn('acct',e)}ACCT.busy=false}
+    const r=await q(sb.rpc('pupil_prof_save',{p_uname:u,p_pin:p,p_prof:body}));if(r==='ok'){ACCT.sig=sig;save()}else if(r==='wrong'){ACCT.busy=false;acctStale();return}}catch(e){console.warn('acct',e)}ACCT.busy=false}
+// PIN wurde auf einem anderen Gerät neu vergeben: nicht weiter mit der alten PIN probieren (sonst sperrt der Server den Zugang),
+// sondern das Kind um die neue PIN bitten. Der Lernstand auf dem iPad bleibt erhalten.
+function acctStale(){if(S.role!=='student'||!S.acct||ACCT.stale)return;ACCT.stale=1;clearTimeout(ACCT.t);lockShow()}
 async function acctAnon(sb){let {data}=await sb.auth.getSession();if(!data.session||!data.session.user.is_anonymous){if(data.session)await sb.auth.signOut();await sb.auth.signInAnonymously();({data}=await sb.auth.getSession())}Cloud.anon=data.session&&data.session.user;return Cloud.anon}
 const ACCT_ERR={wrong:'Kürzel oder PIN stimmt nicht.',wait:'Zu viele falsche Versuche. Warte 10 Minuten und versuch es dann nochmal.',blocked:'Dieser Zugang ist gesperrt. Deine Lehrkraft kann dir eine neue PIN geben.',auth:'Anmeldung am Server ging nicht. Versuch es gleich nochmal.'};
 async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p.length!==4){V.err='Das Kürzel hat 4 Buchstaben, die PIN 4 Ziffern.';render();return}
   if(!quiet){V.busy=1;V.err='';render()}
   try{const sb=await sbClient();await acctAnon(sb);const r=await q(sb.rpc('pupil_login',{p_uname:u,p_pin:p}));
-    if(!r||r.err){if(quiet)return false;V.busy=0;V.err=r&&/function|schema/i.test(String(r.err))?'Die persönlichen Zugänge sind noch nicht eingerichtet.':ACCT_ERR[r&&r.err]||ACCT_ERR.wrong;V.step='join';render();return false}
+    if(!r||r.err){if(quiet){if(r&&(r.err==='wrong'||r.err==='blocked'))acctStale();return false}V.busy=0;V.err=r&&/function|schema/i.test(String(r.err))?'Die persönlichen Zugänge sind noch nicht eingerichtet.':ACCT_ERR[r&&r.err]||ACCT_ERR.wrong;V.step='join';render();return false}
     const c={id:r.id,school_id:r.school_id,school_name:r.school_name,name:r.name,size:r.size,code:r.code};JOINED=c;addJoined();
     if(quiet)return true;
     V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.nr=+r.nr;meLoad();
@@ -7565,7 +7568,14 @@ document.addEventListener('click',e=>{
     case 'b-fs':boardFs();{const x=$('#b-fs');if(x)x.remove()}break;
     case 't-poll-f':V.pollF=!V.pollF;render();break;
     case 'ct':V.ctl=V.ctl===d.k?null:d.k;render();break;
-    case 'lk-un':{if(S.acct&&S.acct.p){const i=$('#lk-pin');if(!i||i.value!==S.acct.p){const er=$('#lk-err');if(er)er.textContent='Die PIN stimmt nicht.';if(i){i.value='';i.focus()}break}}S.locked=false;S.lastAct=Date.now();save();$('#dm-ov').hidden=true;render();break}
+    case 'lk-un':{const un=()=>{S.locked=false;S.lastAct=Date.now();save();$('#dm-ov').hidden=true;render()};
+      if(!(S.acct&&S.acct.p)){un();break}
+      const i=$('#lk-pin'),np=cleanPin(i&&i.value),bad=()=>{const er=$('#lk-err');if(er)er.textContent='Die PIN stimmt nicht.';if(i){i.value='';i.focus()}};
+      if(!ACCT.stale&&np===S.acct.p){un();break}
+      // Andere PIN als auf diesem iPad gespeichert: beim Server prüfen (die Lehrkraft kann eine neue vergeben haben)
+      if(np.length!==4||!CLOUD||ACCT.lkBusy){bad();break}
+      ACCT.lkBusy=1;(async()=>{const old=S.acct.p,was=ACCT.stale;S.acct.p=np;ACCT.stale=0;const ok=await acctLogin(S.acct.u,np,true).catch(()=>false);ACCT.lkBusy=0;
+        if(ok){ACCT.k=null;ACCT.sig='';un();Live.start(S.code);acctSave(true)}else{S.acct.p=old;ACCT.stale=was;bad()}})();break}
     case 'lk-out':S.locked=false;save();stuOut('Abmelden');break;
     case 'dm-k':{const n=+d.n;DMSEL=DMSEL.includes(n)?DMSEL.filter(x=>x!==n):[...DMSEL,n];const t=$('#dm-t'),v=t&&t.value;render();const t2=$('#dm-t');if(t2&&v)t2.value=v;break}
     case 'dm-q':dmSend(DM_QUICK[+d.i]);break;
