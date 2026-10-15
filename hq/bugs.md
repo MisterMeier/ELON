@@ -35,5 +35,5 @@ gelb
 | B-09 | AWS 403 ohne verständliche Meldung | niedrig | erledigt | supabase/functions/blackbox (PR #18) |
 | B-10 | Kopfrechen-Fußball: Ball springt beim Neuzeichnen und überspringt scheinbar ein Feld | mittel | in Test | app.html kfAnimate (Runde 2) |
 | B-11 | Verbindung bricht nach Standby oder schwachem WLAN ab, nur Neustart der App hilft | hoch | in Test | app.html Live-Kanal, Wiederverbinden (Runde 2) |
-| B-12 | „Bereit“ kommt morgens nicht bei allen an | hoch | in Test | app.html Bereit-Check, Folge von B-11 (Runde 2) |
-| B-13 | Übungen: richtige Antwort steht immer an erster Stelle (A, rot) | hoch | in Test | app.html Multiple Choice, Millionenspiel, Quiz (Runde 2) |
+| B-12 | „Bereit“ kommt morgens nicht bei allen an | hoch | in Test | app.html Bereit-Check, Folge von B-11; iPad zeigt „Sendet …“, dann „Angekommen“ (Runde 2, PR #22 + Nachtrag) |
+| B-13 | Übungen: richtige Antwort steht immer an erster Stelle (A, rot) | hoch | in Test | app.html Multiple Choice, Millionenspiel, Quiz; Zuordnen, Lückentext, Zahlenstrahl waren schon gemischt (Runde 2) |
