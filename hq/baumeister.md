@@ -17,8 +17,10 @@ gelb
 ## In Arbeit
 - Thread „Bugfix- und Ausbauplan“: Runden 1–6 laut elon/plan-elonuki.md
 - PR #9 (Entwurf): Schüler-iPad erkennt neue PIN von einem anderen Gerät
+- Mehrlehrer-Pilot (zweite Lehrkraft, andere Schule): Umbau auf Schule als Mandant geplant, 4 Schritte: Admin-Rechte von Klassendaten trennen, Lesen auf eigene Schule begrenzen, Schreiben in fremde Schulen sperren, Freigabe pro Werkzeug serverseitig. Je Schritt Tests mit zwei Konten. Noch nicht startklar.
 
 ## Erledigt
+- Ist-Analyse Mehrlehrer-Pilot (15.10.): Tabellen, Rollen, Blackbox, Börse, Bibliothek geprüft
 - Runde 1 (PR #18): feste Folien-IDs, mehrere Werkzeuge pro Phase, sicherer Cloud-Sync, Cloud-Bibliothek, Elo-Stimme ohne Hängen
 - Skizzenbuch Kunst (PR #7, #17)
 - Geografiespiel „Wo liegt was?“ mit Globus (PR #15)
