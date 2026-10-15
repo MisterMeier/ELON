@@ -1,0 +1,5 @@
+# ELONUKI HQ: Secrets und Schnappschüsse nie einchecken
+.env
+hq-dashboard/.env
+hq-dashboard/dist/
+node_modules/
