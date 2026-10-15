@@ -77,6 +77,9 @@ h1,h2,h3{font-family:var(--f-disp);font-weight:600;margin:0;text-wrap:balance;le
 .chip.gelb,.chip.mittel,.chip.in-arbeit,.chip.open,.chip.geplant{color:var(--warn);border-color:rgba(255,211,77,.4)}
 .chip.rot,.chip.hoch,.chip.offen{color:var(--bad);border-color:rgba(255,77,109,.45)}
 .chip.niedrig,.chip.closed{color:var(--mute)}
+.chip.verbunden,.chip.aktiv{color:var(--ok);border-color:rgba(61,255,160,.4)}
+.chip.geblockt,.chip.nicht-nutzbar{color:var(--bad);border-color:rgba(255,77,109,.45)}
+.sysrow-hl td{background:rgba(255,77,109,.08)}
 .bar{height:8px;border-radius:4px;background:rgba(120,200,255,.1);overflow:hidden}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));box-shadow:0 0 12px var(--cyan)}
 .goal{font-size:16px;max-width:62ch}
@@ -154,7 +157,7 @@ const BUILD=[
   {id:'sicherheit-recht',name:'Festung Sicherheit & Recht',kind:'fort',gx:8,gy:8,acc:'var(--vio)'},
 ];
 
-let DATA=null, TAGS=null;
+let DATA=null, TAGS=null; const POS={};
 const src=window.HQ_DATA?Promise.resolve(window.HQ_DATA):fetch('api/data',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()});
 src.then(d=>{DATA=d;render()}).catch(e=>{document.getElementById('stand').textContent='keine Daten';
   const m=document.createElement('div');m.className='err';m.textContent='Daten konnten nicht geladen werden ('+e.message+'). Starte den Server mit „node hq-dashboard/server.js“ oder baue einen Schnappschuss mit „node hq-dashboard/build.js“.';document.querySelector('.stage').appendChild(m)});
@@ -176,13 +179,15 @@ function render(){
   const traffic=(g.commits||[]).length+(g.recentPrs||[]).length;
   document.getElementById('stats').innerHTML=[
     ['Offene Bugs',bi.open,bi.high>0],['Hohe Priorität',bi.high,bi.high>0],['Offene PRs',(g.prs||[]).length],
-    ['Commits 7 Tage',(g.commits||[]).length],['Tokens erfasst',fmtTok(ef.totals&&ef.totals.total)]
+    ['Commits 7 Tage',(g.commits||[]).length],['Tokens erfasst',fmtTok(ef.totals&&ef.totals.total)],['Kosten/Monat',costSum().label]
   ].map(([l,v,a])=>`<div class="stat${a?' alert':''}"><span class="lbl">${l}</span><b>${esc(v)}</b></div>`).join('');
   document.getElementById('legend').innerHTML=
     `<span><i style="background:var(--ok)"></i>grün</span><span><i style="background:var(--warn)"></i>gelb</span><span><i style="background:var(--bad)"></i>rot</span>`+
     `<span>Höhe = Fortschritt</span><span>Verkehr = ${(g.commits||[]).length} Commits + ${(g.recentPrs||[]).length} PRs in 7 Tagen</span>`+(g.error?`<span style="color:var(--bad)">${esc(g.error)}</span>`:'');
   document.getElementById('dock').innerHTML=BUILD.map(b=>{const f=field(b.id);const st=f?f.status:'gelb';
     return `<button type="button" data-id="${b.id}"><span class="dot s-${b.id==='effizienz'?(ef.warnings&&ef.warnings.length?'gelb':'gruen'):st}"></span>${esc(b.name)}${f?` <span class="mono" style="color:var(--mute)">${f.progress}%</span>`:''}</button>`}).join('');
+  const blocked=((DATA.systems||{}).links||[]).some(l=>l.status==='geblockt');
+  document.getElementById('dock').insertAdjacentHTML('beforeend',`<button type="button" data-id="systeme"><span class="dot s-${blocked?'rot':'gruen'}"></span>Systeme <span class="mono" style="color:var(--mute)">${esc(costSum().label)}</span></button>`);
   document.querySelectorAll('#dock button').forEach(btn=>btn.onclick=()=>openPanel(btn.dataset.id));
   drawCity(bi,traffic);
   const h=location.hash.slice(1);if(h&&BUILD.some(b=>b.id===h))openPanel(h);
@@ -227,6 +232,7 @@ function drawCity(bi,traffic){
   // Gebäude von hinten nach vorne
   TAGS=el('g',{},null);
   BUILD.slice().sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy)).forEach(b=>drawBuilding(scene,b,bi));
+  drawSystems(scene,el('g',{},scene));
   scene.appendChild(TAGS);
   // Bildausschnitt anpassen (Laufschrift dabei ausblenden, sie ist breiter als die Stadt)
   const tk=scene.querySelectorAll('.ticker');tk.forEach(t=>t.style.display='none');
@@ -286,6 +292,7 @@ function drawBuilding(scene,b,bi){
     [[x-s,y+s],[x+s,y+s],[x+s,y-s]].forEach(([a,c])=>{const p=P(a,c,0),q=P(a,c,H);el('line',{x1:p[0],y1:p[1],x2:q[0],y2:q[1]},sg)});
     el('polygon',{points:pts([P(x-s,y-s,H),P(x+s,y-s,H),P(x+s,y+s,H),P(x-s,y+s,H)])},sg);
   }
+  POS[b.id]=[x,y,h];
   box(g,x,y,s,h,0,acc);
   windows(g,x,y,s,h,0,status,{cols:b.kind==='tower'?2:3,skip:b.kind==='fire'?1.1:b.kind==='office'?0.2:0});
   const topC=P(x,y,h);
@@ -369,6 +376,78 @@ function drawBuilding(scene,b,bi){
   tag(tgG,lt[0],lt[1],b.name.replace('Festung ','').replace('Markthalle ',''),f?`${prog}% · ${STW[status]}`:(ef.sessionsFound?`${(ef.warnings||[]).length} ${(ef.warnings||[]).length===1?'Warnung':'Warnungen'}`:'Checkliste'),acc);
 }
 
+/* ---------- Systeme ---------- */
+const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const SLOTS={design:[[-2.8,2.8],[2.8,2.8]],baumeister:[[-2.8,2.8],[2.8,2.8]],kommandozentrale:[[2.8,-2.8],[-2.8,2.8]],effizienz:[[2.8,2.8],[-2.8,2.8]],bugs:[[2.8,-2.8],[-2.8,-2.8]],kommerz:[[2.8,-2.8],[2.8,2.8]],'sicherheit-recht':[[2.8,-2.8],[-2.8,2.8]]};
+const SYSC={verbunden:'var(--ok)',aktiv:'var(--ok)',geplant:'var(--warn)','nicht nutzbar':'var(--bad)',geblockt:'var(--bad)'};
+function homeId(s){s=(s||'').toLowerCase();return /bau/.test(s)?'baumeister':/bug/.test(s)?'bugs':/design|atelier/.test(s)?'design':/sicher|recht/.test(s)?'sicherheit-recht':/kommerz|markt/.test(s)?'kommerz':/effiz/.test(s)?'effizienz':'kommandozentrale'}
+function costSum(){
+  const sv=((DATA&&DATA.systems)||{}).services||[], known=sv.filter(x=>x.cost!=null), unk=sv.filter(x=>x.cost==null);
+  const sum=known.reduce((a,x)=>a+x.cost,0);
+  return {sum,unk,label:`ca. ${nf.format(sum)} €${unk.length?' + ?':''}`};
+}
+function drawSystems(scene,subG){
+  const sys=DATA.systems;if(!sys||!(sys.services||[]).length)return;
+  const SL=[[2.7,2.7],[2.7,-2.7],[-2.7,2.7],[-2.7,-2.7]], used={}, NODE={}, linkG=el('g',{},scene);
+  if(POS.baumeister)NODE[norm('ELONUKI-App')]=POS.baumeister;
+  sys.services.forEach(sv=>{
+    const hid=homeId(sv.home), base=POS[hid]||[0,0], k=used[hid]=(used[hid]||0)+1;
+    // Plätze je Gebäude so gewählt, dass nichts andere Gebäude oder Schilder verdeckt
+    const pref=(SLOTS[hid]||[]).concat(SL), [dx,dy]=pref[(k-1)%pref.length];
+    const x=base[0]+dx, y=base[1]+dy, h=0.9, col=SYSC[sv.status]||'var(--mute)';
+    const g=el('g',{class:'bld',tabindex:0,role:'button','aria-label':`${sv.name}: ${sv.status}`},subG);
+    g.addEventListener('click',()=>openPanel('systeme'));
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPanel('systeme')}});
+    el('polygon',{points:pts([P(x-.9,y-.9),P(x+.9,y-.9),P(x+.9,y+.9),P(x-.9,y+.9)]),style:`fill:rgba(10,20,40,.9);stroke:${col};stroke-opacity:.4`},g);
+    box(g,x,y,.55,h,0,col);
+    const t=P(x,y,h+.35);el('circle',{cx:t[0],cy:t[1],r:3.2,class:sv.status==='verbunden'?'':'blink',style:`fill:${col}`,filter:'url(#glowStrong)'},g);
+    const lb=P(x+.9,y+.9,0);el('text',{x:lb[0],y:lb[1]+11,'text-anchor':'middle',style:'fill:var(--mute);font:500 8.5px var(--f-mono)'},g).textContent=sv.name;
+    NODE[norm(sv.name)]=[x,y,h];
+  });
+  (sys.links||[]).forEach((l,i)=>{
+    const a=NODE[norm(l.from)], b=NODE[norm(l.to)];if(!a||!b)return;
+    const pa=P(a[0],a[1],a[2]+.4), pb=P(b[0],b[1],b[2]+.4), c=[(pa[0]+pb[0])/2,Math.min(pa[1],pb[1])-55];
+    const d=`M${pa[0].toFixed(1)},${pa[1].toFixed(1)}Q${c[0].toFixed(1)},${c[1].toFixed(1)} ${pb[0].toFixed(1)},${pb[1].toFixed(1)}`;
+    if(l.status==='aktiv'){
+      el('path',{d,style:'fill:none;stroke:var(--cyan);stroke-width:1.4;stroke-opacity:.65',filter:'url(#glow)'},linkG);
+      if(!RM)for(let j=0;j<2;j++){const dot=el('circle',{r:2.4,style:'fill:var(--cyan)',filter:'url(#glow)'},linkG);el('animateMotion',{dur:'3.6s',begin:(-j*1.8-i*.5)+'s',repeatCount:'indefinite',path:d},dot)}
+    }else{
+      el('path',{d,style:`fill:none;stroke:${l.status==='geblockt'?'var(--bad)':'var(--mute)'};stroke-width:1.1;stroke-opacity:.5;stroke-dasharray:4 5`},linkG);
+    }
+    if(l.status==='geblockt'){
+      const m=[.25*pa[0]+.5*c[0]+.25*pb[0],.25*pa[1]+.5*c[1]+.25*pb[1]];
+      const w=el('g',{class:'bld',tabindex:0,role:'button','aria-label':`Blockiert: ${l.from} nach ${l.to}. Grund anzeigen`},linkG);
+      w.addEventListener('click',()=>openPanel('systeme',i));
+      w.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPanel('systeme',i)}});
+      el('rect',{x:m[0]-11,y:m[1]-8,width:22,height:14,rx:1.5,style:'fill:#4a0d1a;stroke:var(--bad);stroke-width:1.2',filter:'url(#glow)',class:'glowable'},w);
+      el('path',{d:`M${m[0]-11},${m[1]-1}h22M${m[0]-4},${m[1]-8}v7M${m[0]+4},${m[1]-1}v7`,style:'stroke:var(--bad);stroke-width:.8;fill:none'},w);
+      el('title',{},w).textContent=`Geblockt: ${l.reason||''}`;
+    }
+  });
+}
+function sysHtml(focus){
+  const sys=DATA.systems||{services:[],links:[]}, cs=costSum(), L=sys.links||[];
+  let h='';
+  if(focus!=null&&L[focus]){const l=L[focus];h+=`<div class="warn" style="border-left-color:var(--bad);background:rgba(255,77,109,.08)"><b>Geblockt: ${esc(l.from)} → ${esc(l.to)}</b> · ${esc(l.purpose)}<div>${esc(l.reason||'Kein Grund eingetragen')}</div></div>`}
+  h+=`<div class="box"><span class="lbl">Dienste</span><div class="tbl"><table><thead><tr><th>Dienst</th><th>Zweck</th><th>Status</th><th>Kosten/Monat</th><th>Gebäude</th></tr></thead><tbody>${
+    (sys.services||[]).map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.purpose)}</td><td>${chip(s.status)}</td><td class="mono">${esc(s.costText)}</td><td style="color:var(--mute)">${esc(s.home)}</td></tr>`).join('')}
+    <tr><td colspan="3"><b>Summe pro Monat</b></td><td class="mono"><b>${esc(cs.label)}</b></td><td class="note">${cs.unk.length?'unbekannt: '+esc(cs.unk.map(x=>x.name).join(', ')):''}</td></tr></tbody></table></div></div>
+  <div class="box"><span class="lbl">Verbindungen</span><div class="tbl"><table><thead><tr><th>Von → Nach</th><th>Zweck</th><th>Status</th><th>Grund</th><th>Zuletzt</th></tr></thead><tbody>${
+    L.map((l,i)=>`<tr${i===focus?' class="sysrow-hl"':''}><td>${esc(l.from)} → ${esc(l.to)}</td><td>${esc(l.purpose)}</td><td>${chip(l.status)}</td><td style="color:var(--mute)">${esc(l.reason)}</td><td class="mono">${l.last&&/\d/.test(l.last)?fmtDate(l.last):esc(l.last)}</td></tr>`).join('')}</tbody></table></div></div>`;
+  return h;
+}
+function standHtml(){
+  const t=DATA.stand||'';if(!t.trim())return '';
+  let h='<div class="box">',open=false;
+  t.split('\n').forEach(line=>{
+    const m=line.match(/^##\s+(.+)/), li=line.match(/^\s*(?:[-*]|\d+\.)\s+(.+)/);
+    if(/^#\s/.test(line)){h+=`<span class="lbl">${esc(line.replace(/^#\s+/,''))}</span>`;return}
+    if(m){if(open){h+='</ul>';open=false}h+=`<b style="font-family:var(--f-disp)">${esc(m[1])}</b>`;return}
+    if(li){if(!open){h+='<ul>';open=true}h+=`<li>${esc(li[1])}</li>`}
+  });
+  return h+(open?'</ul>':'')+'</div>';
+}
+
 /* ---------- Overlays ---------- */
 const ov=document.getElementById('ov'), panel=document.getElementById('panel');
 let lastFocus=null;
@@ -378,9 +457,9 @@ function closePanel(){ov.hidden=true;if(lastFocus)lastFocus.focus()}
 const list=(a,ordered)=>a&&a.length?`<${ordered?'ol':'ul'}>${a.map(x=>`<li>${esc(x)}</li>`).join('')}</${ordered?'ol':'ul'}>`:'<div class="empty">Nichts eingetragen</div>';
 const chip=(t)=>`<span class="chip ${slug(t)}">${esc(t)}</span>`;
 
-function openPanel(id){
+function openPanel(id,focus){
   lastFocus=document.activeElement;
-  const b=BUILD.find(x=>x.id===id), f=field(id);
+  const b=BUILD.find(x=>x.id===id)||{id,name:'Systeme'}, f=field(id);
   let html=`<div class="ph"><div style="flex:1;display:flex;flex-direction:column;gap:6px"><span class="lbl">Gebäude</span><h2 id="ptitle">${esc(b.name)}</h2></div><button class="close" type="button" aria-label="Schließen">✕</button></div>`;
   if(f){
     html+=`<div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${chip(STW[f.status])}<span class="mono">${f.progress} % Fortschritt</span>${f.missing?'<span class="chip rot">Datei fehlt</span>':''}</div><div class="bar"><i style="width:${f.progress}%"></i></div></div>
@@ -388,7 +467,8 @@ function openPanel(id){
     <div class="cols"><div class="box"><span class="lbl">Nächste 3 Schritte</span>${list(f.next,true)}</div><div class="box"><span class="lbl">In Arbeit</span>${list(f.doing)}</div><div class="box"><span class="lbl">Erledigt</span>${list(f.done)}</div></div>`;
   }
   if(id==='bugs')html+=bugsHtml();
-  if(id==='kommandozentrale')html+=towerHtml(f);
+  if(id==='kommandozentrale')html+=standHtml()+towerHtml(f);
+  if(id==='systeme')html+=sysHtml(focus);
   if(id==='effizienz')html+=effHtml();
   html+=`<div class="note">Quelle: hq/${id==='effizienz'?'… (Protokolle und Eingaben)':esc(id)+'.md'} · ${window.HQ_DATA?'Schnappschuss':'bei jedem Laden neu gelesen'}</div>`;
   panel.innerHTML=html;ov.hidden=false;
