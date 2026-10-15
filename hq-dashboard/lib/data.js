@@ -193,10 +193,32 @@ function efficiency() {
   };
 }
 
+// ---------- Systeme und Stand ----------
+function readMd(name) { try { return fs.readFileSync(path.join(HQ, name + '.md'), 'utf8'); } catch (e) { return ''; } }
+function systems() {
+  const sec = {}; let cur = null;
+  for (const line of readMd('systeme').split(/\r?\n/)) {
+    const m = line.match(/^##\s+(.+)$/);
+    if (m) { cur = m[1].trim().toLowerCase(); sec[cur] = []; continue; }
+    if (cur) sec[cur].push(line);
+  }
+  const services = parseTable(sec['dienste'] || []).map(r => ({
+    name: r.name, purpose: r.zweck, status: (r.status || '').toLowerCase(), costText: r['kosten pro monat'] || '?',
+    cost: /\d/.test(r['kosten pro monat'] || '') ? parseFloat((r['kosten pro monat'].match(/\d+([.,]\d+)?/) || ['0'])[0].replace(',', '.')) : null,
+    home: r['hauptgebäude'] || r.hauptgebaeude || '',
+  }));
+  const links = parseTable(sec['verbindungen'] || []).map(r => ({
+    from: r.von, to: r.nach, purpose: r.zweck, status: (r.status || '').toLowerCase(), reason: r.grund, last: r['letzte aktivität'] || '',
+  }));
+  return { services, links };
+}
+
 function collect() {
   return {
     generated: new Date().toISOString(),
     fields: FIELDS.map(parseField),
+    systems: systems(),
+    stand: readMd('stand'),
     github: github(),
     efficiency: efficiency(),
   };

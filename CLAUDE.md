@@ -39,6 +39,7 @@ Schreibt Fabian „Eingang sortieren:“ mit Notizen:
 - Lokal: `node hq-dashboard/server.js` (Passwort in `hq-dashboard/.env`, Vorlage `.env.example`).
 - Schnappschuss für Fabian: `node hq-dashboard/build.js`, dann `hq-dashboard/dist/elonuki-hq.html`
   als private claude.ai-Seite auf denselben Link neu veröffentlichen (wenn Fabian „HQ aktualisieren“ schreibt).
+- Bei „HQ aktualisieren“ auch `hq/systeme.md` (Dienste, Kosten, Verbindungen) und `hq/stand.md` (max. 25 Zeilen) aktuell halten.
 - Keine Zugangsdaten im Code; GitHub-Daten nur über die `gh` CLI.
 
 ## Arbeitsweise
