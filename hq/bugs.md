@@ -10,12 +10,13 @@ gelb
 70%
 
 ## Nächste 3 Schritte
-- Runde 1 auf dem iPad testen und neue Fehler hier eintragen
+- Runde 2 (B-10 bis B-13) auf iPads und Tafel testen, dann auf „erledigt“ setzen
 - B-05 (PIN-Erkennung) mit PR #9 abschließen
-- B-06 (Live-Kanal härten) im Baumeister-Thread beheben
+- B-06 (Live-Kanal härten) nach dem Test von B-11 neu bewerten
 
 ## In Arbeit
 - B-05, B-06
+- B-10 bis B-13 im Test (Runde 2)
 
 ## Erledigt
 - B-01 bis B-04, B-07 bis B-09
@@ -32,3 +33,7 @@ gelb
 | B-07 | Elo-Stimme hängt, doppelte Bezahl-Aufrufe | mittel | erledigt | supabase/functions/elo-stimme (PR #18) |
 | B-08 | Fotos behielten EXIF/GPS-Daten | hoch | erledigt | app.html medSmall (PR #4) |
 | B-09 | AWS 403 ohne verständliche Meldung | niedrig | erledigt | supabase/functions/blackbox (PR #18) |
+| B-10 | Kopfrechen-Fußball: Ball springt beim Neuzeichnen und überspringt scheinbar ein Feld | mittel | in Test | app.html kfAnimate (Runde 2) |
+| B-11 | Verbindung bricht nach Standby oder schwachem WLAN ab, nur Neustart der App hilft | hoch | in Test | app.html Live-Kanal, Wiederverbinden (Runde 2) |
+| B-12 | „Bereit“ kommt morgens nicht bei allen an | hoch | in Test | app.html Bereit-Check, Folge von B-11 (Runde 2) |
+| B-13 | Übungen: richtige Antwort steht immer an erster Stelle (A, rot) | hoch | in Test | app.html Multiple Choice, Millionenspiel, Quiz (Runde 2) |
