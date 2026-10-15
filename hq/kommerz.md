@@ -20,3 +20,8 @@ gelb
 ## Erledigt
 - Marktvergleich Lernplattformen, Preis- und Einnahmenrecherche
 - Factsheet und Präsentationen für Schulleitung und Seminarleitung
+
+## Entscheidungen
+- 15.10.2026: Das Repo bleibt vorerst öffentlich, weil die App über GitHub Pages läuft.
+  Später GitHub Pro (ca. 4 $/Monat) und Repo privat, oder Hosting-Wechsel.
+  Bis dahin: keine Schlüssel, keine internen Details und keine Sicherheitslücken im Repo.

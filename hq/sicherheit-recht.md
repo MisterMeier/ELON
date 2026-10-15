@@ -22,3 +22,8 @@ gelb
 - EXIF/GPS wird aus Fotos immer entfernt (PR #4)
 - Blackbox nur für Admin, Tageslimit, SVG doppelt bereinigt
 - Elternbrief und Rechts-Checkliste erstellt
+
+## Entscheidungen
+- 15.10.2026: Das Repo bleibt vorerst öffentlich, weil die App über GitHub Pages läuft.
+  Später GitHub Pro (ca. 4 $/Monat) und Repo privat, oder Hosting-Wechsel.
+  Bis dahin: keine Schlüssel, keine internen Details und keine Sicherheitslücken im Repo.

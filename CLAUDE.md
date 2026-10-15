@@ -27,6 +27,14 @@ Leitfigur ist die Eule Elo. Ansprechpartner: Fabian (Lehrer, kein Entwickler). A
 - Antworten knapp halten, keine vollständigen Dateien wiederholen.
 - Große PDFs/DOCX einmal als Digest zusammenfassen und danach nur das Digest lesen.
 
+## Eingang sortieren
+Schreibt Fabian „Eingang sortieren:“ mit Notizen:
+- Die Rohnotizen unverändert mit Datum unter `## Notizen` in `hq/eingang.md` anhängen.
+- Jeden Punkt in `hq/bugs.md`, `hq/design.md`, `hq/baumeister.md`, `hq/sicherheit-recht.md` oder `hq/kommerz.md` einsortieren,
+  jeweils mit Priorität (hoch/mittel/niedrig).
+- Danach Fabian die 3 wichtigsten nächsten Schritte nennen.
+- Keine Sicherheitsdetails in öffentliche Dateien; solche Punkte nur allgemein eintragen und Details im Chat nennen.
+
 ## HQ-Dashboard
 - Lokal: `node hq-dashboard/server.js` (Passwort in `hq-dashboard/.env`, Vorlage `.env.example`).
 - Schnappschuss für Fabian: `node hq-dashboard/build.js`, dann `hq-dashboard/dist/elonuki-hq.html`
