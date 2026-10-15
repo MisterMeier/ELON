@@ -10,11 +10,12 @@ gelb
 35%
 
 ## Nächste 3 Schritte
-- Runde 1 testen (PR #18 ist gemergt): Folien verschieben, mehrere Werkzeuge, Cloud-Bibliothek
+- Runde 2 testen: iPad in den Standby, wieder öffnen; Bereit-Check; Übung zweimal starten; Fußball mit falscher Antwort
 - Runde 2 Folieneditor: Elo klein oben auf jeder Folie, Schriftfarben, Bilder per Drag & Drop und Cmd+V
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Runde 2 (Eingang 15.10.), im Test: automatisches Wiederverbinden nach Standby mit Aktualisieren-Knopf (hoch), „Bereit“ zeigt „Sendet …“ bis zur Bestätigung (hoch), Antworten in Übungen und Quiz gemischt (hoch), Fußball mit Nachschuss fürs andere Team und ruhigem Ball (mittel)
 - Thread „Bugfix- und Ausbauplan“: Runden 1–6 laut elon/plan-elonuki.md
 - PR #9 (Entwurf): Schüler-iPad erkennt neue PIN von einem anderen Gerät
 
