@@ -8,7 +8,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 const VOICE = Deno.env.get("ELEVEN_VOICE") || "YyYOpSknZlewhHezK5bv"; // „Oswald – Kind & Gentle Grandpa“, wie die festen Elo-Sätze
 const MODEL = Deno.env.get("ELEVEN_MODEL") || "eleven_multilingual_v2";
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
+// x-client-info muss erlaubt sein: supabase-js schickt diesen Header immer mit. Fehlt er, blockt der Browser schon die Vorab-Anfrage (CORS)
+// und die App meldet „Keine Verbindung zum Server“, obwohl der Server läuft (Fehler B-Stimme vom 18.10.2026).
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
 Deno.serve(async (req) => {

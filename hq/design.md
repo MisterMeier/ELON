@@ -15,9 +15,11 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- Elo auf jeder Folie (18.10.): Figur kommt automatisch aus assets/elo/figuren.json (Fach → Figur); UI-Sounds (assets/sounds/ui, Schalter im Logo-Menü) eingebaut, die MP3-Dateien fehlen noch im Repo
 - Designstandard für Material (elon/designstandard-material.md) bei jedem neuen Hefteintrag anwenden
 
 ## Erledigt
+- Kontrast in der Hefteintrag-Auswahl und bei Merke/Achtung-Überschriften auf mindestens WCAG AA gebracht (18.10.)
 - Designstandard für Hefteinträge, Übungen und Druck (Fabian OK 12.10.)
 - Fach-Elos: UK-Elo für Englisch, Maler-Elo für Kunst
 - Startfolien (Rakete, Börse, Weltkugel)

@@ -10,6 +10,7 @@ gelb
 70%
 
 ## Nächste 3 Schritte
+- Runde 7a-Start (B-15 bis B-20) am Montag in 7a testen: Sitzplan, Ordner-Freigabe, Elo-Stimme nach neuem Deploy
 - Runde 2 (B-10 bis B-13) auf iPads und Tafel testen, dann auf „erledigt“ setzen
 - B-05 (PIN-Erkennung) mit PR #9 abschließen
 - B-06 (Live-Kanal härten) nach dem Test von B-11 neu bewerten
@@ -17,6 +18,7 @@ gelb
 ## In Arbeit
 - B-05, B-06
 - B-10 bis B-13 im Test (Runde 2)
+- B-15 bis B-20 im Test (Runde 7a-Start, 18.10.)
 
 ## Erledigt
 - B-01 bis B-04, B-07 bis B-09
@@ -38,3 +40,9 @@ gelb
 | B-12 | „Bereit“ kommt morgens nicht bei allen an | hoch | in Test | app.html Bereit-Check, Folge von B-11; iPad zeigt „Sendet …“, dann „Angekommen“ (Runde 2, PR #22 + Nachtrag) |
 | B-13 | Übungen: richtige Antwort steht immer an erster Stelle (A, rot) | hoch | in Test | app.html Multiple Choice, Millionenspiel, Quiz; Zuordnen, Lückentext, Zahlenstrahl waren schon gemischt (Runde 2) |
 | B-14 | Hoher Supabase-Datenverbrauch im Live-Unterricht: Tafel schickt alle 3 s das ganze Heft, iPads melden sich alle 3 s doppelt, Klasseninhalt wird alle 2 min komplett geladen | hoch | in Test | app.html pushCS, Herzschlag, ccPull; Analyse elon/egress-analyse.md |
+| B-15 | Sitzplan lag nur auf dem Gerät, auf dem er angelegt wurde; auf anderen Geräten fehlte er (wirkte, als gäbe es ihn nur für 7bG) | hoch | in Test | app.html Sitzplan (spSet, spCloudGet), jetzt auch im eigenen Konto |
+| B-16 | Ordner (z. B. DaZ) ließen sich nicht pro Klasse freigeben; ältere Einträge ohne Klasse erschienen in jeder Klasse | hoch | in Test | app.html Schreibtisch (deskOn, heftFor, modPush) |
+| B-17 | Folieneditor, Elo-Stimme: „Keine Verbindung zum Server“, weil die Funktion den Header x-client-info nicht erlaubte (CORS) | hoch | in Test | supabase/functions/elo-stimme, muss neu deployt werden |
+| B-18 | Planung, „Hefteintrag zeigen“: Titel in der Auswahl im dunklen Modus unsichtbar, Kapitel dunkelblau auf dunkel | mittel | in Test | app.html .tp-h, .tp-ch |
+| B-19 | Skizzen-Auftrag blieb nach „Stunde beenden“ in der Steuerung und als Hinweis auf den iPads | mittel | in Test | app.html l-stop, skzOff, skzSync |
+| B-20 | Steuerungs-Kacheln (Timer, Abstimmung …) im dunklen Modus hellblau auf weiß | mittel | in Test | app.html .ct-b |
