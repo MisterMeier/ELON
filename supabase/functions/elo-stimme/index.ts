@@ -25,11 +25,18 @@ Deno.serve(async (req) => {
   try { body = await req.json(); } catch (_) { /* leer */ }
   const text = String(body.text || "").replace(/\s+/g, " ").trim().slice(0, 300);
   if (text.length < 2) return json({ err: "leer" });
-  const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE}?output_format=mp3_44100_64`, {
+  // Zeitlimit, damit die App nicht hängt (die App wartet 25 s). Kein automatischer zweiter Versuch: jeder Aufruf kostet.
+  let r: Response;
+  try {
+    r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE}?output_format=mp3_44100_64`, {
     method: "POST",
+    signal: AbortSignal.timeout(22000),
     headers: { "xi-api-key": key, "Content-Type": "application/json", Accept: "audio/mpeg" },
     body: JSON.stringify({ text, model_id: MODEL, language_code: body.lang === "en" ? "en" : "de", voice_settings: { stability: 0.5, similarity_boost: 0.8 } }),
   });
+  } catch (_) {
+    return json({ err: "timeout" });
+  }
   if (!r.ok) return json({ err: "tts", status: r.status });
   const buf = new Uint8Array(await r.arrayBuffer());
   let bin = "";
