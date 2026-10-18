@@ -473,7 +473,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .lib-types{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.lt-b{display:flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:16px;border:2px solid #e0e7ff;background:#fff;color:#1e3a8a;cursor:pointer;font:inherit}.lt-b .ct-i{width:30px;height:30px}.lt-b b{font-size:.92rem}.lt-b small{font-weight:800;color:#4f46e5;background:#eef2ff;border-radius:999px;padding:1px 8px}.lt-b.on{border-color:#4f46e5;background:#e0f2fe;box-shadow:0 0 0 3px rgba(79,70,229,.15)}.lib-h{display:flex;align-items:center;gap:8px;margin:22px 0 10px;font-family:var(--f-display);color:#1e3a8a}
 .ctrl{margin-top:16px}
 .art-d{margin-top:12px}.art-d summary{cursor:pointer;font-weight:800;color:var(--navy,#1e3a8a)}.art-d textarea{width:100%;font:inherit;padding:8px;border-radius:10px;border:2px solid #e0e7ff;resize:vertical}.art-d textarea::placeholder{color:#94a3b8}
-.ct-tiles{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.ct-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:104px;min-height:96px;padding:8px 6px;border-radius:20px;border:2px solid #e0e7ff;background:#fff;color:var(--navy,#1e3a8a);cursor:pointer;font:inherit;transition:transform .12s,box-shadow .12s}.ct-b:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(79,70,229,.15)}.ct-i{line-height:1;display:block;width:44px;height:44px}.ct-i svg{width:100%;height:100%;display:block}.ct-b b{font-size:.9rem;font-weight:800}.ct-b small{font-size:.72rem;font-weight:700;color:#4f46e5}.ct-b.sel{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.18)}.ct-b{position:relative}.ct-b.on{background:#e0f2fe;border-color:#4f46e5;border-width:3px}.ct-b.on::after{content:'';position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:50%;background:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.25);animation:ctPulse 1.6s ease-in-out infinite}@keyframes ctPulse{50%{box-shadow:0 0 0 7px rgba(79,70,229,0)}}.ct-b.on small{color:#4f46e5}.ct-b[data-k=freeze].on{background:#dbeafe;border-color:#1e3a8a}.pl-ch{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:8px}.pl-c{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px 14px;border-radius:16px;border:2px solid #e0e7ff;background:#fff;color:#1e3a8a;cursor:pointer;font:inherit}.pl-c:hover,.pl-c.sel{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.15)}.pl-c b{font-size:1rem}.pl-ex{font-weight:700;color:#4f46e5;font-size:.88rem}.pl-c small{color:#64748b;font-weight:600}
+.ct-tiles{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.ct-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:104px;min-height:96px;padding:8px 6px;border-radius:20px;border:2px solid #e0e7ff;background:#fff;color:#1e3a8a;cursor:pointer;font:inherit;transition:transform .12s,box-shadow .12s}.ct-b:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(79,70,229,.15)}.ct-i{line-height:1;display:block;width:44px;height:44px}.ct-i svg{width:100%;height:100%;display:block}.ct-b b{font-size:.9rem;font-weight:800}.ct-b small{font-size:.72rem;font-weight:700;color:#4f46e5}.ct-b.sel{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.18)}.ct-b{position:relative}.ct-b.on{background:#e0f2fe;border-color:#4f46e5;border-width:3px}.ct-b.on::after{content:'';position:absolute;top:8px;right:8px;width:10px;height:10px;border-radius:50%;background:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.25);animation:ctPulse 1.6s ease-in-out infinite}@keyframes ctPulse{50%{box-shadow:0 0 0 7px rgba(79,70,229,0)}}.ct-b.on small{color:#4f46e5}.ct-b[data-k=freeze].on{background:#dbeafe;border-color:#1e3a8a}.pl-ch{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:8px}.pl-c{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px 14px;border-radius:16px;border:2px solid #e0e7ff;background:#fff;color:#1e3a8a;cursor:pointer;font:inherit}.pl-c:hover,.pl-c.sel{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.15)}.pl-c b{font-size:1rem}.pl-ex{font-weight:700;color:#4f46e5;font-size:.88rem}.pl-c small{color:#64748b;font-weight:600}
 .ctrl-lay #tprev .btimer{cursor:grab;outline:3px dashed #38bdf8;outline-offset:4px}.lay-drag{cursor:grabbing!important;opacity:.85}
 .ct-o{margin-top:12px;padding:12px;border-radius:16px;background:#eef2ff;animation:ctIn .18s ease}@keyframes ctIn{from{opacity:0;transform:translateY(-4px)}}
 .ctrl summary{font-family:var(--f-display);font-weight:800;font-size:1.25rem;cursor:pointer}
@@ -759,6 +759,7 @@ body.boardwin .bw{height:100vh}
 iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:14px;background:#000}.bw iframe.emb{max-height:60cqh;width:auto;height:60cqh}.vbody iframe.emb{max-height:75vh}
 .desk{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px;padding:28px;border-radius:24px;background:linear-gradient(180deg,#c99a68,#b07f4f);box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),var(--shadow)}
 .folder{position:relative;border:0;background:none;padding:14px 0 0;cursor:pointer;text-align:left;font:inherit}
+.folder.f-off .fbody{filter:grayscale(1)}.folder.f-off .fbody>:not(small){opacity:.55}.folder .f-vis{font-weight:800;opacity:.95}
 .folder .tab{position:absolute;top:0;left:14px;width:42%;height:22px;border-radius:10px 10px 0 0;background:var(--sc)}
 .folder .fbody{display:grid;gap:6px;min-height:130px;align-content:end;background:var(--sc);color:#fff;border-radius:0 14px 14px 14px;padding:16px;box-shadow:0 6px 0 rgba(0,0,0,.18)}
 .folder b{font-family:var(--f-display);font-size:1.5rem}.folder small{font-weight:700;opacity:.95}.folder em{font-style:normal;background:#fff;color:var(--ink);border-radius:999px;padding:0 8px}
@@ -893,7 +894,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .rp-cnt{padding:.45em .8em;border-radius:.8em;background:rgba(255,255,255,.92);box-shadow:0 .3em 1em rgba(30,58,138,.15);color:#1e3a8a;text-align:center}.rp-cnt .rp-tank{margin:.1em 0 .35em}.rp-cnt b{font-size:1.2em;font-weight:800}
 .pool-h{font-size:1rem;margin:14px 0 6px;color:var(--ink)}
 /* Hefteintrag immer wie helles Papier im ELIO-Blau, auch im dunklen Modus */
-.page{background-color:#fff;color:#0f172a;border-color:#dbe3f4}.page *{color:inherit}.page h3,.page h4{color:#1e3a8a!important;text-decoration-color:#38bdf8!important}.page .date{color:#475569!important}
+.page{background-color:#fff;color:#0f172a;border-color:#dbe3f4}.page *{color:inherit}.page h3,.page h4{color:#1e3a8a!important;text-decoration-color:#38bdf8!important}.page .date{color:#475569!important}.page .merke b.l{color:#1e3a8a!important}.page .achtung .l{color:#8a5200!important}
 .page table th,.page table td{background:#fff!important;color:#0f172a!important;border-color:#c7d2fe!important}.page table tr:first-child td,.page table th{background:#e0e7ff!important;color:#1e3a8a!important}
 .page .merke,.page [class*=merke]{background:#eef2ff!important;border-color:#4f46e5!important;color:#0f172a!important}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
 .rt-sl{background:#f6f8fc center/cover no-repeat;padding:1.4em 2em;gap:.6em;justify-content:center}
@@ -963,8 +964,8 @@ span.pill{cursor:default}.pill-sel{border:1.5px solid #c7d2fe;border-radius:999p
 .bb-au{display:block;width:100%;max-width:520px;margin:6px 0}.bb-box{border:2px solid #4f46e5;border-radius:14px;padding:10px 12px;margin:6px 0 10px;background:#f5f6ff}.bb-head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.bb-head b{color:#1e3a8a}.bb-sub{font-size:.8rem;color:#475569}.bb-kinds{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.bb-line{display:flex;gap:8px;align-items:flex-start}.bb-line textarea{flex:1;min-height:44px;resize:vertical}.bb-err{color:#b45309;font-weight:700;margin:8px 0 0;font-size:.9rem}.bb-res{margin-top:10px}.bb-pv{display:block;width:100%;max-width:560px;aspect-ratio:16/9;object-fit:contain;background:#fff;border:1px solid #e5e7eb;border-radius:10px}.bb-txt{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:8px 12px;max-width:560px}.bb-txt p{margin:4px 0}.bb-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.bb-n{font-size:.8rem;color:#475569}.sl-txt summary{font-weight:800;color:#1e3a8a;cursor:pointer;font-size:.9rem}
 .sl-ed-big .lgrid{display:block}.ph-mini input,.ph-mini select{flex:1;max-width:420px;padding:6px 10px}
 .tool-box{margin-top:14px;padding-top:10px;border-top:2px dashed #c7d2fe}
-.tp-list{display:grid;gap:8px;max-height:60vh;overflow:auto;margin-top:8px}.tp-ch{border:1.5px solid #c7d2fe;border-radius:12px;padding:8px 12px}.tp-ch summary{font-weight:800;color:#1e3a8a;cursor:pointer}
-.tp-e{padding:8px 0;border-top:1px solid #eef2ff}.tp-ubs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.tp-h{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid #e0e7ff;border-radius:10px;padding:8px 12px;margin-top:6px;cursor:pointer}.tp-h small{display:block;color:#64748b;font-weight:600}.tp-h.on{border-color:#4f46e5;background:#eef2ff}
+.tp-list{display:grid;gap:8px;max-height:60vh;overflow:auto;margin-top:8px}.tp-ch{border:1.5px solid #c7d2fe;border-radius:12px;padding:8px 12px}.tp-ch summary{font-weight:800;color:var(--navy);cursor:pointer}
+.tp-e{padding:8px 0;border-top:1px solid #eef2ff}.tp-ubs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}/* Liste immer helles Papier mit dunkler Schrift (Kontrast ≥ 7:1), auch im dunklen Modus */.tp-h{display:block;width:100%;text-align:left;background:#fff;color:#0f172a;border:1.5px solid #e0e7ff;border-radius:10px;padding:8px 12px;margin-top:6px;cursor:pointer}.tp-h b{color:#1e3a8a}.tp-h small{display:block;color:#475569;font-weight:600}.tp-h.on{border-color:#4f46e5;background:#eef2ff}
 .sr-b.tv.on{background:#4f46e5!important;border-color:#4f46e5!important;color:#fff;animation:none}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);background:#1e3a8a;color:#fff;font-weight:800;padding:12px 18px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;z-index:9999;max-width:90vw;text-align:center}.toast.on{opacity:1;transform:translate(-50%,0)}
 .hl-ban{background:#eef2ff;border:2px solid #4f46e5;color:#1e3a8a;border-radius:14px;padding:12px 16px;font-weight:800;font-size:1.15rem;margin-bottom:12px}
@@ -1655,6 +1656,18 @@ const SND={
   right(){tone(660,0,.14,'sine',.18);tone(990,.09,.25,'sine',.18)},
   oops(){tone(300,0,.22,'sine',.12)},
 };
+/* UI-Sounds (Klick, Bestätigen, Fehler, Menü auf/zu): Dateien in assets/sounds/ui/, Zuordnung in assets/sounds/ui/ui-sounds.json.
+   Fehlt eine Datei, bleibt es still. Ein Audio-Element pro Sound: schnelles Klicken startet ihn neu statt zu stapeln. Schalter im Logo-Menü, gilt pro Gerät. */
+const UIS={map:{klick:'klick.mp3',ok:'bestaetigen.mp3',fehler:'fehler.mp3',auf:'menue-auf.mp3',zu:'menue-zu.mp3'},vol:.35,el:{},bad:{},at:0,
+  on(){try{return localStorage.getItem('elio-uisnd')!=='0'}catch(e){return true}},set(v){try{localStorage.setItem('elio-uisnd',v?'1':'0')}catch(e){}}};
+setTimeout(()=>fetch('assets/sounds/ui/ui-sounds.json?v='+BUILD).then(r=>r.ok?r.json():null).then(J=>{if(!J||typeof J!=='object')return;
+  Object.entries(J.sounds||{}).forEach(([k,f])=>{if(/^[\w-]{1,20}$/.test(k)&&/^[\w.-]{1,80}\.(mp3|m4a|wav|ogg)$/i.test(f||''))UIS.map[k]=f});if(+J.lautstaerke>0&&+J.lautstaerke<=1)UIS.vol=+J.lautstaerke}).catch(()=>{}),0);// BUILD steht weiter unten
+function uiSnd(k){if(BOARD||!UIS.on()||UIS.bad[k]||!UIS.map[k])return;const now=Date.now();if(now-UIS.at<70)return;UIS.at=now;
+  try{let a=UIS.el[k];if(!a){a=UIS.el[k]=new Audio('assets/sounds/ui/'+UIS.map[k]);a.preload='auto';a.onerror=()=>{UIS.bad[k]=1}}
+    a.volume=UIS.vol;a.pause();a.currentTime=0;const pr=a.play();if(pr)pr.catch(()=>{})}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button,[role=button],summary');if(!b||b.disabled)return;
+  uiSnd(b.classList.contains('red')?'zu':b.classList.contains('ok')||b.classList.contains('pri')?'ok':'klick')},true);
+{const ovW=()=>{const ov=document.getElementById('ov');if(!ov){setTimeout(ovW,500);return}let was=ov.hidden;new MutationObserver(()=>{if(ov.hidden!==was){was=ov.hidden;uiSnd(was?'zu':'auf')}}).observe(ov,{attributes:true,attributeFilter:['hidden']})};ovW()}
 // Beste verfügbare Stimme: natürliche/neuronale Stimmen (Edge „Natural“, Apple „Premium/Erweitert“, Siri, Google) vor einfachen Roboterstimmen
 function bestVoice(lang){let vs=[];try{vs=speechSynthesis.getVoices()}catch(e){}const l2=lang.slice(0,2),reg=lang.slice(3).toUpperCase();
   const sc=v=>{const n=v.name||'',L=(v.lang||'').replace('_','-');if(!L.toLowerCase().startsWith(l2))return -99;let x=0;
@@ -1728,7 +1741,7 @@ function umenuHTML(){const T=S.role==='teacher',ic=n=>`<img class="um-ic" src="a
   const who=T?`<b>${esc(Cloud.prof&&Cloud.prof.name||'Lehrkraft')}</b><small>${esc(Cloud.user&&Cloud.user.email||'Demo-Modus')} · ${esc(className())}</small>`
     :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</b><small>${S.acct&&S.acct.u?esc(S.acct.u)+' · ':''}${esc(className())}</small></span></span>`;
   return `<div class="um-who">${who}</div>${T?it('tdash','lehrerzimmer','Lehrerzimmer')+it('me','profil','Mein Profil')+(CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'?it('klassen','klassen','Meine Klassen'):'')+(Cloud.prof&&Cloud.prof.role==='admin'?it('admin','admin','Admin'):'')+it('inbox','postfach','Postfach')
-    :it('dash','dashboard','Dashboard')+it('desk','schreibtisch','Schreibtisch')+it('homework','aufgaben','Aufgaben')+it('me','profil','Mein Profil')+it('week','stundenplan','Stundenplan')}<button data-act="tk-open">${ic('problem')}Problem melden</button><button data-act="go-legal" data-v="datenschutz">${ic('datenschutz')}Datenschutz und Impressum</button><button class="out" data-act="role-reset">${ic('abmelden')}Abmelden</button>`}
+    :it('dash','dashboard','Dashboard')+it('desk','schreibtisch','Schreibtisch')+it('homework','aufgaben','Aufgaben')+it('me','profil','Mein Profil')+it('week','stundenplan','Stundenplan')}<button data-act="ui-snd">${UIS.on()?'🔊 Klick-Töne: an':'🔇 Klick-Töne: aus'}</button><button data-act="tk-open">${ic('problem')}Problem melden</button><button data-act="go-legal" data-v="datenschutz">${ic('datenschutz')}Datenschutz und Impressum</button><button class="out" data-act="role-reset">${ic('abmelden')}Abmelden</button>`}
 document.addEventListener('click',e=>{const m=$('#umenu');if(m&&!m.hidden&&!e.target.closest('#umenu,.logo'))m.hidden=true},true);
 function hdr(){$('#star-n').textContent=S.role==='student'?starBal():S.stars}
 const starBal=()=>Math.max(0,(+S.stars||0)-(+S.spent||0));
@@ -1835,8 +1848,12 @@ VIEWS.dash=()=>{
 };
 // Schreibtisch: Fachordner mit Regelheft, Hausaufgaben, Lernmodulen + Lerntagebuch
 const DESK=['M','E','D'];
+// Ordner pro Klasse freigeben: TD.deskV[Klasse][Fach]=true/false. Ohne Einstellung sind Mathe, Englisch, Deutsch sichtbar
+// und jedes Fach, in dem es freigegebene Einträge genau dieser Klasse gibt. Ein ausgeblendeter Ordner geht gar nicht erst an die iPads.
+function deskOn(k,c){c=c||S.cls||'-';const v=((TD&&TD.deskV||{})[c]||{})[k];if(typeof v==='boolean')return v;return DESK.includes(k)||((TD&&TD.heft)||[]).some(e=>e.s===k&&e.cls===c&&e.pub!==false)}
+const deskList=()=>Object.keys(SUBJECTS).filter(k=>deskOn(k));
 VIEWS.desk=()=>{
-  const ks=[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
+  const ks=Array.isArray(S.deskRecv)?S.deskRecv.filter(k=>SUBJECTS[k]):[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
   const days=Object.keys(S.diary||{}).length+(S.journal||[]).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch</h1>${S.av!=null?avatar(S.av,44):''}</div>
   <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
@@ -1854,7 +1871,7 @@ VIEWS.desk=()=>{
 let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0;
 function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze)return res();const s=document.createElement('script');s.src='assets/skizze/skizze.js?v='+BUILD;s.onload=()=>res();s.onerror=()=>{SKZ_P=null;s.remove();rej(new Error('skizze'))};document.head.appendChild(s)}))}
 const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
-function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;
+function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;if(!R&&S.skzT&&RCS&&RCS.skzEnd===S.skzT.id){S.skzT=null;save()}
   if(R&&R.id){const t={id:String(R.id).slice(0,20),text:String(R.text||'').slice(0,200),n:Math.max(1,Math.min(4,+R.n||2)),werk:!!R.werk};if(JSON.stringify(t)!==JSON.stringify(S.skzT)){S.skzT=t;save()}return t}
   return S.skzT||null}
 function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(skzClose);let host=$('#skz-host');if(!host){host=document.createElement('div');host.id='skz-host';document.body.appendChild(host)}
@@ -1869,7 +1886,7 @@ function skzShare(o){if(S.role!=='student')return false;S.mbq=(S.mbq||[]).filter
   mbQueue({k:'skz',id:String(o.id).slice(0,40),title:String(o.title||'').slice(0,80),kind:o.kind,task:o.task||'',tt:String(o.taskText||'').slice(0,200),img:o.img,at:Date.now()});return !!S.tpk}
 // SuS: Stand im Auftrag an die Tafel (nur Zahlen: Skizzen und ob das Werk begonnen ist)
 function skzProg(p){const R=RCS&&RCS.skz;if(S.role!=='student'||!R||R.id!==p.id)return;const k=p.id+':'+p.s+':'+p.w;if(S.skzSent===k)return;S.skzSent=k;save();sendMsg({k:'skz',id:p.id,s:p.s,w:p.w})}
-function skzSync(p){if(S.role!=='student'||!p||!p.skz||!p.skz.id)return;const t=skzTask();if(window.Skizze&&SKZ_ON)Skizze.setTask(t);
+function skzSync(p){if(S.role!=='student'||!p)return;if(!p.skz&&S.skzT&&p.skzEnd===S.skzT.id){S.skzT=null;save();if(V.name==='desk')render()}if(!p.skz||!p.skz.id)return;const t=skzTask();if(window.Skizze&&SKZ_ON)Skizze.setTask(t);
   const m=String(S.skzSent||'').split(':');if(m[0]===p.skz.id&&Date.now()-SKZ_SYNC>8000){const mine=(p.skz.p||{})[S.nr];if(!mine||mine[0]!==+m[1]||mine[1]!==+m[2]){SKZ_SYNC=Date.now();sendMsg({k:'skz',id:m[0],s:+m[1],w:+m[2]})}}}
 // Lehrkraft: geschickte Bilder verschlüsselt ablegen (eigener Schlüssel im Lehrer-Tresor, übersteht einen Passwortwechsel)
 async function skzCK(){if(!TD.skzK){TD.skzK=b64e(crypto.getRandomValues(new Uint8Array(32)));tsave()}return crypto.subtle.importKey('raw',b64d(TD.skzK),'AES-GCM',false,['encrypt','decrypt'])}
@@ -1901,7 +1918,20 @@ function skzBoard(t,c){const n=Math.max(1,Math.min(4,+t.n||2)),k=c.sk;
 function skzCtl(on){if(!CS.skz)return `<span class="label">Werkbetrachtung an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">Ein Bild aus dem Skizzenbuch ist groß an der Tafel, ohne Namen.</p><button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>`;const K=CS.skz,P=K.p||{},ids=[...new Set([...(on||[]).map(Number),...Object.keys(P).map(Number)])].sort((a,b)=>a-b),c=skzCount(K,(on||[]).length),nn=skzNew();
   return `<span class="label">✏️ Skizzenphase · ${c.full} / ${ids.length||'–'} mit ${K.n} Skizze${K.n>1?'n':''}${c.w?` · ${c.w} am Werk`:''}</span>${pgBar(c.full,Math.max(1,ids.length))}<p style="font-weight:800;margin-top:4px">${esc(K.text)}</p>
     <div class="cw-t">${ids.map(k=>{const v=P[k]||[0,0];return `<span class="chip ${v[1]||v[0]>=K.n?'ok':''}">${esc(nickOf(k)||kidName(k))} · ${v[1]?'Werk':Math.min(v[0],K.n)+'/'+K.n}</span>`}).join(' ')}</div>
-    <div class="row" style="margin-top:8px"><button class="btn sm ${K.werk?'on':''}" data-act="skz-werk">${K.werk?'Werk ist für alle frei':'Werk für alle freigeben'}</button>${V.name==='skzT'?'':`<button class="btn sm" data-act="skzT" data-from="tafel">Geschickte Bilder${nn?' · '+nn+' neu':''}</button>`}${CS.skzShow?'<button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>':''}</div>`}
+    <div class="row" style="margin-top:8px"><button class="btn sm ${K.werk?'on':''}" data-act="skz-werk">${K.werk?'Werk ist für alle frei':'Werk für alle freigeben'}</button>${V.name==='skzT'?'':`<button class="btn sm" data-act="skzT" data-from="tafel">Geschickte Bilder${nn?' · '+nn+' neu':''}</button>`}${CS.skzShow?'<button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>':''}<button class="btn sm red" data-act="skz-end">Auftrag beenden …</button></div>`}
+// Alten Skizzen-Auftrag beenden: zuerst genau zeigen, was gelöscht wird; gelöscht wird erst nach „Ja, löschen“
+function skzEndOv(){const K=CS&&CS.skz;if(!K)return;const imgs=skzAll().filter(x=>x.task===K.id),kids=Object.keys(K.p||{}).length,t0=parseInt(String(K.id).slice(1),36),d0=t0>1e12?fmtDate(new Date(t0).toISOString().slice(0,10)):'';
+  showOv(`<div class="box" style="max-width:620px;text-align:left"><span class="label">Skizzenbuch-Auftrag beenden</span><h2>Das wird gelöscht</h2>
+    <ul style="margin:10px 0 0 1.2em;display:grid;gap:6px;font-weight:700"><li>Der Auftrag „${esc(K.text||'ohne Text')}“ (${K.n} Skizze${K.n>1?'n':''} vor dem Werk${d0?', gestartet am '+d0:''}) in deiner Steuerung</li>
+      <li>Der Fortschritt dazu${kids?` von ${kids} Kind${kids>1?'ern':''}`:''} (nur die Zähler)</li><li>Der Hinweis „Auftrag: …“ auf den iPads, sobald sie das nächste Mal verbunden sind</li>${CS.skzShow?'<li>Das Bild der Werkbetrachtung an der Tafel</li>':''}</ul>
+    ${imgs.length?`<label class="row" style="gap:8px;margin-top:12px;font-weight:700"><input type="checkbox" id="skz-del-img" style="width:auto"> Auch ${imgs.length>1?`die ${imgs.length} geschickten Bilder`:'das geschickte Bild'} zu diesem Auftrag bei dir löschen</label>`:''}
+    <p class="muted" style="font-weight:700;margin-top:12px">Bleibt erhalten: die Zeichnungen in den Skizzenbüchern der Kinder, Bilder zu anderen Aufträgen${imgs.length?' und die Bilder zu diesem Auftrag, wenn das Kästchen leer bleibt':''}, alle anderen Daten.</p>
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button><button class="btn red" data-act="skz-end-ok">Ja, löschen</button></div></div>`)}
+function skzEnd(withImgs){const K=CS&&CS.skz;if(!K)return;
+  if(withImgs){const B=(TD.skz||{})[S.cls||'-']||{};Object.keys(B).forEach(n=>{B[n].filter(x=>x.task===K.id).forEach(x=>{idb('blob','readwrite',st=>st.delete(x.key)).catch(()=>{});if(SKZU[x.key]){URL.revokeObjectURL(SKZU[x.key]);delete SKZU[x.key]}});B[n]=B[n].filter(x=>x.task!==K.id);if(!B[n].length)delete B[n]});tsave();navTBadge()}
+  skzOff();pushCS();$('#ov').hidden=true;toast('Der Skizzenbuch-Auftrag ist beendet.');render()}
+// Auftrag aus Steuerung und Tafel nehmen; die iPads löschen ihren Auftragshinweis, wenn sie skzEnd mit derselben Kennung sehen
+function skzOff(){if(!CS)return;if(CS.skz)CS.skzEnd=CS.skz.id;CS.skz=null;if(CS.skzShow){CS.skzShow=null;idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{})}if(CS.phase&&typeof CS.phase==='object'&&CS.phase.go==='skizze')CS.phase.go=null}
 function skzTeach(){const n=skzAll().length,nn=skzNew();
   return `<button class="mod-card heft-card" data-act="skzT" data-from="tdesk" style="margin-top:12px"><span class="mi">✏️</span><span class="t"><span class="label">Skizzenbuch</span><b>${n?n+' Bild'+(n>1?'er':'')+' von der Klasse'+(nn?` · ${nn} neu`:''):'Noch keine Bilder geschickt'}</b><span class="muted">Skizzen und Werke, die dir die SuS geschickt haben. Werkbetrachtung an der Tafel.</span></span><span class="btn">Ansehen</span></button>
     <button class="mod-card heft-card" data-act="skizze" style="margin-top:12px"><span class="mi">🖌️</span><span class="t"><span class="label">Mein Skizzenbuch</span><b>Selbst zeichnen</b><span class="muted">Zum Vorzeichnen an der Tafel oder für Beispiele. Bleibt auf diesem Gerät.</span></span><span class="btn">Öffnen</span></button>`}
@@ -2071,7 +2101,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261018-1900';let verTold=false;
+const BUILD='20261018-2000';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2751,7 +2781,7 @@ function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY
 function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();CS.upOk=!!(Live.upAt&&Date.now()-Live.upAt<30000);S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',csLean());updPrev();ccPush()}
 // Datensparen: Heft, Vokabeln, Aufgaben usw. gehen nur mit, wenn sie sich geändert haben (und spätestens alle 2 Minuten).
 // Sonst schickt der 3-s-Takt nur Phase, Timer, Folie … plus eine Kennung (cs). Fehlt einem iPad etwas, holt es den Stand aus class_content.
-const CS_CF=['heft','vok','hw','mods','modx','auf','ann','games'],LEAN={cs:'',at:0};
+const CS_CF=['heft','vok','hw','mods','modx','auf','ann','games','desk'],LEAN={cs:'',at:0};
 function csLean(){const now=Date.now(),cs=strHash(JSON.stringify(CS_CF.map(k=>CS[k]===undefined?null:CS[k]))),p={...CS,now,cs};
   if(Live.kind==='server'&&ccOk()&&cs===LEAN.cs&&now-LEAN.at<120000)CS_CF.forEach(k=>delete p[k]);else{LEAN.cs=cs;LEAN.at=now}return p}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
@@ -2885,7 +2915,7 @@ function updTafel(){
   if(!CS||!$('#seats'))return;updPrev();
   const on=online(),n=S.classSize;
   const dup=dupNrs(),dc=devCount(),aw=Object.keys(ROSTER).filter(k=>ROSTER[k].away).length;$('#t-online').innerHTML=(dup.length?`${dc} online <b class="dup-w">· Nr. ${dup.join(', ')} doppelt angemeldet</b>`:on.length+' online')+(aw?` <b class="aw-w">· ${aw} ${aw===1?'hat':'haben'} die App verlassen</b>`:'');
-  const SPP=spOf(),seatH=k=>{const cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':'',ROSTER[k]&&ROSTER[k].away?'away':''].join(' ');
+  const SPP=spOf();spCloudGet(S.cls);const seatH=k=>{const cls=[on.includes(k)?'on':'',(CS.ready&&CS.ready.done.includes(k))||(CS.journal&&CS.journal.done.includes(k))?'ready':'',CS.poll&&CS.poll.voted.includes(k)?'voted':'',CS.help.includes(k)?'help':'',ROSTER[k]&&ROSTER[k].away?'away':''].join(' ');
     const nk=nickOf(k);const no=(TD.obs[k]||[]).length;const mv=SPP&&SPU!==null;return `<button class="seat ${cls}${dup.includes(k)?' dup':''}${mv&&SPU&&SPU.k===k?' mv-sel':''}" ${mv?`data-act="sp-mv" data-n="${k}" data-i="${SPP.g.indexOf(k)}" title="Umsetzen"`:`data-act="obs-quick" data-n="${k}" title="Beobachtung notieren"`}>${avOf(k)}<small>${esc(nk||(kurzOf(k)||''))}</small>${mnOf(k)?`<small class="mn-tag">${esc(mnOf(k))}</small>`:''}${ROSTER[k]&&ROSTER[k].away?`<small class="aw-t">App verlassen</small><small class="aw-t">${awMin(ROSTER[k].away)}</small>`:''}${no?`<small style="opacity:.7">📝 ${no}</small>`:''}</button>`};
   $('#seats').classList.toggle('frz',!!CS.freeze);$('#seats').classList.toggle('sp',!!SPP);$('#seats').classList.toggle('mvm',!!(SPP&&SPU!==null));if($('#sp-mvb')){$('#sp-mvb').hidden=!SPP;$('#sp-mvb').classList.toggle('on',SPU!==null);$('#sp-mvb').textContent=SPU===null?'Umsetzen':SPU?'Wohin? Tippe auf einen Platz':'Umsetzen fertig'}
   if(SPP){const un=spUnplaced(SPP,n);$('#seats').style.setProperty('--c',SPP.c);$('#seats').innerHTML=`<div class="sp-board">Tafel</div>`+SPP.g.map((x,i)=>x===null?`<i class="sp-gap${spThin(SPP,i)?' thin':''}"></i>`:x>0&&x<=n?seatH(x):SPU!==null?`<button class="sp-free mv" data-act="sp-mv" data-i="${i}" title="Hierher setzen"></button>`:'<i class="sp-free"></i>').join('')+(un.length?`<div class="sp-rest">Ohne Platz</div>`+un.map(seatH).join(''):'')}
@@ -2917,8 +2947,14 @@ const SL_BG={allgemein:'ELIO allgemein',start:'ELIO Start (mit Elo)',none:'Ohne 
 const SL_LAY={std:'Überschrift und Text',bild:'Nur Bild (ganze Folie)',frage:'Stundenfrage',murmel:'Stundenfrage mit Murmelphase',hypo:'Vermutungen'};
 // Augen der Elo-Bilder (Mitte x/y und Radius in % der Bildbreite, Lidfarbe) für das Blinzeln
 const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebung:[[32.7,31.4,9.6,'#e6e9fb'],[59.8,37.7,9.8,'#edf0fb']],hilfe:[[41.2,31.4,9.4,'#e4e7fa'],[68.1,37.4,9.6,'#f1f2fc']],fleiss:[[42.9,31.0,9.2,'#e2e4fa'],[69.1,36.5,9.4,'#f2f3fd']]};
-// Fach-Elo: in Englisch Elo mit Melone und Union-Jack-Schal, in Kunst Elo mit Baskenmütze und Palette
-const ELO_SUBJ={E:'uk',K:'kunst',W:'banker'},ELO_VAR=['uk','scot','kunst','banker'],eloV=(k,s)=>ELO_VAR.includes(k)?k:ELO_SUBJ[s]||k,eloImg=(k,s)=>`assets/elo/elo-${eloV(k,s)}-512.${eloV(k,s)==='banker'?'webp':'png'}`,eloLidsS=(k,s)=>ELO_VAR.includes(eloV(k,s))?'':eloLids(k);
+// Elo-Figuren an EINER Stelle: assets/elo/figuren.json (Fach → Figur, alle Figuren mit Datei und Namen).
+// Neue Figur = Bild nach assets/elo/ und dort eintragen. Die Werte hier sind nur die Rückfallebene, falls die Datei nicht lädt.
+// Figuren mit Lidern (ELO_EYES) sind Grundposen: im Fach mit eigener Figur (z. B. Englisch) nimmt Elo automatisch die Fach-Figur.
+const ELO_FIG={heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-512.png'},fleiss:{name:'Elo stark',datei:'elo-fleiss-512.png'},
+  uk:{name:'Elo in England',datei:'elo-uk-512.png'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-512.png'},kunst:{name:'Elo als Maler',datei:'elo-kunst-512.png'},banker:{name:'Elo als Banker',datei:'elo-banker-512.webp'}};
+const ELO_SUBJ={E:'uk',K:'kunst',W:'banker'},ELO_STD={k:'hilfe'};
+const eloV=(k,s)=>k==='auto'||!ELO_FIG[k]?(ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:ELO_STD.k):ELO_EYES[k]&&ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:k,
+  eloImg=(k,s)=>'assets/elo/'+(ELO_FIG[eloV(k,s)]||ELO_FIG.hilfe).datei,eloLidsS=(k,s)=>ELO_EYES[eloV(k,s)]?eloLids(eloV(k,s)):'';
 // Elo spielt einen Sound: passende Figur dazu (Dudelsack = Schottland-Elo)
 const ELO_SND_FIG={dudelsack:'scot',bigben:'uk'},fxOn=f=>!!(f&&Date.now()-f.at<(f.d||6000));
 const eloLids=k=>(ELO_EYES[k]||[]).map(([x,y,r,c])=>`<i class="elo-lid" style="left:${x-r}%;top:${y-r}%;width:${2*r}%;--c:${c}"></i>`).join('');
@@ -2928,7 +2964,11 @@ function eloLife(doc){if(matchMedia&&matchMedia('(prefers-reduced-motion: reduce
       const r=Math.random(),a=r<.62?'blink':r<.78?'tilt':r<.92?'scratch':'hop',d={blink:260,tilt:1600,scratch:1300,hop:700}[a];
       if(a!=='blink'&&Math.random()<.5)e.classList.add('life-blink');e.classList.add('life-'+a);setTimeout(()=>e.classList.remove('life-'+a,'life-blink'),d)});
     setTimeout(tick,2600+Math.random()*3400)};setTimeout(tick,1500)}
-const SL_ELO={'':'– ohne Elo –',heft:'Elo mit Doktorhut',uebung:'Elo mit Heft',hilfe:'Elo hilft',fleiss:'Elo stark',uk:'Elo in England',scot:'Elo in Schottland (Dudelsack)',kunst:'Elo als Maler'};
+// Auswahl im Folien-Editor: '' = automatisch (Elo ist auf jeder Folie, Figur passend zum Fach), 'off' = ohne Elo
+const SL_ELO={};function eloReg(){Object.keys(SL_ELO).forEach(k=>delete SL_ELO[k]);Object.assign(SL_ELO,{'':'Automatisch (passend zum Fach)',off:'– ohne Elo –'},Object.fromEntries(Object.entries(ELO_FIG).map(([k,f])=>[k,f.name])))}eloReg();
+fetch('assets/elo/figuren.json?v='+BUILD).then(r=>r.ok?r.json():null).then(J=>{if(!J||typeof J!=='object')return;const ok=v=>typeof v==='string'&&/^[\w-]{1,30}$/.test(v);
+  Object.entries(J.figuren||{}).forEach(([k,f])=>{if(ok(k)&&k!=='off'&&k!=='auto'&&f&&typeof f.name==='string'&&/^[\w.-]{1,80}\.(png|webp|jpe?g|svg)$/i.test(f.datei||''))ELO_FIG[k]={name:f.name.slice(0,60),datei:f.datei}});
+  Object.entries(J.fach||{}).forEach(([s,k])=>{if(ok(s)&&ok(k)&&ELO_FIG[k])ELO_SUBJ[s]=k});if(ok(J.standard)&&ELO_FIG[J.standard])ELO_STD.k=J.standard;eloReg()}).catch(()=>{});
 const ELO_FX={wave:['👋','Winken'],hop:['⤴️','Hüpfen'],tweet:['🎵','Zwitschern'],hoot:['🦉','Rufen'],say:['💬','Sprechblase']};
 function deckSlides(t){if(!t)return [];if(!Array.isArray(t.slides)||!t.slides.length)t.slides=[{layout:'std',bg:'allgemein',title:t.title||'',text:t.text||'',mat:t.mat||'',elo:'',say:'',steps:false}];return t.slides}
 function deckFrames(t){const F=[];deckSlides(t).forEach((sl,j)=>{const n=sl.steps?lines(sl.text).length:0;if(n>1)for(let k=1;k<=n;k++)F.push({j,k});else F.push({j,k:-1})});return F}
@@ -2994,7 +3034,7 @@ function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof li
   // Datei schon jetzt aus der Cloud holen, damit das Tafel-Fenster sie auf diesem Gerät findet
   if(m&&m.kind==='file'&&!BOARD&&S.role==='teacher')libBlob(m.id).catch(()=>{});
   if(m&&m.kind==='link'&&!BOARD&&!t.matUrl)t.matUrl=String(m.url||'').slice(0,600);// ältere Stunden: Link in die Stunde schreiben, damit er auf jedem Gerät da ist
-  if(t.id==='slide'){const F=deckFrames(t),f=F[Math.min(sub,F.length-1)]||{j:0,k:-1};o.cur={...deckSlides(t)[f.j],shown:f.k};o.j=f.j;o.nf=F.length;delete o.slides}
+  if(t.id==='slide'){const F=deckFrames(t),f=F[Math.min(sub,F.length-1)]||{j:0,k:-1};o.cur={...deckSlides(t)[f.j],shown:f.k};if(L&&L.eloOff)o.cur.elo='off';o.j=f.j;o.nf=F.length;delete o.slides}
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
   if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
   return o}
@@ -3096,8 +3136,8 @@ const strHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=(h*33+t.charCodeAt(i))
 // Schlüssel der Lehrkraft (dpk): Ein Wechsel zählt nur aus der Datenbank oder aus dem geschützten privaten Kanal,
 // damit niemand im offenen Kanal einen fremden Schlüssel unterschieben kann.
 function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||(S.tpk.n!==p.dpk.n&&trusted))){S.tpk=p.dpk;save();mbFlush()}
-  if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
-  S.heftRecv=p.heft;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
+  if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok,p.desk]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
+  S.heftRecv=p.heft;S.deskRecv=Array.isArray(p.desk)?p.desk.filter(k=>typeof k==='string'&&SUBJECTS[k]):null;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
 function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
@@ -3481,7 +3521,7 @@ async function boardWin(u){let s=null,ok=false;
 // Folie anordnen: Elemente frei verschieben (Ziehen) und vergrößern (Ecke unten rechts), Maße in Prozent der Folie
 let SLU=null;
 function slElDel(){if(!V.sle||!V.sle.sel||V.sle.ed)return;const sl=slEdSlide(),k=V.sle.sel;if(!sl)return;SLU={i:V.sle.i,j:V.sle.j,sl:JSON.parse(JSON.stringify(sl))};
-  if(k==='t')sl.title='';else if(k==='b')sl.text='';else if(k==='e'){sl.elo='';sl.say=''}else if(k[0]==='i')(sl.imgs||[]).splice(+k.slice(1),1);else{SLU=null;return}
+  if(k==='t')sl.title='';else if(k==='b')sl.text='';else if(k==='e'){sl.elo='off';sl.say=''}else if(k[0]==='i')(sl.imgs||[]).splice(+k.slice(1),1);else{SLU=null;return}
   if(sl.pos&&k[0]!=='i')delete sl.pos[k];V.sle.sel=null;V.sle.crop=false;save();render();toast('Gelöscht. Strg+Z holt es zurück.')}
 function slUndo(){if(!SLU||!V.sle||String(SLU.i)!==String(V.sle.i)||SLU.j!==V.sle.j)return false;const sl=slEdSlide();if(!sl)return false;Object.keys(sl).forEach(x=>delete sl[x]);Object.assign(sl,SLU.sl);SLU=null;save();render();toast('Wiederhergestellt.');return true}
 document.addEventListener('keydown',e=>{if(V.name!=='lesson-edit'||!V.sle)return;const t=e.target;if(t&&(/INPUT|TEXTAREA|SELECT/.test(t.tagName)||t.isContentEditable))return;
@@ -3636,7 +3676,7 @@ async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.s
   const have=VOC[ck]||(sl.vo&&sl.voT===sl.say?sl.vo:''),key=(sl.sid||'')+ck;
   if(have&&VO.again!==key){Object.assign(VO,{st:'prev',id:have,txt:sl.say,sid:sl.sid||'',again:key,msg:'Das ist die vorhandene Aufnahme (kostet nichts). Eine neue Aufnahme kostet einen weiteren ElevenLabs-Aufruf.'});render();voPlay(have);return}
   const n=++VO.n;Object.assign(VO,{st:'busy',msg:'',id:'',txt:sl.say,sid:sl.sid||'',again:''});render();
-  const why=async r=>{const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zum Server. Bist du online? Falls ja: Die Funktion „elo-stimme“ ist vielleicht noch nicht deployt (siehe Anleitung ElevenLabs).';
+  const why=async r=>{const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zur Elo-Stimme. Bist du online? Falls ja: Die Funktion „elo-stimme“ muss (neu) auf den Server, siehe Anleitung ElevenLabs, Schritt 3.';
     if(st===404)return 'Die Funktion „elo-stimme“ ist noch nicht auf dem Server. Sie muss einmal deployt werden (siehe Anleitung ElevenLabs).';
     let o=r&&r.data;if(!o&&e&&e.context&&e.context.json)try{o=await e.context.json()}catch(x){}
     if(o&&o.err==='nokey')return 'Die Elo-Stimme ist noch nicht eingerichtet: Auf dem Server fehlt der ElevenLabs-Schlüssel (ELEVEN_KEY).';
@@ -3827,7 +3867,7 @@ async function libBlob(id){let b;try{b=await idb('blob','readonly',st=>st.get(id
   catch(e){if(lcMiss(e))LC.miss=true;LC.neg[id]=1;return undefined}}
 function libCloudLater(){clearTimeout(LC.t);LC.t=setTimeout(libCloudSync,1500)}
 async function libCloudSync(){if(!lcOk()||LC.busy)return;LC.busy=true;let ch=0;
-  try{const sb=await sbClient(),rows=await q(sb.from('teacher_lib').select('id,meta')),have=new Set(rows.map(r=>r.id));
+  try{const sb=await sbClient(),rows=(await q(sb.from('teacher_lib').select('id,meta'))).filter(r=>!/^sitz:/.test(r.id)),have=new Set(rows.map(r=>r.id));// sitz: = Sitzpläne, keine Bibliothek
     for(const r of rows)if(!libById(r.id)){await idb('meta','readwrite',st=>st.put({...r.meta,id:r.id,up:1}));ch=1}
     for(const m of LIB.items){if(have.has(m.id)){if(m.up!==1){m.up=1;await idb('meta','readwrite',st=>st.put(m))}continue}
       if(m.up===1){m.up=-1;await idb('meta','readwrite',st=>st.put(m));continue}// in der Cloud gelöscht: hier behalten, nicht wieder hochladen
@@ -4381,10 +4421,10 @@ function slTrOf(o,n){const a=o&&o.stage,b=n&&n.stage,t=b&&b.tool;if(!a||!t||t.id
   if(n.freeze||n.kfb||n.groups||n.wheel||n.media||n.game||(n.ready&&!n.ready.msg&&!n.ready.only)||(n.poll&&n.poll.show)||(n.goal&&n.goal.show))return null;
   const ta=a.tool||{};if(a.step===b.step&&a.sub===b.sub)return null;if(a.step===b.step&&ta.id==='slide'&&ta.j===t.j)return null;
   return {k:t.cur.tr,back:b.step<a.step||(b.step===a.step&&b.sub<a.sub)}}
-function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
+function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();const ek=c.eloOff||sl.elo==='off'?'':ELO_FIG[sl.elo]?sl.elo:'auto';// Elo ist auf jeder Folie, außer ausgeblendet (Folie oder ganze Stunde)
   const fx=fxOn(c.fx)?c.fx.k:'',ls=lines(sl.text),sh=sl.shown>=0?sl.shown:ls.length,P=sl.pos||{},E=c.edit,sel=E&&c.sel,
     ce=k=>E&&c.ed===k?' contenteditable="true" spellcheck="true"':'',rz=k=>E&&k&&c.ed===k?'':E?(k==='t'||k==='b'?`<i class="sl-rz sl-rz-r" data-rz="w" title="Breite ändern"></i><i class="sl-rz sl-rz-b" data-rz="h" title="Höhe ändern"></i>`:'')+`<i class="sl-rz" data-rz="${k==='t'||k==='b'?'wh':'w'}" title="Größe ändern"></i>`:'',ab=k=>P[k]?' sl-abs':'',on=k=>sel===k?' sl-sel':'',fs=k=>P[k]&&P[k].f&&P[k].f!==1?`font-size:${(k==='t'?3:1.6)*P[k].f}em;`:'';
-  const eloH=sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="${eloImg(fx==='snd'&&ELO_SND_FIG[c.fx.s]||sl.elo,c.subj)}" alt="Elo" draggable="false">${eloLidsS(fx==='snd'&&ELO_SND_FIG[c.fx.s]||sl.elo,c.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:'';
+  const eloH=ek?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="${eloImg(fx==='snd'&&ELO_SND_FIG[c.fx.s]||ek,c.subj)}" alt="Elo" draggable="false">${eloLidsS(fx==='snd'&&ELO_SND_FIG[c.fx.s]||ek,c.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:'';
   // Stundenfrage und Vermutung: gleiches ELIO-Design mit Hintergrund und Elo
   if(L==='frage'||L==='murmel'||L==='hypo'){const h=L==='hypo'?richTool({id:'hypo',text:sl.text},c):richTool({id:'question',q:sl.title,murmel:L==='murmel'},c),bg=bgAttr(sl.bg||'allgemein');
     const imgH=(sl.imgs||[]).map((m,n)=>slImgH(m,n,on('i'+n),E,c)).join(''),
@@ -4399,7 +4439,7 @@ function slideHTML(sl,c){c=c||{};const L=sl.layout||'std';fillBg();
     ${(sl.imgs||[]).map((m,n)=>slImgH(m,n,on('i'+n),E,c)).join('')}
     ${L!=='bild'&&(sl.title||E)?`<h1 class="sl-t${ab('t')}${on('t')}${sl.title?'':' sl-ph'}" data-ph="Überschrift" data-el="t" style="${slPos(P,'t')}${fs('t')}"${ce('t')}>${esc(sl.title)}${rz('t')}</h1>`:''}
     ${L!=='bild'&&(ls.length||E)?`<div class="sl-b${ab('b')}${on('b')}${ls.length?'':' sl-ph'}" data-ph="Text (doppelt tippen zum Schreiben)" data-el="b" style="${slPos(P,'b')}${fs('b')}"${ce('b')}>${ls.map((x,j)=>`<p class="${j>=sh?'sl-hid':j===sh-1&&sl.shown>0?'sl-new':''}">${esc(x)}</p>`).join('')}${rz('b')}</div>`:''}
-    ${sl.elo&&SL_ELO[sl.elo]?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="${eloImg(fx==='snd'&&ELO_SND_FIG[c.fx.s]||sl.elo,c.subj)}" alt="Elo" draggable="false">${eloLidsS(fx==='snd'&&ELO_SND_FIG[c.fx.s]||sl.elo,c.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
+    ${ek?`<div class="sl-elo ${fx?'fx-'+fx:''}${ab('e')}${on('e')}" data-el="e" style="${P.e?slPos(P,'e')+'right:auto;bottom:auto;':''}" ${c.mini||E?'':'data-act="elo-fx" data-k="wave"'}><img src="${eloImg(fx==='snd'&&ELO_SND_FIG[c.fx.s]||ek,c.subj)}" alt="Elo" draggable="false">${eloLidsS(fx==='snd'&&ELO_SND_FIG[c.fx.s]||ek,c.subj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}${(fx==='say'||fx==='hoot'||fx==='wave')&&sl.say?`<span class="sl-bub">${esc(sl.say)}</span>`:''}${rz()}</div>`:''}</div>`}
 /* ---------- Weltkugel für die Startfolie: dreht sich, markiert das Land der Stunde. Kartendaten: Natural Earth (gemeinfrei). ----------
    Jedes Kind, das „Bereit“ drückt, füllt den Ring um die Kugel. Sind alle bereit, dreht sie sich zum Land und zoomt hinein. */
 const GEO={d:null,p:null,raf:0};
@@ -4594,13 +4634,13 @@ async function bbUse(d){const r=BB.res;if(!r)return;const L=lessonById(V.id)||{}
   BB.res=null;BB.err='';save();render()}
 function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deckSlides(t),bgo=v=>Object.entries(SL_BG).map(([k,n])=>`<option value="${k}" ${k===v?'selected':''}>${n}</option>`).join('')+(LIB.ready?LIB.items.filter(m=>/^image\//.test(m.mime||'')).map(m=>`<option value="${m.id}" ${m.id===v?'selected':''}>🖼️ ${esc(m.name)}</option>`).join(''):''),f=(j,k)=>X?`ph.${String(i).slice(1)}.xs.${j}.${k}`:`ph.${i}.tool.slides.${j}.${k}`;
     const ED=V.sle&&String(V.sle.i)===String(i)?V.sle:null,free=()=>true;
-    const th=`<div class="sl-strip">${SL.map((sl,j)=>`<div class="sl-th ${ED&&ED.j===j?'on':''}"><button class="sl-th-b" data-act="sl-arr" data-i="${i}" data-j="${j}" title="Im Folien-Editor öffnen"><div class="sl-pv">${slideHTML(sl,{subj:L.subject,mini:1})}</div><span class="chip">Folie ${j+1}</span></button>
+    const th=`<div class="sl-strip">${SL.map((sl,j)=>`<div class="sl-th ${ED&&ED.j===j?'on':''}"><button class="sl-th-b" data-act="sl-arr" data-i="${i}" data-j="${j}" title="Im Folien-Editor öffnen"><div class="sl-pv">${slideHTML(sl,{subj:L.subject,mini:1,eloOff:!!L.eloOff})}</div><span class="chip">Folie ${j+1}</span></button>
       <div class="sl-th-a"><button data-act="sl-mv" data-i="${i}" data-j="${j}" data-d="-1" ${j?'':'disabled'} title="Nach vorne" aria-label="Folie ${j+1} nach vorne">←</button><button data-act="sl-mv" data-i="${i}" data-j="${j}" data-d="1" ${j<SL.length-1?'':'disabled'} title="Nach hinten" aria-label="Folie ${j+1} nach hinten">→</button><button data-act="sl-dup" data-i="${i}" data-j="${j}" title="Kopieren" aria-label="Folie ${j+1} kopieren">⧉</button>${SL.length>1||X&&(L.phases[+String(i).slice(1)]||{}).tool?`<button data-act="sl-del" data-i="${i}" data-j="${j}" title="Löschen" aria-label="Folie ${j+1} löschen">✕</button>`:''}</div></div>`).join('')}
       <button class="sl-th-add" data-act="${X&&!SL.length?'ph-xs':'sl-add'}" data-i="${X&&!SL.length?String(i).slice(1):i}" title="Folie hinzufügen"><b>＋</b><small>Folie</small></button><input type="file" id="sl-file" accept="image/*" hidden></div>`;
     if(!ED||!SL[ED.j])return th;const j=ED.j,sl=SL[j],pi=X?+String(i).slice(1):+i,ph=L.phases[pi]||{},txt=ED.sel==='t'||ED.sel==='b',img=ED.sel&&ED.sel[0]==='i',Q=txt?(sl.pos||{})[ED.sel]||{}:{},al=Q.a||'',dis=txt&&!ED.ed?'':'disabled',bg=sl.bg||'allgemein';
     const hint=ED.ed?'Schreib direkt in die Folie. Tipp daneben, wenn du fertig bist.':ED.crop?'Zieh an den Griffen, um vom Bild etwas wegzuschneiden.':img?'Ziehen zum Verschieben. Die Griffe ändern die Größe. Entf löscht.':ED.sel?'Ziehen zum Verschieben. Doppelt tippen zum Schreiben. Entf löscht.':ED.zo?'Zieh Teile an den Rand, um sie zu parken.':'Tippe ein Feld auf der Folie an. Doppelt tippen = schreiben.';
     const mk=img?(((sl.imgs||[])[+ED.sel.slice(1)]||{}).t==='a'?'Audio':((sl.imgs||[])[+ED.sel.slice(1)]||{}).t==='v'?'Video':'Bild'):'',mi=img?(sl.imgs||[])[+ED.sel.slice(1)]||{}:{},tab=ED.tab||'folie';
-    return th+`<div class="sl-eds"><div class="sl-ed sl-ed-big sl-ed2"><div class="sl-stage"><div class="sl-pb ${ED.zo?'zo':''}"><div class="sl-big" data-i="${i}" data-j="${j}">${slideHTML({...sl,shown:-1},{subj:L.subject,edit:1,sel:ED.sel,ed:ED.ed,crop:ED.crop})}</div></div><p class="sl-hint sl-foot">${hint}</p>${BB.open&&bbAdmin()?bbPanel(i,j):''}</div>
+    return th+`<div class="sl-eds"><div class="sl-ed sl-ed-big sl-ed2"><div class="sl-stage"><div class="sl-pb ${ED.zo?'zo':''}"><div class="sl-big" data-i="${i}" data-j="${j}">${slideHTML({...sl,shown:-1},{subj:L.subject,eloOff:!!L.eloOff,edit:1,sel:ED.sel,ed:ED.ed,crop:ED.crop})}</div></div><p class="sl-hint sl-foot">${hint}</p>${BB.open&&bbAdmin()?bbPanel(i,j):''}</div>
       <aside class="sl-side"><div class="sl-side-h"><b>Folie ${j+1}</b><button class="btn sm pri" data-act="sl-done">✓ Fertig</button></div>
       ${ED.sel?`<div class="sl-sec sl-selp"><div class="sl-selh"><span class="sl-st">${ED.sel==='t'?'Überschrift':ED.sel==='b'?'Text':ED.sel==='e'?'Elo':img?mk:'Auswahl'}</span><button class="btn sm" data-act="sl-desel" title="Auswahl aufheben">Fertig</button></div>
         ${txt?`<div class="sl-line"><button class="btn sm" data-act="sl-ed-txt" data-k="${ED.sel||''}" ${dis}>Schreiben</button><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="-1" ${dis} aria-label="Text kleiner">A−</button><b class="sl-pc">${txt?Math.round((Q.f||1)*100)+' %':'–'}</b><button class="btn sm" data-act="sl-fs" data-i="${i}" data-j="${j}" data-d="1" ${dis} aria-label="Text größer">A+</button>${[['l','⬅︎','Links'],['c','↔︎','Zentriert'],['r','➡︎','Rechts']].map(([a,ic,n])=>`<button class="btn sm ${txt&&al===a?'on':''}" data-act="sl-al" data-i="${i}" data-j="${j}" data-a="${a}" ${dis} title="${n}" aria-label="${n} ausrichten">${ic}</button>`).join('')}</div>${ED.sel&&!img&&(sl.pos||{})[ED.sel]?`<button class="btn sm" data-act="sl-reset" data-i="${i}" data-j="${j}">↺ Standardplatz</button>`:''}`:''}
@@ -4609,14 +4649,14 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
         ${['t','b','e'].includes(ED.sel)||img?`<button class="btn sm red sl-delb" data-act="sl-el-del">Löschen<kbd>Entf</kbd></button>`:''}</div>`:''}
       <div class="sl-tabs" role="tablist">${[['folie','Folie'],['einf','Einfügen'],['elo','Elo'],['ueb','Übergang']].map(([k,n])=>`<button role="tab" class="${tab===k?'on':''}" aria-selected="${tab===k}" data-act="sl-tab" data-v="${k}">${n}</button>`).join('')}</div>
       <div class="sl-sec sl-set2">
-      ${tab==='einf'?`<div class="sl-ins"><button class="sl-tile" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">${SL_ICO.bild}Bild</button><button class="sl-tile" data-act="sl-upm" data-i="${i}" data-j="${j}">${SL_ICO.ton}Audio, Video</button><button class="sl-tile" data-act="sl-elo-add" data-i="${i}" data-j="${j}" ${sl.elo?'disabled':''}>${SL_ICO.elo}Elo</button>${bbAdmin()?`<button class="sl-tile ${BB.open?'on':''}" data-act="bb-open">${SL_ICO.bb}Blackbox</button>`:''}</div><input type="file" id="sl-mfile" accept="audio/*,video/*,.mp3,.m4a,.wav,.mp4,.mov" hidden>`:''}
+      ${tab==='einf'?`<div class="sl-ins"><button class="sl-tile" data-act="sl-up" data-i="${i}" data-j="${j}" data-m="img">${SL_ICO.bild}Bild</button><button class="sl-tile" data-act="sl-upm" data-i="${i}" data-j="${j}">${SL_ICO.ton}Audio, Video</button><button class="sl-tile" data-act="sl-elo-add" data-i="${i}" data-j="${j}" ${sl.elo!=='off'?'disabled':''}>${SL_ICO.elo}Elo</button>${bbAdmin()?`<button class="sl-tile ${BB.open?'on':''}" data-act="bb-open">${SL_ICO.bb}Blackbox</button>`:''}</div><input type="file" id="sl-mfile" accept="audio/*,video/*,.mp3,.m4a,.wav,.mp4,.mov" hidden>`:''}
       ${tab==='folie'?`
         <div class="sl-row"><span class="sl-gl">Art</span><span class="sl-v">${Object.entries(SL_LAY).map(([k,n])=>`<button class="pill ${k===(sl.layout||'std')?'on':''}" data-act="sl-lay" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}</span></div>
         <label class="sl-row"><span class="sl-gl">Anweisung an die SuS</span><span class="sl-v"><input type="text" data-f="ph.${pi}.txt" value="${esc(ph.txt||'')}" placeholder="Steht an der Tafel und auf den iPads"></span></label>
         <div class="sl-row"><span class="sl-gl">Hintergrund</span><span class="sl-v"><span class="chip">${esc(bgName(bg))}</span><button class="btn sm" data-act="sl-up" data-i="${i}" data-j="${j}">Eigenes Bild</button>${bg!=='allgemein'?`<button class="btn sm" data-act="sl-bg0" data-i="${i}" data-j="${j}">↺ ELIO allgemein</button>`:''}</span></div>
         ${['bild','frage','murmel','hypo'].includes(sl.layout)?'':`<div class="sl-row"><span class="sl-gl">Einblenden</span><span class="sl-v">${swH(f(j,'steps'),sl.steps,'Zeilen einzeln einblenden','Bei jedem Klick an der Tafel kommt eine Zeile dazu.')}</span></div>`}
       `:''}
-      ${tab==='elo'?`<div class="sl-row"><span class="sl-gl">Figur</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo?`</span></div><div class="sl-row"><span class="sl-gl">Elo sagt</span><span class="sl-v"><input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="width:100%"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></span></div>
+      ${tab==='elo'?`<div class="sl-row"><span class="sl-gl">Figur</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo!=='off'?`</span></div><div class="sl-row"><span class="sl-gl">Elo sagt</span><span class="sl-v"><input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="width:100%"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></span></div>
         <div class="sl-row"><span class="sl-v">${eloVoKey(sl.say)?'<span class="chip">Elo spricht diesen Satz mit seiner Stimme</span>':swH(f(j,'speak'),sl.speak,'Elo spricht den Satz','Beim Antippen von Elo an der Tafel')}</span></div>
         ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()&&VO.st!=='prev'?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}" ${VO.st==='busy'?'disabled':''}>${VO.st==='busy'?'⏳ Elo spricht ein …':sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>${VO.st==='busy'&&VO.sid===(sl.sid||'')?'<button class="btn sm" data-act="vo-stop">Abbrechen</button>':''}`:''}</div>
         ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button>${VO.again?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">Neu aufnehmen (kostet)</button>`:''}</div>${VO.msg?`<small class="sl-hint">${esc(VO.msg)}</small>`:''}`:''}${VO.st==='err'&&VO.sid===(sl.sid||'')?`<p class="err" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
@@ -5343,7 +5383,7 @@ function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){G.data=akMix(G.
     const k=G.sk||0;if(G.seq&&k<G.seq.length-1){const at=G.at;setTimeout(()=>{if(!AK.G||AK.G.at!==at||(AK.G.sk||0)!==k)return;AK.G={...G.seq[k+1],at,seq:G.seq,sk:k+1};AK.G.data=akMix(AK.G.g,AK.G.data);AK.st=AKT[AK.G.g].init(AK.G.data);SND.change&&SND.change();render();window.scrollTo(0,0)},1800)}else liveWin(G.at)}render()}
 
 /* --- Lehrer-Stundenplan --- */
-function ttDefault(){const t={};WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c:'7bG'}}));return t}
+function ttDefault(){const t={},c=S.clsName||'';WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c}}));return t}
 if(!TD.tt){TD.tt=ttDefault();TD.ttEx=true}
 TD.plan=TD.plan||{};
 // Einzelstunden (Vertretung, Zusatzstunde): gelten nur an einem Datum, liegen nur bei der Lehrkraft und überleben den Abgleich mit dem Klassen-Stundenplan
@@ -5387,7 +5427,7 @@ function tpCell(d,i,date){
       <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);return}
   if(V.ttEdit||!sl){
     showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${DAYS[d]} · ${i+1}. Stunde · jede Woche</span><h2>Fach und Klasse</h2>
-      <label class="label" style="display:block;margin-top:10px">Klasse<input id="tt-c" type="text" value="${esc(sl?sl.c:'7bG')}"></label>
+      <label class="label" style="display:block;margin-top:10px">Klasse<input id="tt-c" type="text" value="${esc(sl?sl.c:(((Cloud.myClasses||[]).find(x=>x.id===S.cls)||{}).name||S.clsName||''))}"></label>
       <div class="cats" style="margin-top:10px">${Object.entries(SUBJECTS).map(([k,v])=>`<button class="${sl&&sl.s===k?'on':''}" data-act="tt-set" data-d="${d}" data-i="${i}" data-s="${k}">${v.name}</button>`).join('')}
         <button data-act="tt-set" data-d="${d}" data-i="${i}" data-s="">frei</button></div>
       <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Schließen</button></div></div>`);return}
@@ -6203,7 +6243,7 @@ VIEWS['kl-cards']=()=>{
     <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
-const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
+const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false&&deskOn(e.s)).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
 const HEFT_V=7;
@@ -6246,7 +6286,7 @@ const CC={t:0,at:0,sig:'',miss:false,rq:0,want:''};
 function ccWant(cs){if(Date.now()-CC.rq<15000)return;CC.rq=Date.now();CC.want=cs;ccPull(true)}
 const ccOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&!CC.miss;
 function ccPush(){if(S.role!=='teacher'||!CS||!ccOk())return;clearTimeout(CC.t);CC.t=setTimeout(async()=>{try{const k=myCk(S.code);if(!k)return;
-    const snap={heft:CS.heft,vok:CS.vok,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,games:CS.games,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
+    const snap={heft:CS.heft,vok:CS.vok,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,games:CS.games,desk:CS.desk,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
     const body=await ckSeal(k,{t:'content',p:snap}),sb=await sbClient();await q(sb.from('class_content').upsert({class_id:S.cls,body,updated_at:new Date().toISOString()}));CC.sig=sg}
   catch(e){if(mbMissing(e))CC.miss=true;else console.warn('ccPush',e)}},2000)}
 // Datensparen: Ist das iPad live mit der Tafel verbunden und auf dem gleichen Stand (cs), entfällt das Nachladen.
@@ -6565,16 +6605,25 @@ function spGen(lay,n){n=Math.max(1,Math.min(40,n||24));let c,g=[];const S_=1,G_=
 function spKey(){return (V&&V.name==='sitzplan'&&V.cid)||S.cls||'-'}
 function spN(){if(V&&V.name==='sitzplan'&&V.cid&&V.cid!==S.cls){const c=((typeof Cloud!=='undefined'&&Cloud.myClasses)||[]).find(x=>x.id===V.cid);return (c&&c.size)||24}return S.classSize||24}
 function spOf(key){return ((TD.sp||{})[key||spKey()])||null}
-function spSet(P){TD.sp=TD.sp||{};TD.sp[spKey()]=P;tsave()}
+function spSet(P){const k=spKey();P.at=Date.now();TD.sp=TD.sp||{};TD.sp[k]=P;tsave();spCloudUp(k)}
+// Sitzplan zusätzlich im eigenen Konto (Tabelle teacher_lib, Zeile „sitz:<Klasse>“, nur die Lehrkraft selbst kommt dran):
+// so ist der Plan jeder Klasse auf jedem Gerät da. Der neuere Stand gewinnt. Ohne Cloud bleibt er nur auf dem Gerät.
+const SPC={t:{},got:{}},spOk=P=>P&&Array.isArray(P.g)&&P.g.length<=196&&P.g.every(x=>x===null||(Number.isInteger(x)&&x>=0&&x<=40))&&Number.isInteger(P.c)&&P.c>=1&&P.c<=14;
+function spCloudUp(cid){if(!lcOk()||!cid||cid==='-')return;clearTimeout(SPC.t[cid]);SPC.t[cid]=setTimeout(async()=>{try{const sb=await sbClient(),P=(TD.sp||{})[cid],id='sitz:'+cid;
+  if(P)await q(sb.from('teacher_lib').upsert({owner:Cloud.user.id,id,meta:{kind:'sitz',plan:P},updated_at:new Date().toISOString()}));else await q(sb.from('teacher_lib').delete().eq('owner',Cloud.user.id).eq('id',id))}catch(e){if(lcMiss(e))LC.miss=true;else console.warn('Sitzplan',e)}},1200)}
+async function spCloudGet(cid){if(!lcOk()||!cid||cid==='-'||SPC.got[cid])return;SPC.got[cid]=1;
+  try{const sb=await sbClient(),r=await q(sb.from('teacher_lib').select('meta').eq('owner',Cloud.user.id).eq('id','sitz:'+cid).limit(1)),P=r[0]&&r[0].meta&&r[0].meta.plan,L=(TD.sp||{})[cid];
+    if(spOk(P)&&(!L||(+P.at||0)>(+L.at||0))){TD.sp=TD.sp||{};TD.sp[cid]={lay:SP_LAY[P.lay]?P.lay:'frei',c:P.c,g:P.g,at:+P.at||0};tsave();if(V.name==='sitzplan')render();else if(V.name==='tafel')updTafel()}
+    else if(L&&!P)spCloudUp(cid)}catch(e){SPC.got[cid]=0;if(lcMiss(e))LC.miss=true}}
 function spThin(P,i){const r=Math.floor(i/P.c);return P.g.slice(r*P.c,r*P.c+P.c).every(x=>x===null)}
 function spUnplaced(P,n){const has=new Set(P.g.filter(x=>x>0));return Array.from({length:n},(_,i)=>i+1).filter(k=>!has.has(k))}
 var SPE={sel:null,mode:'swap'};var SPU=null;// Umsetzen in der Steuerung: null = aus, 0 = an, {k,i} = Kind gewählt
-VIEWS.sitzplan=()=>{const n=spN(),P=spOf(),cid=spKey(),other=cid!==(S.cls||'-'),cn=other?(((Cloud.myClasses||[]).find(x=>x.id===cid)||{}).name||''):className();
+VIEWS.sitzplan=()=>{const n=spN(),P=spOf(),cid=spKey(),other=cid!==(S.cls||'-'),cn=other?(((Cloud.myClasses||[]).find(x=>x.id===cid)||{}).name||''):className();spCloudGet(cid);
   if(CLOUD&&Cloud.sb&&cid!=='-'&&(ZG.cid!==cid||ZG.list==null)&&!ZG.busy){ZG.list=ZG.list||[];ZG.cid=cid;zgLoad(cid)}
   const ku=k=>((TD.unames||{})[cid]||{})[k]||'',lbl=k=>other?`<small>${esc(ku(k)||'Nr. '+k)}</small>`:`${avOf(k)}<small>${esc(nickOf(k)||kurzOf(k)||'Nr. '+k)}</small>`,un=P?spUnplaced(P,n):[];
   return `<div class="st-head"><button class="btn sm" data-act="sp-back">← Zurück</button><h1 style="font-size:1.6rem">Sitzplan · ${esc(cn)}</h1></div>
   <section class="panel"><span class="label">Sitzordnung wählen</span><div class="row" style="margin-top:8px">${Object.entries(SP_LAY).filter(([k])=>k!=='frei').map(([k,v])=>`<button class="pill ${P&&P.lay===k?'on':''}" data-act="sp-gen" data-v="${k}">${v}</button>`).join('')}</div>
-    <p class="muted" style="font-weight:700;margin-top:8px">${P?'Eine neue Vorlage ersetzt den jetzigen Plan.':'Wähle eine Vorlage. Danach kannst du alles anpassen.'} Die Tafel ist oben. Gespeichert werden nur die Nummern, verschlüsselt auf diesem Gerät.</p></section>
+    <p class="muted" style="font-weight:700;margin-top:8px">${P?'Eine neue Vorlage ersetzt den jetzigen Plan.':'Wähle eine Vorlage. Danach kannst du alles anpassen.'} Die Tafel ist oben. Jede Klasse hat ihren eigenen Plan. Gespeichert werden nur die Nummern, verschlüsselt auf diesem Gerät${lcOk()?' und privat in deinem Konto, damit der Plan auch auf deinen anderen Geräten da ist':''}.</p></section>
   ${P?`<section class="panel" style="margin-top:12px"><div class="row" style="justify-content:space-between"><span class="label">${esc(SP_LAY[P.lay]||'Frei')} · ${P.g.filter(x=>x!==null).length} Plätze für ${n} SuS</span>
       <div class="row"><button class="btn sm ${SPE.mode==='swap'?'on':''}" data-act="sp-mode" data-v="swap">Kinder tauschen</button><button class="btn sm ${SPE.mode==='desk'?'on':''}" data-act="sp-mode" data-v="desk">Tische setzen</button><button class="btn sm" data-act="sp-shuffle">Zufällig mischen</button><button class="btn sm" data-act="sp-sort">Nach Nummer</button></div></div>
     <p class="sl-hint">${SPE.mode==='desk'?'Tippe auf eine Stelle, um dort einen Tisch hinzustellen oder wegzunehmen.':SPE.sel!=null?'Jetzt den zweiten Platz antippen. Die beiden tauschen.':'Tippe zwei Plätze nacheinander an, dann tauschen sie.'}</p>
@@ -6789,9 +6838,9 @@ function modChs(k){if(S.role==='teacher'){const es=tHeft(k).filter(e=>e.ch).sort
     return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>e.pub!==false).length;return {ch,n:x.length,p:n,on:n>0,all:n===x.length}})}
   if(Array.isArray(S.modsRecv))return S.modsRecv.filter(m=>m.s===k);
   return [...new Set(heftAll(k).filter(e=>e.ch).sort(heftSort).map(e=>e.ch))].map(ch=>({ch,on:true}))}
-function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch).map(e=>e.s))];CS.mods=[];CS.modx={};
+function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch&&deskOn(e.s)).map(e=>e.s))];CS.mods=[];CS.modx={};CS.desk=deskList();
   ks.forEach(k=>modChs(k).forEach(m=>{CS.mods.push({s:k,ch:m.ch,on:m.on,n:m.n});if(m.on&&TD.modx&&TD.modx[m.ch])CS.modx[m.ch]=TD.modx[m.ch]}));
-  CS.hw=(TD.hw||[]).filter(h=>h.cls===S.cls);CS.auf=(TD.auf||[]).filter(a=>a.cls===S.cls);CS.ann=(TD.ann||[]).filter(a=>a.cls===S.cls&&a.until>=todayISO());CS.games=gamesOn()}
+  CS.hw=(TD.hw||[]).filter(h=>h.cls===S.cls&&deskOn(h.s));CS.auf=(TD.auf||[]).filter(a=>a.cls===S.cls&&(!a.s||deskOn(a.s)));CS.ann=(TD.ann||[]).filter(a=>a.cls===S.cls&&a.until>=todayISO());CS.games=gamesOn()}
 function modEntries(k,ch){return (S.role==='teacher'?tHeft(k).map(e=>({...e,blocks:heftBlocks(e.text)})):heftAll(k)).filter(e=>e.ch===ch).sort(heftSort)}
 const modX=ch=>(S.role==='teacher'?(TD.modx||{}):(S.modxRecv||{}))[ch]||{tipps:[],fleiss:[]};
 // Lernlandschaft: Inselkarte über den Modulen, Elo steht auf dem ersten noch offenen Modul
@@ -6912,16 +6961,23 @@ document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')
 VIEWS.tdesk=()=>{const ks=[...new Set([...Object.keys(PLANS),...tHeft().map(e=>e.s)])].filter(k=>SUBJECTS[k]);
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
   <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
-    return `<button class="folder s-${k}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
+    return `<button class="folder s-${k}${deskOn(k)?'':' f-off'}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}<small class="f-vis">${deskOn(k)?'👁 Für diese Klasse sichtbar':'🚫 Für diese Klasse ausgeblendet'}</small></span></button>`}).join('')}
     <button class="folder" data-act="theft"><span class="tab"></span><span class="fbody"><b>+ Neuer Eintrag</b><small>Hefteintrag für ein Fach schreiben</small></span></button></div>`};
 VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
+  ${deskVisHTML(k)}
   <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='DZ'?'Lernlandschaft':'Jahresplan'} laden</button></div></section>`:''}
   ${k==='E'?vokTeach():''}${k==='K'?skzTeach():''}
   <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
   <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
+// Freigabe des Ordners pro Klasse: aktive Klasse groß, die anderen eigenen Klassen als Schalter daneben
+function deskVisHTML(k){const M=(CLOUD&&Cloud.myClasses||[]).filter(c=>c.id!==S.cls),on=deskOn(k),cn=className();
+  return `<section class="panel desk-vis"><span class="label">Ordner „${esc(SUBJECTS[k].name)}“ bei den SuS</span>
+    <div class="row" style="margin-top:8px"><button class="btn ${on?'ok':''}" data-act="desk-vis" data-s="${k}" aria-pressed="${on}">${on?'👁 Sichtbar für '+esc(cn):'🚫 Ausgeblendet für '+esc(cn)}</button><span class="muted" style="font-weight:700">${on?'Tippen blendet den Ordner bei dieser Klasse aus.':'Die SuS dieser Klasse sehen den Ordner und seine Einträge nicht.'}</span></div>
+    ${M.length?`<div class="row" style="margin-top:10px;gap:6px"><span class="sl-gl">Andere Klassen</span>${M.map(c=>{const o=deskOn(k,c.id);return `<button class="pill ${o?'on':''}" data-act="desk-vis" data-s="${k}" data-c="${esc(c.id)}" aria-pressed="${o}">${o?'👁':'🚫'} ${esc(c.name)}</button>`}).join('')}</div>
+    <p class="muted" style="font-size:.85rem;font-weight:700;margin-top:6px">Bei einer anderen Klasse gilt die Änderung, sobald du dort die Steuerung öffnest. Inhalte gehören immer zu einer Klasse: Was du hier in ${esc(cn)} anlegst, sehen andere Klassen nie.</p>`:''}</section>`}
 function heftPublish(e){TD.heft=TD.heft||[];const i=TD.heft.findIndex(x=>x.id===e.id);if(i>=0)TD.heft[i]={...TD.heft[i],...e};else TD.heft.push({cls:S.cls,date:todayISO(),...e});tsave();if(CS)pushCS()}
 const HEFT_HELP='# Überschrift\n- Aufzählung\nMerke: wichtiger Satz\n| Spalte | Spalte |\n[Foto: …] kommt über „Bild einfügen“';
 VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice().reverse(),k=V.hs||curSubj()||'M';
@@ -7208,6 +7264,7 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
     <label>Fach<select data-f="subject">${opt(Object.fromEntries(Object.entries(SUBJECTS).map(([k,v])=>[k,v.name])),L.subject)}</select></label>
     <label style="grid-column:span 2">Mission (Stundenziel, „I can …“)<input type="text" data-f="mission" value="${esc(L.mission||'')}"></label>
     <label>Sequenz<input type="text" data-f="lpseq" value="${esc(L.lpseq||'')}" placeholder="z. B. Terme, Stunde 3 von 8"></label>
+    <label style="grid-column:1/-1;flex-direction:row;display:flex;gap:10px;align-items:center;font-weight:800"><input type="checkbox" data-f="eloOff" ${L.eloOff?'checked':''} style="width:22px;height:22px"> Elo in dieser Stunde auf keiner Folie zeigen <span class="muted" style="font-weight:700">(sonst ist Elo überall da, als ${esc((ELO_FIG[eloV('auto',L.subject)]||{}).name||'Elo')}; einzelne Folien blendest du im Reiter „Elo“ aus)</span></label>
     ${CLOUD&&Cloud.prof?`<label style="grid-column:1/-1;flex-direction:row;display:flex;gap:10px;align-items:center;font-weight:800"><input type="checkbox" data-f="shared" ${L.shared?'checked':''} style="width:22px;height:22px" ${L.owner&&Cloud.user&&L.owner!==Cloud.user.id?'disabled':''}> Mit den Lehrkräften dieser Klasse teilen</label>`:''}
   </div>
     <details class="art-d" ${V.artOpen?'open':''}><summary>📄 Für die Artikulation (Word-Export)</summary>${(()=>{const D=artData(L),ta=(f,l,v,ph,r)=>`<label style="grid-column:1/-1">${l}<textarea data-f="${f}" rows="${r||3}" placeholder="${esc(ph)}">${esc(v||'')}</textarea></label>`;
@@ -7245,7 +7302,7 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 // Werkzeug an eine andere Folie hängen (t.after = sid). Ändert nur die Reihenfolge, nichts wird überschrieben.
 document.addEventListener('change',e=>{const i=e.target.dataset&&e.target.dataset.tafter;if(i==null||V.name!=='lesson-edit')return;const L=lessonById(V.id),p=L&&L.phases[+i];if(!p||!p.tool)return;
   const v=e.target.value;if(v&&(p.xs||[]).some(sl=>sl&&sl.sid===v))p.tool.after=v;else delete p.tool.after;phTl(p);save();render()});
@@ -7386,7 +7443,7 @@ document.addEventListener('click',e=>{
     case 'sl-desel':if(V.sle){V.sle.sel=null;V.sle.crop=false;V.sle.ed=null;render()}break;
     case 'sl-zo':if(V.sle){V.sle.zo=!V.sle.zo;render()}break;
     case 'sl-el-del':slElDel();break;
-    case 'sl-elo-add':{const sl=slEdSlide(d);if(sl&&!sl.elo){sl.elo='fleiss';save();V.sle.sel='e';V.sle.tab='elo';render()}break}
+    case 'sl-elo-add':{const sl=slEdSlide(d);if(sl&&sl.elo==='off'){sl.elo='';save();V.sle.sel='e';V.sle.tab='elo';render()}break}
     case 'sl-bgrm':slBgRemove(d);break;
     case 'sl-bgback':{const sl=slEdSlide(d);if(!sl||!V.sle||!V.sle.sel||V.sle.sel[0]!=='i')break;const m=(sl.imgs||[])[+V.sle.sel.slice(1)];if(m&&m.orig){m.id=m.orig;delete m.orig;save();render()}break}
     case 'sl-vo-play':{const sl=slEdSlide(d),L=lessonById(V.id);if(sl)eloSay({...sl,speak:true},L&&L.subject);break}
@@ -7403,7 +7460,7 @@ document.addEventListener('click',e=>{
     case 'sl-lay':{const sl=slEdSlide(d);if(sl){sl.layout=d.v;save();render()}break}
     case 'sl-tr':{const sl=slEdSlide(d);if(sl){if(d.v)sl.tr=d.v;else delete sl.tr;save();render();if(d.v)setTimeout(()=>{const x=document.querySelector('[data-act="sl-trp"]');x&&x.click()},60)}break}
     case 'sl-trp':{const L=lessonById(V.id),t=phT(L,d.i),A=t?deckSlides(t):[],j=+d.j,sl=A[j],box=document.querySelector('.sl-big');if(!sl||!box||box.classList.contains('sl-play'))break;
-      const pv=A[j-1],sj=x=>slideHTML({...x,shown:-1},{subj:L.subject,mini:1});box.classList.add('sl-play');
+      const pv=A[j-1],sj=x=>slideHTML({...x,shown:-1},{subj:L.subject,mini:1,eloOff:!!L.eloOff});box.classList.add('sl-play');
       box.innerHTML=pv?sj(pv):'<div class="rt rt-sl sl-white"></div>';setTimeout(()=>slTrans(sl.tr,()=>{box.innerHTML=sj(sl)},box),450);setTimeout(()=>{box.classList.remove('sl-play');if(V.name==='lesson-edit')render()},2300);break}
     case 'st-boerse':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='boerse';save();render();break}
     case 'st-atelier':{const L=lessonById(V.id),t=phT(L,d.i);if(!t)break;t.bg='atelier';save();render();break}
@@ -7439,7 +7496,7 @@ document.addEventListener('click',e=>{
     case 'au-play':audPlay(d.id);break;
     case 'au-cat':AUD.cat=d.c;render();break;
     case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
-    case 'l-stop':if(KF)kfbStop(true);audStop();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=true;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'l-stop':if(KF)kfbStop(true);audStop();skzOff();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=true;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'tpl-save':{const L=lessonById(V.id);if(!L)break;S.tpls=S.tpls||{};S.tpls[L.subject]=clone(L.phases).map(p=>{if(p.tool&&p.tool.id==='cover')p.tool.title='';if(p.tool&&p.tool.id==='heftlink')p.tool.eid='';return p});save();V.tplMsg='Gespeichert. Jede neue '+SUBJECTS[L.subject].name+'-Stunde startet jetzt mit diesen '+L.phases.length+' Phasen.';render();break}
     case 'tpl-reset':{const L=lessonById(V.id);if(!L||!S.tpls)break;delete S.tpls[L.subject];save();V.tplMsg='Neue '+SUBJECTS[L.subject].name+'-Stunden starten wieder mit dem Standard-Gerüst.';render();break}
     case 'ph-ins':{const L=lessonById(V.id);if(!L)break;const j=+d.i;L.phases.splice(j,0,{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});phAuto(L,j);save();render();setTimeout(()=>{const c=document.querySelectorAll('.lcard')[j];c&&c.scrollIntoView({block:'center'});const n=c&&c.querySelector('[data-f$=".name"]');n&&n.select()},0);break}
@@ -7486,6 +7543,7 @@ document.addEventListener('click',e=>{
       if(d.act==='av-set')V.av=cleanAv(d.v);const w0=avParse(V.av).w;if(d.act==='av-kind'){V.av=avWith(avRandom(d.k),w0);V.avCat=0}if(d.act==='av-cat')V.avCat=+d.i;if(d.act==='av-rnd')V.av=avWith(avRandom(avParse(V.av)[0]),w0);render();break}
     case 'av-hi':{const f=$('#'+d.f),n=cleanNick(f&&f.value)||'dein Avatar';avSay('Hallo! Ich bin '+n+'.',V.av);break}
     case 'desk':go('desk');break;
+    case 'ui-snd':{UIS.set(!UIS.on());const m=$('#umenu');if(m)m.innerHTML=umenuHTML();break}
     case 'umenu':{const m=$('#umenu');if(!S.role){go('role',{step:'splash'});break}if(!m.hidden){m.hidden=true;break}m.innerHTML=umenuHTML();const lg=$('.top .logo');m.style.top=(lg.offsetTop+lg.offsetHeight+6)+'px';m.hidden=false;break}
     case 'acct-login':acctLogin($('#a-u').value,$('#a-p').value);break;
     case 'zug':ZG.list=null;go('zug',{cid:d.id});break;
@@ -7523,8 +7581,11 @@ document.addEventListener('click',e=>{
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
+    case 'desk-vis':{if(!SUBJECTS[d.s])break;const c=d.c||S.cls||'-';TD.deskV=TD.deskV||{};(TD.deskV[c]=TD.deskV[c]||{})[d.s]=!deskOn(d.s,c);tsave();if(c===(S.cls||'-')&&CS)pushCS();render();break}
     case 'skizze':go('skizze',{from:V.name==='subject'?'desk':V.name==='tsubj'?'tdesk':V.name});break;
     case 'skzT':go('skzT',{from:d.from||(V.name==='tafel'?'tafel':'tdesk')});break;
+    case 'skz-end':skzEndOv();break;
+    case 'skz-end-ok':skzEnd(!!($('#skz-del-img')&&$('#skz-del-img').checked));break;
     case 'skz-werk':if(CS&&CS.skz){CS.skz.werk=!CS.skz.werk;pushCS();if(V.name==='tafel')updTafel();else render()}break;
     case 'skz-task':V.task=d.t||'';render();break;
     case 'skz-big':V.big=d.key||null;if(V.big)skzSeen(V.big);render();break;
@@ -7583,7 +7644,7 @@ document.addEventListener('click',e=>{
     case 'sp-sort':{const P=spOf();if(!P)break;let k=1;const n=spN();P.g=P.g.map(x=>x===null?null:(k<=n?k++:0));SPE.sel=null;spSet(P);render();break}
     case 'sp-row':spResize(+d.d,0);break;
     case 'sp-col':spResize(0,+d.d);break;
-    case 'sp-del':if(confirm('Sitzplan für diese Klasse löschen?')){delete (TD.sp||{})[spKey()];tsave();render()}break;
+    case 'sp-del':if(confirm('Sitzplan für diese Klasse löschen?')){const k=spKey();delete (TD.sp||{})[k];tsave();spCloudUp(k);render()}break;
     case 'todo-tog':{const x=(TD.todo||[]).find(y=>y.id===d.id);if(x){x.done=!x.done;tsave();render()}break}
     case 'todo-del':TD.todo=(TD.todo||[]).filter(y=>y.id!==d.id);tsave();render();break;
     case 'todo-clr':TD.todo=(TD.todo||[]).filter(y=>!y.done);tsave();render();break;
@@ -7748,7 +7809,7 @@ document.addEventListener('click',e=>{
     case 'tp-cp':tpCopyOv(d.k);break;
     case 'tp-cp-go':tpCopyGo(d.k,d.t);$('#ov').hidden=true;V.msg='Kopiert.';render();break;
     case 'tp-cell':tpCell(+d.d,+d.i,d.date);break;
-    case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12)||'7bG';if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];if(CLOUD&&Cloud.prof){TD.ttOwn=TD.ttOwn||{};TD.ttOwn[d.d+'-'+d.i]={s:d.s||'',c:d.s?c:''}}TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
+    case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12);if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];if(CLOUD&&Cloud.prof){TD.ttOwn=TD.ttOwn||{};TD.ttOwn[d.d+'-'+d.i]={s:d.s||'',c:d.s?c:''}}TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
     case 'tp-one':{const c=($('#tt-c').value||'').trim().slice(0,16)||'Vertretung',mc=(Cloud.myClasses||[]).find(x=>x.name===c);TD.one=TD.one||{};TD.one[d.date+'|'+d.i]=mc?{s:d.s,c,cid:mc.id}:{s:d.s,c};tsave();render();tpCell(+d.d,+d.i,d.date);break}
     case 'tp-one-del':{const k=d.k;if(TD.one&&TD.one[k]){delete TD.plan[k];delete TD.one[k]}tsave();$('#ov').hidden=true;render();break}
     case 'tp-new':{const sl=slotOf(+d.d,+d.i,d.date),dbl=$('#tp-dbl')&&$('#tp-dbl').checked;

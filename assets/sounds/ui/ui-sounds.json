@@ -1,0 +1,11 @@
+{
+  "_hinweis": "UI-Sounds der Steuerung. Links steht, wann der Ton kommt, rechts der Dateiname in diesem Ordner. Fehlt eine Datei, bleibt es still. lautstaerke: 0.1 (leise) bis 1 (laut).",
+  "lautstaerke": 0.35,
+  "sounds": {
+    "klick": "klick.mp3",
+    "ok": "bestaetigen.mp3",
+    "fehler": "fehler.mp3",
+    "auf": "menue-auf.mp3",
+    "zu": "menue-zu.mp3"
+  }
+}

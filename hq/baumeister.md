@@ -10,11 +10,13 @@ gelb
 35%
 
 ## Nächste 3 Schritte
+- Montag 7a: Sitzplan für 7a anlegen, DaZ-Ordner nur für 7cdG sichtbar lassen, Elo auf den Folien prüfen
 - Runde 2 testen: iPad in den Standby, wieder öffnen; Bereit-Check; Übung zweimal starten; Fußball mit falscher Antwort
 - Runde 2 Folieneditor: Elo klein oben auf jeder Folie, Schriftfarben, Bilder per Drag & Drop und Cmd+V
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Runde 7a-Start (18.10.), im Test: Sitzplan pro Klasse auch im Konto gespeichert (auf jedem Gerät), Ordner pro Klasse ein- und ausblenden, Elo standardmäßig auf jeder Folie (aus pro Folie oder Stunde, Figur nach Fach aus assets/elo/figuren.json), Skizzen-Auftrag beenden mit Vorschau. Pläne: Stunde als Datei exportieren (.elonuki), neues Notizbuch statt Skizzenbuch (wartet auf Fabians Wahl)
 - Datensparen Supabase (18.10., im Test): Heft und Inhalte nur noch bei Änderung im Live-Takt, iPad-Meldungen seltener und über einen Kanal, Klasseninhalt nur bei Änderung neu laden. Offen: Folienbilder in den Storage, Lehrer-Sync nur geänderte Stunden
 - Runde 1b Kritische Bugs (18.10.), im Test: „Kein Werkzeug“ löscht kein Werkzeug mehr, Werkzeug per Auswahl an jede Folie hängen (hoch); YouTube-Material lädt an der Tafel ohne Bibliothek, Dateien im Tafel-Fenster laden nach (hoch); Elo-Stimme mit 25-s-Limit, Abbrechen und ohne doppelte Bezahl-Aufrufe (mittel); klarere Foto-Meldung bei fehlender AWS-Marketplace-Freigabe, präziserer Bildprompt (mittel)
 - Runde 2 (Eingang 15.10.), im Test: automatisches Wiederverbinden nach Standby mit Aktualisieren-Knopf (hoch), „Bereit“ zeigt „Sendet …“ bis zur Bestätigung (hoch), Antworten in Übungen und Quiz gemischt (hoch), Fußball mit Nachschuss fürs andere Team und ruhigem Ball (mittel)

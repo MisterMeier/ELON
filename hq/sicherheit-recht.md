@@ -19,6 +19,7 @@ gelb
 - Supabase-SQL-Skripte prüfen und ausführen (bibliothek.sql, t39)
 
 ## Erledigt
+- Klassentrennung innerhalb einer Schule geprüft (18.10.): neuer Test supabase/tests/klassen_trennen_test.sql, 20 von 20 Prüfungen bestanden (lokal mit Supabase-Nachbau); Inhalte, Bilder, Post, Schlüssel und Live-Kanal bleiben pro Klasse getrennt
 - Mandantentrennung geprüft (15.10.): Bibliothek privat je Lehrkraft, Blackbox serverseitig nur Admin, kein KI-Schlüssel im Browser; Trennung nach Schule fehlt noch (Details nur im Chat)
 - Sicherheitslücken A1, A2, A4, B1, C1 behoben; A3 größtenteils
 - EXIF/GPS wird aus Fotos immer entfernt (PR #4)
