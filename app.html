@@ -2071,7 +2071,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261018-1700';let verTold=false;
+const BUILD='20261018-1900';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2664,7 +2664,7 @@ const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
         open(true);this.kind='server';
         // Zweiter Weg für Nachrichten der iPads an die Lehrkraft (Bereit, Hilfe, Stimmung …): ein offener Kanal, Inhalt trotzdem mit dem Klassenschlüssel verschlüsselt.
         // Grund: Manche Supabase-Regeln lassen im privaten Kanal nur die Lehrkraft senden. Doppelte Nachrichten werden über die Nachrichten-Nummer aussortiert.
-        const openUp=priv=>{try{const up=c.channel('elon-'+code+'-up',{config:{private:priv,broadcast:{self:false}}});if(S.role==='teacher'&&!BOARD)up.on('broadcast',{event:'msg'},({payload})=>this.recv(payload));
+        const openUp=priv=>{try{const up=c.channel('elon-'+code+'-up',{config:{private:priv,broadcast:{self:false}}});if(S.role==='teacher'&&!BOARD)up.on('broadcast',{event:'msg'},({payload})=>{this.upAt=Date.now();this.recv(payload)});
           up.subscribe(st=>{if(this.up!==up)return;this.upSt=st;this.upPriv=priv;if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&priv){try{c.removeChannel(up)}catch(e){}openUp(false)}if(V.name==='tafel')updConn()});this.up=up}catch(e){}};
         openUp(true);
         return;
@@ -2674,7 +2674,9 @@ const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
   },
   stop(){try{this.bc&&this.bc.close()}catch(e){}this.bc=null;const ch=this.sb;this.sb=null;try{ch&&ch.unsubscribe()}catch(e){}const up=this.up;this.up=null;try{up&&up.unsubscribe()}catch(e){}this.kind='off'},
   post(t,p){const d={t,p,m:t==='msg'?Date.now().toString(36)+Math.random().toString(36).slice(2,8):undefined};if(t==='state'&&S.role==='teacher'&&!BOARD)localBC(this.code||S.code,d);try{if(this.sb){const k=myCk(this.code);if(!k){if(S.role==='student'){this.needKey=true;updBanner()}return}
-      ckSeal(k,d).then(e=>{if(this.sb)this.sb.send({type:'broadcast',event:t,payload:{t,e}});if(t==='msg')this.stat.sent++;if(t==='msg'&&S.role==='student'&&this.up)this.up.send({type:'broadcast',event:t,payload:{t,e}})}).catch(e=>console.warn(e));return}else if(this.bc)this.bc.postMessage(d)}catch(e){}},
+      // „Ich bin da“ (hi) nur über den Rückkanal, wenn die Tafel meldet, dass er bei ihr ankommt (upOk). Alles andere weiter doppelt.
+      const upOnly=t==='msg'&&S.role==='student'&&d.p&&d.p.k==='hi'&&this.up&&this.upSt==='SUBSCRIBED'&&RCS&&RCS.upOk&&Date.now()-rcsAt<20000;
+      ckSeal(k,d).then(e=>{if(this.sb&&!upOnly)this.sb.send({type:'broadcast',event:t,payload:{t,e}});if(t==='msg')this.stat.sent++;if(t==='msg'&&S.role==='student'&&this.up)this.up.send({type:'broadcast',event:t,payload:{t,e}})}).catch(e=>console.warn(e));return}else if(this.bc)this.bc.postMessage(d)}catch(e){}},
   recv(d){if(!d||!d.t)return;
     if(this.kind==='server'){const k=myCk(this.code);if(!d.e||!k){if(S.role==='student'&&!k){this.needKey=true;updBanner()}return}
       ckOpen(k,d.e).then(o=>{if(o&&o.t===d.t){if(S.role==='student'&&this.needKey){this.needKey=false;updBanner()}this.recv2(o)}}).catch(()=>{if(d.t==='msg')this.stat.bad++;if(S.role==='student'){this.needKey=true;updBanner()}});return}
@@ -2746,7 +2748,12 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',{...CS,now:Date.now()});updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();CS.upOk=!!(Live.upAt&&Date.now()-Live.upAt<30000);S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',csLean());updPrev();ccPush()}
+// Datensparen: Heft, Vokabeln, Aufgaben usw. gehen nur mit, wenn sie sich geändert haben (und spätestens alle 2 Minuten).
+// Sonst schickt der 3-s-Takt nur Phase, Timer, Folie … plus eine Kennung (cs). Fehlt einem iPad etwas, holt es den Stand aus class_content.
+const CS_CF=['heft','vok','hw','mods','modx','auf','ann','games'],LEAN={cs:'',at:0};
+function csLean(){const now=Date.now(),cs=strHash(JSON.stringify(CS_CF.map(k=>CS[k]===undefined?null:CS[k]))),p={...CS,now,cs};
+  if(Live.kind==='server'&&ccOk()&&cs===LEAN.cs&&now-LEAN.at<120000)CS_CF.forEach(k=>delete p[k]);else{LEAN.cs=cs;LEAN.at=now}return p}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
 let MIR=null,MIRC=null;
 function mirListen(){if(MIRC&&MIRC.code===S.code)return;try{MIRC&&MIRC.close()}catch(e){}try{MIRC=new BroadcastChannel('elio-mirror-'+S.code);MIRC.code=S.code;MIRC.onmessage=e=>{MIR=e.data;updPrev()}}catch(e){MIRC=null}}
@@ -2757,9 +2764,9 @@ function updPrev(){const el=$('#tprev');if(!el||!CS)return;mirListen();
     el.innerHTML=`<div class="tmir ${/tboard/.test(MIR.cls)?'tb':''}" style="width:${MIR.w}px;height:${MIR.h}px;transform:scale(${k})">${h}</div><span class="tmir-live">● live</span>`;return}
   const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
 setInterval(()=>{if(V.name==='tafel'&&MIR&&Date.now()-MIR.at>=5000&&$('#tprev')&&$('#tprev').dataset.sig==='mir'){$('#tprev').dataset.sig='';updPrev()}},2000);
-function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<12000)}
-// Gleiche Nummer auf mehreren Geräten: Geräte, die in den letzten 12 s gefunkt haben
-const devsOn=n=>{const D=ROSTER[n]&&ROSTER[n].dv||{},t=Date.now();return Object.keys(D).filter(k=>t-D[k]<12000).length};
+function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<20000)}
+// Gleiche Nummer auf mehreren Geräten: Geräte, die in den letzten 20 s gefunkt haben
+const devsOn=n=>{const D=ROSTER[n]&&ROSTER[n].dv||{},t=Date.now();return Object.keys(D).filter(k=>t-D[k]<20000).length};
 function dupNrs(){return online().filter(n=>devsOn(n)>1)}
 const devCount=()=>online().reduce((a,n)=>a+Math.max(1,devsOn(n)),0)
 function connTxt(){return `${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'🔒 Live geschützt · verbunden':'⚠️ Live offen · verbunden'):Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}${Live.kind==='server'?` · Rückkanal ${Live.upSt==='SUBSCRIBED'?(Live.upPriv?'🔒':'offen')+' ✓':esc(String(Live.upSt||'…'))} · Kanal …${esc(String(Live.code||'').slice(-4))} · von iPads: ${Live.stat.got}${Live.stat.bad?` (${Live.stat.bad} unlesbar)`:''}${Live.stat.last?` · zuletzt vor ${Math.round((Date.now()-Live.stat.last)/1000)} s`:''}`:''}`}
@@ -3095,7 +3102,7 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
 function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
-  skzSync(p);OFF=Date.now()-p.now;applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
+  skzSync(p);OFF=Date.now()-p.now;if(S.role==='student'){if(Array.isArray(p.heft)){if(p.cs)S.csHave=p.cs}else if(p.cs&&p.cs!==S.csHave)ccWant(p.cs)}applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
   const sig=JSON.stringify([p.phase,p.step,p.lesson]);if(sig!==dashSig){dashSig=sig;if(V.name==='dash')render()}}
 // Lehrkraft hat das Kind zurückgesetzt: Name, Avatar und Lernstand auf diesem iPad löschen, dann neu einrichten
 function stuWipe(){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk;S.acctAt=Date.now();save();ACCT.sig='';acctSave(true);V={name:'role',step:'nick',nr:S.nr,only:'student',school:S.school,cls:S.cls};render()}
@@ -5971,7 +5978,7 @@ VIEWS.login=()=>{
   const back=`<button class="btn sm" data-act="st-step" data-step="splash">← Zurück</button>`;
   if(!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
   if(Cloud.user&&Cloud.prof&&Cloud.prof.role==='pending')return `<div class="start"><div class="start-head">${back}</div><h1>Fast geschafft</h1>
-    <section class="panel"><p style="font-weight:700">Dein Konto <b>${esc(Cloud.user.email||'')}</b> ist angelegt. Der Admin muss dich noch freischalten und deinen Klassen zuordnen.</p>
+    <section class="panel"><p style="font-weight:700">Dein Konto <b>${esc(Cloud.user.email||'')}</b> ist angelegt. Der Admin muss dich noch freischalten und in deine Schule aufnehmen.</p>
     <div class="row" style="margin-top:14px"><button class="btn pri" data-act="lg-refresh">Nochmal prüfen</button><button class="btn" data-act="lg-out">Abmelden</button></div></section></div>`;
   if(Cloud.user&&Cloud.prof){const mc=Cloud.myClasses;
     return `<div class="start"><div class="start-head">${back}<span class="label">${esc(Cloud.user.email||'')}</span></div><h1>Welche Klasse?</h1>
@@ -5983,16 +5990,18 @@ VIEWS.login=()=>{
     <form class="panel" id="lg-f" method="post" action="#" style="max-width:520px">
       <label class="label" for="lg-mail" style="display:block">E-Mail</label><input id="lg-mail" name="email" type="email" autocomplete="username" autocapitalize="off">
       <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" name="password" type="password" autocomplete="current-password">
+      <label class="label" for="lg-school" style="display:block;margin-top:12px">Deine Schule <span class="muted">(nur beim Erstellen eines Kontos)</span></label><input id="lg-school" name="organization" type="text" autocomplete="organization" maxlength="80" placeholder="z. B. Mittelschule Musterstadt" value="${esc(V.school||'')}">
       <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
       <div class="row" style="margin-top:14px"><button class="btn pri" type="submit" data-act="lg-in">Anmelden</button><button class="btn" type="button" data-act="lg-up">Konto erstellen</button></div>
       ${LIVE_CFG.vidis?`<div class="bycs"><button class="btn" type="button" data-act="lg-bycs">Mit ByCS anmelden</button></div>`:''}
       <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></form></div>`;
 };
 async function lgIn(up){
-  const em=($('#lg-mail').value||'').trim(),pw=$('#lg-pw').value||'';
+  const em=($('#lg-mail').value||'').trim(),pw=$('#lg-pw').value||'',sch=(($('#lg-school')||{}).value||'').trim().slice(0,80);V.school=sch;
   if(!/\S+@\S+\.\S+/.test(em)||pw.length<8){V.err='Bitte E-Mail und ein Passwort mit mindestens 8 Zeichen eingeben.';V.msg='';render();return}
+  if(up&&sch.length<3){V.err='Bitte gib deine Schule an, damit der Admin dich zuordnen kann.';V.msg='';render();return}
   const sb=await sbClient();
-  const r=up?await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email:em,password:pw});
+  const r=up?await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+location.pathname,data:{school:sch}}}):await sb.auth.signInWithPassword({email:em,password:pw});
   if(r.error){V.err=up?'Konto konnte nicht erstellt werden: '+r.error.message:'Anmelden hat nicht geklappt. Stimmen E-Mail und Passwort?';V.msg='';render();return}
   if(up&&!r.data.session){V.err='';V.msg='Fast geschafft: Bestätige den Link in deiner E-Mail und melde dich dann hier an.';render();return}
   Cloud.user=r.data.user;V.err='';V.msg='';await cloudLoadMe();
@@ -6002,15 +6011,17 @@ async function lgIn(up){
 }
 
 /* --- Admin (nur Rolle admin; der Server prüft das zusätzlich) --- */
-const A={schools:[],classes:[],profiles:[],ct:[],staff:[],ok:false,msg:''};
+const A={schools:[],classes:[],profiles:[],ct:[],staff:[],members:[],ok:false,msg:''};
+const mSchool=id=>((A.members||[]).find(m=>m.profile_id===id)||{}).school_id||'';
 const STAFF_SEED='Kat, Sun, Sim, Mat, GmS, Ver, Ant, Jan, Vera';
 async function adminLoad(){
   const sb=Cloud.sb;
-  try{[A.schools,A.classes,A.profiles,A.ct,A.staff]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role').order('created_at')),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short'))]);A.ok=true}
+  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role,wish_school').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true}
   catch(e){A.msg='Laden fehlgeschlagen: '+(e.message||e)}
   if(V.name==='admin')render();
 }
 async function adminDo(p,msg){try{await q(p);A.msg=msg||'Gespeichert.'}catch(e){A.msg='Fehler: '+(e.message||e)}await adminLoad();await cloudLoadMe();await cloudBoot0()}
+async function adminRpc(p,msg){try{const r=await q(p);A.msg=r==='ok'?msg:'Fehler: '+({denied:'Nicht erlaubt.',self:'Das eigene Konto lässt sich hier nicht ändern.',admin:'Admin-Konten ändert man hier nicht.',unbekannt:'Nicht gefunden.'}[r]||r)}catch(e){A.msg='Fehler: '+(e.message||e)}await adminLoad();await cloudLoadMe();await cloudBoot0()}
 async function cloudBoot0(){try{buildSchools(A.schools,A.classes)}catch(e){}}
 /* ---------- Problem melden (Tickets) und Postfach für den Admin ---------- */
 const ELIO_VER='2026-10-09';
@@ -6108,7 +6119,7 @@ VIEWS.admin=()=>{
       <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th>Klassenleitung</th><th></th></tr>${cls.filter(c=>c.school_id===sc.id).map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
         <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc(pName(A.profiles,x.teacher_id))).join(', ')||'<span class="muted">–</span>'}</td>
         <td>${(()=>{const ld=A.ct.find(x=>x.class_id===c.id&&x.lead),st=A.staff.filter(x=>x.school_id===c.school_id),
-          extra=A.profiles.filter(p=>p.role!=='pending'&&!st.some(x=>x.profile_id===p.id));
+          extra=A.profiles.filter(p=>p.role!=='pending'&&!st.some(x=>x.profile_id===p.id)&&(p.role==='admin'||!mSchool(p.id)||mSchool(p.id)===c.school_id));
         return `<select data-adlead="${c.id}" style="width:auto" aria-label="Klassenleitung ${esc(c.name)}"><option value="">– keine –</option>
           ${st.map(x=>x.profile_id?`<option value="${x.profile_id}" ${ld&&ld.teacher_id===x.profile_id?'selected':''}>${esc(x.short)} · ${esc(pName(A.profiles,x.profile_id))}</option>`:`<option disabled>${esc(x.short)} (ohne Konto)</option>`).join('')}
           ${extra.map(p=>`<option value="${p.id}" ${ld&&ld.teacher_id===p.id?'selected':''}>${esc(p.name||p.email)}</option>`).join('')}</select>`})()}</td>
@@ -6119,18 +6130,21 @@ VIEWS.admin=()=>{
     <p class="muted" style="font-weight:700;margin-top:4px">Kürzel brauchen kein Konto. Verknüpfe ein Kürzel mit einem Konto, dann sieht die Lehrkraft ihre Stunden in der Planung und gehört automatisch zu den Klassen, in denen sie unterrichtet. Leg auch dein eigenes Kürzel an.</p>
     ${A.schools.map(sc=>{const st=A.staff.filter(x=>x.school_id===sc.id);return `<div style="margin-top:12px"><b>${esc(sc.name)}</b>
       <table><tr><th>Kürzel</th><th>Konto</th><th></th></tr>${st.map(x=>`<tr><td><b>${esc(x.short)}</b></td>
-        <td><select data-adstaff="${x.id}" style="width:auto"><option value="">– ohne Konto –</option>${A.profiles.filter(p=>p.role!=='pending').map(p=>`<option value="${p.id}" ${x.profile_id===p.id?'selected':''}>${esc(p.name||p.email)}${p.id===Cloud.user.id?' (du)':''}</option>`).join('')}</select></td>
+        <td><select data-adstaff="${x.id}" style="width:auto"><option value="">– ohne Konto –</option>${A.profiles.filter(p=>p.role!=='pending'&&(p.role==='admin'||!mSchool(p.id)||mSchool(p.id)===sc.id)).map(p=>`<option value="${p.id}" ${x.profile_id===p.id?'selected':''}>${esc(p.name||p.email)}${p.id===Cloud.user.id?' (du)':''}</option>`).join('')}</select></td>
         <td style="text-align:right"><button class="btn sm" data-act="ad-staff-del" data-id="${x.id}">Löschen</button></td></tr>`).join('')}</table>
       <div class="row" style="margin-top:8px"><input id="ad-st-${sc.id}" type="text" value="${st.length?'':STAFF_SEED}" placeholder="Kürzel, mit Komma getrennt" style="max-width:420px"><button class="btn sm pri" data-act="ad-staff-add" data-id="${sc.id}">Kürzel anlegen</button></div></div>`}).join('')||'<p class="muted">Erst eine Schule anlegen.</p>'}</section>
-  <section class="panel"><span class="label">Lehrkräfte</span><p class="muted" style="font-weight:700;margin-top:4px">Neue Lehrkräfte erstellen selbst ein Konto (Startseite → „Für Lehrkräfte: Anmelden“). Hier schaltest du sie frei und ordnest Klassen zu.</p>
-    <table><tr><th>Konto</th><th>Name</th><th>Rolle</th><th>Klassen</th></tr>${A.profiles.map(p=>`<tr><td>${esc(p.email||'')}${p.email?`<br><button class="btn sm" data-act="ad-pwmail" data-m="${esc(p.email)}" style="margin-top:4px">🔑 Passwort-Link schicken</button>${A.pwSent===p.email?' <small class="saved">gesendet</small>':''}`:''}</td>
+  <section class="panel"><span class="label">Lehrkräfte</span><p class="muted" style="font-weight:700;margin-top:4px">Neue Lehrkräfte erstellen selbst ein Konto (Startseite → „Für Lehrkräfte: Anmelden“) und geben dabei ihre Schule an. Wähle bei „Schule“ die passende Schule aus: Das Konto wird freigeschaltet und aufgenommen. Eine Lehrkraft sieht nur ihre Schule. „Konto löschen“ entfernt auch die E-Mail-Adresse, sie lässt sich danach neu registrieren.</p>
+    <table><tr><th>Konto</th><th>Name</th><th>Schule</th><th>Rolle</th><th>Klassen</th><th></th></tr>${A.profiles.map(p=>{const ms=mSchool(p.id),own=p.id===uid,adm=p.role==='admin';return `<tr><td>${esc(p.email||'')}${p.wish_school?`<br><small class="muted">Wunschschule: <b>${esc(p.wish_school)}</b></small>`:''}${p.email?`<br><button class="btn sm" data-act="ad-pwmail" data-m="${esc(p.email)}" style="margin-top:4px">🔑 Passwort-Link schicken</button>${A.pwSent===p.email?' <small class="saved">gesendet</small>':''}`:''}</td>
       <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
-      <td><select data-adrole="${p.id}" ${p.id===uid?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
-      <td><div class="cls-chk">${cls.map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">erst Klasse anlegen</span>'}</div></td></tr>`).join('')}</table></section>
+      <td>${adm?'<span class="muted">alle (Admin)</span>':`<select data-adschool="${p.id}" style="width:auto" aria-label="Schule von ${esc(p.email||'')}"><option value="">${p.role==='pending'?'– wählen –':'– keine –'}</option>${A.schools.map(sc=>`<option value="${sc.id}" ${ms===sc.id?'selected':''}>${esc(sc.name)}</option>`).join('')}</select>`}</td>
+      <td><select data-adrole="${p.id}" ${own?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
+      <td><div class="cls-chk">${cls.filter(c=>adm||!ms||c.school_id===ms).map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">–</span>'}</div></td>
+      <td style="text-align:right">${own||adm?'':V.adel==='u'+p.id?`<button class="btn sm red" data-act="ad-user-del" data-id="${p.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="u${p.id}">Konto löschen</button>`}</td></tr>`}).join('')}</table></section>
   </div>`;
 };
 document.addEventListener('change',e=>{
   const t=e.target,sb=Cloud.sb;if(!sb)return;
+  if(t.dataset.adschool)adminRpc(sb.rpc('admin_set_school',{p_profile:t.dataset.adschool,p_school:t.value||null}),t.value?'Schule gespeichert. Das Konto ist freigeschaltet.':'Aus der Schule entfernt.');
   if(t.dataset.adrole)adminDo(sb.from('profiles').update({role:t.value}).eq('id',t.dataset.adrole),'Rolle geändert.');
   if(t.dataset.adct){const [tid,cid]=t.dataset.adct.split('|');adminDo(t.checked?sb.from('class_teachers').insert([{class_id:cid,teacher_id:tid}]):sb.from('class_teachers').delete().eq('class_id',cid).eq('teacher_id',tid),'Klassen gespeichert.')}
   if(t.dataset.slot)cttSave(t.dataset.slot);
@@ -6227,15 +6241,22 @@ function updPod(R){if(!BOARD)return;let el=$('#pod-ov');const on=R&&!R.freeze&&R
    Ohne Server-Postfach geht es über den Live-Kanal, sobald beide online sind. */
 const MB={cloud:null,busy:false,tbusy:false};
 // Server-Ablage der Klasseninhalte (supabase/content.sql): verschlüsselt mit dem Klassenschlüssel, Supabase sieht nur Zeichensalat
-const CC={t:0,at:0,sig:'',miss:false};
+const CC={t:0,at:0,sig:'',miss:false,rq:0,want:''};
+// Tafel meldet neuen Inhalt (cs), die volle Nachricht kam aber nicht an: höchstens alle 15 s aus class_content holen
+function ccWant(cs){if(Date.now()-CC.rq<15000)return;CC.rq=Date.now();CC.want=cs;ccPull(true)}
 const ccOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&!CC.miss;
 function ccPush(){if(S.role!=='teacher'||!CS||!ccOk())return;clearTimeout(CC.t);CC.t=setTimeout(async()=>{try{const k=myCk(S.code);if(!k)return;
     const snap={heft:CS.heft,vok:CS.vok,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,games:CS.games,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
     const body=await ckSeal(k,{t:'content',p:snap}),sb=await sbClient();await q(sb.from('class_content').upsert({class_id:S.cls,body,updated_at:new Date().toISOString()}));CC.sig=sg}
   catch(e){if(mbMissing(e))CC.miss=true;else console.warn('ccPush',e)}},2000)}
-async function ccPull(force){if(S.role!=='student'||!ccOk())return;if(!force&&Date.now()-CC.at<120000)return;CC.at=Date.now();
+// Datensparen: Ist das iPad live mit der Tafel verbunden und auf dem gleichen Stand (cs), entfällt das Nachladen.
+// Sonst erst nur das Änderungsdatum abfragen und den (großen) Inhalt nur holen, wenn er neuer ist.
+async function ccPull(force){if(S.role!=='student'||!ccOk())return;if(!force&&Date.now()-CC.at<120000)return;
+  if(!force&&RCS&&RCS.cs&&RCS.cs===S.csHave&&Date.now()-rcsAt<20000)return;CC.at=Date.now();
   try{const sb=await sbClient();let k=myCk(S.code);if(!k){await ckSync(sb,S.code);k=myCk(S.code)}if(!k)return;
-    const L=await q(sb.from('class_content').select('body').eq('class_id',S.cls).limit(1));if(!L.length)return;const o=await ckOpen(k,L[0].body);if(o&&o.t==='content')applyContent(liveClean(o.p))}
+    if(!force&&S.ccUpd){const U=await q(sb.from('class_content').select('updated_at').eq('class_id',S.cls).limit(1));if(!U.length||U[0].updated_at===S.ccUpd)return}
+    const L=await q(sb.from('class_content').select('body,updated_at').eq('class_id',S.cls).limit(1));if(!L.length)return;const o=await ckOpen(k,L[0].body);
+    if(o&&o.t==='content'){applyContent(liveClean(o.p));S.ccUpd=L[0].updated_at||'';if(CC.want){S.csHave=CC.want;CC.want=''}}}
   catch(e){if(mbMissing(e))CC.miss=true}}
 // Bilder der Folien für die iPads (supabase/media.sql): verkleinert, mit dem Klassenschlüssel verschlüsselt, pro Klasse abgelegt.
 // Die Lehrkraft lädt beim Zeigen hoch, iPads holen fehlende Bilder beim ersten Anzeigen und behalten sie.
@@ -7691,6 +7712,7 @@ document.addEventListener('click',e=>{
       const rows=($('#ctt-new').value||'').split(/[,;\n]/).map(x=>x.trim().slice(0,12)).filter(x=>x&&!ex.includes(x.toLowerCase())&&!seen.has(x.toLowerCase())&&seen.add(x.toLowerCase())).map(short=>({school_id:c.school_id,short}));
       if(rows.length&&c.school_id)(async()=>{try{await q(Cloud.sb.from('staff').insert(rows));CT.msg=rows.length+' Kürzel angelegt.'}catch(e){CT.msg='Fehler: '+(e.message||e)}CT.ok=false;cttLoad(CT.cid)})();break}
     case 'ad-school-add':{const n=$('#ad-sn').value.trim();if(n){V.adel=null;adminDo(Cloud.sb.from('schools').insert([{name:n.slice(0,80),place:$('#ad-sp').value.trim().slice(0,60)}]),'Schule angelegt.')}break}
+    case 'ad-user-del':V.adel=null;adminRpc(Cloud.sb.rpc('admin_delete_user',{p_id:d.id}),'Konto gelöscht. Die E-Mail-Adresse ist wieder frei.');break;
     case 'ad-school-del':V.adel=null;adminDo(Cloud.sb.from('schools').delete().eq('id',d.id),'Schule gelöscht.');break;
     case 'ad-class-add':{const n=$('#ad-cn-'+d.id).value.trim().slice(0,20),sz=Math.max(2,Math.min(40,+$('#ad-cs-'+d.id).value||24));
       if(n)adminDo(Cloud.sb.from('classes').insert([{school_id:d.id,name:n,size:sz,code:n.replace(/[^A-Za-z0-9]/g,'')+'-'+Math.random().toString(36).slice(2,8)}]),'Klasse angelegt.');break}
@@ -7977,13 +7999,13 @@ setTimeout(checkSlot,400);
 // Live heartbeat: teacher re-sends the class state, students say hello
 setInterval(()=>{
   if(S.role==='teacher'&&CS){pushCS();if(V.name==='tafel')updTafel()}
-  if(S.role==='student'){sendMsg(document.hidden?{k:'away',on:1}:{k:'hi'});updBanner();try{liveOverlay()}catch(e){}
+  if(S.role==='student'){const hk=document.hidden?'away':'hi';if(hk!==HB.k||Date.now()-HB.at>=5500){HB.k=hk;HB.at=Date.now();sendMsg(hk==='away'?{k:'away',on:1}:{k:'hi'})}updBanner();try{liveOverlay()}catch(e){}
     // Bereit-Meldung wiederholen, bis die Tafel sie bestätigt (Funknachrichten können verloren gehen)
     const R=RCS&&RCS.ready;if(R&&S.readyDone&&S.readyDone[R.id]&&!(R.done||[]).includes(+S.nr))sendMsg(READY_LAST&&READY_LAST.id===R.id?READY_LAST:{k:'ready',id:R.id});
     const J=RCS&&RCS.journal;if(J&&S.journalDone&&S.journalDone[J.id]&&!(J.done||[]).includes(+S.nr))sendMsg({k:'journal',id:J.id});
     const C=RCS&&RCS.cloud,CL=S.cloudLast;if(C&&CL&&CL.id===C.id&&!(C.done||[]).includes(+S.nr))CL.ws.forEach(w=>sendMsg({k:'cloud',id:C.id,w}))}
 },3000);
-let READY_LAST=null;
+let READY_LAST=null,HB={k:'',at:0};
 setInterval(()=>{
   if(S.role==='teacher'&&CS){
     if(CS.timer.run&&timerLeft(CS.timer)<=0){CS.timer.run=false;CS.timer.left=0;SND.bigben();pushCS();if(V.name==='tafel')render()}

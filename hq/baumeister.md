@@ -15,12 +15,15 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Datensparen Supabase (18.10., im Test): Heft und Inhalte nur noch bei Änderung im Live-Takt, iPad-Meldungen seltener und über einen Kanal, Klasseninhalt nur bei Änderung neu laden. Offen: Folienbilder in den Storage, Lehrer-Sync nur geänderte Stunden
 - Runde 1b Kritische Bugs (18.10.), im Test: „Kein Werkzeug“ löscht kein Werkzeug mehr, Werkzeug per Auswahl an jede Folie hängen (hoch); YouTube-Material lädt an der Tafel ohne Bibliothek, Dateien im Tafel-Fenster laden nach (hoch); Elo-Stimme mit 25-s-Limit, Abbrechen und ohne doppelte Bezahl-Aufrufe (mittel); klarere Foto-Meldung bei fehlender AWS-Marketplace-Freigabe, präziserer Bildprompt (mittel)
 - Runde 2 (Eingang 15.10.), im Test: automatisches Wiederverbinden nach Standby mit Aktualisieren-Knopf (hoch), „Bereit“ zeigt „Sendet …“ bis zur Bestätigung (hoch), Antworten in Übungen und Quiz gemischt (hoch), Fußball mit Nachschuss fürs andere Team und ruhigem Ball (mittel)
 - Thread „Bugfix- und Ausbauplan“: Runden 1–6 laut elon/plan-elonuki.md
 - PR #9 (Entwurf): Schüler-iPad erkennt neue PIN von einem anderen Gerät
+- Mehrlehrer-Pilot (zweite Lehrkraft, andere Schule): Schulen-Trennung ist im Test erfolgreich und live eingespielt (Fabian, 18.10.). Neu im PR (Entwurf): Admin-Bereich mit Konto löschen, Schule auswählen (schaltet frei und nimmt auf), Wunschschule bei Registrierung; dazu zweite SQL-Umstellung, Reihenfolge laut supabase/ANLEITUNG-schulen-trennen.md (Schritt 3b). Offen: Freigabe pro Werkzeug.
 
 ## Erledigt
+- Ist-Analyse Mehrlehrer-Pilot (15.10.): Tabellen, Rollen, Blackbox, Börse, Bibliothek geprüft
 - Runde 1 (PR #18): feste Folien-IDs, mehrere Werkzeuge pro Phase, sicherer Cloud-Sync, Cloud-Bibliothek, Elo-Stimme ohne Hängen
 - Skizzenbuch Kunst (PR #7, #17)
 - Geografiespiel „Wo liegt was?“ mit Globus (PR #15)
