@@ -97,44 +97,34 @@ Am iPad oder Laptop, jeweils neu laden (Seite schließen und wieder öffnen):
 - [ ] Ein Problem-Ticket schicken, es erscheint im Admin-Bereich.
 - [ ] Blackbox im Folieneditor einmal ausprobieren.
 
-## Schritt 5: Zweite Lehrkraft für den Pilot einrichten
+## Schritt 3b: Zweite Umstellung für den Admin-Bereich
 
-1. **Schule anlegen:** In der App im Admin-Bereich „Schule anlegen“ (Name der Pilotschule).
-2. **Registrieren:** Die Lehrkraft registriert sich in der App mit ihrer E-Mail-Adresse. Sie erscheint bei dir im Admin-Bereich
-   als **wartend**. Die Wunschschule gibst du im Moment per Absprache an; ein Feld dafür bei der Registrierung ist ein späterer Ausbau.
-3. **Freischalten:** Im Admin-Bereich ihre Rolle auf „Lehrkraft“ stellen.
-4. **In die Schule aufnehmen:** Im **SQL Editor** (Namen und Mail ersetzen) → **Run**:
+Erst die erste Umstellung (Schritt 3), dann diese.
 
-```sql
-insert into public.school_members (school_id, profile_id, role)
-select s.id, p.id, 'teacher' from public.schools s, public.profiles p
-where s.name = 'NAME DER PILOTSCHULE' and p.email = 'EMAIL-DER-LEHRKRAFT' and p.role = 'teacher';
-```
+1. Den Pull Request mit der neuen App mergen. Die Seite aktualisiert sich nach ein bis zwei Minuten (am iPad die Seite einmal neu laden).
+   Bis die SQL-Datei läuft, zeigt der Admin-Bereich bei den neuen Knöpfen eine Fehlermeldung. Sonst bleibt alles wie bisher.
+2. [Zweite Umstellung](https://raw.githubusercontent.com/MisterMeier/ELON/main/supabase/migrations/20261018120000_admin_konten.sql) in eine neue Abfrage einfügen → **Run**. Erwartet „Success“.
+3. [Test dazu](https://raw.githubusercontent.com/MisterMeier/ELON/main/supabase/tests/admin_konten_test.sql) einfügen → **Run**. Erwartet oben **GESAMT · true · 24 von 24 Tests bestanden**.
 
-   Erwartet: „Success. 1 row“. Bei „0 rows“ stimmen Name, E-Mail oder Freischaltung nicht.
-5. Die Lehrkraft meldet sich neu an, legt unter „Meine Klassen“ ihre Klasse an und vergibt ihre Schüler-Zugänge.
-   Sie sieht nur ihre Schule. Du siehst im Admin-Bereich ihr Konto und ihre Schule, aber nicht ihre Klasse.
+Wenn etwas nicht geht: die Datei „Rückgängig dazu“ ausführen.
 
-**Wenn du eingreifen musst** (jeweils im SQL Editor → **Run**, Mail ersetzen):
+## Schritt 5: Zweite Lehrkraft für den Pilot einrichten (ohne SQL)
 
-```sql
--- Konto sperren (sofort kein Zugriff mehr, Daten bleiben): im Admin-Bereich Rolle auf „wartend“ stellen, oder:
-update public.profiles set role = 'pending' where email = 'EMAIL-DER-LEHRKRAFT';
+1. **Schule anlegen:** In der App im Admin-Bereich unter „Schulen und Klassen“ unten Name und Ort eingeben → „Schule anlegen“.
+2. **Registrieren:** Die Lehrkraft erstellt in der App ein Konto („Für Lehrkräfte: Anmelden“ → „Konto erstellen“) und gibt dabei ihre **Schule** an.
+   Sie sieht danach den Warte-Bildschirm.
+3. **Aufnehmen:** Im Admin-Bereich unter „Lehrkräfte“ steht das neue Konto mit der **Wunschschule**. Wähle bei „Schule“ die richtige Schule aus.
+   Das Konto wird damit freigeschaltet und aufgenommen. Die Lehrkraft tippt „Nochmal prüfen“ und legt unter „Meine Klassen“ ihre Klasse an.
+4. Sie sieht nur ihre Schule. Du siehst im Admin-Bereich ihr Konto und ihre Schule, aber nicht ihre Klasse.
 
--- Aus der Schule entfernen (inklusive Klassenzuordnungen dort):
-delete from public.class_teachers where teacher_id = (select id from public.profiles where email = 'EMAIL-DER-LEHRKRAFT');
-delete from public.school_members where profile_id = (select id from public.profiles where email = 'EMAIL-DER-LEHRKRAFT');
+**Wenn du eingreifen musst**, alles im Admin-Bereich unter „Lehrkräfte“:
+- **Sperren:** Rolle auf „wartet“ stellen. Die Lehrkraft hat sofort keinen Zugriff mehr, ihre Daten bleiben.
+- **Aus der Schule nehmen oder in eine andere Schule setzen:** bei „Schule“ „– keine –“ oder die andere Schule wählen. Klassen und Kürzel der alten Schule fallen dabei weg.
+- **Konto löschen:** „Konto löschen“ → „Wirklich löschen“. Das Konto samt Anmeldung ist weg, die E-Mail-Adresse lässt sich danach neu registrieren.
+  Dein eigenes Konto und Admin-Konten lassen sich hier nicht löschen.
 
--- Wer ist in welcher Schule?
-select s.name as schule, p.email, m.role
-from public.school_members m join public.schools s on s.id = m.school_id join public.profiles p on p.id = m.profile_id
-order by 1, 2;
-```
-
-Gut zu wissen für den Pilot:
-- Eine Lehrkraft kann nur zu **einer** Schule gehören. Ordnest du sie im Admin-Bereich einer Klasse einer anderen Schule zu, lehnt die Datenbank das ab.
-  Das schützt vor Verwechslungen.
-- Du siehst die Klassen anderer Schulen nicht in deiner Klassenliste. Zuordnungen von Lehrkräften zu ihren Klassen
-  verwalten sie selbst (Klassenleitung). Eine Admin-Ansicht „Mitglieder je Schule“ mit Knöpfen zum Aufnehmen und Entfernen
-  und ein Feld „Schule“ bei der Registrierung sind der nächste Ausbau (Schritt 4).
+Gut zu wissen:
+- Eine Lehrkraft gehört zu **einer** Schule. Ordnest du sie einer Klasse in einer anderen Schule zu, lehnt die Datenbank das ab.
+- Die Klassen anderer Schulen erscheinen nicht in deiner Klassenliste.
+- Noch offen für später: Freigabe einzelner Werkzeuge pro Lehrkraft.
 - Fügst du dich selbst per SQL in eine fremde Schule ein, siehst du dort alles. Mach das nur, wenn es nötig ist.

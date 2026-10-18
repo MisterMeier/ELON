@@ -18,7 +18,7 @@ gelb
 - Runde 2 (Eingang 15.10.), im Test: automatisches Wiederverbinden nach Standby mit Aktualisieren-Knopf (hoch), „Bereit“ zeigt „Sendet …“ bis zur Bestätigung (hoch), Antworten in Übungen und Quiz gemischt (hoch), Fußball mit Nachschuss fürs andere Team und ruhigem Ball (mittel)
 - Thread „Bugfix- und Ausbauplan“: Runden 1–6 laut elon/plan-elonuki.md
 - PR #9 (Entwurf): Schüler-iPad erkennt neue PIN von einem anderen Gerät
-- Mehrlehrer-Pilot (zweite Lehrkraft, andere Schule): Schritte 1–3 als Dateien fertig und auf main (Schule als Mandant; Fabians Konto bleibt Admin mit Kontrolle über Konten, Schulen, Mitgliedschaften und alle Tickets, ohne Inhalte anderer Schulen; Datenübernahme, Rollback, 74 Testfälle lokal bestanden). Noch nicht live: Fabian führt sie nach supabase/ANLEITUNG-schulen-trennen.md aus. Schritt 4 offen: Admin-Ansicht Mitglieder je Schule mit Knöpfen, Feld „Schule“ bei Registrierung, Freigabe pro Werkzeug.
+- Mehrlehrer-Pilot (zweite Lehrkraft, andere Schule): Schulen-Trennung ist im Test erfolgreich und live eingespielt (Fabian, 18.10.). Neu im PR (Entwurf): Admin-Bereich mit Konto löschen, Schule auswählen (schaltet frei und nimmt auf), Wunschschule bei Registrierung; dazu zweite SQL-Umstellung, Reihenfolge laut supabase/ANLEITUNG-schulen-trennen.md (Schritt 3b). Offen: Freigabe pro Werkzeug.
 
 ## Erledigt
 - Ist-Analyse Mehrlehrer-Pilot (15.10.): Tabellen, Rollen, Blackbox, Börse, Bibliothek geprüft
