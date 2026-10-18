@@ -1,5 +1,5 @@
 {
-  "_hinweis": "UI-Sounds der Steuerung. Links steht, wann der Ton kommt, rechts der Dateiname in diesem Ordner. Fehlt eine Datei, bleibt es still. lautstaerke: 0.1 (leise) bis 1 (laut).",
+  "_hinweis": "UI-Sounds der Steuerung. Links steht, wann der Ton kommt, rechts der Dateiname in diesem Ordner. Fehlt eine Datei, bleibt es still. lautstaerke: 0.1 (leise) bis 1 (laut). bestaetigen/menue-auf/menue-zu sind kurze Ausschnitte aus Fabians ELIO_Allgemein_Futuristic(II).mp3 (Originale ungekürzt in assets/audio/futuristisch*.mp3). klick und fehler: noch keine passende Datei.",
   "lautstaerke": 0.35,
   "sounds": {
     "klick": "klick.mp3",

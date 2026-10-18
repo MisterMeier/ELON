@@ -6,7 +6,8 @@
 - Blackbox erzeugt Texte und Animationen über AWS Claude.
 - Runde 1b (18.10.) im Test: Werkzeuge pro Folie sicher, YouTube und Bibliothek an der Tafel, Elo-Stimme ohne Hängen, klare Foto-Meldung.
 - HQ-Dashboard mit Stadt, Bugs, Systemen und Effizienz ist eingerichtet (PR #19).
-- Runde 7a-Start (18.10.) im PR: Sitzplan pro Klasse auf jedem Gerät, Ordner pro Klasse freigeben, Elo-Stimme (CORS), Elo auf jeder Folie.
+- Runde 7a-Start (18.10.) gemergt (PR #28): Sitzplan pro Klasse, Ordner pro Klasse, Elo-Stimme (CORS), Elo auf jeder Folie.
+- Nachtrag im PR: realistische Elo-Bilder nach Fach und Fabians neue Sounds.
 
 ## Offene Probleme
 - Blackbox-Bilder: AWS blockt Stability AI (403, Marketplace-Freigabe fehlt); Anleitung „Fotos“ ist anfängertauglich ergänzt.
