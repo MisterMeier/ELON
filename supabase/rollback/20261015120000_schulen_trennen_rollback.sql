@@ -90,6 +90,16 @@ language sql stable security definer set search_path = public as $$
     or exists (select 1 from public.staff st where st.profile_id = auth.uid() and st.school_id = s));
 $$;
 
+create or replace function public.handle_new_class() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if auth.uid() is not null then
+    insert into public.class_teachers (class_id, teacher_id, lead) values (new.id, auth.uid(), true)
+    on conflict (class_id, teacher_id) do update set lead = true;
+  end if;
+  return new;
+end $$;
+
 create or replace function public.slot_staff_sync() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare pid uuid;
@@ -142,6 +152,8 @@ grant execute on function public.submit_ticket(text, uuid, text, text, text, jso
 drop trigger if exists on_ct_member on public.class_teachers;
 drop function if exists public.ct_member_sync();
 drop function if exists public.school_add_member(uuid, text, text);
+drop function if exists public.school_remove_member(uuid, uuid);
+drop function if exists public.is_member_of(uuid, uuid);
 alter table public.tickets drop column if exists school_id;
 drop table if exists public.school_members;
 drop function if exists public.sees_profile(uuid);
