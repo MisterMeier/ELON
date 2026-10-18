@@ -37,3 +37,4 @@ gelb
 | B-11 | Verbindung bricht nach Standby oder schwachem WLAN ab, nur Neustart der App hilft | hoch | in Test | app.html Live-Kanal, Wiederverbinden (Runde 2) |
 | B-12 | „Bereit“ kommt morgens nicht bei allen an | hoch | in Test | app.html Bereit-Check, Folge von B-11; iPad zeigt „Sendet …“, dann „Angekommen“ (Runde 2, PR #22 + Nachtrag) |
 | B-13 | Übungen: richtige Antwort steht immer an erster Stelle (A, rot) | hoch | in Test | app.html Multiple Choice, Millionenspiel, Quiz; Zuordnen, Lückentext, Zahlenstrahl waren schon gemischt (Runde 2) |
+| B-14 | Hoher Supabase-Datenverbrauch im Live-Unterricht: Tafel schickt alle 3 s das ganze Heft, iPads melden sich alle 3 s doppelt, Klasseninhalt wird alle 2 min komplett geladen | hoch | in Test | app.html pushCS, Herzschlag, ccPull; Analyse elon/egress-analyse.md |
