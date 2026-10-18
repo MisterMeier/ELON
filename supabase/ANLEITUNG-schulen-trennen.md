@@ -10,9 +10,14 @@ und fügst es in Supabase unter **SQL Editor → New query** ein. Dann **Run**.
 | `supabase/tests/schulen_trennen_test.sql` | prüft alles mit Testkonten und räumt danach auf |
 | `supabase/rollback/20261015120000_schulen_trennen_rollback.sql` | macht die Umstellung rückgängig |
 
-Was die Umstellung bewirkt: Jede Lehrkraft gehört zu einer Schule. Sie sieht nur Klassen, Kolleginnen
-und Kollegen, Kürzel, Stundenpläne, Börse und Tickets ihrer eigenen Schule. Dein Konto bleibt Admin
-deiner Schule und sieht dort alles wie bisher. Bei anderen Schulen siehst du nichts mehr.
+Was die Umstellung bewirkt:
+- **Du behältst die Kontrolle.** Dein Konto bleibt der einzige Admin. Du siehst alle Konten (auch wartende), alle Schulen,
+  wer zu welcher Schule und Klasse gehört, und alle Kürzel. Du schaltest Lehrkräfte frei, nimmst sie in eine Schule auf,
+  entfernst oder sperrst sie. Alle Problem-Tickets aller Schulen kommen bei dir an.
+- **Du siehst keine Inhalte fremder Schulen.** Klassen und Klassencodes, Schüler-Zugänge und PINs, Schlüssel, Post, Folien,
+  Bilder, Stunden, Bibliothek, Börse und Stundenpläne anderer Schulen bleiben dort. In deiner eigenen Schule und deinen
+  eigenen Klassen siehst und tust du alles wie bisher.
+- **Jede Lehrkraft** sieht nur ihre eigene Schule. Wer aus der Schule entfernt oder gesperrt wird, verliert sofort jeden Zugriff.
 
 ---
 
@@ -46,7 +51,7 @@ So probierst du alles aus, ohne dass deine Klasse etwas merkt.
    `schema.sql`, dann `blackbox.sql`, `elo_ki.sql`, `live_up.sql`, `push.sql`.
 3. Jetzt die Umstellung ausführen: `migrations/20261015120000_schulen_trennen.sql` → **Run**. Erwartet: „Success“.
 4. Den Test ausführen: `tests/schulen_trennen_test.sql` → **Run**.
-   Erwartet: Eine Tabelle, ganz oben **GESAMT · true · 62 von 62 Tests bestanden**.
+   Erwartet: Eine Tabelle, ganz oben **GESAMT · true · 74 von 74 Tests bestanden**.
    Steht irgendwo `false`, hör hier auf und schick mir ein Bildschirmfoto der Tabelle.
 5. Rückweg testen: `rollback/20261015120000_schulen_trennen_rollback.sql` → **Run**, danach die Umstellung noch einmal → **Run**.
    Beides muss „Success“ melden.
@@ -94,21 +99,42 @@ Am iPad oder Laptop, jeweils neu laden (Seite schließen und wieder öffnen):
 
 ## Schritt 5: Zweite Lehrkraft für den Pilot einrichten
 
-1. Admin-Bereich in der App: neue Schule anlegen (Name der Pilotschule).
-2. Die zweite Lehrkraft registriert sich in der App. Du schaltest sie im Admin-Bereich frei (Rolle „teacher“).
-3. Im **SQL Editor** holst du sie als Admin in ihre Schule. Name und E-Mail ersetzen:
+1. **Schule anlegen:** In der App im Admin-Bereich „Schule anlegen“ (Name der Pilotschule).
+2. **Registrieren:** Die Lehrkraft registriert sich in der App mit ihrer E-Mail-Adresse. Sie erscheint bei dir im Admin-Bereich
+   als **wartend**. Die Wunschschule gibst du im Moment per Absprache an; ein Feld dafür bei der Registrierung ist ein späterer Ausbau.
+3. **Freischalten:** Im Admin-Bereich ihre Rolle auf „Lehrkraft“ stellen.
+4. **In die Schule aufnehmen:** Im **SQL Editor** (Namen und Mail ersetzen) → **Run**:
 
 ```sql
 insert into public.school_members (school_id, profile_id, role)
-select s.id, p.id, 'admin' from public.schools s, public.profiles p
+select s.id, p.id, 'teacher' from public.schools s, public.profiles p
 where s.name = 'NAME DER PILOTSCHULE' and p.email = 'EMAIL-DER-LEHRKRAFT' and p.role = 'teacher';
 ```
 
-   Erwartet: „Success. 1 row“. Steht dort „0 rows“, stimmt der Name, die E-Mail oder die Freischaltung nicht.
-   Ab jetzt siehst du diese Schule und die Lehrkraft in der App nicht mehr, und sie sieht deine Schule nicht.
-4. Die zweite Lehrkraft legt unter „Meine Klassen“ ihre Klasse an und vergibt Schüler-Zugänge wie du.
+   Erwartet: „Success. 1 row“. Bei „0 rows“ stimmen Name, E-Mail oder Freischaltung nicht.
+5. Die Lehrkraft meldet sich neu an, legt unter „Meine Klassen“ ihre Klasse an und vergibt ihre Schüler-Zugänge.
+   Sie sieht nur ihre Schule. Du siehst im Admin-Bereich ihr Konto und ihre Schule, aber nicht ihre Klasse.
+
+**Wenn du eingreifen musst** (jeweils im SQL Editor → **Run**, Mail ersetzen):
+
+```sql
+-- Konto sperren (sofort kein Zugriff mehr, Daten bleiben): im Admin-Bereich Rolle auf „wartend“ stellen, oder:
+update public.profiles set role = 'pending' where email = 'EMAIL-DER-LEHRKRAFT';
+
+-- Aus der Schule entfernen (inklusive Klassenzuordnungen dort):
+delete from public.class_teachers where teacher_id = (select id from public.profiles where email = 'EMAIL-DER-LEHRKRAFT');
+delete from public.school_members where profile_id = (select id from public.profiles where email = 'EMAIL-DER-LEHRKRAFT');
+
+-- Wer ist in welcher Schule?
+select s.name as schule, p.email, m.role
+from public.school_members m join public.schools s on s.id = m.school_id join public.profiles p on p.id = m.profile_id
+order by 1, 2;
+```
 
 Gut zu wissen für den Pilot:
-- Den Admin-Bereich der App zeigt die Oberfläche nur Konten mit Rolle „admin“. Die zweite Lehrkraft arbeitet über „Meine Klassen“, das reicht für den Unterricht. Eine eigene Admin-Ansicht für Schul-Admins kommt später.
-- Ihre Problem-Tickets landen in der Datenbank bei ihrer Schule. In der App sieht sie sie erst mit dieser Admin-Ansicht.
-- Weitere Kolleginnen und Kollegen ihrer Schule trägst du mit derselben Zeile ein (Rolle `teacher` statt `admin`). In deiner eigenen Schule geht es wie bisher in der App: Wen du im Admin-Bereich einer Klasse zuordnest oder mit einem Kürzel verknüpfst, der gehört ab dann zu deiner Schule.
+- Eine Lehrkraft kann nur zu **einer** Schule gehören. Ordnest du sie im Admin-Bereich einer Klasse einer anderen Schule zu, lehnt die Datenbank das ab.
+  Das schützt vor Verwechslungen.
+- Du siehst die Klassen anderer Schulen nicht in deiner Klassenliste. Zuordnungen von Lehrkräften zu ihren Klassen
+  verwalten sie selbst (Klassenleitung). Eine Admin-Ansicht „Mitglieder je Schule“ mit Knöpfen zum Aufnehmen und Entfernen
+  und ein Feld „Schule“ bei der Registrierung sind der nächste Ausbau (Schritt 4).
+- Fügst du dich selbst per SQL in eine fremde Schule ein, siehst du dort alles. Mach das nur, wenn es nötig ist.

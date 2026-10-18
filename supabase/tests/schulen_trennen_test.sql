@@ -5,8 +5,8 @@
 -- Ergebnis: eine Tabelle. Oben steht „GESAMT“, darunter jeder Test mit ok = true/false.
 --
 -- Konten im Test:
---   A = Admin wie Fabians Konto (profiles.role = admin), Admin von Testschule A, Klassenleitung Klasse A1
---   B = Lehrkraft, Admin von Testschule B, Klassenleitung Klasse B1
+--   A = Konto-Admin wie Fabians Konto (profiles.role = admin), Admin von Testschule A, Klassenleitung Klasse A1
+--   B = Lehrkraft der Pilotschule B (Testschule B), Klassenleitung Klasse B1
 --   C = neues, noch nicht freigeschaltetes Konto ohne Schule
 --   P = Schüler-iPad (anonyme Sitzung), beigetreten in Klasse A1
 --   anon = nicht angemeldet
@@ -36,7 +36,7 @@ begin
 
   insert into public.schools (name) values ('TEST Schule A ' || r) returning id into s1;
   insert into public.schools (name) values ('TEST Schule B ' || r) returning id into s2;
-  insert into public.school_members (school_id, profile_id, role) values (s1, ua, 'admin'), (s2, ub, 'admin');
+  insert into public.school_members (school_id, profile_id, role) values (s1, ua, 'admin'), (s2, ub, 'teacher');
   code_a := 'testA-' || r; code_b := 'testB-' || r;
   insert into public.classes (school_id, name, code) values (s1, 'TA' || r, code_a) returning id into a1;
   insert into public.classes (school_id, name, code) values (s2, 'TB' || r, code_b) returning id into b1;
@@ -114,8 +114,8 @@ begin
   res := res || format('B liest keine Stunden von A (auch keine geteilten)|%s|', n = 0);
   select count(*) into n from public.lesson_pool where school_id = s1;
   res := res || format('B sieht die Börse von Schule A nicht|%s|', n = 0);
-  select count(*) into n from public.tickets where school_id = s1;
-  res := res || format('B sieht keine Tickets von Schule A|%s|', n = 0);
+  select count(*) into n from public.tickets;
+  res := res || format('B sieht keine Tickets (Tickets gehen nur an den Konto-Admin)|%s|', n = 0);
   select count(*) into n from public.teacher_lib where owner = ua;
   res := res || format('B sieht die Bibliothek von A nicht|%s|', n = 0);
   res := res || format('B kommt nicht in den Live-Kanal von A1|%s|', not public.live_teacher('elon-' || code_a));
@@ -154,7 +154,7 @@ begin
     insert into public.school_members (school_id, profile_id, role) values (s1, ub, 'admin'); ok := false;
   exception when others then null; end;
   res := res || format('B kann seine Mitgliedschaft nicht auf Schule A umschreiben|%s|', ok);
-  res := res || format('B holt A nicht in seine Schule (A gehört schon zu Schule A)|%s|', public.school_add_member(s2, 'test-a-' || r || '@elonuki.test') = 'unbekannt');
+  res := res || format('B kann niemanden in seine Schule aufnehmen (nur der Konto-Admin)|%s|', public.school_add_member(s2, 'test-a-' || r || '@elonuki.test') = 'denied');
 
   -- B in der eigenen Schule: alles da
   select count(*) into n from public.classes where id = b1;
@@ -162,33 +162,41 @@ begin
   select count(*) into n from public.slots where class_id = b1;
   res := res || format('B sieht den eigenen Stundenplan|%s|', n = 1);
   res := res || format('B bekommt den eigenen Klassenschlüssel|%s|', public.class_key(code_b) is not null);
+  begin perform public.submit_ticket('teacher', b1, 'test', 'Test B2', null, '{}'::jsonb); ok := true;
+  exception when others then ok := false; end;
+  res := res || format('B kann ein Problem-Ticket melden|%s|', ok);
 
-  -- ============================================================ Admin A (wie Fabian) gegen Schule B
+  -- ============================================================ Konto-Admin A (wie Fabian): Kontrolle ja, fremde Inhalte nein
   perform set_config('request.jwt.claims', json_build_object('sub', ua, 'role', 'authenticated')::text, true);
-  select count(*) into n from public.schools where id = s2;
-  res := res || format('Admin A sieht Schule B nicht|%s|', n = 0);
-  select (select count(*) from public.classes where school_id = s2) + (select count(*) from public.class_teachers where class_id = b1)
-       + (select count(*) from public.staff where school_id = s2) + (select count(*) from public.slots where class_id = b1)
-       + (select count(*) from public.school_members where school_id = s2) + (select count(*) from public.profiles where id = ub)
+  select (select count(*) from public.schools where id = s2) + (select count(*) from public.profiles where id = ub)
+       + (select count(*) from public.school_members where school_id = s2 and profile_id = ub)
+       + (select count(*) from public.class_teachers where class_id = b1) + (select count(*) from public.staff where school_id = s2)
     into n;
-  res := res || format('Admin A sieht keine Klassen, Lehrkräfte, Kürzel, Stundenpläne von Schule B|%s|%s Zeilen', n = 0, n);
+  res := res || format('Kontrolle: Admin A sieht Schule B, das Konto von B, ihre Mitgliedschaft, Klassenzuordnung und Kürzel|%s|%s von 5', n = 5, n);
+  select count(*) into n from public.tickets where school_id = s2;
+  res := res || format('Kontrolle: Admin A bekommt die Tickets von Schule B|%s|%s Tickets', n = 2, n);
+  select count(*) into n from public.classes where school_id = s2;
+  res := res || format('Admin A sieht keine Klassen und Klassencodes von Schule B|%s|', n = 0);
   select (select count(*) from public.class_access where class_id = b1) + (select count(*) from public.class_mail where class_id = b1)
        + (select count(*) from public.class_content where class_id = b1) + (select count(*) from public.class_media where class_id = b1)
-       + (select count(*) from public.pupil_login_list(b1))
+       + (select count(*) from public.pupil_login_list(b1)) + (select count(*) from public.slots where class_id = b1)
     into n;
-  res := res || format('Admin A liest keine Codes, Post, Inhalte, PINs von B1|%s|%s Zeilen', n = 0, n);
+  res := res || format('Admin A liest keine Zugänge, Post, Inhalte, PINs, Stundenpläne von B1|%s|%s Zeilen', n = 0, n);
   res := res || format('Admin A bekommt den Klassenschlüssel von B1 nicht|%s|', public.class_key(code_b) is null);
   select (select count(*) from public.lessons where owner = ub) + (select count(*) from public.lesson_pool where school_id = s2)
-       + (select count(*) from public.tickets where school_id = s2) + (select count(*) from public.teacher_lib where owner = ub)
+       + (select count(*) from public.teacher_lib where owner = ub)
     into n;
-  res := res || format('Admin A liest keine Stunden, Börse, Tickets, Bibliothek von B|%s|%s Zeilen', n = 0, n);
+  res := res || format('Admin A liest keine Stunden, Börse, Bibliothek von B|%s|%s Zeilen', n = 0, n);
   res := res || format('Admin A kommt nicht in den Live-Kanal von B1|%s|', not public.live_teacher('elon-' || code_b));
-  delete from public.schools where id = s2; get diagnostics n = row_count;
-  res := res || format('Admin A kann Schule B nicht löschen|%s|', n = 0);
   begin insert into public.classes (school_id, name, code) values (s2, 'X', 'y-' || r); ok := false;
   exception when others then ok := true; end;
-  res := res || format('Admin A kann keine Klasse in Schule B anlegen|%s|', ok);
-  res := res || format('Admin A kann sich nicht in Schule B holen|%s|', public.school_add_member(s2, 'test-a-' || r || '@elonuki.test') = 'denied');
+  res := res || format('Admin A legt keine Klasse in Schule B an|%s|', ok);
+  begin insert into public.class_teachers (class_id, teacher_id) values (b1, ua); exception when others then null; end;
+  select count(*) into n from public.slots where class_id = b1;
+  res := res || format('Admin A kommt auch durch Eintragen in Klasse B1 nicht an deren Inhalte (Schlüssel, Stundenplan)|%s|', public.class_key(code_b) is null and n = 0);
+  delete from public.class_teachers where class_id = b1 and teacher_id = ua;
+  update public.profiles set name = 'Test B' where id = ub; get diagnostics n = row_count;
+  res := res || format('Kontrolle: Admin A ändert das Profil von B|%s|', n = 1);
 
   -- Admin A in der eigenen Schule: App funktioniert weiter
   select count(*) into n from public.schools where id = s1;
@@ -218,11 +226,38 @@ begin
   update public.profiles set role = 'teacher' where id = uc; get diagnostics n = row_count;
   res := res || format('Admin A schaltet C frei|%s|', n = 1);
 
-  -- Neue Schule für den Pilot: A legt sie an, holt C als ersten Admin hinein, sieht sie danach nicht mehr
+  -- Kontrolle: neue Schule anlegen, Konto aufnehmen, nicht doppelt zuordnen, entfernen, sperren
   insert into public.schools (name) values ('TEST Schule C ' || r) returning id into s3;
-  res := res || format('Admin A holt C als ersten Admin in eine neue, leere Schule|%s|', public.school_add_member(s3, 'test-c-' || r || '@elonuki.test', 'admin') = 'ok');
-  select (select count(*) from public.schools where id = s3) + (select count(*) from public.profiles where id = uc) into n;
-  res := res || format('Danach sieht Admin A weder Schule C noch das Konto C|%s|%s Zeilen', n = 0, n);
+  res := res || format('Kontrolle: Admin A legt eine neue Schule an und nimmt C auf|%s|', public.school_add_member(s3, 'test-c-' || r || '@elonuki.test', 'teacher') = 'ok');
+  res := res || format('Ein Konto lässt sich nicht in zwei Schulen aufnehmen|%s|', public.school_add_member(s3, 'test-b-' || r || '@elonuki.test') = 'unbekannt');
+  begin insert into public.class_teachers (class_id, teacher_id) values (b1, uc); ok := false;
+  exception when others then ok := sqlerrm = 'schule_wechsel'; end;
+  res := res || format('Eine Klassenzuordnung über Schulgrenzen wird abgelehnt|%s|', ok);
+  select count(*) into n from public.school_members where profile_id = uc and school_id = s3;
+  res := res || format('Kontrolle: Admin A sieht die Mitgliedschaft von C|%s|', n = 1);
+  delete from public.schools where id = s3; get diagnostics n = row_count;
+  res := res || format('Kontrolle: Admin A löscht die leere Schule C wieder|%s|', n = 1);
+
+  -- Admin A entfernt B aus Schule B: B verliert sofort jeden Zugriff
+  res := res || format('Kontrolle: Admin A entfernt B aus Schule B|%s|', public.school_remove_member(s2, ub) = 'ok');
+  perform set_config('request.jwt.claims', json_build_object('sub', ub, 'role', 'authenticated')::text, true);
+  select (select count(*) from public.classes) + (select count(*) from public.slots) + (select count(*) from public.schools) into n;
+  res := res || format('Entfernt: B sieht keine Klasse, keinen Stundenplan, keine Schule mehr|%s|%s Zeilen', n = 0, n);
+  res := res || format('Entfernt: B bekommt den Klassenschlüssel nicht mehr|%s|', public.class_key(code_b) is null);
+  perform set_config('request.jwt.claims', json_build_object('sub', ua, 'role', 'authenticated')::text, true);
+  insert into public.school_members (school_id, profile_id, role) values (s2, ub, 'teacher');
+  insert into public.class_teachers (class_id, teacher_id, lead) values (b1, ub, true);
+  perform set_config('request.jwt.claims', json_build_object('sub', ub, 'role', 'authenticated')::text, true);
+  res := res || format('Wieder aufgenommen: B bekommt den Klassenschlüssel wieder|%s|', public.class_key(code_b) is not null);
+
+  -- Admin A sperrt B (Rolle wartend): B verliert ebenfalls alles
+  perform set_config('request.jwt.claims', json_build_object('sub', ua, 'role', 'authenticated')::text, true);
+  update public.profiles set role = 'pending' where id = ub; get diagnostics n = row_count;
+  res := res || format('Kontrolle: Admin A sperrt das Konto von B (Rolle wartend)|%s|', n = 1);
+  perform set_config('request.jwt.claims', json_build_object('sub', ub, 'role', 'authenticated')::text, true);
+  select (select count(*) from public.classes) + (select count(*) from public.slots) into n;
+  res := res || format('Gesperrt: B sieht keine Klasse und keinen Stundenplan mehr|%s|%s Zeilen', n = 0, n);
+  res := res || format('Gesperrt: B bekommt den Klassenschlüssel nicht mehr|%s|', public.class_key(code_b) is null);
 
   -- ============================================================ Schüler-iPad (anonyme Sitzung in A1)
   perform set_config('request.jwt.claims', json_build_object('sub', up, 'role', 'authenticated')::text, true);
