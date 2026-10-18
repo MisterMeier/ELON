@@ -91,10 +91,12 @@ const EN: Record<string, string> = {
 // Claude-Aufruf mit allen Bedrock-Wegen (siehe unten in Deno.serve); null, wenn kein Bedrock-Schlüssel da ist.
 type Ask = (K: { model: string[]; classic: string[]; max: number; sys: string }, user: string) => Promise<{ stop_reason?: string; content: { type: string; text?: string }[] }>;
 const msgText = (m: { content: { type: string; text?: string }[] }) => m.content.map((b) => (b.type === "text" ? b.text || "" : "")).join("").trim();
-async function english(kind: string, prompt: string, claude: Ask | null): Promise<string> {
+async function english(kind: string, prompt: string, claude: Ask | null, subj = ""): Promise<string> {
   if (!claude) return prompt + (kind === "foto" ? " No text in the image." : "");
   try {
-    const t = msgText(await claude({ model: MODEL.small, classic: CLASSIC.small, max: 300, sys: EN[kind] + " Answer with the prompt only." }, prompt));
+    // Fach als Hinweis (z. B. Mathe → klare, zählbare Gegenstände); der Wunsch selbst wird wörtlich übertragen, nichts dazuerfunden.
+    const user = (subj ? `School subject (context only): ${subj}\n` : "") + `Teacher's wish (German, translate faithfully): ${prompt}`;
+    const t = msgText(await claude({ model: MODEL.small, classic: CLASSIC.small, max: 300, sys: EN[kind] + " Answer with the prompt only." }, user));
     return t ? t.slice(0, 800) : prompt;
   } catch (_) { return prompt; }
 }
@@ -239,6 +241,8 @@ async function awsFoto(prompt: string, key: string, awsId: string, awsSecret: st
       } else cur = { st: r.status, detail: t.slice(0, 300) };
       // Inhaltsfilter oder zu viele Anfragen: anderes Modell hilft nicht.
       if (r.status === 429 || (r.status === 400 && /blocked|filter|content/i.test(t))) return cur;
+      // Fehlende Marketplace-Freigabe gilt für alle Stability-Modelle: nicht weiter durchprobieren, sofort melden.
+      if (r.status === 403 && /marketplace/i.test(t)) return { st: 403, detail: `${reg} ${m}: ${t.slice(0, 300)}` };
     } catch (e) { cur = { detail: String((e as Error).message || e).slice(0, 200) }; }
     tried.push(`${reg} ${m} ${cur.st ?? ""} ${String(cur.detail).slice(0, 120)}`);
     // „Modell gibt es hier nicht“ ist der uninteressanteste Fehler; ein anderer (z. B. fehlende Freigabe) wird gemeldet.
@@ -316,7 +320,7 @@ Deno.serve(async (req) => {
         const { data: n } = await sb.rpc("blackbox_count");
         if ((n ?? 0) >= LIMIT) return json({ err: "limit", limit: LIMIT });
         await sb.from("blackbox_log").insert({ kind });
-        const o = await awsFoto(await english("foto", prompt, claude), key, awsId, awsSecret);
+        const o = await awsFoto(await english("foto", prompt, claude, subj), key, awsId, awsSecret);
         if (o.data) return json({ kind, data: o.data, mime: "image/png", n: (n ?? 0) + 1, limit: LIMIT });
         // 403 mit „Marketplace“: Stability-Modelle laufen über den AWS Marketplace, der IAM-Nutzer braucht dafür eigene Rechte (siehe anleitungen/bedrock-einrichten.md)
         const dt = String(o.detail || "");

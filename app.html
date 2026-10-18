@@ -2071,7 +2071,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261018-1800';let verTold=false;
+const BUILD='20261018-1900';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2990,7 +2990,10 @@ function stageOf(){
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
     sf:p.sf||'',min:+p.min||0,sub:CS.sub||0,tool:t.id?stageTool(t,L,D.s):null};
 }
-function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof libById==='function'?libById(t.mat):null,o={...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:''};
+function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof libById==='function'?libById(t.mat):null,o={...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:'',matUrl:m&&m.kind==='link'?String(m.url||'').slice(0,600):m?'':String(t.matUrl||'')};
+  // Datei schon jetzt aus der Cloud holen, damit das Tafel-Fenster sie auf diesem Gerät findet
+  if(m&&m.kind==='file'&&!BOARD&&S.role==='teacher')libBlob(m.id).catch(()=>{});
+  if(m&&m.kind==='link'&&!BOARD&&!t.matUrl)t.matUrl=String(m.url||'').slice(0,600);// ältere Stunden: Link in die Stunde schreiben, damit er auf jedem Gerät da ist
   if(t.id==='slide'){const F=deckFrames(t),f=F[Math.min(sub,F.length-1)]||{j:0,k:-1};o.cur={...deckSlides(t)[f.j],shown:f.k};o.j=f.j;o.nf=F.length;delete o.slides}
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
   if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
@@ -3031,7 +3034,7 @@ function boardHTML0(R,mini){
   else if(K)return `<div class="bw bw-kf">${kfViewHTML(K)}</div>`;
   else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
   else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;
-  else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">📺 Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}"></div>`}</div>`;
+  else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">📺 Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}" data-url="${esc(R.media.url||'')}"></div>`}</div>`;
   else if(R.game&&gInfo(R.game.g))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>🏆 ${R.game.fin.length} geschafft</p>`:''}</div>`;
   else if(R.poll&&!['quiz','thumbs','corners'].includes(R.poll.type)&&!(st&&['thumbs','corners4','quiz'].includes(t.id))){const P=R.poll,n=P.voted.length;
     return sceneHTML('abstimmung',`<h1>Abstimmung</h1><p class="sc-q">${esc(P.q||'')}</p>${(P.opts||[]).length?`<div class="sc-o">${P.opts.map((o,i)=>`<span>${esc(o)}${P.res?` <b>${P.res[i]||0}</b>`:''}</span>`).join('')}</div>`:''}<p>Stimme jetzt auf deinem iPad ab.</p><b>${n} / ${Math.max(R.onN||0,n)||'–'} abgestimmt</b>`,'left:61%;top:4%;width:36%')}
@@ -3047,7 +3050,7 @@ function boardHTML0(R,mini){
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
     main=`<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${st.act==='mission'&&R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}
-      ${t.mat?(mini||!BOARD?`<span class="bw-note">📎 ${esc(t.matName||'Material')} · an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}"></div>`):''}${!t.text&&!t.mat&&st.act!=='mission'?`<p>${esc(st.txt)}</p>`:''}</div>`}
+      ${t.mat?(mini||!BOARD?`<span class="bw-note">📎 ${esc(t.matName||'Material')} · an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}" data-url="${esc(t.matUrl||'')}"></div>`):''}${!t.text&&!t.mat&&st.act!=='mission'?`<p>${esc(st.txt)}</p>`:''}</div>`}
   else if(!R.poll&&!R.share)return `<div class="bw bw-idle"><img src="assets/folien/idle.webp" alt="ELIO">${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else{const ph=phaseOf(R.phase);main=`<div class="slide"><h1>${esc(ph.name)}</h1><p>${esc(ph.txt)}</p>${R.mission?`<p style="color:var(--ink)">🎯 ${esc(R.mission)}</p>`:''}</div>`}
   const foot=[R.poll?`<span class="bw-note">🗳️ ${esc(R.poll.q)} · ${R.poll.voted.length} abgestimmt</span>`:'',R.share?`<span class="bw-note">🔗 Auf euren iPads: ${esc(R.share.name)}</span>`:''].join('');
@@ -3625,27 +3628,36 @@ async function eloSay(sl,subj){if(!sl||!sl.say)return;const vk=eloVoKey(sl.say);
   ttsSay(sl.say,subj)}
 // Elo-Stimme für einen eigenen Satz erzeugen (nur Admins, ElevenLabs über die ELIO-Funktion; es geht nur der Satz raus, keine Schülerdaten)
 // Erst Probehören, dann übernehmen. Zeitlimit statt Hängen, Meldung in der Seite statt Pop-up. Ein Aufruf pro Klick (kostet Geld).
-const VO={st:'',msg:'',id:'',txt:'',sid:''};
+const VO={st:'',msg:'',id:'',txt:'',sid:'',n:0,again:''},VOC={};// VOC: schon bezahlte Aufnahmen dieser Sitzung (Satz → Datei), damit Verwerfen und erneut Erzeugen nichts kostet
 function voPlay(id){libBlob(id).then(b=>{if(!b)return;if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>{})})}
 async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin()||VO.st==='busy')return;
-  Object.assign(VO,{st:'busy',msg:'',id:'',txt:sl.say,sid:sl.sid||''});render();
-  const why=async r=>{const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zum Server. Bist du online?';
+  const lang=L&&L.subject==='E'?'en':'de',txt=String(sl.say).slice(0,300),ck=lang+'|'+txt.replace(/\s+/g,' ').trim();
+  // Schon erzeugt (übernommen oder in dieser Sitzung verworfen): erst nachfragen bzw. die vorhandene Aufnahme nehmen, kein neuer Bezahl-Aufruf
+  const have=VOC[ck]||(sl.vo&&sl.voT===sl.say?sl.vo:''),key=(sl.sid||'')+ck;
+  if(have&&VO.again!==key){Object.assign(VO,{st:'prev',id:have,txt:sl.say,sid:sl.sid||'',again:key,msg:'Das ist die vorhandene Aufnahme (kostet nichts). Eine neue Aufnahme kostet einen weiteren ElevenLabs-Aufruf.'});render();voPlay(have);return}
+  const n=++VO.n;Object.assign(VO,{st:'busy',msg:'',id:'',txt:sl.say,sid:sl.sid||'',again:''});render();
+  const why=async r=>{const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zum Server. Bist du online? Falls ja: Die Funktion „elo-stimme“ ist vielleicht noch nicht deployt (siehe Anleitung ElevenLabs).';
     if(st===404)return 'Die Funktion „elo-stimme“ ist noch nicht auf dem Server. Sie muss einmal deployt werden (siehe Anleitung ElevenLabs).';
     let o=r&&r.data;if(!o&&e&&e.context&&e.context.json)try{o=await e.context.json()}catch(x){}
     if(o&&o.err==='nokey')return 'Die Elo-Stimme ist noch nicht eingerichtet: Auf dem Server fehlt der ElevenLabs-Schlüssel (ELEVEN_KEY).';
     if(o&&o.err==='admin')return 'Die Elo-Stimme ist nur für Admins.';if(o&&o.err==='auth'||st===401)return 'Bitte melde dich neu an.';
+    if(o&&o.err==='leer')return 'Schreib zuerst einen Satz für Elo.';
+    if(o&&o.err==='timeout')return 'ElevenLabs hat zu lange gebraucht. Es wurde nichts übernommen. Versuch es in ein paar Minuten nochmal.';
     if(o&&o.err==='tts')return o.status===401?'ElevenLabs lehnt den Schlüssel ab. Bitte ELEVEN_KEY prüfen.':o.status===402||o.status===429?'Bei ElevenLabs ist das Guthaben oder Limit erreicht.':'ElevenLabs hat gerade nicht geantwortet ('+(o.status||'?')+'). Versuch es später nochmal.';
     return 'Die Elo-Stimme ging gerade nicht'+(st?' ('+st+')':'')+'. Die Computerstimme liest trotzdem vor.'};
-  try{const sb=await sbClient(),r=await Promise.race([sb.functions.invoke('elo-stimme',{body:{text:String(sl.say).slice(0,300),lang:L&&L.subject==='E'?'en':'de'}}),new Promise(res=>setTimeout(()=>res({timeout:1}),30000))]);
-    if(r.timeout){Object.assign(VO,{st:'err',msg:'Der Server hat nach 30 Sekunden nicht geantwortet. Versuch es später nochmal.'});render();return}
-    const o=r&&r.data;if(!o||!o.audio){Object.assign(VO,{st:'err',msg:await why(r)});render();return}
-    const bin=atob(o.audio),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);const id=newId();await idb('blob','readwrite',st=>st.put(new Blob([u],{type:'audio/mpeg'}),id));
-    Object.assign(VO,{st:'prev',id});render();voPlay(id)}
-  catch(e){Object.assign(VO,{st:'err',msg:'Die Elo-Stimme ging gerade nicht ('+String(e&&e.message||e).slice(0,80)+').'});render()}}
+  const fin=async r=>{const o=r&&r.data;if(!o||!o.audio)return {msg:await why(r)};
+    const bin=atob(o.audio),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);const id=newId();await idb('blob','readwrite',st=>st.put(new Blob([u],{type:'audio/mpeg'}),id));VOC[ck]=id;return {id}};
+  // Ein Aufruf. Das Zeitlimit umfasst auch das Laden der Verbindung. Kommt die (schon bezahlte) Aufnahme verspätet, geht sie trotzdem in die Probe.
+  const job=(async()=>{const sb=await sbClient();return fin(await sb.functions.invoke('elo-stimme',{body:{text:txt,lang}}))})().catch(e=>({msg:'Die Elo-Stimme ging gerade nicht ('+String(e&&e.message||e).slice(0,80)+').'}));
+  const out=await Promise.race([job,new Promise(res=>setTimeout(()=>res({timeout:1}),25000))]);if(n!==VO.n)return;
+  const show=o=>{if(o.id){Object.assign(VO,{st:'prev',id:o.id,msg:''});render();voPlay(o.id)}else{Object.assign(VO,{st:'err',msg:o.msg});render()}};
+  if(!out.timeout){show(out);return}
+  Object.assign(VO,{st:'err',msg:'Der Server antwortet nach 25 Sekunden noch nicht. Du kannst weiterarbeiten. Kommt die Aufnahme noch, erscheint hier die Probe.'});render();
+  job.then(o=>{if(n===VO.n&&VO.st==='err'&&o.id)show(o)})}
 async function voTake(d,ok){const sl=slEdSlide(d);if(VO.st!=='prev')return;const id=VO.id;
   if(ok&&sl&&sl.say===VO.txt){sl.vo=id;sl.voT=VO.txt;sl.speak=true;save();if(lcOk())libBlob(id).then(b=>b&&lcUp(id,b)).catch(()=>{})}
-  else try{await idb('blob','readwrite',st=>st.delete(id))}catch(e){}
-  Object.assign(VO,{st:'',id:'',msg:''});render()}
+  // Verwerfen behält die Datei für diese Sitzung (VOC), damit „neu erzeugen“ für denselben Satz nichts kostet
+  Object.assign(VO,{st:'',id:'',msg:'',again:''});render()}
 function eloFx(k){if(!CS||!ELO_FX[k])return;CS.fx={k,at:Date.now()};pushCS();if(k==='say'){const st=CS.stage&&CS.stage.tool,sl=st&&st.cur;eloSay(sl,CS.stage&&CS.stage.subj)}if(k==='tweet')audPlay('zwitschern',false);if(k==='hoot')audPlay('eule',false);if(k==='wave')audPlay('zwitschern',false);setTimeout(()=>{if(CS&&CS.fx&&Date.now()-CS.fx.at>=5900){pushCS()}},6000)}
 window.eloFx=eloFx;
 function tafelSet(L){phNorm(L);if(!CS)initTeacher();if(CS.lesson&&CS.lesson.id!==L.id){CS.lesson=null;CS.ready=null;CS.poll=null;CS.journal=null;CS.phase='arrive'}if(!CS.lesson||CS.lesson.id!==L.id)CS.pick=L.id;if(L.mission)S.mission=L.mission;save();pushCS();$('#ov').hidden=true;go('tafel')}
@@ -4559,7 +4571,7 @@ async function bbGo(){const q=(($('#bb-in')||{}).value||BB.q).trim();BB.q=q;BB.e
     for(let k=0;k<5&&d&&d.err==='warten'&&d.gid;k++){BB.wait=kind==='film'?'Das Video wird gerade gedreht. Das dauert ein bis drei Minuten …':'Das Foto ist gleich fertig …';render();({r,d,st}=await call({...body,gid:d.gid}))}
     BB.wait='';
     if(r.error&&!(d&&d.err)||!d)BB.err=st===404?'Die Blackbox ist auf dem Server noch nicht eingerichtet (Funktion „blackbox“ fehlt).':st?`Die Blackbox meldet einen Serverfehler (${st}). Schau in Supabase unter Edge Functions → blackbox → Logs.`:'Die Blackbox ist nicht erreichbar. Ist die Funktion „blackbox“ in Supabase angelegt?';
-    else if(d.err)BB.err=(({nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',nokey11:'Das ist noch aus. Auf dem Server fehlt noch der ElevenLabs-Schlüssel.',ton:'Das Geräusch ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',musik:'Die Musik ging gerade nicht. Versuch es bitte nochmal oder beschreib sie anders.',foto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',film:'Das Video ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',hoer:'Der Hördialog ging gerade nicht. Versuch es bitte nochmal.',warten:'Das dauert gerade ungewöhnlich lange. Versuch es später nochmal.',plan:'Fotos und Videos aus der App brauchen bei ElevenLabs den Pro-Tarif. Geräusch, Musik und Hördialog gehen auch so.',awsfoto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',filter:'Dieses Foto erzeugt die KI nicht. Beschreib es bitte anders.',awsmarket:'AWS gibt das Bildmodell noch nicht frei. Einmal in der AWS-Konsole erledigen: Dem IAM-Nutzer der Blackbox die Marketplace-Rechte geben und das Modell in Oregon (us-west-2) einmal öffnen. Anleitung: anleitungen/bedrock-einrichten.md, Abschnitt Fotos.',awszugang:'AWS verweigert den Zugriff auf das Bildmodell. Prüf in der AWS-Konsole die Rechte des IAM-Nutzers der Blackbox (bedrock:InvokeModel in us-west-2).',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Das Ergebnis kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.')+(d.detail?` (${['foto','film','ton','musik','hoer'].includes(d.err)?'ElevenLabs':'AWS'} meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:''));
+    else if(d.err)BB.err=(({nokey:'Die Blackbox ist noch aus. Auf dem Server fehlt noch der Schlüssel für die KI.',nokey11:'Das ist noch aus. Auf dem Server fehlt noch der ElevenLabs-Schlüssel.',ton:'Das Geräusch ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',musik:'Die Musik ging gerade nicht. Versuch es bitte nochmal oder beschreib sie anders.',foto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',film:'Das Video ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',hoer:'Der Hördialog ging gerade nicht. Versuch es bitte nochmal.',warten:'Das dauert gerade ungewöhnlich lange. Versuch es später nochmal.',plan:'Fotos und Videos aus der App brauchen bei ElevenLabs den Pro-Tarif. Geräusch, Musik und Hördialog gehen auch so.',awsfoto:'Das Foto ging gerade nicht. Versuch es bitte nochmal oder beschreib es anders.',filter:'Dieses Foto erzeugt die KI nicht. Beschreib es bitte anders.',awsmarket:'Das liegt nicht an deinem Bildwunsch: AWS hat das Bildmodell (Stability AI, Oregon) für dein Konto noch nicht freigegeben. Das geht nur einmal in der AWS-Konsole (ca. 5 Minuten). Anleitung: anleitungen/bedrock-einrichten.md, Abschnitt „Fotos“. Es wurde nichts berechnet.',awszugang:'AWS verweigert den Zugriff auf das Bildmodell (Fehler 403). Der Benutzer des Blackbox-Schlüssels darf Bilder in Oregon (us-west-2) noch nicht erzeugen. Anleitung: anleitungen/bedrock-einrichten.md, Abschnitt „Fotos“. Es wurde nichts berechnet.',limit:`Für heute sind die ${d.limit} Anfragen aufgebraucht. Morgen geht es wieder.`,admin:'Die Blackbox ist nur für Admins.',auth:'Bitte melde dich neu an.',refusal:'Dazu erzeugt die Blackbox nichts. Formulier den Wunsch bitte anders.',kaputt:'Das Ergebnis kam unvollständig an. Versuch es bitte nochmal.',leer:'Schreib bitte kurz, was du brauchst.'}[d.err]||'Das hat gerade nicht geklappt. Versuch es bitte nochmal.')+(d.detail?` (${['foto','film','ton','musik','hoer'].includes(d.err)?'ElevenLabs':'AWS'} meldet${d.st?' '+d.st:''}: ${String(d.detail).slice(0,200)})`:''));
     else if(bbSvg(d.kind)){const svg=bbCleanSvg(d.svg);if(!svg)BB.err='Die Grafik kam unvollständig an. Versuch es bitte nochmal.';else{bbUrl(new Blob([svg],{type:'image/svg+xml'}));BB.res={...d,svg}}}
     else{const res={kind:d.kind,title:String(d.title||''),text:String(d.text||''),n:meta.n,limit:meta.limit};
       if(d.audio){res.blob=bbBlob(d.audio,'audio/mpeg');bbUrl(res.blob)}
@@ -4606,8 +4618,8 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       `:''}
       ${tab==='elo'?`<div class="sl-row"><span class="sl-gl">Figur</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo?`</span></div><div class="sl-row"><span class="sl-gl">Elo sagt</span><span class="sl-v"><input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="width:100%"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></span></div>
         <div class="sl-row"><span class="sl-v">${eloVoKey(sl.say)?'<span class="chip">Elo spricht diesen Satz mit seiner Stimme</span>':swH(f(j,'speak'),sl.speak,'Elo spricht den Satz','Beim Antippen von Elo an der Tafel')}</span></div>
-        ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()&&VO.st!=='prev'?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}" ${VO.st==='busy'?'disabled':''}>${VO.st==='busy'?'Elo spricht ein …':sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>`:''}</div>
-        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button></div>`:''}${VO.st==='err'&&VO.sid===(sl.sid||'')?`<p class="err" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
+        ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()&&VO.st!=='prev'?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}" ${VO.st==='busy'?'disabled':''}>${VO.st==='busy'?'⏳ Elo spricht ein …':sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>${VO.st==='busy'&&VO.sid===(sl.sid||'')?'<button class="btn sm" data-act="vo-stop">Abbrechen</button>':''}`:''}</div>
+        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button>${VO.again?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">Neu aufnehmen (kostet)</button>`:''}</div>${VO.msg?`<small class="sl-hint">${esc(VO.msg)}</small>`:''}`:''}${VO.st==='err'&&VO.sid===(sl.sid||'')?`<p class="err" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
       ${tab==='ueb'?`
         <div class="sl-row"><span class="sl-gl">Übergang</span><span class="sl-v">${Object.entries(SL_TR).map(([k,n])=>`<button class="pill ${k===(sl.tr||'')?'on':''}" data-act="sl-tr" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}${sl.tr?`<button class="btn sm" data-act="sl-trp" data-i="${i}" data-j="${j}">Vorschau</button>`:''}${sl.tr==='morph'?`<small class="sl-hint">Gleiche Teile gleiten von der Folie davor an ihren neuen Platz. Tipp: Folie duplizieren, dann Überschrift, Bilder oder Elo verschieben.</small>`:''}</span></div>
         <div class="sl-line"><button class="btn sm ${ED.zo?'on':''}" data-act="sl-zo">${ED.zo?'Zurück zur Folie':'Rand um die Folie zeigen'}</button></div><small class="sl-hint">Am Rand geparkte Teile sieht die Klasse nicht. Mit Morph gleiten sie auf der nächsten Folie herein oder hinaus.</small>`:''}
@@ -4684,7 +4696,8 @@ function phBody(p,i,L){const t=p.tool,T=t&&TOOLS[t.id],G=isGreet(p),own=t&&(TOOL
   const strip=`<div class="ph-strip">${G&&tt&&tt.id==='start'?`<div class="sl-th ${V.stOpen===i?'on':''}"><button class="sl-th-b" data-act="st-open" data-i="${i}" title="Startfolie bearbeiten"><div class="sl-pv">${richTool(tt,{subj:L.subject,mini:1})}</div><span class="chip">Startfolie</span></button></div>`:''}${deckEd({id:'slide',slides:p.xs||[]},'x'+i,L)}</div>`;
   const md=actMode(p.act),M=ACT_MODES[md];
   const chips=`<div class="ph-chips">
-    ${G?'':`<span class="ph-c"><span class="ph-l">🧰 Werkzeug</span>${phTl(p).map((x,k)=>{const X=TOOLS[x.id];if(!X)return '';const n=(p.xs||[]).findIndex(sl=>sl&&sl.sid===x.after),at=n>=0?' · nach Folie '+(n+1):'';return x===p.tool?`<button class="pill on" data-act="tool-pool" data-i="${i}" data-r="1" title="Werkzeug ändern">${X.icon} ${esc(X.name)}${at}</button><button class="pill x" data-act="tool-rm" data-i="${i}" data-k="${k}" title="Werkzeug entfernen" aria-label="${esc(X.name)} entfernen">✕</button>`:`<button class="pill" data-act="tool-sel" data-i="${i}" data-k="${k}" title="Dieses Werkzeug bearbeiten">${X.icon} ${esc(X.name)}${at}</button>`}).join('')}<button class="pill" data-act="tool-pool" data-i="${i}" title="Weiteres Werkzeug hinter die geöffnete Folie">＋ Werkzeug</button></span>`}
+    ${G?'':`<span class="ph-c"><span class="ph-l">🧰 Werkzeug</span>${phTl(p).map((x,k)=>{const X=TOOLS[x.id];if(!X)return '';const n=(p.xs||[]).findIndex(sl=>sl&&sl.sid===x.after),at=n>=0?' · nach Folie '+(n+1):'';const xs=(p.xs||[]).filter(Boolean),sel=xs.length&&x.id!=='start'?`<select class="pill-sel" data-tafter="${i}" aria-label="Wo das Werkzeug in der Phase kommt">${xs.map((sl,n)=>`<option value="${esc(sl.sid||'')}" ${sl.sid===x.after?'selected':''}>nach Folie ${n+1}</option>`).join('')}<option value="" ${n<0?'selected':''}>am Ende der Phase</option></select>`:'';
+      return x===p.tool?`<button class="pill on" data-act="tool-pool" data-i="${i}" data-r="1" title="Werkzeug ändern">${X.icon} ${esc(X.name)}${sel?'':at}</button>${sel}<button class="pill x" data-act="tool-rm" data-i="${i}" data-k="${k}" title="Werkzeug entfernen" aria-label="${esc(X.name)} entfernen">✕</button>`:`<button class="pill" data-act="tool-sel" data-i="${i}" data-k="${k}" title="Dieses Werkzeug bearbeiten">${X.icon} ${esc(X.name)}${at}</button>`}).join('')}<button class="pill" data-act="tool-pool" data-i="${i}" title="Weiteres Werkzeug hinter die geöffnete Folie">＋ Werkzeug</button></span>`}
     <span class="ph-c"><span class="ph-l">📱 iPads</span>${own?`${IPAD_OFF.includes(t.id)?`<button class="pill ${p.noipad?'':'on'}" data-act="ph-ipad" data-i="${i}" data-v="1" title="${esc(TOOL_IPAD[t.id]||'Die SuS machen auf dem iPad mit.')}">Mit iPads</button><button class="pill ${p.noipad?'on':''}" data-act="ph-ipad" data-i="${i}" data-v="0" title="Alle schauen nach vorne.">Ohne iPads</button>`:`<span class="pill on" title="${esc(TOOL_IPAD[t.id]||'')}">✨ läuft mit dem Werkzeug</span>`}`
       :`${Object.entries(ACT_MODES).map(([k,x])=>`<button class="pill ${k===md?'on':''}" data-act="ph-mode" data-i="${i}" data-m="${k}" title="${esc(x.d)}">${x.l}</button>`).join('')}${M.acts.length>1?`<select class="pill-sel" data-f="ph.${i}.act" aria-label="Art der Interaktion">${M.acts.map(a=>`<option value="${a}" ${a===(p.act||M.acts[0])?'selected':''}>${esc(ACTS[a])}</option>`).join('')}</select>`:''}`}</span></div>`;
   const extra=own?'':`${p.act==='goto'?`<label class="ph-mini">Welche Seite?<select data-f="ph.${i}.target">${Object.entries(TARGETS).map(([k,v])=>`<option value="${k}" ${k===(p.target||'module')?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:''}${p.act==='cloud'?`<label class="ph-mini">Frage an die SuS (Wortwolke)<input type="text" data-f="ph.${i}.cq" value="${esc(p.cq||'')}" placeholder="Schreib deine Vermutung auf."></label>`:''}${p.act==='poll'?`<label class="ph-mini">Welche Abstimmung?<select data-f="ph.${i}.poll">${[['thumbs','Daumen: verstanden?'],['corners','4 Ecken']].map(([k,v])=>`<option value="${k}" ${k===(p.poll||'thumbs')?'selected':''}>${v}</option>`).join('')}</select></label>`:''}`;
@@ -5804,18 +5817,26 @@ function toolStage(p,L){
   if(GAME_INFO[t.id])return `<div class="slide"><span style="font-size:5rem">${GAME_INFO[t.id].icon}</span><h1>${GAME_INFO[t.id].name}</h1><p>${esc(p.txt||'')}</p><button class="btn pri" style="font-size:1.6rem;padding:18px 34px" data-act="pgame" data-g="${t.id}" data-s="${t.s||'E'}">Spiel starten</button></div>`;
   if(t.id==='slide'||t.id==='mat'){const title=t.id==='slide'?(t.title||p.name):'';
     return `<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${p.act==='mission'&&S.mission?`<p style="color:var(--ink)">🎯 ${esc(S.mission)}</p>`:''}
-      ${t.mat?`<div class="slide-media" id="slide-media" data-id="${t.mat}"></div>`:''}${!t.text&&!t.mat&&p.act!=='mission'?`<p>${esc(p.txt||'')}</p>`:''}</div>`}
+      ${t.mat?`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}" data-url="${esc(t.matUrl||(libById(t.mat)||{}).url||'')}"></div>`:''}${!t.text&&!t.mat&&p.act!=='mission'?`<p>${esc(p.txt||'')}</p>`:''}</div>`}
   return `<div class="slide"><h1>${esc(p.name||'')}</h1><p>${esc(p.txt||'')}</p>${p.act==='mission'&&S.mission?`<p style="color:var(--ink)">🎯 ${esc(S.mission)}</p>`:''}${p.method?`<span class="chip" style="font-size:1rem">${esc(p.method)}</span>`:''}</div>`;
 }
-async function fillMedia(){
-  const el=$('#slide-media');if(!el||el.dataset.done)return;el.dataset.done=1;
-  if(!LIB.ready)await libLoad();
-  let m=libById(el.dataset.id);if(!m&&lcOk()){el.innerHTML='<p class="muted">Material wird aus der Cloud geholt …</p>';await libCloudSync();m=libById(el.dataset.id)}
-  if(!m){el.innerHTML=`<p class="muted">Dieses Material ist auf diesem Gerät noch nicht da. ${lcOk()?'Öffne ELIO einmal auf dem Gerät, auf dem du es hochgeladen hast. Dann kommt es von selbst in deine Cloud-Bibliothek.':LC.miss?'Die Cloud-Bibliothek ist noch nicht eingerichtet (bibliothek.sql in Supabase ausführen).':'Melde dich als Lehrkraft an, dann holt ELIO es aus deiner Cloud-Bibliothek.'}</p>`;return}
+// Material auf der Folie / an der Tafel. Reihenfolge: Bibliothek auf diesem Gerät → Cloud-Bibliothek → Link aus dem Live-Stand (YouTube & Co. brauchen keine Bibliothek).
+// Das Tafel-Fenster fragt ein paar Mal nach, bis das Lehrer-Fenster die Datei aus der Cloud geholt hat.
+async function fillMedia(n){
+  const el=$('#slide-media');if(!el||(el.dataset.done&&!n))return;el.dataset.done=1;const id=el.dataset.id,url=el.dataset.url||'';
+  const again=()=>{if((n||0)<6)setTimeout(()=>{const x=$('#slide-media');if(x&&x.dataset.id===id)fillMedia((n||0)+1)},2000)};
+  if(!LIB.ready||n)await libLoad(1);
+  let m=libById(id);if(!m&&lcOk()){el.innerHTML='<p class="muted">Material wird aus der Cloud geholt …</p>';await libCloudSync();m=libById(id)}
+  if(!$('#slide-media'))return;
+  if((!m||m.kind==='link')&&url){const e=embedHTML({url:m&&m.url||url,name:m?m.name:'Video'});if(e){el.innerHTML=e;return}}
+  if(!m){if(BOARD&&(n||0)<6){el.innerHTML='<p class="muted">Material wird geladen …</p>';again();return}
+    el.innerHTML=`<p class="muted">Dieses Material ist auf diesem Gerät noch nicht da. ${BOARD?'Öffne das Tafel-Fenster mit „📺 Tafel-Fenster“ auf dem Gerät, auf dem deine Bibliothek ist, oder zeige es im Präsentationsmodus.':lcOk()?'Öffne ELIO einmal auf dem Gerät, auf dem du es hochgeladen hast. Dann kommt es von selbst in deine Cloud-Bibliothek.':LC.miss?'Die Cloud-Bibliothek ist noch nicht eingerichtet (bibliothek.sql in Supabase ausführen).':'Melde dich als Lehrkraft an, dann holt ELIO es aus deiner Cloud-Bibliothek.'}</p>`;return}
   if(m.kind==='link'){el.innerHTML=embedHTML(m)||`<button class="btn pri" style="font-size:1.4rem" data-act="lib-view" data-id="${m.id}">🔗 ${esc(m.name)} öffnen</button>`;return}
-  const b=await libBlob(m.id);if(!$('#slide-media'))return;if(!b){el.innerHTML=`<p class="muted">„${esc(m.name)}“ liegt nur auf einem anderen Gerät${m.lic==='verlag'?' (Verlagsmaterial bleibt dort)':''}. Öffne ELIO dort einmal mit Internet, dann lädt es sich hoch.</p>`;return}
-  const u=URL.createObjectURL(b),t=m.mime||'';
-  el.innerHTML=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
+  const b=await libBlob(m.id);if(!$('#slide-media'))return;
+  if(!b){if(BOARD&&(n||0)<6){el.innerHTML='<p class="muted">Material wird geladen …</p>';again();return}
+    el.innerHTML=`<p class="muted">„${esc(m.name)}“ liegt nur auf einem anderen Gerät${m.lic==='verlag'?' (Verlagsmaterial bleibt dort)':''}. ${LC.miss?'Die Cloud-Bibliothek ist noch nicht eingerichtet (bibliothek.sql in Supabase ausführen).':'Öffne ELIO dort einmal mit Internet, dann lädt es sich hoch.'}</p>`;return}
+  const u=URL.createObjectURL(b),t=m.mime||b.type||'';
+  el.innerHTML=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls playsinline></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
 }
 VIEWS.present=()=>{
   const L=CS&&CS.lesson&&lessonById(CS.lesson.id);
@@ -7221,10 +7242,13 @@ document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
   const v=e.target.type==='checkbox'?e.target.checked:e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
-  const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
+  const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+// Werkzeug an eine andere Folie hängen (t.after = sid). Ändert nur die Reihenfolge, nichts wird überschrieben.
+document.addEventListener('change',e=>{const i=e.target.dataset&&e.target.dataset.tafter;if(i==null||V.name!=='lesson-edit')return;const L=lessonById(V.id),p=L&&L.phases[+i];if(!p||!p.tool)return;
+  const v=e.target.value;if(v&&(p.xs||[]).some(sl=>sl&&sl.sid===v))p.tool.after=v;else delete p.tool.after;phTl(p);save();render()});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
@@ -7355,7 +7379,7 @@ document.addEventListener('click',e=>{
       if(a==='sl-mv'){const k=j+(+d.d);if(k>=0&&k<A.length){[A[j],A[k]]=[A[k],A[j]];if(E){if(E.j===j)E.j=k;else if(E.j===k)E.j=j}}}if(t._x&&!A.length){const ph=L.phases[+String(d.i).slice(1)];if(isGreet(ph))delete ph.xs}save();render();break}
     case 'ph-ipad':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.noipad=d.v==='0';save();render();break}
     case 'kf-lvl':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;p.tool.level=d.v;save();render();break}
-    case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:'x'+d.i,j:p.xs.length-1,sel:null};save();render();break}
+    case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({sid:newSid(),layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:'x'+d.i,j:p.xs.length-1,sel:null};save();render();break}
     case 'sl-arr':V.sle={i:d.i,j:+d.j,sel:null};render();setTimeout(()=>{const b=$('.sl-ed-big');b&&b.scrollIntoView({block:'start'})},0);break;
     case 'sl-done':V.sle=null;render();break;
     case 'sl-tab':if(V.sle){V.sle.tab=d.v;if(d.v==='elo')V.sle.sel=null;render()}break;
@@ -7368,6 +7392,7 @@ document.addEventListener('click',e=>{
     case 'sl-vo-play':{const sl=slEdSlide(d),L=lessonById(V.id);if(sl)eloSay({...sl,speak:true},L&&L.subject);break}
     case 'sl-vo-gen':slVoGen(d);break;
     case 'vo-prev':voPlay(VO.id);break;
+    case 'vo-stop':VO.n++;Object.assign(VO,{st:'',msg:'',id:''});render();break;
     case 'vo-ok':voTake(d,true);break;
     case 'vo-no':voTake(d,false);break;
     case 'bb-open':BB.q=(($('#bb-in')||{}).value||BB.q);BB.open=!BB.open;render();break;
@@ -7736,7 +7761,9 @@ document.addEventListener('click',e=>{
     case 'tool-rm':{const L=lessonById(V.id),p=L&&L.phases[+d.i],A=phTl(p);if(!A[+d.k])break;A.splice(+d.k,1);p.tk=0;p.tool=A[0]||null;save();render();break}
     case 'tool-pick':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p){const old=p.tool&&TOOLS[p.tool.id],A=phTl(p);
       // Ändern ersetzt nur das aktive Werkzeug, „＋ Werkzeug“ hängt ein neues hinter die geöffnete Folie. Nichts anderes geht verloren.
-      if(!d.t)p.tool=null;else{const nt=toolDefaults(d.t,p,L);if(V.tpR&&p.tool){if(p.tool.after)nt.after=p.tool.after;p.tool=nt}else{const sl=V.sle&&String(V.sle.i)==='x'+d.i&&(p.xs||[])[V.sle.j];if(sl&&sl.sid)nt.after=sl.sid;A.push(nt);p.tk=A.length-1;p.tool=nt}}phTl(p);V.tpR=false;
+      // „Kein Werkzeug“ entfernt nur beim Ändern das aktive Werkzeug; beim Hinzufügen schließt es nur den Pool (vorher ging das aktive Werkzeug verloren).
+      // Neues Werkzeug ohne geöffnete Folie kommt hinter die letzte Folie.
+      if(!d.t){if(V.tpR)p.tool=null}else{const nt=toolDefaults(d.t,p,L);if(V.tpR&&p.tool){if(p.tool.after)nt.after=p.tool.after;p.tool=nt}else{const xs=(p.xs||[]).filter(Boolean),sl=V.sle&&String(V.sle.i)==='x'+d.i&&(p.xs||[])[V.sle.j]||(!isGreet(p)&&xs[xs.length-1]);if(sl&&sl.sid)nt.after=sl.sid;A.push(nt);p.tk=A.length-1;p.tool=nt}}phTl(p);V.tpR=false;
       if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render();if(d.t==='heftlink'||d.t==='ueb')tpOpen(+d.i,d.t==='ueb'?'ueb':'heft')}break}
     case 'tp-open':tpOpen(+d.i,d.k);break;
     case 'tp-set':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;
@@ -7784,7 +7811,7 @@ document.addEventListener('click',e=>{
     case 'lib-del-no':V.ldel=null;$('#lib-list').innerHTML=libListHTML();break;
     case 'lib-del-yes':V.ldel=null;libDel(d.id);break;
     case 'lib-pick':libPicker();break;
-    case 't-media':{const m=libById(d.id);if(m&&CS){CS.media=CS.media&&CS.media.id===m.id?null:{id:m.id,name:m.name,at:Date.now()};pushCS();render()}break}
+    case 't-media':{const m=libById(d.id);if(m&&CS){CS.media=CS.media&&CS.media.id===m.id?null:{id:m.id,name:m.name,at:Date.now(),...(m.kind==='link'?{url:String(m.url||'').slice(0,600)}:{})};if(m.kind==='file')libBlob(m.id);pushCS();render()}break}
     case 't-share':{const m=libById(d.id);if(m&&m.kind==='link'&&CS){CS.share={id:m.id,name:m.name,url:m.url,at:Date.now()};pushCS();$('#ov').hidden=true;render()}break}
     case 't-share-end':if(CS){CS.share=null;pushCS();render()}break;
     case 'share-ok':if(RCS&&RCS.share){S.shareSeen=RCS.share.at;save();liveOverlay()}break;
