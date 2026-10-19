@@ -1,19 +1,23 @@
 {
-  "_hinweis": "Elo-Figuren an einer Stelle. Neue Figur: Bild (PNG oder WEBP, 512 x 512 Pixel, transparent, Elo steht unten auf dem Rand) in assets/elo/ legen und unten bei figuren eintragen. Fach-Figur: bei fach das Fachkürzel auf den Namen der Figur setzen (M Mathe, E Englisch, D Deutsch, K Kunst, DZ DaZ, W Wirtschaft, N Natur und Technik, G GPG, I Informatik).",
+  "_hinweis": "Elo-Figuren an einer Stelle. Neue Figur: Bild (PNG oder WEBP, 512 x 512 Pixel, transparent, Elo steht unten auf dem Rand) in assets/elo/ legen und unten bei figuren eintragen. Fach-Figur: bei fach das Fachkürzel auf den Namen der Figur setzen (M Mathe, E Englisch, D Deutsch, K Kunst, DZ DaZ, W Wirtschaft, N Natur und Technik, G GPG, I Informatik). Die realistischen Bilder (-real-512.webp) sind aus Fabians ElevenLabs-Bildern vom 15.10.2026 freigestellt; die alten gezeichneten Bilder bleiben als Reserve liegen.",
   "standard": "hilfe",
   "fach": {
+    "M": "mathe",
     "E": "uk",
     "K": "kunst",
-    "W": "banker"
+    "W": "banker",
+    "WK": "banker"
   },
   "figuren": {
-    "heft":   { "name": "Elo mit Doktorhut", "datei": "elo-heft-512.png" },
-    "uebung": { "name": "Elo mit Heft", "datei": "elo-uebung-512.png" },
-    "hilfe":  { "name": "Elo hilft", "datei": "elo-hilfe-512.png" },
-    "fleiss": { "name": "Elo stark", "datei": "elo-fleiss-512.png" },
-    "uk":     { "name": "Elo in England", "datei": "elo-uk-512.png" },
-    "scot":   { "name": "Elo in Schottland (Dudelsack)", "datei": "elo-scot-512.png" },
-    "kunst":  { "name": "Elo als Maler", "datei": "elo-kunst-512.png" },
-    "banker": { "name": "Elo als Banker", "datei": "elo-banker-512.webp" }
+    "hilfe":  { "name": "Elo hilft", "datei": "elo-hilfe-real-512.webp" },
+    "hallo":  { "name": "Elo winkt", "datei": "elo-hallo-real-512.webp" },
+    "fleiss": { "name": "Elo stark", "datei": "elo-fleiss-real-512.webp" },
+    "heft":   { "name": "Elo mit Doktorhut (gezeichnet)", "datei": "elo-heft-512.png" },
+    "uebung": { "name": "Elo mit Heft (gezeichnet)", "datei": "elo-uebung-512.png" },
+    "mathe":  { "name": "Elo als Mathelehrer", "datei": "elo-mathe-real-512.webp" },
+    "uk":     { "name": "Elo in England", "datei": "elo-uk-real-512.webp" },
+    "scot":   { "name": "Elo in Schottland (Dudelsack)", "datei": "elo-scot-real-512.webp" },
+    "kunst":  { "name": "Elo als Maler", "datei": "elo-kunst-real-512.webp" },
+    "banker": { "name": "Elo als Banker", "datei": "elo-banker-real-512.webp" }
   }
 }

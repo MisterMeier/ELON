@@ -2101,7 +2101,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261018-2000';let verTold=false;
+const BUILD='20261018-2200';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2832,7 +2832,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.k==='mb'&&m.r){mbUp({...m.r,nr});return}
   // Podium: wer das Tafel-Spiel auf dem iPad geschafft hat, in der Reihenfolge des Ankommens
   if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||kidName(nr),av:cleanAv((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
-  if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.ready.goAt=Date.now();CS.rocket=Math.min(10,CS.rocket+1);try{audPlay('raketenstart',false)}catch(e){SND.cheer()}ch=true}}
+  if(CS.ready&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.ready.goAt=Date.now();CS.rocket=Math.min(10,CS.rocket+1);try{audPlay(CS.stage&&CS.stage.tool&&CS.stage.tool.bg==='boerse'?'boerse':'raketenstart',false)}catch(e){SND.cheer()}ch=true}}
   if(ch)pushCS();
   if(V.name==='tafel')updTafel();
 }
@@ -2946,14 +2946,15 @@ function updTafel(){
 const SL_BG={allgemein:'ELIO allgemein',start:'ELIO Start (mit Elo)',none:'Ohne Hintergrund (weiß)'};
 const SL_LAY={std:'Überschrift und Text',bild:'Nur Bild (ganze Folie)',frage:'Stundenfrage',murmel:'Stundenfrage mit Murmelphase',hypo:'Vermutungen'};
 // Augen der Elo-Bilder (Mitte x/y und Radius in % der Bildbreite, Lidfarbe) für das Blinzeln
-const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebung:[[32.7,31.4,9.6,'#e6e9fb'],[59.8,37.7,9.8,'#edf0fb']],hilfe:[[41.2,31.4,9.4,'#e4e7fa'],[68.1,37.4,9.6,'#f1f2fc']],fleiss:[[42.9,31.0,9.2,'#e2e4fa'],[69.1,36.5,9.4,'#f2f3fd']]};
+const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebung:[[32.7,31.4,9.6,'#e6e9fb'],[59.8,37.7,9.8,'#edf0fb']],};
+// Die realistischen Elo-Bilder (…-real-512.webp, ElevenLabs 15.10.2026) haben keine Lider zum Blinzeln; Elo lebt dort mit Kopf schief, Schütteln und Hüpfen
 // Elo-Figuren an EINER Stelle: assets/elo/figuren.json (Fach → Figur, alle Figuren mit Datei und Namen).
 // Neue Figur = Bild nach assets/elo/ und dort eintragen. Die Werte hier sind nur die Rückfallebene, falls die Datei nicht lädt.
-// Figuren mit Lidern (ELO_EYES) sind Grundposen: im Fach mit eigener Figur (z. B. Englisch) nimmt Elo automatisch die Fach-Figur.
-const ELO_FIG={heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-512.png'},fleiss:{name:'Elo stark',datei:'elo-fleiss-512.png'},
-  uk:{name:'Elo in England',datei:'elo-uk-512.png'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-512.png'},kunst:{name:'Elo als Maler',datei:'elo-kunst-512.png'},banker:{name:'Elo als Banker',datei:'elo-banker-512.webp'}};
-const ELO_SUBJ={E:'uk',K:'kunst',W:'banker'},ELO_STD={k:'hilfe'};
-const eloV=(k,s)=>k==='auto'||!ELO_FIG[k]?(ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:ELO_STD.k):ELO_EYES[k]&&ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:k,
+// Grundposen (ELO_GRUND): im Fach mit eigener Figur (z. B. Englisch) nimmt Elo automatisch die Fach-Figur.
+const ELO_FIG={heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-real-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-real-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-real-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-real-512.webp'},
+  uk:{name:'Elo in England',datei:'elo-uk-real-512.webp'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-real-512.webp'},kunst:{name:'Elo als Maler',datei:'elo-kunst-real-512.webp'},banker:{name:'Elo als Banker',datei:'elo-banker-real-512.webp'}};
+const ELO_SUBJ={M:'mathe',E:'uk',K:'kunst',W:'banker',WK:'banker'},ELO_STD={k:'hilfe'},ELO_GRUND=['heft','uebung','hilfe','fleiss','hallo'];
+const eloV=(k,s)=>k==='auto'||!ELO_FIG[k]?(ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:ELO_STD.k):ELO_GRUND.includes(k)&&ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:k,
   eloImg=(k,s)=>'assets/elo/'+(ELO_FIG[eloV(k,s)]||ELO_FIG.hilfe).datei,eloLidsS=(k,s)=>ELO_EYES[eloV(k,s)]?eloLids(eloV(k,s)):'';
 // Elo spielt einen Sound: passende Figur dazu (Dudelsack = Schottland-Elo)
 const ELO_SND_FIG={dudelsack:'scot',bigben:'uk'},fxOn=f=>!!(f&&Date.now()-f.at<(f.d||6000));
@@ -3014,11 +3015,11 @@ function vwCards(t){return lines(t&&t.cards).map(x=>{const m=x.split(/\s*[:|]\s*
 const vwTeams=t=>{const a=String(t&&t.teams||'').split(',').map(x=>x.trim()).filter(Boolean);return [a[0]||'Team A',a[1]||'Team B']};
 function vwHTML(t,c){c=c||{};const V2=t.vw||{i:0,open:false,sc:[0,0],team:0},C=t.cards||[],tm=t.tnames||['Team A','Team B'],card=C[V2.i];
   const score=`<div class="vw-sc">${tm.map((n,k)=>`<span class="${k===V2.team?'on':''}"><b>${esc(n)}</b><i>${V2.sc[k]||0}</i></span>`).join('<em>:</em>')}</div>`;
-  if(!card)return `<div class="rt rt-vw" ${bgAttr('allgemein')}>${score}<div class="vw-end"><img src="assets/elo/elo-fleiss-512.png" alt=""><h1>${C.length?'Alle Karten gespielt!':'Noch keine Karten'}</h1>${C.length?`<p>${V2.sc[0]===V2.sc[1]?'Unentschieden!':'🏆 '+esc(tm[V2.sc[0]>V2.sc[1]?0:1])+' gewinnt!'}</p>`:''}</div></div>`;
+  if(!card)return `<div class="rt rt-vw" ${bgAttr('allgemein')}>${score}<div class="vw-end"><img src="assets/elo/elo-fleiss-real-512.webp" alt=""><h1>${C.length?'Alle Karten gespielt!':'Noch keine Karten'}</h1>${C.length?`<p>${V2.sc[0]===V2.sc[1]?'Unentschieden!':'🏆 '+esc(tm[V2.sc[0]>V2.sc[1]?0:1])+' gewinnt!'}</p>`:''}</div></div>`;
   const anim=V2.open&&Date.now()-(V2.at||0)<1500&&!c.mini;
   return `<div class="rt rt-vw" ${bgAttr('allgemein')}>${score}<span class="vw-n">Karte ${V2.i+1} von ${C.length}</span>
     <div class="vw-card ${V2.open?'open':''} ${anim?'flip':''}"><div class="vw-in">
-      <div class="vw-f vw-cover"><img src="assets/elo/elo-hilfe-512.png" alt=""><b>?</b><small>Die Person vorne dreht sich um.</small></div>
+      <div class="vw-f vw-cover"><img src="assets/elo/elo-hilfe-real-512.webp" alt=""><b>?</b><small>Die Person vorne dreht sich um.</small></div>
       <div class="vw-f vw-back"><span class="vw-w">${esc(card.w)}</span><ul>${card.no.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>
     <p class="vw-h">Erklärt das Wort, ohne die <b>verbotenen Wörter</b> zu sagen!</p></div>`}
 // Planung während der Live-Stunde: Änderungen gehen kurz verzögert an Tafel und iPads
@@ -3624,7 +3625,7 @@ function wheelHTML(W,mini){const n=W.names.length,seg=360/n,el=Date.now()-W.at,e
   const segs=W.names.map((nm,i)=>{const [x1,y1]=pt(i*seg),[x2,y2]=pt((i+1)*seg),mid=(i+.5)*seg;
     return `<path d="M50 50 L${x1.toFixed(2)} ${y1.toFixed(2)} A50 50 0 ${seg>180?1:0} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${WCOL[i%WCOL.length]}"/>${n<=30?`<text x="50" y="${n>16?8:10}" transform="rotate(${mid} 50 50)" text-anchor="middle" font-size="${n>16?2.6:n>8?3.6:4.6}" fill="#fff" font-weight="800">${esc(nm.slice(0,12))}</text>`:''}`}).join('');
   return `<div class="rt rt-wh" ${bgAttr('allgemein')}><div class="wh"><svg viewBox="0 0 100 100" class="wh-s ${el<5000&&!mini?'spin':''}" style="--rot:${end}deg;animation-delay:-${Math.min(el,5000)}ms;${el>=5000||mini?`transform:rotate(${end}deg)`:''}">${n===1?`<circle cx="50" cy="50" r="50" fill="${WCOL[0]}"/>`:segs}<circle cx="50" cy="50" r="6" fill="#fff"/></svg><i class="wh-p"></i></div>
-    <div class="wh-r" style="animation-delay:${mini?0:Math.max(0,5000-el)}ms"><img src="assets/elo/elo-fleiss-512.png" alt=""><span>${esc(W.names[W.pick]||'')}</span></div></div>`}
+    <div class="wh-r" style="animation-delay:${mini?0:Math.max(0,5000-el)}ms"><img src="assets/elo/elo-fleiss-real-512.webp" alt=""><span>${esc(W.names[W.pick]||'')}</span></div></div>`}
 function groupsHTML(G){return `<div class="rt rt-gr" ${bgAttr('allgemein')}><h1>👥 Eure Gruppen</h1><div class="gr">${G.g.map((g,i)=>`<div class="gr-c" style="--c:${WCOL[i%WCOL.length]}"><b>Gruppe ${i+1}</b>${g.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`).join('')}</div></div>`}
 // Lautstärke-Ampel: Mikrofon am Lehrer-Gerät, nichts wird aufgenommen oder gesendet; nur der Pegel geht ans Tafel-Fenster
 const NOISE={on:false,lv:0,sens:5,err:'',st:null,ctx:null,iv:0};window.NOISE=NOISE;
@@ -4165,7 +4166,7 @@ function onDM(p){if(S.role!=='student'||!p||!Array.isArray(p.dm))return;S.dmSeen
   const m=p.dm.find(x=>x&&Array.isArray(x.to)&&x.to.includes(+S.nr)&&!S.dmSeen[x.id]&&!(x.ok||[]).includes(+S.nr));
   const O=$('#dm-ov');if(!m||!O.hidden)return;
   try{SND.right()}catch(e){}
-  O.hidden=false;O.innerHTML=(`<div class="box dm-box"><img src="assets/elo/elo-hilfe-512.png" alt="" width="84" height="84"><span class="label">Nachricht von deiner Lehrkraft · nur für dich</span><h2>${esc(m.t)}</h2><button class="btn pri big" data-act="dm-ok" data-id="${esc(m.id)}">OK, gelesen</button></div>`)}
+  O.hidden=false;O.innerHTML=(`<div class="box dm-box"><img src="assets/elo/elo-hilfe-real-512.webp" alt="" width="84" height="84"><span class="label">Nachricht von deiner Lehrkraft · nur für dich</span><h2>${esc(m.t)}</h2><button class="btn pri big" data-act="dm-ok" data-id="${esc(m.id)}">OK, gelesen</button></div>`)}
 // Abmelden für geteilte iPads: Die Tafel schickt die Zeit der letzten Sammel-Abmeldung bei jedem Takt mit.
 // Wer sich davor angemeldet hat, wird abgemeldet, auch wenn das iPad erst Stunden später wieder aufwacht.
 let OUTBUSY=false;
@@ -4526,7 +4527,7 @@ function bsScene(rd,mini){const d=rd?rd.d:0,n=rd?rd.n:0,full=n>0&&d>=n,p=!rd||fu
     <path d="M${L.join('L')}L${Math.max(last[0],12)},210L12,210Z" fill="url(#bsG)"/><polyline points="${(anim?P.slice(0,-1):P).map(q=>q.join(',')).join(' ')}" fill="none" stroke="#1e3a8a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
     ${anim?`<path class="bs-new" d="M${prev.join(',')}L${last.join(',')}" pathLength="1" fill="none" stroke="#1e3a8a" stroke-width="5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`:''}
     ${full&&rd?'':`<circle class="bs-dot" cx="${last[0]}" cy="${last[1]}" r="7" fill="#f59e0b" stroke="#fff" stroke-width="3"/>`}</svg>${full&&rd?'<i class="bs-arrow"></i>':''}</div>
-    <div class="bs-elo"><img src="assets/elo/elo-banker-512.webp" alt="Elo als Banker" draggable="false"></div>
+    <div class="bs-elo"><img src="assets/elo/elo-banker-real-512.webp" alt="Elo als Banker" draggable="false"></div>
     ${rd?`<div class="at-cnt bs-cnt" style="--pc:${n?Math.min(1,d/n):0}"><div class="rp-tank"><i></i></div><b>${full?'Alle bereit! Die Aktie schießt nach oben.':d+' / '+(n||'–')+' bereit'}</b></div>`:''}
     ${mini?'':`<div class="bs-tick"><div>${Array(2).fill(`<span>ELO <em>▲ ${ch} %</em></span><span>WIB <em>▲ ${(cv/2).toFixed(1).replace('.',',')} %</em></span><span>BEREIT <em>${rd?d+' / '+(n||'–'):'–'}</em></span><span>BÖRSE <em>${esc(className())}</em></span>`).join('')}</div></div>`}</div>`}
 // Klassen-Rakete: jedes Kind, das „Bereit“ drückt, füllt den Tank. Sind alle bereit, hebt sie ab.
@@ -5813,10 +5814,13 @@ document.addEventListener('keydown',e=>{if(!KF||KF.phase!=='play'||!['kfb','pres
   if(e.key==='r'||e.key==='R')kfJudge(true);if(e.key==='f'||e.key==='F')kfJudge(false)});
 
 /* --- Geräusche (Web Audio; Tor = Fabians Sound-Datei) --- */
-const KS={ctx:null,master:null,vol:0.8,muted:false,goalEl:null,
+const KS={ctx:null,master:null,vol:0.8,muted:false,goalEl:null,el:{},bad:{},
   load(){try{const v=localStorage.getItem('elio-kfb-vol');if(v!=null)this.vol=+v;this.muted=localStorage.getItem('elio-kfb-mute')==='1'}catch(e){}},
   save(){try{localStorage.setItem('elio-kfb-vol',this.vol);localStorage.setItem('elio-kfb-mute',this.muted?'1':'0')}catch(e){}},
-  apply(){if(this.master)this.master.gain.value=this.muted?0:this.vol;if(this.goalEl)this.goalEl.volume=this.muted?0:this.vol},
+  apply(){if(this.master)this.master.gain.value=this.muted?0:this.vol;if(this.goalEl)this.goalEl.volume=this.muted?0:this.vol;Object.values(this.el).forEach(a=>a.volume=this.muted?0:this.vol)},
+  // Fabians Fußball-Sounds (ElevenLabs); fehlt eine Datei, spielt der synthetische Ton (fb)
+  smp(f,fb,delay=0){if(BOARD)return;if(this.bad[f]){fb&&fb();return}setTimeout(()=>{try{let a=this.el[f];if(!a){a=this.el[f]=new Audio(f);a.preload='auto';a.onerror=()=>{this.bad[f]=1}}
+    a.volume=this.muted?0:this.vol;a.pause();a.currentTime=0;const pr=a.play();if(pr)pr.catch(()=>{if(this.bad[f]&&fb)fb()})}catch(e){fb&&fb()}},delay*1000)},
   ac(){if(BOARD)return null;if(!this.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;this.ctx=new C();this.master=this.ctx.createGain();this.master.connect(this.ctx.destination);this.apply()}
     if(this.ctx.state==='suspended')this.ctx.resume();return this.ctx},
   noise(c,sec){const b=c.createBuffer(1,Math.max(1,Math.floor(c.sampleRate*sec)),c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=c.createBufferSource();s.buffer=b;return s},
@@ -5830,15 +5834,17 @@ const KS={ctx:null,master:null,vol:0.8,muted:false,goalEl:null,
     const trem=c.createOscillator(),tg=c.createGain();trem.frequency.value=28;tg.gain.value=vol*.5;trem.connect(tg);tg.connect(g.gain);
     [2950,3080].forEach(f=>{const o=c.createOscillator();o.type='square';o.frequency.value=f;o.connect(bp);o.start(t);o.stop(t+dur+.05)});
     bp.connect(g);g.connect(this.master);this.env(c,g,t,.02,dur-.06,.04,vol);trem.start(t);trem.stop(t+dur+.05)},
-  kick(){const c=this.ac();if(!c)return;const t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(45,t+.16);
+  kick(){this.smp('assets/sounds/ui/fussball-schuss-kurz.mp3',()=>this.kickS())},
+  kickS(){const c=this.ac();if(!c)return;const t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(45,t+.16);
     g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);o.connect(g);g.connect(this.master);o.start(t);o.stop(t+.25);
     const n=this.noise(c,.03),hp=c.createBiquadFilter(),ng=c.createGain();hp.type='highpass';hp.frequency.value=1500;ng.gain.value=.4;n.connect(hp);hp.connect(ng);ng.connect(this.master);n.start(t)},
   roll(){const c=this.ac();if(!c)return;const t=c.currentTime,n=this.noise(c,.8),lp=c.createBiquadFilter(),g=c.createGain();lp.type='lowpass';lp.frequency.value=380;this.env(c,g,t,.05,.35,.4,.35);n.connect(lp);lp.connect(g);g.connect(this.master);n.start(t)},
   ohh(){const c=this.ac();if(!c)return;const t=c.currentTime;
     [[800,320,5],[2300,1000,6]].forEach(([f0,f1,q],j)=>{const n=this.noise(c,1.6),bp=c.createBiquadFilter(),g=c.createGain();bp.type='bandpass';bp.Q.value=q;bp.frequency.setValueAtTime(f0,t);bp.frequency.exponentialRampToValueAtTime(f1,t+1.4);
       this.env(c,g,t,.25,.6,.7,j?.25:.6);n.connect(bp);bp.connect(g);g.connect(this.master);n.start(t)})},
-  goal(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio('assets/audio/tor.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}},
-  intro(){this.crowd(4.4,.38);this.whistle(.25,3.0);this.whistle(1,3.35)},
+  goal(){this.smp('assets/audio/fussball-tor.mp3',()=>this.goalOld())},
+  goalOld(){if(BOARD)return;try{if(!this.goalEl)this.goalEl=new Audio('assets/audio/tor.mp3');this.apply();this.goalEl.currentTime=0;this.goalEl.play().catch(()=>{})}catch(e){}},
+  intro(){this.crowd(4.4,.38);this.smp('assets/audio/fussball-pfiff.mp3',()=>{this.whistle(.25);this.whistle(1,.35)},3.0)},
   final(){this.whistle(.28,0);this.whistle(.28,.45);this.whistle(1.3,.9);this.crowd(3.5,.3,.8)},
 };
 KS.load();
@@ -7320,7 +7326,7 @@ document.addEventListener('input',e=>{if(e.target.id==='lib-q'){V.q=e.target.val
    LERNTAGEBUCH: automatisch 5 Minuten vor Stundenende und per Tafel
    ===================================================================== */
 const JR_ST=['Heute habe ich gelernt, dass …','Heute fiel mir leicht, …','Heute fiel mir schwer, …','Ich habe noch eine Frage: …','Das möchte ich mir merken: …','Besonders gut fand ich …','Nächstes Mal möchte ich …','Ich bin stolz auf mich, weil …'];
-function jrStarters(tg){return `<div class="jr-elo"><button class="jr-elo-b" data-act="jr-elo" type="button"><img src="assets/elo/elo-hilfe-512.png" alt=""><span><b>Elo hilft dir</b><small>Satzanfänge, wenn dir nichts einfällt</small></span></button><div class="jr-st" hidden>${JR_ST.map(x=>`<button class="chip" type="button" data-act="jr-st" data-tg="${tg}" data-s="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`}
+function jrStarters(tg){return `<div class="jr-elo"><button class="jr-elo-b" data-act="jr-elo" type="button"><img src="assets/elo/elo-hilfe-real-512.webp" alt=""><span><b>Elo hilft dir</b><small>Satzanfänge, wenn dir nichts einfällt</small></span></button><div class="jr-st" hidden>${JR_ST.map(x=>`<button class="chip" type="button" data-act="jr-st" data-tg="${tg}" data-s="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`}
 const MOODS=[['😀','super'],['🙂','gut'],['😐','geht so'],['😕','schwer']];
 let JM=null;
 function journalForm(src,id=''){JM=null;const pr=src==='live'&&RCS&&RCS.journal&&RCS.journal.prompt?lines(RCS.journal.prompt):null;

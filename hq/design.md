@@ -7,18 +7,20 @@ Ein einheitlicher Look für App und Material: Designstandard, Elo als Leitfigur 
 gelb
 
 ## Fortschritt
-50%
+60%
 
 ## Nächste 3 Schritte
-- Elo-Figuren realistisch neu zeichnen, sobald ElevenLabs eingerichtet ist (t41)
+- Realistische Elos für Doktorhut und Heft sowie kurze Töne für Klick und Fehler ergänzen
 - Gemeinsame Schriftfarben-Komponente für alle Editoren (Runde 2)
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
-- Elo auf jeder Folie (18.10.): Figur kommt automatisch aus assets/elo/figuren.json (Fach → Figur); UI-Sounds (assets/sounds/ui, Schalter im Logo-Menü) eingebaut, die MP3-Dateien fehlen noch im Repo
 - Designstandard für Material (elon/designstandard-material.md) bei jedem neuen Hefteintrag anwenden
 
 ## Erledigt
+- 8 realistische Elo-Bilder (ElevenLabs) freigestellt und nach Fach eingebunden: Mathe, Englisch, Schottland, Kunst, Wirtschaft, Standard, Winken, Stark (18.10.)
+- Fabians Sounds eingebunden: Futuristisch als Steuerungs-Töne (Bestätigen, Fenster auf/zu), Fußball im Kicker, Börse beim Bereit-Check, alle auch in den Tafel-Sounds (18.10.)
+- Elo auf jeder Folie, Figur automatisch nach Fach aus assets/elo/figuren.json (18.10.)
 - Kontrast in der Hefteintrag-Auswahl und bei Merke/Achtung-Überschriften auf mindestens WCAG AA gebracht (18.10.)
 - Designstandard für Hefteinträge, Übungen und Druck (Fabian OK 12.10.)
 - Fach-Elos: UK-Elo für Englisch, Maler-Elo für Kunst
