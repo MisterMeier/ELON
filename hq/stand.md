@@ -8,6 +8,7 @@
 - HQ-Dashboard mit Stadt, Bugs, Systemen und Effizienz ist eingerichtet (PR #19).
 - Runde 7a-Start (18.10.) gemergt (PR #28): Sitzplan pro Klasse, Ordner pro Klasse, Elo-Stimme (CORS), Elo auf jeder Folie.
 - Sammelauftrag 19.10. (P1 und P2) im PR zum Testen: siehe elon/berichte/2026-10-19-sammelauftrag-p1-p2.md.
+- Sammelauftrag P3 (19.10.): Werkzeuge „Irregular Verbs“ und „Tabelle abfragen“ im selben PR, Bericht elon/berichte/2026-10-19-sammelauftrag-p3.md.
 - Nachtrag im PR: realistische Elo-Bilder nach Fach und Fabians neue Sounds.
 
 ## Offene Probleme

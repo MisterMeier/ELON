@@ -501,6 +501,7 @@ button.seat{font-family:var(--f-display);font-weight:800;font-size:1.25rem;backg
 .lcard{display:grid;gap:12px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0}
 .lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
 .lgrid label{display:grid;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);min-width:0}
+.tb-ed{border-collapse:collapse;width:100%}.tb-ed th,.tb-ed td{padding:4px;vertical-align:top;border:1px solid #c7d2fe}.tb-ed input{width:100%;min-width:110px}.tb-ed th input{font-weight:800}
 .lgrid input,.lgrid select{text-transform:none;letter-spacing:0;font-size:1rem;font-weight:600}
 .ph-hd{display:flex;align-items:center;gap:12px;flex:1;min-width:0;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}.ph-hd-t{display:grid;min-width:0}.ph-hd-t b{font-family:var(--f-display);font-size:1.15rem;color:var(--navy,#1e3a8a);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ph-hd-t small{color:#64748b;font-weight:700}.ph-car{color:#4f46e5;font-size:1.2rem;margin-left:auto;padding-right:6px}
 .lcard.ph-shut{padding:10px 16px}.lcard.ph-shut:hover{border-color:#c7d2fe}.lcard.ph-open{border:2px solid #c7d2fe}
@@ -4406,7 +4407,7 @@ const TOOLS={
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','irreg','tbl','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['🧩','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
@@ -4754,6 +4755,18 @@ function toolEditor(p,i,L){
         <div class="lgrid">${ta('tg','Grund (leichter)',t.tg,4)}${ta('tp','Plus (schwerer)',t.tp,4)}
         <label>Wer wählt das Niveau?<select data-f="ph.${i}.tool.lvm"><option value="self" ${t.lvm!=='teacher'?'selected':''}>Jedes Kind wählt selbst</option><option value="teacher" ${t.lvm==='teacher'?'selected':''}>Ich weise zu (Klasse → Schüler/innen)</option></select></label>
         <div><button class="btn sm" disabled title="Kommt mit Elo-KI">Leichter/schwerer erzeugen (bald)</button></div></div></details></div>`}
+  // Eigene Listen speichern und laden (Irregular Verbs, Tabelle): liegen in den Lehrer-Daten, nicht in der Stunde
+  const lstBar=`<div class="row" style="grid-column:1/-1;gap:8px"><select id="lst-sel-${i}" aria-label="Gespeicherte Liste"><option value="">Gespeicherte Liste laden …</option>${(TD.lists||[]).filter(x=>x.tool===t.id).map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select><button class="btn sm" data-act="lst-load" data-i="${i}">Laden</button><button class="btn sm" data-act="lst-save" data-i="${i}">Als Liste speichern</button><button class="btn sm ghost" data-act="lst-del" data-i="${i}">Liste löschen</button></div>`;
+  if(t.id==='irreg'&&cfg)cfg=cfg.replace(/<\/div>$/,lstBar+'</div>');
+  if(t.id==='tbl'){const m=tbModel(t.text||AKT.tbl.ex),W=m.cells[0].length,colSel=(k,v,lab)=>`<label>${lab}<select data-act-chg="tb-col" data-i="${i}" data-k="${k}">${m.cells[0].map((h,c)=>`<option value="${c}" ${c===v?'selected':''}>${c+1}: ${esc(h||'(leer)')}</option>`).join('')}</select></label>`;
+    cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel an der Tafel (freiwillig)',t.title,AKT.tbl.name)}
+      <div style="grid-column:1/-1;overflow:auto"><table class="tb-ed"><thead><tr>${m.cells[0].map((h,c)=>`<th><input type="text" data-tbc="${i}|0|${c}" value="${esc(h)}" aria-label="Spaltenname ${c+1}" placeholder="Spalte ${c+1}"><button class="btn sm ghost" data-act="tb-delc" data-i="${i}" data-c="${c}" ${W>2?'':'disabled'} aria-label="Spalte ${c+1} löschen">Spalte löschen</button></th>`).join('')}<th></th></tr></thead>
+        <tbody>${m.cells.slice(1).map((r,j)=>`<tr>${r.map((v,c)=>`<td><input type="text" data-tbc="${i}|${j+1}|${c}" value="${esc(v)}" aria-label="Zeile ${j+1}, Spalte ${c+1}"></td>`).join('')}<td><button class="btn sm ghost" data-act="tb-delr" data-i="${i}" data-r="${j+1}" aria-label="Zeile ${j+1} löschen">Zeile löschen</button></td></tr>`).join('')}</tbody></table></div>
+      <div class="row" style="grid-column:1/-1;gap:8px"><button class="btn sm" data-act="tb-addr" data-i="${i}">Zeile hinzufügen</button><button class="btn sm" data-act="tb-addc" data-i="${i}" ${W<12?'':'disabled'}>Spalte hinzufügen</button><span class="chip">Erkannt: ${m.cells.length-1} Zeilen · ${W} Spalten · 8 Abfragen pro Runde</span></div>
+      ${colSel('a',m.a,'Gegeben (Spalte A)')}${colSel('b',m.b,'Abgefragt (Spalte B)')}
+      <label class="row" style="gap:8px;grid-column:1/-1"><input type="checkbox" data-act-chg="tb-mix" data-i="${i}" ${m.mix?'checked':''} style="width:auto"> Beide Richtungen mischen (A→B und B→A)</label>
+      <label style="grid-column:1/-1">Aus Excel einfügen (kopierte Zellen, Tab-getrennt; ersetzt die Tabelle)<textarea id="tb-paste-${i}" rows="3" placeholder="Zellen in Excel markieren, kopieren und hier einfügen"></textarea></label>
+      <div class="row" style="grid-column:1/-1;gap:8px"><button class="btn sm pri" data-act="tb-import" data-i="${i}">Tabelle übernehmen</button><button class="btn sm" data-act="ak-ex" data-i="${i}">Beispiel einsetzen</button></div>${lstBar}</div>`}
   if(t.id==='geo'){const sel=(k,L,cur,lab)=>`<label>${lab}<select data-f="ph.${i}.tool.${k}">${L.map(([v,n])=>`<option value="${v}" ${String(cur==null?L[0][0]:cur)===String(v)?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`;
     cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel an der Tafel (freiwillig)',t.title,'Wo liegt was?')}${sel('wcat',[['','Die SuS wählen selbst'],...WLW_CATS.map(c=>[c[0],c[1]])],t.wcat||'','Kategorie')}
       ${t.wcat?`${sel('wlv',[[1,'leicht'],[2,'mittel'],[3,'schwer']],t.wlv,'Schwierigkeit')}${sel('wn',WLW_N.map(n=>[n,n+' Fragen']),t.wn||10,'Anzahl')}${sel('wt',WLW_T.map(x=>[x,x?x+' Sekunden':'ohne Zeitlimit']),t.wt||0,'Zeit pro Frage')}
@@ -4900,6 +4913,13 @@ function sayCheck(target,heard,lang){const de=lang==='de-DE';if(!de){target=enLo
   const orig=String(target).replace(/[^\p{L}0-9\s]/gu,' ').split(/\s+/).filter(Boolean),missing=tw.map((x,i)=>sims[i]?null:(orig.length===tw.length?orig[i]:x)).filter(Boolean),score=sims.reduce((a,b)=>a+b,0)/tw.length;
   return {level:score>=.92&&!missing.length?'green':score>=.72||missing.length<=1?'yellow':'red',score,hints:[],missing}}
 const MIO=['50','100','200','300','500','1.000','2.000','4.000','8.000','16.000','32.000','64.000','125.000','500.000','1 Million'];
+// Tabellen-Werkzeug: Text mit Tabs (so kommt es aus Excel). Erste Zeile optional „Abfrage: 1 > 2“ oder „Abfrage: 1 <> 2“ (beide Richtungen gemischt)
+function tbModel(t){let L=String(t||'').split('\n').map(x=>x.replace(/\r$/,'')).filter(x=>x.trim()),a=0,b=1,mix=false;
+  const m=L.length&&/^\s*abfrage\s*:\s*(\d+)\s*(<>|>)\s*(\d+)/i.exec(L[0]);if(m){a=Math.max(0,+m[1]-1);b=Math.max(0,+m[3]-1);mix=m[2]==='<>';L.shift()}
+  let cells=L.map(l=>(l.includes('\t')?l.split('\t'):l.includes('|')?l.split('|'):[l]).map(x=>vokClean(x)));const w=Math.max(2,...cells.map(r=>r.length));
+  cells=cells.map(r=>{r=r.slice();while(r.length<w)r.push('');return r.slice(0,12)});if(!cells.length)cells=[['A','B'],['','']];cells=cells.slice(0,81);
+  const W=cells[0].length;return {cells,a:Math.min(a,W-1),b:Math.min(b===a?(a+1)%W:b,W-1),mix}}
+function tbText(m){return 'Abfrage: '+(m.a+1)+(m.mix?' <> ':' > ')+(m.b+1)+'\n'+m.cells.map(r=>r.join('\t')).join('\n')}
 const AKT={
   match:{name:'Paare zuordnen',icon:'🔗',txt:'Links und rechts verbinden. Eine Zeile pro Paar, getrennt mit |.',fit:/übung|vertief|wiederhol|sicherung|anwend/i,
     help:'Ein Paar pro Zeile, links | rechts',
@@ -5029,6 +5049,47 @@ const AKT={
       if(a.k==='next'){s.q.shift();if(s.res!=='ok')s.q.splice(Math.min(s.q.length,2),0,i);s.res=null;s.ans='';
         if(!s.q.length)s.win=true;
         setTimeout(()=>{const el=document.getElementById('ak-vok-in');if(el)el.focus()},60)}}},
+  irreg:{name:'Irregular Verbs',icon:'🔁',txt:'Unregelmäßige Verben trainieren: Zu Infinitiv und Deutsch tippen die SuS Simple Past und Past Participle. Falsche Verben kommen wieder, bis alle sitzen.',fit:/verb|grammatik|wortschatz|übung|wiederhol|warm/i,
+    help:'Ein Verb pro Zeile: Infinitiv | Simple Past | Past Participle | Deutsch. Mehrere richtige Formen mit / trennen (was/were).',
+    ex:'be | was/were | been | sein\nbegin | began | begun | anfangen\nbreak | broke | broken | brechen\nbring | brought | brought | bringen\nbuy | bought | bought | kaufen\ncatch | caught | caught | fangen\nchoose | chose | chosen | wählen\ncome | came | come | kommen\ndo | did | done | tun\ndrink | drank | drunk | trinken\neat | ate | eaten | essen\nfall | fell | fallen | fallen\nfeel | felt | felt | fühlen\nfind | found | found | finden\nfly | flew | flown | fliegen\nforget | forgot | forgotten | vergessen\nget | got | got | bekommen\ngive | gave | given | geben\ngo | went | gone | gehen\nhave | had | had | haben\nhear | heard | heard | hören\nknow | knew | known | wissen, kennen\nleave | left | left | verlassen\nmake | made | made | machen\nmeet | met | met | treffen\nread | read | read | lesen\nrun | ran | run | rennen\nsay | said | said | sagen\nsee | saw | seen | sehen\nsing | sang | sung | singen\nsit | sat | sat | sitzen\nsleep | slept | slept | schlafen\nspeak | spoke | spoken | sprechen\nswim | swam | swum | schwimmen\ntake | took | taken | nehmen\nteach | taught | taught | unterrichten\nthink | thought | thought | denken\nwrite | wrote | written | schreiben',
+    exE:'be | was/were | been | sein\nbegin | began | begun | anfangen\nbreak | broke | broken | brechen\nbring | brought | brought | bringen\nbuy | bought | bought | kaufen\ncatch | caught | caught | fangen\nchoose | chose | chosen | wählen\ncome | came | come | kommen\ndo | did | done | tun\ndrink | drank | drunk | trinken\neat | ate | eaten | essen\nfall | fell | fallen | fallen\nfeel | felt | felt | fühlen\nfind | found | found | finden\nfly | flew | flown | fliegen\nforget | forgot | forgotten | vergessen\nget | got | got | bekommen\ngive | gave | given | geben\ngo | went | gone | gehen\nhave | had | had | haben\nhear | heard | heard | hören\nknow | knew | known | wissen, kennen\nleave | left | left | verlassen\nmake | made | made | machen\nmeet | met | met | treffen\nread | read | read | lesen\nrun | ran | run | rennen\nsay | said | said | sagen\nsee | saw | seen | sehen\nsing | sang | sung | singen\nsit | sat | sat | sitzen\nsleep | slept | slept | schlafen\nspeak | spoke | spoken | sprechen\nswim | swam | swum | schwimmen\ntake | took | taken | nehmen\nteach | taught | taught | unterrichten\nthink | thought | thought | denken\nwrite | wrote | written | schreiben',
+    parse:t=>({verbs:String(t||'').split('\n').map(l=>l.split(/\s*(?:\||\t|=)\s*/).map(x=>vokClean(x))).filter(x=>x.length>=3&&x[0]&&x[1]&&x[2]).slice(0,80).map(x=>[x[0],x[1],x[2],x[3]||''])}),
+    count:d=>d.verbs.length+(d.verbs.length===1?' Verb':' Verben'),
+    init:d=>({q:shuffle(d.verbs.map((_,i)=>i)),ok:{},wr:{},res:null,a1:'',a2:'',r1:0,r2:0,tries:0}),
+    view:(d,s)=>{if(!d.verbs.length)return '<div class="empty">Keine Verben eingetragen.</div>';const i=s.q[0],w=d.verbs[i],n=Object.keys(s.ok).length;
+      if(i==null)return `<div class="vk-card"><b style="font-size:1.4em">Alle ${d.verbs.length} Verben sitzen!</b></div>`;const r=s.res;
+      const fld=(k,lab,sol,val,okk)=>`<label style="display:block;margin-top:8px"><span class="label">${lab}</span><input id="ak-ir-${k}" data-akenter="${k}" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" value="${esc(val)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">${r&&!okk?`<small class="vk-fb no" style="display:block">Richtig ist: <b>${esc(sol)}</b></small>`:''}${r&&okk?'<small class="vk-fb ok" style="display:block">Richtig</small>':''}</label>`;
+      return `<div class="say-prog"><i style="width:${n/d.verbs.length*100}%"></i></div><p class="say-stat">${n} von ${d.verbs.length} sitzen</p>
+      <div class="vk-card"><span class="label">Infinitive</span><div class="say-w">${esc(w[0])}</div>${w[3]?`<p class="muted" style="font-weight:700;margin:0">${esc(w[3])}</p>`:''}
+        ${fld(1,'Simple Past',w[1],s.a1,s.r1)}${fld(2,'Past Participle',w[2],s.a2,s.r2)}
+        ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht. Das Verb kommt gleich nochmal.'}</b></p><div class="row" style="justify-content:center"><button class="btn" data-act="ak" data-k="hear">Anhören</button><button class="btn pri" data-act="ak" data-k="next" id="ak-vok-go">Weiter</button></div>`
+        :`<div class="row" style="justify-content:center;margin-top:10px"><button class="btn pri" data-act="ak" data-k="chk" id="ak-vok-go">Prüfen</button><button class="btn" data-act="ak" data-k="skip">Weiß ich nicht</button></div>`}</div>`},
+    act:(d,s,a)=>{const i=s.q[0],w=d.verbs[i];if(w==null)return;
+      if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w[0]+', '+w[1].split('/')[0]+', '+w[2].split('/')[0]);u.lang='en-GB';u.rate=.8;const v=bestVoice('en-GB');if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
+      if(a.k==='chk'||a.k==='skip'){const e1=document.getElementById('ak-ir-1'),e2=document.getElementById('ak-ir-2');s.a1=a.k==='skip'?'':(e1?e1.value:'');s.a2=a.k==='skip'?'':(e2?e2.value:'');
+        const chk=(sol,ans)=>{const al=String(sol).split('/').map(x=>x.trim().toLowerCase()),parts=String(ans).toLowerCase().split('/').map(x=>x.trim().replace(/[.!?]/g,'')).filter(Boolean);return !!parts.length&&parts.every(p=>al.includes(p))};
+        s.r1=a.k==='chk'&&chk(w[1],s.a1)?1:0;s.r2=a.k==='chk'&&chk(w[2],s.a2)?1:0;const ok=s.r1&&s.r2;s.res=ok?'ok':'no';s.tries++;
+        if(ok){s.ok[i]=1;SND.right()}else{SND.oops();s.wr[i]=1}return}
+      if(a.k==='next'){s.q.shift();if(s.res!=='ok')s.q.splice(Math.min(s.q.length,2),0,i);s.res=null;s.a1='';s.a2='';s.r1=0;s.r2=0;
+        if(!s.q.length){s.win=true;s.msg=`Alle ${d.verbs.length} Verben geschafft${Object.keys(s.wr).length?', '+Object.keys(s.wr).length+' davon mit Wiederholung':' ohne Fehler'}!`}
+        setTimeout(()=>{const el=document.getElementById('ak-ir-1');if(el)el.focus()},60)}}},
+  tbl:{name:'Tabelle abfragen',icon:'🗂️',txt:'Eigene Tabelle (z. B. Vokabeln aus dem Buch). Pro Runde 8 zufällige Abfragen: Spalte A ist gegeben, die SuS tippen Spalte B.',fit:/vokabel|wortschatz|wiederhol|übung|warm|tabelle/i,
+    help:'Tabelle unten im Editor bauen oder aus Excel einfügen (Tabs). Erste Zeile = Spaltennamen.',
+    ex:'Abfrage: 1 > 2\nEnglisch\tDeutsch\nzoo\tZoo\nto feed\tfüttern\ngiraffe\tGiraffe\nkeeper\tTierpfleger/in\nenclosure\tGehege\ndangerous\tgefährlich\ncage\tKäfig\nmonkey\tAffe\nticket\tEintrittskarte\nsouvenir\tAndenken',
+    exE:'Abfrage: 1 > 2\nEnglisch\tDeutsch\nzoo\tZoo\nto feed\tfüttern\ngiraffe\tGiraffe\nkeeper\tTierpfleger/in\nenclosure\tGehege\ndangerous\tgefährlich\ncage\tKäfig\nmonkey\tAffe\nticket\tEintrittskarte\nsouvenir\tAndenken',
+    parse:t=>{const m=tbModel(t);return {head:m.cells[0],rows:m.cells.slice(1),a:m.a,b:m.b,mix:m.mix}},
+    count:d=>d.rows.length+' Zeilen · '+d.head.length+' Spalten · 8 pro Runde',
+    init:d=>{const idx=shuffle(d.rows.map((_,i)=>i)).slice(0,8);return {items:idx.map(r=>({r,rev:d.mix?Math.random()<.5:false})),i:0,score:0,wrong:[],res:null,ans:'',ch:false}},
+    view:(d,s)=>{if(!d.rows.length||d.head.length<2)return '<div class="empty">Die Tabelle braucht mindestens 2 Spalten und eine Zeile.</div>';const it=s.items[s.i];if(!it)return '';
+      const row=d.rows[it.r],ca=it.rev?d.b:d.a,cb=it.rev?d.a:d.b,ask=row[ca]||'',sol=row[cb]||'',r=s.res;
+      return `<div class="say-prog"><i style="width:${s.i/s.items.length*100}%"></i></div><p class="say-stat">Frage ${s.i+1} von ${s.items.length}</p>
+      <div class="vk-card"><span class="label">${esc(d.head[ca]||'')}</span><div class="say-w">${esc(ask)}</div><span class="label">${esc(d.head[cb]||'')}</span>
+        <input id="ak-vok-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="deine Antwort …" value="${esc(s.ans)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">
+        ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht.'}</b> ${s.ch&&r!=='ok'?'Achte auf Groß- und Kleinschreibung. ':''}${r==='ok'?'':'Richtig ist: '}<b>${esc(sol)}</b></p><div class="row" style="justify-content:center"><button class="btn pri" data-act="ak" data-k="next" id="ak-vok-go">${s.i+1<s.items.length?'Weiter':'Fertig'}</button></div>`
+        :`<div class="row" style="justify-content:center"><button class="btn pri" data-act="ak" data-k="chk" id="ak-vok-go">Prüfen</button><button class="btn" data-act="ak" data-k="skip">Weiß ich nicht</button></div>`}</div>`},
+    act:(d,s,a)=>{const it=s.items[s.i];if(!it)return;const row=d.rows[it.r],cb=it.rev?d.a:d.b,sol=row[cb]||'';
+      if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const ok=a.k==='chk'&&vokOk(sol,s.ans,true);s.ch=!ok&&a.k==='chk'&&!!String(s.ans).trim()&&vokOk(sol,s.ans,false);s.res=ok?'ok':'no';if(ok){s.score++;SND.right()}else{SND.oops();s.wrong.push((row[it.rev?d.b:d.a]||'')+' = '+sol)}return}
+      if(a.k==='next'){if(s.i+1<s.items.length){s.i++;s.res=null;s.ans='';s.ch=false;setTimeout(()=>{const el=document.getElementById('ak-vok-in');if(el)el.focus()},60)}else{s.win=true;s.msg=`${s.score} von ${s.items.length} richtig.`+(s.wrong.length?' Nochmal üben: '+s.wrong.join('; '):'')}}}},
   say:{name:'Aussprach-Assistent',icon:'🎤',txt:'Wörter und Sätze anhören, nachsprechen, ELIO prüft die Aussprache. Für DaZ und Englisch.',fit:/sprech|ausspr|daz|vokabel|wort|übung|warm/i,
     help:'Erste Zeile: Sprache: Deutsch oder Sprache: Englisch. Danach ein Wort oder Satz pro Zeile.',
     exE:'Sprache: Englisch\nhoodie\ntrainers\nchanging room\nCan I try it on, please?\nHow much are these jeans?\nI\'m looking for a T-shirt.',
@@ -5950,7 +6011,7 @@ document.addEventListener('keydown',e=>{
   if(['ArrowLeft','PageUp'].includes(e.key)&&CS.step>0){e.preventDefault();startStep(CS.step-1)}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('cl-a')){e.preventDefault();const A=[...document.querySelectorAll('.cl-a')],n=A[A.indexOf(e.target)+1];if(n&&e.target.value.trim()){n.focus();return}const b=document.querySelector('[data-act=cl-send]');b&&b.click()}});
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ak-vok-in'){e.preventDefault();const b=document.getElementById('ak-vok-go');b&&b.click()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.akenter==='1'){e.preventDefault();const n=document.getElementById('ak-ir-2');n&&n.focus();return}if(e.key==='Enter'&&(e.target.id==='ak-vok-in'||(e.target.dataset&&e.target.dataset.akenter))){e.preventDefault();const b=document.getElementById('ak-vok-go');b&&b.click()}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='kfb-a'){e.preventDefault();const b=document.querySelector('[data-act=kfb-chk]');b&&b.click()}});
 setInterval(()=>{const t=$('#ptimer');if(t&&CS)t.textContent=fmt(timerLeft(CS.timer))},1000);
 
@@ -7374,6 +7435,10 @@ document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.datase
 // Werkzeug an eine andere Folie hängen (t.after = sid). Ändert nur die Reihenfolge, nichts wird überschrieben.
 document.addEventListener('change',e=>{const i=e.target.dataset&&e.target.dataset.tafter;if(i==null||V.name!=='lesson-edit')return;const L=lessonById(V.id),p=L&&L.phases[+i];if(!p||!p.tool)return;
   const v=e.target.value;if(v&&(p.xs||[]).some(sl=>sl&&sl.sid===v))p.tool.after=v;else delete p.tool.after;phTl(p);save();render()});
+const tbTool=i=>{const L=lessonById(V.id),t=L&&L.phases[+i]&&L.phases[+i].tool;return t&&t.id==='tbl'?t:null};
+document.addEventListener('input',e=>{const v=e.target.dataset&&e.target.dataset.tbc;if(!v||V.name!=='lesson-edit')return;const [i,r,c]=v.split('|').map(Number),t=tbTool(i);if(!t)return;const m=tbModel(t.text||AKT.tbl.ex);if(m.cells[r]&&c<m.cells[r].length){m.cells[r][c]=e.target.value.replace(/[\t\n]/g,' ');t.text=tbText(m);save()}});
+document.addEventListener('change',e=>{const a=e.target.dataset&&e.target.dataset.actChg;if(!a||V.name!=='lesson-edit')return;const t=tbTool(e.target.dataset.i);if(!t)return;const m=tbModel(t.text||AKT.tbl.ex);
+  if(a==='tb-col'){const c=+e.target.value;if(e.target.dataset.k==='a'){m.a=c;if(m.b===c)m.b=(c+1)%m.cells[0].length}else{m.b=c;if(m.a===c)m.a=(c+1)%m.cells[0].length}}if(a==='tb-mix')m.mix=e.target.checked;t.text=tbText(m);save();render()});
 document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.akc;if(i==null)return;const L=lessonById(V.id),t=L&&L.phases[+i].tool,A=t&&AKT[t.id],el=$('#akc-'+i);if(A&&el){let n;try{n=A.count(A.parse(e.target.value))}catch(x){n='?'}el.textContent='Erkannt: '+n}});
 let dTmr=0;document.addEventListener('input',e=>{if(e.target.id!=='jr-day')return;clearTimeout(dTmr);const v=e.target.value;dTmr=setTimeout(()=>{S.diary=S.diary||{};S.diary[todayISO()]=v;save();diarySync();const st=$('#jr-day-st');if(st)st.textContent='Gespeichert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},500)});
 document.addEventListener('change',e=>{
@@ -7648,6 +7713,18 @@ document.addEventListener('click',e=>{
     case 'wlw-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'toolbox':'practice');break}
     case 'ak-lvl':{const G0=AK.G&&(AK.G.lv0||AK.G);if(!G0)break;S.lvlPick=S.lvlPick||{};S.lvlPick[G0.at]=d.l;const ks=Object.keys(S.lvlPick);if(ks.length>30)delete S.lvlPick[ks[0]];save();akStart(G0);render();break}
     case 'ak-go':{const c=curTool();if(c&&AKT[c.t.id]){akLive(c.t,c.p);pushCS();render()}break}
+    case 'tb-addr':case 'tb-addc':case 'tb-delr':case 'tb-delc':{const t=tbTool(d.i);if(!t)break;const m=tbModel(t.text||AKT.tbl.ex);
+      if(a==='tb-addr'&&m.cells.length<81)m.cells.push(m.cells[0].map(()=>''));
+      if(a==='tb-addc'&&m.cells[0].length<12)m.cells.forEach((r,k)=>r.push(k?'':'Spalte '+(r.length+1)));
+      if(a==='tb-delr'&&m.cells.length>2)m.cells.splice(+d.r,1);
+      if(a==='tb-delc'&&m.cells[0].length>2){const c=+d.c;m.cells.forEach(r=>r.splice(c,1));const W=m.cells[0].length;if(m.a>=c&&m.a>0)m.a--;if(m.b>=c&&m.b>0)m.b--;m.a=Math.min(m.a,W-1);m.b=Math.min(m.b,W-1);if(m.a===m.b)m.b=(m.a+1)%W}
+      t.text=tbText(m);save();render();break}
+    case 'tb-import':{const t=tbTool(d.i),ta=$('#tb-paste-'+d.i);if(!t||!ta||!ta.value.trim()){toast('Füge zuerst Zellen aus Excel ein.');break}const raw=ta.value;if(!raw.includes('\t')&&!raw.includes('|')){toast('Das sieht nicht nach einer Tabelle aus. In Excel die Zellen markieren, kopieren und hier einfügen.');break}
+      const old=tbModel(t.text||AKT.tbl.ex),m=tbModel(raw);m.a=Math.min(old.a,m.cells[0].length-1);m.b=Math.min(old.b,m.cells[0].length-1);if(m.a===m.b)m.b=(m.a+1)%m.cells[0].length;m.mix=old.mix;t.text=tbText(m);save();render();break}
+    case 'lst-save':case 'lst-load':case 'lst-del':{const L=lessonById(V.id),t=L&&L.phases[+d.i]&&L.phases[+d.i].tool;if(!t)break;TD.lists=TD.lists||[];
+      if(a==='lst-save'){const nm=(prompt('Wie soll die Liste heißen?',t.title||'')||'').trim().slice(0,60);if(!nm)break;const ex=TD.lists.find(x=>x.tool===t.id&&x.name===nm);if(ex)ex.text=t.text||'';else TD.lists.push({id:'l'+Date.now().toString(36),name:nm,tool:t.id,text:t.text||''});tsave();render();toast('Liste „'+nm+'“ gespeichert.');break}
+      const id=($('#lst-sel-'+d.i)||{}).value,x=TD.lists.find(y=>y.id===id);if(!x){toast('Wähle zuerst eine Liste.');break}
+      if(a==='lst-load'){t.text=x.text;save();render()}else if(confirm('Liste „'+x.name+'“ löschen?')){TD.lists=TD.lists.filter(y=>y.id!==id);tsave();render()}break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
     case 'desk-vis':{if(!SUBJECTS[d.s])break;const c=d.c||S.cls||'-';TD.deskV=TD.deskV||{};(TD.deskV[c]=TD.deskV[c]||{})[d.s]=!deskOn(d.s,c);tsave();if(c===(S.cls||'-')&&CS)pushCS();render();break}
