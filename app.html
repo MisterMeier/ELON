@@ -2121,7 +2121,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261019-1000';let verTold=false;
+const BUILD='20261019-1500';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3919,12 +3919,23 @@ async function libLoad(noCloud){try{LIB.items=(await idb('meta','readonly',st=>s
   LIB.ready=true;if(!noCloud&&lcOk())libCloudLater();if(['library','lesson-edit','tdash','tafel'].includes(V.name))render()}
 const libById=id=>LIB.items.find(m=>m.id===id);
 const newId=()=>'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+// Bild beim Hochladen verkleinern: längste Seite höchstens 1600 px, WebP (sonst JPEG), Ziel unter 300 KB. Nie größer als das Original; bei Fehlern bleibt das Original.
+async function medFit(f,max=300e3){const ty=String(f&&f.type||'').toLowerCase();if(!/^image\/(jpeg|png|webp|heic|heif)$/.test(ty))return f;
+  try{const bm=await createImageBitmap(f);let dim=1600,q=.82,o=null,mime='image/webp';
+    for(let k=0;k<6;k++){const r=Math.min(1,dim/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.max(1,Math.round(bm.width*r));cv.height=Math.max(1,Math.round(bm.height*r));cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
+      let b=await new Promise(res=>cv.toBlob(res,mime,q));
+      if(b&&b.type!==mime){mime=ty==='image/png'?'image/png':'image/jpeg';b=await new Promise(res=>cv.toBlob(res,mime,q))}// altes Safari kann kein WebP: PNG (Transparenz) oder JPEG
+      if(b)o=b;if(!b||b.size<=max||(mime==='image/png'&&k>=2&&b.size<=max*2))break;q=Math.max(.5,q-.1);if(k>=1)dim=Math.round(dim*.8)}
+    return o&&o.size<f.size?o:f}catch(e){return f}}
+const medExt=(n,t)=>String(n||'Bild').replace(/\.[a-z0-9]+$/i,'')+(t==='image/webp'?'.webp':t==='image/jpeg'?'.jpg':'.png');
 async function libAddFiles(files,subj){
   try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
   let n=0,big=0;
-  for(const f of files){if(f.size>100e6){big++;continue}const id=newId();
-    try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:f.type||'',size:f.size,subject:subj,...(/^(audio|video)\//.test(f.type||'')?{lic:'verlag'}:{}),added:Date.now()}));n++}catch(e){LIB.msg='Speichern fehlgeschlagen: Ist der Speicher voll?'}}
-  LIB.msg=(n?`${n} Datei${n>1?'en':''} gespeichert.`:'')+(big?` ${big} Datei${big>1?'en sind':' ist'} größer als 100 MB und wurde${big>1?'n':''} übersprungen.`:'')||LIB.msg;
+  let shrunk=0,bigVid=0;
+  for(let f of files){if(f.size>100e6){big++;continue}const id=newId();if(/^video\//.test(f.type||'')&&f.size>50e6)bigVid++;
+    const f0=f;if(/^image\//.test(f.type||'')){f=await medFit(f0);if(f!==f0)shrunk++}const nm=f===f0?f0.name:medExt(f0.name,f.type);
+    try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:nm,mime:f.type||'',size:f.size,subject:subj,...(/^(audio|video)\//.test(f.type||'')?{lic:'verlag'}:{}),added:Date.now()}));n++}catch(e){LIB.msg='Speichern fehlgeschlagen: Ist der Speicher voll?'}}
+  LIB.msg=(n?`${n} Datei${n>1?'en':''} gespeichert.`:'')+(shrunk?` ${shrunk} Bild${shrunk>1?'er wurden':' wurde'} automatisch verkleinert (höchstens 1600 Pixel, meist unter 300 KB).`:'')+(bigVid?` ${bigVid} Video${bigVid>1?'s sind':' ist'} über 50 MB: bleibt nur auf diesem Gerät und wird nicht in die Cloud gesichert. Kürzen oder kleiner exportieren spart Platz.`:'')+(big?` ${big} Datei${big>1?'en sind':' ist'} größer als 100 MB und wurde${big>1?'n':''} übersprungen.`:'')||LIB.msg;
   await libLoad();
 }
 async function libAddLink(url,name,subj){
@@ -7620,8 +7631,8 @@ document.addEventListener('click',e=>{
         try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
         try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:f.type||(t==='v'?'video/mp4':'audio/mpeg'),size:f.size,subject:(lessonById(V.id)||{}).subject||'',lic:'verlag',added:Date.now()}));await libLoad()}catch(e){alert('Speichern ging nicht. Ist der Speicher voll?');return}
         const sl=slEdSlide(d);if(!sl)return;sl.imgs=sl.imgs||[];sl.imgs.push({id,t,name:f.name.replace(/\.[a-z0-9]+$/i,'').slice(0,60),x:t==='v'?20:25,y:t==='v'?18:70,w:t==='v'?60:50});V.sle={i:d.i,j:+d.j,sel:'i'+(sl.imgs.length-1)};save();render()};fi.click();break}
-    case 'sl-up':{const fi=$('#sl-file');if(!fi)break;fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f)return;const id=newId();
-        try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:f.type||'image/png',size:f.size,subject:(lessonById(V.id)||{}).subject||'',added:Date.now()}));await libLoad()}catch(e){alert('Speichern ging nicht. Ist der Speicher voll?');return}
+    case 'sl-up':{const fi=$('#sl-file');if(!fi)break;fi.onchange=async()=>{const f0=fi.files&&fi.files[0];if(!f0)return;const id=newId(),f=await medFit(f0);
+        try{await idb('blob','readwrite',st=>st.put(f,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f===f0?f0.name:medExt(f0.name,f.type),mime:f.type||'image/png',size:f.size,subject:(lessonById(V.id)||{}).subject||'',added:Date.now()}));await libLoad()}catch(e){alert('Speichern ging nicht. Ist der Speicher voll?');return}
         const L=lessonById(V.id),t=phT(L,d.i);if(!t)return;if(d.m==='img'){const sl=deckSlides(t)[+d.j];if(sl){sl.imgs=sl.imgs||[];sl.imgs.push({id,x:28,y:22,w:44});V.sle={i:d.i,j:+d.j,sel:'i'+(sl.imgs.length-1)}}}else if(d.j==='start')t.bg=id;else{const sl=deckSlides(t)[+d.j];if(sl){sl.bg=id;if(!sl.layout||sl.layout==='std'&&!sl.title&&!sl.text)sl.layout='bild'}}save();render()};fi.click();break}
     case 'elo-snd':{const v=($('#elo-snd')||{}).value;if(v){V.eloSnd=v;eloSnd(v)}break}
     case 'elo-snd-stop':audStop();if(CS&&CS.fx&&CS.fx.k==='snd'){CS.fx=null;pushCS()}render();break;

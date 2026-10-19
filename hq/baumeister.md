@@ -16,6 +16,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Sammelauftrag P4/P5 (19.10.), im Test: Bilder werden beim Hochladen automatisch verkleinert (höchstens 1600 Pixel, WebP, meist unter 300 KB), Hinweis bei Videos über 50 MB. Analysen: hq/analyse-speicher.md, analyse-kosten.md, analyse-code-privat.md, analyse-technik-vergleich.md; Backlog (Startfolien aller Fächer, Lehrpläne, Pilot Mathematik 7): hq/backlog.md
 - Sammelauftrag P3 (19.10.), im Test: neues Werkzeug „Irregular Verbs“ (Liste mit Beispielverben, Wiederholung falscher Verben, eigene Listen speichern) und „Tabelle abfragen“ (Tabellen-Editor, Einfügen aus Excel, 8 zufällige Abfragen pro Runde, Richtung wählbar)
 - Sammelauftrag 19.10. (P1 und P2), im Test: Stunde als .elonuki-Datei sichern und einspielen, Quiz-Reihenfolge an Tafel und iPads gleich (Seed), Skizzenbuch Zoom und Vollbild, Elo auf Folien 30 % kleiner, Vokabeltrainer Groß-/Kleinschreibung und Einsprechen, Memory-Paar-Editor, Schüleransicht ohne Emojis, Freeze nur auf Knopfdruck, Oswald für Elos Sprechblasen (Admin), Hefteinträge Kontrast und Block-Editor (Etappe 1)
 - Runde 7a-Start (18.10.), im Test: Sitzplan pro Klasse auch im Konto gespeichert (auf jedem Gerät), Ordner pro Klasse ein- und ausblenden, Elo standardmäßig auf jeder Folie (aus pro Folie oder Stunde, Figur nach Fach aus assets/elo/figuren.json), Skizzen-Auftrag beenden mit Vorschau. Pläne: Stunde als Datei exportieren (.elonuki), neues Notizbuch statt Skizzenbuch (wartet auf Fabians Wahl)
