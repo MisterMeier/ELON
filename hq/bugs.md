@@ -46,3 +46,12 @@ gelb
 | B-18 | Planung, „Hefteintrag zeigen“: Titel in der Auswahl im dunklen Modus unsichtbar, Kapitel dunkelblau auf dunkel | mittel | in Test | app.html .tp-h, .tp-ch |
 | B-19 | Skizzen-Auftrag blieb nach „Stunde beenden“ in der Steuerung und als Hinweis auf den iPads | mittel | in Test | app.html l-stop, skzOff, skzSync |
 | B-20 | Steuerungs-Kacheln (Timer, Abstimmung …) im dunklen Modus hellblau auf weiß | mittel | in Test | app.html .ct-b |
+| B-21 | Quiz und Millionenspiel: Antworten standen an Tafel und iPads in verschiedener Reihenfolge | hoch | in Test | app.html akMix, jetzt gemeinsamer Seed pro Frage |
+| B-22 | Skizzenbuch: Herauszoomen hängt die Ansicht, Schaltflächen nicht mehr bedienbar | hoch | in Test | assets/skizze/skizze.js Zoomgrenzen, Zoom-zurücksetzen-Knopf, Zwei-Finger-Doppeltipp |
+| B-23 | Skizzenbuch: aus dem Vollbild kommt man nicht mehr heraus | hoch | in Test | assets/skizze/skizze.js Schließen-Knopf, Esc und Pfeiltaste |
+| B-24 | Vokabeltrainer: Groß- und Kleinschreibung wurde ignoriert | mittel | in Test | app.html vokOk (strikt bei getippten Antworten) |
+| B-25 | Vokabeltrainer: Einsprechen klappt nur beim ersten Wort | mittel | in Test | app.html srListen, vok-mic (Ursache nur vermutet, am iPad prüfen) |
+| B-26 | Memory-Werkzeug: Paare konnten nicht eingegeben werden | mittel | in Test | app.html Werkzeug-Editor Memory |
+| B-27 | Freeze war beim Anmelden der SuS die erste Ansicht | hoch | in Test | app.html initTeacher, onClassState |
+| B-28 | Elos Sprechblasen wurden mit der Computerstimme statt Oswald vorgelesen | mittel | in Test | app.html eloSay, eloAuto |
+| B-29 | Hefteinträge in der Lehrer-Ansicht: Schrift zu dunkel auf Knöpfen im dunklen Modus | mittel | in Test | app.html .page .btn |

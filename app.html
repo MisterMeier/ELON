@@ -895,6 +895,8 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .pool-h{font-size:1rem;margin:14px 0 6px;color:var(--ink)}
 /* Hefteintrag immer wie helles Papier im ELIO-Blau, auch im dunklen Modus */
 .page{background-color:#fff;color:#0f172a;border-color:#dbe3f4}.page *{color:inherit}.page h3,.page h4{color:#1e3a8a!important;text-decoration-color:#38bdf8!important}.page .date{color:#475569!important}.page .merke b.l{color:#1e3a8a!important}.page .achtung .l{color:#8a5200!important}
+.page .btn:not(.pri):not(.ok):not(.red):not(.on){background:#fff;color:#1e3a8a;border-color:#8da2d8}.page .btn.pri,.page .btn.ok,.page .btn.red,.page .btn.on{color:#fff}.page .btn.ok{background:#146c43;border-color:#146c43}.page .btn.red{background:#b42318;border-color:#b42318}.page .muted,.page small{color:#475569}
+.hbe-b{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;margin:8px 0;padding:8px;border:2px dashed #8da2d8;border-radius:12px;background:#f8faff}.hbe-b textarea{width:100%;min-height:44px;color:#0f172a;background:#fff;border:2px solid #8da2d8;border-radius:10px;padding:8px;font:inherit}.hbe-c{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.hbe-add{display:flex;gap:8px;justify-content:center;margin:4px 0}.hbe-b .hfoto{grid-column:1/-1;margin:0}
 .page table th,.page table td{background:#fff!important;color:#0f172a!important;border-color:#c7d2fe!important}.page table tr:first-child td,.page table th{background:#e0e7ff!important;color:#1e3a8a!important}
 .page .merke,.page [class*=merke]{background:#eef2ff!important;border-color:#4f46e5!important;color:#0f172a!important}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
 .rt-sl{background:#f6f8fc center/cover no-repeat;padding:1.4em 2em;gap:.6em;justify-content:center}
@@ -907,7 +909,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .sl-b p.sl-new{animation:slin .5s ease}
 @keyframes slin{from{opacity:0;transform:translateY(.6em)}to{opacity:1;transform:none}}
 .bw-elo{position:absolute;right:3%;bottom:4%;width:20%;z-index:6;animation:bwElo 6s ease both}@keyframes bwElo{0%{opacity:0;transform:translateY(40%)}8%,90%{opacity:1;transform:none}100%{opacity:0;transform:translateY(40%)}}
-.sl-elo{position:absolute;right:3%;bottom:4%;width:24%;cursor:pointer;transform-origin:50% 100%}
+.sl-elo{position:absolute;right:3%;bottom:4%;width:16.8%;cursor:pointer;transform-origin:50% 100%}
 .sl-elo img{width:100%;display:block;filter:drop-shadow(0 .3em .5em rgba(0,0,0,.18))}
 .elo-lid{position:absolute;aspect-ratio:1;border-radius:50%;overflow:hidden;pointer-events:none}
 .elo-lid::before{content:'';position:absolute;inset:0;background:var(--c);border-bottom:.18em solid #3730a3;border-radius:0 0 50% 50%/0 0 30% 30%;transform:scaleY(0);transform-origin:50% 0}
@@ -1806,6 +1808,23 @@ function render(){
   if(V.name==='tafel')updTafel();
   kfAnimate();skzFill();wlwMount();
 }
+/* ---------- Schüleransicht ohne Emojis: Text bleibt, Bildchen werden durch schlichte Symbole oder nichts ersetzt ---------- */
+const EMO_RE=/(?:\p{Extended_Pictographic}|\p{Regional_Indicator})(?:️|‍|\p{Emoji_Modifier}|\p{Extended_Pictographic})*️?[  ]?/gu;
+const EMO_MAP={'⭐':'★','🌟':'★','✅':'✓','☑️':'✓','✔️':'✓','❌':'✕','❎':'✕','😄':'sehr gut','😀':'super','🙂':'gut','😐':'geht so','😕':'schwierig','😢':'schlecht','▶️':'▸'};
+function emoStrip(t){return t.replace(EMO_RE,m=>{const k=m.replace(/[  ]$/,'');if(EMO_MAP[k])return EMO_MAP[k]+(k!==m?' ':'');
+  const cp=k.codePointAt(0);if(cp<0x2BFF&&!/️/.test(k)&&!/\p{Emoji_Presentation}/u.test(String.fromCodePoint(cp)))return m;return ''})}
+let EMO_BUSY=false;
+function emoClean(root){if(!root||EMO_BUSY||typeof S==='undefined'||S.role!=='student'||BOARD)return;EMO_BUSY=true;
+  try{const els=root.nodeType===1?[root,...root.querySelectorAll('[title],[placeholder],[aria-label],[alt]')]:[];
+    els.forEach(e=>['title','placeholder','aria-label','alt'].forEach(a=>{const v=e.getAttribute&&e.getAttribute(a);if(v&&EMO_RE.test(v)){EMO_RE.lastIndex=0;e.setAttribute(a,emoStrip(v).trim())}EMO_RE.lastIndex=0}));
+    const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentNode;return p&&/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),L=[];
+    while(w.nextNode())L.push(w.currentNode);
+    L.forEach(n=>{const v=n.nodeValue;if(!v||!/[©-㊙\uD83C-\uD83E]/.test(v))return;EMO_RE.lastIndex=0;if(!EMO_RE.test(v)){EMO_RE.lastIndex=0;return}EMO_RE.lastIndex=0;n.nodeValue=emoStrip(v);
+      const el=n.parentElement;if(el&&el.nodeName==='BUTTON'&&!el.textContent.trim()&&!el.querySelector('img,svg')){el.textContent=el.getAttribute('aria-label')||el.title||'OK'}})}
+  finally{EMO_BUSY=false}}
+{let q=null;const mo=new MutationObserver(ms=>{if(typeof S==='undefined'||S.role!=='student'||BOARD||EMO_BUSY)return;q=q||new Set();ms.forEach(m=>{if(m.type==='characterData'){if(m.target.parentNode)q.add(m.target.parentNode)}else m.addedNodes.forEach(n=>q.add(n.nodeType===1?n:n.parentNode))});
+    requestAnimationFrame(()=>{const s=q;q=null;if(s)s.forEach(n=>n&&n.isConnected&&emoClean(n))})});
+  document.addEventListener('DOMContentLoaded',()=>mo.observe(document.body,{childList:true,subtree:true,characterData:true}))}
 function tickClock(){
   const n=nowInfo(),c=$('#clock');
   c.textContent=hhmm(((n.min%1440)+1440)%1440);c.classList.toggle('sim',n.sim);c.title=n.sim?'Simulierte Zeit':'';
@@ -2020,10 +2039,10 @@ VIEWS.practice=()=>{
     :'<div class="empty" style="margin-top:10px">Gerade sind keine Lernspiele freigegeben. Deine Lehrkraft schaltet sie frei.</div>'}
     <p class="foot">Keine Rangliste. Sterne gibt es fürs Dranbleiben, auch wenn mal etwas schiefgeht.</p>`;
 };
-function newMemory(s){const P=shuffle(GAMES[s].pairs).slice(0,6);
+function newMemory(s,own){const mp=memPairs(own),P=mp.length>=2?shuffle(mp):shuffle(GAMES[s].pairs).slice(0,6);
   return {cards:shuffle(P.flatMap((p,i)=>[{t:p[0],k:i,a:1},{t:p[1],k:i,a:0}])),open:[],done:{},n:P.length,moves:0,lock:false}}
 VIEWS.memory=()=>{
-  const g=V.g||(V.g=newMemory(V.s)),found=Object.keys(g.done).length;
+  const g=V.g||(V.g=newMemory(V.s,V.pairs)),found=Object.keys(g.done).length;
   return gameHead('memory',V.s)+`<div class="row" style="justify-content:space-between"><span class="muted" style="font-weight:700">${V.s==='E'?'Finde Englisch und Deutsch zusammen.':'Finde, was zusammengehört.'}</span><span class="gprog">${found} von ${g.n} Paaren</span></div>
     <div class="mem s-${V.s}">${g.cards.map((c,i)=>{const up=g.open.includes(i)||g.done[c.k];
       return `<button class="mc ${up?'up':''} ${g.done[c.k]?'ok':''}" data-act="mem" data-i="${i}" ${up?'disabled':''}>${up?esc(c.t):'<span>?</span>'}</button>`}).join('')}</div>
@@ -2101,7 +2120,7 @@ const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261018-2200';let verTold=false;
+const BUILD='20261019-1000';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2767,13 +2786,15 @@ function tdCls(){if(!TD||S.role!=='teacher')return;const now=S.cls||'-';TD.cd=TD
   if(TD._cls===now)return;const old={};TD_PER.forEach(k=>{old[k]=TD[k]||{}});TD.cd[TD._cls]=old;
   const nw=TD.cd[now]||{};TD_PER.forEach(k=>{TD[k]=nw[k]||{}});delete TD.cd[now];TD._cls=now;if(TDKEY)tsave()}
 function initTeacher(){tdCls();if(ROSTER_CLS!==(S.cls||'-')){ROSTER={};TALLY={};ROSTER_CLS=S.cls||'-'}
-  CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:true,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
+  CS=Object.assign({phase:'arrive',phaseAt:Date.now(),timer:{run:false,total:300,left:300,endsAt:0},poll:null,ready:null,freeze:false,help:[],rocket:S.rocket||0,mission:S.mission},S.cs||{});
   CS.poll=null;CS.ready=null;CS.journal=null;CS.share=null;CS.help=[];if(CS.lesson&&!lessonById(CS.lesson.id))CS.lesson=null;
-  // Neuer Tag: iPads starten im Freeze, bis die Lehrkraft eine Stunde startet oder Freeze ausschaltet
-  if(new Date(+CS.phaseAt||0).toDateString()!==new Date().toDateString()&&!CS.lesson){CS.freeze=true;CS.phaseAt=Date.now()}
+  // Freeze gibt es nur, wenn die Lehrkraft ihn selbst auslöst. Beim Start und an einem neuen Tag ist die Startansicht normal.
+  if(!CS.lesson)CS.freeze=false;
+  if(new Date(+CS.phaseAt||0).toDateString()!==new Date().toDateString()&&!CS.lesson){CS.phaseAt=Date.now()}
 }
 // Lernspiel für alle: Tafel spielbar, iPads bekommen das Spiel zum Mitspielen
-function gameLive(g,s){if(!CS)initTeacher();CS.game=g?{g,s,at:Date.now()}:null;pushCS()}
+function gameLive(g,s,pairs){if(!CS)initTeacher();CS.game=g?{g,s,at:Date.now(),...(pairs&&pairs.length?{pairs}:{})}:null;pushCS()}
+const memPairs=pp=>(Array.isArray(pp)?pp:[]).map(x=>Array.isArray(x)?[String(x[0]||'').trim().slice(0,60),String(x[1]||'').trim().slice(0,60)]:null).filter(x=>x&&x[0]&&x[1]).slice(0,12);
 let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
@@ -3106,7 +3127,7 @@ function onBoardState(p){const old=BRCS;BRCS=p;updPod(p);
   if(V.name==='beamer'&&old&&old.poll&&p.poll&&p.poll.type==='quiz'&&old.poll.id===p.poll.id&&!old.poll.res===!p.poll.res&&boardSig({...old,poll:p.poll})===boardSig(p)&&updQuiz(p.poll,{})){bSig=boardSig(p);OFF=Date.now()-p.now;return}OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg===bSig)return;bSig=sg;
   // Spiel läuft: die Tafel zeigt es spielbar (Touch), sonst die normale Tafelansicht
   const G=!p.freeze&&!p.kfb&&p.game&&gInfo(p.game.g)?p.game:null;
-  let ch=false;if(G&&V.gat!==G.at){V=AKT[G.g]?{name:'akt',gat:G.at}:{name:G.g,s:G.s,gat:G.at};if(AKT[G.g])akStart(G);ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
+  let ch=false;if(G&&V.gat!==G.at){V=AKT[G.g]?{name:'akt',gat:G.at}:{name:G.g,s:G.s,gat:G.at,pairs:G.pairs};if(AKT[G.g])akStart(G);ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
   if(V.name==='beamer'){const go=()=>{render();fillMedia()},tr=!ch&&slTrOf(old,p);tr?slTrans(tr.k,go,()=>document.querySelector('#view .bw'),tr.back):go()}else if(ch)render()}
 let MINI='off',miniSig='',HELPL=null,MINI_L=null;
 function toast(t){let el=$('#toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');document.body.appendChild(el)}el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),3200)}
@@ -3140,7 +3161,7 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok,p.desk]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.deskRecv=Array.isArray(p.desk)?p.desk.filter(k=>typeof k==='string'&&SUBJECTS[k]):null;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
+function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;if(p&&p.freeze&&!p.lesson&&!p.fzAt)p.freeze=false;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
   skzSync(p);OFF=Date.now()-p.now;if(S.role==='student'){if(Array.isArray(p.heft)){if(p.cs)S.csHave=p.cs}else if(p.cs&&p.cs!==S.csHave)ccWant(p.cs)}applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
@@ -3666,18 +3687,27 @@ function ttsSay(t,subj){try{const S2=speechSynthesis,en=subj==='E',u=new SpeechS
   const v=vs.find(v=>/Markus|Yannick|Conrad|Stefan|Hans|Daniel|Arthur|Male|männlich/i.test(v.name))||vs[0];if(v)u.voice=v;u.rate=.95;u.pitch=1.15;S2.cancel();S2.speak(u)}catch(e){}}
 async function eloSay(sl,subj){if(!sl||!sl.say)return;const vk=eloVoKey(sl.say);if(vk)return eloVoice(vk);if(!sl.speak)return;
   if(sl.vo&&sl.voT===sl.say){try{const b=await libBlob(sl.vo);if(b){if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>ttsSay(sl.say,subj));return}}catch(e){}}
+  // Kein Oswald-Mitschnitt vorhanden: Admins erzeugen ihn jetzt einmal (wird an der Folie gemerkt, kostet nur beim ersten Mal)
+  const id=await eloAuto(sl,subj);if(id){voPlay(id);return}
+  if(!bbAdmin()&&!ELO_AUTO.told){ELO_AUTO.told=1;toast('Für diesen Satz gibt es noch keine Oswald-Aufnahme. Elo liest mit der Computerstimme. Ein Admin kann sie im Folieneditor erzeugen.')}
   ttsSay(sl.say,subj)}
+const ELO_AUTO={busy:0};
+async function eloAuto(sl,subj){if(!bbAdmin()||ELO_AUTO.busy)return '';const lang=subj==='E'?'en':'de',txt=String(sl.say).replace(/\s+/g,' ').trim().slice(0,300),ck=lang+'|'+txt;if(VOC[ck])return VOC[ck];
+  ELO_AUTO.busy=1;try{toast('Elo holt seine Stimme (Oswald) …');
+    const job=(async()=>{const sb=await sbClient();return await sb.functions.invoke('elo-stimme',{body:{text:txt,lang}})})();
+    const r=await Promise.race([job,new Promise(res=>setTimeout(()=>res({timeout:1}),20000))]);
+    if(r.timeout){toast('Elo-Stimme antwortet nicht. Die Computerstimme liest vor.');return ''}
+    const o=r&&r.data;if(!o||!o.audio){toast(await voWhy(r));return ''}
+    const bin=atob(o.audio),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);const id=newId();await idb('blob','readwrite',st=>st.put(new Blob([u],{type:'audio/mpeg'}),id));VOC[ck]=id;
+    if(sl.say&&String(sl.say).replace(/\s+/g,' ').trim().slice(0,300)===txt){sl.vo=id;sl.voT=sl.say;sl.speak=true;save();if(lcOk())libBlob(id).then(b=>b&&lcUp(id,b)).catch(()=>{})}
+    return id}
+  catch(e){toast('Die Elo-Stimme ging gerade nicht. Die Computerstimme liest vor.');return ''}
+  finally{ELO_AUTO.busy=0}}
 // Elo-Stimme für einen eigenen Satz erzeugen (nur Admins, ElevenLabs über die ELIO-Funktion; es geht nur der Satz raus, keine Schülerdaten)
 // Erst Probehören, dann übernehmen. Zeitlimit statt Hängen, Meldung in der Seite statt Pop-up. Ein Aufruf pro Klick (kostet Geld).
 const VO={st:'',msg:'',id:'',txt:'',sid:'',n:0,again:''},VOC={};// VOC: schon bezahlte Aufnahmen dieser Sitzung (Satz → Datei), damit Verwerfen und erneut Erzeugen nichts kostet
 function voPlay(id){libBlob(id).then(b=>{if(!b)return;if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>{})})}
-async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin()||VO.st==='busy')return;
-  const lang=L&&L.subject==='E'?'en':'de',txt=String(sl.say).slice(0,300),ck=lang+'|'+txt.replace(/\s+/g,' ').trim();
-  // Schon erzeugt (übernommen oder in dieser Sitzung verworfen): erst nachfragen bzw. die vorhandene Aufnahme nehmen, kein neuer Bezahl-Aufruf
-  const have=VOC[ck]||(sl.vo&&sl.voT===sl.say?sl.vo:''),key=(sl.sid||'')+ck;
-  if(have&&VO.again!==key){Object.assign(VO,{st:'prev',id:have,txt:sl.say,sid:sl.sid||'',again:key,msg:'Das ist die vorhandene Aufnahme (kostet nichts). Eine neue Aufnahme kostet einen weiteren ElevenLabs-Aufruf.'});render();voPlay(have);return}
-  const n=++VO.n;Object.assign(VO,{st:'busy',msg:'',id:'',txt:sl.say,sid:sl.sid||'',again:''});render();
-  const why=async r=>{const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zur Elo-Stimme. Bist du online? Falls ja: Die Funktion „elo-stimme“ muss (neu) auf den Server, siehe Anleitung ElevenLabs, Schritt 3.';
+async function voWhy(r){const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zur Elo-Stimme. Bist du online? Falls ja: Die Funktion „elo-stimme“ muss (neu) auf den Server, siehe Anleitung ElevenLabs, Schritt 3.';
     if(st===404)return 'Die Funktion „elo-stimme“ ist noch nicht auf dem Server. Sie muss einmal deployt werden (siehe Anleitung ElevenLabs).';
     let o=r&&r.data;if(!o&&e&&e.context&&e.context.json)try{o=await e.context.json()}catch(x){}
     if(o&&o.err==='nokey')return 'Die Elo-Stimme ist noch nicht eingerichtet: Auf dem Server fehlt der ElevenLabs-Schlüssel (ELEVEN_KEY).';
@@ -3685,7 +3715,14 @@ async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.s
     if(o&&o.err==='leer')return 'Schreib zuerst einen Satz für Elo.';
     if(o&&o.err==='timeout')return 'ElevenLabs hat zu lange gebraucht. Es wurde nichts übernommen. Versuch es in ein paar Minuten nochmal.';
     if(o&&o.err==='tts')return o.status===401?'ElevenLabs lehnt den Schlüssel ab. Bitte ELEVEN_KEY prüfen.':o.status===402||o.status===429?'Bei ElevenLabs ist das Guthaben oder Limit erreicht.':'ElevenLabs hat gerade nicht geantwortet ('+(o.status||'?')+'). Versuch es später nochmal.';
-    return 'Die Elo-Stimme ging gerade nicht'+(st?' ('+st+')':'')+'. Die Computerstimme liest trotzdem vor.'};
+    return 'Die Elo-Stimme ging gerade nicht'+(st?' ('+st+')':'')+'. Die Computerstimme liest trotzdem vor.'}
+async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin()||VO.st==='busy')return;
+  const lang=L&&L.subject==='E'?'en':'de',txt=String(sl.say).slice(0,300),ck=lang+'|'+txt.replace(/\s+/g,' ').trim();
+  // Schon erzeugt (übernommen oder in dieser Sitzung verworfen): erst nachfragen bzw. die vorhandene Aufnahme nehmen, kein neuer Bezahl-Aufruf
+  const have=VOC[ck]||(sl.vo&&sl.voT===sl.say?sl.vo:''),key=(sl.sid||'')+ck;
+  if(have&&VO.again!==key){Object.assign(VO,{st:'prev',id:have,txt:sl.say,sid:sl.sid||'',again:key,msg:'Das ist die vorhandene Aufnahme (kostet nichts). Eine neue Aufnahme kostet einen weiteren ElevenLabs-Aufruf.'});render();voPlay(have);return}
+  const n=++VO.n;Object.assign(VO,{st:'busy',msg:'',id:'',txt:sl.say,sid:sl.sid||'',again:''});render();
+  const why=voWhy;
   const fin=async r=>{const o=r&&r.data;if(!o||!o.audio)return {msg:await why(r)};
     const bin=atob(o.audio),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);const id=newId();await idb('blob','readwrite',st=>st.put(new Blob([u],{type:'audio/mpeg'}),id));VOC[ck]=id;return {id}};
   // Ein Aufruf. Das Zeitlimit umfasst auch das Laden der Verbindung. Kommt die (schon bezahlte) Aufnahme verspätet, geht sie trotzdem in die Probe.
@@ -3912,8 +3949,8 @@ async function unzipFiles(buf){const u=new Uint8Array(buf),dv=new DataView(buf),
   const n=dv.getUint16(e+10,true);let o=dv.getUint32(e+16,true);const td=new TextDecoder();
   for(let i=0;i<n;i++){const m=dv.getUint16(o+10,true),cs=dv.getUint32(o+20,true),nl=dv.getUint16(o+28,true),xl=dv.getUint16(o+30,true),cl=dv.getUint16(o+32,true),lo=dv.getUint32(o+42,true),name=td.decode(u.subarray(o+46,o+46+nl));
     F[name]={m,cs,lo};o+=46+nl+xl+cl}
-  return async name=>{const f=F[name];if(!f)return null;const ln=dv.getUint16(f.lo+26,true),lx=dv.getUint16(f.lo+28,true),st=f.lo+30+ln+lx,raw=u.slice(st,st+f.cs);
-    if(f.m===0)return raw;const ds=new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));return new Uint8Array(await new Response(ds).arrayBuffer())}}
+  const get=async name=>{const f=F[name];if(!f)return null;const ln=dv.getUint16(f.lo+26,true),lx=dv.getUint16(f.lo+28,true),st=f.lo+30+ln+lx,raw=u.slice(st,st+f.cs);
+    if(f.m===0)return raw;const ds=new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));return new Uint8Array(await new Response(ds).arrayBuffer())};get.names=Object.keys(F);return get}
 async function pptImport(id){const m=libById(id);if(!m)return;
   if(typeof DecompressionStream==='undefined'){LIB.msg='Dieser Browser kann PowerPoint nicht entpacken. Bitte Chrome, Edge oder Safari aktuell verwenden.';render();return}
   LIB.msg='PowerPoint wird umgewandelt …';render();
@@ -4729,7 +4766,12 @@ function toolEditor(p,i,L){
     ${inp('right','Richtig ist (Buchstaben)',t.right,'z. B. B oder A, C · leer = Meinungsumfrage')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.multi" ${t.multi?'checked':''} style="width:auto"> SuS dürfen mehrere ankreuzen</label>
     <label style="grid-column:1/-1">Folie dazu (Bild, PDF oder Video, freiwillig)<select data-f="ph.${i}.tool.mat">${LIB.ready?matOpts(t.mat,showable):'<option>Bibliothek lädt …</option>'}</select></label></div>`;
   if(t.id==='corners4')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}${ta('opts','Vier Ecken (eine pro Zeile)',t.opts,4)}</div>`;
-  if(GAME_INFO[t.id])cfg=`<div class="lgrid" style="margin-top:8px"><label>Inhalte aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div>`;
+  if(t.id==='memory'){const pp=Array.isArray(t.pairs)?t.pairs:[];cfg=`<div style="margin-top:8px"><span class="label">Eigene Paare (Begriff und Gegenstück)</span>
+    ${pp.map((x,j)=>`<div class="row" style="gap:6px;margin-top:6px;flex-wrap:nowrap"><input type="text" maxlength="60" data-f="ph.${i}.tool.pairs.${j}.0" value="${esc(x[0]||'')}" placeholder="Begriff" aria-label="Begriff ${j+1}"><span aria-hidden="true">=</span><input type="text" maxlength="60" data-f="ph.${i}.tool.pairs.${j}.1" value="${esc(x[1]||'')}" placeholder="Gegenstück" aria-label="Gegenstück ${j+1}"><button class="btn sm ghost" type="button" data-act="mem-del" data-i="${i}" data-j="${j}" aria-label="Paar ${j+1} löschen">Löschen</button></div>`).join('')}
+    <div class="row" style="margin-top:8px"><button class="btn sm" type="button" data-act="mem-add" data-i="${i}">Paar hinzufügen</button></div>
+    <p class="muted" style="font-weight:700;font-size:.9rem;margin:6px 0 0">${memPairs(pp).length>=2?memPairs(pp).length+' Paare werden gespielt (höchstens 12).':'Ab 2 vollständigen Paaren spielt Memory deine Paare, sonst die Standard-Paare des Fachs.'}</p>
+    <div class="lgrid" style="margin-top:8px"><label>Standard-Paare aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div></div>`}
+  else if(GAME_INFO[t.id])cfg=`<div class="lgrid" style="margin-top:8px"><label>Inhalte aus<select data-f="ph.${i}.tool.s">${Object.keys(GAMES).map(k=>`<option value="${k}" ${k===t.s?'selected':''}>${SUBJECTS[k].name}</option>`).join('')}</select></label></div>`;
   return cfg?`<div class="ph-pan">${cfg}</div>`:'';
 }
 // Phase kompakt: oben die Folien als kleine Bilder (Antippen = Folien-Editor), darunter eine Reihe kleiner Knöpfe für Werkzeug, iPads und Optionen
@@ -4811,6 +4853,7 @@ function srListen(lang,done,fail,ms){const SR=nsSR();if(!SR){fail('api');return 
   rc.onresult=e=>{const R=e.results[e.results.length-1];if(!R)return;const a=[...R].map(x=>String(x.transcript||'').trim()).filter(Boolean);if(a.length)alts=a;if(R.isFinal){fin=true;try{rc.stop()}catch(x){}end()}};
   rc.onerror=e=>{err=e.error||'x';if(err==='no-speech'||err==='aborted')err=alts.length?'':err||'no-speech';if(err==='not-allowed'||err==='service-not-allowed'||!alts.length)end()};
   rc.onend=end;rc.finish=()=>{try{rc.stop()}catch(x){}clearTimeout(rc._t);rc._t=setTimeout(end,900)};
+  rc.onspeechend=()=>{try{rc.stop()}catch(x){}};
   try{rc.start()}catch(e){fail('start');return null}rc._t=setTimeout(()=>rc.finish(),ms||7000);return rc}
 const srErr=e=>e==='not-allowed'||e==='service-not-allowed'?'Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen (Safari → Mikrofon) freigeben.':e==='network'?'Die Spracherkennung braucht Internet. Bitte WLAN prüfen.':e==='no-speech'?'Ich habe nichts gehört. Tippe auf das Mikrofon und sprich gleich los.':'Die Aufnahme hat nicht geklappt. Versuch es nochmal.';
 const nsCan=()=>!!nsSR()||!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
@@ -4973,12 +5016,12 @@ const AKT={
       return `<div class="say-prog"><i style="width:${n/W.length*100}%"></i></div><p class="say-stat">${n} von ${W.length} sitzen${s.ext?` · davon ${s.ext} aus deinem Vokabelheft, die heute dran sind`:''}</p>
       <div class="vk-card"><span class="label">${d.en?'Englisch → Deutsch':'Deutsch → Englisch'}${w[2]?' · aus deinem Vokabelheft':''}</span><div class="say-w">${esc(ask)}</div>
         <input id="ak-vok-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${d.en?'auf Deutsch …':'in English …'}" value="${esc(s.ans)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">
-        ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht.'}</b> ${r==='ok'?'':'Richtig ist: '}<b>${esc(sol)}</b></p>
+        ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht.'}</b> ${s.ch&&r!=='ok'?'Achte auf Groß- und Kleinschreibung (Nomen und Satzanfänge groß). ':''}${r==='ok'?'':'Richtig ist: '}<b>${esc(sol)}</b></p>
           <div class="row" style="justify-content:center"><button class="btn" data-act="ak" data-k="hear">Anhören</button><button class="btn pri" data-act="ak" data-k="next" id="ak-vok-go">Weiter</button></div>`
         :`<div class="row" style="justify-content:center"><button class="btn pri" data-act="ak" data-k="chk" id="ak-vok-go">Prüfen</button><button class="btn" data-act="ak" data-k="skip">Weiß ich nicht</button></div>`}</div>`},
     act:(d,s,a)=>{const W=s.w||d.words,i=s.q[0],w=W[i];if(w==null)return;
       if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w[0]);u.lang='en-GB';u.rate=.85;const v=bestVoice('en-GB');if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
-      if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const ok=a.k==='chk'&&vokOk(d.en?w[1]:w[0],s.ans);s.res=ok?'ok':'no';s.tries++;
+      if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const sl=d.en?w[1]:w[0],ok=a.k==='chk'&&vokOk(sl,s.ans,true);s.ch=!ok&&a.k==='chk'&&!!String(s.ans).trim()&&vokOk(sl,s.ans,false);s.res=ok?'ok':'no';s.tries++;
         if(ok){s.ok[i]=1;SND.right()}else{SND.oops()}
         // Karteikasten wie bei Phase 6: richtig = ein Fach weiter (war es vorher falsch: Fach 1), falsch = zurück in Fach 0
         if(S.role==='student'){const c=vokCard(w);if(ok){c.b=s.wr[i]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}else{c.b=0;c.due=''}save()}
@@ -5334,8 +5377,11 @@ const gInfo=g=>GAME_INFO[g]||AKT[g]||null;
 const LV_N={g:'Grund',s:'Standard',p:'Plus'};
 function akLvl(G){if(!G.lv||BOARD||S.role!=='student')return 's';const as=G.lvm==='teacher'&&RCS&&RCS.lvl&&RCS.lvl[S.nr];if(as&&(as==='s'||G.lv[as]))return as;const pk=(S.lvlPick||{})[G.at];return pk&&(pk==='s'||G.lv[pk])?pk:'s'}
 // Antworten bei jedem Start neu mischen, damit die richtige nicht immer an derselben Stelle steht (A, rotes Feld)
-function akMix(g,d){return (g==='mc'||g==='mio')&&d&&Array.isArray(d.qs)?{...d,qs:d.qs.map(q=>q&&Array.isArray(q.opts)?{...q,opts:shuffle(q.opts)}:q)}:d}
-function akStart(G){if(G&&G.lv0)G=G.lv0;if(!AK.G||(AK.G.lv0||AK.G).at!==G.at||(AK.G.lvc||'s')!==akLvl(G)){const l=akLvl(G);AK.G=G.lv?Object.assign({},G,{data:akMix(G.g,l==='s'?G.data:G.lv[l]),lvc:l,lv0:G}):Object.assign({},G,{data:akMix(G.g,G.data)});AK.st=AKT[G.g].init(AK.G.data)}}
+// Gemeinsamer Seed (G.at + Fragenummer): Tafel und iPads mischen gleich, A=A, B=B
+function seedRnd(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}let a=h>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffleSeed(arr,str){const r=seedRnd(String(str)),a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function akMix(g,d,at){if(!(g==='mc'||g==='mio')||!d||!Array.isArray(d.qs))return d;return {...d,qs:d.qs.map((q,n)=>q&&Array.isArray(q.opts)?{...q,opts:at?shuffleSeed(q.opts,at+'|'+n+'|'+q.q):shuffle(q.opts)}:q)}}
+function akStart(G){if(G&&G.lv0)G=G.lv0;if(!AK.G||(AK.G.lv0||AK.G).at!==G.at||(AK.G.lvc||'s')!==akLvl(G)){const l=akLvl(G);AK.G=G.lv?Object.assign({},G,{data:akMix(G.g,l==='s'?G.data:G.lv[l],G.eid?0:G.at),lvc:l,lv0:G}):Object.assign({},G,{data:akMix(G.g,G.data,G.eid?0:G.at)});AK.st=AKT[G.g].init(AK.G.data)}}
 function akLvlHTML(G){if(!G||!G.lv||BOARD||S.role!=='student')return '';const as=G.lvm==='teacher'&&RCS&&RCS.lvl&&RCS.lvl[S.nr];
   if(as)return `<div class="lv-bar"><span>Dein Niveau:</span><b class="lv-on">${LV_N[G.lvc]}</b></div>`;
   return `<div class="lv-bar"><span>Wähle dein Niveau:</span>${['g','s','p'].filter(k=>k==='s'||G.lv0.lv[k]).map(k=>`<button class="lv-b ${G.lvc===k?'lv-on':''}" data-act="ak-lvl" data-l="${k}">${LV_N[k]}</button>`).join('')}</div>`}
@@ -5380,8 +5426,8 @@ VIEWS.me=()=>{if(S.role==='teacher')return `<h1 style="margin-bottom:14px">Mein 
     ${rdProfile()}<section class="panel" id="me-tt" style="margin-top:16px;scroll-margin-top:80px">${weekView()}</section><div style="margin-top:16px">${splitPanel(false)}</div>`};
 document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.cw;if(!k||!AK.st)return;const v=e.target.value.toUpperCase().replace(/[^A-ZÄÖÜ]/g,'').slice(-1);e.target.value=v;AK.st.v[k]=v;AK.st.chk=false;
   if(v){const [r,c]=k.split(',').map(Number);const nx=document.querySelector(`[data-cw="${r},${c+1}"]`)||document.querySelector(`[data-cw="${r+1},${c}"]`);if(nx)nx.focus()}});
-function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){G.data=akMix(G.g,G.data);AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}if(G.mt)mtDone(G.eid,AK.st,G.data);else if(G.eid)ubDoneMark(G.eid,G.ei);
-    const k=G.sk||0;if(G.seq&&k<G.seq.length-1){const at=G.at;setTimeout(()=>{if(!AK.G||AK.G.at!==at||(AK.G.sk||0)!==k)return;AK.G={...G.seq[k+1],at,seq:G.seq,sk:k+1};AK.G.data=akMix(AK.G.g,AK.G.data);AK.st=AKT[AK.G.g].init(AK.G.data);SND.change&&SND.change();render();window.scrollTo(0,0)},1800)}else liveWin(G.at)}render()}
+function akAct(d,ev){const G=AK.G;if(!G)return;if(d.k==='reset'){G.data=akMix(G.g,G.data,G.eid||!G.grp&&!BOARD?0:G.at);AK.st=AKT[G.g].init(G.data);render();return}AKT[G.g].act(G.data,AK.st,d,ev);if(AK.st.win&&!AK.st.cheered){AK.st.cheered=1;SND.cheer();if(S.role==='student'&&!AK.st.star){AK.st.star=1;try{earnOnce('ak_'+G.at)}catch(e){}}if(G.mt)mtDone(G.eid,AK.st,G.data);else if(G.eid)ubDoneMark(G.eid,G.ei);
+    const k=G.sk||0;if(G.seq&&k<G.seq.length-1){const at=G.at;setTimeout(()=>{if(!AK.G||AK.G.at!==at||(AK.G.sk||0)!==k)return;AK.G={...G.seq[k+1],at,seq:G.seq,sk:k+1};AK.G.data=akMix(AK.G.g,AK.G.data,AK.G.eid?0:AK.G.at+'#'+AK.G.sk);AK.st=AKT[AK.G.g].init(AK.G.data);SND.change&&SND.change();render();window.scrollTo(0,0)},1800)}else liveWin(G.at)}render()}
 
 /* --- Lehrer-Stundenplan --- */
 function ttDefault(){const t={},c=S.clsName||'';WEEK.forEach((row,d)=>row.forEach((s,i)=>{if(s)t[d+'-'+i]={s,c}}));return t}
@@ -5860,7 +5906,7 @@ function toolStage(p,L){
       <span class="muted" style="font-weight:700">${R.length?'Richtig: '+R.map(ABC).join(', ')+' · nur du siehst das':'Meinungsumfrage ohne richtige Antwort'}</span></div>`}
   if(TOOLS[t.id]&&RICH.includes(t.id))return richTool(t,{subj:L.subject,name:p.name,sf:p.sf,min:+p.min||0});
   if(t.id==='kfb')return renderKfb();
-  if(GAME_INFO[t.id])return `<div class="slide"><span style="font-size:5rem">${GAME_INFO[t.id].icon}</span><h1>${GAME_INFO[t.id].name}</h1><p>${esc(p.txt||'')}</p><button class="btn pri" style="font-size:1.6rem;padding:18px 34px" data-act="pgame" data-g="${t.id}" data-s="${t.s||'E'}">Spiel starten</button></div>`;
+  if(GAME_INFO[t.id])return `<div class="slide"><span style="font-size:5rem">${GAME_INFO[t.id].icon}</span><h1>${GAME_INFO[t.id].name}</h1><p>${esc(p.txt||'')}</p><button class="btn pri" style="font-size:1.6rem;padding:18px 34px" data-act="pgame" data-g="${t.id}" data-s="${t.s||'E'}" ${t.id==='memory'&&memPairs(t.pairs).length>=2?`data-pairs="${esc(JSON.stringify(memPairs(t.pairs)))}"`:''}>Spiel starten</button></div>`;
   if(t.id==='slide'||t.id==='mat'){const title=t.id==='slide'?(t.title||p.name):'';
     return `<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${p.act==='mission'&&S.mission?`<p style="color:var(--ink)">🎯 ${esc(S.mission)}</p>`:''}
       ${t.mat?`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}" data-url="${esc(t.matUrl||(libById(t.mat)||{}).url||'')}"></div>`:''}${!t.text&&!t.mat&&p.act!=='mission'?`<p>${esc(p.txt||'')}</p>`:''}</div>`}
@@ -6916,7 +6962,11 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
 const VOK_DAYS=[0,1,3,7,14,30,90],VOK_F=['Neu','1 Tag','3 Tage','1 Woche','2 Wochen','1 Monat','Gelernt'];let VQ=null;
 const vokNorm=t=>String(t||'').toLowerCase().replace(/\([^)]*\)/g,' ').replace(/[’`´]/g,"'").replace(/[.!?¡¿"„“”]/g,'').replace(/^\s*(to|the|a|an|der|die|das|ein|eine)\s+/,'').replace(/\s+/g,' ').trim();
 const vokAlts=t=>[vokNorm(t),...String(t||'').split(/[\/;,]/).map(vokNorm)].filter(Boolean);
-const vokOk=(sol,ans)=>{const a=vokNorm(ans);return !!a&&vokAlts(sol).includes(a)};
+// strikt=true: Groß-/Kleinschreibung zählt (Nomen, Satzanfänge). Gesprochene Antworten kommen von der Spracherkennung ohne verlässliche Großschreibung und werden locker geprüft.
+const vokNormC=(t,sent)=>{let x=String(t||'').replace(/\([^)]*\)/g,' ').replace(/[’`´]/g,"'").replace(/[.!?¡¿"„“”]/g,'');if(!sent)x=x.replace(/^\s*(to|the|a|an|der|die|das|ein|eine)\s+/i,'');return x.replace(/\s+/g,' ').trim()};
+const vokSent=t=>/[.!?]\s*$/.test(String(t||'').trim())||String(t||'').trim().split(/\s+/).length>=4;
+const vokOk=(sol,ans,strict)=>{if(!strict){const a=vokNorm(ans);return !!a&&vokAlts(sol).includes(a)}
+  const sent=vokSent(sol),a=vokNormC(ans,sent);return !!a&&[sol,...String(sol||'').split(/[\/;,]/)].map(x=>vokNormC(x,sent)).filter(Boolean).includes(a)};
 function vokD(){if(!S.vok||typeof S.vok!=='object')S.vok={c:{},dir:'de'};S.vok.c=S.vok.c||{};return S.vok}
 const vokDue=c=>!c.due||c.due<=todayISO();
 const vokDay=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
@@ -6952,16 +7002,16 @@ function vokQuiz(){const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c){VQ=null;return VIE
     <div class="vk-card ${st==='ok'?'vk-ok':st==='bad'?'vk-bad':''}"><span class="lang">${de?'Deutsch':'Englisch'}${VQ.w[id]?' · nochmal':''}</span><div class="w">${esc(ask)}${de?'':` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`}</div>
       <span class="lang">${de?'Wie heißt das auf Englisch?':'Was heißt das auf Deutsch?'}</span>
       <input id="vk-a" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(VQ.ans||'')}" ${st?'readonly':''} aria-label="Deine Antwort">
-      ${st==='ok'?`<p class="vk-fb">✓ Richtig!${VQ.free?'':` Kommt wieder in: ${VOK_F[c.b||0]}`}</p>`:st==='bad'?`<p class="vk-fb">Richtig ist: <b>${esc(sol)}</b>${de?` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`:''}<br><small>Die Karte kommt gleich nochmal.</small></p>`:VQ.rec?`<p class="say-live">Sprich jetzt deutlich ins iPad …</p>`:VQ.err?`<p class="say-live">${esc(VQ.err)}</p>`:''}${st&&VQ.heard?`<p class="muted" style="font-weight:700">ELIO hat gehört: „${esc(VQ.heard)}“</p>`:''}</div>
+      ${st==='ok'?`<p class="vk-fb">✓ Richtig!${VQ.free?'':` Kommt wieder in: ${VOK_F[c.b||0]}`}</p>`:st==='bad'?`<p class="vk-fb">${VQ.caseHint?'Fast! Achte auf Groß- und Kleinschreibung (Nomen und Satzanfänge groß). ':''}Richtig ist: <b>${esc(sol)}</b>${de?` <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.en)}" aria-label="Vorlesen">🔊</button>`:''}<br><small>Die Karte kommt gleich nochmal.</small></p>`:VQ.rec?`<p class="say-live">Sprich jetzt deutlich ins iPad …</p>`:VQ.err?`<p class="say-live">${esc(VQ.err)}</p>`:''}${st&&VQ.heard?`<p class="muted" style="font-weight:700">ELIO hat gehört: „${esc(VQ.heard)}“</p>`:''}</div>
     ${st?nsHTML('vok:'+id,c.en,'en-GB',`data-act="vok-say" data-t="${esc(c.en)}"`):''}<div class="row" style="justify-content:center">${st?`<button class="btn pri" data-act="vok-next">Weiter ➜</button>`:`<button class="btn pri" data-act="vok-chk">Prüfen</button>${api?`<button class="btn ${VQ.rec?'on':''}" data-act="vok-mic">🎤 ${VQ.rec?'Ich bin fertig':'Sagen'}</button>`:''}<button class="btn ghost" data-act="vok-skip">Weiß ich nicht</button>`}</div></div>`}
 // Karte im eigenen Vokabelheft finden (gleiches englisches Wort) oder neu anlegen
 function vokCard(w){const D=vokD();if(w[2]&&D.c[w[2]])return D.c[w[2]];const n=vokNorm(w[0]),f=Object.values(D.c).find(c=>vokNorm(c.en)===n);if(f)return f;const id='stunde:'+n.slice(0,60);return D.c[id]=D.c[id]||{en:vokClean(w[0]),de:vokClean(w[1]),b:0,due:'',src:'stunde',t:'Aus dem Unterricht',at:Date.now()}}
 function vokStart(free){const D=vokD(),C=Object.keys(D.c);let q=free?shuffle(C).slice(0,15):shuffle(C.filter(id=>vokDue(D.c[id]))).sort((a,b)=>(D.c[a].b||0)-(D.c[b].b||0)).slice(0,20);if(!q.length)return;VQ={q,done:0,res:null,ans:'',w:{},free:!!free};render();vokFocus()}
 const vokFocus=()=>setTimeout(()=>{const i=$('#vk-a');if(i&&!i.readOnly)i.focus()},30);
-function vokCheck(ans,skip){if(!VQ||VQ.res)return;const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c)return;const de=D.dir!=='en',ok=!skip&&vokOk(de?c.en:c.de,ans);VQ.ans=ans;VQ.res=ok?'ok':'bad';
-  if(ok){SND.right();if(de)say(c.en);if(!VQ.free){c.b=VQ.w[id]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}}
+function vokCheck(ans,skip,spoken){if(!VQ||VQ.res)return;const D=vokD(),id=VQ.q[0],c=D.c[id];if(!c)return;const de=D.dir!=='en',ok=!skip&&vokOk(de?c.en:c.de,ans,!spoken);VQ.ans=ans;VQ.res=ok?'ok':'bad';VQ.caseHint=!ok&&!skip&&!!String(ans).trim()&&vokOk(de?c.en:c.de,ans,false);
+  if(ok){SND.right();if(de&&!nsSR())say(c.en);if(!VQ.free){c.b=VQ.w[id]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}}
   else{SND.oops();VQ.w[id]=1;if(!VQ.free){c.b=0;c.due=''}}save();render()}
-function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad')VQ.q.splice(Math.min(3,VQ.q.length),0,id);else VQ.done++;VQ.res=null;VQ.ans='';VQ.heard='';VQ.err='';
+function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad')VQ.q.splice(Math.min(3,VQ.q.length),0,id);else VQ.done++;VQ.res=null;VQ.ans='';VQ.heard='';VQ.err='';VQ.caseHint=false;VQ.rec=false;try{VQ._rc&&VQ._rc.abort&&VQ._rc.abort()}catch(e){}VQ._rc=null;
   if(!VQ.q.length){const n=VQ.done;VQ=null;if(n>=5)earnOnce('vok_'+todayISO());V.vmsg='Super, '+n+' Wörter geschafft!';render();return}render();vokFocus()}
 document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')return;e.preventDefault();if(VQ.res)vokNext();else{const i=$('#vk-a');vokCheck(i?i.value:'')}});
 VIEWS.tdesk=()=>{const ks=[...new Set([...Object.keys(PLANS),...tHeft().map(e=>e.s)])].filter(k=>SUBJECTS[k]);
@@ -7000,9 +7050,17 @@ VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice
   <section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Jahresplan Mathematik 7 · nach LehrplanPLUS</span><button class="btn sm" data-act="hf-plan">📚 Jahresplan laden oder aktualisieren</button></div>
     <p class="muted" style="font-weight:700;margin-top:6px">34 fertige Einträge von 1.1 Terme bis 8.2 Kennwerte. Sie landen hier als Entwurf, und du veröffentlichst sie, wenn das Thema dran ist.</p></section>
   ${(()=>{const pub=list.filter(e=>e.pub!==false),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
-    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${heftBody(heftBlocks(e.text))}</article>`;
+    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm ${V.hbe===e.id?'on':''}" data-act="hbe-open" data-id="${e.id}">Im Eintrag bearbeiten</button><button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${V.hbe===e.id?hbeHTML(e):heftBody(heftBlocks(e.text))}</article>`;
     return `<h2 style="margin:18px 0 8px">Bei den SuS · ${pub.length}</h2><div class="entries">${pub.sort(heftSort).map(card).join('')||'<div class="empty">Noch nichts veröffentlicht.</div>'}</div>
       ${chs.map(ch=>{const es=dr.filter(e=>(e.ch||'Entwürfe')===ch);return `<details class="panel" style="margin-top:12px"><summary class="row" style="justify-content:space-between;cursor:pointer"><b>📁 ${esc(ch)} · ${es.length} Entwürfe</b><span class="row" style="gap:6px"><button class="btn sm" data-act="hf-printch" data-ch="${esc(ch)}">Kapitel drucken / PDF</button><button class="btn sm ok" data-act="hf-pubch" data-ch="${esc(ch)}">Ganzes Kapitel veröffentlichen</button></span></summary><div class="entries" style="margin-top:10px">${es.map(card).join('')}</div></details>`}).join('')}`})()}`};
+// Hefteintrag Block für Block bearbeiten (Etappe 1): eigener Text, Foto, verschieben, löschen. Gespeichert wird sofort.
+function hfSegs(t){const out=[];let kind='';String(t||'').split('\n').forEach(raw=>{const l=raw.trim();if(!l){kind='';return}const k=/^[-•*]\s+/.test(l)?'l':/^\|.*\|$/.test(l)?'t':'';if(k&&k===kind){out[out.length-1]+='\n'+raw;return}kind=k;out.push(raw)});return out}
+let HBE=null;// {id,segs}
+function hbeOpen(id){const e=(TD.heft||[]).find(x=>x.id===id);if(!e)return;HBE={id,segs:hfSegs(e.text)};}
+function hbeSave(){if(!HBE)return;const e=(TD.heft||[]).find(x=>x.id===HBE.id);if(!e)return;e.text=HBE.segs.filter(x=>String(x).trim()).join('\n');tsave();if(!CS)initTeacher();clearTimeout(hbeSave._t);hbeSave._t=setTimeout(pushCS,700)}
+function hbeHTML(e){if(!HBE||HBE.id!==e.id)hbeOpen(e.id);const sg=HBE.segs,add=i=>`<div class="hbe-add"><button class="btn sm" data-act="hbe-addt" data-i="${i}">Text einfügen</button><button class="btn sm" data-act="hbe-addi" data-i="${i}">Bild einfügen</button></div>`;
+  return `<div class="hbe"><p class="muted" style="font-weight:700;margin:0 0 6px">Jeder Absatz ist ein Block. Änderungen werden sofort gespeichert. „# “ Überschrift, „- “ Liste, „Merke:“ Merkkasten.</p>${add(0)}${sg.map((t,i)=>{const m=FOTO_RE.exec(String(t).trim());return `<div class="hbe-b"><textarea data-hbe="${i}" rows="${Math.min(8,String(t).split('\n').length+1)}" aria-label="Block ${i+1}">${esc(t)}</textarea><span class="hbe-c"><button class="btn sm" data-act="hbe-up" data-i="${i}" ${i?'':'disabled'} aria-label="Nach oben">▲</button><button class="btn sm" data-act="hbe-down" data-i="${i}" ${i<sg.length-1?'':'disabled'} aria-label="Nach unten">▼</button><button class="btn sm red" data-act="hbe-del" data-i="${i}">Löschen</button></span>${m?fotoH(m[1],(m[2]||'').trim()):''}</div>${add(i+1)}`}).join('')}<div class="row" style="justify-content:flex-end"><button class="btn sm pri" data-act="hbe-close">Fertig</button></div><input type="file" id="hbe-file" accept="image/*" hidden></div>`}
+document.addEventListener('input',e=>{const i=e.target.dataset&&e.target.dataset.hbe;if(i==null||!HBE)return;HBE.segs[+i]=e.target.value;hbeSave()});
 /* --- Klassen-Stundenplan (alle Lehrkräfte der Klasse) --- */
 const CT={cid:null,slots:[],teachers:[],ok:false,msg:''};
 async function cttLoad(cid){
@@ -7062,29 +7120,33 @@ function arcRefs(L){const img=new Set(),mat=new Set(),eid=new Set();const bg=b=>
   (L.phases||[]).forEach(p=>{const t=p.tool||{};bg(t.bg);[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;bg(sl.bg);(sl.imgs||[]).forEach(x=>x&&x.id&&img.add(x.id))});
     (p.mats||[]).forEach(m=>{const id=typeof m==='string'?m:m&&m.id;if(id)mat.add(id)});if(t.eid)eid.add(t.eid);(t.list||[]).forEach(x=>x&&x.eid&&eid.add(x.eid))});return {img,mat,eid}}
 const b64blob=async b=>{const u=new Uint8Array(await b.arrayBuffer());let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s)};
+const arcHtml=(list,heft)=>{const e=esc;return '<!doctype html><html lang="de"><meta charset="utf-8"><title>ELONUKI-Stunde</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:800px;margin:24px auto;padding:0 16px;color:#1f2937}h1{color:#1e3a8a}h2{margin-top:28px;color:#1e3a8a}.p{border-left:4px solid #4f46e5;padding:4px 12px;margin:10px 0;background:#f3f4f6}small{color:#4b5563}</style><body>'+list.map(L=>`<h1>${e(L.title||'Stunde')}</h1><small>${e((SUBJECTS[L.subject]||{}).name||'')}</small>`+(L.phases||[]).map(p=>`<div class="p"><b>${e(p.name||'Phase')}</b> <small>${+p.min||0} Min.</small>${p.goal?'<br>'+e(p.goal):''}${p.method?'<br><small>'+e(p.method)+'</small>':''}${p.txt?'<br>'+e(p.txt).replace(/\n/g,'<br>'):''}${p.tool&&p.tool.title?'<br><small>Werkzeug: '+e(p.tool.title)+'</small>':''}</div>`).join('')).join('')+'</body></html>'};
 async function arcMake(list,name){ARC.busy=1;ARC.msg='Archiv wird gepackt …';ARC.err=0;render();
-  try{const files={},heft={};let skip=0,size=0;
+  try{const files={},heft={},media=[];let skip=0,size=0;
     for(const L0 of list){const r=arcRefs(L0);for(const id of [...r.img,...r.mat]){if(files[id])continue;const m=libById(id);if(!m)continue;
         if(m.kind==='link'){files[id]={meta:m};continue}const b=await libBlob(id);if(!b)continue;
-        if(size+b.size>ARC_MAX){skip++;files[id]={meta:m,big:1};continue}size+=b.size;files[id]={meta:m,data:await b64blob(b)}}
+        if(m.lic==='verlag'||m.lic==='verlagsmedien'){files[id]={meta:m,big:1};continue}
+        if(size+b.size>ARC_MAX){skip++;files[id]={meta:m,big:1};continue}size+=b.size;files[id]={meta:m,file:'medien/'+id};media.push(['medien/'+id,new Uint8Array(await b.arrayBuffer())])}
       r.eid.forEach(id=>{const e=(TD.heft||[]).find(x=>x.id===id);if(e)heft[id]=clone(e)})}
     const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes'].forEach(k=>delete d[k]);return d});
-    const doc={elio:'stunden',fv:ARC_FV,build:typeof BUILD!=='undefined'?BUILD:'',at:new Date().toISOString(),lessons:lessonsOut,heft,files};
-    dl(new Blob([JSON.stringify(doc)],{type:'application/json'}),name);
-    ARC.msg=`${list.length} Stunde${list.length===1?'':'n'} gesichert${Object.keys(files).length?' mit '+Object.keys(files).length+(Object.keys(files).length>1?' eigenen Dateien':' eigenen Datei'):''}. Leg die Datei in deinen Unterrichtsordner.`+(skip?` ${skip} sehr große Datei${skip>1?'en sind':' ist'} nicht im Archiv (zusammen über 40 MB), sie stehen weiter in deiner Bibliothek.`:'')}
+    const doc={elio:'stunden',schema:'elonuki-stunde',fv:ARC_FV,build:typeof BUILD!=='undefined'?BUILD:'',at:new Date().toISOString(),lessons:lessonsOut,heft,files};
+    const readme='ELONUKI-Stunde (.elonuki)\r\n\r\nDiese Datei ist ein ZIP-Archiv. Du kannst die Endung in .zip ändern und sie entpacken.\r\n- stunde.json: die Stunde(n) mit Phasen, Folien und Werkzeugen\r\n- medien/: eigene Bilder, Audio und Dateien\r\n- ansicht.html: Stunde ohne ELONUKI lesen (Doppelklick)\r\n\r\nZurück in ELONUKI: Schreibtisch, Bibliothek, Stunden-Archiv, „Archiv einspielen“.\r\nEnthält keine Schülerdaten. Verlagsmedien sind nicht enthalten.\r\n';
+    dl(zipStore([['stunde.json',JSON.stringify(doc)],['LIESMICH.txt',readme],['ansicht.html',arcHtml(lessonsOut,heft)],...media],'application/zip'),name);
+    ARC.msg=`${list.length} Stunde${list.length===1?'':'n'} gesichert${media.length?' mit '+media.length+(media.length>1?' eigenen Dateien':' eigenen Datei'):''}. Leg die Datei in deinen Unterrichtsordner.`+(skip?` ${skip} sehr große Datei${skip>1?'en sind':' ist'} nicht im Archiv (zusammen über 40 MB), sie stehen weiter in deiner Bibliothek.`:'')}
   catch(e){ARC.msg='Sichern hat nicht geklappt: '+(e.message||e);ARC.err=1}ARC.busy=0;render()}
-const arcName=t=>'ELIO-'+String(t).replace(/[^\wäöüÄÖÜß-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,60)+'-'+new Date().toISOString().slice(0,10)+'.elio.json';
+const arcName=t=>'ELIO-'+String(t).replace(/[^\wäöüÄÖÜß-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,60)+'-'+new Date().toISOString().slice(0,10)+'.elonuki';
 // Ältere Archiv-Formate auf den aktuellen Stand bringen (jede neue Formatnummer bekommt hier einen Schritt)
 const ARC_UP={};
 function arcUpgrade(doc){let v=+doc.fv||1;while(v<ARC_FV){if(ARC_UP[v])doc=ARC_UP[v](doc);v++}doc.fv=ARC_FV;return doc}
 const arcSig=L=>strHash(JSON.stringify([L.title,L.subject,(L.phases||[]).map(p=>[p.name,+p.min||0,p.tool&&p.tool.id])]));
 async function arcImport(file){ARC.busy=1;ARC.msg='Archiv wird eingelesen …';ARC.err=0;render();
-  try{if(file.size>200e6)throw new Error('Die Datei ist zu groß.');let doc=JSON.parse(await file.text());
+  try{if(file.size>200e6)throw new Error('Die Datei ist zu groß.');let doc,zget=null;const head=new Uint8Array(await file.slice(0,4).arrayBuffer());
+    if(head[0]===0x50&&head[1]===0x4B){if(typeof DecompressionStream==='undefined')throw new Error('Dieser Browser kann die Datei nicht entpacken. Bitte Safari oder Chrome aktuell verwenden.');zget=await unzipFiles(await file.arrayBuffer());const j=await zget('stunde.json');if(!j)throw new Error('In der Datei fehlt stunde.json.');doc=JSON.parse(new TextDecoder().decode(j))}else doc=JSON.parse(await file.text());
     if(!doc||doc.elio!=='stunden'||!Array.isArray(doc.lessons))throw new Error('Das ist keine ELIO-Archivdatei.');
     if(+doc.fv>ARC_FV)throw new Error('Diese Datei kommt aus einer neueren ELIO-Version. Lade die Seite neu und versuch es dann noch einmal.');
     doc=arcUpgrade(doc);let nf=0;
     for(const [id,f] of Object.entries(doc.files||{})){if(!/^[\w-]{3,40}$/.test(id)||libById(id)||!f||!f.meta)continue;const m=f.meta,meta={id,kind:m.kind==='link'?'link':'file',name:String(m.name||'Datei').slice(0,200),mime:String(m.mime||''),size:+m.size||0,subject:SUBJECTS[m.subject]?m.subject:'',added:Date.now(),...(m.kind==='link'&&/^https?:\/\//.test(m.url||'')?{url:String(m.url)}:{})};
-      if(meta.kind==='file'){if(!f.data)continue;const bin=atob(f.data),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);await idb('blob','readwrite',st=>st.put(new Blob([u],{type:meta.mime}),id))}
+      if(meta.kind==='file'){let u;if(f.file&&zget&&/^medien\/[\w-]+$/.test(f.file)){u=await zget(f.file);if(!u)continue}else{if(!f.data)continue;const bin=atob(f.data);u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i)}await idb('blob','readwrite',st=>st.put(new Blob([u],{type:meta.mime}),id))}
       await idb('meta','readwrite',st=>st.put(meta));nf++}
     // Hefteinträge, auf die Übungen zeigen: vorhandenen gleichen Eintrag nehmen, sonst den aus dem Archiv anlegen
     const emap={};TD.heft=TD.heft||[];for(const [id,e] of Object.entries(doc.heft||{})){if(!e||typeof e!=='object')continue;
@@ -7101,7 +7163,7 @@ function arcHTML(){const L=lessons(),subs=[...new Set(L.map(x=>x.subject))].filt
   return `<section class="panel arc"><span class="label">🗂️ Stunden-Archiv</span>
     <p class="muted" style="font-weight:700;margin:4px 0 10px">Sichere deine Stunden als Datei auf deinem Computer, zum Beispiel für das nächste Mal in dieser Jahrgangsstufe. Folien, Werkzeuge, Übungen und eigene Bilder sind mit drin. Auch neuere ELIO-Versionen lesen die Datei.</p>
     <div class="row"><button class="btn pri" data-act="arc-all" ${L.length&&!ARC.busy?'':'disabled'}>Alle ${L.length} Stunden sichern</button>${subs.length>1?`<select id="arc-subj" aria-label="Fach" style="width:auto;flex:none">${subs.map(k=>`<option value="${k}">${esc(SUBJECTS[k].name)} · ${L.filter(x=>x.subject===k).length}</option>`).join('')}</select><button class="btn" data-act="arc-subj" ${ARC.busy?'disabled':''}>Nur dieses Fach sichern</button>`:''}
-      <label class="btn" style="cursor:pointer">Archiv einspielen<input type="file" id="arc-file" accept=".json,application/json" hidden></label>${bxOk()?'<button class="btn" data-act="bx-open">Mit Kollegen teilen: Stundenbörse</button>':''}</div>
+      <label class="btn" style="cursor:pointer">Archiv einspielen<input type="file" id="arc-file" accept=".elonuki,.zip,.json,application/json,application/zip" hidden></label>${bxOk()?'<button class="btn" data-act="bx-open">Mit Kollegen teilen: Stundenbörse</button>':''}</div>
     ${ARC.msg?`<p class="${ARC.err?'err':'saved'}" style="margin-top:8px">${esc(ARC.msg)}</p>`:''}</section>`}
 /* ---------- Stundenbörse: Stunden als Kopie teilen (an ein Kürzel oder in die Börse der Schule). Nur Unterrichtsmaterial. ---------- */
 let BX={tab:'in',rows:null,busy:false,msg:'',f:{}};
@@ -7229,13 +7291,13 @@ function artDocXML(doc,D){const put=(k,x)=>{doc=doc.split(`<w:p><w:r><w:t>§${k}
 // ZIP ohne Kompression (STORE), reicht für Word
 const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
 function crc32(u){let c=~0;for(let i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8);return (~c)>>>0}
-function zipStore(files){const te=new TextEncoder(),parts=[],cen=[];let off=0;
+function zipStore(files,type){const te=new TextEncoder(),parts=[],cen=[];let off=0;
   for(const [name,data] of files){const nb=te.encode(name),db=typeof data==='string'?te.encode(data):data,c=crc32(db),h=new DataView(new ArrayBuffer(30));
     h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint32(14,c,true);h.setUint32(18,db.length,true);h.setUint32(22,db.length,true);h.setUint16(26,nb.length,true);
     parts.push(new Uint8Array(h.buffer),nb,db);const e=new DataView(new ArrayBuffer(46));e.setUint32(0,0x02014b50,true);e.setUint16(4,20,true);e.setUint16(6,20,true);e.setUint16(8,0x0800,true);e.setUint32(16,c,true);e.setUint32(20,db.length,true);e.setUint32(24,db.length,true);e.setUint16(28,nb.length,true);e.setUint32(42,off,true);
     cen.push(new Uint8Array(e.buffer),nb);off+=30+nb.length+db.length}
   const cs=cen.reduce((s,x)=>s+x.length,0),end=new DataView(new ArrayBuffer(22));end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);end.setUint32(12,cs,true);end.setUint32(16,off,true);
-  return new Blob([...parts,...cen,new Uint8Array(end.buffer)],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'})}
+  return new Blob([...parts,...cen,new Uint8Array(end.buffer)],{type:type||'application/vnd.openxmlformats-officedocument.wordprocessingml.document'})}
 let ART_TPL=null;
 async function artExport(L){try{if(!AUD.list)await audLoad();}catch(e){}
   try{ART_TPL=ART_TPL||await fetch('assets/artikulation/vorlage.json').then(r=>r.json());const D=artData(L),F=Object.entries(ART_TPL).map(([n,v])=>[n,n==='word/document.xml'?artDocXML(v,D):n==='word/header1.xml'?v.replace('§NAME§',wx(D.name)).replace('§SJ§',D.sj).replace('§DATUM§',D.datum):v]);
@@ -7305,7 +7367,7 @@ document.addEventListener('input',e=>{
   const f=e.target.dataset&&e.target.dataset.f;if(!f||V.name!=='lesson-edit')return;
   const L=lessonById(V.id);if(!L)return;
   const v=e.target.type==='checkbox'?e.target.checked:e.target.type==='number'?Math.max(0,Math.min(90,parseInt(e.target.value||'0',10)||0)):e.target.value;
-  const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
+  const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='pairs'){const p=L.phases[+k[1]],r=p.tool&&p.tool.pairs&&p.tool.pairs[+k[4]];if(r)r[+k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
@@ -7502,7 +7564,7 @@ document.addEventListener('click',e=>{
     case 'au-play':audPlay(d.id);break;
     case 'au-cat':AUD.cat=d.c;render();break;
     case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
-    case 'l-stop':if(KF)kfbStop(true);audStop();skzOff();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=true;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'l-stop':if(KF)kfbStop(true);audStop();skzOff();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=false;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'tpl-save':{const L=lessonById(V.id);if(!L)break;S.tpls=S.tpls||{};S.tpls[L.subject]=clone(L.phases).map(p=>{if(p.tool&&p.tool.id==='cover')p.tool.title='';if(p.tool&&p.tool.id==='heftlink')p.tool.eid='';return p});save();V.tplMsg='Gespeichert. Jede neue '+SUBJECTS[L.subject].name+'-Stunde startet jetzt mit diesen '+L.phases.length+' Phasen.';render();break}
     case 'tpl-reset':{const L=lessonById(V.id);if(!L||!S.tpls)break;delete S.tpls[L.subject];save();V.tplMsg='Neue '+SUBJECTS[L.subject].name+'-Stunden starten wieder mit dem Standard-Gerüst.';render();break}
     case 'ph-ins':{const L=lessonById(V.id);if(!L)break;const j=+d.i;L.phases.splice(j,0,{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});phAuto(L,j);save();render();setTimeout(()=>{const c=document.querySelectorAll('.lcard')[j];c&&c.scrollIntoView({block:'center'});const n=c&&c.querySelector('[data-f$=".name"]');n&&n.select()},0);break}
@@ -7510,6 +7572,7 @@ document.addEventListener('click',e=>{
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
     case 'ph-art':V.artPh=V.artPh===+d.i?null:+d.i;render();break;
     case 'st-open':V.stOpen=V.stOpen===+d.i?null:+d.i;render();break;
+    case 'mem-add':case 'mem-del':{const L=lessonById(V.id),p=L&&L.phases[+d.i],t=p&&p.tool;if(!t||t.id!=='memory')break;t.pairs=Array.isArray(t.pairs)?t.pairs:[];if(a==='mem-add'){if(t.pairs.length<12)t.pairs.push(['',''])}else t.pairs.splice(+d.j,1);save();render();break}
     case 'st-tog':{const L=lessonById(V.id),p=L&&L.phases[+d.i],t=p&&p.tool;if(!t||t.id!=='start')break;if(d.k==='date')t.date=t.date===false;else t.mood=!t.mood;save();render();break}
     case 'ph-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&ACT_MODES[d.m]&&actMode(p.act)!==d.m){p.act=ACT_MODES[d.m].acts[0];save()}render();break}
     case 'ph-del':{const L=lessonById(V.id);L.phases.splice(+d.i,1);V.phOpen=null;V.sle=null;V.stOpen=null;save();render();break}
@@ -7536,7 +7599,7 @@ document.addEventListener('click',e=>{
     case 'vok-del':{const D=vokD();if(D.c[d.id]&&!D.c[d.id].src){delete D.c[d.id];save();render()}break}
     case 'vok-mic':{if(!nsSR()||!VQ||VQ.res)break;if(VQ.rec){VQ._rc&&VQ._rc.finish();break}
       VQ.rec=true;VQ.heard='';VQ.err='';const at=VQ.q[0];
-      VQ._rc=srListen('en-GB',alts=>{if(!VQ||VQ.q[0]!==at)return;VQ.rec=false;const c=vokD().c[at],hit=c&&alts.find(h=>vokOk(c.en,h));VQ.heard=alts[0];vokCheck(hit||alts[0])},
+      VQ._rc=srListen('en-GB',alts=>{if(!VQ||VQ.q[0]!==at)return;VQ.rec=false;const c=vokD().c[at],hit=c&&alts.find(h=>vokOk(c.en,h));VQ.heard=alts[0];vokCheck(hit||alts[0],false,true)},
         e=>{if(!VQ||VQ.q[0]!==at)return;VQ.rec=false;VQ.err=srErr(e);render()});if(!VQ._rc)VQ.rec=false;render();break}
     case 'vk-send':{const t=vokClean(($('#vk-t')||{}).value),w=vokParse(($('#vk-x')||{}).value);if(!w.length){V.msg='Keine Vokabeln erkannt. Schreib pro Zeile: englisch = deutsch';render();break}
       TD.vok=TD.vok||[];TD.vok.push({id:'v'+Date.now().toString(36),cls:S.cls,title:t||'Vokabeln vom '+new Date().toLocaleDateString('de-DE'),words:w,date:todayISO()});tsave();if(CS)pushCS();V.msg=w.length+' Vokabeln sind an alle SuS geschickt.';render();break}
@@ -7680,6 +7743,14 @@ document.addEventListener('click',e=>{
       const id=newId(),b=await medSmall(f);try{await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:b.type||f.type||'',size:b.size,subject:$('#hf-s')?$('#hf-s').value:'',src:'heft',added:Date.now()}))}catch(e){$('#hf-err').textContent='Bild konnte nicht gespeichert werden. Ist der Speicher voll?';return}
       const v=ta.value,a=v.slice(0,pos),z=v.slice(pos),cap='Bildunterschrift',ins=(a&&!a.endsWith('\n')?'\n':'')+'[Foto: '+id+' | '+cap+']'+(z&&!z.startsWith('\n')?'\n':'');ta.value=a+ins+z;const st=a.length+ins.indexOf(cap);ta.focus();ta.setSelectionRange(st,st+cap.length)};fi.click();break}
     case 'hf-edit':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x){V.hedit=x.id;render();setTimeout(()=>{$('#hf-s').value=x.s;$('#hf-t').value=x.title;$('#hf-x').value=x.text;$('#hf-h').value=x.help||'';window.scrollTo(0,0)},0)}break}
+    case 'hbe-open':V.hbe=V.hbe===d.id?null:d.id;HBE=null;render();break;
+    case 'hbe-close':V.hbe=null;HBE=null;if(CS)pushCS();render();break;
+    case 'hbe-up':case 'hbe-down':{if(!HBE)break;const i=+d.i,j=a==='hbe-up'?i-1:i+1;if(j<0||j>=HBE.segs.length)break;[HBE.segs[i],HBE.segs[j]]=[HBE.segs[j],HBE.segs[i]];hbeSave();render();break}
+    case 'hbe-del':if(HBE&&confirm('Diesen Block löschen?')){HBE.segs.splice(+d.i,1);hbeSave();render()}break;
+    case 'hbe-addt':if(HBE){HBE.segs.splice(+d.i,0,'Neuer Text');hbeSave();render()}break;
+    case 'hbe-addi':{const fi=$('#hbe-file');if(!HBE||!fi)break;const at=+d.i,e0=(TD.heft||[]).find(x=>x.id===HBE.id);fi.value='';fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f||!/^image\//.test(f.type||''))return;
+      const id=newId(),b=await medSmall(f);try{await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:b.type||f.type||'',size:b.size,subject:(e0&&e0.s)||'',src:'heft',added:Date.now()}))}catch(x){toast('Bild konnte nicht gespeichert werden. Ist der Speicher voll?');return}
+      if(!HBE)return;HBE.segs.splice(at,0,'[Foto: '+id+' | Bildunterschrift]');hbeSave();render()};fi.click();break}
     case 'hf-del':TD.heft=(TD.heft||[]).filter(e=>e.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'kl-cards':go('kl-cards',{cid:d.id});break;
     case 'kl-print':window.print();break;
@@ -7837,7 +7908,7 @@ document.addEventListener('click',e=>{
       if(p.tool.id==='ueb'&&d.ui!=null){const T=p.tool,A=ubSeq(T).slice(),q=A.findIndex(x=>x.eid===d.eid&&x.ui===+d.ui);if(q>=0)A.splice(q,1);else A.push({eid:d.eid,ui:+d.ui});T.list=A;T.eid=A[0]?A[0].eid:'';T.ui=A[0]?A[0].ui:0;save();render();tpOpen(+d.i,'ueb');break}
       p.tool.eid=d.eid;if(d.ui!=null)p.tool.ui=+d.ui;save();$('#ov').hidden=true;render();break}
     case 'present':go('present');break;
-    case 'pgame':gameLive(d.g,d.s);go(d.g,{s:d.s,back:'present'});break;
+    case 'pgame':{let pp=null;try{pp=d.pairs?memPairs(JSON.parse(d.pairs)):null}catch(e){}gameLive(d.g,d.s,pp);go(d.g,{s:d.s,back:'present',pairs:pp});break}
     case 't-game-end':gameLive(null);render();break;
     case 'tkfb-set':go('kfb');break;
     case 'tkfb':if(!CS)initTeacher();kfbStart('');go('kfb');break;
@@ -7921,7 +7992,7 @@ document.addEventListener('click',e=>{
     case 't-begin':{const L=lessonById(d.id);if(!L||!L.phases.length)break;if(!CS)initTeacher();CS.pick=null;CS.freeze=false;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();startStep(0);render();break}
     case 'tt-go':if(CS.timer.run){CS.timer.left=timerLeft(CS.timer);CS.timer.run=false}else{if(CS.timer.left<=0)CS.timer.left=CS.timer.total;CS.timer.endsAt=Date.now()+CS.timer.left*1000;CS.timer.run=true}pushCS();render();break;
     case 'tt-reset':CS.timer={run:false,total:CS.timer.total,left:CS.timer.total,endsAt:0};pushCS();render();break;
-    case 't-frz':CS.freeze=!CS.freeze;if(CS.freeze)SND.freeze();pushCS();render();break;
+    case 't-frz':CS.freeze=!CS.freeze;CS.fzAt=CS.freeze?Date.now():0;if(CS.freeze)SND.freeze();pushCS();render();break;
     case 't-rdy':CS.ready=CS.ready?null:{id:'r'+Date.now(),done:[],rewarded:false};pushCS();render();break;
     case 't-poll':{let q,opts;
       if(d.t==='custom'){q=$('#cp-q').value.trim();opts=[1,2,3,4].map(i=>$('#cp-o'+i).value.trim()).filter(Boolean);if(!q||opts.length<2){$('#cp-q').focus();$('#cp-q').placeholder='Bitte Frage und mindestens 2 Antworten eintragen';break}}
@@ -7941,7 +8012,7 @@ document.addEventListener('click',e=>{
     case 'qz-ok':if(RCS&&RCS.poll){(S.qzSeen=S.qzSeen||{})[RCS.poll.id]=1;save();liveOverlay()}break;
     case 'quiz-reveal':if(CS.poll&&CS.poll.type==='quiz'){const c=curTool();CS.poll.right=c&&c.t.id==='quiz'?quizR(c.t,CS.poll):[];CS.poll.res=CS.poll.opts.map((_,i)=>TALLY[i]||0);pushCS();render()}break;
     case 'quiz-again':{const c=curTool();if(c&&c.t.id==='quiz'){quizStart(c.t,c.p);pushCS();render()}break}
-    case 'g-join':if(RCS&&RCS.game){S.gameSeen=RCS.game.at;S.gameGrp=RCS.game.grp||null;if(MINI==='big'){MINI='small';renderMini(true);updRail()}save();lastOvSig='';$('#live-ov').hidden=true;if(AKT[RCS.game.g]){akStart(RCS.game);go('akt')}else go(RCS.game.g,{s:RCS.game.s})}break;
+    case 'g-join':if(RCS&&RCS.game){S.gameSeen=RCS.game.at;S.gameGrp=RCS.game.grp||null;if(MINI==='big'){MINI='small';renderMini(true);updRail()}save();lastOvSig='';$('#live-ov').hidden=true;if(AKT[RCS.game.g]){akStart(RCS.game);go('akt')}else go(RCS.game.g,{s:RCS.game.s,pairs:RCS.game.pairs})}break;
     case 'phase-go':{const ph=phaseOf(RCS.phase);S.phaseSeen=String(RCS.phaseAt);save();lastOvSig='';$('#live-ov').hidden=true;
       goTarget(ph.go);
       liveOverlay();break}
@@ -7953,7 +8024,7 @@ document.addEventListener('click',e=>{
     case 'tb-game':{TD.games=TD.games||{};const c=S.cls||'-',G=(TD.games[c]=TD.games[c]||{}),L=G[d.s]=G[d.s]||[];if(L.includes(d.g))G[d.s]=L.filter(x=>x!==d.g);else L.push(d.g);tsave();if(!CS)initTeacher();pushCS();render();break}
     case 'tb-tool':{TD.toolsOff=TD.toolsOff||[];TD.toolsOff=TD.toolsOff.includes(d.t)?TD.toolsOff.filter(x=>x!==d.t):[...TD.toolsOff,d.t];tsave();render();break}
     case 'game':go(d.g,{s:d.s});break;
-    case 'g-again':go(V.name,{s:V.s,back:V.back});break;
+    case 'g-again':go(V.name,{s:V.s,back:V.back,pairs:V.pairs});break;
     case 'mem':memClick(+d.i);break;
     case 'sal-pick':{const g=V.g;if(g.fb==='no')g.fb='';g.pick.push(+d.j);if(g.pick.length===g.W[g.i].w.length)saladCheck();render();break}
     case 'sal-un':{const g=V.g;g.pick.splice(+d.p,1);g.fb='';render();break}
