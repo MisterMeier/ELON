@@ -213,7 +213,7 @@ const CSS=`
 .skz-toast{position:absolute;left:50%;top:70px;transform:translateX(-50%);background:var(--ink,#18203d);color:var(--bg,#fff);padding:10px 16px;border-radius:14px;font-weight:800;z-index:40;max-width:min(520px,calc(100% - 24px));text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:skzIn .2s ease-out}
 @keyframes skzIn{from{opacity:0;transform:translate(-50%,-8px)}}
 .skz-task{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:800;background:var(--warn-bg,#fdf0d2);color:#6d4800;padding:4px 10px;border-radius:999px;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.skz.focus .skz-top,.skz.focus .skz-side,.skz.focus .skz-ctx{display:none}.skz-fx{position:absolute;right:12px;top:12px;z-index:6;display:none;gap:6px}.skz.focus .skz-fx{display:flex}.skz-fx .skz-b{background:rgba(255,255,255,.92);box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.skz.focus .skz-top,.skz.focus .skz-side,.skz.focus .skz-ctx{display:none}.skz-fx .skz-close{display:flex;align-items:center;gap:6px;font-weight:900;padding:0 12px;width:auto}.skz-top{position:relative;z-index:12;touch-action:manipulation}.skz-fx{position:absolute;right:12px;top:12px;z-index:6;display:none;gap:6px}.skz.focus .skz-fx{display:flex}.skz-fx .skz-b{background:rgba(255,255,255,.92);box-shadow:0 2px 10px rgba(0,0,0,.2)}
 .skz-txt{position:absolute;z-index:25;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100% - 24px))}
 .skz-txt textarea{width:100%;min-height:90px;border-radius:12px;border:2px solid var(--line,#d8ddee);padding:10px;font-size:1.1rem;font-family:inherit;background:var(--surface,#fff);color:var(--ink,#18203d);-webkit-user-select:text;user-select:text}
 .skz-in{width:100%;border-radius:12px;border:2px solid var(--line,#d8ddee);padding:10px;font:inherit;font-weight:700;background:var(--surface,#fff);color:var(--ink,#18203d);-webkit-user-select:text;user-select:text}
@@ -264,13 +264,14 @@ function Editor(app,page){
       <button class="skz-b" data-k="adjust" title="Anpassen (Farbton, Helligkeit, Weichzeichnen …)">${ico('adjust')}</button>
       <button class="skz-b" data-k="export" title="Exportieren">${ico('export')}</button>
       <button class="skz-b" data-k="settings" title="Einstellungen">${ico('set')}</button>
+      <button class="skz-b" data-k="fit" title="Zoom zurücksetzen" aria-label="Zoom zurücksetzen">${ico('fit')}</button>
       <button class="skz-b skz-hide-s" data-k="full" title="Vollbild">${ico('full')}</button>
       <span class="skz-qc" aria-label="Zuletzt benutzte Farben"></span>
       <button class="skz-colb" data-k="color" title="Farbe wählen" aria-label="Farbe wählen"><span class="skz-col"></span></button>
     </div>
     <div class="skz-main"><div class="skz-side"></div>
       <div class="skz-stage"><div class="skz-doc"></div><div class="skz-hud"></div><div class="skz-cur"></div><div class="skz-zoom"></div>
-        <div class="skz-ctx"></div><div class="skz-fx"><button class="skz-b" data-k="undo">${ico('undo')}</button><button class="skz-b" data-k="unfocus">${ico('unfull')}</button></div></div></div>`);
+        <div class="skz-ctx"></div><div class="skz-fx"><button class="skz-b" data-k="undo">${ico('undo')}</button><button class="skz-b" data-k="fit" title="Zoom zurücksetzen" aria-label="Zoom zurücksetzen">${ico('fit')}</button><button class="skz-b skz-close" data-k="unfocus" aria-label="Vollbild schließen">${ico('unfull')}<span>Schließen</span></button></div></div></div>`);
   const $=s=>root.querySelector(s);
   const stage=$('.skz-stage'),doc=$('.skz-doc'),hud=$('.skz-hud'),cur=$('.skz-cur'),ctxBar=$('.skz-ctx'),side=$('.skz-side');
   doc.style.width=w+'px';doc.style.height=h+'px';
@@ -308,10 +309,13 @@ function Editor(app,page){
   function applyView(){const c=Math.cos(V.r)*V.s,s=Math.sin(V.r)*V.s;doc.style.transform=`matrix(${c*V.f},${s*V.f},${-s},${c},${V.x},${V.y})`;drawHud()}
   const toDoc=(sx,sy)=>{const x=sx-V.x,y=sy-V.y,c=Math.cos(-V.r),s=Math.sin(-V.r);return {x:(x*c-y*s)/V.s/V.f,y:(x*s+y*c)/V.s}};
   const toScr=(x,y)=>{const c=Math.cos(V.r)*V.s,s=Math.sin(V.r)*V.s;x*=V.f;return {x:x*c-y*s+V.x,y:x*s+y*c+V.y}};
+  // Zoomgrenzen: nie kleiner als ein Drittel des ganzen Blatts, nie größer als 8-fach (sonst hängt Safari)
+  function fitS(){const r=stage.getBoundingClientRect();return r.width?Math.min((r.width-40)/w,(r.height-40)/h):1}
+  const zMin=()=>Math.max(.05,fitS()/3),zMax=()=>Math.max(zMin()*2,8/(W.devicePixelRatio||1)*2);
   function fit(){const r=stage.getBoundingClientRect();if(!r.width)return;V.r=0;V.s=Math.min((r.width-40)/w,(r.height-40)/h);V.x=(r.width-w*V.s)/2+(V.f<0?w*V.s:0);V.y=(r.height-h*V.s)/2;applyView()}
   function flipView(){const r=stage.getBoundingClientRect(),c=toDoc(r.width/2,r.height/2);V.f*=-1;const q=toScr(c.x,c.y);V.x+=r.width/2-q.x;V.y+=r.height/2-q.y;applyView();toast(V.f<0?'Ansicht gespiegelt. So siehst du Fehler in Proportionen leichter.':'Ansicht wieder normal.')}
   let zt=0;function zoomHint(){const z=$('.skz-zoom');let deg=Math.round(V.r*180/Math.PI)%360;if(deg>180)deg-=360;if(deg<-180)deg+=360;z.textContent=Math.round(V.s*100*(W.devicePixelRatio||1)/2)+' %'+(deg?' · '+deg+'°':'');z.classList.add('on');clearTimeout(zt);zt=setTimeout(()=>z.classList.remove('on'),900)}
-  function zoomAt(sx,sy,k){const p=toDoc(sx,sy);V.s=clamp(V.s*k,.05,24);const q=toScr(p.x,p.y);V.x+=sx-q.x;V.y+=sy-q.y;applyView();zoomHint()}
+  function zoomAt(sx,sy,k){const p=toDoc(sx,sy);V.s=clamp(V.s*k,zMin(),zMax());const q=toScr(p.x,p.y);V.x+=sx-q.x;V.y+=sy-q.y;applyView();zoomHint()}
   E.fit=fit;
 
   /* --- Rückgängig --- */
@@ -795,11 +799,11 @@ function Editor(app,page){
     const d0=Math.hypot(B.q.x-A.q.x,B.q.y-A.q.y),d=Math.hypot(B.c.x-A.c.x,B.c.y-A.c.y),k=d0>10?d/d0:1;
     let dr=PREF.rotate?Math.atan2(B.c.y-A.c.y,B.c.x-A.c.x)-Math.atan2(B.q.y-A.q.y,B.q.x-A.q.x):0;
     // Doc-Punkt unter der alten Mitte bleibt unter den Fingern
-    Object.assign(V,v0);const P0=toDoc(m0.x,m0.y);V.s=clamp(v0.s*k,.05,24);let r=v0.r+dr;const tw=Math.PI*2,rn=((r%tw)+tw)%tw;if(Math.min(rn,tw-rn)<.09)r=Math.round(r/tw)*tw;
+    Object.assign(V,v0);const P0=toDoc(m0.x,m0.y);V.s=clamp(v0.s*k,zMin(),zMax());let r=v0.r+dr;const tw=Math.PI*2,rn=((r%tw)+tw)%tw;if(Math.min(rn,tw-rn)<.09)r=Math.round(r/tw)*tw;
     if(Math.abs(rn-Math.PI/2)<.06)r+=Math.PI/2-rn;else if(Math.abs(rn-Math.PI)<.06)r+=Math.PI-rn;else if(Math.abs(rn-3*Math.PI/2)<.06)r+=3*Math.PI/2-rn;
     V.r=r;const q=toScr(P0.x,P0.y);V.x+=m.x-q.x;V.y+=m.y-q.y;applyView();if(G.moved)zoomHint()}
   function gEnd(){if(!G)return;const ps=[...PT.values()].filter(p=>p.type==='touch');if(ps.length){gStart();return}
-    const dt=performance.now()-G.t0;if(!G.moved&&dt<320){if(G.max===2)undo();else if(G.max>=3)redo()}G=null}
+    const dt=performance.now()-G.t0;if(!G.moved&&dt<320){if(G.max===2){const n=performance.now();if(n-(E.tap2||0)<500){E.tap2=0;redo();fit();zoomHint()}else{E.tap2=n;undo()}}else if(G.max>=3)redo()}G=null}
   let LP=0;// langes Drücken mit dem Finger = Pipette
   function onDown(e){if(E.closed)return;if(e.target.closest('.skz-ctx,.skz-pop,.skz-fx,.skz-txt,.skz-ref'))return;e.preventDefault();closePop();
     if(!sRect||e.pointerType!=='touch'||!PT.size)sRect=stage.getBoundingClientRect();
@@ -829,7 +833,7 @@ function Editor(app,page){
     if(p&&p.type==='touch'){clearTimeout(LP);gEnd()}}
   stage.addEventListener('pointerdown',onDown);stage.addEventListener('pointermove',onMove);stage.addEventListener('pointerup',onUp);stage.addEventListener('pointercancel',onUp);
   stage.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch'&&!mode)cur.style.display='none'});
-  const noTouch=e=>{if(e.target.closest('.skz-pop,.skz-txt,.skz-ctx'))return;e.preventDefault()};stage.addEventListener('touchstart',noTouch,{passive:false});stage.addEventListener('touchmove',noTouch,{passive:false});
+  const noTouch=e=>{if(e.target.closest('.skz-pop,.skz-txt,.skz-ctx,.skz-fx'))return;e.preventDefault()};stage.addEventListener('touchstart',noTouch,{passive:false});stage.addEventListener('touchmove',noTouch,{passive:false});
   stage.addEventListener('wheel',e=>{e.preventDefault();if(!sRect)sRect=stage.getBoundingClientRect();sRect=stage.getBoundingClientRect();const sx=e.clientX-sRect.left,sy=e.clientY-sRect.top;
     const mouseWheel=!e.ctrlKey&&e.deltaX===0&&Math.abs(e.deltaY)>=50&&Number.isInteger(e.deltaY);
     if(e.ctrlKey||mouseWheel)zoomAt(sx,sy,Math.exp(-e.deltaY*(e.ctrlKey?.01:.0015)));else{V.x-=e.deltaX;V.y-=e.deltaY;applyView()}},{passive:false});
@@ -841,6 +845,7 @@ function Editor(app,page){
     if(k==='l'){PREF.formK='linie';setTool('form');return}const map={b:'pinsel',p:'bleistift',e:'radierer',w:'wischen',g:'fuellen',i:'pipette',u:'form',s:'auswahl',v:'transform',t:'text',h:'marker'};if(map[k]){setTool(map[k]);return}
     const id=brushId();if(id&&(k==='['||k===']')){PREF.sizes[id]=clamp(sizeOf(id)+(k===']'?.04:-.04),0,1);updSliders();prefSave();return}
     if(k==='0')fit();if(k==='+'||k==='=')zoomAt(stage.clientWidth/2,stage.clientHeight/2,1.25);if(k==='-')zoomAt(stage.clientWidth/2,stage.clientHeight/2,.8);
+    if((k==='escape'||k==='arrowleft'||k==='arrowup')&&root.classList.contains('focus')&&!E.fl&&!E.sel){exitFull();return}
     if(k==='escape'){if(E.fl)cancelFloat();else if(E.sel)setSel(null);closePop();closeText()}if(k==='enter'&&E.fl)commitFloat()};
   W.addEventListener('keydown',onKey);W.addEventListener('keyup',onKey);
   const onRes=()=>{sRect=null;if(!E.closed)drawHud()};W.addEventListener('resize',onRes);
