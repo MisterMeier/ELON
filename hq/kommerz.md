@@ -15,6 +15,7 @@ gelb
 - Hosting bewerten und Fahrplan Kommerzialisierung schreiben
 
 ## In Arbeit
+- Kostenaufstellung und Budgetrahmen (19.10.): hq/analyse-kosten.md; Repo-privat-Optionen: hq/analyse-code-privat.md
 - Name ELONUKI (seit 14.10.), Markenweg vorbereitet
 
 ## Erledigt
