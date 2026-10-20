@@ -1900,7 +1900,8 @@ function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze
 const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
 function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;if(!R&&S.skzT&&RCS&&RCS.skzEnd===S.skzT.id){S.skzT=null;save()}
   if(R&&R.id){const t={id:String(R.id).slice(0,20),text:String(R.text||'').slice(0,200),n:Math.max(1,Math.min(4,+R.n||2)),werk:!!R.werk};if(JSON.stringify(t)!==JSON.stringify(S.skzT)){S.skzT=t;save()}return t}
-  return S.skzT||null}
+  // Auftrag nur, solange die Skizzenphase live läuft; danach ist es wieder ein reines Skizzenbuch (Fabian 20.10.)
+  if(S.skzT){S.skzT=null;save()}return null}
 function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(skzClose);let host=$('#skz-host');if(!host){host=document.createElement('div');host.id='skz-host';document.body.appendChild(host)}
   const from=V.from||(S.role==='teacher'?'tdesk':'desk');
   skzLoad().then(()=>{if(!SKZ_ON)return;return Skizze.mount(host,{owner:skzOwner(),who:S.role==='teacher'?'teacher':'student',task:skzTask(),elo:eloImg('kunst','K'),
