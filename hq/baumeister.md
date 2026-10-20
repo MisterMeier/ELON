@@ -10,6 +10,7 @@ gelb
 42%
 
 ## Nächste 3 Schritte
+- Admin-Ansicht testen: Schule antippen, Reiter Klassen und Kollegium, neue Konten mit „Zu … holen“ freischalten
 - Wochenrituale testen: In der Wochenplanung „Verfassungsviertelstunde“ und „Text der Woche“ antippen, Muster wählen, offizielles Logo selbst hochladen
 - Runde 3 testen: Morgens „Wer fehlt?“ antippen, Rakete selbst starten, WLAN-Anzeige am iPad, Irregular Verbs mit Korrektur
 - Runde 2 testen: Skizzenphase mit Vorlage (Donnerstag Produktdesign), Testmodus, Zuschauer-Zugang, Nächste Stunde
@@ -19,6 +20,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Admin-Ansicht nach Schulen (20.10.), im Test: zuerst Schule wählen, dann Reiter Klassen (anlegen, Klassenleitung, Stundenplan, löschen; auch von Lehrkräften angelegte Klassen) und Kollegium (neu angemeldete Konten oben mit „Zu … holen“, Lehrkräfte der Schule mit Passwort-Link, Rolle, Klassen, Konto löschen; Kürzel). Push-Einrichtung nur noch eingeklappt, wenn noch kein Schlüssel hinterlegt ist
 - Wochenrituale (20.10.), im Test: Verfassungsviertelstunde (15 Min, Muster Gesprächsrunde, Grundrecht der Woche, Aktuelles Thema) und Text der Woche (Muster Wochenplan 5 Tage, Tageseinheit, Lese- und Arbeitslotse) als Buttons über dem Stundenplan, je Woche planbar wie eine Stunde, eigenes Logo hochladbar, frühere Themen wiederverwenden
 - Runde 3 (20.10.), im Test: Morgenstart mit Anwesenheit (Fehlende antippen, zählen nicht mit), Rakete startet nur auf Knopf der Lehrkraft, Liste „noch nicht bereit / nicht verbunden“, Nachzügler steigen direkt in die Folie ein, Verbindungsanzeige am iPad („Verbunden“ / „Kein WLAN“ mit Hilfe); Irregular Verbs: falsche Eingabe durchgestrichen mit richtiger Form, im Grammatikheft einmal richtig abschreiben
 - Runde 2 (20.10.), im Test: Skizzenbuch-Vorlage für alle (Bild hochladen, Blatt „Produktdesign“ öffnet sich bei jedem Kind), Testmodus ohne Klasse, Zuschauer-iPad für die Prüfungskommission, Stundenwechsel mit Song und Countdown, Werkzeugkasten aufgeräumt (Phasenmuster beim Phase-Hinzufügen, ein Werkzeug „Hefteintrag“), Neue Stunde mit Fach-Gerüsten und eigenen Vorlagen, alle Fächer im Schreibtisch, Geometrie & Koordinatensystem (JSXGraph), Farbmischung nach Itten, Skizzen-Galerie an der Tafel, Grammatikheft (Irregular Verbs), klare Mikrofon-Meldung, Datensparen Teil 2 (Folienbilder als Dateien, Stunden-Sync nur Geänderte)
