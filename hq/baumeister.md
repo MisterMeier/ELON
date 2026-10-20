@@ -10,6 +10,7 @@ gelb
 42%
 
 ## Nächste 3 Schritte
+- Runde 3 testen: Morgens „Wer fehlt?“ antippen, Rakete selbst starten, WLAN-Anzeige am iPad, Irregular Verbs mit Korrektur
 - Runde 2 testen: Skizzenphase mit Vorlage (Donnerstag Produktdesign), Testmodus, Zuschauer-Zugang, Nächste Stunde
 - supabase/media_storage.sql einmal im SQL Editor ausführen (Folienbilder als Dateien)
 - Montag 7a: Sitzplan für 7a anlegen, DaZ-Ordner nur für 7cdG sichtbar lassen, Elo auf den Folien prüfen
@@ -17,6 +18,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Runde 3 (20.10.), im Test: Morgenstart mit Anwesenheit (Fehlende antippen, zählen nicht mit), Rakete startet nur auf Knopf der Lehrkraft, Liste „noch nicht bereit / nicht verbunden“, Nachzügler steigen direkt in die Folie ein, Verbindungsanzeige am iPad („Verbunden“ / „Kein WLAN“ mit Hilfe); Irregular Verbs: falsche Eingabe durchgestrichen mit richtiger Form, im Grammatikheft einmal richtig abschreiben
 - Runde 2 (20.10.), im Test: Skizzenbuch-Vorlage für alle (Bild hochladen, Blatt „Produktdesign“ öffnet sich bei jedem Kind), Testmodus ohne Klasse, Zuschauer-iPad für die Prüfungskommission, Stundenwechsel mit Song und Countdown, Werkzeugkasten aufgeräumt (Phasenmuster beim Phase-Hinzufügen, ein Werkzeug „Hefteintrag“), Neue Stunde mit Fach-Gerüsten und eigenen Vorlagen, alle Fächer im Schreibtisch, Geometrie & Koordinatensystem (JSXGraph), Farbmischung nach Itten, Skizzen-Galerie an der Tafel, Grammatikheft (Irregular Verbs), klare Mikrofon-Meldung, Datensparen Teil 2 (Folienbilder als Dateien, Stunden-Sync nur Geänderte)
 - Sammelrunde 20.10., im Test: abgelaufene Aufträge verschwinden bei den SuS, Übung und Hausaufgabe als ein „Auftrag“ (Frist optional) mit Abschließen/Weiter, Vokabeln per Foto/PDF einlesen, Skizzenbuch ohne Dauer-Auftrag, Stundenarchiv mit Export und Börse (Lehrkraft auswählen), Bibliothek mit Hochladen oben und Fächern als Zeilen, Schreibtisch Fach > Jahrgang > Lernmodule mit Bearbeiten und Freigabe pro Klasse, Sounds neu (Start nur einmal, Werkzeug-Start, Fehler-Ton), Knopf „Elo-Stimme prüfen“
 - Sammelauftrag P4/P5 (19.10.), im Test: Bilder werden beim Hochladen automatisch verkleinert (höchstens 1600 Pixel, WebP, meist unter 300 KB), Hinweis bei Videos über 50 MB. Analysen: hq/analyse-speicher.md, analyse-kosten.md, analyse-code-privat.md, analyse-technik-vergleich.md; Backlog (Startfolien aller Fächer, Lehrpläne, Pilot Mathematik 7): hq/backlog.md
