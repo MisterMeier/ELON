@@ -1395,6 +1395,10 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .adm .cls-chk{display:flex;flex-wrap:wrap;gap:6px}
 .adm .cls-chk label{display:inline-flex;gap:5px;align-items:center;padding:4px 10px;border-radius:999px;border:2px solid var(--line);font-weight:800;font-size:.85rem;cursor:pointer}
 .adm .cls-chk input{width:18px;height:18px}
+.ad-schools{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.ad-sc{display:flex;flex-direction:column;gap:4px;text-align:left;padding:18px;border-radius:18px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;color:var(--ink)}
+.ad-sc:hover{border-color:var(--sc)}.ad-sc b{font-family:var(--f-display);font-size:1.25rem}.ad-sc small{color:var(--muted);font-weight:700}.ad-sc span{font-weight:800;font-size:.9rem;margin-top:6px}
+.ad-pop{border:2px solid var(--sc);margin-bottom:14px}
 .ctt select{width:100%;padding:6px 8px;font-size:.85rem;border-radius:8px}
 .ctt td{vertical-align:top}
 .ctt td>.cell+.cell{margin-top:4px}.ctt .cell.grp{border-style:dashed}.ctt .gl{font-size:.7rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
@@ -6606,7 +6610,8 @@ const mSchool=id=>((A.members||[]).find(m=>m.profile_id===id)||{}).school_id||''
 const STAFF_SEED='Kat, Sun, Sim, Mat, GmS, Ver, Ant, Jan, Vera';
 async function adminLoad(){
   const sb=Cloud.sb;
-  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role,wish_school').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true}
+  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role,wish_school').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true;
+    try{const r=await sb.from('push_cfg').select('vapid_pub').eq('id',1).maybeSingle();A.push=!!(r&&r.data&&r.data.vapid_pub)}catch(e){A.push=false}}
   catch(e){A.msg='Laden fehlgeschlagen: '+(e.message||e)}
   if(V.name==='admin')render();
 }
@@ -6695,42 +6700,56 @@ VIEWS.inbox=()=>{const adm=tkAdmin();if(adm&&!TK.ok)tkLoad();
     <div class="tk-body">${t.shot?`<button class="tk-th" data-act="tk-img" data-id="${t.id}"><img src="${t.shot}" alt="Screenshot"></button>`:''}<p>${esc(t.body)}</p></div>
     ${(t.ctx&&t.ctx.errors||[]).length?`<p class="muted" style="font-size:.85rem">⚙️ ${esc(t.ctx.errors.join(' | '))}</p>`:''}
     <div class="row" style="gap:6px;margin-top:8px"><button class="btn sm pri" data-act="tk-copy" data-id="${t.id}">🤖 Für Claude kopieren</button>${t.status!=='dran'?`<button class="btn sm" data-act="tk-st" data-id="${t.id}" data-v="dran">In Arbeit</button>`:''}${t.status!=='erledigt'?`<button class="btn sm ok" data-act="tk-st" data-id="${t.id}" data-v="erledigt">Erledigt</button>`:`<button class="btn sm" data-act="tk-st" data-id="${t.id}" data-v="neu">Wieder öffnen</button>`}<span class="spacer"></span><button class="btn sm red" data-act="tk-del" data-id="${t.id}">${V.tdel==t.id?'Wirklich löschen':'Löschen'}</button></div></article>`).join('')||'<div class="empty">Keine Meldungen. Läuft!</div>'}</div>`};
+// Admin: erst Schule wählen, dann Reiter Klassen / Kollegium. Neue Konten ohne Schule stehen oben.
+const adNew=()=>A.profiles.filter(p=>p.role!=='admin'&&!mSchool(p.id));
+function adUserRow(p,sc,isNew){const ms=mSchool(p.id),own=p.id===Cloud.user.id,adm=p.role==='admin',cls=A.classes.filter(c=>c.school_id===sc.id);
+  return `<tr${isNew?' class="ad-new"':''}><td>${esc(p.email||'')}${p.wish_school?`<br><small class="muted">Wunschschule: <b>${esc(p.wish_school)}</b></small>`:''}${p.email?`<br><button class="btn sm" data-act="ad-pwmail" data-m="${esc(p.email)}" style="margin-top:4px">🔑 Passwort-Link schicken</button>${A.pwSent===p.email?' <small class="saved">gesendet</small>':''}`:''}</td>
+    <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
+    <td>${adm?'<span class="muted">alle (Admin)</span>':isNew?`<button class="btn sm pri" data-act="ad-assign" data-id="${p.id}" data-s="${sc.id}">Zu ${esc(sc.name)} holen</button>`:`<select data-adschool="${p.id}" style="width:auto" aria-label="Schule von ${esc(p.email||'')}"><option value="">– keine –</option>${A.schools.map(s=>`<option value="${s.id}" ${ms===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select>`}</td>
+    <td><select data-adrole="${p.id}" ${own?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
+    <td>${isNew?'<span class="muted">nach dem Zuweisen</span>':`<div class="cls-chk">${cls.map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">–</span>'}</div>`}</td>
+    <td style="text-align:right">${own||adm?'':V.adel==='u'+p.id?`<button class="btn sm red" data-act="ad-user-del" data-id="${p.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="u${p.id}">Konto löschen</button>`}</td></tr>`}
+const AD_UHEAD='<tr><th>Konto</th><th>Name</th><th>Schule</th><th>Rolle</th><th>Klassen</th><th></th></tr>';
+function adClassesHTML(sc){const cls=A.classes.filter(c=>c.school_id===sc.id);
+  return `<section class="panel"><span class="label">Klassen an der ${esc(sc.name)} · ${cls.length}</span>
+    <p class="muted" style="font-weight:700;margin-top:4px">Hier stehen alle Klassen der Schule, auch die, die Lehrkräfte selbst unter „Meine Klassen“ anlegen.</p>
+    <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th>Klassenleitung</th><th></th></tr>${cls.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
+      <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc(pName(A.profiles,x.teacher_id))).join(', ')||'<span class="muted">–</span>'}</td>
+      <td>${(()=>{const ld=A.ct.find(x=>x.class_id===c.id&&x.lead),st=A.staff.filter(x=>x.school_id===c.school_id),
+        extra=A.profiles.filter(p=>p.role!=='pending'&&!st.some(x=>x.profile_id===p.id)&&(p.role==='admin'||!mSchool(p.id)||mSchool(p.id)===c.school_id));
+      return `<select data-adlead="${c.id}" style="width:auto" aria-label="Klassenleitung ${esc(c.name)}"><option value="">– keine –</option>
+        ${st.map(x=>x.profile_id?`<option value="${x.profile_id}" ${ld&&ld.teacher_id===x.profile_id?'selected':''}>${esc(x.short)} · ${esc(pName(A.profiles,x.profile_id))}</option>`:`<option disabled>${esc(x.short)} (ohne Konto)</option>`).join('')}
+        ${extra.map(p=>`<option value="${p.id}" ${ld&&ld.teacher_id===p.id?'selected':''}>${esc(p.name||p.email)}</option>`).join('')}</select>`})()}</td>
+      <td style="text-align:right"><button class="btn sm" data-act="ctt-open" data-id="${c.id}">Stundenplan</button>${V.adel==='c'+c.id?`<button class="btn sm red" data-act="ad-class-del" data-id="${c.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="c${c.id}">Löschen</button>`}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">Noch keine Klasse.</td></tr>'}</table>
+    <div class="row" style="margin-top:8px"><input id="ad-cn-${sc.id}" type="text" placeholder="Neue Klasse, z. B. 7bG" style="max-width:220px"><input id="ad-cs-${sc.id}" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="ad-class-add" data-id="${sc.id}">Klasse anlegen</button></div></section>`}
+function adStaffHTML(sc){const st=A.staff.filter(x=>x.school_id===sc.id),mem=A.profiles.filter(p=>p.role==='admin'||mSchool(p.id)===sc.id),nw=adNew();
+  return `${nw.length?`<section class="panel ad-pop"><span class="label">🆕 Neu angemeldet · ${nw.length}</span><p class="muted" style="font-weight:700;margin-top:4px">Diese Konten haben noch keine Schule. „Zu ${esc(sc.name)} holen“ schaltet das Konto frei. Danach legt die Lehrkraft unter „Meine Klassen“ ihre eigenen Klassen an, du siehst sie im Reiter Klassen.</p>
+    <table>${AD_UHEAD}${nw.map(p=>adUserRow(p,sc,true)).join('')}</table></section>`:''}
+  <section class="panel"><span class="label">Lehrkräfte an der ${esc(sc.name)} · ${mem.length}</span><p class="muted" style="font-weight:700;margin-top:4px">Eine Lehrkraft sieht nur ihre Schule. „Konto löschen“ entfernt auch die E-Mail-Adresse, sie lässt sich danach neu registrieren.</p>
+    <table>${AD_UHEAD}${mem.map(p=>adUserRow(p,sc,false)).join('')}</table></section>
+  <section class="panel"><span class="label">Kürzel für den Stundenplan</span>
+    <p class="muted" style="font-weight:700;margin-top:4px">Kürzel brauchen kein Konto. Verknüpfe ein Kürzel mit einem Konto, dann sieht die Lehrkraft ihre Stunden in der Planung und gehört automatisch zu den Klassen, in denen sie unterrichtet.</p>
+    <table><tr><th>Kürzel</th><th>Konto</th><th></th></tr>${st.map(x=>`<tr><td><b>${esc(x.short)}</b></td>
+      <td><select data-adstaff="${x.id}" style="width:auto"><option value="">– ohne Konto –</option>${A.profiles.filter(p=>p.role!=='pending'&&(p.role==='admin'||mSchool(p.id)===sc.id)).map(p=>`<option value="${p.id}" ${x.profile_id===p.id?'selected':''}>${esc(p.name||p.email)}${p.id===Cloud.user.id?' (du)':''}</option>`).join('')}</select></td>
+      <td style="text-align:right"><button class="btn sm" data-act="ad-staff-del" data-id="${x.id}">Löschen</button></td></tr>`).join('')}</table>
+    <div class="row" style="margin-top:8px"><input id="ad-st-${sc.id}" type="text" value="${st.length?'':STAFF_SEED}" placeholder="Kürzel, mit Komma getrennt" style="max-width:420px"><button class="btn sm pri" data-act="ad-staff-add" data-id="${sc.id}">Kürzel anlegen</button></div></section>`}
 VIEWS.admin=()=>{
   if(!CLOUD)return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Der Admin-Bereich funktioniert nur auf der echten ELIO-Seite mit Server.</div>`;
   if(!(Cloud.prof&&Cloud.prof.role==='admin'))return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Nur für den Admin.</div>`;
   if(!A.ok){adminLoad();return '<div class="empty">Lädt …</div>'}
-  const uid=Cloud.user.id,cls=A.classes;
-  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Admin</h1><span class="chip">nur für dich</span></div>${pushAdminHTML()}
-  ${A.msg?`<p class="saved">${esc(A.msg)}</p>`:''}
-  <div class="adm">
-  <section class="panel"><span class="label">Schulen und Klassen</span>
-    ${A.schools.map(sc=>`<div style="margin-top:14px"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.2rem">${esc(sc.name)} <span class="muted" style="font-size:.9rem">${esc(sc.place||'')}</span></b>
-        ${V.adel==='s'+sc.id?`<span class="row"><button class="btn sm red" data-act="ad-school-del" data-id="${sc.id}">Schule mit allen Klassen löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button></span>`:`<button class="btn sm" data-act="ad-ask" data-k="s${sc.id}">Löschen</button>`}</div>
-      <table><tr><th>Klasse</th><th>SuS</th><th>Lehrkräfte</th><th>Klassenleitung</th><th></th></tr>${cls.filter(c=>c.school_id===sc.id).map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${c.size}</td>
-        <td>${A.ct.filter(x=>x.class_id===c.id).map(x=>esc(pName(A.profiles,x.teacher_id))).join(', ')||'<span class="muted">–</span>'}</td>
-        <td>${(()=>{const ld=A.ct.find(x=>x.class_id===c.id&&x.lead),st=A.staff.filter(x=>x.school_id===c.school_id),
-          extra=A.profiles.filter(p=>p.role!=='pending'&&!st.some(x=>x.profile_id===p.id)&&(p.role==='admin'||!mSchool(p.id)||mSchool(p.id)===c.school_id));
-        return `<select data-adlead="${c.id}" style="width:auto" aria-label="Klassenleitung ${esc(c.name)}"><option value="">– keine –</option>
-          ${st.map(x=>x.profile_id?`<option value="${x.profile_id}" ${ld&&ld.teacher_id===x.profile_id?'selected':''}>${esc(x.short)} · ${esc(pName(A.profiles,x.profile_id))}</option>`:`<option disabled>${esc(x.short)} (ohne Konto)</option>`).join('')}
-          ${extra.map(p=>`<option value="${p.id}" ${ld&&ld.teacher_id===p.id?'selected':''}>${esc(p.name||p.email)}</option>`).join('')}</select>`})()}</td>
-        <td style="text-align:right"><button class="btn sm" data-act="ctt-open" data-id="${c.id}">Stundenplan</button>${V.adel==='c'+c.id?`<button class="btn sm red" data-act="ad-class-del" data-id="${c.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="c${c.id}">Löschen</button>`}</td></tr>`).join('')}</table>
-      <div class="row" style="margin-top:8px"><input id="ad-cn-${sc.id}" type="text" placeholder="Neue Klasse, z. B. 7bG" style="max-width:220px"><input id="ad-cs-${sc.id}" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="ad-class-add" data-id="${sc.id}">Klasse anlegen</button></div></div>`).join('')||'<p class="muted" style="margin-top:8px">Noch keine Schule.</p>'}
-    <div class="row" style="margin-top:16px"><input id="ad-sn" type="text" placeholder="Name der Schule" style="max-width:280px"><input id="ad-sp" type="text" placeholder="Ort" style="max-width:180px"><button class="btn pri sm" data-act="ad-school-add">Schule anlegen</button></div></section>
-  <section class="panel"><span class="label">Kollegium (Kürzel für den Stundenplan)</span>
-    <p class="muted" style="font-weight:700;margin-top:4px">Kürzel brauchen kein Konto. Verknüpfe ein Kürzel mit einem Konto, dann sieht die Lehrkraft ihre Stunden in der Planung und gehört automatisch zu den Klassen, in denen sie unterrichtet. Leg auch dein eigenes Kürzel an.</p>
-    ${A.schools.map(sc=>{const st=A.staff.filter(x=>x.school_id===sc.id);return `<div style="margin-top:12px"><b>${esc(sc.name)}</b>
-      <table><tr><th>Kürzel</th><th>Konto</th><th></th></tr>${st.map(x=>`<tr><td><b>${esc(x.short)}</b></td>
-        <td><select data-adstaff="${x.id}" style="width:auto"><option value="">– ohne Konto –</option>${A.profiles.filter(p=>p.role!=='pending'&&(p.role==='admin'||!mSchool(p.id)||mSchool(p.id)===sc.id)).map(p=>`<option value="${p.id}" ${x.profile_id===p.id?'selected':''}>${esc(p.name||p.email)}${p.id===Cloud.user.id?' (du)':''}</option>`).join('')}</select></td>
-        <td style="text-align:right"><button class="btn sm" data-act="ad-staff-del" data-id="${x.id}">Löschen</button></td></tr>`).join('')}</table>
-      <div class="row" style="margin-top:8px"><input id="ad-st-${sc.id}" type="text" value="${st.length?'':STAFF_SEED}" placeholder="Kürzel, mit Komma getrennt" style="max-width:420px"><button class="btn sm pri" data-act="ad-staff-add" data-id="${sc.id}">Kürzel anlegen</button></div></div>`}).join('')||'<p class="muted">Erst eine Schule anlegen.</p>'}</section>
-  <section class="panel"><span class="label">Lehrkräfte</span><p class="muted" style="font-weight:700;margin-top:4px">Neue Lehrkräfte erstellen selbst ein Konto (Startseite → „Für Lehrkräfte: Anmelden“) und geben dabei ihre Schule an. Wähle bei „Schule“ die passende Schule aus: Das Konto wird freigeschaltet und aufgenommen. Eine Lehrkraft sieht nur ihre Schule. „Konto löschen“ entfernt auch die E-Mail-Adresse, sie lässt sich danach neu registrieren.</p>
-    <table><tr><th>Konto</th><th>Name</th><th>Schule</th><th>Rolle</th><th>Klassen</th><th></th></tr>${A.profiles.map(p=>{const ms=mSchool(p.id),own=p.id===uid,adm=p.role==='admin';return `<tr><td>${esc(p.email||'')}${p.wish_school?`<br><small class="muted">Wunschschule: <b>${esc(p.wish_school)}</b></small>`:''}${p.email?`<br><button class="btn sm" data-act="ad-pwmail" data-m="${esc(p.email)}" style="margin-top:4px">🔑 Passwort-Link schicken</button>${A.pwSent===p.email?' <small class="saved">gesendet</small>':''}`:''}</td>
-      <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
-      <td>${adm?'<span class="muted">alle (Admin)</span>':`<select data-adschool="${p.id}" style="width:auto" aria-label="Schule von ${esc(p.email||'')}"><option value="">${p.role==='pending'?'– wählen –':'– keine –'}</option>${A.schools.map(sc=>`<option value="${sc.id}" ${ms===sc.id?'selected':''}>${esc(sc.name)}</option>`).join('')}</select>`}</td>
-      <td><select data-adrole="${p.id}" ${own?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
-      <td><div class="cls-chk">${cls.filter(c=>adm||!ms||c.school_id===ms).map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">–</span>'}</div></td>
-      <td style="text-align:right">${own||adm?'':V.adel==='u'+p.id?`<button class="btn sm red" data-act="ad-user-del" data-id="${p.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="u${p.id}">Konto löschen</button>`}</td></tr>`}).join('')}</table></section>
-  </div>`;
+  const sc=A.schools.find(s=>String(s.id)===String(V.ads)),nw=adNew(),msg=A.msg?`<p class="saved">${esc(A.msg)}</p>`:'';
+  if(!sc)return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Admin</h1><span class="chip">nur für dich</span></div>${msg}
+    ${nw.length?`<p class="ad-pop panel" style="font-weight:800">🆕 ${nw.length===1?'Ein neues Konto wartet':nw.length+' neue Konten warten'} auf eine Schule: ${nw.map(p=>esc(p.name||p.email)+(p.wish_school?' ('+esc(p.wish_school)+')':'')).join(', ')}. Wähle die Schule und dann „Kollegium“.</p>`:''}
+    <p class="muted" style="font-weight:700;margin-bottom:10px">Wähle eine Schule.</p>
+    <div class="ad-schools">${A.schools.map(s=>{const nc=A.classes.filter(c=>c.school_id===s.id).length,nl=A.profiles.filter(p=>p.role!=='admin'&&mSchool(p.id)===s.id).length;
+      return `<button class="ad-sc" data-act="ad-sc" data-id="${s.id}"><b>🏫 ${esc(s.name)}</b><small>${esc(s.place||'')}</small><span>${nc} Klasse${nc===1?'':'n'} · ${nl} Lehrkr${nl===1?'aft':'äfte'}</span></button>`}).join('')||'<p class="muted">Noch keine Schule.</p>'}</div>
+    <section class="panel" style="margin-top:16px"><span class="label">Neue Schule</span><div class="row" style="margin-top:6px"><input id="ad-sn" type="text" placeholder="Name der Schule" style="max-width:280px"><input id="ad-sp" type="text" placeholder="Ort" style="max-width:180px"><button class="btn pri sm" data-act="ad-school-add">Schule anlegen</button></div></section>
+    ${A.push?'':`<details class="panel" style="margin-top:16px"><summary style="font-weight:800;cursor:pointer">Technik: Push-Erinnerungen einrichten (einmalig)</summary>${pushAdminHTML()}</details>`}`;
+  const t=V.adt==='ko'?'ko':'kl';
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="ad-sc" data-id="">← Alle Schulen</button><h1>🏫 ${esc(sc.name)} <span class="muted" style="font-size:1rem">${esc(sc.place||'')}</span></h1></div>
+    ${V.adel==='s'+sc.id?`<span class="row"><button class="btn sm red" data-act="ad-school-del" data-id="${sc.id}">Schule mit allen Klassen löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button></span>`:`<button class="btn sm" data-act="ad-ask" data-k="s${sc.id}">Schule löschen</button>`}</div>
+  <div class="tabs"><button class="${t==='kl'?'on':''}" data-act="ad-tab" data-t="kl">Klassen · ${A.classes.filter(c=>c.school_id===sc.id).length}</button><button class="${t==='ko'?'on':''}" data-act="ad-tab" data-t="ko">Kollegium${nw.length?' · 🆕 '+nw.length:''}</button></div>
+  ${msg}<div class="adm">${t==='kl'?adClassesHTML(sc):adStaffHTML(sc)}</div>`;
 };
 document.addEventListener('change',e=>{
   const t=e.target,sb=Cloud.sb;if(!sb)return;
@@ -8512,6 +8531,9 @@ document.addEventListener('click',e=>{
     case 'tk-copy':tkCopy(d.id);break;
     case 'tk-img':{const t=tkFind(d.id);if(t&&t.shot){const m=$('#tk-m');m.innerHTML=`<div class="tk-box tk-big"><img src="${t.shot}" alt="Screenshot"><div class="row" style="justify-content:flex-end;margin-top:8px"><a class="btn" href="${t.shot}" download="elio-ticket-${t.id}.jpg">Bild speichern</a><button class="btn pri" data-act="tk-close">Schließen</button></div></div>`;m.hidden=false}break}
     case 'ad-ask':V.adel=d.k;render();break;
+    case 'ad-sc':V.ads=d.id||null;V.adel=null;A.msg='';render();scrollTo(0,0);break;
+    case 'ad-tab':V.adt=d.t;V.adel=null;A.msg='';render();break;
+    case 'ad-assign':adminRpc(Cloud.sb.rpc('admin_set_school',{p_profile:d.id,p_school:d.s}),'Schule gespeichert. Das Konto ist freigeschaltet.');break;
     case 'ad-cancel':V.adel=null;render();break;
     case 'ad-staff-add':{const ex=A.staff.filter(x=>x.school_id===d.id).map(x=>x.short.toLowerCase()),seen=new Set();
       const rows=($('#ad-st-'+d.id).value||'').split(/[,;\n]/).map(x=>x.trim().slice(0,12)).filter(x=>x&&!ex.includes(x.toLowerCase())&&!seen.has(x.toLowerCase())&&seen.add(x.toLowerCase())).map(short=>({school_id:d.id,short}));
