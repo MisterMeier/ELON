@@ -19,6 +19,7 @@ gelb
 - Designstandard für Material (elon/designstandard-material.md) bei jedem neuen Hefteintrag anwenden
 
 ## Erledigt
+- Alle Emojis aus der App entfernt (20.10., Runde 4); Stimmungs-Gesichter und Ampelpunkte sind jetzt SVG
 - 8 realistische Elo-Bilder (ElevenLabs) freigestellt und nach Fach eingebunden: Mathe, Englisch, Schottland, Kunst, Wirtschaft, Standard, Winken, Stark (18.10.)
 - Fabians Sounds eingebunden: Futuristisch als Steuerungs-Töne (Bestätigen, Fenster auf/zu), Fußball im Kicker, Börse beim Bereit-Check, alle auch in den Tafel-Sounds (18.10.)
 - Elo auf jeder Folie, Figur automatisch nach Fach aus assets/elo/figuren.json (18.10.)
