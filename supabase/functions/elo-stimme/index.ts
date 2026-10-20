@@ -2,7 +2,9 @@
 // Nur für Admins (Kosten). Es geht nur der Satz der Lehrkraft raus, keine Schülerdaten. Die App speichert die Aufnahme auf dem Gerät der Lehrkraft.
 // Einrichten:
 //   supabase secrets set ELEVEN_KEY=<ElevenLabs-API-Schlüssel>
-//   supabase functions deploy elo-stimme
+//   supabase functions deploy elo-stimme --no-verify-jwt
+// Im Dashboard: bei elo-stimme unter „Details“ „Verify JWT with legacy secret“ AUS. Die Funktion prüft Anmeldung und Admin selbst (unten);
+// mit dem neuen Publishable Key lässt die alte JWT-Prüfung den Aufruf sonst nicht durch, und die App meldet „Keine Verbindung“.
 // Optional: ELEVEN_VOICE (Stimme), ELEVEN_MODEL (Modell)
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
