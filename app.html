@@ -5553,7 +5553,7 @@ VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();i
       <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span>${one?'<small class="chip">einmalig</small>':''}</span>
       ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):(sq.t||sq.typ?`<span class="sq-h">${esc((sq.typ?sq.typ+': ':'')+(sq.t||''))}</span>`:'')+'<span class="add">+ Stunde planen</span>'}</div>`};
   return `${planTabs('woche')}<div class="row" style="justify-content:space-between;margin:12px 0 10px"><h1>Wochenplanung</h1>
-    <div class="row"><button class="btn sm" data-act="wk-print">🖨️ Wochenplan exportieren (A4)</button><button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
+    <div class="row"><button class="btn sm" data-act="wk-arc" title="Alle geplanten Stunden dieser Woche ins Stunden-Archiv der Bibliothek">🗂️ Woche ins Archiv</button><button class="btn sm" data-act="wk-print">🖨️ Wochenplan exportieren (A4)</button><button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
   ${TD.ttEx&&!(CLOUD&&Cloud.prof)?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
   ${ed?'<div class="priv">✏️ Tippe auf ein Feld, um Fach und Klasse einzutragen. Das gilt für jede Woche.</div>':''}
   <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
@@ -5579,7 +5579,7 @@ function tpCell(d,i,date){
   const nx=slotOf(d,i+1,date),dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
   const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
   if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
-    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button>${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="arc-one" data-id="${L.id}" title="Als .elonuki-Datei herunterladen (passt auch für die Stundenbörse)">💾 Als Datei</button><button class="btn sm ${L.arc?'on':''}" data-act="l-arc" data-id="${L.id}">${L.arc?'✓ Im Archiv':'🗂️ Ins Archiv'}</button>${bxOk()?`<button class="btn sm" data-act="bx-share" data-id="${L.id}">📤 In die Börse</button>`:''}<button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button>${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
   const others=lessons().filter(x=>x.subject===sl.s);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
@@ -7262,7 +7262,7 @@ async function arcMake(list,name){ARC.busy=1;ARC.msg='Archiv wird gepackt …';A
         if(m.lic==='verlag'||m.lic==='verlagsmedien'){files[id]={meta:m,big:1};continue}
         if(size+b.size>ARC_MAX){skip++;files[id]={meta:m,big:1};continue}size+=b.size;files[id]={meta:m,file:'medien/'+id};media.push(['medien/'+id,new Uint8Array(await b.arrayBuffer())])}
       r.eid.forEach(id=>{const e=(TD.heft||[]).find(x=>x.id===id);if(e)heft[id]=clone(e)})}
-    const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes'].forEach(k=>delete d[k]);return d});
+    const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes','arc'].forEach(k=>delete d[k]);return d});
     const doc={elio:'stunden',schema:'elonuki-stunde',fv:ARC_FV,build:typeof BUILD!=='undefined'?BUILD:'',at:new Date().toISOString(),lessons:lessonsOut,heft,files};
     const readme='ELONUKI-Stunde (.elonuki)\r\n\r\nDiese Datei ist ein ZIP-Archiv. Du kannst die Endung in .zip ändern und sie entpacken.\r\n- stunde.json: die Stunde(n) mit Phasen, Folien und Werkzeugen\r\n- medien/: eigene Bilder, Audio und Dateien\r\n- ansicht.html: Stunde ohne ELONUKI lesen (Doppelklick)\r\n\r\nZurück in ELONUKI: Schreibtisch, Bibliothek, Stunden-Archiv, „Archiv einspielen“.\r\nEnthält keine Schülerdaten. Verlagsmedien sind nicht enthalten.\r\n';
     dl(zipStore([['stunde.json',JSON.stringify(doc)],['LIESMICH.txt',readme],['ansicht.html',arcHtml(lessonsOut,heft)],...media],'application/zip'),name);
@@ -7293,8 +7293,9 @@ async function arcImport(file){ARC.busy=1;ARC.msg='Archiv wird eingelesen …';A
     save();tsave();await libLoad();
     ARC.msg=`${n} Stunde${n===1?'':'n'} übernommen${nf?', '+nf+' Datei'+(nf>1?'en':'')+' in die Bibliothek gelegt':''}${dup?'. '+dup+' Stunde'+(dup>1?'n waren':' war')+' schon da und '+(dup>1?'wurden':'wurde')+' übersprungen':''}. Du findest sie unter „Meine Stunden“.`}
   catch(e){ARC.msg=e instanceof SyntaxError?'Die Datei ist beschädigt oder keine ELIO-Archivdatei.':(e.message||String(e));ARC.err=1}ARC.busy=0;render()}
-function arcHTML(){const L=lessons(),subs=[...new Set(L.map(x=>x.subject))].filter(k=>SUBJECTS[k]);
+function arcHTML(){const L=lessons(),subs=[...new Set(L.map(x=>x.subject))].filter(k=>SUBJECTS[k]),A=L.filter(x=>x.arc).sort((a,b)=>b.arc-a.arc);
   return `<section class="panel arc"><span class="label">🗂️ Stunden-Archiv</span>
+    <div class="arc-l">${A.length?A.map(x=>`<div class="arc-r s-${x.subject}">${badge(x.subject)}<span style="flex:1;min-width:140px"><b>${esc(x.title)}</b> <small class="muted">· ${x.phases.length} Phasen · archiviert ${new Date(x.arc).toLocaleDateString('de-DE')}</small></span><button class="btn sm" data-act="arc-one" data-id="${x.id}">💾 Datei</button>${bxOk()?`<button class="btn sm pri" data-act="bx-share" data-id="${x.id}">📤 In die Börse</button>`:''}<button class="btn sm ghost" data-act="l-arc" data-id="${x.id}" title="Aus dem Archiv nehmen">✕</button></div>`).join(''):'<p class="muted" style="font-weight:700">Noch leer. In der Planung eine Stunde antippen und „🗂️ Ins Archiv“ wählen, oder oben „🗂️ Woche ins Archiv“.</p>'}</div>
     <p class="muted" style="font-weight:700;margin:4px 0 10px">Sichere deine Stunden als Datei auf deinem Computer, zum Beispiel für das nächste Mal in dieser Jahrgangsstufe. Folien, Werkzeuge, Übungen und eigene Bilder sind mit drin. Auch neuere ELIO-Versionen lesen die Datei.</p>
     <div class="row"><button class="btn pri" data-act="arc-all" ${L.length&&!ARC.busy?'':'disabled'}>Alle ${L.length} Stunden sichern</button>${subs.length>1?`<select id="arc-subj" aria-label="Fach" style="width:auto;flex:none">${subs.map(k=>`<option value="${k}">${esc(SUBJECTS[k].name)} · ${L.filter(x=>x.subject===k).length}</option>`).join('')}</select><button class="btn" data-act="arc-subj" ${ARC.busy?'disabled':''}>Nur dieses Fach sichern</button>`:''}
       <label class="btn" style="cursor:pointer">Archiv einspielen<input type="file" id="arc-file" accept=".elonuki,.zip,.json,application/json,application/zip" hidden></label>${bxOk()?'<button class="btn" data-act="bx-open">Mit Kollegen teilen: Stundenbörse</button>':''}</div>
@@ -7312,10 +7313,12 @@ const bxOk=()=>CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'&&S.role==='teacher
 const bxSchools=()=>{const ids=[...new Set(Cloud.myClasses.map(c=>c.school_id))];return ids.map(id=>schoolBy(id)||{id,name:'Schule'})};
 // Kopie ohne eigene Bilder (die liegen nur auf diesem Gerät und haben oft fremde Rechte)
 function bxSnap(L){const d=clone(lessonRow(L).data);let n=0;const nb=b=>b&&b!=='none'&&!SL_BG[b];
-  ['alit_priv','obs','notes'].forEach(k=>delete d[k]);
+  ['alit_priv','obs','notes','arc'].forEach(k=>delete d[k]);
   (d.phases||[]).forEach(p=>{const t=p.tool||{};if(nb(t.bg)){t.bg='allgemein';n++}[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;if(nb(sl.bg)){sl.bg='allgemein';n++}if((sl.imgs||[]).length){n+=sl.imgs.length;sl.imgs=[]}})});
   return {d,n}}
 async function bxLoad(){if(!bxOk())return;BX.busy=true;render();
+  // Lehrkräfte der eigenen Schule(n) mit Konto: zum Auswählen statt Kürzel tippen
+  try{const ids=bxSchools().map(x=>x.id),me=Cloud.user&&Cloud.user.id;BX.staff=(await q(Cloud.sb.from('staff').select('short,profile_id,school_id').not('profile_id','is',null).order('short'))).filter(x=>x.short&&x.profile_id!==me&&(!ids.length||ids.includes(x.school_id)))}catch(e){BX.staff=null}
   try{BX.rows=await q(Cloud.sb.from('lesson_pool').select('id,owner,school_id,scope,to_short,to_profile,from_short,subject,grade,topic,lp,note,title,created_at').order('created_at',{ascending:false}).limit(300))}
   catch(e){BX.rows=[];BX.msg=/lesson_pool|relation|schema cache/i.test(e.message||'')?'Die Börse ist auf dem Server noch nicht eingerichtet: bitte boerse.sql einmal im Supabase SQL Editor ausführen.':'Laden hat nicht geklappt: '+(e.message||e)}
   BX.busy=false;render()}
@@ -7327,7 +7330,7 @@ VIEWS.boerse=()=>{const uid=Cloud.user&&Cloud.user.id;
     return `<div class="row" style="justify-content:space-between"><h1>Stunde teilen</h1><button class="btn" data-act="bx-back">Zurück</button></div>
     <section class="panel bx-form"><h2>${esc(share.title)}</h2>
       <div class="bx-seg"><button class="btn ${f.scope!=='school'?'pri':''}" data-act="bx-scope" data-s="person">An eine Kollegin / einen Kollegen</button><button class="btn ${f.scope==='school'?'pri':''}" data-act="bx-scope" data-s="school">In die Börse meiner Schule</button></div>
-      <div class="lgrid">${f.scope!=='school'?`<label>Kürzel der Lehrkraft<input type="text" id="bx-to" maxlength="12" value="${esc(f.to||'')}" placeholder="z. B. MÜL" autocapitalize="characters"></label>`:''}
+      <div class="lgrid">${f.scope!=='school'?(BX.staff&&BX.staff.length?`<label>Lehrkraft auf ELONUKI<select id="bx-to">${[...new Map(BX.staff.map(x=>[x.short.toUpperCase(),x])).keys()].map(k=>`<option ${k===String(f.to||'').toUpperCase()?'selected':''}>${esc(k)}</option>`).join('')}</select></label>`:`<label>Kürzel der Lehrkraft<input type="text" id="bx-to" maxlength="12" value="${esc(f.to||'')}" placeholder="z. B. MÜL" autocapitalize="characters"></label>`):''}
         ${sc.length>1?`<label>Schule<select id="bx-sch">${sc.map(x=>`<option value="${x.id}" ${x.id===(f.sch||S.school)?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label>`:''}
         <label>Jahrgangsstufe<select id="bx-gr">${[5,6,7,8,9,10].map(g=>`<option ${g===(+f.gr||+share.lpj||7)?'selected':''}>${g}</option>`).join('')}</select></label>
         <label>Thema<input type="text" id="bx-top" maxlength="120" value="${esc(f.top||share.title)}"></label>
@@ -7591,7 +7594,11 @@ document.addEventListener('click',e=>{
     case 'arc-subj':{const k=$('#arc-subj')&&$('#arc-subj').value;if(SUBJECTS[k])arcMake(lessons().filter(x=>x.subject===k),arcName(SUBJECTS[k].name));break}
     case 'arc-one':{const L=lessonById(d.id);if(L)arcMake([L],arcName(L.title||'Stunde'));break}
     case 'arc-go':go('library');break;
-    case 'bx-share':BX.f={scope:'person'};BX.msg='';go('boerse',{share:d.id});break;
+    // Stunden-Archiv in ELIO: Stunde bleibt, wie sie ist, und steht zusätzlich in Bibliothek → Stunden-Archiv (von dort Datei oder Börse)
+    case 'l-arc':{const L=lessonById(d.id);if(!L)break;L.arc=L.arc?0:Date.now();save();toast(L.arc?'Im Stunden-Archiv (Bibliothek).':'Aus dem Archiv genommen.');if(!$('#ov').hidden)$('#ov').hidden=true;render();break}
+    case 'wk-arc':{const mo=monday(weekOff()),days=[0,1,2,3,4].map(k=>{const x=new Date(mo);x.setDate(mo.getDate()+k);return isoD(x)});const ids=[...new Set(Object.entries(TD.plan||{}).filter(([k])=>days.includes(k.split('|')[0])).map(([,v])=>v))];let n=0;
+      ids.forEach(id=>{const L=lessonById(id);if(L&&!L.arc){L.arc=Date.now();n++}});save();toast(n?n+' Stunde'+(n>1?'n':'')+' ins Archiv überführt. Du findest sie in der Bibliothek.':ids.length?'Alle Stunden dieser Woche sind schon im Archiv.':'Diese Woche ist noch keine Stunde geplant.');render();break}
+    case 'bx-share':BX.f={scope:'person'};BX.msg='';if(!$('#ov').hidden)$('#ov').hidden=true;go('boerse',{share:d.id});break;
     case 'bx-back':BX.msg='';go('lessons');break;
     case 'bx-tab':BX.tab=d.t;render();break;
     case 'bx-reload':bxLoad();break;
