@@ -7,21 +7,23 @@ Die Schüler-App ELONUKI stabil machen und in Runden ausbauen: Folieneditor, Bib
 gelb
 
 ## Fortschritt
-35%
+42%
 
 ## Nächste 3 Schritte
+- Runde 2 testen: Skizzenphase mit Vorlage (Donnerstag Produktdesign), Testmodus, Zuschauer-Zugang, Nächste Stunde
+- supabase/media_storage.sql einmal im SQL Editor ausführen (Folienbilder als Dateien)
 - Montag 7a: Sitzplan für 7a anlegen, DaZ-Ordner nur für 7cdG sichtbar lassen, Elo auf den Folien prüfen
-- Runde 2 testen: iPad in den Standby, wieder öffnen; Bereit-Check; Übung zweimal starten; Fußball mit falscher Antwort
 - Runde 2 Folieneditor: Elo klein oben auf jeder Folie, Schriftfarben, Bilder per Drag & Drop und Cmd+V
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Runde 2 (20.10.), im Test: Skizzenbuch-Vorlage für alle (Bild hochladen, Blatt „Produktdesign“ öffnet sich bei jedem Kind), Testmodus ohne Klasse, Zuschauer-iPad für die Prüfungskommission, Stundenwechsel mit Song und Countdown, Werkzeugkasten aufgeräumt (Phasenmuster beim Phase-Hinzufügen, ein Werkzeug „Hefteintrag“), Neue Stunde mit Fach-Gerüsten und eigenen Vorlagen, alle Fächer im Schreibtisch, Geometrie & Koordinatensystem (JSXGraph), Farbmischung nach Itten, Skizzen-Galerie an der Tafel, Grammatikheft (Irregular Verbs), klare Mikrofon-Meldung, Datensparen Teil 2 (Folienbilder als Dateien, Stunden-Sync nur Geänderte)
 - Sammelrunde 20.10., im Test: abgelaufene Aufträge verschwinden bei den SuS, Übung und Hausaufgabe als ein „Auftrag“ (Frist optional) mit Abschließen/Weiter, Vokabeln per Foto/PDF einlesen, Skizzenbuch ohne Dauer-Auftrag, Stundenarchiv mit Export und Börse (Lehrkraft auswählen), Bibliothek mit Hochladen oben und Fächern als Zeilen, Schreibtisch Fach > Jahrgang > Lernmodule mit Bearbeiten und Freigabe pro Klasse, Sounds neu (Start nur einmal, Werkzeug-Start, Fehler-Ton), Knopf „Elo-Stimme prüfen“
 - Sammelauftrag P4/P5 (19.10.), im Test: Bilder werden beim Hochladen automatisch verkleinert (höchstens 1600 Pixel, WebP, meist unter 300 KB), Hinweis bei Videos über 50 MB. Analysen: hq/analyse-speicher.md, analyse-kosten.md, analyse-code-privat.md, analyse-technik-vergleich.md; Backlog (Startfolien aller Fächer, Lehrpläne, Pilot Mathematik 7): hq/backlog.md
 - Sammelauftrag P3 (19.10.), im Test: neues Werkzeug „Irregular Verbs“ (Liste mit Beispielverben, Wiederholung falscher Verben, eigene Listen speichern) und „Tabelle abfragen“ (Tabellen-Editor, Einfügen aus Excel, 8 zufällige Abfragen pro Runde, Richtung wählbar)
 - Sammelauftrag 19.10. (P1 und P2), im Test: Stunde als .elonuki-Datei sichern und einspielen, Quiz-Reihenfolge an Tafel und iPads gleich (Seed), Skizzenbuch Zoom und Vollbild, Elo auf Folien 30 % kleiner, Vokabeltrainer Groß-/Kleinschreibung und Einsprechen, Memory-Paar-Editor, Schüleransicht ohne Emojis, Freeze nur auf Knopfdruck, Oswald für Elos Sprechblasen (Admin), Hefteinträge Kontrast und Block-Editor (Etappe 1)
 - Runde 7a-Start (18.10.), im Test: Sitzplan pro Klasse auch im Konto gespeichert (auf jedem Gerät), Ordner pro Klasse ein- und ausblenden, Elo standardmäßig auf jeder Folie (aus pro Folie oder Stunde, Figur nach Fach aus assets/elo/figuren.json), Skizzen-Auftrag beenden mit Vorschau. Pläne: Stunde als Datei exportieren (.elonuki), neues Notizbuch statt Skizzenbuch (wartet auf Fabians Wahl)
-- Datensparen Supabase (18.10., im Test): Heft und Inhalte nur noch bei Änderung im Live-Takt, iPad-Meldungen seltener und über einen Kanal, Klasseninhalt nur bei Änderung neu laden. Offen: Folienbilder in den Storage, Lehrer-Sync nur geänderte Stunden
+- Datensparen Supabase (18.10., im Test): Heft und Inhalte nur noch bei Änderung im Live-Takt, iPad-Meldungen seltener und über einen Kanal, Klasseninhalt nur bei Änderung neu laden. Teil 2 in Runde 2 (Folienbilder in den Storage, Lehrer-Sync nur geänderte Stunden)
 - Runde 1b Kritische Bugs (18.10.), im Test: „Kein Werkzeug“ löscht kein Werkzeug mehr, Werkzeug per Auswahl an jede Folie hängen (hoch); YouTube-Material lädt an der Tafel ohne Bibliothek, Dateien im Tafel-Fenster laden nach (hoch); Elo-Stimme mit 25-s-Limit, Abbrechen und ohne doppelte Bezahl-Aufrufe (mittel); klarere Foto-Meldung bei fehlender AWS-Marketplace-Freigabe, präziserer Bildprompt (mittel)
 - Runde 2 (Eingang 15.10.), im Test: automatisches Wiederverbinden nach Standby mit Aktualisieren-Knopf (hoch), „Bereit“ zeigt „Sendet …“ bis zur Bestätigung (hoch), Antworten in Übungen und Quiz gemischt (hoch), Fußball mit Nachschuss fürs andere Team und ruhigem Ball (mittel)
 - Thread „Bugfix- und Ausbauplan“: Runden 1–6 laut elon/plan-elonuki.md

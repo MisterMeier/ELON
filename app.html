@@ -601,6 +601,33 @@ body.teacher .top{border-bottom:3px solid var(--navy)}
 @media (max-width:520px){.areas.four{grid-template-columns:1fr}}
 .a-tafel{--ac:var(--navy)}.a-lib{--ac:var(--orange)}.a-obs{--ac:var(--red)}
 .priv{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:14px;background:var(--warn-bg);font-weight:700;margin-bottom:16px}
+#wsbar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:95;background:var(--yellow);color:var(--on-bright);font-family:var(--f-display);font-weight:800;font-size:1.5rem;padding:8px 22px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
+body.boardwin #wsbar{font-size:3rem;top:2vh}
+.ns-live.ns-mic{background:var(--warn-bg);color:var(--ink);border-radius:12px;padding:10px 12px;text-align:left;line-height:1.45}
+/* Geometrie (JSXGraph) und Farbkreis nach Itten */
+.rt-dgeo,.rt-itten{display:flex;flex-direction:column;gap:10px}
+.dg-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dg-bar>button{display:flex;flex-direction:column;align-items:center;min-width:64px;padding:6px 8px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;cursor:pointer}
+.dg-bar>button span{font-size:1.4rem;line-height:1}.dg-bar>button small{font-size:.75rem}
+.dg-bar>button.on{border-color:var(--navy);background:var(--navy);color:var(--on-accent)}
+.dg-fn{display:flex;gap:6px;align-items:center;margin-left:auto;font-weight:800}
+.dg-fn input{width:150px;font-size:1.1rem}.dg-fn button{padding:8px 12px;border-radius:10px;border:2px solid var(--navy);background:var(--surface);color:var(--navy);font-weight:800}
+.dg-b{width:100%;height:min(64vh,620px);border-radius:14px;border:2px solid var(--line);background:#fff;touch-action:none}
+.dg-hint{font-weight:700;color:var(--muted);margin:0}
+.it-wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center}
+.it-wheel{width:min(440px,90vw);height:auto;flex:0 0 auto}
+.it-side{flex:1 1 280px;display:flex;flex-direction:column;gap:10px;font-weight:700}
+.it-eq{display:flex;align-items:center;gap:10px;font-size:1.6rem}
+.it-eq i{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;border:3px solid #18203d;font-style:normal;font-weight:900;color:#18203d}
+.it-eq i.it-r{width:84px;height:84px}
+.it-tx{font-size:1.15rem;margin:0}.it-st,.it-q{margin:0}
+/* Testmodus der Lehrkraft: orange gestrichelte Kante, damit man es nie übersieht */
+body.testm .top{border-bottom:4px dashed var(--orange)}
+body.testm #tchip{background:var(--orange);color:var(--on-bright)}
+/* Zuschauer-iPad (Prüfungskommission): sieht alles wie die SuS, kann aber nichts eingeben */
+body.viewer #view{pointer-events:none;user-select:none}
+body.viewer #tk-fab{display:none!important}
+#viewbar{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:90;background:var(--navy);color:var(--on-accent);font-weight:800;padding:10px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
 .libbar{display:grid;gap:12px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:760px){.libbar{grid-template-columns:1fr}}
 .libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
@@ -778,11 +805,17 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 /* Skizzenbuch (Kunst) */
 body:has(#skz-host) #tk-fab{display:none}
 .diary.skzb{background:#c0392b}.diary.skzb .spine{background:#7d241b}
+.diary.gramb{background:#b45309}.diary.gramb .spine{background:#78350f}
+.gram-t tr.g-hard td{background:var(--late-bg)}.gram-t tr.g-sure td{background:var(--ok-bg)}
 .rt-skz{background:#fffaf0}.skz-b-in{flex:1;display:flex;align-items:center;gap:1.4em;padding:1.2em 2em}.skz-b-in>div{flex:1;min-width:0}.rt-skz h1{font-family:var(--f-display);font-size:2.2em;line-height:1.15;margin:0 0 .6em;color:#7d241b}
 .rt-skz p{font-size:1.15em;font-weight:700;margin:.8em 0}.rt-skz b{font-size:1.2em}.skz-b-elo{height:70%;max-height:16em;object-fit:contain}
 .skz-flow{display:flex;align-items:center;gap:.5em;flex-wrap:wrap;font-weight:800;font-size:1.2em}.skz-flow .st{border:.14em dashed #c0392b;border-radius:.6em;padding:.4em .8em;background:#fff}.skz-flow .st.werk{border-style:solid;background:#c0392b;color:#fff}.skz-flow i{font-style:normal;color:#7d241b}
 .bw.skz-sh{background:#1d1f27;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqh;padding:2cqh;position:relative}.skz-sh img{max-width:96%;max-height:84cqh;object-fit:contain;border-radius:.6cqh;box-shadow:0 1cqh 4cqh rgba(0,0,0,.5);background:#fff}
 .skz-sh-k{position:absolute;left:2cqh;top:1.6cqh;color:#fff;font-family:var(--f-display);font-size:3cqh;opacity:.85}.skz-sh-p{color:#fff;font-weight:800;font-size:3cqh;margin:0}.skz-sh img+.skz-sh-p{display:none}.skz-sh.nobild img{display:none}.skz-sh.nobild .skz-sh-p{display:block}
+.bw.skz-gal{background:#1d1f27;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqh;padding:6cqh 2cqh 2cqh;position:relative}
+.skz-gal-g{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:1.2cqh;width:100%;flex:1;min-height:0;align-items:center;justify-items:center}
+.skz-gal-g img{max-width:100%;max-height:calc(76cqh / var(--n));object-fit:contain;border-radius:.6cqh;background:#fff;box-shadow:0 .6cqh 2cqh rgba(0,0,0,.4)}
+.skz-gal img~.skz-sh-p,.skz-gal .skz-gal-g~.skz-sh-p{display:none}
 .skzt-k{margin-bottom:12px}.skzt-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:10px}
 .skzt-i{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0;overflow:hidden;cursor:pointer;text-align:left;font:inherit}.skzt-i.neu{box-shadow:0 0 0 3px var(--orange)}
 .skzt-i img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff}.skzt-i small{display:block;padding:6px 8px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1589,7 +1622,7 @@ const QS=new URLSearchParams(location.search),BOARD=QS.has('tafel');
 // Klassenschlüssel kommt nur im #-Teil der Adresse (QR-Karte, Tafel-QR): der wird nie an einen Server geschickt
 const HK=(()=>{const h=new URLSearchParams(location.hash.slice(1));const o={k:h.get('k'),ck:h.get('ck'),u:(h.get('u')||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,4)};if(o.k||o.ck||o.u){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}return o})();
 // Persönliches (Sterne, Lerntagebuch, Avatar …) liegt pro Schüler/in getrennt, nie im gemeinsamen Speicher des Geräts
-const MINE=['acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','gameGrp','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd','skzT','skzSent'];
+const MINE=['gram','acctAt','stars','mut','done','mistake','reflect','copied','hwDone','earned','journal','journalDone','diary','diarySent','voted','readyDone','mySubj','av','nick','phaseSeen','gameSeen','gameGrp','shareSeen','qzSeen','kfbDone','play','playDay','lastPs','practice','ubDone','hxDone','fleiss','pk','tpk','chat','mbq','abg','mbLast','progSig','progAt','gwin','ubAt','mt','remDay','annSeen','owned','spent','vok','nickAt','yr','l1','rd','skzT','skzSent'];
 const meKey=(sc,c,n)=>'elio-me:'+sc+'/'+c+'/'+n;
 const meId=()=>S.role==='student'&&S.cls&&S.nr?meKey(S.school,S.cls,S.nr):'';
 function meClear(){const d=def();MINE.forEach(k=>{if(k in d)S[k]=JSON.parse(JSON.stringify(d[k]));else delete S[k]})}
@@ -1814,13 +1847,14 @@ function render(){
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
   document.querySelectorAll('#nav .sv').forEach(b=>b.hidden=isT);
   navTBadge();$('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);ibBadge()}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
-  $('#tchip').textContent=isT?'Lehrkraft · '+className().replace(/^Klasse /,''):'Lehrkraft';
+  $('#tchip').textContent=isT?(testOn()?'🧪 Testmodus · geht an keine Klasse':'Lehrkraft · '+className().replace(/^Klasse /,'')):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';$('#nav-board').hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk()){V.name='dash';return render()}
-  document.body.classList.toggle('teacher',isT);$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
+  document.body.classList.toggle('teacher',isT);document.body.classList.toggle('testm',testOn());document.body.classList.toggle('viewer',viewer());
+  {let vb=$('#viewbar');if(viewer()&&!vb){vb=document.createElement('div');vb.id='viewbar';vb.innerHTML='👁 Zuschauer-Ansicht: Sie sehen, was die Schülerinnen und Schüler sehen. Eingaben sind abgeschaltet.';document.body.appendChild(vb)}if(vb)vb.hidden=!viewer()}$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')||(S.role==='student'&&['practice','memory','salad','balloon','game'].includes(V.name)&&b.dataset.nav==='homework')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
-  kfAnimate();skzFill();wlwMount();
+  kfAnimate();skzFill();wlwMount();dgMount();
 }
 /* ---------- Schüleransicht ohne Emojis: Text bleibt, Bildchen werden durch schlichte Symbole oder nichts ersetzt ---------- */
 const EMO_RE=/(?:\p{Extended_Pictographic}|\p{Regional_Indicator})(?:️|‍|\p{Emoji_Modifier}|\p{Extended_Pictographic})*️?[  ]?/gu;
@@ -1893,6 +1927,7 @@ VIEWS.desk=()=>{
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
     ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}
+    ${(()=>{const C=Object.values(gramD().c),du=C.filter(vokDue).length,h=C.filter(c=>c.hard).length;return `<button class="diary gramb" data-act="gram"><span class="spine"></span><b>Grammatikheft</b><small>Irregular Verbs · ${C.filter(gramSure).length} sicher${h?` · ${h} schwierig`:''}${du?` · <em>${du} fällig</em>`:''}</small></button>`})()}
     <button class="diary skzb" data-act="skizze"><span class="spine"></span><b>Skizzenbuch</b><small>${S.skzT?'Kunst · Auftrag: '+esc(String(S.skzT.text||'').slice(0,40)):'Kunst · zeichnen mit dem Stift'}</small></button></div>
   ${jgst()>=9?`<section class="panel quali"><h2>Quali-Trainer (kommt)</h2><p class="muted">Hier übst du bald mit echten Prüfungsaufgaben für den Quali: ${Object.values(QUALI).map(q=>q.name).join(', ')}.</p></section>`:''}
   <p class="foot">Alles auf deinem Schreibtisch bleibt auf deinem iPad.</p>`;
@@ -1905,12 +1940,12 @@ let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0;
 function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze)return res();const s=document.createElement('script');s.src='assets/skizze/skizze.js?v='+BUILD;s.onload=()=>res();s.onerror=()=>{SKZ_P=null;s.remove();rej(new Error('skizze'))};document.head.appendChild(s)}))}
 const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
 function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;if(!R&&S.skzT&&RCS&&RCS.skzEnd===S.skzT.id){S.skzT=null;save()}
-  if(R&&R.id){const t={id:String(R.id).slice(0,20),text:String(R.text||'').slice(0,200),n:Math.max(1,Math.min(4,+R.n||2)),werk:!!R.werk};if(JSON.stringify(t)!==JSON.stringify(S.skzT)){S.skzT=t;save()}return t}
+  if(R&&R.id){const t={id:String(R.id).slice(0,20),text:String(R.text||'').slice(0,200),n:Math.max(1,Math.min(4,+R.n||2)),werk:!!R.werk};if(R.vor){t.vor=String(R.vor).slice(0,80);t.vname=String(R.vname||'').slice(0,60)}if(JSON.stringify(t)!==JSON.stringify(S.skzT)){S.skzT=t;save()}return t}
   // Auftrag nur, solange die Skizzenphase live läuft; danach ist es wieder ein reines Skizzenbuch (Fabian 20.10.)
   if(S.skzT){S.skzT=null;save()}return null}
 function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(skzClose);let host=$('#skz-host');if(!host){host=document.createElement('div');host.id='skz-host';document.body.appendChild(host)}
   const from=V.from||(S.role==='teacher'?'tdesk':'desk');
-  skzLoad().then(()=>{if(!SKZ_ON)return;return Skizze.mount(host,{owner:skzOwner(),who:S.role==='teacher'?'teacher':'student',task:skzTask(),elo:eloImg('kunst','K'),
+  skzLoad().then(()=>{if(!SKZ_ON)return;return Skizze.mount(host,{owner:skzOwner(),who:S.role==='teacher'?'teacher':'student',task:skzTask(),elo:eloImg('kunst','K'),getVor:id=>libBlob(id).then(b=>b||mediaGet(id)).catch(()=>null),
       onShare:S.role==='student'?skzShare:null,onProgress:skzProg,onExit:()=>{SKZ_ON=false;const h=$('#skz-host');if(h)h.remove();go(from)}})})
     .catch(()=>{SKZ_ON=false;const h=$('#skz-host');if(h)h.remove();toast('Das Skizzenbuch konnte nicht geladen werden. Bist du online?');go(from)})}
 function skzClose(){if(!SKZ_ON)return;SKZ_ON=false;const h=$('#skz-host');if(window.Skizze)Skizze.unmount().then(()=>{if(h&&!SKZ_ON)h.remove()});else if(h)h.remove()}
@@ -1930,10 +1965,11 @@ async function skzStore(nr,o){if(!TDKEY)return;const c=S.cls||'-',key='skz:'+c+'
   TD.skz=TD.skz||{};const B=(TD.skz[c]=TD.skz[c]||{}),L=(B[nr]=B[nr]||[]),i=L.findIndex(x=>x.key===key);if(i>=0)L.splice(i,1);
   L.unshift({key,t:String(o.title||'Skizze').slice(0,80),kind:['skizze','werk','frei'].includes(o.kind)?o.kind:'frei',task:String(o.task||'').slice(0,20),tt:String(o.tt||'').slice(0,200),at:Date.now(),neu:1});
   while(L.length>30){const x=L.pop();idb('blob','readwrite',st=>st.delete(x.key)).catch(()=>{})}if(SKZU[key]){URL.revokeObjectURL(SKZU[key]);delete SKZU[key]}
-  tsave();navTBadge();if(['skzT','tsubj','tafel'].includes(V.name))V.name==='tafel'?updTafel():render()}
+  tsave();navTBadge();if(CS&&CS.skzGal&&(!CS.skzGal.task||CS.skzGal.task===o.task)){clearTimeout(skzGalT);skzGalT=setTimeout(()=>skzGallery(CS.skzGal&&CS.skzGal.task),1500)}if(['skzT','tsubj','tafel'].includes(V.name))V.name==='tafel'?updTafel():render()}
 async function skzUrl(key){if(SKZU[key])return SKZU[key];const r=await libBlob(key);if(!r)return '';
   const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:r.iv},await skzCK(),r.ct);return SKZU[key]=URL.createObjectURL(new Blob([pt],{type:'image/jpeg'}))}
-function skzFill(){document.querySelectorAll('img[data-skz]:not([src])').forEach(im=>{im.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');skzUrl(im.dataset.skz).then(u=>{if(u)im.src=u;else im.alt='Bild fehlt'}).catch(()=>{im.alt='Bild fehlt'})});
+function skzFill(){if(S.role==='teacher'||BOARD)document.querySelectorAll('img[data-skzgal]:not([src])').forEach(im=>{im.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');libBlob('skzgal-'+im.dataset.skzgal).then(b=>{if(b)im.src=URL.createObjectURL(b);else im.remove()}).catch(()=>im.remove())});
+document.querySelectorAll('img[data-skz]:not([src])').forEach(im=>{im.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');skzUrl(im.dataset.skz).then(u=>{if(u)im.src=u;else im.alt='Bild fehlt'}).catch(()=>{im.alt='Bild fehlt'})});
   const sh=document.querySelector('img[data-skzshow]:not([src])');if(sh&&(S.role==='teacher'||BOARD)){sh.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');libBlob('skzshow').then(b=>{if(b)sh.src=URL.createObjectURL(b);else sh.closest('.skz-sh').classList.add('nobild')}).catch(()=>sh.closest('.skz-sh').classList.add('nobild'))}}
 const skzAll=()=>{const B=(TD.skz||{})[S.cls||'-']||{};return Object.keys(B).map(Number).flatMap(n=>(B[n]||[]).map(x=>({...x,nr:n})))};
 const skzNew=()=>skzAll().filter(x=>x.neu).length;
@@ -1943,13 +1979,22 @@ function skzDel(key){if(!confirm('Dieses Bild bei dir löschen? Im Skizzenbuch d
 // Werkbetrachtung: ein Bild groß an der Tafel, ohne Namen. Die Bilddatei liegt nur auf dem Lehrergerät (das Tafel-Fenster liest sie dort), die iPads sehen nur den Hinweis.
 async function skzShow(key){if(!CS)return;try{const u=await skzUrl(key),b=await fetch(u).then(r=>r.blob());await idb('blob','readwrite',st=>st.put(b,'skzshow'));CS.skzShow={at:Date.now()};pushCS();toast('Das Bild ist jetzt groß an der Tafel (ohne Namen).');render()}catch(e){toast('Das Bild konnte nicht gezeigt werden.')}}
 const skzShowHTML=(X,mini)=>`<div class="bw skz-sh"><span class="skz-sh-k">Werkbetrachtung</span>${S.role==='teacher'||BOARD?`<img data-skzshow="${X.at}" alt="Bild aus der Klasse">`:''}<p class="skz-sh-p">Schau zur Tafel: Was fällt dir an diesem Bild auf?</p></div>`;
+// Galerie an der Tafel: alle geschickten Bilder (eines Auftrags) als Raster, ohne Namen. Kommen neue Bilder an, wächst die Galerie von selbst.
+// Wie bei der Werkbetrachtung liegen die Bilder nur auf dem Lehrergerät, die iPads sehen den Hinweis.
+const SKZ_GAL=24;let skzGalT=0;
+async function skzGallery(task){if(!CS)return;const L=skzAll().filter(x=>!task||x.task===task).sort((a,b)=>a.at-b.at).slice(-SKZ_GAL);if(!L.length){toast('Noch keine Bilder für die Galerie.');return}
+  try{let n=0;for(const x of L){const u=await skzUrl(x.key);if(!u)continue;const b=await fetch(u).then(r=>r.blob());await idb('blob','readwrite',st=>st.put(b,'skzgal-'+n));n++}
+    for(let i=n;i<SKZ_GAL;i++)await idb('blob','readwrite',st=>st.delete('skzgal-'+i)).catch(()=>{});
+    if(CS.skzShow){CS.skzShow=null;idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{})}CS.skzGal={at:Date.now(),n,task:task||''};pushCS();render()}catch(e){toast('Die Galerie konnte nicht gezeigt werden.')}}
+function skzGalOff(){if(!CS||!CS.skzGal)return;CS.skzGal=null;for(let i=0;i<SKZ_GAL;i++)idb('blob','readwrite',st=>st.delete('skzgal-'+i)).catch(()=>{})}
+const skzGalHTML=(X,mini)=>`<div class="bw skz-gal"><span class="skz-sh-k">Galerie · ${X.n} Bild${X.n>1?'er':''}</span>${S.role==='teacher'||BOARD?`<div class="skz-gal-g" style="--n:${Math.ceil(Math.sqrt(X.n||1))}">${Array.from({length:X.n},(_,i)=>`<img data-skzgal="${i}" data-at="${X.at}" alt="Bild ${i+1}">`).join('')}</div>`:''}<p class="skz-sh-p">Schau zur Tafel: Welches Bild spricht dich an? Warum?</p></div>`;
 const skzCount=(K,onN)=>{const P=K.p||{},v=Object.values(P);return {n:K.n,full:v.filter(x=>x[0]>=K.n||x[1]).length,w:v.filter(x=>x[1]).length,of:Math.max(onN||0,v.length)}};
 function skzBoard(t,c){const n=Math.max(1,Math.min(4,+t.n||2)),k=c.sk;
   return `<div class="rt rt-skz"><div class="band">Kunst · Erst skizzieren, dann gestalten</div><div class="skz-b-in"><div><h1>${esc(t.text||c.name||'Skizziere deine Ideen')}</h1>
     <div class="skz-flow">${Array.from({length:n},(_,i)=>`<span class="st">Skizze ${i+1}</span>`).join('<i>→</i>')}<i>→</i><span class="st werk">Werk</span></div>
     <p>Öffne dein Skizzenbuch auf dem iPad. Probiere in jeder Skizze eine andere Idee aus.</p>${k?`<b>${k.full} / ${k.of||'–'} haben ihre Skizzen${k.w?` · ${k.w} am Werk`:''}</b>${pgBar(k.full,Math.max(k.full,k.of||0))}`:''}</div>
     <img class="skz-b-elo" src="${eloImg('kunst','K')}" alt="Elo mit Palette"></div></div>`}
-function skzCtl(on){if(!CS.skz)return `<span class="label">Werkbetrachtung an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">Ein Bild aus dem Skizzenbuch ist groß an der Tafel, ohne Namen.</p><button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>`;const K=CS.skz,P=K.p||{},ids=[...new Set([...(on||[]).map(Number),...Object.keys(P).map(Number)])].sort((a,b)=>a-b),c=skzCount(K,(on||[]).length),nn=skzNew();
+function skzCtl(on){if(!CS.skz)return CS.skzGal?`<span class="label">Galerie an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">${CS.skzGal.n} Bilder aus dem Skizzenbuch sind an der Tafel, ohne Namen. Neue Bilder kommen von selbst dazu.</p><button class="btn sm red" data-act="skz-hide">Galerie beenden</button>`:`<span class="label">Werkbetrachtung an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">Ein Bild aus dem Skizzenbuch ist groß an der Tafel, ohne Namen.</p><button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>`;const K=CS.skz,P=K.p||{},ids=[...new Set([...(on||[]).map(Number),...Object.keys(P).map(Number)])].sort((a,b)=>a-b),c=skzCount(K,(on||[]).length),nn=skzNew();
   return `<span class="label">✏️ Skizzenphase · ${c.full} / ${ids.length||'–'} mit ${K.n} Skizze${K.n>1?'n':''}${c.w?` · ${c.w} am Werk`:''}</span>${pgBar(c.full,Math.max(1,ids.length))}<p style="font-weight:800;margin-top:4px">${esc(K.text)}</p>
     <div class="cw-t">${ids.map(k=>{const v=P[k]||[0,0];return `<span class="chip ${v[1]||v[0]>=K.n?'ok':''}">${esc(nickOf(k)||kidName(k))} · ${v[1]?'Werk':Math.min(v[0],K.n)+'/'+K.n}</span>`}).join(' ')}</div>
     <div class="row" style="margin-top:8px"><button class="btn sm ${K.werk?'on':''}" data-act="skz-werk">${K.werk?'Werk ist für alle frei':'Werk für alle freigeben'}</button>${V.name==='skzT'?'':`<button class="btn sm" data-act="skzT" data-from="tafel">Geschickte Bilder${nn?' · '+nn+' neu':''}</button>`}${CS.skzShow?'<button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>':''}<button class="btn sm red" data-act="skz-end">Auftrag beenden …</button></div>`}
@@ -1965,7 +2010,7 @@ function skzEnd(withImgs){const K=CS&&CS.skz;if(!K)return;
   if(withImgs){const B=(TD.skz||{})[S.cls||'-']||{};Object.keys(B).forEach(n=>{B[n].filter(x=>x.task===K.id).forEach(x=>{idb('blob','readwrite',st=>st.delete(x.key)).catch(()=>{});if(SKZU[x.key]){URL.revokeObjectURL(SKZU[x.key]);delete SKZU[x.key]}});B[n]=B[n].filter(x=>x.task!==K.id);if(!B[n].length)delete B[n]});tsave();navTBadge()}
   skzOff();pushCS();$('#ov').hidden=true;toast('Der Skizzenbuch-Auftrag ist beendet.');render()}
 // Auftrag aus Steuerung und Tafel nehmen; die iPads löschen ihren Auftragshinweis, wenn sie skzEnd mit derselben Kennung sehen
-function skzOff(){if(!CS)return;if(CS.skz)CS.skzEnd=CS.skz.id;CS.skz=null;if(CS.skzShow){CS.skzShow=null;idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{})}if(CS.phase&&typeof CS.phase==='object'&&CS.phase.go==='skizze')CS.phase.go=null}
+function skzOff(){if(!CS)return;skzGalOff();if(CS.skz)CS.skzEnd=CS.skz.id;CS.skz=null;if(CS.skzShow){CS.skzShow=null;idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{})}if(CS.phase&&typeof CS.phase==='object'&&CS.phase.go==='skizze')CS.phase.go=null}
 function skzTeach(){const n=skzAll().length,nn=skzNew();
   return `<button class="mod-card heft-card" data-act="skzT" data-from="tdesk" style="margin-top:12px"><span class="mi">✏️</span><span class="t"><span class="label">Skizzenbuch</span><b>${n?n+' Bild'+(n>1?'er':'')+' von der Klasse'+(nn?` · ${nn} neu`:''):'Noch keine Bilder geschickt'}</b><span class="muted">Skizzen und Werke, die dir die SuS geschickt haben. Werkbetrachtung an der Tafel.</span></span><span class="btn">Ansehen</span></button>
     <button class="mod-card heft-card" data-act="skizze" style="margin-top:12px"><span class="mi">🖌️</span><span class="t"><span class="label">Mein Skizzenbuch</span><b>Selbst zeichnen</b><span class="muted">Zum Vorzeichnen an der Tafel oder für Beispiele. Bleibt auf diesem Gerät.</span></span><span class="btn">Öffnen</span></button>`}
@@ -1973,6 +2018,7 @@ VIEWS.skzT=()=>{const all=skzAll(),tasks=[...new Map(all.filter(x=>x.task).map(x
   const kids=[...new Set(L.map(x=>x.nr))].sort((a,b)=>a-b),big=V.big&&all.find(x=>x.key===V.big);
   return `<div class="subj-head s-K"><button class="btn sm" data-act="${V.from==='tafel'?'tafel':'tdesk'}">← Zurück</button>${badge('K')}<h1>Skizzenbuch · Bilder der Klasse</h1></div>
   ${CS&&CS.skz?`<section class="panel" style="margin-bottom:14px">${skzCtl(online())}</section>`:''}
+  ${CS&&L.length?`<div class="row" style="gap:8px;margin-bottom:12px"><button class="btn pri" data-act="skz-gal" data-t="${esc(f)}">🖼️ Mit Tafel teilen: Galerie${f?' zu diesem Auftrag':''} (${Math.min(L.length,SKZ_GAL)} Bilder, ohne Namen)</button>${CS.skzGal?'<button class="btn" data-act="skz-gal-x">Galerie ausblenden</button>':''}</div>`:''}
   ${tasks.length?`<div class="row" style="gap:6px;margin-bottom:12px"><button class="btn sm ${!f?'on':''}" data-act="skz-task" data-t="">Alle</button>${tasks.map(([id,tt])=>`<button class="btn sm ${f===id?'on':''}" data-act="skz-task" data-t="${esc(id)}">${esc(String(tt||'Auftrag').slice(0,40))}</button>`).join('')}</div>`:''}
   ${kids.length?kids.map(n=>`<section class="panel skzt-k"><div class="row" style="gap:8px"><b>${avOf(n)} ${esc(nickOf(n)||kidName(n))}</b><span class="muted" style="font-weight:700">${L.filter(x=>x.nr===n).length} Bild${L.filter(x=>x.nr===n).length>1?'er':''}</span></div>
     <div class="skzt-g">${L.filter(x=>x.nr===n).map(x=>`<button class="skzt-i ${x.neu?'neu':''}" data-act="skz-big" data-key="${esc(x.key)}"><img data-skz="${esc(x.key)}" alt="${esc(x.t)}"><span class="skzt-kd ${x.kind}">${{skizze:'Skizze',werk:'Werk',frei:'Blatt'}[x.kind]}</span><small>${esc(x.t)} · ${new Date(x.at).toLocaleDateString('de-DE',{day:'numeric',month:'short'})}</small></button>`).join('')}</div></section>`).join('')
@@ -2138,12 +2184,12 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261020-1300';let verTold=false;
+const BUILD='20261020-1530';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
 // Push-Erinnerungen (supabase/push.sql, Edge Function elio-push): Der Server kennt nur Gerät und Klasse, die Mitteilung hat keinen Text.
-function pushPlan(A){if(!CLOUD||!Cloud.sb||!Cloud.prof)return null;const d=new Date(A.until+'T18:00');d.setDate(d.getDate()-1);let at=d;
+function pushPlan(A){if(!CLOUD||!Cloud.sb||!Cloud.prof||!mbCls())return null;const d=new Date(A.until+'T18:00');d.setDate(d.getDate()-1);let at=d;
   if(at.getTime()<Date.now()){const t=new Date();t.setHours(18,0,0,0);if(t.getTime()>Date.now()+5*60000&&A.until>todayISO())at=t;else return null}
   A.pAt=at.getTime();Cloud.sb.from('push_jobs').insert({class_id:S.cls,send_at:at.toISOString()}).select('id').then(r=>{if(r.error){delete A.pAt;V.msg='Push-Erinnerung ging nicht (ist push.sql eingerichtet?)';render();return}A.pj=r.data&&r.data[0]&&r.data[0].id;tsave()});
   return at.toLocaleString('de-DE',{weekday:'long',hour:'2-digit',minute:'2-digit'})+' Uhr'}
@@ -2238,7 +2284,7 @@ VIEWS.subject=()=>{
     <div class="tabs s-${k}" role="tablist">
       <button class="${tab==='module'?'on':''}" data-act="tab" data-t="module">Lernmodule</button>
       <button class="${tab==='heft'?'on':''}" data-act="tab" data-t="heft">Regelheft · ${entries.length}</button>
-      ${k==='E'?'<button data-act="vok">📗 Vokabelheft</button>':''}${k==='K'?'<button data-act="skizze">✏️ Skizzenbuch</button>':''}
+      ${k==='E'?'<button data-act="vok">📗 Vokabelheft</button><button data-act="gram">📙 Grammatikheft</button>':''}${k==='K'?'<button data-act="skizze">✏️ Skizzenbuch</button>':''}
       <button class="${tab==='hw'?'on':''}" data-act="tab" data-t="hw">Übungen · ${hws.filter(h=>!S.hwDone[h.id]).length}</button>
     </div>
     <div class="s-${k}">${body}</div>`;
@@ -2709,9 +2755,15 @@ async function liveRelink(){if(S.role!=='student'||!S.code)return;Live.relinking
   Live.relinking=false;Live.start(S.code)}
 // Tafel-Fenster auf demselben Gerät bekommt den Zustand immer auch direkt (ohne Internet, ohne Server)
 let LBC=null,LBCc='';function localBC(code,d){try{if(!LBC||LBCc!==code){try{LBC&&LBC.close()}catch(e){}LBC=new BroadcastChannel('elio-local-'+code);LBCc=code;if(BOARD)LBC.onmessage=e=>{if(e.data&&e.data.t==='state')Live.recv2(e.data)}}if(d)LBC.postMessage(d)}catch(e){}}
+// Testmodus (Lehrkraft) und Zuschauer-iPad (Prüfungskommission bei UV und Lehrprobe)
+const TEST_CODE='test',TEST_ID='test',VIEW_NR=40;
+const testOn=()=>S.role==='teacher'&&S.cls===TEST_ID;
+const viewer=()=>S.role==='student'&&!!S.viewer;
 const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
   async start(code){
     this.stop();const run=this.run=(this.run||0)+1;
+    // Testmodus der Lehrkraft: nur auf diesem Gerät (Tafel-Fenster), nichts geht an eine Klasse
+    if(code===TEST_CODE){this.code=code;try{this.bc=new BroadcastChannel('elon-'+code);this.bc.onmessage=e=>this.recv(e.data);this.kind='demo'}catch(e){this.kind='off'}return}
     if(LIVE_SERVER&&LIVE_CFG.supabaseUrl&&LIVE_CFG.supabaseKey){
       try{
         const c=await sbClient();if(run!==this.run)return;this.code=code;this.needJoin=false;
@@ -2892,7 +2944,7 @@ VIEWS.tafel=()=>{clsSync();
   const head=L?`${sb(L.subject)}<h1 class="t-big">${esc(L.title)}</h1>
       <p class="t-ph"><span class="chip">Phase ${CS.step+1} von ${L.phases.length}</span>${phaseFrames(L.phases[CS.step])>1?` <span class="chip">Folie ${(CS.sub||0)+1} von ${phaseFrames(L.phases[CS.step])}</span>`:''} <b>${esc(ph.name)}</b>${ph.txt?` · <span class="muted">${esc(ph.txt)}</span>`:''}</p>
       <div class="t-dots">${L.phases.map((p,i)=>`<button class="${i===CS.step?'on':i<CS.step?'past':''}" data-act="l-go" data-i="${i}" title="${esc(p.name)}"></button>`).join('')}</div>
-      <div class="t-nav"><button class="btn big" data-act="l-nav" data-d="-1" ${CS.step<=0&&!(CS.sub>0)?'disabled':''}>◀ Zurück</button>${CS.step>=L.phases.length-1&&(CS.sub||0)>=phaseFrames(L.phases[CS.step])-1?`<button class="btn big ok" data-act="l-stop">✓ Stunde beenden</button>`:`<button class="btn big pri" data-act="l-nav" data-d="1">Weiter ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button>`}<button class="btn sm" data-act="l-live-edit" data-id="${L.id}" title="Planung öffnen, die Stunde läuft weiter">Folie bearbeiten</button></div>
+      <div class="t-nav"><button class="btn big" data-act="l-nav" data-d="-1" ${CS.step<=0&&!(CS.sub>0)?'disabled':''}>◀ Zurück</button>${CS.step>=L.phases.length-1&&(CS.sub||0)>=phaseFrames(L.phases[CS.step])-1?`<button class="btn big ok" data-act="l-stop">✓ Stunde beenden</button>`:`<button class="btn big pri" data-act="l-nav" data-d="1">Weiter ▶</button><button class="btn sm" data-act="l-stop">Stunde beenden</button>`}<button class="btn sm" data-act="l-live-edit" data-id="${L.id}" title="Planung öffnen, die Stunde läuft weiter">Folie bearbeiten</button><button class="btn sm" data-act="ws-open" title="Nächste geplante Stunde mit Wechsel-Song und Countdown starten">⏭ Nächste Stunde</button></div>
       ${(()=>{const D=phDeck(L.phases[CS.step],CS.sub||0),t=D.t,F=t&&t.id==='slide'?deckFrames(t):[],sl=F.length?deckSlides(t)[F[Math.min(D.s,F.length-1)].j]:null;
         if(t&&t.id==='kfb'){if(!KF)kfbStart(t.level,true);const K=KF,dis=K.busy||K.phase!=='play'?'disabled':'';
           return `<div class="t-elo t-kf"><b>⚽ ${esc(K.names[0])} ${K.score[0]} : ${K.score[1]} ${esc(K.names[1])}</b>${K.phase==='setup'?`${K.resume?`<button class="btn sm pri" data-act="kf-resume">✓ Weiterspielen</button>`:`<button class="btn sm pri" data-act="kf-kickoff">⚽ Anpfiff</button>`}<button class="btn sm" data-act="tkfb-set">⚙️ Teams und Aufgaben</button>`
@@ -2966,7 +3018,7 @@ function updTafel(){
     :md?`<span class="label">${CS.ready.only?'Stimmungsbarometer':'Bereit-Check mit Stimmung'} · ${CS.ready.done.length} / ${on.length||'–'} · nur für dich</span><p style="font-size:1.6rem;margin-top:4px">${MOOD5.map((e,k)=>{const c=Object.values(md).filter(v=>v===k).length;return c?`${e} ${c}`:''}).filter(Boolean).join(' &nbsp; ')||'–'}</p>${Object.entries(md).filter(([,v])=>v>=3).map(([k,v])=>`<span class="chip">${MOOD5[v]} ${esc(kidName(+k))}</span>`).join(' ')}`
     :CS.ready&&CS.ready.words?`<span class="label">Bereit-Check mit Stimmungswörtern · ${CS.ready.done.length} / ${on.length||'–'} bereit</span><div class="cw-t">${Object.entries(CS.ready.cloud||{}).map(([k,[w,n]])=>`<span class="chip">${esc(w)}${n>1?' ×'+n:''} <button class="cw-x" data-act="cw-del" data-k="${esc(k)}" title="Von der Tafel nehmen" aria-label="${esc(w)} von der Tafel nehmen">✕</button></span>`).join(' ')||'<p class="muted" style="font-weight:700">Noch keine Wörter.</p>'}</div>`
     :CS.cloud?`<span class="label">☁️ Wortwolke · ${CS.cloud.done.length} / ${Math.max(on.length,CS.cloud.done.length)||'–'} geantwortet</span>${pgBar(CS.cloud.done.length,Math.max(on.length,CS.cloud.done.length))}<p style="font-weight:800;margin-top:4px">${esc(CS.cloud.q)}</p><div class="cw-t">${Object.entries(CS.cloud.words).map(([k,[w,n]])=>`<span class="chip">${esc(w)}${n>1?' ×'+n:''} <button class="cw-x" data-act="cl-del" data-k="${esc(k)}" title="Von der Tafel nehmen" aria-label="${esc(w)} von der Tafel nehmen">✕</button></span>`).join(' ')||'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}</div><div class="row" style="margin-top:8px"><button class="btn sm ${CS.cloud.big?'on':''}" data-act="cl-big">${CS.cloud.big?'Wolke klein (Folie zeigen)':'☁️ Wolke groß an der Tafel'}</button><button class="btn sm" data-act="cl-end">Beenden</button></div>`
-    :CS.skz||CS.skzShow?skzCtl(on)
+    :CS.skz||CS.skzShow||CS.skzGal?skzCtl(on)
     :CS.journal?`<span class="label">📔 Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${Math.max(on.length,CS.journal.done.length)||'–'} eingetragen</p>${pgBar(CS.journal.done.length,Math.max(on.length,CS.journal.done.length))}`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${Math.max(on.length,CS.ready.done.length)||'–'} bereit</p>${pgBar(CS.ready.done.length,Math.max(on.length,CS.ready.done.length))}${CS.ready.rewarded?'<p style="font-weight:800;color:var(--green)">Alle bereit! +1 Treibstoff für die Rakete.</p>':''}`
     :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Wenn alle bereit sind, bekommt die Rakete Treibstoff.</p>';
   if(CS.poll){const tot=Math.max(1,CS.poll.voted.length);
@@ -3079,7 +3131,7 @@ function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof li
   if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);o.title=e?e.title:'';o.text=e?e.text:''}
   if(t.id==='vw'){o.cards=vwCards(t);o.tnames=vwTeams(t);o.vw=CS.vw||null}
   return o}
-const boardSig=R=>R?JSON.stringify([R.lay,R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&[R.ready.done.length,R.onN,R.ready.cloud],R.cloud,R.fx&&R.fx.at,R.wheel&&R.wheel.at,R.groups&&R.groups.at,R.exit&&R.exit.done.length,R.journal&&R.journal.done.length,R.poll&&R.poll.show,R.goal]):'';
+const boardSig=R=>R?JSON.stringify([R.wechsel&&R.wechsel.at,R.skzShow&&R.skzShow.at,R.skzGal&&R.skzGal.at,R.lay,R.keyQr,R.freeze,R.stage,R.kfb,R.game,R.media,R.phase,R.poll&&[R.poll.q,R.poll.voted.length,R.poll.res],R.share&&R.share.at,R.mission,R.timer&&[R.timer.run,R.timer.total],R.ready&&[R.ready.done.length,R.onN,R.ready.cloud],R.cloud,R.fx&&R.fx.at,R.wheel&&R.wheel.at,R.groups&&R.groups.at,R.exit&&R.exit.done.length,R.journal&&R.journal.done.length,R.poll&&R.poll.show,R.goal]):'';
 // Bildschirm anordnen: Die Lehrkraft schiebt den Timer in der Vorschau an eine andere Stelle und macht ihn größer
 function layStyle(o){return o?`style="position:absolute;left:${o.x}%;top:${o.y}%;right:auto;bottom:auto;transform:translate(-50%,-50%);font-size:${(9*o.s).toFixed(1)}cqh;z-index:6"`:''}
 /* Tafelbilder mit Bewegung: Hintergrund 16:9, darüber bewegte Ausschnitte (gleiches Bild, per clip-path) und eine Textkarte */
@@ -3096,6 +3148,7 @@ function boardHTML(R,mini){const h=boardHTMLc(R,mini),fx=R&&fxOn(R.fx)?R.fx.k:''
   return h.replace(/<\/div>\s*$/,`<div class="bw-elo" style="animation-duration:${(R.fx.d||6000)/1000}s"><div class="sl-elo fx-${fx}" style="position:relative;right:auto;bottom:auto;width:100%"><img src="${eloImg(ek,sj)}" alt="Elo" draggable="false">${eloLidsS(ek,sj)}${fx==='wave'?'<i class="fx-i">👋</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}</div></div></div>`)}
 function boardHTMLc(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL.big):'';
   if(R&&R.skzShow&&!(R.freeze&&R.lesson))return skzShowHTML(R.skzShow,mini);
+  if(R&&R.skzGal&&!(R.freeze&&R.lesson))return skzGalHTML(R.skzGal,mini);
   // Abstimmungs-Ergebnis groß an der Tafel (die Lehrkraft blendet es ein), immer ohne Namen
   if(R&&R.poll&&R.poll.show&&R.poll.res&&R.poll.type!=='quiz'){const P=R.poll,tot=Math.max(1,P.res.reduce((a,b)=>a+b,0));
     return `<div class="bw bw-rt"><div class="rt rt-res" ${bgAttr('allgemein')}><span class="res-l">Ergebnis · ${P.voted.length} abgestimmt</span><h1>${esc(P.q||'')}</h1><div class="res-b">${P.opts.map((o,i)=>`<div class="res-r"><span>${esc(o)}</span><i style="--w:${(P.res[i]||0)/tot*100}%"></i><b>${P.res[i]||0}</b></div>`).join('')}</div></div></div>`}
@@ -3189,7 +3242,7 @@ function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;if(
 function stuWipe(){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk;S.acctAt=Date.now();save();ACCT.sig='';acctSave(true);V={name:'role',step:'nick',nr:S.nr,only:'student',school:S.school,cls:S.cls};render()}
 function wipeChk(W){if(S.role!=='student'||!W||!S.nr)return false;const at=+W[S.nr]||0;if(!at||(+S.nickAt||0)>at)return false;stuWipe();return true}
 function devId(){if(!S.dev){S.dev=Math.random().toString(36).slice(2,10);save()}return S.dev}
-function sendMsg(m){Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av,dv:devId()})}
+function sendMsg(m){if(viewer())return;Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av,dv:devId()})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
 const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
 const b64e=b=>{const u=new Uint8Array(b);let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
@@ -3209,7 +3262,7 @@ async function diarySync(){
   const todo=Object.keys(D).filter(d=>(D[d]||'').trim()&&S.diarySent[d]!==fp+'|'+dSig(D[d])).slice(-5);if(!todo.length)return;
   dBusy=true;try{for(const d of todo){const t=String(D[d]).slice(0,8000);sendMsg({k:'diary',d,...await dEnc(DK,{d,t})});S.diarySent[d]=fp+'|'+dSig(D[d])}save()}catch(e){console.warn(e)}dBusy=false}
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='abg-f'&&e.target.files&&e.target.files[0])imgShrink(e.target.files[0],1400,.72).then(u=>{V.abgImg=u;render()}).catch(()=>{V.abgErr='Das Bild ging nicht.';render()})});
-function updBanner(){updRail();
+function updBanner(){updRail();wsBar();
   const el=$('#live');
   if(S.role!=='student'||V.name==='role'){el.hidden=true;return}
   // Leiste nur, wenn eine Stunde läuft (oder die Verbindung Hilfe braucht)
@@ -3780,6 +3833,31 @@ document.addEventListener('keydown',e=>{if(e.target&&/INPUT|TEXTAREA|SELECT/.tes
 if(BOARD){boardFs();const fs1=e=>{if(document.fullscreenElement)return;boardFs();const x=$('#b-fs');if(x)x.remove()};addEventListener('pointerdown',fs1,true);addEventListener('keydown',fs1,true)}
 if(BOARD)setTimeout(()=>{if(document.fullscreenElement||innerHeight>=screen.height-2)return;const b=document.createElement('button');b.id='b-fs';b.className='b-fs';b.dataset.act='b-fs';b.innerHTML='⛶ Vollbild<small>Einmal tippen. Weiter geht es mit den Pfeiltasten oder im Lehrer-Fenster.</small>';document.body.appendChild(b)},600);
 function boardFs(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
+// Stundenwechsel: „Nächste Stunde“ startet die nächste geplante Stunde (bei anderer Klasse erst Klassenwechsel) mit ihrer Startfolie.
+// Dazu läuft der Wechsel-Song aus der Bibliothek (Verlagsmaterial, bleibt auf dem Gerät) mit Countdown. Die SuS können schon „bereit“ tippen. Am Ende das Futuristic-Signal.
+const WS={el:null,url:'',fade:0};
+function wsNext(){const cur=CS&&CS.lesson&&CS.lesson.id;return planNext(6).find(x=>x.L.id!==cur)||null}
+function wsOpen(){const x=wsNext(),songs=LIB.items.filter(m=>m.kind==='file'&&/^audio\//.test(m.mime||'')),P=TD.wsong||{id:'',sec:90},sub=x&&(x.L.subject||(x.sl&&x.sl.s));
+  showOv(`<div class="box" style="text-align:left;max-width:600px"><span class="label">Stundenwechsel</span>
+    <h2>${x?`Nächste Stunde: ${esc((SUBJECTS[sub]||{}).name||'')}${x.sl&&x.sl.c?' · '+esc(x.sl.c):''}`:'Keine geplante Stunde gefunden'}</h2>
+    ${x?`<p class="muted" style="font-weight:700">${esc(x.L.title)} · ${x.ds===isoD(new Date())?'heute':new Date(x.dt).toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'numeric'})}, ${PERIODS[x.i][0]}. Stunde${x.sl&&x.sl.cid&&x.sl.cid!==S.cls?' · <b>andere Klasse: ELONUKI wechselt dorthin</b>':''}</p>`:'<p class="muted" style="font-weight:700">Plane die nächste Stunde unter „Woche planen“, dann startet sie hier.</p>'}
+    <label class="label" style="display:block;margin-top:12px">Wechsel-Song<select id="ws-song"><option value="">– ohne Song –</option>${songs.map(m=>`<option value="${m.id}" ${m.id===P.id?'selected':''}>🎵 ${esc(m.name)}</option>`).join('')}</select></label>
+    ${songs.length?'':'<p class="muted" style="font-weight:700;margin-top:6px">Noch kein Song: Lade ihn in der Bibliothek hoch. Er bleibt als Verlagsmaterial nur auf deinem Gerät.</p>'}
+    <label class="label" style="display:block;margin-top:10px">Countdown<select id="ws-sec">${[[60,'1 Minute'],[90,'1,5 Minuten'],[120,'2 Minuten']].map(([v,n])=>`<option value="${v}" ${+P.sec===v?'selected':''}>${n}</option>`).join('')}</select></label>
+    <p class="muted" style="font-weight:700;margin-top:10px">An Tafel und iPads: Startfolie der neuen Stunde mit „Packt ein!“ und Countdown. Die SuS können schon auf „Bereit“ tippen. Am Ende kommt das Futuristic-Signal.</p>
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button><button class="btn ok" data-act="ws-go" ${x?'':'disabled'}>▶ Wechsel starten</button></div></div>`)}
+async function wsGo(){const x=wsNext();if(!x)return;const id=($('#ws-song')||{}).value||'',sec=+(($('#ws-sec')||{}).value)||90;TD.wsong={id,sec};tsave();
+  if(id){const m=libById(id);if(m&&!m.lic){m.lic='verlag';try{await idb('meta','readwrite',st=>st.put(m))}catch(e){}}}$('#ov').hidden=true;
+  if(KF)kfbStop(true);audStop();skzOff();wsStop();
+  const cid=x.sl&&x.sl.cid;
+  if(cid&&cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(k=>k.id===cid);if(c){if(CS){CS.lesson=null;CS.phase='arrive';CS.timer={run:false,total:300,left:300,endsAt:0};pushCS()}await teacherEnter(c)}}
+  const L=lessonById(x.L.id)||x.L;phNorm(L);if(!CS)initTeacher();CS.game=null;CS.pick=null;CS.freeze=false;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();startStep(0);
+  CS.timer={run:true,total:sec,left:sec,endsAt:Date.now()+sec*1000};CS.wechsel={at:Date.now(),fach:(SUBJECTS[L.subject]||{}).name||''};pushCS();go('tafel');
+  if(id)libBlob(id).then(b=>{if(!b||!CS||!CS.wechsel)return;WS.url=URL.createObjectURL(b);WS.el=new Audio(WS.url);WS.el.volume=.85;WS.el.loop=true;WS.el.play().catch(()=>{})}).catch(()=>{})}
+function wsStop(){clearInterval(WS.fade);const a=WS.el;WS.el=null;if(!a)return;let v=a.volume;WS.fade=setInterval(()=>{v-=.08;if(v<=0){clearInterval(WS.fade);try{a.pause()}catch(e){}if(WS.url){URL.revokeObjectURL(WS.url);WS.url=''}}else a.volume=v},120)}
+function wsEnd(){if(!CS||!CS.wechsel)return false;CS.wechsel=null;wsStop();fileSnd('assets/audio/futuristisch-2.mp3',.9);return true}
+function wsBar(){const R=BOARD?BRCS:S.role==='teacher'?CS:RCS;let el=$('#wsbar');const on=!!(R&&R.wechsel)&&V.name!=='role';
+  if(on&&!el){el=document.createElement('div');el.id='wsbar';document.body.appendChild(el)}if(el){el.hidden=!on;if(on)el.textContent='🎵 Packt ein! Nächste Stunde: '+(R.wechsel.fach||'')}}
 function startStep(i){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L||!L.phases.length)return;
   i=Math.max(0,Math.min(L.phases.length-1,i));CS.step=i;CS.sub=0;CS.fx=null;CS.game=null;CS.media=null;const p=L.phases[i],f0=phDeck(p,0);phOn(p,f0.x?phSeq(p).find(f=>!f.x):f0);const TT=p.tool&&p.tool.id,act=TT&&(TOOL_IPAD[TT]||AKT[TT]||GAME_INFO[TT])?'none':p.act;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(x=>x.name)};
@@ -3815,7 +3893,7 @@ function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='question'&&T.q)CS.phase.txt=T.q;
   if(T.id==='quiz'||T.id==='corners4'||T.id==='diary')CS.phase.look=false;
   if(T.id==='diary')CS.journal={id:'j'+Date.now(),done:[],prompt:T.prompt||''};
-  if(T.id==='skizze'){CS.skz={id:'s'+Date.now().toString(36),text:String(T.text||p.goal||p.name||'').slice(0,200),n:Math.max(1,Math.min(4,+T.n||2)),werk:false,p:{}};if(!p.noipad){CS.phase.go='skizze';CS.phase.look=false}}
+  if(T.id==='skizze'){CS.skz={id:'s'+Date.now().toString(36),text:String(T.text||p.goal||p.name||'').slice(0,200),n:Math.max(1,Math.min(4,+T.n||2)),werk:false,p:{}};if(T.vor){CS.skz.vor=String(T.vor).slice(0,80);CS.skz.vname=String(T.vname||'').slice(0,60)}if(!p.noipad){CS.phase.go='skizze';CS.phase.look=false}}
   if(T.id==='heft'&&(T.title||T.text))heftPublish({id:'ph-'+L.id+'-'+i,s:L.subject,title:T.title||p.name,text:T.text||''});// Abstimmen braucht das iPad
   if(T.id==='quiz')quizStart(T,p);
   if(AKT[T.id]){akLive(T,p);CS.phase.look=false}
@@ -4340,7 +4418,8 @@ VIEWS.tdash=()=>{
   const ls=lessons();
   const mc=CLOUD&&Cloud.myClasses||[];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}${Cloud.prof&&Cloud.prof.name?' '+esc(Cloud.prof.name.split(' ')[0]):''}</h1><span class="chip">${esc(className())}</span></div>
-  ${mc.length>1?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</div></div>`:''}
+  ${mc.length||testOn()?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}<button class="${testOn()?'on':''}" data-act="test-mode" title="Ausprobieren ohne Klasse: Live, Effekte und Freigaben bleiben auf diesem Gerät">🧪 Test</button></div></div>`:''}
+  ${testOn()?`<div class="priv" style="margin-bottom:14px">🧪 <b>Testmodus:</b> Live-Stunde, Effekte, Freigaben und Nachrichten bleiben auf diesem Gerät und im Tafel-Fenster. Keine Klasse sieht etwas. Deine Planung und deine Stunden bleiben echt. Zurück: oben deine Klasse antippen.</div>`:''}
   ${dayStrip()}
   ${dashNext()}
   <div class="dk-grid">${dashKids()}${dashTodo()}</div>
@@ -4412,15 +4491,86 @@ function genTpl(subj){const it=(SUBJECTS[subj]&&SUBJECTS[subj].prep||['Heft']).j
   {name:'Sicherung',goal:'Ergebnisse festhalten',min:6,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'look',tool:{id:'heftlink',eid:''}},
   {name:'Übung / Anwendung',goal:'Gelerntes anwenden',min:10,sf:'PA',method:'Partnerarbeit',txt:'Arbeitet zu zweit.',act:'none',tool:{id:'task',text:'Arbeitet zu zweit.'}},
   {name:'Reflexion',goal:'Lernstand einschätzen',min:3,sf:'Plenum',method:'Daumen-Abfrage',txt:'Wie gut kannst du es schon?',act:'none',tool:{id:'thumbs',q:'Hast du es verstanden?'}}]}
+// Fach-Gerüste für „Neue Stunde“: nur das Gerüst, den Inhalt baut die Lehrkraft. Eigene Stunden lassen sich als Vorlage speichern (L.vorlage, wandert mit in die Cloud).
+const gBeg=(txt,hint)=>({name:'Begrüßung',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt,act:'none',tool:{id:'start',hint}});
+const gSl=(name,goal,min,method,txt,title)=>({name,goal,min,sf:'Plenum',method,txt,act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title,text:'',mat:'',elo:'',say:'',steps:false}]}});
+const gPh=(name,goal,min,sf,method,txt,tool,act)=>({name,goal,min,sf,method,txt,act:act||'none',tool});
+const GERUEST={
+M:{einf:['Einführung','Neues Thema mit Stundenfrage, Vermutungen und Hefteintrag',()=>TEMPLATES.M],
+  ueb:['Übung','Warm-up, Übungen aus dem Schreibtisch, Kontrolle, Reflexion',()=>[gBeg('Hol dein Heft und dein Mathebuch raus.','Hol dein Heft und dein Mathebuch raus!'),
+    gPh('Warm-Up','Kopfrechnen automatisieren',6,'Plenum','Kopfrechenfußball','Rechne mit!',{id:'kfb',level:'lms'}),
+    gPh('Wiederholung','Vorwissen aktivieren',5,'Plenum','Quiz','Was weißt du noch?',{id:'quiz'}),
+    gPh('Übungsphase','Gelerntes sicher anwenden',14,'EA','Übung aus dem Schreibtisch','Bearbeite die Übung auf deinem iPad.',{id:'ueb'}),
+    gPh('Differenzierte Übung','Auf dem eigenen Niveau üben',10,'PA','3-fach-Differenzierung','Bearbeite die Aufgaben auf deinem Niveau.',{id:'task',text:'Bearbeite die Aufgaben der Reihe nach in dein Heft.'}),
+    gSl('Kontrolle','Ergebnisse vergleichen',5,'Selbstkontrolle','Vergleiche deine Lösungen.','Lösungen'),
+    gPh('Reflexion','Lernstand einschätzen',3,'Plenum','Daumen-Abfrage','Wie gut kannst du es schon?',{id:'thumbs',q:'Wie gut kannst du es schon?'})]],
+  vert:['Vertiefung','Bekanntes an neuen Problemen anwenden und vernetzen',()=>[gBeg('Hol dein Heft und dein Mathebuch raus.','Hol dein Heft und dein Mathebuch raus!'),
+    gPh('Warm-Up','Kopfrechnen automatisieren',5,'Plenum','Kopfrechenfußball','Rechne mit!',{id:'kfb',level:'lms'}),
+    gSl('Wiederholung','Vorwissen aktivieren',4,'Unterrichtsgespräch','Was weißt du schon?','Was weißt du schon?'),
+    gSl('Problemstellung','Neues Problem erkennen',4,'Bild-/Text-Impuls','Schau dir das Problem an.','Ein neues Problem'),
+    gPh('Erarbeitung','Vorwissen auf das Problem übertragen',10,'PA','Partnerarbeit','Löst das Problem zu zweit.',{id:'task',text:'Löst das Problem zu zweit.'}),
+    gSl('Sicherung','Lösungswege vergleichen',6,'Schüler-Präsentation','Wir vergleichen eure Wege.','Eure Lösungswege'),
+    gPh('Anwendung','Transfer auf neue Aufgaben',9,'EA','Übung aus dem Schreibtisch','Bearbeite die Übung.',{id:'ueb'}),
+    gPh('Reflexion','Lernprozess bewusst machen',3,'Plenum','Exit-Ticket','Was nimmst du mit?',{id:'exit'})]]},
+E:{einf:['Einführung','Neues Thema mit Präsentation, Erarbeitung und Sicherung',()=>TEMPLATES.E],
+  dialog:['Dialog','Dialog hören, üben, eigenen Dialog spielen',()=>[gBeg('Good morning, class!','Good morning! Get your things ready.'),
+    gSl('Warm-Up','Sprache aktivieren',4,'Swap & Talk','Find a partner and talk!','Swap & Talk'),
+    gSl('Einstieg','Situation verstehen',3,'Bildimpuls','What do you see?','Where are we?'),
+    gPh('Präsentation','Dialog hören und verstehen',6,'Plenum','Dialog','Listen to the dialogue.',{id:'dialog'},'look'),
+    gPh('Practice','Dialog nachsprechen und lesen',8,'PA','Partnerarbeit','Read the dialogue with your partner.',{id:'task',text:'Read the dialogue with your partner. Then swap roles.'}),
+    gPh('Production','Eigenen Dialog schreiben',10,'PA','Partnerarbeit','Write your own dialogue.',{id:'task',text:'Write your own dialogue. Use the useful phrases.'}),
+    gSl('Performance','Dialog vorspielen',7,'Rollenspiel','Act out your dialogue.','Show time!'),
+    gPh('Reflexion','Lernstand einschätzen',2,'Plenum','Daumen-Abfrage','Can you do it?',{id:'thumbs',q:'Can you talk in this situation?'})]],
+  wort:['Wortschatz','Neue Wörter einführen, üben und sichern',()=>[gBeg('Good morning, class!','Good morning! Get your things ready.'),
+    gPh('Warm-Up','Vorwissen aktivieren',4,'Plenum','Wortwolke','Which words do you know?',{id:'wc'}),
+    gSl('Einführung','Neue Wörter zeigen und hören',8,'Bild-Wort-Karten','Look and listen.','New words'),
+    gPh('Semantisierung','Wort und Bedeutung verbinden',7,'PA','Paare zuordnen','Match the words.',{id:'match'}),
+    gPh('Übung','Wörter festigen',8,'Plenum','Memory','Find the pairs!',{id:'memory'}),
+    gPh('Hefteintrag','Wortschatz sichern',6,'Plenum','Hefteintrag','Copy the words into your exercise book.',{id:'heftlink'},'look'),
+    gPh('Anwendung','Wörter im Satz benutzen',6,'Plenum','Quiz','Quiz time!',{id:'quiz'}),
+    gPh('Reflexion','Lernstand einschätzen',2,'Plenum','Daumen-Abfrage','How many words do you know now?',{id:'thumbs',q:'Do you know the new words?'})]],
+  gram:['Grammatik','Regel entdecken, festhalten, üben',()=>[gBeg('Good morning, class!','Good morning! Get your things ready.'),
+    gSl('Warm-Up','Sprache aktivieren',4,'Swap & Talk','Talk to your partner.','Warm-up'),
+    gSl('Einstieg','Beispielsätze wahrnehmen',4,'Beispielsätze','Read the sentences. What do you notice?','Look at the sentences'),
+    gPh('Bewusstmachung','Regel selbst entdecken',8,'PA','Regel entdecken','Find the rule with your partner.',{id:'task',text:'Find the rule with your partner.'}),
+    gPh('Hefteintrag','Regel sichern',7,'Plenum','Hefteintrag','Copy the rule into your exercise book.',{id:'heftlink'},'look'),
+    gPh('Übung','Regel anwenden',10,'EA','Übung aus dem Schreibtisch','Do the exercise on your iPad.',{id:'ueb'}),
+    gPh('Anwendung','Regel frei benutzen',6,'PA','Partnerarbeit','Write three sentences.',{id:'task',text:'Write three sentences about you.'}),
+    gPh('Reflexion','Lernstand einschätzen',2,'Plenum','Exit-Ticket','What did you learn?',{id:'exit'})]]},
+K:{werk:['Werkstunde','Bildimpuls, Arbeitsauftrag, Gestalten, Präsentation',()=>TEMPLATES.K],
+  skizze:['Skizze und Werk','Erst skizzieren, dann gestalten',()=>[gBeg('Guten Morgen, Klasse!','Leg deine Kunstsachen bereit!'),
+    gSl('Einstieg','Bild wahrnehmen und beschreiben',5,'Bildimpuls','Beschreibe, was du siehst.','Was siehst du?'),
+    gPh('Stundenthema','Thema der Stunde zeigen',1,'Plenum','Cover','Unser Thema.',{id:'cover'},'look'),
+    gPh('Arbeitsauftrag','Auftrag verstehen',3,'Plenum','Arbeitsauftrag','Hör gut zu: So arbeitest du heute.',{id:'task',text:''},'look'),
+    gPh('Skizzenphase','Ideen sammeln',10,'EA','Skizzenbuch','Lege im Skizzenbuch Skizzen an.',{id:'skizze'}),
+    gPh('Zwischenreflexion','Skizzen besprechen',3,'Plenum','Daumen-Methode','Weißt du, wie du weitermachst?',{id:'thumbs',q:'Weißt du, wie du weitermachst?'}),
+    gPh('Gestaltung','Werk gestalten',18,'EA','Gestaltung','Gestalte dein Werk nach deiner besten Skizze.',{id:'task',text:'Gestalte dein Werk nach deiner besten Skizze.'}),
+    gPh('Ausblick','Aufräumen und Verabschiedung',2,'Plenum','Lehrergespräch','Nächste Stunde machen wir weiter.',null,'look')]],
+  betr:['Werkbetrachtung','Ein Werk beschreiben, analysieren, deuten',()=>[gBeg('Guten Morgen, Klasse!','Leg deine Kunstsachen bereit!'),
+    gSl('Einstieg','Werk wahrnehmen',4,'Bildimpuls','Schau dir das Werk in Ruhe an.','Schau genau hin'),
+    gPh('Beschreiben','Was sehe ich?',7,'PA','Partnerarbeit','Beschreibe das Werk deinem Partner.',{id:'task',text:'Beschreibt, was ihr seht: Personen, Dinge, Farben, Formen.'}),
+    gSl('Analysieren','Wie ist es gemacht?',8,'Unterrichtsgespräch','Wie hat der Künstler das gemacht?','Farbe, Form, Komposition'),
+    gPh('Deuten','Was bedeutet es für mich?',6,'Plenum','Wortwolke','Welches Wort passt zum Bild?',{id:'wc'}),
+    gPh('Hefteintrag','Erkenntnisse sichern',8,'Plenum','Hefteintrag','Schreib den Hefteintrag in dein Heft.',{id:'heftlink'},'look'),
+    gPh('Reflexion','Eigenes Urteil',4,'Plenum','4-Ecken-Reflexion','Wie gefällt dir das Werk?',{id:'corners4'})]]}};
+const gerFor=subj=>GERUEST[subj]||{std:['Standard','Begrüßung, Einstieg, Erarbeitung, Sicherung',()=>genTpl(subj)]};
+const vorlagen=subj=>lessons().filter(x=>x.vorlage&&x.subject===subj);
+function gerBtns(subj){const G=gerFor(subj),V2=vorlagen(subj);
+  return `<span class="label" style="display:block;margin-top:12px">Gerüst für ${esc(SUBJECTS[subj].name)}</span><div class="pool" style="margin-top:6px">${Object.entries(G).map(([k,[n,t]])=>`<button data-act="ger-pick" data-s="${subj}" data-g="${k}"><span class="gi">📐</span><b>${esc(n)}</b><small>${esc(t)}</small></button>`).join('')}
+    ${tplOwn(subj)?`<button data-act="ger-pick" data-s="${subj}" data-g="own"><span class="gi">⭐</span><b>Mein Standard-Gerüst</b><small>Dein gespeichertes Gerüst für ${esc(SUBJECTS[subj].name)}.</small></button>`:''}</div>
+    ${V2.length?`<span class="label" style="display:block;margin-top:12px">Meine Vorlagen</span><div class="pool" style="margin-top:6px">${V2.map(x=>`<button data-act="ger-pick" data-s="${subj}" data-v="${x.id}"><span class="gi">🗂️</span><b>${esc(x.title.replace(/^Vorlage: /,''))}</b><small>${x.phases.length} Phasen mit Inhalt</small></button>`).join('')}</div>`:''}`}
+function gerOv(subj){showOv(`<div class="box" style="text-align:left;max-width:680px"><span class="label">Neue Stunde</span><h2>Fach und Gerüst</h2><div class="cats" style="margin-top:10px">${DESK_SUBJ.filter(k=>SUBJECTS[k]).map(k=>`<button class="${k===subj?'on':''}" data-act="ger-subj" data-s="${k}">${SUBJECTS[k].name}</button>`).join('')}</div>${gerBtns(subj)}
+  <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`)}
+function gerBase(subj,d){if(d.v){const T=lessonById(d.v);return T?{base:T.phases,own:true}:null}if(d.g==='own')return {base:tplOwn(subj),own:true};const G=gerFor(subj)[d.g];return G?{base:G[2](),own:false}:null}
 const tplOwn=subj=>S.tpls&&Array.isArray(S.tpls[subj])&&S.tpls[subj].length?S.tpls[subj]:null;
 const tplFor=subj=>clone(tplOwn(subj)||TEMPLATES[subj]||genTpl(subj));
-function newLessonFrom(subj,min,title){
-  const own=!!tplOwn(subj),base=tplFor(subj),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
+function newLessonFrom(subj,min,title,gb){
+  const own=gb?gb.own:!!tplOwn(subj),base=gb?clone(gb.base):tplFor(subj),tot=base.reduce((a,p)=>a+p.min,0),f=min/tot;
   if(!own)base.forEach(p=>{p.min=Math.max(1,Math.round(p.min*f))});base.forEach(p=>{if(p.tool&&Object.keys(p.tool).length===1)p.tool=toolDefaults(p.tool.id,p,{subject:subj,title});if(p.target==='heft:M'&&subj!=='M')p.target='heft:'+subj;if(p.tool&&p.tool.s&&GAMES[subj])p.tool.s=subj});
   const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:'Vorlage'};
   lessons().push(L);save();return L;
 }
-const RICH=['skizze','dialog','heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
+const RICH=['dgeo','itten','skizze','dialog','heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
 const TOOLS={
   slide:{name:'Folien',icon:'🖼️',txt:'Eine oder mehrere Folien im ELIO-Design: Überschrift, Text, eigenes Hintergrundbild, Elo als Figur. Weiter wie bei PowerPoint.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'⚽',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
@@ -4440,16 +4590,32 @@ const TOOLS={
   mood:{name:'Stimmungsbarometer',icon:'🌤️',txt:'„Wie geht\'s dir heute?“ Die SuS tippen ein Gesicht auf dem iPad. Nur du siehst die Antworten.',fit:/begr|ankommen|start|stimmung/i},
   vw:{name:'Verbotene Wörter',icon:'🃏',txt:'Eine Person steht mit dem Rücken zur Tafel. Die Klasse erklärt das Wort, ohne die verbotenen Wörter zu sagen. Die Karte dreht sich auf Knopfdruck.',fit:/warm|ritual|wiederhol|wortschatz|begriff|spiel|tabu/i},
   ueb:{name:'Übung aus dem Schreibtisch',icon:'✏️',txt:'Eine interaktive Übung aus deinem Schreibtisch, z. B. aus 1.6 Gleichungen. Läuft an der Tafel und auf allen iPads.',fit:/erarb|übung|anwend|vertief|wiederhol/i},
-  heftlink:{name:'Hefteintrag zeigen',icon:'📖',txt:'Einen fertigen Hefteintrag an Tafel und iPads zeigen. Die SuS schreiben ihn ins Heft ab.',fit:/sicherung|merke|heft|regel|abschreib/i},
-  heft:{name:'Hefteintrag',icon:'📒',txt:'Groß an der Tafel und automatisch im Regelheft aller SuS. Text einfach reinkopieren.',fit:/sicherung|merke|heft|regel/i},
+  heftlink:{name:'Hefteintrag (aus dem Schreibtisch)',icon:'📖',txt:'Einen fertigen Hefteintrag an Tafel und iPads zeigen. Die SuS schreiben ihn ins Heft ab.',fit:/sicherung|merke|heft|regel|abschreib/i},
+  heft:{name:'Hefteintrag',icon:'📒',txt:'Groß an der Tafel und im Regelheft aller SuS. Selbst schreiben oder einen fertigen Eintrag aus dem Schreibtisch wählen.',fit:/sicherung|merke|heft|regel/i},
   skizze:{name:'Skizzenphase',icon:'✏️',txt:'Erst skizzieren, dann gestalten: Die SuS legen im Skizzenbuch auf dem iPad Skizzen zu deinem Auftrag an. Erst danach geht ihr Werk auf, mit der besten Skizze als Vorlage. Du siehst, wer wie weit ist.',fit:/skizz|entwurf|erarb|gestalt|werk|ideen/i},
   diary:{name:'Lerntagebuch',icon:'📔',txt:'Leitfragen an der Tafel, die SuS schreiben in ihr Lerntagebuch auf dem iPad.',fit:/tagebuch|reflex|abschluss|ausblick/i},
   quiz:{name:'Abstimmung / Quiz',icon:'🗳️',txt:'Eigene Frage mit A, B, C … wie bei Kahoot. Eine oder mehrere richtige Antworten, auf Wunsch mit Folie. Du löst auf, wann du willst.',fit:/vorwissen|wiederhol|abstimm|quiz|hypo|vermut|sicherung|überprüf/i},
   dialog:{name:'Dialog',icon:'💬',txt:'Einen Dialog zeigen und anhören. Jede Zeile „Name: Satz“. Ein Tipp auf eine Sprechblase liest sie vor, zum Nachsprechen.',fit:/dialog|gespräch|sprech|rollen|role/i},
+  dgeo:{name:'Geometrie & Koordinatensystem',icon:'📐',txt:'Wie GeoGebra: Punkte, Strecken, Geraden, Kreise, Winkel, Vielecke und Funktionsgraphen. Punkte lassen sich ziehen, alles bewegt sich mit. Startpunkte und Funktionen planst du vorher.',fit:/geometr|koordinat|funktion|graph|dreieck|kreis|winkel|konstru/i,subj:'M'},
+  itten:{name:'Farbmischung nach Itten',icon:'🎨',txt:'Der 12-teilige Farbkreis in drei Stufen: Grundfarben, Mischfarben 2. und 3. Ordnung. Zwei Farben antippen zeigt die Mischung, dazu Komplementärfarben, Aufhellen und Abdunkeln.',fit:/farb|itten|misch|komplement|kunst/i,subj:'K'},
   corners4:{name:'4-Ecken-Reflexion',icon:'🔲',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
+// Diese stecken jetzt in der Planung (Gerüst, Begrüßung, Phasenmuster) und stehen nicht mehr im Werkzeugkasten. Alte Stunden mit ihnen laufen weiter.
+// „Hefteintrag zeigen“ ist im Werkzeug „Hefteintrag“ aufgegangen (Umschalter: selbst schreiben / aus dem Schreibtisch).
+const TOOL_PLAN=['start','cover','mood','question','hypo','task','mat','heftlink'];
+// Phasenmuster beim Hinzufügen einer Phase: fertige Phase mit passendem Werkzeug
+const PH_MUSTER=[
+  ['🎬','Begrüßung mit Startfolie',{name:'Begrüßung',goal:'Ankommen, Material bereitlegen',min:2,sf:'Plenum',method:'Startfolie',txt:'Leg deine Sachen bereit.',act:'none',tool:{id:'start'}}],
+  ['📘','Sequenz-Cover',{name:'Sequenz',goal:'Thema der Sequenz zeigen',min:1,sf:'Plenum',method:'Cover',txt:'Unser Thema.',act:'look',tool:{id:'cover'}}],
+  ['🌤️','Stimmungsbarometer',{name:'Ankommen',goal:'Stimmung wahrnehmen',min:2,sf:'Plenum',method:'Stimmungsbarometer',txt:'Wie geht es dir heute?',act:'none',tool:{id:'mood'}}],
+  ['❓','Stundenfrage',{name:'Stundenfrage',goal:'Frage der Stunde klären',min:2,sf:'PA',method:'Murmelphase',txt:'Überlege dir bereits eine mögliche Antwort auf die Frage!',act:'look',tool:{id:'question'}}],
+  ['💡','Vermutungen sammeln',{name:'Vermutungen',goal:'Vermutungen sammeln',min:3,sf:'Plenum',method:'Hypothesen-Prüfer',txt:'Gib eine Vermutung ab! Wir prüfen sie später.',act:'none',tool:{id:'hypo'}}],
+  ['🔎','Vermutungen überprüfen',{name:'Hypothesenüberprüfung',goal:'Vermutungen prüfen',min:2,sf:'Plenum',method:'Rückbezug',txt:'Wir überprüfen nun unsere Vermutungen!',act:'look',tool:{id:'hypo',text:'Wir überprüfen nun unsere Vermutungen!'}}],
+  ['📝','Arbeitsauftrag',{name:'Erarbeitung',goal:'Selbstständig erarbeiten',min:10,sf:'EA',method:'Arbeitsauftrag',txt:'Bearbeite den Arbeitsauftrag.',act:'none',tool:{id:'task'}}],
+  ['📚','Material zeigen',{name:'Material',goal:'Material betrachten',min:3,sf:'Plenum',method:'Material zeigen',txt:'Augen zur Tafel.',act:'look',tool:{id:'mat'}}],
+  ['📒','Hefteintrag',{name:'Sicherung',goal:'Ergebnisse festhalten',min:6,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'look',tool:{id:'heftlink'}}]];
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','irreg','tbl','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['🚀','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['💡','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog','dgeo','itten']],['✏️','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','irreg','tbl','geo','memory','salad','balloon']],['📒','Sichern',['heftlink','heft']],['🪞','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['🧩','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
@@ -4625,7 +4791,113 @@ function dlgParse(tx){const R=[];return lines(tx).map(l=>{const m=l.match(/^\s*(
 let DLG=null,DLGK=0;function dlgSay(k,all){const st=(BOARD?BRCS:CS);const t=st&&st.stage&&st.stage.tool||{};const D=dlgParse(t.text||''),lang=t.lang||'en-GB';try{speechSynthesis.cancel()}catch(e){}
   const one=(j)=>{const x=D[j];if(!x)return;try{const u=new SpeechSynthesisUtterance(x.t);u.lang=lang;u.rate=.85;u.pitch=x.r%2?1.25:.9;const v=bestVoice(lang);if(v)u.voice=v;if(all)u.onend=()=>setTimeout(()=>one(j+1),450);
     document.querySelectorAll('.rt-dlg .b').forEach((b,i)=>b.classList.toggle('on',i===j));speechSynthesis.speak(u)}catch(e){}};one(k)}
+/* --- Geometrie und Koordinatensystem (wie GeoGebra) mit JSXGraph 1.10.1 (MIT), lokal unter assets/vendor/jsxgraph: kein fremder Server, keine Daten nach außen.
+   Jedes Gerät zeichnet für sich (Tafel, Lehrkraft, iPad). Die Konstruktion bleibt beim Neuzeichnen der Ansicht erhalten (DG.st). --- */
+const DG={st:{},b:{},tool:{},sel:{},lib:null};
+const DG_T=[['move','✋','Bewegen'],['p','•','Punkt'],['seg','／','Strecke'],['line','↔','Gerade'],['circ','◯','Kreis'],['ang','∠','Winkel'],['poly','△','Vieleck'],['undo','↶','Zurück'],['clr','🗑','Leeren']];
+const DG_N=[0,1,2,2,2,3,99];
+function dgLib(){if(window.JXG)return Promise.resolve();if(DG.lib)return DG.lib;
+  if(!document.querySelector('link[href*="jsxgraph.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='assets/vendor/jsxgraph/jsxgraph.css';document.head.appendChild(l)}
+  return DG.lib=loadScript('assets/vendor/jsxgraph/jsxgraphcore.js').catch(e=>{DG.lib=null;throw e})}
+// Startpunkte aus der Planung: „A(1|2)“, eine pro Zeile; Funktionen „f(x)=2x+1“ oder nur „2x+1“
+const dgPts=s=>lines(s).map(z=>{const m=z.replace(/,/g,'.').match(/^\s*([A-Za-z][\w']*)?\s*\(\s*(-?[\d.]+)\s*[|;]\s*(-?[\d.]+)\s*\)/);return m?{t:'p',n:m[1]||'',x:+m[2],y:+m[3]}:null}).filter(Boolean);
+const dgFn=s=>String(s||'').replace(/^\s*[a-z]\s*\(\s*x\s*\)\s*=\s*/i,'').replace(/^\s*y\s*=\s*/i,'').replace(/(\d),(\d)/g,'$1.$2').replace(/(\d)\s*x/g,'$1*x').replace(/(\d|x)\s*\(/g,'$1*(').replace(/\)\s*\(/g,')*(').trim();
+function dgKey(t){return 'g'+sigH([t.mode,t.pts,t.fn,t.snap])}
+function dgHTML(t,c){const k=dgKey(t),T=DG.tool[k]||'move';
+  if(c.mini)return `<div class="rt rt-dgeo"><div class="band">📐 ${esc(t.title||'Geometrie')}</div><p class="muted" style="font-weight:800;text-align:center;margin:30px 0">Schau zur Tafel.</p></div>`;
+  return `<div class="rt rt-dgeo"><div class="band">📐 ${esc(t.title||(t.mode==='frei'?'Geometrie':'Koordinatensystem'))}</div>
+    <div class="dg-bar" role="toolbar" aria-label="Werkzeuge">${DG_T.map(([id,ic,n])=>`<button class="${T===id?'on':''}" data-act="dg-t" data-k="${k}" data-t="${id}" title="${n}" aria-label="${n}"><span>${ic}</span><small>${n}</small></button>`).join('')}
+      <span class="dg-fn"><label for="dgf-${k}">f(x) =</label><input id="dgf-${k}" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="z. B. 2x+1"><button data-act="dg-fn" data-k="${k}">Zeichnen</button></span></div>
+    <div class="dg-b" id="dg-${k}" data-dgeo="${k}" data-cfg="${esc(JSON.stringify({mode:t.mode||'ks',pts:t.pts||'',fn:t.fn||'',snap:t.snap!==false}))}"></div>
+    <p class="dg-hint" id="dgh-${k}">${dgHint(T,k)}</p></div>`}
+function dgHint(T,k){const n=(DG.sel[k]||[]).length;return {move:'Punkte ziehen. Alles bewegt sich mit.',p:'Tippe, wo ein Punkt hin soll.',seg:'Tippe zwei Punkte für eine Strecke.',line:'Tippe zwei Punkte für eine Gerade.',circ:'Erst den Mittelpunkt, dann einen Punkt auf dem Kreis.',ang:'Drei Punkte: Schenkel, Scheitel, Schenkel.',poly:'Ecken antippen, zum Schließen den ersten Punkt nochmal.'}[T]+(n?` (${n} gewählt)`:'')}
+const dgName=st=>{const used=new Set(st.filter(s=>s.t==='p').map(s=>s.n));for(let i=0;i<200;i++){const n=String.fromCharCode(65+i%26)+(i>=26?Math.floor(i/26):'');if(!used.has(n))return n}return 'P'};
+function dgMount(){document.querySelectorAll('.dg-b[data-dgeo]').forEach(el=>{if(el.dataset.on)return;el.dataset.on='1';const k=el.dataset.dgeo;
+  dgLib().then(()=>dgBuild(el,k)).catch(()=>{el.innerHTML='<p class="muted" style="font-weight:800;padding:20px">Die Geometrie konnte nicht laden. Prüfe das WLAN.</p>'})})}
+function dgBuild(el,k){if(!el.isConnected)return;let cfg={};try{cfg=JSON.parse(el.dataset.cfg)}catch(e){}
+  const old=DG.b[k];if(old){dgSync(k);try{JXG.JSXGraph.freeBoard(old)}catch(e){}}
+  if(!DG.st[k])DG.st[k]=[...dgPts(cfg.pts),...lines(cfg.fn).map(f=>({t:'fn',f:dgFn(f)}))];
+  const ks=cfg.mode!=='frei',b=JXG.JSXGraph.initBoard(el.id,{boundingbox:ks?[-8,6,8,-6]:[-10,7,10,-7],axis:ks,grid:ks,keepAspectRatio:true,showCopyright:false,showNavigation:true,pan:{enabled:true,needTwoFingers:true},zoom:{wheel:true,pinch:true,needShift:false},
+    defaultAxes:{x:{ticks:{insertTicks:false,ticksDistance:1,minorTicks:0,label:{fontSize:14}}},y:{ticks:{insertTicks:false,ticksDistance:1,minorTicks:0,label:{fontSize:14}}}}});
+  DG.b[k]=b;b._snap=cfg.snap!==false;dgDraw(k);
+  b.on('down',e=>dgDown(k,e))}
+// Aktuelle Lage der gezogenen Punkte merken, bevor neu gezeichnet wird
+function dgSync(k){const b=DG.b[k],st=DG.st[k];if(!b||!st)return;st.forEach(s=>{if(s.t!=='p')return;const o=b.select(s.n);if(o&&o.X){s.x=+o.X().toFixed(2);s.y=+o.Y().toFixed(2)}})}
+function dgDraw(k){const b=DG.b[k],st=DG.st[k]||[];if(!b)return;b.suspendUpdate();
+  const P=n=>b.select(n),C=['#2f6fd6','#cf3a2c','#177a4e','#e8743b','#864cbf'];let fi=0;
+  st.forEach(s=>{try{
+    if(s.t==='p')b.create('point',[s.x,s.y],{name:s.n,id:s.n,size:4,fillColor:'#cf3a2c',strokeColor:'#cf3a2c',snapToGrid:b._snap,snapSizeX:.5,snapSizeY:.5,label:{fontSize:16,offset:[8,10]}});
+    else if(s.t==='seg')b.create('segment',[P(s.a),P(s.b)],{strokeColor:'#26337a',strokeWidth:3});
+    else if(s.t==='line')b.create('line',[P(s.a),P(s.b)],{strokeColor:'#26337a',strokeWidth:2});
+    else if(s.t==='circ')b.create('circle',[P(s.a),P(s.b)],{strokeColor:'#177a4e',strokeWidth:3});
+    else if(s.t==='ang'){const an=b.create('nonreflexangle',[P(s.a),P(s.b),P(s.c)],{radius:1,fillColor:'#f2b51d',fillOpacity:.35,name:'',withLabel:false}),S0=P(s.b);
+      b.create('text',[()=>S0.X()+.35,()=>S0.Y()+.35,()=>(an.Value()*180/Math.PI).toFixed(1).replace('.',',')+'°'],{fontSize:16,strokeColor:'#18203d'})}
+    else if(s.t==='poly')b.create('polygon',s.ps.map(P),{fillColor:'#2f6fd6',fillOpacity:.15,borders:{strokeColor:'#26337a',strokeWidth:3},vertices:{visible:false}});
+    else if(s.t==='fn'){const f=b.jc.snippet(s.f,true,'x',true);b.create('functiongraph',[f],{strokeColor:C[fi++%C.length],strokeWidth:3,name:'f(x) = '+s.f.replace(/\*/g,'·').replace(/\./g,','),withLabel:true,label:{fontSize:16}})}
+  }catch(e){console.warn('geo',s,e)}});b.unsuspendUpdate()}
+function dgDown(k,e){const T=DG.tool[k]||'move',b=DG.b[k];if(T==='move'||!b)return;const st=DG.st[k];
+  let hit=null;for(const o of b.getAllObjectsUnderMouse(e))if(o.elType==='point'&&st.some(s=>s.t==='p'&&s.n===o.name)){hit=o.name;break}
+  if(!hit){const c=b.getUsrCoordsOfMouse(e),r=v=>b._snap?Math.round(v*2)/2:+v.toFixed(2);const n=dgName(st);st.push({t:'p',n,x:r(c[0]),y:r(c[1])});hit=n}
+  const sel=DG.sel[k]=DG.sel[k]||[];
+  if(T==='p'){DG.sel[k]=[];dgRedraw(k);return}
+  if(T==='poly'&&sel.length>=3&&hit===sel[0]){st.push({t:'poly',ps:sel.slice()});DG.sel[k]=[];dgRedraw(k);return}
+  if(sel[sel.length-1]!==hit)sel.push(hit);
+  const need=DG_N[DG_T.findIndex(x=>x[0]===T)];
+  if(sel.length>=need&&T!=='poly'){const [a,b2,c]=sel;st.push(T==='ang'?{t:'ang',a,b:b2,c}:{t:T,a,b:b2});DG.sel[k]=[]}
+  dgRedraw(k)}
+function dgRedraw(k){const el=document.getElementById('dg-'+k);if(!el)return;dgSync(k);try{JXG.JSXGraph.freeBoard(DG.b[k])}catch(e){}DG.b[k]=null;el.innerHTML='';dgBuild(el,k);const h=document.getElementById('dgh-'+k);if(h)h.textContent=dgHint(DG.tool[k]||'move',k)}
+function dgAct(a,d){const k=d.k;if(!k)return;
+  if(a==='dg-t'){if(d.t==='undo'){const st=DG.st[k]||[];dgSync(k);st.pop();DG.sel[k]=[];dgRedraw(k);return}
+    if(d.t==='clr'){DG.st[k]=[];DG.sel[k]=[];dgRedraw(k);return}
+    DG.tool[k]=d.t;DG.sel[k]=[];document.querySelectorAll(`[data-act="dg-t"][data-k="${k}"]`).forEach(x=>x.classList.toggle('on',x.dataset.t===d.t));const h=document.getElementById('dgh-'+k);if(h)h.textContent=dgHint(d.t,k);return}
+  if(a==='dg-fn'){const i=document.getElementById('dgf-'+k),f=dgFn(i&&i.value);if(i)i.setCustomValidity('');if(!f)return;
+    // Nur Zeichen einer Rechenformel: JessieCode rechnet ohne JavaScript, zur Sicherheit trotzdem filtern
+    if(!/^[\dx+\-*/^().\s]*$/.test(f.replace(/sqrt|sin|cos|tan|abs|PI/g,''))){if(i)i.setCustomValidity('Bitte nur eine Formel mit x, z. B. 2x+1');i&&i.reportValidity();return}
+    dgSync(k);(DG.st[k]=DG.st[k]||[]).push({t:'fn',f});if(i)i.value='';dgRedraw(k)}}
+
+/* --- Farbmischung nach Itten: Farbkreis in drei Stufen aufbauen, zwei Farben mischen, Komplementärfarben finden. Läuft auf Tafel und iPad, ohne Netz. --- */
+const ITC=[['Gelb','#FFE500'],['Gelborange','#FDB913'],['Orange','#F7931D'],['Rotorange','#EE5A24'],['Rot','#E2001A'],['Rotviolett','#B31B7B'],['Violett','#6B2C91'],['Blauviolett','#3E3B94'],['Blau','#0069B4'],['Blaugrün','#009E96'],['Grün','#39A935'],['Gelbgrün','#A6C626']];
+const IT_KIND=i=>i%4===0?'Grundfarbe (1. Ordnung)':i%2===0?'Mischfarbe 2. Ordnung':'Mischfarbe 3. Ordnung';
+const IT={st:null,a:null,b:null,mode:'mix',k:''};
+const itVis=(i,st)=>st>=3||(st>=2&&i%2===0)||i%4===0;
+function itMix(a,b){if(a==null||b==null)return null;
+  const W={n:'Weiß',c:'#ffffff'},S={n:'Schwarz',c:'#1b1b1b'},col=i=>i==='w'?W:i==='s'?S:{n:ITC[i][0],c:ITC[i][1]};
+  const hex=c=>[1,3,5].map(o=>parseInt(c.slice(o,o+2),16)),mixC=(x,y,f)=>'#'+hex(x).map((v,j)=>Math.round(v*(1-f)+hex(y)[j]*f).toString(16).padStart(2,'0')).join('');
+  if(a===b)return {n:col(a).n,c:col(a).c,tx:'Gleiche Farbe: es bleibt '+col(a).n+'.'};
+  if((a==='w'&&b==='s')||(a==='s'&&b==='w'))return {n:'Grau',c:'#8a8a8a',tx:'Weiß und Schwarz ergeben Grau.'};
+  for(const [x,y] of [[a,b],[b,a]]){if(x==='w')return {n:'Helles '+col(y).n,c:mixC(col(y).c,'#ffffff',.5),tx:'Mit Weiß wird '+col(y).n+' heller (aufhellen).'};if(x==='s')return {n:'Dunkles '+col(y).n,c:mixC(col(y).c,'#000000',.45),tx:'Mit Schwarz wird '+col(y).n+' dunkler (abdunkeln).'}}
+  let d=((b-a)%12+12)%12,from=a;if(d>6){d=12-d;from=b}
+  if(d===6)return {n:'Braungrau',c:'#6e5d4e',tx:col(a).n+' und '+col(b).n+' liegen sich gegenüber: Komplementärfarben. Gemischt werden sie trüb, zu einem Braungrau.'};
+  if(d%2===0){const m=(from+d/2)%12;return {n:ITC[m][0],c:ITC[m][1],i:m,tx:col(a).n+' + '+col(b).n+' = '+ITC[m][0]+' ('+IT_KIND(m)+').'}}
+  const m1=(from+Math.floor(d/2))%12,m2=(m1+1)%12;return {n:'zwischen '+ITC[m1][0]+' und '+ITC[m2][0],c:mixC(ITC[m1][1],ITC[m2][1],.5),tx:'Das Ergebnis liegt im Farbkreis zwischen '+ITC[m1][0]+' und '+ITC[m2][0]+'.'}}
+function itWheel(st,hl){const R1=200,R0=140,cx=220,cy=220,pt=(r,deg)=>[cx+r*Math.cos(deg*Math.PI/180),cy+r*Math.sin(deg*Math.PI/180)],f=v=>v.toFixed(1);
+  let s='';ITC.forEach(([n,c],i)=>{const a0=-90+i*30-15,a1=a0+30,[x0,y0]=pt(R1,a0),[x1,y1]=pt(R1,a1),[x2,y2]=pt(R0,a1),[x3,y3]=pt(R0,a0),on=itVis(i,st);
+    s+=`<path d="M${f(x0)} ${f(y0)}A${R1} ${R1} 0 0 1 ${f(x1)} ${f(y1)}L${f(x2)} ${f(y2)}A${R0} ${R0} 0 0 0 ${f(x3)} ${f(y3)}Z" fill="${on?c:'#fff'}" stroke="#18203d" stroke-width="${hl.includes(i)?6:2}" data-act="it-c" data-c="${i}" role="button" aria-label="${n}" style="cursor:pointer"/>`});
+  // Mitte: Dreieck der Grundfarben, außen die Mischfarben 2. Ordnung (Sechseck)
+  const R=118,V=[pt(R,-90),pt(R,30),pt(R,150)],M=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2],C0=[cx,cy],A=(p,q)=>{const m=M(p,q);return [2*m[0]-cx,2*m[1]-cy]},P=a=>a.map(p=>f(p[0])+','+f(p[1])).join(' ');
+  const m01=M(V[0],V[1]),m12=M(V[1],V[2]),m20=M(V[2],V[0]);
+  if(st>=2){s+=`<polygon points="${P([V[0],A(V[0],V[1]),V[1]])}" fill="${ITC[2][1]}" stroke="#18203d" stroke-width="2"/><polygon points="${P([V[1],A(V[1],V[2]),V[2]])}" fill="${ITC[6][1]}" stroke="#18203d" stroke-width="2"/><polygon points="${P([V[2],A(V[2],V[0]),V[0]])}" fill="${ITC[10][1]}" stroke="#18203d" stroke-width="2"/>`}
+  s+=`<polygon points="${P([V[0],m01,C0,m20])}" fill="${ITC[0][1]}" stroke="#18203d" stroke-width="2"/><polygon points="${P([V[1],m12,C0,m01])}" fill="${ITC[4][1]}" stroke="#18203d" stroke-width="2"/><polygon points="${P([V[2],m20,C0,m12])}" fill="${ITC[8][1]}" stroke="#18203d" stroke-width="2"/>`;
+  return `<svg viewBox="0 0 440 440" class="it-wheel" role="img" aria-label="Farbkreis nach Itten">${s}</svg>`}
+function ittenHTML(t,c){const k='it'+sigH([t.stage,t.title]);if(!c.keep){IT.t=t;if(IT.k!==k){IT.k=k;IT.st=+(t.stage||1)||1;IT.a=IT.b=null;IT.mode='mix'}}
+  const st=IT.st,r=IT.mode==='mix'?itMix(IT.a,IT.b):null,comp=IT.mode==='komp'&&IT.a!=null&&typeof IT.a==='number'?(IT.a+6)%12:null;
+  const hl=[IT.a,IT.b,r&&r.i,comp].filter(x=>typeof x==='number'),nm=x=>x==null?'?':x==='w'?'Weiß':x==='s'?'Schwarz':ITC[x][0],sw=x=>x==null?'#fff':x==='w'?'#fff':x==='s'?'#1b1b1b':ITC[x][1];
+  const stTx=['','Stufe 1: Die drei Grundfarben Gelb, Rot und Blau. Man kann sie nicht mischen.','Stufe 2: Je zwei Grundfarben ergeben eine Mischfarbe 2. Ordnung: Orange, Violett, Grün.','Stufe 3: Grundfarbe und Nachbar-Mischfarbe ergeben die Mischfarben 3. Ordnung. Der Farbkreis hat 12 Farben.'][st];
+  return `<div class="rt rt-itten"><div class="band">🎨 ${esc(t.title||'Farbkreis nach Itten')}</div><div class="it-wrap">${itWheel(st,hl)}<div class="it-side">
+    <div class="clsw"><button class="${IT.mode==='mix'?'on':''}" data-act="it-m" data-m="mix">🖌️ Mischen</button><button class="${IT.mode==='komp'?'on':''}" data-act="it-m" data-m="komp">↔️ Komplementär</button></div>
+    <p class="it-st">${esc(stTx)}</p><div class="row" style="gap:8px"><button class="btn sm" data-act="it-s" data-d="-1" ${st<=1?'disabled':''}>◀ Stufe</button><button class="btn sm pri" data-act="it-s" data-d="1" ${st>=3?'disabled':''}>Nächste Stufe ▶</button></div>
+    ${IT.mode==='mix'?`<p class="it-q">Tippe zwei Farben im Kreis an, oder mische mit <button class="btn sm" data-act="it-c" data-c="w">⬜ Weiß</button> <button class="btn sm" data-act="it-c" data-c="s">⬛ Schwarz</button></p>
+      <div class="it-eq"><i style="background:${sw(IT.a)}"></i><b>+</b><i style="background:${sw(IT.b)}"></i><b>=</b><i class="it-r" style="background:${r?r.c:'#fff'}">${r?'':'?'}</i></div>
+      <p class="it-tx">${r?`<b>${esc(r.n)}</b><br>${esc(r.tx)}`:`${esc(nm(IT.a))} + ${esc(nm(IT.b))}`}</p>`
+    :`<p class="it-q">Tippe eine Farbe an. Ihre Komplementärfarbe liegt genau gegenüber.</p>${IT.a!=null&&comp!=null?`<div class="it-eq"><i style="background:${ITC[IT.a][1]}"></i><b>↔</b><i style="background:${ITC[comp][1]}"></i></div><p class="it-tx"><b>${esc(ITC[IT.a][0])} und ${esc(ITC[comp][0])}</b><br>Nebeneinander leuchten sie besonders stark (Komplementärkontrast).</p>`:''}`}
+    <button class="btn sm ghost" data-act="it-c" data-c="x">Neu</button></div></div></div>`}
+function itAct(a,d){if(a==='it-m'){IT.mode=d.m;IT.a=IT.b=null}else if(a==='it-s'){IT.st=Math.max(1,Math.min(3,IT.st+(+d.d)));IT.a=IT.b=null}
+  else if(a==='it-c'){const v=d.c==='x'?null:d.c==='w'||d.c==='s'?d.c:+d.c;if(v==null){IT.a=IT.b=null}else if(typeof v==='number'&&!itVis(v,IT.st))return;
+    else if(IT.mode==='komp'){if(typeof v==='number')IT.a=v}else if(IT.a==null||IT.b!=null){IT.a=v;IT.b=null}else IT.b=v}
+  document.querySelectorAll('.rt-itten').forEach(el=>{const tmp=document.createElement('div');tmp.innerHTML=ittenHTML(IT.t||{},{keep:1});el.replaceWith(tmp.firstElementChild)})}
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
+  if(t.id==='dgeo')return dgHTML(t,c);
+  if(t.id==='itten')return ittenHTML(t,c);
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">📒 Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
   if(t.id==='skizze')return skzBoard(t,c);
   if(t.id==='diary')return sceneHTML('lerntagebuch',`<h1>Lerntagebuch</h1><p>Trage jetzt deinen Eintrag auf deinem iPad ein.</p>${c.jn?`<b>${c.jn[0]} / ${c.jn[1]||'–'} eingetragen</b>${pgBar(c.jn[0],Math.max(c.jn[0],c.jn[1]||0))}`:''}`,'left:57%;top:12%;width:37%');
@@ -4656,6 +4928,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   return '';
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
+  if(id==='dgeo')return {id,title:'',mode:'ks',pts:'',fn:'',snap:true};if(id==='itten')return {id,title:'Farbkreis nach Itten',stage:'1'};
   return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:L.subject==='E'?'welt':L.subject==='K'?'atelier':L.subject==='W'||L.subject==='WK'?'boerse':'start',region:'uk-ie',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},skizze:{id,text:'',n:2},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
@@ -4757,6 +5030,7 @@ function phAuto(L,i){const p=L&&L.phases[i];V.phOpen=p?i:null;V.sle=null;V.stOpe
 const phGo=i=>setTimeout(()=>{const c=$('#ph-card-'+i);c&&c.scrollIntoView({block:'start',behavior:'smooth'})},0);
 const swH=(f,on,l,sub)=>`<label class="sw"><input type="checkbox" data-f="${f}" ${on?'checked':''}><span class="sw-t" aria-hidden="true"></span><span class="sw-l"><b>${l}</b>${sub?`<small>${sub}</small>`:''}</span></label>`;
 const greetInit=(p,L)=>{if(isGreet(p)&&(!p.tool||p.tool.id!=='start'))p.tool={id:'start',hint:p.txt||'Leg deine Sachen bereit!',items:((SUBJECTS[L.subject]||{}).prep||[]).join(', '),bg:'start',date:true,title:''}};
+const heftSeg=(t,i)=>`<div class="clsw" style="margin-top:8px"><button class="${t.id==='heft'?'on':''}" data-act="heft-mode" data-i="${i}" data-m="heft">✍️ Selbst schreiben</button><button class="${t.id==='heftlink'?'on':''}" data-act="heft-mode" data-i="${i}" data-m="heftlink">📖 Aus dem Schreibtisch</button></div>`;
 function toolEditor(p,i,L){
   greetInit(p,L);
   const t=p.tool,T=t&&TOOLS[t.id];
@@ -4780,12 +5054,15 @@ function toolEditor(p,i,L){
   if(t.id==='thumbs'||t.id==='mood')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q)}</div>`;
   if(t.id==='exit')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fragen (eine pro Zeile, höchstens 4)',t.qs,3)}<label class="cbl" style="grid-column:1/-1"><input type="checkbox" data-f="ph.${i}.tool.amp" ${t.amp!==false?'checked':''}> Dazu die Ampel: Kann ich / Fast / Noch nicht</label></div>`;
   if(t.id==='vw'){const n=vwCards(t).length;cfg=`<div class="lgrid" style="margin-top:8px">${inp('teams','Teams (mit Komma)',t.teams,'Team A, Team B')}${ta('cards','Karten: pro Zeile „Wort: verboten, verboten, verboten“',t.cards,8)}<p class="muted" style="grid-column:1/-1;font-weight:700;margin:0">${n} Karten erkannt. An der Tafel drehst du jede Karte mit einem Klick um und vergibst die Punkte.</p></div>`}
-  if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);cfg=`<div class="pick-row">${e?`<span class="pick-cur">📖 <b>${esc((e.ch&&!/^\d/.test(e.title)?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</b></span>`:'<span class="muted" style="font-weight:700">Noch kein Hefteintrag gewählt.</span>'}<button class="btn sm ${e?'':'pri'}" data-act="tp-open" data-i="${i}" data-k="heft">${e?'Anderen wählen':'Hefteintrag wählen'}</button></div>`}
+  if(t.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===t.eid);cfg=heftSeg(t,i)+`<div class="pick-row">${e?`<span class="pick-cur">📖 <b>${esc((e.ch&&!/^\d/.test(e.title)?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</b></span>`:'<span class="muted" style="font-weight:700">Noch kein Hefteintrag gewählt.</span>'}<button class="btn sm ${e?'':'pri'}" data-act="tp-open" data-i="${i}" data-k="heft">${e?'Anderen wählen':'Hefteintrag wählen'}</button></div>`}
   if(t.id==='ueb'){const Q=ubSeq(t).map(x=>{const e=(TD.heft||[]).find(y=>y.id===x.eid),u=e&&ubList(e)[x.ui];return u?{e,u}:null}).filter(Boolean);
     cfg=`<div class="pick-row" style="flex-wrap:wrap">${Q.length?Q.map(({e,u},n)=>`<span class="pick-cur"><b>${n+1}.</b> ${AKT[u.t].icon} <b>${esc((e.ch&&!/^\d/.test(e.title)?String(e.ch).split(' ')[0]+' · ':'')+e.title)}</b> · ${esc(u.n&&u.n!=='Übung'?u.n:AKT[u.t].name)}</span>`).join(''):'<span class="muted" style="font-weight:700">Noch keine Übung gewählt.</span>'}<button class="btn sm ${Q.length?'':'pri'}" data-act="tp-open" data-i="${i}" data-k="ueb">${Q.length?'Übungen ändern':'Übungen wählen'}</button></div>${Q.length>1?'<p class="muted" style="font-weight:700;font-size:.9rem">Nach jeder geschafften Übung geht es auf dem iPad automatisch zur nächsten.</p>':''}`}
   if(t.id==='cover')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Thema der Sequenz',t.title,'Terme und Gleichungen')}${inp('sub','Untertitel',t.sub,className())}</div>`;
   if(t.id==='question')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Stundenfrage',t.q,'Wie kann Anton seine Kosten planen?')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.murmel" ${t.murmel?'checked':''} style="width:auto"> mit Murmelphase</label></div>`;
   if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
+  if(t.id==='dgeo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'z. B. Dreiecke konstruieren')}<label>Zeichenfläche<select data-f="ph.${i}.tool.mode"><option value="ks" ${t.mode!=='frei'?'selected':''}>Koordinatensystem mit Gitter</option><option value="frei" ${t.mode==='frei'?'selected':''}>Leeres Zeichenblatt</option></select></label>
+    ${ta('pts','Startpunkte (eine Zeile pro Punkt, z. B. A(1|2))',t.pts,3)}${ta('fn','Funktionen (eine pro Zeile, z. B. f(x)=2x+1)',t.fn,2)}<div style="grid-column:1/-1">${swH(`ph.${i}.tool.snap`,t.snap!==false,'Punkte rasten im Gitter ein','in halben Schritten')}</div></div>`;
+  if(t.id==='itten')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'Farbkreis nach Itten')}<label>Start mit<select data-f="ph.${i}.tool.stage">${[['1','Stufe 1: Grundfarben'],['2','Stufe 2: Mischfarben 2. Ordnung'],['3','Stufe 3: ganzer Farbkreis']].map(([v,n])=>`<option value="${v}" ${String(t.stage||'1')===v?'selected':''}>${n}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">An der Tafel baust du den Farbkreis Stufe für Stufe auf. Mischen und Komplementärfarben gehen per Antippen.</p></div>`;
   if(t.id==='dialog')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'z. B. In the shop')}<label>Sprache<select data-f="ph.${i}.tool.lang">${[['en-GB','Englisch'],['de-DE','Deutsch'],['fr-FR','Französisch']].map(([v,n])=>`<option value="${v}" ${(t.lang||'en-GB')===v?'selected':''}>${n}</option>`).join('')}</select></label>${ta('text','Dialog (jede Zeile „Name: Satz“)',t.text,6)}</div>`;
   if(t.id==='task')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Arbeitsauftrag (jede Zeile ein Punkt)',t.text,4)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Sozialform und Minuten kommen aus der Phase. Die iPads zeigen den Auftrag auch.</p></div>`;
   if(t.id==='high5')cfg=`<div class="lgrid" style="margin-top:8px">${ta('qs','Fünf Fragen (eine pro Zeile)',t.qs,5)}</div>`;
@@ -4814,8 +5091,12 @@ function toolEditor(p,i,L){
       ${t.wcat?`${sel('wlv',[[1,'leicht'],[2,'mittel'],[3,'schwer']],t.wlv,'Schwierigkeit')}${sel('wn',WLW_N.map(n=>[n,n+' Fragen']),t.wn||10,'Anzahl')}${sel('wt',WLW_T.map(x=>[x,x?x+' Sekunden':'ohne Zeitlimit']),t.wt||0,'Zeit pro Frage')}
       <label class="cbl"><input type="checkbox" data-f="ph.${i}.tool.wlbl" ${t.wlbl?'checked':''}> Hilfen auf der Karte (Meere, Flüsse, Nachbarn)</label>`:''}
       <p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">${t.wcat?'Alle bekommen dieselben Fragen in derselben Reihenfolge, an der Tafel und auf jedem iPad.':'Jedes Kind wählt auf dem iPad Kategorie, Schwierigkeit, Fragen und Zeit selbst.'} Die Karte zeigt keine Namen.</p></div>`}
-  if(t.id==='heft')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
-  if(t.id==='skizze')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Gestaltungsauftrag',t.text,2)}<label>Wie viele Skizzen vor dem Werk?<select data-f="ph.${i}.tool.n">${[1,2,3,4].map(n=>`<option value="${n}" ${(+t.n||2)===n?'selected':''}>${n} Skizze${n>1?'n':''}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Eine Skizze zählt ab 5 Strichen. Das Werk kannst du an der Tafel auch vorher für alle freigeben.</p></div>`;
+  if(t.id==='heft')cfg=heftSeg(t,i)+`<div class="lgrid" style="margin-top:8px">${inp('title','Titel',t.title,'z. B. Terme vereinfachen')}${ta('text','Hefteintrag (# Überschrift, - Punkt, Merke: …, | a | b |)',t.text,6)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Beim Start der Phase landet der Eintrag im Regelheft aller SuS.</p></div>`;
+  if(t.id==='skizze')cfg=`<div class="lgrid" style="margin-top:8px">${ta('text','Gestaltungsauftrag',t.text,2)}<label>Wie viele Skizzen vor dem Werk?<select data-f="ph.${i}.tool.n">${[1,2,3,4].map(n=>`<option value="${n}" ${(+t.n||2)===n?'selected':''}>${n} Skizze${n>1?'n':''}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Eine Skizze zählt ab 5 Strichen. Das Werk kannst du an der Tafel auch vorher für alle freigeben.</p>
+    <div style="grid-column:1/-1;border-top:2px dashed var(--line);padding-top:10px"><b>🖼️ Vorlage für alle (z. B. Schuh-Umriss)</b><p class="muted" style="font-weight:700;font-size:.9rem;margin:4px 0 8px">Jedes Kind bekommt beim Start automatisch ein Blatt mit diesem Bild und es geht gleich auf. Frei zeichnen geht weiter wie immer.</p>
+      <div class="row" style="gap:8px;align-items:center">${t.vor&&libById(t.vor)?`<img data-libimg="${esc(t.vor)}" alt="Vorlage" style="height:70px;border-radius:8px;border:2px solid var(--line);background:#fff">`:''}<button class="btn sm ${t.vor?'':'pri'}" data-act="skz-vor-up" data-i="${i}">${t.vor?'Anderes Bild':'Bild hochladen'}</button>${t.vor?`<button class="btn sm" data-act="skz-vor-x" data-i="${i}">Ohne Vorlage</button>`:''}
+      <select data-f="ph.${i}.tool.vor" style="flex:1;min-width:160px">${matOpts(t.vor,m=>m.kind==='file'&&/^image\//.test(m.mime||''))}</select></div>
+      <label style="display:block;margin-top:8px">Name des Blatts<input type="text" data-f="ph.${i}.tool.vname" value="${esc(t.vname||'')}" placeholder="z. B. Produktdesign"></label></div></div>`;
   if(t.id==='diary')cfg=`<div class="lgrid" style="margin-top:8px">${ta('prompt','Leitfragen (eine pro Zeile)',t.prompt,3)}</div>`;
   if(t.id==='quiz')cfg=`<div class="lgrid" style="margin-top:8px">${inp('q','Frage',t.q,'Welcher Term passt zur Folie?')}${ta('opts','Antworten (eine pro Zeile, bis zu 8: A, B, C …)',t.opts,4)}
     ${inp('right','Richtig ist (Buchstaben)',t.right,'z. B. B oder A, C · leer = Meinungsumfrage')}<label class="row" style="gap:8px"><input type="checkbox" data-f="ph.${i}.tool.multi" ${t.multi?'checked':''} style="width:auto"> SuS dürfen mehrere ankreuzen</label>
@@ -4852,7 +5133,7 @@ function tpOpen(i,k){const L=lessonById(V.id),p=L&&L.phases[i];if(!p)return;cons
 function toolPool(i){
   const L=lessonById(V.id),p=L&&L.phases[i];if(!p)return;
   const fits=id=>TOOLS[id].fit.test(p.name+' '+(p.goal||''))&&(!TOOLS[id].subj||TOOLS[id].subj===L.subject);
-  const off=TD.toolsOff||[],ids=Object.keys(TOOLS).filter(id=>id!=='slide'&&(!off.includes(id)||(p.tool&&p.tool.id===id))).sort((a,b)=>fits(b)-fits(a));
+  const off=TD.toolsOff||[],ids=Object.keys(TOOLS).filter(id=>id!=='slide'&&((!off.includes(id)&&!TOOL_PLAN.includes(id))||(p.tool&&p.tool.id===id))).sort((a,b)=>fits(b)-fits(a));
   showOv(`<div class="box" style="max-width:820px;text-align:left"><span class="label">Werkzeug-Pool · Phase ${i+1}</span><h2>${esc(p.name)}: Was soll an die Tafel?</h2>
     ${toolCats(ids).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="pool">${L.map(id=>`<button class="${fits(id)?'fit':''} ${p.tool&&p.tool.id===id?'cur':''}" data-act="tool-pick" data-i="${i}" data-t="${id}">${fits(id)?'<span class="fit-tag">Passt zu dieser Phase</span>':''}<span class="gi">${TOOLS[id].icon}</span><b>${TOOLS[id].name}</b><small>${TOOLS[id].txt}</small></button>`).join('')}</div>`).join('')}
       <div class="pool" style="margin-top:10px"><button data-act="tool-pick" data-i="${i}" data-t=""><span class="gi">➖</span><b>Kein Werkzeug</b><small>Nur die Folien an der Tafel.</small></button></div>
@@ -4910,7 +5191,10 @@ function srListen(lang,done,fail,ms){const SR=nsSR();if(!SR){fail('api');return 
   rc.onend=end;rc.finish=()=>{try{rc.stop()}catch(x){}clearTimeout(rc._t);rc._t=setTimeout(end,900)};
   rc.onspeechend=()=>{try{rc.stop()}catch(x){}};
   try{rc.start()}catch(e){fail('start');return null}rc._t=setTimeout(()=>rc.finish(),ms||7000);return rc}
-const srErr=e=>e==='not-allowed'||e==='service-not-allowed'?'Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen (Safari → Mikrofon) freigeben.':e==='network'?'Die Spracherkennung braucht Internet. Bitte WLAN prüfen.':e==='no-speech'?'Ich habe nichts gehört. Tippe auf das Mikrofon und sprich gleich los.':'Die Aufnahme hat nicht geklappt. Versuch es nochmal.';
+// Mikrofon verweigert: klare Schritte für das iPad statt nur „nicht erlaubt“ (Aufnahme klappte nicht bei allen SuS)
+const MIC_NO='🎤 Das iPad lässt ELONUKI nicht ans Mikrofon. So geht es: 1. In Safari links in der Adresszeile auf „aA“ tippen. 2. „Website-Einstellungen“ → Mikrofon → „Erlauben“. 3. Seite neu laden. Klappt es dann noch nicht: Einstellungen → Apps → Safari → Mikrofon → „Erlauben“. Bei einem Schul-iPad hilft deine Lehrkraft.';
+const micErr=e=>{const n=String(e&&(e.name||e)||'');return /NotAllowed|Security|not-allowed|service-not-allowed/i.test(n)?MIC_NO:/NotFound|Overconstrained/i.test(n)?'🎤 Ich finde kein Mikrofon. Sind Kopfhörer mit Mikrofon richtig eingesteckt?':/NotReadable|Abort/i.test(n)?'🎤 Das Mikrofon wird gerade von einer anderen App benutzt. Schließe sie und versuch es nochmal.':'Die Aufnahme hat nicht geklappt. Versuch es nochmal.'};
+const srErr=e=>e==='not-allowed'||e==='service-not-allowed'?MIC_NO:e==='network'?'Die Spracherkennung braucht Internet. Bitte WLAN prüfen.':e==='no-speech'?'Ich habe nichts gehört. Tippe auf das Mikrofon und sprich gleich los.':'Die Aufnahme hat nicht geklappt. Versuch es nochmal.';
 const nsCan=()=>!!nsSR()||!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
 function nsReset(key){if(NS.key===key)return;nsStop();if(NS.url)try{URL.revokeObjectURL(NS.url)}catch(e){}NS={key}}
 function nsStop(){clearTimeout(NS._t);try{NS._rc&&(NS._rc.finish?NS._rc.finish():NS._rc.stop())}catch(e){}try{NS._mr&&NS._mr.state==='recording'&&NS._mr.stop()}catch(e){}NS.rec=false}
@@ -4920,7 +5204,7 @@ function nsGo(key,target,lang){nsReset(key);if(NS.rec){nsStop();nsRender();retur
   else{if(!nsCan())return;NS.rec=true;navigator.mediaDevices.getUserMedia({audio:true}).then(m=>{if(NS.key!==key||!NS.rec){m.getTracks().forEach(t=>t.stop());return}
       const ch=[],mr=new MediaRecorder(m);NS._mr=mr;mr.ondataavailable=e=>e.data&&e.data.size&&ch.push(e.data);
       mr.onstop=()=>{m.getTracks().forEach(t=>t.stop());if(NS.key!==key)return;if(NS.url)try{URL.revokeObjectURL(NS.url)}catch(e){}NS.url=ch.length?URL.createObjectURL(new Blob(ch,{type:mr.mimeType||'audio/mp4'})):'';NS.rec=false;nsRender();if(NS.url)nsMe()};
-      mr.start()}).catch(()=>{if(NS.key!==key)return;NS.rec=false;NS.err='Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen freigeben.';nsRender()})}
+      mr.start()}).catch(e=>{if(NS.key!==key)return;NS.rec=false;NS.err=micErr(e);nsRender()})}
   clearTimeout(NS._t);NS._t=setTimeout(()=>{if(NS.key===key&&NS.rec){nsStop();nsRender()}},9000);nsRender()}
 function nsMe(){if(!NS.url)return;try{speechSynthesis.cancel();const a=new Audio(NS.url);a.play().catch(()=>{})}catch(e){}}
 // Bedienfeld: hear = data-act zum Anhören des Zielsatzes
@@ -4928,7 +5212,7 @@ function nsHTML(key,target,lang,hear){const on=NS.key===key,r=on&&NS.res,api=!!n
   return `<div class="ns" data-ns="${esc(key)}"><div class="ns-b">${hear?`<button class="btn ns-h" ${hear}>${NS_EAR}<span>Anhören</span></button>`:''}
     <button class="btn ns-r ${on&&NS.rec?'on':''}" data-act="ns-go" data-k="${esc(key)}" data-t="${esc(target)}" data-l="${esc(lang)}">${NS_MIC}<span>${on&&NS.rec?'Ich bin fertig':api?'Nachsprechen':'Mich aufnehmen'}</span></button>
     ${on&&NS.url?`<button class="btn ns-h" data-act="ns-me">${NS_EAR}<span>Mich anhören</span></button>`:''}</div>
-    ${on&&NS.rec?`<p class="ns-live">${api?'Sprich jetzt deutlich ins iPad …':'Ich nehme auf. Sprich den Satz nach.'}</p>`:''}${on&&NS.err?`<p class="ns-live">${esc(NS.err)}</p>`:''}
+    ${on&&NS.rec?`<p class="ns-live">${api?'Sprich jetzt deutlich ins iPad …':'Ich nehme auf. Sprich den Satz nach.'}</p>`:''}${on&&NS.err?`<p class="ns-live${NS.err===MIC_NO?' ns-mic':''}" role="alert">${esc(NS.err)}</p>`:''}
     ${on&&!api&&NS.url&&!NS.rec?'<p class="ns-tip">Hör dich an und vergleiche mit Elo. Klingt es gleich?</p>':''}
     ${r?`<div class="ns-fb ns-${r.level}"><b>${{green:'Super! Das klingt richtig gut.',yellow:'Fast! Hör noch einmal genau hin.',red:'Probier es nochmal. Hör zuerst Elo zu.'}[r.level]}</b>
       <span>Elo hat gehört: „${esc(NS.heard)}“</span>${r.missing.length?`<span>Achte auf: <b>${esc(r.missing.join(', '))}</b></span>`:''}${r.hints.map(h=>`<span>${esc(h)}</span>`).join('')}</div>`:''}</div>`}
@@ -5111,7 +5395,7 @@ const AKT={
       if(a.k==='chk'||a.k==='skip'){const e1=document.getElementById('ak-ir-1'),e2=document.getElementById('ak-ir-2');s.a1=a.k==='skip'?'':(e1?e1.value:'');s.a2=a.k==='skip'?'':(e2?e2.value:'');
         const chk=(sol,ans)=>{const al=String(sol).split('/').map(x=>x.trim().toLowerCase()),parts=String(ans).toLowerCase().split('/').map(x=>x.trim().replace(/[.!?]/g,'')).filter(Boolean);return !!parts.length&&parts.every(p=>al.includes(p))};
         s.r1=a.k==='chk'&&chk(w[1],s.a1)?1:0;s.r2=a.k==='chk'&&chk(w[2],s.a2)?1:0;const ok=s.r1&&s.r2;s.res=ok?'ok':'no';s.tries++;
-        if(ok){s.ok[i]=1;SND.right()}else{SND.oops();s.wr[i]=1}return}
+        if(ok){s.ok[i]=1;SND.right()}else{SND.oops();s.wr[i]=1;if(S.role==='student'&&d.verbs[i])try{gramMark(d.verbs[i][0],true)}catch(e){}}return}
       if(a.k==='next'){s.q.shift();if(s.res!=='ok')s.q.splice(Math.min(s.q.length,2),0,i);s.res=null;s.a1='';s.a2='';s.r1=0;s.r2=0;
         if(!s.q.length){s.win=true;s.msg=`Alle ${d.verbs.length} Verben geschafft${Object.keys(s.wr).length?', '+Object.keys(s.wr).length+' davon mit Wiederholung':' ohne Fehler'}!`}
         setTimeout(()=>{const el=document.getElementById('ak-ir-1');if(el)el.focus()},60)}}},
@@ -5546,7 +5830,7 @@ VIEWS.toolbox=()=>{const G=((TD.games||{})[S.cls||'-'])||{},off=TD.toolsOff||[];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row"><button class="btn sm" data-act="tplan">← Planung</button><h1>🧰 Werkzeugkasten</h1></div><span class="chip">${esc(className())}</span></div>
   <button class="wlw-card" data-act="wlw-free"><span class="wlw-ci pin">${WLW_IC.pin}</span><span style="flex:1;min-width:0"><b>Wo liegt was? ausprobieren</b><small>Das Geografiespiel selbst spielen, z. B. am Whiteboard. Für die ganze Klasse planst du es als Werkzeug in einer Stunde ein. Die SuS finden es außerdem unter Freies Üben.</small></span><span class="btn sm pri">Öffnen</span></button>
   <section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">🛠️ Werkzeuge für die Planung</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Ausgeblendete Werkzeuge erscheinen nicht mehr im Werkzeug-Pool, wenn du eine Stunde planst.</p>
-    ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide')).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}"><span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div>`).join('')}</section>`};
+    ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide'&&!TOOL_PLAN.includes(id))).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}"><span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div>`).join('')}</section>`};
 VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();if(pt==='seq')return seqView();
   const off=weekOff(),mo=monday(off),days=[0,1,2,3,4].map(d=>{const x=new Date(mo);x.setDate(mo.getDate()+d);return x});
   const td=isoD(new Date()),ed=!!V.ttEdit;
@@ -5586,11 +5870,11 @@ function tpCell(d,i,date){
   const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
   if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
     <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="arc-one" data-id="${L.id}" title="Als .elonuki-Datei herunterladen (passt auch für die Stundenbörse)">💾 Als Datei</button><button class="btn sm ${L.arc?'on':''}" data-act="l-arc" data-id="${L.id}">${L.arc?'✓ Im Archiv':'🗂️ Ins Archiv'}</button>${bxOk()?`<button class="btn sm" data-act="bx-share" data-id="${L.id}">📤 In die Börse</button>`:''}<button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button>${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
-  const others=lessons().filter(x=>x.subject===sl.s);
+  const others=lessons().filter(x=>x.subject===sl.s&&!x.vorlage);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
-    <button class="btn pri" style="width:100%;margin-top:12px" data-act="tp-new" data-d="${d}" data-i="${i}" data-date="${date}">Neue Stunde aus der ${SUBJECTS[sl.s].name}-Vorlage</button>
-    ${others.length?`<div class="row" style="margin-top:12px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div>`:''}
+    <h3 style="margin-top:12px">Neue Stunde</h3>${(V.gerCtx={d,i,date},gerBtns(sl.s))}
+    ${others.length?`<details style="margin-top:12px"><summary class="muted" style="font-weight:800;cursor:pointer">Eine fertige Stunde wiederverwenden</summary><div class="row" style="margin-top:8px"><select id="tp-ex" style="flex:1">${others.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="tp-assign" data-d="${d}" data-i="${i}" data-date="${date}">Diese nehmen</button></div></details>`:''}
     <div class="row" style="justify-content:flex-end;margin-top:12px">${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);
 }
 // Stunde für eine andere Klasse kopieren: freie Stunden im gleichen Fach in den nächsten zwei Wochen, Doppelstunde bleibt Doppelstunde
@@ -6133,21 +6417,31 @@ async function cloudSync(){
     TD.tt={};sl.filter(x=>x.teacher_id===uid).forEach(x=>{const c=Cloud.myClasses.find(k=>k.id===x.class_id);const split=sl.filter(y=>y.class_id===x.class_id&&y.day===x.day&&y.period===x.period).length>1;TD.tt[x.day+'-'+x.period]={s:x.subject,c:(c?c.name:'')+(split?' (Gruppe)':''),cid:x.class_id,g:x.grp||0}});ttOwnApply();TD.ttEx=false;
     const pl=ids.length?await q(sb.from('plans').select('class_id,date,period,lesson_id,teacher_id,grp').in('class_id',ids)):[];
     const keep={};Object.keys(TD.plan||{}).forEach(k=>{if((TD.one||{})[k])keep[k]=TD.plan[k]});TD.plan=keep;pl.forEach(x=>{const t=TD.tt[((new Date(x.date+'T12:00').getDay()+6)%7)+'-'+x.period];if(t&&t.cid===x.class_id&&(t.g||0)===(x.grp||0))TD.plan[x.date+'|'+x.period]=x.lesson_id});tsave();
-    const ls=await q(sb.from('lessons').select('id,owner,class_id,shared,data'));
+    // Erst nur id und Änderungszeit holen, den vollen Inhalt nur für Stunden, die sich seit dem letzten Abgleich geändert haben (spart Egress)
+    const meta=await q(sb.from('lessons').select('id,updated_at')),LU=luGet(),have=new Map(lessons().map(L=>[L.id,L]));
+    const need=meta.filter(x=>!(LU[x.id]&&LU[x.id].u===x.updated_at&&have.has(x.id))).map(x=>x.id),got=[];
+    for(let k=0;k<need.length;k+=50)got.push(...await q(sb.from('lessons').select('id,owner,class_id,shared,data,updated_at').in('id',need.slice(k,k+50))));
+    const gotM=new Map(got.map(x=>[x.id,x])),ls=meta.map(x=>gotM.get(x.id)||{id:x.id,keep:1,updated_at:x.updated_at});
     const planned=new Set(Object.values(TD.plan));
     // Die Demo-Stunde wandert nur in die Cloud, wenn sie verplant ist
     const mine=lessons().filter(L=>(!L.owner||L.owner===uid)&&!(L.id==='L-bsp'&&!ls.some(x=>x.id===L.id)&&!planned.has(L.id)));
     // Lokale Stunden beim ersten Login hochladen
     mine.forEach(L=>{if(!ls.some(x=>x.id===L.id)){if(L.id==='L-bsp'){const nid=lid();Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===L.id)TD.plan[k]=nid});L.id=nid}L.owner=uid;L.cid=L.cid||S.cls}});
-    const fromCloud=ls.map(x=>Object.assign({},x.data,{id:x.id,owner:x.owner,cid:x.class_id,shared:x.shared}));
-    Cloud.sig={};fromCloud.forEach(L=>{Cloud.sig[L.id]=JSON.stringify(lessonRow(L))});
+    // Unveränderte Stunden kommen vom Gerät, ihr Cloud-Fingerabdruck aus dem letzten Abgleich: lokale Änderungen werden so weiter erkannt und hochgeladen
+    const fromCloud=ls.map(x=>x.keep?Object.assign({},have.get(x.id),{ts:LU[x.id].t||0}):Object.assign({},x.data,{id:x.id,owner:x.owner,cid:x.class_id,shared:x.shared}));
+    Cloud.sig={};const LN={};fromCloud.forEach((L,n)=>{const x=ls[n],h=x.keep?LU[x.id].h:sigH(lessonRow(L));Cloud.sig[L.id]=h;LN[L.id]={u:x.updated_at,h,t:+L.ts||0}});Cloud.lu=LN;luPut();
     // Neuere eigene Änderungen auf diesem Gerät (L.ts) gewinnen gegen einen älteren Cloud-Stand und werden gleich hochgeladen
-    const merged=fromCloud.map(c=>{const loc=mine.find(L=>L.id===c.id);return loc&&(+loc.ts||0)>(+c.ts||0)?loc:c}).concat(mine.filter(L=>!ls.some(x=>x.id===L.id)));
+    const merged=fromCloud.map((c,n)=>{if(ls[n].keep)return have.get(c.id);const loc=mine.find(L=>L.id===c.id);return loc&&(+loc.ts||0)>(+c.ts||0)?loc:c}).concat(mine.filter(L=>!ls.some(x=>x.id===L.id)));
     S.lessons=merged;Cloud.synced=true;setTimeout(()=>LIB.ready?libCloudSync():libLoad(),500);
     try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}cloudQueue();
   }catch(e){console.warn(e);Cloud.err='Sync fehlgeschlagen.'}
 }
-function lessonRow(L){const d=Object.assign({},L);['id','owner','cid','shared'].forEach(k=>delete d[k]);return {id:L.id,class_id:L.cid||null,subject:L.subject,title:L.title,data:d,shared:!!L.shared}}
+// Kurzer Fingerabdruck statt ganzer Stunde als Text; dazu pro Stunde die Änderungszeit in der Cloud (lokal gemerkt)
+function sigH(r){const t=JSON.stringify(r);let a=0x811c9dc5,b=0x9e3779b9;for(let i=0;i<t.length;i++){const c=t.charCodeAt(i);a=Math.imul(a^c,16777619);b=Math.imul(b^c,2246822507)}return (a>>>0).toString(36)+(b>>>0).toString(36)+t.length.toString(36)}
+const luKey=()=>KEY+'-lu-'+(Cloud.user&&Cloud.user.id||'');
+function luGet(){try{return JSON.parse(localStorage.getItem(luKey())||'{}')||{}}catch(e){return {}}}
+function luPut(){try{localStorage.setItem(luKey(),JSON.stringify(Cloud.lu||{}))}catch(e){}}
+function lessonRow(L){const d=Object.assign({},L);['id','owner','cid','shared'].forEach(k=>delete d[k]);return {id:L.id,class_id:/^[0-9a-f-]{36}$/i.test(L.cid||'')?L.cid:null,subject:L.subject,title:L.title,data:d,shared:!!L.shared}}
 let cloudT=null;
 // Hochladen erst nach dem ersten Abgleich: sonst überschreibt ein Gerät mit altem Stand die neueren Stunden in der Cloud
 function cloudQueue(){
@@ -6156,14 +6450,16 @@ function cloudQueue(){
 }
 async function cloudPush(){clearTimeout(cloudT);if(!Cloud.user||S.role!=='teacher'||!Cloud.synced)return;
     const uid=Cloud.user.id,rows=[];let ch=0;
-    (S.lessons||[]).forEach(L=>{if(L.owner&&L.owner!==uid)return;L.owner=uid;if(Cloud.sig[L.id]!==JSON.stringify(lessonRow(L))){L.ts=Date.now();ch=1}const r=lessonRow(L),sg=JSON.stringify(r);if(Cloud.sig[L.id]!==sg){rows.push(r);Cloud.sig[L.id]=sg}});
+    (S.lessons||[]).forEach(L=>{if(L.owner&&L.owner!==uid)return;L.owner=uid;if(Cloud.sig[L.id]!==sigH(lessonRow(L))){L.ts=Date.now();ch=1}const r=lessonRow(L),sg=sigH(r);if(Cloud.sig[L.id]!==sg){rows.push(r);Cloud.sig[L.id]=sg}});
     if(ch)try{localStorage.setItem(KEY,JSON.stringify(Object.fromEntries(Object.entries(S).filter(([k])=>!MINE.includes(k)))))}catch(e){}
-    if(rows.length){try{await q(Cloud.sb.from('lessons').upsert(rows))}catch(e){console.warn(e);rows.forEach(r=>delete Cloud.sig[r.id])}}
+    if(rows.length){const now=new Date().toISOString();rows.forEach(r=>{r.updated_at=now;if(Cloud.lu)delete Cloud.lu[r.id]});luPut();
+      try{await q(Cloud.sb.from('lessons').upsert(rows));rows.forEach(r=>luSet(r,now))}catch(e){console.warn(e);rows.forEach(r=>delete Cloud.sig[r.id])}}
 }
-async function cloudDelLesson(id){if(!CLOUD||!Cloud.prof)return;try{await q(Cloud.sb.from('lessons').delete().eq('id',id));delete Cloud.sig[id]}catch(e){}}
+function luSet(r,now){const L=lessonById(r.id);Cloud.lu=Cloud.lu||{};Cloud.lu[r.id]={u:now,h:Cloud.sig[r.id],t:L&&+L.ts||0};luPut()}
+async function cloudDelLesson(id){if(!CLOUD||!Cloud.prof)return;try{await q(Cloud.sb.from('lessons').delete().eq('id',id));delete Cloud.sig[id];if(Cloud.lu){delete Cloud.lu[id];luPut()}}catch(e){}}
 async function cloudPlan(d,i,date,lessonId){if(!CLOUD||!Cloud.prof)return;const t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
   clearTimeout(cloudT);const L=lessonById(lessonId);if(L){L.cid=L.cid||t.cid;await new Promise(r=>setTimeout(r,0))}
-  try{if(L){const r=lessonRow(L);await q(Cloud.sb.from('lessons').upsert([r]));Cloud.sig[L.id]=JSON.stringify(r)}
+  try{if(L){const r=lessonRow(L),now=new Date().toISOString();r.updated_at=now;if(Cloud.lu){delete Cloud.lu[L.id];luPut()}await q(Cloud.sb.from('lessons').upsert([r]));delete r.updated_at;Cloud.sig[L.id]=sigH(r);luSet(r,now)}
     await q(Cloud.sb.from('plans').upsert([{class_id:t.cid,date,period:i,grp:t.g||0,lesson_id:lessonId}]))}catch(e){console.warn(e)}}
 async function cloudUnplan(k){if(!CLOUD||!Cloud.prof)return;const [date,i]=k.split('|'),d=(new Date(date+'T12:00').getDay()+6)%7,t=TD.tt[d+'-'+i];if(!t||!t.cid)return;
   try{await q(Cloud.sb.from('plans').delete().eq('class_id',t.cid).eq('date',date).eq('period',+i).eq('grp',t.g||0))}catch(e){}}
@@ -6455,21 +6751,38 @@ async function ccPull(force){if(S.role!=='student'||!ccOk())return;if(!force&&Da
   catch(e){if(mbMissing(e))CC.miss=true}}
 // Bilder der Folien für die iPads (supabase/media.sql): verkleinert, mit dem Klassenschlüssel verschlüsselt, pro Klasse abgelegt.
 // Die Lehrkraft lädt beim Zeigen hoch, iPads holen fehlende Bilder beim ersten Anzeigen und behalten sie.
-const MED={up:{},miss:false,neg:{}};
-function lessonMedia(L){const ids=new Set(),bg=b=>{if(b&&b!=='none'&&!SL_BG[b])ids.add(b)};(L&&L.phases||[]).forEach(p=>{const t=p.tool||{};bg(t.bg);[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;bg(sl.bg);(sl.imgs||[]).forEach(m=>m&&m.id&&!m.t&&ids.add(m.id))})});return [...ids]}// Audio/Video (m.t) bleibt auf dem Gerät der Lehrkraft: kein Hochladen, oft Verlagsmaterial
+const MED={up:{},miss:false,neg:{},nn:{},st:true};
+// Speicher „cmedia“ (supabase/media_storage.sql): eine verschlüsselte Datei pro Bild, ein Jahr im Cache. Ohne Bucket geht es wie bisher über die Tabelle.
+const MED_TY=['image/webp','image/png','image/jpeg','image/gif'];
+const medPath=id=>S.cls+'/'+String(id).slice(0,80).replace(/[^\w.-]/g,'_');
+const medNoBucket=e=>/bucket not found|bucket.*does not exist/i.test(String(e&&(e.message||e.error||e)));
+// Fehlende Bilder: erst kurz (die Lehrkraft lädt gerade hoch), dann immer seltener nachfragen, höchstens alle 3 Minuten
+const MED_WAIT=[8e3,2e4,6e4,18e4];
+const medNeg=id=>{MED.neg[id]=Date.now();MED.nn[id]=Math.min(MED_WAIT.length-1,(MED.nn[id]==null?-1:MED.nn[id])+1)};
+function lessonMedia(L){const ids=new Set(),bg=b=>{if(b&&b!=='none'&&!SL_BG[b])ids.add(b)};(L&&L.phases||[]).forEach(p=>{const t=p.tool||{};bg(t.bg);(Array.isArray(p.tools)?p.tools:[t]).forEach(x=>{if(x&&x.id==='skizze'&&x.vor)ids.add(x.vor)});[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;bg(sl.bg);(sl.imgs||[]).forEach(m=>m&&m.id&&!m.t&&ids.add(m.id))})});return [...ids]}// Audio/Video (m.t) bleibt auf dem Gerät der Lehrkraft: kein Hochladen, oft Verlagsmaterial
 // Fotos immer neu kodieren: entfernt Metadaten (GPS-Ort, Gerät) aus Handyfotos, bevor sie auf iPads oder zur Lehrkraft gehen. SVG/GIF bleiben (Animation).
-async function medSmall(b){if(/svg|gif/.test(b&&b.type||''))return b;try{const bm=await createImageBitmap(b),f=Math.min(1,1600/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*f);cv.height=Math.round(bm.height*f);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
-  let o=await new Promise(r=>cv.toBlob(r,'image/webp',.82));if(!o||o.type!=='image/webp')o=await new Promise(r=>cv.toBlob(r,'image/jpeg',.85));return o||b}catch(e){return b}}
+// 1280 px reichen für iPad und Tafel und sparen Datenvolumen.
+async function medSmall(b){if(/svg|gif/.test(b&&b.type||''))return b;try{const bm=await createImageBitmap(b),f=Math.min(1,1280/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*f);cv.height=Math.round(bm.height*f);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
+  let o=await new Promise(r=>cv.toBlob(r,'image/webp',.75));if(!o||o.type!=='image/webp')o=await new Promise(r=>cv.toBlob(r,'image/jpeg',.8));return o||b}catch(e){return b}}
 let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id),hf=heftFor().flatMap(e=>heftFotos(e.text));if(!L&&!hf.length)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
   for(const id of [...new Set([...(L?lessonMedia(L):[]),...hf])]){if(done[id])continue;try{const b=await libBlob(id);if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
     const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),await sm.arrayBuffer());if(ct.byteLength>2500000){done[id]=1;continue}
-    const sb=await sbClient();await q(sb.from('class_media').upsert({class_id:S.cls,id:String(id).slice(0,80),body:{iv:b64e(iv),ct:b64e(ct),ty:sm.type||'image/webp'},updated_at:new Date().toISOString()}));done[id]=1}
+    const sb=await sbClient(),ty=Math.max(0,MED_TY.indexOf(sm.type));
+    if(MED.st){// Datei: 1 Byte Bildtyp, 12 Byte IV, dann der verschlüsselte Inhalt
+      const r=await sb.storage.from('cmedia').upload(medPath(id),new Blob([new Uint8Array([ty]),iv,ct],{type:'application/octet-stream'}),{upsert:true,cacheControl:'31536000',contentType:'application/octet-stream'});
+      if(!r.error){done[id]=1;continue}if(medNoBucket(r.error))MED.st=false;else throw r.error}
+    await q(sb.from('class_media').upsert({class_id:S.cls,id:String(id).slice(0,80),body:{iv:b64e(iv),ct:b64e(ct),ty:sm.type||'image/webp'},updated_at:new Date().toISOString()}));done[id]=1}
   catch(e){if(mbMissing(e)){MED.miss=true;return}console.warn('mediaPush',e)}}},1500)}
-async function mediaGet(id){if(S.role!=='student'||!ccOk()||MED.miss||(MED.neg[id]&&Date.now()-MED.neg[id]<8000))return null;
-  try{const sb=await sbClient(),k=myCk(S.code);if(!k)return null;const L=await q(sb.from('class_media').select('body').eq('class_id',S.cls).eq('id',String(id).slice(0,80)).limit(1));if(!L.length){MED.neg[id]=Date.now();return null}
-    const e=L[0].body,pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(e.iv)},await ckImp(k),b64d(e.ct)),ty=/^image\/(webp|png|jpeg|gif)$/.test(e.ty)?e.ty:'image/webp',b=new Blob([pt],{type:ty});
+async function mediaGet(id){if(S.role!=='student'||!ccOk()||MED.miss||(MED.neg[id]&&Date.now()-MED.neg[id]<MED_WAIT[MED.nn[id]||0]))return null;
+  try{const sb=await sbClient(),k=myCk(S.code);if(!k)return null;let iv,ct,ty;
+    if(MED.st){const r=await sb.storage.from('cmedia').download(medPath(id));
+      if(!r.error&&r.data){const a=new Uint8Array(await r.data.arrayBuffer());ty=MED_TY[a[0]]||'image/webp';iv=a.slice(1,13);ct=a.slice(13)}else if(r.error&&medNoBucket(r.error))MED.st=false}
+    if(!ct){// Rückfall: ältere Bilder liegen noch in der Tabelle
+      const L=await q(sb.from('class_media').select('body').eq('class_id',S.cls).eq('id',String(id).slice(0,80)).limit(1));if(!L.length){medNeg(id);return null}
+      const e=L[0].body;iv=b64d(e.iv);ct=b64d(e.ct);ty=/^image\/(webp|png|jpeg|gif)$/.test(e.ty)?e.ty:'image/webp'}
+    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},await ckImp(k),ct),b=new Blob([pt],{type:ty});delete MED.nn[id];
     try{await idb('blob','readwrite',st=>st.put(b,id))}catch(x){}return b}
-  catch(x){if(mbMissing(x))MED.miss=true;else MED.neg[id]=Date.now();return null}}
+  catch(x){if(mbMissing(x))MED.miss=true;else medNeg(id);return null}}
 const mbFp=pub=>String(pub&&pub.n||'').slice(0,16);
 const mbCls=()=>/^[0-9a-f-]{36}$/i.test(S.cls||'');
 const mbCloudOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&MB.cloud!==false;
@@ -6495,7 +6808,7 @@ window.addEventListener('online',()=>{offlUpd();mbFlush();swWarm(true)});window.
 // Einmal am Tag den Offline-Vorrat (Bilder, Geräusche, Elos Stimme) auffrischen
 function swWarm(force){try{const t=+localStorage.getItem('elio-warm')||0;if(!navigator.onLine||(!force&&Date.now()-t<864e5)||!navigator.serviceWorker)return;navigator.serviceWorker.ready.then(r=>{if(r.active){r.active.postMessage('warm');localStorage.setItem('elio-warm',String(Date.now()))}}).catch(()=>{})}catch(e){}}
 setTimeout(()=>swWarm(false),8000);setTimeout(offlUpd,1500);
-function mbQueue(it){S.mbq=S.mbq||[];if(it.k==='prog'||it.k==='hi')S.mbq=S.mbq.filter(x=>x.k!==it.k);S.mbq.push(it);if(S.mbq.length>60)S.mbq=S.mbq.slice(-60);save();mbFlush()}
+function mbQueue(it){if(viewer())return;S.mbq=S.mbq||[];if(it.k==='prog'||it.k==='hi')S.mbq=S.mbq.filter(x=>x.k!==it.k);S.mbq.push(it);if(S.mbq.length>60)S.mbq=S.mbq.slice(-60);save();mbFlush()}
 function chatSend(t){const id='c'+Date.now().toString(36);S.chat=S.chat||[];S.chat.push({id,me:1,t,at:Date.now(),st:'q'});mbQueue({k:'chat',id,t,at:Date.now()})}
 function progSnap(){return {ub:Object.keys(S.ubDone||{}).filter(k=>k.includes('#')),hx:Object.keys(S.hxDone||{}).filter(k=>S.hxDone[k]),hw:Object.keys(S.hwDone||{}).filter(k=>S.hwDone[k]),
   st:+S.stars||0,fl:Object.values(S.fleiss||{}).reduce((a,b)=>a+(+b||0),0),ab:Object.keys(S.abg||{}),ut:S.ubAt||{},mt:S.mt||{}}}
@@ -6671,7 +6984,7 @@ async function acctSeal(u,p,o){const iv=crypto.getRandomValues(new Uint8Array(12
 async function acctOpen(u,p,e){return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(e.iv)},await acctKey(u,p),b64d(e.ct))))}
 function acctSnap(){const o={};ACCT_KEYS.forEach(k=>{if(k in S)o[k]=S[k]});if(Array.isArray(o.chat)&&o.chat.length>150)o.chat=o.chat.slice(-150);return o}
 // Sicherung hochladen: höchstens alle 20 Sekunden und nur, wenn sich etwas geändert hat
-function acctSave(force){if(S.role!=='student'||!S.acct||!CLOUD)return;clearTimeout(ACCT.t);ACCT.t=setTimeout(acctFlush,force?200:20000)}
+function acctSave(force){if(S.role!=='student'||!S.acct||!CLOUD||viewer())return;clearTimeout(ACCT.t);ACCT.t=setTimeout(acctFlush,force?200:20000)}
 async function acctFlush(){if(ACCT.busy||S.role!=='student'||!S.acct)return;const snap=acctSnap(),sig=JSON.stringify(snap),{u,p}=S.acct;if(sig===ACCT.sig)return;ACCT.busy=true;
   try{const sb=await sbClient();S.acctAt=Date.now();const body=await acctSeal(u,p,{...snap,acctAt:S.acctAt});if(JSON.stringify(body).length>390000)throw new Error('zu groß');
     const r=await q(sb.rpc('pupil_prof_save',{p_uname:u,p_pin:p,p_prof:body}));if(r==='ok'){ACCT.sig=sig;save()}else if(r==='wrong'){ACCT.bad=1}}catch(e){console.warn('acct',e)}ACCT.busy=false}
@@ -6683,7 +6996,8 @@ async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p
     if(!r||r.err){if(quiet)return false;V.busy=0;V.err=r&&/function|schema/i.test(String(r.err))?'Die persönlichen Zugänge sind noch nicht eingerichtet.':ACCT_ERR[r&&r.err]||ACCT_ERR.wrong;V.step='join';render();return false}
     const c={id:r.id,school_id:r.school_id,school_name:r.school_name,name:r.name,size:r.size,code:r.code};JOINED=c;addJoined();
     if(quiet)return true;
-    V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.nr=+r.nr;meLoad();
+    V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.nr=+r.nr;S.viewer=S.nr===VIEW_NR;meLoad();
+    if(S.viewer){S.nick='Zuschauer';S.av=0;S.acct={u,p};S.phaseSeen='';V.busy=0;S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;saveRole();Live.start(S.code);go('dash');return true}
     // Sicherung vom Server: übernehmen, wenn sie neuer ist als das, was auf diesem iPad liegt
     if(r.prof&&r.prof.ct){try{const o=await acctOpen(u,p,r.prof);if(o&&o.wipe&&(+S.nickAt||0)<+o.wipe){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk}else if(o&&(+o.acctAt||0)>=(+S.acctAt||0))ACCT_KEYS.concat('acctAt').forEach(k=>{if(k in o)S[k]=o[k]})}catch(e){console.warn('acct open',e)}}
     S.acct={u,p};S.phaseSeen='';V.busy=0;ACCT.sig='';S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;
@@ -6713,6 +7027,9 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
     <button class="btn pri" data-act="zg-gen" data-id="${c.id}" ${ZG.busy?'disabled':''}>Für alle ohne Zugang erzeugen</button><button class="btn" data-act="zg-print">🖨️ Karten drucken</button></div>
   ${ZG.err==='missing'?'<div class="priv">⚠️ Auf dem Server fehlt noch die Einrichtung. Führe einmal <b>supabase/logins.sql</b> im Supabase SQL Editor aus.</div>':ZG.err?`<p class="err">${esc(ZG.err)}</p>`:''}
   <p class="muted" style="font-weight:700;margin:8px 0 12px">Jedes Kind bekommt ein Kürzel aus 4 Buchstaben und eine PIN aus 4 Ziffern. Damit kommt es auf jedem iPad direkt in sein Dashboard, mit seinem Avatar und seinem Lernstand. Nach 5 falschen PINs ist 10 Minuten Pause, nach 15 ist der Zugang gesperrt, bis du eine neue PIN vergibst. Die PINs liegen nur hier in deinem Lehrer-Tresor.</p>
+  ${(()=>{const r=by[VIEW_NR],z=st[VIEW_NR],pin=r&&z&&z.u===r.uname?z.p:'';// Zuschauer-Zugang: eigener Platz 40, sendet nichts, zählt nicht als Kind
+    return `<section class="panel" style="margin-bottom:14px"><b>👁 Zuschauer-Zugang für die Prüfungskommission</b><p class="muted" style="font-weight:700;margin:6px 0 10px">Für UV und Lehrprobe: Ein iPad, das die Stunde genau so sieht wie die Klasse. Es kann nichts antippen, schickt nichts und taucht in keiner Liste auf. Anmelden wie ein Kind mit Kürzel und PIN.</p>
+      <div class="row" style="gap:10px">${r?`<span>Kürzel <b>${esc(r.uname)}</b></span><span>PIN ${pin?`<code>${esc(pin)}</code>`:'<span class="muted">nicht auf diesem Gerät</span>'}</span>`:''}${r?`<button class="btn sm" data-act="zg-pin" data-id="${c.id}" data-n="${VIEW_NR}" data-u="${esc(r.uname)}" ${ZG.busy?'disabled':''}>Neue PIN</button>`:`<button class="btn sm" data-act="zg-one" data-id="${c.id}" data-n="${VIEW_NR}" ${ZG.busy?'disabled':''}>Zuschauer-Zugang erzeugen</button>`}${r?`<button class="btn sm" data-act="zg-del" data-id="${c.id}" data-n="${VIEW_NR}" ${ZG.busy?'disabled':''}>Löschen</button>`:''}</div></section>`})()}
   <div class="tbl"><table><thead><tr><th>Nr.</th><th>Avatar</th><th>Kürzel</th><th>PIN</th><th>Status</th><th></th></tr></thead><tbody>${nrs.map(k=>{const r=by[k],s=st[k],pin=r&&s&&s.u===r.uname?s.p:'';
     return `<tr><td>${k}</td><td>${(TD.avs||{})[k]!=null?avatar(TD.avs[k],28):''} ${esc(nickOf(k)||'')}</td><td><b>${r?esc(r.uname):'–'}</b></td><td>${r?(pin?`<code>${esc(pin)}</code>`:'<span class="muted">nicht auf diesem Gerät</span>'):''}</td>
       <td>${r?(r.blocked?'<span class="chip red">gesperrt</span>':r.saved?'<span class="chip ok">aktiv</span>':'<span class="chip">noch nicht angemeldet</span>'):'<span class="muted">kein Zugang</span>'}</td>
@@ -7132,6 +7449,38 @@ function vokTeach(){const Ls=(TD.vok||[]).filter(l=>l.cls===S.cls).slice().rever
     <label style="grid-column:1/-1">Vokabeln (eine pro Zeile: englisch = deutsch)<textarea id="vk-x" rows="6" placeholder="zoo = Zoo&#10;to feed = füttern&#10;giraffe = Giraffe"></textarea></label></div>
     <div class="row" style="margin-top:8px;gap:8px"><label class="btn">📷 Foto oder PDF einlesen<input type="file" id="vk-file" accept="image/*,application/pdf" hidden></label><button class="btn pri" data-act="vk-send">📨 An alle SuS schicken</button><small class="muted" id="vk-ocr-m" style="font-weight:700">${esc(V.vkOcr||'Elo übernimmt nur Englisch und Deutsch, Lautschrift und Beispielsätze lässt er weg. Bitte danach kurz prüfen.')}</small></div></section>
   ${Ls.length?`<div class="vk-list" style="margin-top:10px">${Ls.map(l=>`<div class="vk-w"><span class="en">${esc(l.title)}</span><span class="de muted" style="font-weight:700">${l.words.length} Wörter · ${esc(l.date||'')}<br><small>${esc(l.words.slice(0,4).map(w=>w[0]).join(', '))}${l.words.length>4?' …':''}</small></span><button class="btn sm red" data-act="vk-del" data-id="${esc(l.id)}">Löschen</button></div>`).join('')}</div>`:''}`}
+/* ---------- Grammatikheft (Englisch): Irregular Verbs mit eigenem Speicher wie im Vokabelheft ----------
+   Jedes Verb wandert durch die Fächer (VOK_DAYS). „Schwierig“ heißt: zuletzt falsch oder selbst markiert. Falsche Verben aus dem Werkzeug Irregular Verbs landen automatisch hier.
+   Die Grundliste ist die des Werkzeugs; Verben aus der Buchliste ergänzt man in GRAM_EXTRA (Doppelte stören nicht). Bleibt auf dem iPad und in der Sicherung des Zugangs. */
+const GRAM_EXTRA='';
+let GQ=null;
+const gramList=()=>{const M=new Map();(AKT.irreg.ex+'\n'+GRAM_EXTRA).split('\n').map(z=>z.split('|').map(x=>x.trim())).filter(r=>r.length>=4&&r[0]).forEach(r=>{const k=vokNorm(r[0]);if(!M.has(k))M.set(k,{inf:r[0],past:r[1],pp:r[2],de:r[3]})});return M};
+function gramD(){if(!S.gram||typeof S.gram!=='object')S.gram={c:{}};S.gram.c=S.gram.c||{};const M=gramList();M.forEach((v,k)=>{const c=S.gram.c[k];if(!c)S.gram.c[k]={...v,b:0,due:'',hard:0};else Object.assign(c,{inf:v.inf,past:v.past,pp:v.pp,de:v.de})});return S.gram}
+const gramSure=c=>(c.b||0)>=4&&!c.hard;
+function gramMark(inf,wrong){const D=gramD(),k=vokNorm(inf),c=D.c[k];if(!c)return;if(wrong){c.hard=1;c.b=0;c.due=''}save()}
+VIEWS.gram=()=>{const D=gramD(),C=Object.entries(D.c).sort((a,b)=>a[1].inf.localeCompare(b[1].inf)),due=C.filter(([,c])=>vokDue(c)),hard=C.filter(([,c])=>c.hard),sure=C.filter(([,c])=>gramSure(c));
+  if(GQ)return gramQuiz();
+  return `<div class="subj-head s-E"><button class="btn sm" data-act="desk">← Schreibtisch</button><h1>📙 Mein Grammatikheft</h1></div>
+  <section class="panel"><h2 style="margin:0 0 6px">Irregular Verbs</h2><div class="row" style="justify-content:space-between;align-items:center"><div><b style="font-size:1.2rem">${due.length?due.length+' Verben sind heute dran':'Für heute alles geschafft! 🎉'}</b><br><small class="muted" style="font-weight:700">${C.length} Verben · ${sure.length} sicher · ${hard.length} schwierig</small></div>
+    <div class="row">${due.length?`<button class="btn pri" data-act="gram-go">▶️ Jetzt üben</button>`:''}${hard.length?`<button class="btn" data-act="gram-go" data-m="hard">⚠️ Schwierige üben</button>`:''}<button class="btn" data-act="gram-go" data-m="free">🔁 Freiwillig</button></div></div>
+    <div class="vk-box">${VOK_F.map((f,b)=>`<div><b>${C.filter(([,c])=>(c.b||0)===b).length}</b><small>${b===6?'✓ ':''}${f}</small></div>`).join('')}</div>${V.gmsg?`<p class="saved">${esc(V.gmsg)}</p>`:''}</section>
+  <div class="seg" role="group" aria-label="Filter" style="margin:16px 0 8px">${[['','Alle'],['hard','Schwierig'],['sure','Sicher']].map(([v,n])=>`<button class="${(V.gf||'')===v?'on':''}" data-act="gram-f" data-v="${v}">${n}</button>`).join('')}</div>
+  <div class="tbl"><table class="gram-t"><thead><tr><th>Infinitive</th><th>Simple Past</th><th>Past Participle</th><th>Deutsch</th><th></th></tr></thead><tbody>${C.filter(([,c])=>!V.gf||(V.gf==='hard'?c.hard:gramSure(c))).map(([k,c])=>`<tr class="${c.hard?'g-hard':gramSure(c)?'g-sure':''}"><td><b>${esc(c.inf)}</b> <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.inf+', '+c.past.split('/')[0]+', '+c.pp.split('/')[0])}" aria-label="Vorlesen">🔊</button></td><td>${esc(c.past)}</td><td>${esc(c.pp)}</td><td>${esc(c.de)}</td>
+    <td><button class="btn sm ${c.hard?'on':''}" data-act="gram-hard" data-k="${esc(k)}" aria-pressed="${!!c.hard}">${c.hard?'⚠️ schwierig':gramSure(c)?'✓ sicher':'markieren'}</button></td></tr>`).join('')}</tbody></table></div>`};
+function gramStart(m){const D=gramD(),K=Object.keys(D.c);let q=m==='hard'?K.filter(k=>D.c[k].hard):m==='free'?shuffle(K).slice(0,15):K.filter(k=>vokDue(D.c[k])).sort((a,b)=>(D.c[a].b||0)-(D.c[b].b||0)).slice(0,15);q=shuffle(q);if(!q.length)return;GQ={q,done:0,res:null,a1:'',a2:'',w:{},free:m==='free'};render();setTimeout(()=>{const i=$('#gq-1');i&&i.focus()},30)}
+function gramQuiz(){const D=gramD(),k=GQ.q[0],c=D.c[k];if(!c){GQ=null;return VIEWS.gram()}const st=GQ.res;
+  return `<div class="subj-head s-E"><button class="btn sm" data-act="gram-x">← Grammatikheft</button><h1>📙 Irregular Verbs</h1><span class="chip">${GQ.done} geschafft · noch ${GQ.q.length}</span></div>
+  <div class="vk-card ${st==='ok'?'vk-ok':st==='bad'?'vk-bad':''}"><span class="lang">Infinitive${GQ.w[k]?' · nochmal':''}</span><div class="w">${esc(c.inf)} <button class="btn sm ghost" data-act="vok-say" data-t="${esc(c.inf)}" aria-label="Vorlesen">🔊</button></div><span class="lang">${esc(c.de)}</span>
+    <div class="lgrid" style="margin-top:10px"><label>Simple Past<input id="gq-1" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(GQ.a1)}" ${st?'readonly':''}></label><label>Past Participle<input id="gq-2" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(GQ.a2)}" ${st?'readonly':''}></label></div>
+    ${st==='ok'?`<p class="vk-fb">✓ Richtig!${GQ.free?'':` Kommt wieder in: ${VOK_F[c.b||0]}`}</p>`:st==='bad'?`<p class="vk-fb">Richtig ist: <b>${esc(c.inf)} · ${esc(c.past)} · ${esc(c.pp)}</b><br><small>Das Verb ist jetzt als schwierig markiert und kommt gleich nochmal.</small></p>`:''}
+    <div class="row" style="justify-content:center">${st?`<button class="btn pri" data-act="gram-next">Weiter ➜</button>`:`<button class="btn pri" data-act="gram-chk">Prüfen</button><button class="btn ghost" data-act="gram-skip">Weiß ich nicht</button>`}</div></div>`}
+function gramCheck(skip){if(!GQ||GQ.res)return;const D=gramD(),k=GQ.q[0],c=D.c[k];if(!c)return;const a1=($('#gq-1')||{}).value||'',a2=($('#gq-2')||{}).value||'';GQ.a1=a1;GQ.a2=a2;
+  const ok=!skip&&vokOk(c.past,a1)&&vokOk(c.pp,a2);GQ.res=ok?'ok':'bad';
+  if(ok){SND.right();if(!GQ.free&&!GQ.w[k]){c.b=Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b]);if(c.b>=3)c.hard=0}else if(GQ.w[k]){c.b=1;c.due=vokDay(VOK_DAYS[1])}}
+  else{SND.oops();GQ.w[k]=1;c.hard=1;if(!GQ.free){c.b=0;c.due=''}}save();render()}
+function gramNext(){if(!GQ)return;const k=GQ.q.shift();if(GQ.res==='bad')GQ.q.splice(Math.min(3,GQ.q.length),0,k);else GQ.done++;GQ.res=null;GQ.a1=GQ.a2='';
+  if(!GQ.q.length){const n=GQ.done;GQ=null;if(n>=5)earnOnce('gram_'+todayISO());V.gmsg='Super, '+n+' Verben geschafft!';render();return}render();setTimeout(()=>{const i=$('#gq-1');i&&i.focus()},30)}
+document.addEventListener('keydown',e=>{if(V.name!=='gram'||!GQ||e.key!=='Enter')return;e.preventDefault();if(GQ.res)gramNext();else if(document.activeElement&&document.activeElement.id==='gq-1')$('#gq-2').focus();else gramCheck()});
 VIEWS.vok=()=>{const D=vokD(),C=Object.entries(D.c),due=C.filter(([,c])=>vokDue(c)),bx=VOK_F.map((_,b)=>C.filter(([,c])=>(c.b||0)===b).length);
   if(VQ)return vokQuiz();
   const srcs=[...new Set(C.map(([,c])=>c.src||''))].sort((a,b)=>(a?0:1)-(b?0:1));
@@ -7162,7 +7511,9 @@ function vokCheck(ans,skip,spoken){if(!VQ||VQ.res)return;const D=vokD(),id=VQ.q[
 function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad')VQ.q.splice(Math.min(3,VQ.q.length),0,id);else VQ.done++;VQ.res=null;VQ.ans='';VQ.heard='';VQ.err='';VQ.caseHint=false;VQ.rec=false;try{VQ._rc&&VQ._rc.abort&&VQ._rc.abort()}catch(e){}VQ._rc=null;
   if(!VQ.q.length){const n=VQ.done;VQ=null;if(n>=5)earnOnce('vok_'+todayISO());V.vmsg='Super, '+n+' Wörter geschafft!';render();return}render();vokFocus()}
 document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')return;e.preventDefault();if(VQ.res)vokNext();else{const i=$('#vk-a');vokCheck(i?i.value:'')}});
-VIEWS.tdesk=()=>{const ks=[...new Set([...Object.keys(PLANS),...tHeft().map(e=>e.s)])].filter(k=>SUBJECTS[k]);
+// Fabians Fächer stehen immer im Schreibtisch, auch ohne Module (vorher nur Fächer mit Lehrplan-Modulen oder Einträgen)
+const DESK_SUBJ=['E','M','K','D','DZ','W','N','I','ET','G'];
+VIEWS.tdesk=()=>{const ks=[...new Set([...DESK_SUBJ,...Object.keys(PLANS),...tHeft().map(e=>e.s)])].filter(k=>SUBJECTS[k]);
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
   <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>isPub(e)).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
     return `<button class="folder s-${k}${deskOn(k)?'':' f-off'}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}<small class="f-vis">${deskOn(k)?'👁 Für diese Klasse sichtbar':'🚫 Für diese Klasse ausgeblendet'}</small></span></button>`}).join('')}
@@ -7502,7 +7853,7 @@ VIEWS['lesson-edit']=()=>{{const L0=lessonById(V.id);if(L0&&phNorm(L0)&&V.sle&&S
       <div style="grid-column:1/-1">${phBody(p,i,L)}</div>
       ${(p.mats||[]).length?`<div style="grid-column:1/-1"><span class="label">Weiteres Material für diese Phase</span>${phaseMatEditor(p,i,L)}</div>`:''}
     </div>`}</article>`).join('')}</div>
-  <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button><span class="spacer"></span><button class="btn" data-act="tpl-save">📐 Als ${esc(SUBJECTS[L.subject].name)}-Gerüst speichern</button>${tplOwn(L.subject)?`<button class="btn sm" data-act="tpl-reset">↺ Standard-Gerüst</button>`:''}</div>
+  <div class="row" style="margin-top:14px"><button class="btn" data-act="ph-add">+ Phase hinzufügen</button><span class="spacer"></span><button class="btn" data-act="vl-save" title="Die ganze Stunde mit Inhalt als Vorlage: erscheint bei „Neue Stunde“ unter „Meine Vorlagen“">🗂️ Als Vorlage speichern</button><button class="btn sm" data-act="tpl-save">📐 Als ${esc(SUBJECTS[L.subject].name)}-Gerüst speichern</button>${tplOwn(L.subject)?`<button class="btn sm" data-act="tpl-reset">↺ Standard-Gerüst</button>`:''}</div>
   <p class="muted" style="font-weight:700;font-size:.9rem;margin-top:6px">${V.tplMsg?esc(V.tplMsg):`Jede neue ${esc(SUBJECTS[L.subject].name)}-Stunde startet mit dem ${tplOwn(L.subject)?'Gerüst, das du gespeichert hast':'Standard-Gerüst'}. Phasen, die du in einer Stunde nicht brauchst, löschst du einfach dort.`}</p>${qcHTML(L)}`;
 };
 const showTimer=()=>CS&&CS.timer&&(CS.timer.run||timerLeft(CS.timer)<CS.timer.total);
@@ -7599,9 +7950,10 @@ document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
   if(b.type==='submit'&&b.form&&PW_FORMS.includes(b.form.id))return;// läuft über das submit-Ereignis (Passwort speichern)
   const a=b.dataset.act,d=b.dataset;ctx();
+  if(/^dg-/.test(a)){dgAct(a,d);return}if(/^it-/.test(a)){itAct(a,d);return}
   switch(a){
     case 'lessons':go('lessons');break;
-    case 'l-new':{const L=newLessonFrom(curSubj()||'M',45,'Neue Stunde');go('lesson-edit',{id:L.id});break}
+    case 'l-new':V.gerCtx=null;gerOv(curSubj()||'M');break;
     case 'l-edit':{const o=$('#ov');if(o)o.hidden=true;go('lesson-edit',{id:d.id});break}
     case 'bx-open':BX.rows=null;BX.msg='';go('boerse');break;
     case 'arc-all':arcMake(lessons(),arcName('alle-Stunden'));break;
@@ -7727,11 +8079,19 @@ document.addEventListener('click',e=>{
     case 'au-play':audPlay(d.id);break;
     case 'au-cat':AUD.cat=d.c;render();break;
     case 'au-open':V.am=!V.am;if(V.am)audLoad();render();break;
-    case 'l-stop':if(KF)kfbStop(true);audStop();skzOff();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=false;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
+    case 'ws-open':wsOpen();break;
+    case 'ws-go':wsGo();break;
+    case 'l-stop':if(KF)kfbStop(true);if(CS)CS.wechsel=null;wsStop();audStop();skzOff();CS.timer={run:false,total:300,left:300,endsAt:0};CS.freeze=false;CS.game=null;CS.pick=null;CS.lesson=null;CS.phase='arrive';CS.phaseAt=Date.now();CS.poll=null;CS.ready=null;CS.journal=null;pushCS();render();break;
     case 'tpl-save':{const L=lessonById(V.id);if(!L)break;S.tpls=S.tpls||{};S.tpls[L.subject]=clone(L.phases).map(p=>{if(p.tool&&p.tool.id==='cover')p.tool.title='';if(p.tool&&p.tool.id==='heftlink')p.tool.eid='';return p});save();V.tplMsg='Gespeichert. Jede neue '+SUBJECTS[L.subject].name+'-Stunde startet jetzt mit diesen '+L.phases.length+' Phasen.';render();break}
+    case 'vl-save':{const L=lessonById(V.id);if(!L)break;const T=clone(L);T.id=lid();T.vorlage=true;T.title='Vorlage: '+String(L.title||'Stunde').replace(/^Vorlage: /,'');delete T.owner;delete T.shared;delete T.ts;lessons().push(T);save();cloudQueue();V.tplMsg='Als Vorlage gespeichert. Du findest sie bei „Neue Stunde“ unter „Meine Vorlagen“.';render();break}
     case 'tpl-reset':{const L=lessonById(V.id);if(!L||!S.tpls)break;delete S.tpls[L.subject];save();V.tplMsg='Neue '+SUBJECTS[L.subject].name+'-Stunden starten wieder mit dem Standard-Gerüst.';render();break}
     case 'ph-ins':{const L=lessonById(V.id);if(!L)break;const j=+d.i;L.phases.splice(j,0,{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});phAuto(L,j);save();render();setTimeout(()=>{const c=document.querySelectorAll('.lcard')[j];c&&c.scrollIntoView({block:'center'});const n=c&&c.querySelector('[data-f$=".name"]');n&&n.select()},0);break}
-    case 'ph-add':{const L=lessonById(V.id);L.phases.push({name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'});phAuto(L,L.phases.length-1);save();render();phGo(L.phases.length-1);break}
+    case 'ph-add':showOv(`<div class="box" style="text-align:left;max-width:620px"><span class="label">Phase hinzufügen</span><h2>Welches Phasenmuster?</h2>
+      <div class="pool" style="margin-top:10px"><button data-act="ph-add-go" data-k="-1"><span class="gi">➕</span><b>Leere Phase</b><small>Ohne Werkzeug, du füllst sie selbst.</small></button>${PH_MUSTER.map(([ic,n],k)=>`<button data-act="ph-add-go" data-k="${k}"><span class="gi">${ic}</span><b>${esc(n)}</b></button>`).join('')}</div>
+      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`);break;
+    case 'ph-add-go':{const L=lessonById(V.id);if(!L)break;const M=PH_MUSTER[+d.k],ph=M?clone(M[2]):{name:'Neue Phase',goal:'',min:5,sf:'Plenum',method:'',txt:'',act:'none'};
+      if(ph.tool&&Object.keys(ph.tool).length===1)ph.tool=toolDefaults(ph.tool.id,ph,L);else if(ph.tool)ph.tool=Object.assign(toolDefaults(ph.tool.id,ph,L),ph.tool);
+      L.phases.push(ph);$('#ov').hidden=true;phAuto(L,L.phases.length-1);save();render();phGo(L.phases.length-1);if(ph.tool&&ph.tool.id==='heftlink')tpOpen(L.phases.length-1,'heft');break}
     case 'qc-tog':V.qcOpen=!V.qcOpen;break;
     case 'ph-art':V.artPh=V.artPh===+d.i?null:+d.i;render();break;
     case 'st-open':V.stOpen=V.stOpen===+d.i?null:+d.i;render();break;
@@ -7750,6 +8110,14 @@ document.addEventListener('click',e=>{
     case 'live-reload':try{save();if(S.role==='student'&&S.acct)acctFlush()}catch(e){}setTimeout(()=>location.reload(),150);break;
     case 'dlg-say':dlgSay(+d.k);if(S.role==='student'&&DLGK!==+d.k){DLGK=+d.k;nsRender()}break;case 'dlg-all':dlgSay(0,true);break;
     case 'vok':VQ=null;go('vok');break;
+    case 'gram':GQ=null;V.gmsg='';go('gram');break;
+    case 'gram-go':gramStart(d.m||'');break;
+    case 'gram-chk':gramCheck();break;
+    case 'gram-skip':gramCheck(true);break;
+    case 'gram-next':gramNext();break;
+    case 'gram-x':GQ=null;render();break;
+    case 'gram-f':V.gf=d.v;render();break;
+    case 'gram-hard':{const c=gramD().c[d.k];if(c){c.hard=c.hard?0:1;save();render()}break}
     case 'vok-go':vokStart(!!d.free);break;
     case 'vok-end':VQ=null;render();break;
     case 'vok-chk':{const i=$('#vk-a');vokCheck(i?i.value:'');break}
@@ -7833,8 +8201,14 @@ document.addEventListener('click',e=>{
     case 'skz-werk':if(CS&&CS.skz){CS.skz.werk=!CS.skz.werk;pushCS();if(V.name==='tafel')updTafel();else render()}break;
     case 'skz-task':V.task=d.t||'';render();break;
     case 'skz-big':V.big=d.key||null;if(V.big)skzSeen(V.big);render();break;
-    case 'skz-show':skzShow(d.key);break;
-    case 'skz-hide':if(CS){CS.skzShow=null;pushCS();idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{});render()}break;
+    case 'skz-show':skzGalOff();skzShow(d.key);break;
+    case 'skz-gal':skzGallery(d.t||'');break;
+    case 'skz-vor-x':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(p&&p.tool){p.tool.vor='';save();render()}break}
+    case 'skz-vor-up':{const i=+d.i,fi=document.createElement('input');fi.type='file';fi.accept='image/*';fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f)return;const L=lessonById(V.id),p=L&&L.phases[i];if(!p||!p.tool)return;
+      const id=newId(),b=await medSmall(f);try{await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:'Vorlage '+(f.name||'Bild'),mime:b.type||f.type||'image/webp',size:b.size,subject:'K',src:'skizze',added:Date.now()}))}catch(x){toast('Bild konnte nicht gespeichert werden. Ist der Speicher voll?');return}
+      p.tool.vor=id;if(!p.tool.vname)p.tool.vname=p.name&&!/skizz/i.test(p.name)?p.name:'';save();await libLoad();render()};fi.click();break}
+    case 'skz-gal-x':skzGalOff();pushCS();render();break;
+    case 'skz-hide':if(CS){skzGalOff();CS.skzShow=null;pushCS();idb('blob','readwrite',st=>st.delete('skzshow')).catch(()=>{});render()}break;
     case 'skz-del':skzDel(d.key);break;
     case 'theft':go('theft',{hs:d.s});break;
     case 'tdesk':go('tdesk');break;
@@ -7948,7 +8322,7 @@ document.addEventListener('click',e=>{
     case 'nick-more':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;V.sugg=Object.assign(avNames(V.av),{av:V.av});render();break}
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Gib deinem Avatar einen Namen.';break}
-      setClass();S.role='student';S.nr=V.nr;meLoad();S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      setClass();S.role='student';S.nr=V.nr;S.viewer=false;meLoad();S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
@@ -8046,6 +8420,7 @@ document.addEventListener('click',e=>{
     case 'ad-class-del':V.adel=null;adminDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
     case 'ad-name':adminDo(Cloud.sb.from('profiles').update({name:$('#ad-pn-'+d.id).value.trim().slice(0,60)}).eq('id',d.id),'Name gespeichert.');break;
     case 'ctt-open':CT.cid=null;go('ctt',{cid:d.id,from:d.from||'admin'});break;
+    case 'test-mode':{if(testOn())break;if(S.cls&&S.cls!==TEST_ID)S.testPrev=S.cls;useClass({id:TEST_ID,school_id:S.school,code:TEST_CODE,size:S.classSize||25});S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(TEST_CODE).then(pushCS);render();break}
     case 'cls-switch':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()}break}
 
     case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
@@ -8078,6 +8453,12 @@ document.addEventListener('click',e=>{
     case 'tt-set':{const c=($('#tt-c').value||'').trim().slice(0,12);if(d.s)TD.tt[d.d+'-'+d.i]={s:d.s,c};else delete TD.tt[d.d+'-'+d.i];if(CLOUD&&Cloud.prof){TD.ttOwn=TD.ttOwn||{};TD.ttOwn[d.d+'-'+d.i]={s:d.s||'',c:d.s?c:''}}TD.ttEx=false;tsave();$('#ov').hidden=true;render();break}
     case 'tp-one':{const c=($('#tt-c').value||'').trim().slice(0,16)||'Vertretung',mc=(Cloud.myClasses||[]).find(x=>x.name===c);TD.one=TD.one||{};TD.one[d.date+'|'+d.i]=mc?{s:d.s,c,cid:mc.id}:{s:d.s,c};tsave();render();tpCell(+d.d,+d.i,d.date);break}
     case 'tp-one-del':{const k=d.k;if(TD.one&&TD.one[k]){delete TD.plan[k];delete TD.one[k]}tsave();$('#ov').hidden=true;render();break}
+    case 'ger-subj':gerOv(d.s);break;
+    case 'ger-pick':{const gb=gerBase(d.s,d);if(!gb)break;const C=V.gerCtx;
+      if(C&&slotOf(+C.d,+C.i,C.date)){const sl=slotOf(+C.d,+C.i,C.date),dbl=$('#tp-dbl')&&$('#tp-dbl').checked,sq=yrD().seq[C.date+'|'+C.i]||{};
+        const L=newLessonFrom(sl.s,dbl?90:45,sq.t||`${SUBJECTS[sl.s].name} ${sl.c} · ${DAYS[+C.d]} ${new Date(C.date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${dbl?' (Doppelstunde)':''}`,gb);if(sq.k&&!L.akomp)L.akomp=sq.k;V.gerCtx=null;
+        tpAssign(+C.d,+C.i,C.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
+      const L=newLessonFrom(d.s,45,'Neue Stunde',gb);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
     case 'tp-new':{const sl=slotOf(+d.d,+d.i,d.date),dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
       const sq=yrD().seq[d.date+'|'+d.i]||{},L=newLessonFrom(sl.s,dbl?90:45,sq.t||`${SUBJECTS[sl.s].name} ${sl.c} · ${DAYS[+d.d]} ${new Date(d.date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${dbl?' (Doppelstunde)':''}`);if(sq.k&&!L.akomp)L.akomp=sq.k;
       tpAssign(+d.d,+d.i,d.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
@@ -8093,6 +8474,8 @@ document.addEventListener('click',e=>{
       if(!d.t){if(V.tpR)p.tool=null}else{const nt=toolDefaults(d.t,p,L);if(V.tpR&&p.tool){if(p.tool.after)nt.after=p.tool.after;p.tool=nt}else{const xs=(p.xs||[]).filter(Boolean),sl=V.sle&&String(V.sle.i)==='x'+d.i&&(p.xs||[])[V.sle.j]||(!isGreet(p)&&xs[xs.length-1]);if(sl&&sl.sid)nt.after=sl.sid;A.push(nt);p.tk=A.length-1;p.tool=nt}}phTl(p);V.tpR=false;
       if(d.t&&(!p.method||(old&&p.method===old.name)))p.method=TOOLS[d.t].name;save();$('#ov').hidden=true;render();if(d.t==='heftlink'||d.t==='ueb')tpOpen(+d.i,d.t==='ueb'?'ueb':'heft')}break}
     case 'tp-open':tpOpen(+d.i,d.k);break;
+    case 'heft-mode':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool||p.tool.id===d.m)break;const nt=toolDefaults(d.m,p,L);if(p.tool.after)nt.after=p.tool.after;
+      if(d.m==='heft'&&p.tool.eid){const e=(TD.heft||[]).find(x=>x.id===p.tool.eid);if(e){nt.title=e.title;nt.text=e.text}}p.tool=nt;phTl(p);save();render();if(d.m==='heftlink')tpOpen(+d.i,'heft');break}
     case 'tp-set':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;
       if(p.tool.id==='ueb'&&d.ui!=null){const T=p.tool,A=ubSeq(T).slice(),q=A.findIndex(x=>x.eid===d.eid&&x.ui===+d.ui);if(q>=0)A.splice(q,1);else A.push({eid:d.eid,ui:+d.ui});T.list=A;T.eid=A[0]?A[0].eid:'';T.ui=A[0]?A[0].ui:0;save();render();tpOpen(+d.i,'ueb');break}
       p.tool.eid=d.eid;if(d.ui!=null)p.tool.ui=+d.ui;save();$('#ov').hidden=true;render();break}
@@ -8335,7 +8718,7 @@ setInterval(()=>{
 let READY_LAST=null,HB={k:'',at:0};
 setInterval(()=>{
   if(S.role==='teacher'&&CS){
-    if(CS.timer.run&&timerLeft(CS.timer)<=0){CS.timer.run=false;CS.timer.left=0;SND.bigben();pushCS();if(V.name==='tafel')render()}
+    if(CS.timer.run&&timerLeft(CS.timer)<=0){CS.timer.run=false;CS.timer.left=0;if(!wsEnd())SND.bigben();pushCS();if(V.name==='tafel')render()}
     const t=$('#ttime');if(t){const l=timerLeft(CS.timer);t.textContent=fmt(l);$('#tring').style.setProperty('--p',CS.timer.total?l/CS.timer.total:0)}
     document.querySelectorAll('#tprev .btimer').forEach(e=>e.textContent=fmt(timerLeft(CS.timer)));
   }

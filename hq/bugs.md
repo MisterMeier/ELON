@@ -60,3 +60,7 @@ gelb
 | B-32 | Hefteintrag, Übung, Hilfestation: Schrift im dunklen Modus zu dunkel | mittel | in Test | app.html .page Farb-Token |
 | B-33 | Abgelaufene Erinnerungen und Übungsaufträge blieben auf dem Schüler-Dashboard | mittel | in Test | app.html aufLive, aufRemNow |
 | B-34 | Neue Bilder (Tafel-Startbild, Freeze, Logos) erschienen nach dem Update nicht, alter Stand aus dem Zwischenspeicher; Logo fehlte auf dem Tafel-Startbild | hoch | in Test | app.html Bild-Versionen ?v=, .idle-lg |
+| B-35 | Lehrkraft arbeitet am Admin/Planung, SuS der Klasse sehen live mit (kein Testmodus) | hoch | in Test | app.html testOn, Live.start (Testklasse nur auf dem Gerät) |
+| B-36 | Im Lehrer-Schreibtisch fehlten Fächer ohne Lehrplan-Module | mittel | in Test | app.html VIEWS.tdesk, DESK_SUBJ |
+| B-37 | Werkbetrachtung: Bild im Tafel-Fenster kam nicht immer, weil der Tafel-Abgleich es nicht beachtete | niedrig | in Test | app.html boardSig (skzShow, skzGal, wechsel) |
+| B-38 | Mikrofon verweigert: nur „nicht erlaubt“ ohne Hilfe, Aufnahme klappt nicht bei allen SuS | mittel | in Test | app.html micErr, MIC_NO (Ursache am iPad: Safari-Freigabe) |
