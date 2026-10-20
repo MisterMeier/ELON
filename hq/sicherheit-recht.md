@@ -15,6 +15,7 @@ gelb
 - Marke ELONUKI prüfen (DPMAregister, TMview; Klassen 9, 41, 42) und anmelden
 
 ## In Arbeit
+- Runde 2 (20.10.): Folienbilder liegen verschlüsselt als Dateien im privaten Speicher „cmedia“ (nur Klasse liest, nur Lehrkraft schreibt); JSXGraph (MIT-Lizenz) liegt lokal, kein fremder Server; Zuschauer-iPad sendet nichts; Wechsel-Song bleibt als Verlagsmaterial auf dem Gerät
 - Markenprüfung nach recherche/anleitung-markenpruefung-elio.md
 - Supabase-SQL-Skripte prüfen und ausführen (bibliothek.sql, t39)
 

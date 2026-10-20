@@ -925,7 +925,18 @@ function taskInfo(){const T=APP.ctx.task;if(!T||!T.id)return null;const sk=APP.p
   const n=clamp(+T.n||2,1,6),done=sk.filter(isDone).length;return {T,sk,wk,n,done,open:done>=n||!!T.werk}}
 APP.progress=()=>{const ti=taskInfo();if(ti&&APP.ctx.onProgress)try{APP.ctx.onProgress({id:ti.T.id,s:ti.done,w:ti.wk.some(p=>(p.n||0)>0)?1:0})}catch(e){}};
 async function refresh(){try{APP.pages=await pagesOf(APP.ctx.owner)}catch(e){APP.pages=[];APP.err='Das Skizzenbuch kann hier nicht gespeichert werden (privates Surfen?).'}}
-async function showGallery(){APP.ed=null;revoke();await refresh();if(!APP.root)return;APP.progress();const R=APP.root;R.className='skz';R.classList.toggle('lefty',PREF.lefty);
+// Vorlage der Lehrkraft (z. B. Schuh-Umriss für Produktdesign): Zum Auftrag gibt es ein fertiges Blatt mit dem Bild auf der unteren Ebene.
+// Es wird einmal pro Auftrag angelegt und gleich geöffnet. Ist das Bild noch nicht da, versucht es das Skizzenbuch gleich nochmal.
+async function ensureVor(){const ti=taskInfo();if(!ti||!ti.T.vor||APP.vorBusy||!APP.ctx.getVor)return false;
+  if(APP.pages.some(p=>p.task&&p.task.id===ti.T.id&&p.vor))return false;APP.vorBusy=true;
+  try{const b=await APP.ctx.getVor(ti.T.vor);if(!b){clearTimeout(APP.vorT);if((APP.vorN=(APP.vorN||0)+1)<20)APP.vorT=setTimeout(()=>{if(APP.root&&!APP.ed)showGallery()},6000);return false}
+    const im=await blobImg(b),iw=im.width||1,ih=im.height||1,F=FORMAT.find(f=>f[0]===(ih>iw*1.1?'hoch':iw>ih*1.1?'quer':'quad')),w=F[2],h=F[3];
+    const lc=mkCanvas(w,h),x=ctx2(lc),k=Math.min(w/iw,h/ih)*.94;x.drawImage(im,(w-iw*k)/2,(h-ih*k)/2,iw*k,ih*k);if(im.close)im.close();
+    const id0=uid(),id1=uid(),lay=[{meta:{id:id0,name:'Vorlage',vis:true,op:1,blend:'source-over',ref:false},blob:await toBlob(lc)},{meta:{id:id1,name:'Mein Entwurf',vis:true,op:1,blend:'source-over',ref:false},blob:null}];freeCanvas(lc);
+    const page={id:'sk'+uid(),owner:APP.ctx.owner,title:String(ti.T.vname||ti.T.text||'Vorlage').slice(0,60),kind:'skizze',task:{id:ti.T.id,text:String(ti.T.text||'').slice(0,200)},vor:ti.T.vor,created:Date.now(),updated:Date.now(),w,h,bg:'#ffffff',layers:lay.map(l=>l.meta),act:id1,n:0};
+    await run(['pages','px'],'readwrite',t=>{lay.forEach(l=>{if(l.blob)t.objectStore('px').put(l.blob,page.id+'/'+l.meta.id)});t.objectStore('pages').put(page)});
+    APP.vorN=0;if(APP.root&&!APP.ed){await openEditor(page);return true}}catch(e){console.warn('vorlage',e)}finally{APP.vorBusy=false}return false}
+async function showGallery(){APP.ed=null;revoke();await refresh();if(!APP.root)return;if(await ensureVor())return;APP.progress();const R=APP.root;R.className='skz';R.classList.toggle('lefty',PREF.lefty);
   const ti=taskInfo(),f=APP.filter,L=APP.pages.filter(p=>f==='alle'||p.kind===f),elo=APP.ctx.elo;
   const card=p=>`<div class="skz-card" data-open="${p.id}" role="button" tabindex="0"><div class="th" style="background-image:url('${thumbUrl(p)}');background-color:${esc(p.bg||'#fff')}"></div><span class="skz-kind ${p.kind}">${{skizze:'Skizze',werk:'Werk',frei:'Blatt'}[p.kind]||'Blatt'}</span>
     <button class="skz-b mn" data-menu="${p.id}" aria-label="Mehr">${ico('more')}</button><div class="in"><b>${esc(p.title||'Ohne Titel')}</b><small>${new Date(p.updated).toLocaleDateString('de-DE',{day:'numeric',month:'short'})}${p.kind==='skizze'&&p.task?(isDone(p)?' · angelegt':' · noch zu wenig'):''}</small></div></div>`;
