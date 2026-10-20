@@ -1634,9 +1634,9 @@ function slotNow(){
 const hhmm=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
 function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function daysUntil(iso){return Math.round((new Date(iso+'T00:00')-new Date(todayISO()+'T00:00'))/864e5)}
-function dueLabel(iso){const d=daysUntil(iso);if(d<0)return ['late','überfällig'];if(d===0)return ['soon','heute'];if(d===1)return ['soon','morgen'];
+function dueLabel(iso){if(!iso)return ['','ohne Frist'];const d=daysUntil(iso);if(d<0)return ['late','überfällig'];if(d===0)return ['soon','heute'];if(d===1)return ['soon','morgen'];
   const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return ['',`bis ${w}, ${iso.slice(8,10)}.${iso.slice(5,7)}.`]}
-const fmtDate=iso=>`${iso.slice(8,10)}.${iso.slice(5,7)}.${iso.slice(0,4)}`;
+const fmtDate=iso=>iso?`${iso.slice(8,10)}.${iso.slice(5,7)}.${iso.slice(0,4)}`:'ohne Frist';
 
 /* ---------- Sound ---------- */
 let AC;
@@ -1865,7 +1865,7 @@ VIEWS.dash=()=>{
       return `<button class="dcell ${cls} ${s?'s-'+s:'free'}" ${s?`data-act="subject" data-s="${s}"`:''}><small>${p[0]}. · ${p[1]}</small><b>${s?esc(SUBJECTS[s].name):'frei'}</b>${cur?'<span class="dnow">jetzt</span>':''}</button>`}).join('')}</div></section>`;
   const L=lvlInfo(),planTxt=sl.kind==='lesson'?`Jetzt: ${SUBJECTS[sl.l.s].name}`:sl.next?`Als Nächstes: ${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'Deine Woche im Überblick';
   const areas=`<div class="areas">
-      <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${aufOpen().length?aufOpen().length+' Übungsauftrag'+(aufOpen().length>1?'e':'')+' offen':'Alles erledigt'}</small></button>
+      <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${aufOpen().length?aufOpen().length+' Auftr'+(aufOpen().length>1?'äge':'ag')+' offen':'Alles erledigt'}</small></button>
       <button class="area a-plan" data-act="week"><span class="ai">🗓️</span><b>Stundenplan</b><small>${esc(planTxt)}</small></button>
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
@@ -1883,7 +1883,7 @@ VIEWS.desk=()=>{
   const ks=Array.isArray(S.deskRecv)?S.deskRecv.filter(k=>SUBJECTS[k]):[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
   const days=Object.keys(S.diary||{}).length+(S.journal||[]).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch</h1>${S.av!=null?avatar(S.av,44):''}</div>
-  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]&&!(h.due&&daysUntil(h.due)<0)).length;
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
     ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}
@@ -2121,10 +2121,13 @@ function aufItems(a){return aufEntries(a).flatMap(e=>[...ubList(e).map((u,i)=>({
 function aufProg(a,pr){const ub=pr?pr.ub:Object.keys(S.ubDone||{}).filter(k=>S.ubDone[k]),mt=pr?pr.mt||{}:S.mt||{},ut=pr?pr.ut||{}:S.ubAt||{};
   const L=aufItems(a),D=L.filter(it=>it.mt?!!mt[it.e.id]:ub.includes(it.k));let last=0;D.forEach(it=>{last=Math.max(last,it.mt?+mt[it.e.id].at||0:+ut[it.k]||0)});
   return {n:L.length,d:D.length,last,done:L.length>0&&D.length===L.length}}
-const aufOpen=()=>aufAll().filter(a=>!aufProg(a).done);
+// Auftrag läuft: nicht von der Lehrkraft abgeschlossen und Frist nicht vorbei (ohne Frist läuft er bis zum Abschließen)
+const aufLive=a=>!a.closed&&(!a.due||daysUntil(a.due)>=0);
+const aufOpen=()=>aufAll().filter(a=>aufLive(a)&&!aufProg(a).done);
+const aufTyp=a=>a&&a.typ==='ha'?'🏠 Hausaufgabe':'📚 Übung';
 const hmNow=()=>{const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')};
 // Ab der Uhrzeit der Lehrkraft wird jeden Tag erinnert, bis alles erledigt ist
-const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
+const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
@@ -2158,7 +2161,7 @@ function notify(t,b){const o={body:b,icon:'assets/icon/icon-192.png',tag:'elio'}
 const notifOk=()=>'Notification' in window&&Notification.permission==='granted';
 function aufNotify(){if(S.role!=='student')return;const t=todayISO();S.remDay=S.remDay||{};S.annSeen=S.annSeen||{};let ch=0;
   aufOpen().forEach(a=>{if(S.remDay[a.id]===t||!aufRemNow(a))return;S.remDay[a.id]=t;ch=1;const p=aufProg(a);
-    if(notifOk())notify('ELIO erinnert dich',`Noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${chName(a.ch)}“, ${daysUntil(a.due)<0?'die Frist ist schon vorbei':'bis '+dayLabel(a.due)}.`)});
+    if(notifOk())notify('ELIO erinnert dich',`Noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${chName(a.ch)}“, bis ${dayLabel(a.due)}.`)});
   annAll().forEach(a=>{if(S.annSeen[a.id])return;S.annSeen[a.id]=1;ch=1;if(notifOk())notify('Nachricht von deiner Lehrkraft',a.t)});
   if(ch)save()}
 // Minitest: Antworten werden gemischt, gezählt wird der erste Versuch und der beste
@@ -2172,8 +2175,8 @@ const mtTxt=m=>m?`${m.f} von ${m.n}${m.x>1&&m.b>m.f?` · bester ${m.b}`:''}`:'';
 const mtCls=m=>!m?'':m.f/m.n>=.75?'ok':m.f/m.n>=.5?'mid':'low';
 const tsTxt=t=>t?new Date(t).toLocaleString('de-DE',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'}):'';
 function aufCard(a,full){const p=aufProg(a),[c,l]=dueLabel(a.due),es=aufEntries(a),firstOpen=es.find(e=>aufItems(a).some(it=>it.e.id===e.id&&!(it.mt?(S.mt||{})[e.id]:(S.ubDone||{})[it.k])));
-  const head=`<div class="row" style="justify-content:space-between;gap:8px"><div><span class="label">📚 Übungsauftrag · Modul ${esc(String(a.ch).split(' ')[0])}</span><h2 style="font-size:1.25rem">${esc(chName(a.ch))}</h2></div>
-    ${p.done?'<span class="chip ok">✓ alles erledigt</span>':`<span class="due ${c}">${daysUntil(a.due)<0?'überfällig':'bis '+dayLabel(a.due)}</span>`}</div>
+  const head=`<div class="row" style="justify-content:space-between;gap:8px"><div><span class="label">${aufTyp(a)} · Modul ${esc(String(a.ch).split(' ')[0])}</span><h2 style="font-size:1.25rem">${esc(chName(a.ch))}</h2></div>
+    ${p.done?'<span class="chip ok">✓ alles erledigt</span>':a.closed?'<span class="chip">abgeschlossen</span>':!a.due?'<span class="chip">ohne Frist</span>':`<span class="due ${c}">${daysUntil(a.due)<0?'Frist vorbei':'bis '+dayLabel(a.due)}</span>`}</div>
     <div class="bar"><i style="width:${p.n?Math.round(100*p.d/p.n):0}%"></i></div><small class="muted" style="font-weight:800">${p.d} von ${p.n} erledigt${a.mt?' · mit Minitest pro Unterkapitel':''}</small>`;
   if(!full)return `<button class="auf-mini ${p.done?'done':''}" data-act="homework">${head}</button>`;
   return `<section class="panel auf ${p.done?'done':''}">${head}<div class="auf-subs">${es.map(e=>{const L=aufItems(a).filter(it=>it.e.id===e.id),dn=L.filter(it=>it.mt?(S.mt||{})[e.id]:(S.ubDone||{})[it.k]).length,m=(S.mt||{})[e.id];
@@ -2184,18 +2187,19 @@ function aufCard(a,full){const p=aufProg(a),[c,l]=dueLabel(a.due),es=aufEntries(
 function annHTML(){const L=annAll();if(!L.length)return '';
   return L.map(a=>`<div class="ann">${S.role==='student'&&S.av!=null?avatar(S.av,44):'<span class="ai">📣</span>'}<div style="flex:1;min-width:0"><span class="label">📣 Von deiner Lehrkraft</span><p>${esc(a.t)}</p></div></div>`).join('')}
 function remindHTML(){const L=aufOpen().filter(aufRemNow);if(!L.length)return '';
-  return `<div class="remind">⏰ <span style="flex:1"><b>Erinnerung:</b> ${L.map(a=>{const p=aufProg(a);return `noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${esc(chName(a.ch))}“ ${daysUntil(a.due)<0?'(Frist vorbei)':'bis '+dayLabel(a.due)}`}).join(', ').replace(/\.$/,'')}.</span>${V.name==='homework'?'':'<button class="btn sm pri" data-act="homework">Los geht’s</button>'}</div>`}
+  return `<div class="remind">⏰ <span style="flex:1"><b>Erinnerung:</b> ${L.map(a=>{const p=aufProg(a);return `noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${esc(chName(a.ch))}“ bis ${dayLabel(a.due)}`}).join(', ').replace(/\.$/,'')}.</span>${V.name==='homework'?'':'<button class="btn sm pri" data-act="homework">Los geht’s</button>'}</div>`}
 function notifHTML(){if(!aufAll().length&&!annAll().length)return '';if(!('Notification' in window))return `<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Mitteilungen gehen auf dem iPad erst, wenn ELIO auf dem Home-Bildschirm liegt (Teilen → „Zum Home-Bildschirm“). Die Erinnerung hier in ELIO kommt trotzdem.</p>`;
   if(Notification.permission==='default')return `<div class="row" style="margin:-4px 0 12px"><button class="btn sm" data-act="notif-ok">🔔 Erinnerungen auf diesem Gerät erlauben</button></div>`;
   return Notification.permission==='granted'?'<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Erinnerungen sind an. Sie kommen, solange ELIO auf diesem Gerät offen ist.</p>':''}
 VIEWS.homework=()=>{
   const all=hwAll().slice().sort((a,b)=>a.due.localeCompare(b.due));
   const open=all.filter(h=>!S.hwDone[h.id]),done=all.filter(h=>S.hwDone[h.id]);
-  const A=aufAll().slice().sort((a,b)=>a.due.localeCompare(b.due)),Ao=A.filter(a=>!aufProg(a).done),Ad=A.filter(a=>aufProg(a).done);
+  const A=aufAll().slice().sort((a,b)=>(a.due||'9').localeCompare(b.due||'9')),Ao=A.filter(a=>aufLive(a)&&!aufProg(a).done),Ad=A.filter(a=>aufProg(a).done),Ax=A.filter(a=>!aufLive(a)&&!aufProg(a).done);
   return `<h1 style="margin-bottom:14px">Aufgaben</h1>${remindHTML()}${notifHTML()}
-    <span class="label">📚 Übungsaufträge · ${Ao.length} offen</span>
-    ${Ao.length?Ao.map(a=>aufCard(a,1)).join(''):`<div class="empty" style="margin:10px 0 0">${A.length?'Alle Übungsaufträge erledigt. Stark!':'Gerade kein Übungsauftrag. Deine Lehrkraft gibt die Übungen frei.'}</div>`}
-    ${Ad.length?`<details style="margin-top:18px"><summary class="label" style="cursor:pointer">✓ Erledigte Übungsaufträge · ${Ad.length}</summary>${Ad.map(a=>aufCard(a,1)).join('')}</details>`:''}
+    <span class="label">📌 Aufträge · ${Ao.length} offen</span>
+    ${Ao.length?Ao.map(a=>aufCard(a,1)).join(''):`<div class="empty" style="margin:10px 0 0">${A.length?'Alle Aufträge erledigt. Stark!':'Gerade kein Auftrag. Deine Lehrkraft gibt die Übungen frei.'}</div>`}
+    ${Ad.length?`<details style="margin-top:18px"><summary class="label" style="cursor:pointer">✓ Erledigte Aufträge · ${Ad.length}</summary>${Ad.map(a=>aufCard(a,1)).join('')}</details>`:''}
+    ${Ax.length?`<details style="margin-top:12px"><summary class="label" style="cursor:pointer">⌛ Abgelaufen oder abgeschlossen · ${Ax.length} (üben geht weiter)</summary>${Ax.map(a=>aufCard(a,1)).join('')}</details>`:''}
     <div class="free"><span class="ai">🎮</span><div style="flex:1"><b>Freies Üben</b><small class="muted" style="display:block">Lernspiele, wenn alles erledigt ist</small></div><button class="btn sm" data-act="practice">Öffnen</button></div>
     <p class="muted" style="margin-top:16px;font-size:.9rem">Übungen und Minitests hakt ELIO selbst ab.</p>`;
 };
@@ -2213,7 +2217,7 @@ function weekView(){
 VIEWS.subject=()=>{
   const k=V.s,sub=SUBJECTS[k],tab=V.tab||((k==='E'&&!V.desk)||LANDS[k]?'module':'heft');
   const entries=heftAll(k).sort(heftSort);
-  const hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+  const hws=hwAll().filter(h=>h.s===k&&!(h.due&&daysUntil(h.due)<0)).sort((a,b)=>a.due.localeCompare(b.due));// Frist vorbei: blendet sich aus
   let body='';
   const hl=tab==='heft'&&V.hl&&entries.find(e=>e.id===V.hl);
   if(tab==='heft')body=hl?`<div class="hl-ban">✍️ Schreib diesen Hefteintrag in dein Regelheft ab.</div><div class="entries">${heftPage(hl)}</div><button class="btn sm" data-act="hl-all" style="margin-top:12px">Alle Einträge zeigen</button>`:entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
@@ -6825,7 +6829,7 @@ function eloTips(B,ks){const T=[],act=ks.filter(k=>B[k]&&B[k].prog),pr=k=>B[k]&&
     if(weak.length>=2||(weak.length&&weak.length>=R.length*.3))T.push({w:weak.length*3,c:'warn',t:`${weak.length} ${weak.length===1?'Kind hängt':'Kinder hängen'} bei „${e.title}“`,d:`Im Minitest unter 60 % beim ersten Versuch.${h?' Häufiger Fehler laut Katalog: '+h:''}`,
       sug:`Vorschlag: eine Förderrunde zu „${chName(e.ch)||e.title}“${u?` mit der Übung „${u.n&&u.n!=='Übung'?u.n:AKT[u.t].name}“`:''}.`,who:nm(weak),s:e.s,ch:e.ch});
     else if(strong.length>=3&&strong.length>=R.length*.6)T.push({w:1,c:'good',t:`„${e.title}“ sitzt bei ${strong.length} Kindern`,d:'Mindestens 90 % beim ersten Minitest.',sug:'Vorschlag: für diese Kinder das Plus-Niveau anbieten.',who:nm(strong),s:e.s,ch:e.ch})});
-  aufAll().forEach(a=>{const R=act.map(k=>({k,q:aufProg(a,pr(k))}));const open=R.filter(x=>!x.q.done),none=R.filter(x=>x.q.d===0),late=daysUntil(a.due)<0;
+  aufAll().forEach(a=>{const R=act.map(k=>({k,q:aufProg(a,pr(k))}));const open=R.filter(x=>!x.q.done),none=R.filter(x=>x.q.d===0),late=!!a.due&&daysUntil(a.due)<0;
     if(late&&open.length)T.push({w:open.length*2,c:'warn',t:`${open.length} ${open.length===1?'Kind ist':'Kinder sind'} mit „${chName(a.ch)}“ noch nicht fertig`,d:`Der Übungsauftrag war fällig am ${new Date(a.due+'T12:00').toLocaleDateString('de-DE')}.`,sug:'Vorschlag: kurze Übungszeit in der nächsten Stunde oder eine Erinnerung an die Klasse.',who:nm(open.map(x=>x.k)),s:a.s,ch:a.ch});
     else if(!late&&R.length>=3&&none.length>=R.length*.5&&Date.now()-(a.at||0)>2*864e5)T.push({w:none.length,c:'info',t:`„${chName(a.ch)}“ ist bei ${none.length} Kindern noch nicht angefangen`,d:'Der Auftrag läuft seit mehr als zwei Tagen.',sug:'Vorschlag: den Auftrag in der Stunde kurz gemeinsam starten.',who:nm(none.map(x=>x.k)),s:a.s,ch:a.ch})});
   return T.sort((a,b)=>b.w-a.w).slice(0,5)}
@@ -6833,13 +6837,16 @@ function eloTipsHTML(B,ks){const T=eloTips(B,ks);
   return `<section class="panel et"><div class="et-h">${elo('think',52)}<div><h2>Elo gibt Tipps</h2><p class="muted">Aus dem Lernstand der Übungen. Keine Bewertung, keine Diagnose. Nur du siehst das.</p></div></div>
     ${T.length?T.map(x=>`<div class="et-i et-${x.c}"><b>${esc(x.t)}</b><p>${esc(x.d)}</p><p class="et-s">${esc(x.sug)}</p><div class="row" style="gap:8px;flex-wrap:wrap">${x.s&&x.ch?`<button class="btn sm" data-act="mod-open" data-s="${esc(x.s)}" data-ch="${esc(x.ch)}">Modul öffnen</button>`:''}<details><summary>Welche Kinder?</summary>${x.who.map(esc).join(', ')}</details></div></div>`).join('')
       :'<p class="et-none">Gerade gibt es nichts Auffälliges. Sobald Kinder Minitests und Übungsaufträge bearbeiten, sammelt Elo hier Hinweise.</p>'}</section>`}
-function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),N=annAll(),pr=k=>B[k]&&B[k].prog;
+function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>(b.due||'9').localeCompare(a.due||'9')),N=annAll(),pr=k=>B[k]&&B[k].prog;
   const row=a=>{const P=act.map(k=>[k,pr(k)]).filter(x=>x[1]),fin=P.filter(([,p])=>aufProg(a,p).done),mts=P.flatMap(([,p])=>Object.entries(p.mt||{}).filter(([id])=>aufEntries(a).some(e=>e.id===id)).map(([,m])=>m.f/m.n));
-    return `<div class="auf-t"><div style="flex:1;min-width:200px"><b>${esc(a.ch)}</b><small class="muted" style="display:block">bis ${fmtDate(a.due)} · Erinnerung ab ${esc(a.rem||'16:00')} Uhr${a.mt?' · mit Minitests':''}</small></div>
+    return `<div class="auf-t ${a.closed?'done':''}"><div style="flex:1;min-width:200px"><b>${aufTyp(a)}: ${esc(a.ch)}</b><small class="muted" style="display:block">${a.closed?'abgeschlossen am '+new Date(a.closed).toLocaleDateString('de-DE')+' · ':''}${a.due?'bis '+fmtDate(a.due)+(daysUntil(a.due)<0?' (Frist vorbei, bei den SuS ausgeblendet)':' · Erinnerung ab '+esc(a.rem||'16:00')+' Uhr'):'ohne Frist'}${a.mt?' · mit Minitests':''}</small></div>
       <span class="chip ${fin.length&&fin.length===P.length?'ok':''}">✓ ${fin.length} von ${act.length} fertig</span>${mts.length?`<span class="chip">🎯 Minitests im Schnitt ${Math.round(100*mts.reduce((x,y)=>x+y,0)/mts.length)} %</span>`:''}
-      <button class="btn sm" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">Modul</button><button class="btn sm red" data-act="auf-del" data-id="${esc(a.id)}">Löschen</button></div>${aufStats(a,act,pr)}`};
-  return `<section class="panel" style="margin:12px 0 16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">📚 Übungsaufträge</h2><button class="btn sm" data-act="tdesk">＋ Modul als Auftrag geben</button></div>
-    ${A.length?A.map(row).join(''):'<p class="muted" style="font-weight:700">Noch keiner. Öffne im Schreibtisch ein Modul und tippe auf „📚 Als Übungsauftrag“.</p>'}
+      <button class="btn sm" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">Modul</button><button class="btn sm ${a.closed?'':'ok'}" data-act="auf-close" data-id="${esc(a.id)}">${a.closed?'Wieder öffnen':'✓ Abschließen'}</button><button class="btn sm red" data-act="auf-del" data-id="${esc(a.id)}">Löschen</button></div>${aufStats(a,act,pr)}`};
+  const nx=V.aufNext;
+  return `<section class="panel" style="margin:12px 0 16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">📌 Aufträge</h2><button class="btn sm" data-act="tdesk">＋ Modul als Auftrag geben</button></div>
+    <p class="muted" style="font-weight:700;margin:2px 0 8px">So geht es weiter: Auftrag fertig → „✓ Abschließen“ → ELIO bietet das nächste Modul an. Nach der Frist blendet sich ein Auftrag bei den SuS von selbst aus.</p>
+    ${nx?`<div class="remind">➡️ <span style="flex:1"><b>Weiter:</b> nächstes Modul „${esc(chName(nx.ch))}“ als Auftrag geben?</span><button class="btn sm pri" data-act="auf-next">Ja, öffnen</button></div>`:''}
+    ${A.length?A.filter(a=>!a.closed).concat(A.filter(a=>a.closed)).map(row).join(''):'<p class="muted" style="font-weight:700">Noch keiner. Öffne im Schreibtisch ein Modul und tippe auf „📌 Als Auftrag geben“.</p>'}
     <h2 style="font-size:1.15rem;margin-top:16px">📣 Erinnerung an die Klasse</h2><p class="muted" style="font-weight:700;margin:2px 0 8px">Steht ganz oben auf dem Dashboard der SuS, der Avatar liest sie auf Wunsch vor.</p>
     <div class="row" style="gap:8px;align-items:flex-end"><input id="ann-t" type="text" maxlength="300" placeholder="z. B. Denkt morgen an Geodreieck und Zirkel!" style="flex:1;min-width:220px"><label style="display:flex;flex-direction:column;font-weight:800;font-size:.85rem;gap:4px">zeigen bis<input id="ann-u" type="date" value="${new Date(Date.now()+864e5).toISOString().slice(0,10)}"></label><button class="btn pri" data-act="ann-add">Senden</button></div>${CLOUD?`<label style="display:flex;gap:8px;align-items:center;font-weight:700;margin-top:6px"><input type="checkbox" id="ann-p" checked> Am Abend vorher um 18 Uhr aufs iPad erinnern (ohne Text, nur „Denk an deine Erinnerung“)</label>`:''}
     ${N.map(a=>`<div class="auf-t"><span style="flex:1">📣 ${esc(a.t)} <small class="muted">· bis ${fmtDate(a.until)}${a.pAt?' · Push '+new Date(a.pAt).toLocaleString('de-DE',{weekday:'short',hour:'2-digit',minute:'2-digit'}):''}</small></span><button class="btn sm red" data-act="ann-del" data-id="${esc(a.id)}">Entfernen</button></div>`).join('')}</section>`}
@@ -6854,9 +6861,9 @@ function susTab(k,tab){const P=susP(k,false)||{chat:[],abg:{}};if((tab==='chat'&
   const pr=P.prog;if(!pr)return '<div class="empty">Noch kein Lernstand. Er kommt, sobald das Kind auf seinem iPad übt.</div>';
   const es=tHeft('M').concat(tHeft().filter(e=>e.s!=='M')).filter(e=>e.pub!==false&&(ubList(e).length||(e.hx||[]).length)).sort(heftSort),hw=hwAll();
   const chs=[...new Set(es.map(e=>e.ch||'Ohne Kapitel'))];
-  const AU=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),ut=pr.ut||{},mt=pr.mt||{};
-  const auf=AU.length?`<h3 style="margin:14px 0 6px">📚 Übungsaufträge</h3><table class="st-t"><tbody>${AU.map(a=>{const q=aufProg(a,pr),late=!q.done&&daysUntil(a.due)<0,fin=q.done&&q.last;
-    return `<tr><td><b>${esc(a.ch)}</b><br><small class="muted">bis ${fmtDate(a.due)}</small></td><td><span class="bar sm"><i style="width:${q.n?Math.round(100*q.d/q.n):0}%"></i></span> ${q.d}/${q.n}</td><td>${q.done?`<span class="chip ok">✓ fertig ${esc(tsTxt(fin))}</span>${fin&&new Date(fin).toISOString().slice(0,10)>a.due?' <small class="err">nach der Frist</small>':''}`:late?'<span class="err" style="font-weight:800">überfällig</span>':q.last?`<small class="muted">zuletzt ${esc(tsTxt(q.last))}</small>`:'<small class="muted">noch nicht angefangen</small>'}</td></tr>`}).join('')}</tbody></table>`:'';
+  const AU=aufAll().slice().sort((a,b)=>(b.due||'9').localeCompare(a.due||'9')),ut=pr.ut||{},mt=pr.mt||{};
+  const auf=AU.length?`<h3 style="margin:14px 0 6px">📌 Aufträge</h3><table class="st-t"><tbody>${AU.map(a=>{const q=aufProg(a,pr),late=!q.done&&!!a.due&&daysUntil(a.due)<0,fin=q.done&&q.last;
+    return `<tr><td><b>${esc(a.ch)}</b><br><small class="muted">bis ${fmtDate(a.due)}</small></td><td><span class="bar sm"><i style="width:${q.n?Math.round(100*q.d/q.n):0}%"></i></span> ${q.d}/${q.n}</td><td>${q.done?`<span class="chip ok">✓ fertig ${esc(tsTxt(fin))}</span>${fin&&a.due&&new Date(fin).toISOString().slice(0,10)>a.due?' <small class="err">nach der Frist</small>':''}`:late?'<span class="err" style="font-weight:800">überfällig</span>':q.last?`<small class="muted">zuletzt ${esc(tsTxt(q.last))}</small>`:'<small class="muted">noch nicht angefangen</small>'}</td></tr>`}).join('')}</tbody></table>`:'';
   return `<section class="panel"><div class="row" style="gap:10px;flex-wrap:wrap"><span class="chip">⭐ ${pr.st} Stern${pr.st===1?'':'e'}</span><span class="chip">💪 ${pr.fl} Fleißpunkte</span><span class="chip">✏️ ${pr.ub.length} Übungen</span><span class="chip">✍️ ${pr.hx.length} Heftaufgaben</span><span class="chip">📌 ${hw.filter(h=>pr.hw.includes(h.id)).length} von ${hw.length} Hausaufgaben</span><small class="muted">Stand ${new Date(pr.at).toLocaleString('de-DE',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</small></div>
     ${auf}${chs.map(ch=>{const L=es.filter(e=>(e.ch||'Ohne Kapitel')===ch),sm=mt[stId(L[0].s,ch)];return `<h3 style="margin:14px 0 6px">${esc(ch)}${sm?` <span class="mtr ${mtCls(sm)}" style="font-size:.85rem">🎓 Selbsttest ${mtTxt(sm)}</span>`:''}</h3><table class="st-t"><tbody>${L.map(e=>{const U=ubList(e),H=e.hx||[],u=U.filter((_,i)=>pr.ub.includes(e.id+'#'+i)).length,x=H.filter((_,j)=>pr.hx.includes(e.id+'#'+j)).length;
       const t=Math.max(0,...U.map((_,i)=>+ut[e.id+'#'+i]||0)),m=mt[e.id];
@@ -7007,14 +7014,14 @@ function modList(k){const T=S.role==='teacher';
 function subExtras(e,T){const op=V.op||{},hk='h-'+e.id,done=S.ubDone&&S.ubDone[e.id];
   if(!e.help&&!ubList(e).length)return '';
   return `<div class="sub-btns">${e.help?`<button class="btn sm ${op[hk]?'on':''}" data-act="mx-tog" data-k="${hk}">⚠️ Typische Fehler & Hilfen</button>`:''}${ubList(e).length?`<button class="btn sm pri" data-act="ub-go" data-id="${e.id}">✏️ Üben${done?' ✓':''}</button>`:''}
-    ${T&&ubList(e).length?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}">📺 An der Tafel</button><button class="btn sm ${V.hwf===e.id+'#0'?'on':''}" data-act="hw-form" data-id="${e.id}">📌 Als Hausaufgabe</button>`:''}</div>
-    ${T&&V.hwf===e.id+'#0'?`<div class="hw-form"><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label><label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label><button class="btn ok" data-act="hw-add" data-id="${e.id}">Hausaufgabe stellen</button></div>`:''}
+    ${T&&ubList(e).length?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}">📺 An der Tafel</button><button class="btn sm ${V.hwf===e.id+'#0'?'on':''}" data-act="hw-form" data-id="${e.id}">📌 Als Auftrag</button>`:''}</div>
+    ${T&&V.hwf===e.id+'#0'?`<div class="hw-form"><label>Art<select id="hw-typ"><option value="ha">🏠 Hausaufgabe</option><option value="ueb">📚 Übung</option></select></label><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label><label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label><button class="btn ok" data-act="hw-add" data-id="${e.id}">Auftrag geben</button></div>`:''}
     ${op[hk]?`<div class="helpbox"><b class="l">⚠️ Typische Fehler & Hilfen</b>${heftBody(heftBlocks(e.help))}</div>`:''}`}
 function aufForm(k,ch,es){const hasMt=es.some(e=>e.mt),ex=aufAll().filter(a=>a.ch===ch&&a.s===k);
-  return `<section class="panel auf-f"><h2 style="font-size:1.15rem">📚 Übungsauftrag für ${esc(className())}</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Die SuS sehen unter „Aufgaben“ alle Übungen dieses Moduls${hasMt?' und pro Unterkapitel einen kurzen Minitest':''}. Das Modul wird dabei freigegeben. Ab der Uhrzeit erinnert ELIO jeden Tag, bis alles erledigt ist.</p>
-    <div class="row" style="gap:12px;align-items:flex-end"><label>Erledigt bis<input id="auf-due" type="date" value="${new Date(Date.now()+7*864e5).toISOString().slice(0,10)}"></label><label>Erinnern ab<input id="auf-rem" type="time" value="16:00"></label>
+  return `<section class="panel auf-f"><h2 style="font-size:1.15rem">📌 Auftrag für ${esc(className())}</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Die SuS sehen unter „Aufgaben“ alle Übungen dieses Moduls${hasMt?' und pro Unterkapitel einen kurzen Minitest':''}. Das Modul wird dabei freigegeben. Mit Frist erinnert ELIO ab der Uhrzeit jeden Tag; nach der Frist verschwindet der Auftrag bei den SuS. Fertig? Unter Klassen → Schüler/innen auf „Abschließen“ tippen.</p>
+    <div class="row" style="gap:12px;align-items:flex-end"><label>Art<select id="auf-typ"><option value="ueb">📚 Übung</option><option value="ha">🏠 Hausaufgabe</option></select></label><label>Erledigt bis (leer = ohne Frist)<input id="auf-due" type="date" value="${new Date(Date.now()+7*864e5).toISOString().slice(0,10)}"></label><label>Erinnern ab<input id="auf-rem" type="time" value="16:00"></label>
     ${hasMt?'<label class="row" style="gap:6px;font-weight:800"><input id="auf-mt" type="checkbox" checked> Minitest pro Unterkapitel</label>':''}<button class="btn ok" data-act="auf-add" data-s="${k}" data-ch="${esc(ch)}">Auftrag geben</button></div>
-    ${ex.length?`<p class="muted" style="margin-top:8px;font-size:.9rem">Schon gestellt: ${ex.map(a=>'bis '+fmtDate(a.due)).join(', ')}. Ein neuer Auftrag kommt dazu.</p>`:''}</section>`}
+    ${ex.length?`<p class="muted" style="margin-top:8px;font-size:.9rem">Schon gestellt: ${ex.map(a=>a.due?'bis '+fmtDate(a.due):'ohne Frist').join(', ')}. Ein neuer Auftrag kommt dazu.</p>`:''}</section>`}
 VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=modX(ch),op=V.op||{};
   const m=modChs(k).find(x=>x.ch===ch)||{},pts=Object.entries(S.fleiss||{}).filter(([q])=>q.startsWith(ch+'#')).reduce((a,[,p])=>a+p,0);
   // Pro Unterkapitel drei Boxen: Hefteintrag, Übungen, Hilfestation. Es ist immer nur eine offen.
@@ -7022,13 +7029,13 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
   const sub=e=>{const pk='p-'+e.id,cur=(V.box||{})[e.id],c=S.ubDone&&S.ubDone[e.id],nU=ubList(e).length,nH=(e.hx||[]).length,box=(b,ic,l,sm)=>`<button class="sbox ${cur===b?'on':''}" data-act="sbox" data-id="${e.id}" data-b="${b}"><span class="si">${ic}</span><b>${l}</b><small>${sm}</small></button>`;
     let body='';
     if(cur==='heft')body=`<div class="sb-pane">${heftBody(e.blocks)}</div>`;
-    if(cur==='ub'){const L=ubList(e),H=e.hx||[],hwf=(i,dig)=>T&&V.hwf===e.id+'#'+i?`<div class="hw-form"><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label>${dig?`<label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label>`:''}<button class="btn ok" data-act="hw-add" data-id="${e.id}" data-i="${i}">Hausaufgabe stellen</button></div>`:'';
+    if(cur==='ub'){const L=ubList(e),H=e.hx||[],hwf=(i,dig)=>T&&V.hwf===e.id+'#'+i?`<div class="hw-form"><label>Art<select id="hw-typ"><option value="ha">🏠 Hausaufgabe</option><option value="ueb">📚 Übung</option></select></label><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label>${dig?`<label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label>`:''}<button class="btn ok" data-act="hw-add" data-id="${e.id}" data-i="${i}">Auftrag geben</button></div>`:'';
       const row=(u,i)=>{const A=AKT[u.t],ok=S.ubDone&&(S.ubDone[e.id+'#'+i]||(i===0&&S.ubDone[e.id]&&!L.slice(1).some((_,j)=>S.ubDone[e.id+'#'+(j+1)])));let n='';try{n=A.count(A.parse(u.x))}catch(_){}
         return `<div class="ub-item"><div class="ub-row"><span class="si">${A.icon}</span><div style="flex:1;min-width:0"><b>${esc(u.n&&u.n!=='Übung'?u.n:A.name)}</b><small class="muted" style="display:block">${esc(A.name)}${n?' · '+esc(n):''} ${T?kChips(u.k):''}</small></div>${ok?'<span class="chip ok">✓</span>':''}</div>
-        <div class="sub-btns"><button class="btn sm pri" data-act="ub-go" data-id="${e.id}" data-i="${i}">▶ Üben</button>${T?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}" data-i="${i}">📺 Tafel</button><button class="btn sm ${V.hwf===e.id+'#'+i?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="${i}">📌 HA</button>`:''}</div>${hwf(i,1)}</div>`};
+        <div class="sub-btns"><button class="btn sm pri" data-act="ub-go" data-id="${e.id}" data-i="${i}">▶ Üben</button>${T?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}" data-i="${i}">📺 Tafel</button><button class="btn sm ${V.hwf===e.id+'#'+i?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="${i}">📌 Auftrag</button>`:''}</div>${hwf(i,1)}</div>`};
       const st=l=>'★'.repeat(l)+'<span class="off">'+'★'.repeat(3-l)+'</span>';
       body=`<div class="sb-pane">${T?kCover(e):''}${L.length?`<span class="label">🎮 Interaktiv · ${L.length}</span><div class="ub-list">${L.map(row).join('')}</div>`:'<p class="muted">Interaktive Übungen kommen noch.</p>'}${e.mt?`<div class="ub-item"><div class="ub-row"><span class="si">🎯</span><div style="flex:1;min-width:0"><b>Minitest</b><small class="muted" style="display:block">${AKT.mc.parse(e.mt).qs.length} Fragen zum Abschluss${T?' · Ergebnis kommt in den Lernstand':''}</small></div>${!T&&(S.mt||{})[e.id]?`<span class="mtr ${mtCls(S.mt[e.id])}">${mtTxt(S.mt[e.id])}</span>`:''}</div><div class="sub-btns"><button class="btn sm pri" data-act="mt-go" data-id="${e.id}">▶ ${T?'Ansehen':'Starten'}</button></div></div>`:''}
-      ${H.length?`<div class="hx"><div class="row" style="justify-content:space-between;gap:6px"><span class="label">✍️ Fürs Übungsheft · ${H.length} Aufgaben</span>${T?`<button class="btn sm ${V.hwf===e.id+'#hx'?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="hx">📌 Als HA (von Hand)</button>`:''}</div>${hwf('hx',0)}
+      ${H.length?`<div class="hx"><div class="row" style="justify-content:space-between;gap:6px"><span class="label">✍️ Fürs Übungsheft · ${H.length} Aufgaben</span>${T?`<button class="btn sm ${V.hwf===e.id+'#hx'?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="hx">📌 Als Auftrag (von Hand)</button>`:''}</div>${hwf('hx',0)}
         <p class="muted" style="font-size:.85rem;margin:2px 0 6px">Schreib Datum und Aufgabe ab, rechne im Heft. Erst danach die Lösung aufdecken.</p>
         <ol class="hx-list">${H.map((h,j)=>{const lk='hx-'+e.id+'-'+j,hk=e.id+'#'+j,dn=S.hxDone&&S.hxDone[hk];return `<li class="${dn?'dn':''}"><div class="hx-q"><span class="hxl" title="Stufe ${h.l}">${st(h.l)}</span>${T?kChips(h.k):''} ${esc(h.q)} ${T?'':rdBtn(null,h.q)}</div>
           <div class="sub-btns"><button class="btn sm ${op[lk]?'on':''}" data-act="mx-tog" data-k="${lk}">${op[lk]?'Lösung verbergen':'👀 Lösung zeigen'}</button>${T?'':`<button class="btn sm ${dn?'ok':''}" data-act="hx-ok" data-k="${hk}">${dn?'✓ gerechnet':'Im Heft gerechnet'}</button>`}</div>
@@ -7037,7 +7044,7 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
     if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo-hilfe.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
     return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
       <div class="sboxes">${box('heft','<img class="si-owl" src="assets/elo/elo-heft.png" alt="">','Hefteintrag','zum Abschreiben')}${box('ub','<img class="si-owl" src="assets/elo/elo-uebung.png" alt="">','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo-hilfe.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
-  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📌 Als Auftrag geben</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
   <div style="display:grid;gap:16px;align-content:start">
@@ -7784,10 +7791,14 @@ document.addEventListener('click',e=>{
     case 'sub-on':case 'sub-off':{const on=d.act==='sub-on',x=(TD.heft||[]).find(y=>y.id===d.id&&(!y.cls||y.cls===S.cls));if(!x)break;if(on&&x.pub===false)x.date=todayISO();x.pub=on;tsave();if(!CS)initTeacher();pushCS();V.msg=on?'„'+x.title+'“ ist freigegeben.':'„'+x.title+'“ ist zurückgenommen.';render();break}
     case 'mod-on':case 'mod-off':{const on=d.act==='mod-on';(TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)){if(on&&x.pub===false)x.date=todayISO();x.pub=on}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
     case 'auf-form':V.auff=!V.auff;render();break;
-    case 'auf-add':{const due=($('#auf-due')||{}).value||todayISO(),rem=/^\d\d:\d\d$/.test(($('#auf-rem')||{}).value||'')?$('#auf-rem').value:'16:00',mt=!!(($('#auf-mt')||{}).checked);
+    case 'auf-add':{const due=($('#auf-due')||{}).value||'',typ=($('#auf-typ')||{}).value==='ha'?'ha':'ueb',rem=/^\d\d:\d\d$/.test(($('#auf-rem')||{}).value||'')?$('#auf-rem').value:'16:00',mt=!!(($('#auf-mt')||{}).checked);
       (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)&&x.pub===false){x.date=todayISO();x.pub=true}});
-      TD.auf=TD.auf||[];TD.auf.push({id:'au'+Date.now().toString(36),cls:S.cls,s:d.s,ch:d.ch,due,rem,mt:mt?1:0,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.auff=false;
-      V.msg='Übungsauftrag „'+chName(d.ch)+'“ ist bei den SuS, erledigt bis '+fmtDate(due)+', Erinnerung ab '+rem+' Uhr. Den Stand pro Kind siehst du unter Klassen → Schüler/innen.';render();break}
+      TD.auf=TD.auf||[];TD.auf.push({id:'au'+Date.now().toString(36),cls:S.cls,s:d.s,ch:d.ch,due,rem,mt:mt?1:0,typ,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.auff=false;
+      V.msg='Auftrag „'+chName(d.ch)+'“ ist bei den SuS'+(due?', erledigt bis '+fmtDate(due)+', Erinnerung ab '+rem+' Uhr':', ohne Frist')+'. Den Stand pro Kind und „Abschließen“ findest du unter Klassen → Schüler/innen.';render();break}
+    // Abschließen: verschwindet bei den SuS aus den offenen Aufträgen; danach direkt das nächste Modul anbieten
+    case 'auf-close':{const a=(TD.auf||[]).find(x=>x.id===d.id);if(!a)break;a.closed=a.closed?0:Date.now();tsave();if(CS)pushCS();
+      const L=modChs(a.s).map(x=>x.ch),nx=a.closed?L[L.indexOf(a.ch)+1]:null;V.aufNext=nx?{s:a.s,ch:nx}:null;render();break}
+    case 'auf-next':{const n=V.aufNext;if(!n)break;V.aufNext=null;go('mod',{s:n.s,ch:n.ch,auff:true,back:{name:V.name,s:V.s}});break}
     case 'auf-del':TD.auf=(TD.auf||[]).filter(a=>a.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'push-keys':pushKeyGen();break;
     case 'ann-add':{const t=(($('#ann-t')||{}).value||'').trim().slice(0,300),u=($('#ann-u')||{}).value||todayISO();if(!t)break;TD.ann=(TD.ann||[]).filter(a=>a.until>=todayISO());const A={id:'an'+Date.now().toString(36),cls:S.cls,t,until:u,at:Date.now()};TD.ann.push(A);tsave();if(!CS)initTeacher();pushCS();const pj=($('#ann-p')||{}).checked?pushPlan(A):null;V.msg='Erinnerung ist auf dem Dashboard der SuS.'+(pj?' Push-Erinnerung: '+pj+'.':'');render();break}
@@ -7799,8 +7810,8 @@ document.addEventListener('click',e=>{
     case 'hw-form':{const k=d.id+'#'+(d.i||0);V.hwf=V.hwf===k?null:k;render();break}
     case 'hw-add':{const x=ubFind(d.id);if(!x)break;const due=($('#hw-due')||{}).value||todayISO(),hx=d.i==='hx';let mode=hx?'hand':($('#hw-mode')||{}).value||'digital';TD.hw=TD.hw||[];
       const i=hx?null:+d.i||0,u=hx?null:ubList(x)[i],nm=u&&u.n&&u.n!=='Übung'?u.n+' zu „'+x.title+'“':'Übung „'+x.title+'“',hn=(x.hx||[]).length;
-      TD.hw.push({id:'hw'+Date.now().toString(36),cls:S.cls,s:x.s,due,eid:x.id,i,mode,task:hx?'Übungsheft: Aufgaben 1 bis '+hn+' zu „'+x.title+'“ von Hand rechnen. Die Aufgaben stehen in ELIO unter Übungen.':mode==='hand'?nm+' von Hand ins Heft rechnen. Wir besprechen sie in der Stunde.':nm+' digital in ELIO lösen.'});
-      tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Hausaufgabe gestellt: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
+      TD.hw.push({id:'hw'+Date.now().toString(36),cls:S.cls,s:x.s,due,eid:x.id,i,mode,typ:($('#hw-typ')||{}).value==='ueb'?'ueb':'ha',task:hx?'Übungsheft: Aufgaben 1 bis '+hn+' zu „'+x.title+'“ von Hand rechnen. Die Aufgaben stehen in ELIO unter Übungen.':mode==='hand'?nm+' von Hand ins Heft rechnen. Wir besprechen sie in der Stunde.':nm+' digital in ELIO lösen.'});
+      tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Auftrag gegeben: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
     case 'hw-del':TD.hw=(TD.hw||[]).filter(h=>h.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'hx-ok':S.hxDone=S.hxDone||{};S.hxDone[d.k]=S.hxDone[d.k]?0:1;if(S.hxDone[d.k])SND.right();save();progTick();render();break;
     case 't-lotsen':if(CS){CS.lotsen=d.n==='0'?[0]:d.n!=null?[]:kidsFrom(($('#t-lotsen')||{}).value||'');pushCS();render()}break;
