@@ -1881,7 +1881,7 @@ VIEWS.dash=()=>{
 const DESK=['M','E','D'];
 // Ordner pro Klasse freigeben: TD.deskV[Klasse][Fach]=true/false. Ohne Einstellung sind Mathe, Englisch, Deutsch sichtbar
 // und jedes Fach, in dem es freigegebene Einträge genau dieser Klasse gibt. Ein ausgeblendeter Ordner geht gar nicht erst an die iPads.
-function deskOn(k,c){c=c||S.cls||'-';const v=((TD&&TD.deskV||{})[c]||{})[k];if(typeof v==='boolean')return v;return DESK.includes(k)||((TD&&TD.heft)||[]).some(e=>e.s===k&&e.cls===c&&e.pub!==false)}
+function deskOn(k,c){c=c||S.cls||'-';const v=((TD&&TD.deskV||{})[c]||{})[k];if(typeof v==='boolean')return v;return DESK.includes(k)||((TD&&TD.heft)||[]).some(e=>e.s===k&&e.cls===c&&isPub(e))}
 const deskList=()=>Object.keys(SUBJECTS).filter(k=>deskOn(k));
 VIEWS.desk=()=>{
   const ks=Array.isArray(S.deskRecv)?S.deskRecv.filter(k=>SUBJECTS[k]):[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
@@ -2120,7 +2120,7 @@ const aufAll=()=>S.role==='teacher'?(TD.auf||[]).filter(a=>a.cls===S.cls):(Array
 const annAll=()=>(S.role==='teacher'?(TD.ann||[]).filter(a=>a.cls===S.cls):(Array.isArray(S.annRecv)?S.annRecv:[])).filter(a=>a&&a.until>=todayISO());
 const chName=ch=>String(ch||'').replace(/^\d+\s*/,'');
 // Alles, was zu einem Auftrag gehört: jede interaktive Übung jedes freigegebenen Unterkapitels, dazu ein Minitest pro Unterkapitel
-function aufEntries(a){return modEntries(a.s,a.ch).filter(e=>e.pub!==false)}
+function aufEntries(a){return modEntries(a.s,a.ch).filter(e=>isPub(e))}
 function aufItems(a){return aufEntries(a).flatMap(e=>[...ubList(e).map((u,i)=>({e,i,k:e.id+'#'+i})),...(a.mt&&e.mt?[{e,mt:1,k:'mt:'+e.id}]:[])])}
 // Fortschritt aus Sicht des iPads (ohne pr) oder aus dem Lernstand, den die Lehrkraft bekommt (pr)
 function aufProg(a,pr){const ub=pr?pr.ub:Object.keys(S.ubDone||{}).filter(k=>S.ubDone[k]),mt=pr?pr.mt||{}:S.mt||{},ut=pr?pr.ut||{}:S.ubAt||{};
@@ -3820,7 +3820,7 @@ function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='corners4'){CS.poll={id:'p'+Date.now(),type:'corners',q:T.q||'Wie gut kannst du es schon?',opts:lines(T.opts||C4_OPTS).slice(0,4).map((o,k)=>`Ecke ${k+1}: ${o}`),voted:[]};TALLY={}}
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
   if(T.id==='vw'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0};CS.phase.look=true}else CS.vw=null;
-  if(T.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===T.eid);if(e&&e.pub===false){e.pub=true;tsave()}if(!p.noipad){CS.phase.go='heft:'+L.subject+(e?':'+e.id:'');CS.phase.look=false}}
+  if(T.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===T.eid);if(e&&!isPub(e)){setPub(e,true);tsave()}if(!p.noipad){CS.phase.go='heft:'+L.subject+(e?':'+e.id:'');CS.phase.look=false}}
   if(T.id==='ueb')uebGame(L,i);
   if(p.noipad&&TOOL_IPAD[T.id]){CS.ready=null;CS.game=null;CS.phase.go=null;CS.phase.look=true}
 }
@@ -6396,7 +6396,7 @@ VIEWS['kl-cards']=()=>{
     <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
-const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false&&deskOn(e.s)).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
+const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&isPub(e)&&deskOn(e.s)).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
 const HEFT_V=7;
@@ -6864,7 +6864,7 @@ function susTab(k,tab){const P=susP(k,false)||{chat:[],abg:{}};if((tab==='chat'&
       ${A.t?`<p style="white-space:pre-wrap">${esc(A.t)}</p>`:''}${A.img&&IMGRE.test(A.img)?`<a href="${A.img}" target="_blank" rel="noopener"><img class="abg-img" src="${A.img}" alt="Foto der Abgabe"></a>`:''}
       <div class="row" style="gap:6px">${A.ok?'<span class="chip ok">✓ angeschaut</span>':`<input id="abg-c-${esc(hw)}" type="text" maxlength="600" placeholder="Rückmeldung (optional)" style="flex:1;min-width:160px"><button class="btn sm ok" data-act="abg-ok" data-id="${esc(hw)}">✓ Angeschaut</button>`}</div></div>`).join('')||'<div class="empty">Noch keine Abgaben.</div>'}</section>`}
   const pr=P.prog;if(!pr)return '<div class="empty">Noch kein Lernstand. Er kommt, sobald das Kind auf seinem iPad übt.</div>';
-  const es=tHeft('M').concat(tHeft().filter(e=>e.s!=='M')).filter(e=>e.pub!==false&&(ubList(e).length||(e.hx||[]).length)).sort(heftSort),hw=hwAll();
+  const es=tHeft('M').concat(tHeft().filter(e=>e.s!=='M')).filter(e=>isPub(e)&&(ubList(e).length||(e.hx||[]).length)).sort(heftSort),hw=hwAll();
   const chs=[...new Set(es.map(e=>e.ch||'Ohne Kapitel'))];
   const AU=aufAll().slice().sort((a,b)=>(b.due||'9').localeCompare(a.due||'9')),ut=pr.ut||{},mt=pr.mt||{};
   const auf=AU.length?`<h3 style="margin:14px 0 6px">📌 Aufträge</h3><table class="st-t"><tbody>${AU.map(a=>{const q=aufProg(a,pr),late=!q.done&&!!a.due&&daysUntil(a.due)<0,fin=q.done&&q.last;
@@ -6982,6 +6982,9 @@ const kChips=k=>Array.isArray(k)&&k.length?`<span class="kcs">${k.filter(n=>KOMP
 function kCover(e){const c=new Set([...ubList(e),...(e.hx||[])].flatMap(x=>x.k||[]));if(!c.size)return '';const miss=[1,2,3,4,5,6].filter(n=>!c.has(n));
   return `<div class="kcov"><span class="label">Kompetenzen</span>${[1,2,3,4,5,6].map(n=>`<span class="kc k${n} ${c.has(n)?'':'off'}" title="K${n} ${KOMP[n]}${c.has(n)?'':' · fehlt noch'}">K${n}</span>`).join('')}<small class="muted">${miss.length?'Fehlt: '+miss.map(n=>KOMP[n]).join(', '):'alle sechs abgedeckt'}</small></div>`}
 /* ---------- Module: Jahresplan-Kapitel mit Unterkapiteln, Hilfestation und Fleiß-Station ---------- */
+// Freigabe pro Klasse: Einträge ohne eigene Klasse (z. B. aus dem Jahresplan) merken sich die Freigabe je Klasse in pubC; ohne Eintrag gilt pub wie bisher
+const isPub=(e,c)=>{c=c||S.cls||'-';return e.cls||!e.pubC||!(c in e.pubC)?e.pub!==false:!!e.pubC[c]};
+function setPub(e,on,c){c=c||S.cls||'-';if(e.cls)e.pub=!!on;else{e.pubC=e.pubC||{};e.pubC[c]=!!on;if(on)e.pub=true}}
 const tHeft=k=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&(!k||e.s===k));
 function hwAll(){if(S.role==='teacher')return (TD.hw||[]).filter(h=>h.cls===S.cls);return Array.isArray(S.hwRecv)&&S.hwRecv.length?S.hwRecv:HOMEWORK}
 function ubFind(id){return S.role==='teacher'?(TD.heft||[]).find(e=>e.id===id):(S.heftRecv||[]).find(e=>e.id===id)}
@@ -6991,7 +6994,7 @@ function ubDoneMark(id,i){if(S.role!=='student')return;i=+i||0;S.ubDone=S.ubDone
   hwAll().filter(h=>h.eid===id&&(h.i==null||+h.i===i)&&h.mode!=='hand'&&!S.hwDone[h.id]).forEach(h=>{S.hwDone[h.id]=1;earnOnce('hw_'+h.id)});save();progTick()}
 // Kapitel eines Fachs in Jahresplan-Reihenfolge; on = mindestens ein Unterkapitel bei den SuS
 function modChs(k){if(S.role==='teacher'){const es=tHeft(k).filter(e=>e.ch).sort(heftSort),chs=[...new Set(es.map(e=>e.ch))];
-    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>e.pub!==false).length;return {ch,n:x.length,p:n,on:n>0,all:n===x.length}})}
+    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>isPub(e)).length;return {ch,n:x.length,p:n,on:n>0,all:n===x.length}})}
   if(Array.isArray(S.modsRecv))return S.modsRecv.filter(m=>m.s===k);
   return [...new Set(heftAll(k).filter(e=>e.ch).sort(heftSort).map(e=>e.ch))].map(ch=>({ch,on:true}))}
 function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch&&deskOn(e.s)).map(e=>e.s))];CS.mods=[];CS.modx={};CS.desk=deskList();
@@ -7047,7 +7050,12 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
           ${op[lk]?`<div class="hx-a">✓ ${esc(h.a)}</div>`:''}</li>`}).join('')}</ol></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`}
     if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo-hilfe.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
-    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
+    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(!isPub(e)?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`)+`<button class="btn sm ${V.subEd===e.id?'on':''}" data-act="sub-ed" data-id="${esc(e.id)}">✏️ Bearbeiten</button>`:c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
+      ${T&&V.subEd===e.id?`<div class="panel sub-ed" style="margin:8px 0"><input type="hidden" id="hf-s" value="${esc(e.s)}"><label class="label" style="display:block">Titel<input id="hf-t" type="text" maxlength="80" value="${esc(e.title)}"></label>
+        <label class="label" style="display:block;margin-top:8px">Hefteintrag<textarea id="hf-x" rows="9">${esc(e.text||'')}</textarea></label>
+        <div class="row" style="gap:8px;margin-top:6px"><button class="btn sm" type="button" data-act="hf-img">🖼️ Bild hochladen</button><input type="file" id="hf-file" accept="image/*" hidden><small class="muted" style="font-weight:700">Das Bild kommt an die Cursor-Stelle.</small></div>
+        <label class="label" style="display:block;margin-top:8px">Hilfestation (typische Fehler)<textarea id="hf-h" rows="3">${esc(e.help||'')}</textarea></label>
+        <p class="err" id="hf-err"></p><div class="row" style="gap:8px"><button class="btn pri" data-act="sub-save" data-id="${esc(e.id)}">Speichern</button><button class="btn" data-act="sub-ed" data-id="${esc(e.id)}">Abbrechen</button><small class="muted" style="font-weight:700">${isPub(e)?'Die SuS sehen die Änderung sofort.':'Noch nicht freigegeben.'}</small></div></div>`:''}
       <div class="sboxes">${box('heft','<img class="si-owl" src="assets/elo/elo-heft.png" alt="">','Hefteintrag','zum Abschreiben')}${box('ub','<img class="si-owl" src="assets/elo/elo-uebung.png" alt="">','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo-hilfe.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📌 Als Auftrag geben</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
@@ -7154,18 +7162,17 @@ function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad
 document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')return;e.preventDefault();if(VQ.res)vokNext();else{const i=$('#vk-a');vokCheck(i?i.value:'')}});
 VIEWS.tdesk=()=>{const ks=[...new Set([...Object.keys(PLANS),...tHeft().map(e=>e.s)])].filter(k=>SUBJECTS[k]);
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
-  <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
+  <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>isPub(e)).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
     return `<button class="folder s-${k}${deskOn(k)?'':' f-off'}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}<small class="f-vis">${deskOn(k)?'👁 Für diese Klasse sichtbar':'🚫 Für diese Klasse ausgeblendet'}</small></span></button>`}).join('')}
     <button class="folder" data-act="theft"><span class="tab"></span><span class="fbody"><b>+ Neuer Eintrag</b><small>Hefteintrag für ein Fach schreiben</small></span></button></div>`};
-VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>isPub(e)).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
-  ${deskVisHTML(k)}
-  <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
+  ${(()=>{const on=deskOn(k);return `<div class="row" style="gap:8px;margin:4px 0 6px"><button class="pill ${on?'on':''}" data-act="desk-vis" data-s="${k}" aria-pressed="${on}" title="Ordner bei den SuS dieser Klasse zeigen oder ausblenden">${on?'👁 Ordner sichtbar für '+esc(className()):'🚫 Ordner ausgeblendet für '+esc(className())}</button><button class="pill" data-act="theft" data-s="${k}">📒 Eigener Eintrag · ${pub} bei den SuS${es.length>pub?', '+(es.length-pub)+' Entwürfe':''}</button></div>`})()}
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='DZ'?'Lernlandschaft':'Jahresplan'} laden</button></div></section>`:''}
   ${k==='E'?vokTeach():''}${k==='K'?skzTeach():''}
-  <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
-  <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
+  <h2 style="margin:18px 0 8px">${SUBJECTS[k].name}${jgst()?' '+jgst():''} · Lernmodule nach Jahresplan</h2><p class="muted" style="font-weight:700;margin:-4px 0 8px">Modul antippen: Einträge ansehen, bearbeiten (✏️), einzeln freigeben oder zurücknehmen. „Ganzes Modul freigeben“ fragt nach den Klassen.</p>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
+  <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Auftrag“.</div>'}`};
 // Freigabe des Ordners pro Klasse: aktive Klasse groß, die anderen eigenen Klassen als Schalter daneben
 function deskVisHTML(k){const M=(CLOUD&&Cloud.myClasses||[]).filter(c=>c.id!==S.cls),on=deskOn(k),cn=className();
   return `<section class="panel desk-vis"><span class="label">Ordner „${esc(SUBJECTS[k].name)}“ bei den SuS</span>
@@ -7187,8 +7194,8 @@ VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice
   ${V.msg?`<p class="saved" style="margin-top:12px">${esc(V.msg)}</p>`:''}
   <section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Jahresplan Mathematik 7 · nach LehrplanPLUS</span><button class="btn sm" data-act="hf-plan">📚 Jahresplan laden oder aktualisieren</button></div>
     <p class="muted" style="font-weight:700;margin-top:6px">34 fertige Einträge von 1.1 Terme bis 8.2 Kennwerte. Sie landen hier als Entwurf, und du veröffentlichst sie, wenn das Thema dran ist.</p></section>
-  ${(()=>{const pub=list.filter(e=>e.pub!==false),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
-    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm ${V.hbe===e.id?'on':''}" data-act="hbe-open" data-id="${e.id}">Im Eintrag bearbeiten</button><button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${V.hbe===e.id?hbeHTML(e):heftBody(heftBlocks(e.text))}</article>`;
+  ${(()=>{const pub=list.filter(e=>isPub(e)),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&!isPub(e)).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
+    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${!isPub(e)?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm ${V.hbe===e.id?'on':''}" data-act="hbe-open" data-id="${e.id}">Im Eintrag bearbeiten</button><button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${V.hbe===e.id?hbeHTML(e):heftBody(heftBlocks(e.text))}</article>`;
     return `<h2 style="margin:18px 0 8px">Bei den SuS · ${pub.length}</h2><div class="entries">${pub.sort(heftSort).map(card).join('')||'<div class="empty">Noch nichts veröffentlicht.</div>'}</div>
       ${chs.map(ch=>{const es=dr.filter(e=>(e.ch||'Entwürfe')===ch);return `<details class="panel" style="margin-top:12px"><summary class="row" style="justify-content:space-between;cursor:pointer"><b>📁 ${esc(ch)} · ${es.length} Entwürfe</b><span class="row" style="gap:6px"><button class="btn sm" data-act="hf-printch" data-ch="${esc(ch)}">Kapitel drucken / PDF</button><button class="btn sm ok" data-act="hf-pubch" data-ch="${esc(ch)}">Ganzes Kapitel veröffentlichen</button></span></summary><div class="entries" style="margin-top:10px">${es.map(card).join('')}</div></details>`}).join('')}`})()}`};
 // Hefteintrag Block für Block bearbeiten (Etappe 1): eigener Text, Foto, verschieben, löschen. Gespeichert wird sofort.
@@ -7838,11 +7845,17 @@ document.addEventListener('click',e=>{
     case 'ub-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'tdesk':'desk');break}
     case 'hl-all':V.hl=null;render();break;
     case 'ub-tafel':{const x=ubFind(d.id),u=ubList(x)[+d.i||0];if(!u)break;if(!CS)initTeacher();CS.game={g:u.t,at:Date.now(),title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)};pushCS();V.msg='„'+x.title+'“ läuft jetzt an der Tafel und auf den iPads.';render();break}
-    case 'sub-on':case 'sub-off':{const on=d.act==='sub-on',x=(TD.heft||[]).find(y=>y.id===d.id&&(!y.cls||y.cls===S.cls));if(!x)break;if(on&&x.pub===false)x.date=todayISO();x.pub=on;tsave();if(!CS)initTeacher();pushCS();V.msg=on?'„'+x.title+'“ ist freigegeben.':'„'+x.title+'“ ist zurückgenommen.';render();break}
-    case 'mod-on':case 'mod-off':{const on=d.act==='mod-on';(TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)){if(on&&x.pub===false)x.date=todayISO();x.pub=on}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
+    case 'sub-on':case 'sub-off':{const on=d.act==='sub-on',x=(TD.heft||[]).find(y=>y.id===d.id&&(!y.cls||y.cls===S.cls));if(!x)break;if(on&&!isPub(x))x.date=todayISO();setPub(x,on);tsave();if(!CS)initTeacher();pushCS();V.msg=on?'„'+x.title+'“ ist freigegeben.':'„'+x.title+'“ ist zurückgenommen.';render();break}
+    case 'mod-on':case 'mod-off':{const on=d.act==='mod-on',M=(CLOUD&&Cloud.myClasses||[]);
+      // Mehrere eigene Klassen: erst fragen, für welche Klassen (Freigabe gilt je Klasse; andere Klassen bekommen es, sobald du dort die Steuerung öffnest)
+      if(on&&M.length>1&&!d.go){showOv(`<div class="box" style="text-align:left;max-width:520px"><span class="label">Ganzes Modul freigeben</span><h2>${esc(chName(d.ch))}</h2><p class="muted" style="font-weight:700">Für welche Klassen?</p>
+        <div style="display:grid;gap:6px;margin-top:8px">${M.map(c=>`<label class="row" style="gap:10px;font-weight:800"><input type="checkbox" class="mod-cls" value="${esc(c.id)}" ${c.id===S.cls?'checked':''} style="width:22px;height:22px"> ${esc(c.name)}</label>`).join('')}</div>
+        <div class="row" style="justify-content:flex-end;margin-top:12px;gap:8px"><button class="btn" data-act="close-ov">Abbrechen</button><button class="btn ok" data-act="mod-on" data-go="1" data-s="${esc(d.s)}" data-ch="${esc(d.ch)}">Freigeben</button></div></div>`);break}
+      const cl=d.go?[...document.querySelectorAll('.mod-cls:checked')].map(x=>x.value):[S.cls||'-'];if(d.go)$('#ov').hidden=true;if(!cl.length)break;
+      (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls||(on&&cl.includes(x.cls)))){if(on&&!isPub(x))x.date=todayISO();if(x.cls)x.pub=on;else cl.forEach(c=>setPub(x,on,c))}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
     case 'auf-form':V.auff=!V.auff;render();break;
     case 'auf-add':{const due=($('#auf-due')||{}).value||'',typ=($('#auf-typ')||{}).value==='ha'?'ha':'ueb',rem=/^\d\d:\d\d$/.test(($('#auf-rem')||{}).value||'')?$('#auf-rem').value:'16:00',mt=!!(($('#auf-mt')||{}).checked);
-      (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)&&x.pub===false){x.date=todayISO();x.pub=true}});
+      (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)&&!isPub(x)){x.date=todayISO();setPub(x,true)}});
       TD.auf=TD.auf||[];TD.auf.push({id:'au'+Date.now().toString(36),cls:S.cls,s:d.s,ch:d.ch,due,rem,mt:mt?1:0,typ,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.auff=false;
       V.msg='Auftrag „'+chName(d.ch)+'“ ist bei den SuS'+(due?', erledigt bis '+fmtDate(due)+', Erinnerung ab '+rem+' Uhr':', ohne Frist')+'. Den Stand pro Kind und „Abschließen“ findest du unter Klassen → Schüler/innen.';render();break}
     // Abschließen: verschwindet bei den SuS aus den offenen Aufträgen; danach direkt das nächste Modul anbieten
@@ -7905,10 +7918,14 @@ document.addEventListener('click',e=>{
     case 'hf-add':{const t=$('#hf-t').value.trim(),k=$('#hf-s').value,xl=$('#hf-x').value.trim().split('\n'),x=xl.filter(l=>!HELPRE.test(l.trim())).join('\n').trim(),hl=[$('#hf-h').value.trim(),...xl.filter(l=>HELPRE.test(l.trim()))].filter(Boolean).join('\n');if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
       if(!CS)initTeacher();if(V.hedit){const y=(TD.heft||[]).find(z=>z.id===V.hedit);if(y){Object.assign(y,{s:k,title:t,text:x,help:hl});tsave();pushCS()}V.hedit=null}else heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x,help:hl});V.hs=k;render();break}
     case 'hf-plan':heftLoadPlan(false,d.s||'M');break;
-    case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){e.pub=a==='hf-pub';if(e.pub)e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
-    case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(x.pub===false&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){x.pub=true;x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
+    // Bearbeiten direkt im Modul (Text, Bild, Hilfestation)
+    case 'sub-ed':V.subEd=V.subEd===d.id?null:d.id;render();break;
+    case 'sub-save':{const y=(TD.heft||[]).find(z=>z.id===d.id);if(!y)break;const t=$('#hf-t').value.trim(),x=$('#hf-x').value.trim();if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
+      Object.assign(y,{title:t,text:x,help:$('#hf-h').value.trim()});tsave();if(!CS)initTeacher();pushCS();V.subEd=null;V.msg='„'+t+'“ ist gespeichert.';render();break}
+    case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){setPub(e,a==='hf-pub');if(isPub(e))e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
+    case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(!isPub(x)&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){setPub(x,true);x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
     case 'hf-print':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x)heftPrint([x],x.s);break}
-    case 'hf-printch':{const es=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false&&(e.ch||'Entwürfe')===d.ch).sort(heftSort);if(es.length)heftPrint(es,es[0].s);break}
+    case 'hf-printch':{const es=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&!isPub(e)&&(e.ch||'Entwürfe')===d.ch).sort(heftSort);if(es.length)heftPrint(es,es[0].s);break}
     case 'hf-img':{const fi=$('#hf-file'),ta=$('#hf-x');if(!fi||!ta)break;const pos=ta.selectionStart!=null?ta.selectionStart:ta.value.length;fi.value='';fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f||!/^image\//.test(f.type||''))return;
       const id=newId(),b=await medSmall(f);try{await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:b.type||f.type||'',size:b.size,subject:$('#hf-s')?$('#hf-s').value:'',src:'heft',added:Date.now()}))}catch(e){$('#hf-err').textContent='Bild konnte nicht gespeichert werden. Ist der Speicher voll?';return}
       const v=ta.value,a=v.slice(0,pos),z=v.slice(pos),cap='Bildunterschrift',ins=(a&&!a.endsWith('\n')?'\n':'')+'[Foto: '+id+' | '+cap+']'+(z&&!z.startsWith('\n')?'\n':'');ta.value=a+ins+z;const st=a.length+ins.indexOf(cap);ta.focus();ta.setSelectionRange(st,st+cap.length)};fi.click();break}
