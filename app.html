@@ -607,6 +607,10 @@ body.teacher .top{border-bottom:3px solid var(--navy)}
 .mat{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sc);box-shadow:var(--shadow);min-width:0}
 .mat .nm{display:flex;gap:10px;align-items:center;min-width:0}
 .mat .nm b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Bibliothek: Fächer als einklappbare Zeilen, Material als schmale Zeile (Fabian 20.10.) */
+.lib-sec{margin-top:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.lib-sec>summary{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-weight:900;font-size:1.05rem;list-style:none}.lib-sec>summary::-webkit-details-marker{display:none}.lib-sec>summary::after{content:'▾';margin-left:auto;color:var(--muted)}.lib-sec[open]>summary::after{content:'▴'}
+.lib-rows{display:grid;gap:0;padding:0 10px 8px}.lib-rows .mat{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:0;box-shadow:none;border:0;border-top:1px solid var(--line);border-left:4px solid var(--sc)}.lib-rows .mat .nm{flex:1;min-width:200px}
+.arc-l{display:grid;margin:6px 0 10px}.arc-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}
 .mat .ic{font-size:1.8rem;flex:none}
 .matchips{display:flex;flex-wrap:wrap;gap:6px}
 .matchip{display:inline-flex;gap:6px;align-items:center;padding:5px 6px 5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-weight:800;font-size:.85rem;max-width:100%}
@@ -4034,23 +4038,23 @@ function libListHTML(){
       ${V.ldel===m.id?`<button class="btn sm red" data-act="lib-del-yes" data-id="${m.id}">Wirklich löschen</button><button class="btn sm" data-act="lib-del-no">Nein</button>`:`<button class="btn sm" data-act="lib-del" data-id="${m.id}">Löschen</button>`}</div></article>`;
   // Bei „Alle Fächer“ nach Fächern sortiert, jedes Fach mit eigener Überschrift
   if(f==='all'&&!q){const ks=[...new Set(list.map(m=>m.subject))].sort((a,b)=>Object.keys(SUBJECTS).indexOf(a)-Object.keys(SUBJECTS).indexOf(b));
-    return ks.map(k=>`<h3 class="lib-h s-${k}">${badge(k)} ${SUBJECTS[k]?SUBJECTS[k].name:'Ohne Fach'} <small class="muted">${list.filter(m=>m.subject===k).length}</small></h3><div class="libgrid">${list.filter(m=>m.subject===k).map(card).join('')}</div>`).join('')}
-  return `<div class="libgrid">${list.map(card).join('')}</div>`;
+    return ks.map(k=>`<details class="lib-sec s-${k}" ${(V.lopen||{})[k]?'open':''} data-lsec="${k}"><summary>${badge(k)} ${SUBJECTS[k]?SUBJECTS[k].name:'Ohne Fach'} <small class="muted">${list.filter(m=>m.subject===k).length}</small></summary><div class="lib-rows">${list.filter(m=>m.subject===k).map(card).join('')}</div></details>`).join('')}
+  return `<div class="lib-rows" style="padding:0">${list.map(card).join('')}</div>`;
 }
 VIEWS.library=()=>{
   const f=V.f||'all',subjOpts=Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${k===(V.us||'E')?'selected':''}>${v.name}</option>`).join('');
   const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Bibliothek</h1><span class="chip">${LIB.items.length} Materialien</span></div>
-  <div class="priv">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
+  <div class="libbar">
+    <section class="panel"><span class="label" style="font-size:1rem">⬆️ Datei hochladen</span><p class="muted" style="font-weight:700;margin:4px 0 10px">PowerPoint, PDF, Bilder, Arbeitsblätter, Audio, Video</p>
+      <div class="row"><select id="lib-subj" aria-label="Fach">${subjOpts}</select><label class="btn pri" style="cursor:pointer">Dateien auswählen<input type="file" id="lib-file" multiple hidden></label></div></section>
+    <section class="panel"><span class="label" style="font-size:1rem">🔗 Link speichern</span><p class="muted" style="font-weight:700;margin:4px 0 10px">z. B. LearningApps, YouTube, Padlet. Links kannst du an die iPads senden.</p>
+      <div class="row"><input id="lib-url" type="url" placeholder="https://…" style="flex:2;min-width:180px"><input id="lib-title" type="text" placeholder="Titel (freiwillig)" style="flex:1;min-width:130px"><button class="btn" data-act="lib-link">Speichern</button></div></section>
+  </div>
+  <div class="priv" style="margin-top:12px">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
   ${S.role==='teacher'?arcHTML():''}
   <section class="panel au-med"><button class="au-sum" data-act="au-open" aria-expanded="${V.am?'true':'false'}"><span class="label">🔊 Audio-Mediathek · Akustische Signale</span><span class="muted">${V.am?'▲':'▼'}</span></button>
     ${V.am?`<p class="muted" style="font-weight:700;margin-top:6px">Geräusche für den Unterricht. In der Planung legst du für jede Phase ein Signal fest, das beim Start der Phase erklingt. Alle Geräusche sind selbst erzeugt und frei nutzbar.</p>${audHTML()}`:''}</section>
-  <div class="libbar">
-    <section class="panel"><span class="label">Dateien hochladen</span><p class="muted" style="font-weight:700;margin:4px 0 10px">PowerPoint, PDF, Bilder, Arbeitsblätter, Audio, Video</p>
-      <div class="row"><select id="lib-subj" aria-label="Fach">${subjOpts}</select><label class="btn pri" style="cursor:pointer">Dateien auswählen<input type="file" id="lib-file" multiple hidden></label></div></section>
-    <section class="panel"><span class="label">Link speichern</span><p class="muted" style="font-weight:700;margin:4px 0 10px">z. B. LearningApps, YouTube, Padlet. Links kannst du an die iPads senden.</p>
-      <div class="row"><input id="lib-url" type="url" placeholder="https://…" style="flex:2;min-width:180px"><input id="lib-title" type="text" placeholder="Titel (freiwillig)" style="flex:1;min-width:130px"><button class="btn" data-act="lib-link">Speichern</button></div></section>
-  </div>
   ${LIB.msg?`<p class="saved">${esc(LIB.msg)}</p>`:''}${CLOUD&&S.role==='teacher'&&LC.miss?'<p class="err">Die Cloud-Bibliothek ist noch aus. Führ einmal supabase/bibliothek.sql im Supabase SQL Editor aus, dann ist dein Material auf allen Geräten.</p>':''}${LIB.err?'<p class="err">Die Bibliothek konnte auf diesem Gerät nicht geöffnet werden (privates Surfen?).</p>':''}
   <div class="lib-types">${MTYPES.map(([k,n])=>{const c=LIB.items.filter(m=>k==='all'||matType(m)===k).length;return `<button class="lt-b ${(V.lt||'all')===k?'on':''}" data-act="lib-t" data-t="${k}"><span class="ct-i">${LIB_ICO[k]}</span><b>${n}</b><small>${c}</small></button>`}).join('')}<button class="lt-b ${(V.lt||'all')==='lic'?'on':''}" data-act="lib-t" data-t="lic" title="Fremde Rechte, z. B. Verlags-CDs: nie veröffentlichen"><span class="ct-i"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="21" width="28" height="20" rx="4" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.6"/><path d="M16 21v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#1e3a8a" stroke-width="2.6" stroke-linecap="round"/></svg></span><b>Verlag</b><small>${LIB.items.filter(m=>m.lic).length}</small></button></div>
   <div class="row" style="margin-top:18px;justify-content:space-between"><div class="psub" style="margin:0">${['all',...Object.keys(SUBJECTS)].filter(k=>k==='all'||cnt(k)).map(k=>`<button class="${k==='all'?'':'s-'+k} ${f===k?'on':''}" data-act="lib-f" data-f="${k}" ${k==='all'?'style="--sc:var(--navy)"':''}>${k==='all'?'Alle':SUBJECTS[k].name} · ${cnt(k)}</button>`).join('')}</div>
@@ -7507,6 +7511,7 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='pairs'){const p=L.phases[+k[1]],r=p.tool&&p.tool.pairs&&p.tool.pairs[+k[4]];if(r)r[+k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
+document.addEventListener('toggle',e=>{const k=e.target&&e.target.dataset&&e.target.dataset.lsec;if(k){V.lopen=V.lopen||{};V.lopen[k]=e.target.open}},true);
 document.addEventListener('change',e=>{if(e.target.id==='vk-file'){const F=e.target.files&&e.target.files[0];e.target.value='';if(!F)return;
   vokOcr(F).then(t=>{const ta=$('#vk-x');if(!t){V.vkOcr='Elo hat keine Vokabelpaare gefunden. Ein schärferes, gerades Foto hilft.';}else{if(ta)ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+t;V.vkOcr=t.split('\n').length+' Vokabeln erkannt. Bitte prüfen und ggf. korrigieren, dann schicken.'}const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr})
     .catch(er=>{V.vkOcr='Einlesen ging nicht: '+String(er&&er.message||er).slice(0,80);const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr});return}
