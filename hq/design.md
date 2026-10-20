@@ -15,6 +15,7 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- 20.10., im Test: Kontrast zentral über Farb-Token (Heftseiten im dunklen Modus hell, WCAG AA geprüft mit tools/kontrast-check.js); neue Bilder per ElevenLabs: Standard-Elo, Startbild, Ruhebild, Freeze-Elo, Fußballfeld, 9 Fach-Logos ohne Schrift
 - Designstandard für Material (elon/designstandard-material.md) bei jedem neuen Hefteintrag anwenden
 
 ## Erledigt

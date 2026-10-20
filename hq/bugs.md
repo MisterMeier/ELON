@@ -55,3 +55,7 @@ gelb
 | B-27 | Freeze war beim Anmelden der SuS die erste Ansicht | hoch | in Test | app.html initTeacher, onClassState |
 | B-28 | Elos Sprechblasen wurden mit der Computerstimme statt Oswald vorgelesen | mittel | in Test | app.html eloSay, eloAuto |
 | B-29 | Hefteinträge in der Lehrer-Ansicht: Schrift zu dunkel auf Knöpfen im dunklen Modus | mittel | in Test | app.html .page .btn |
+| B-30 | Vorlesen in Arbeitsaufträgen: Oswald-Stimme kommt nicht, Meldung „Problem beim Server“ | hoch | in Test | supabase/functions/elo-stimme, app.html voCheck (Ursache vermutlich Einrichtung, Prüf-Knopf ergänzt) |
+| B-31 | Futuristic-Sound kam bei vielen Tipps und nach Folienwechsel | mittel | in Test | app.html UIS, assets/sounds/ui/ui-sounds.json |
+| B-32 | Hefteintrag, Übung, Hilfestation: Schrift im dunklen Modus zu dunkel | mittel | in Test | app.html .page Farb-Token |
+| B-33 | Abgelaufene Erinnerungen und Übungsaufträge blieben auf dem Schüler-Dashboard | mittel | in Test | app.html aufLive, aufRemNow |
