@@ -1031,6 +1031,10 @@ span.pill{cursor:default}.pill-sel{border:1.5px solid #c7d2fe;border-radius:999p
 @media(max-width:720px){.yt-g,.sq-2,.yn-row{grid-template-columns:1fr}.sq-2{grid-column:1/-1}}
 .sq-l{display:grid;gap:6px;margin-top:12px}.sq-r{display:grid;grid-template-columns:auto 110px 140px 1fr 1.2fr auto;gap:6px;align-items:center;background:#fff;border:2px solid #e0e7ff;border-radius:12px;padding:6px 8px}.sq-r.dbl{border-top-style:dashed;margin-top:-4px}.sq-r.past{opacity:.7}.sq-d{display:grid;line-height:1.1}.sq-d small{color:#64748b;font-weight:700}
 @media(max-width:720px){.sq-r{grid-template-columns:auto 1fr}.sq-r>*:nth-child(n+3){grid-column:1/-1}.yt-r{grid-template-columns:auto 1fr 70px}.yt-r small{grid-column:1/-1}}
+.rit-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0 4px}.rit-row>.label{width:100%}
+.rit-b{display:flex;gap:10px;align-items:center;flex:1 1 260px;max-width:420px;padding:8px 12px;border-radius:14px;border:2px solid var(--sc);border-left-width:6px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.rit-b.planned{background:color-mix(in srgb,var(--sc) 10%,var(--surface))}.rit-b b{display:block}.rit-b small{display:block;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rit-lg{flex:none;width:44px;height:44px;display:grid;place-items:center}.rit-lg.big{width:64px;height:64px}.rit-lg svg,.rit-lg img{width:100%;height:100%;object-fit:contain}
 .tpc.off{opacity:.55;background:repeating-linear-gradient(135deg,#f1f5f9 0 8px,#fff 8px 16px)}.tpc.off small{font-weight:800;color:#0369a1}.tp-fr{color:#0369a1;font-weight:800}.sq-h{font-size:.82rem;font-weight:800;color:#4f46e5}
 .ph-ins{display:flex;justify-content:center;margin:-6px 0;position:relative;z-index:1}.ph-ins::before{content:'';position:absolute;left:10%;right:10%;top:50%;border-top:2px dashed #c7d2fe}.ph-plus{position:relative;width:38px;height:38px;border-radius:50%;border:2px solid #4f46e5;background:#fff;color:#4f46e5;font-size:1.3rem;font-weight:900;cursor:pointer;box-shadow:0 2px 6px rgba(30,58,138,.15)}.ph-plus:hover{background:#4f46e5;color:#fff}.xs-add{margin-top:8px}.xs-box{margin-top:12px;padding:10px;border:2px dashed #c7d2fe;border-radius:12px;background:#f5f7ff}
 .sl-tabs{display:flex;gap:2px;background:#eef2ff;border-radius:10px;padding:3px;margin:8px 0 2px}
@@ -2185,7 +2189,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261020-1600';let verTold=false;
+const BUILD='20261020-2000';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -5870,6 +5874,7 @@ VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();i
   <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
     <b style="font-family:var(--f-display);font-size:1.2rem">${days[0].toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} – ${days[4].toLocaleDateString('de-DE',{day:'numeric',month:'numeric',year:'numeric'})}${off===0?' · diese Woche':off===1?' · nächste Woche':''}</b>
     <button class="btn sm" data-act="tp-w" data-w="${off+1}">Nächste Woche ▶</button></div>
+  ${ed?'':ritRow(isoD(mo))}
   <div class="tp"><table><thead><tr><th></th>${days.map((x,d)=>`<th>${DAYS[d]} ${x.toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${(f=>f?`<br><small class="tp-fr">${esc(f.n)}</small>`:'')(dayFree(isoD(x)))}</th>`).join('')}</tr></thead><tbody>
     ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${days.map((_,d)=>`<td>${cell(d,i)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 };
@@ -5948,6 +5953,79 @@ function tpMove(mode){const M=TPD.mv;if(!M)return;const [fd,fi]=M.from.split('|'
     if(other)ob.forEach((_,k)=>{if(k<src.length||TD.tt[wd(fd)+'-'+(+fi+k)])set(fd,+fi+k,other)})}
   TPD.mv=null;tsave()}
 function tpAssign(d,i,date,lid){const dbl=$('#tp-dbl')&&$('#tp-dbl').checked;TD.plan[date+'|'+i]=lid;if(dbl)TD.plan[date+'|'+(i+1)]=lid;tsave();cloudPlan(d,i,date,lid);if(dbl)cloudPlan(d,i+1,date,lid)}
+/* --- Wochenrituale der bayerischen Mittelschule: Verfassungsviertelstunde und Text der Woche ---
+   Einmal pro Woche neben dem Stundenplan planbar. Eine Ritual-Einheit ist eine normale Stunde (L.rit), sie hängt an der Woche (TD.rit[k|Montag]). */
+const RIT_SVG={
+  vvs:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="5" width="30" height="38" rx="5" fill="#fff" stroke="#9a5c0d" stroke-width="2.5"/><text x="24" y="29" text-anchor="middle" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" font-size="20" fill="#9a5c0d">§</text><path d="M24 36v-4" stroke="#9a5c0d" stroke-width="2" stroke-linecap="round"/><circle cx="37" cy="37" r="9" fill="#f2b51d" stroke="#18203d" stroke-width="2"/><path d="M37 37V30.5A6.5 6.5 0 0 1 43.5 37Z" fill="#18203d"/></svg>',
+  tdw:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 11c7-3 13-2 19 2 6-4 12-5 19-2v28c-7-3-13-2-19 2-6-4-12-5-19-2Z" fill="#fff" stroke="#0d7a6d" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 13v28" stroke="#0d7a6d" stroke-width="2"/><path d="M10 18h9M10 23h9M10 28h7M29 18h9M29 23h9M29 28h7" stroke="#586082" stroke-width="2" stroke-linecap="round"/><g fill="#0d7a6d"><circle cx="12" cy="45" r="1.8"/><circle cx="18" cy="45" r="1.8"/><circle cx="24" cy="45" r="1.8"/><circle cx="30" cy="45" r="1.8"/><circle cx="36" cy="45" r="1.8"/></g></svg>'};
+const RIT={
+  vvs:{name:'Verfassungsviertelstunde',s:'G',min:15,url:'https://www.politischebildung.schule.bayern.de/verfassungsviertelstunde/',
+    info:'Jede Woche 15 Minuten politische Bildung. Im Mittelpunkt steht das Gespräch über einen lebensnahen Fall, ein Grundrecht (Art. 1 bis 19 GG) oder ein aktuelles Thema. Die Klasse bringt Themen mit ein. Kontroverses bleibt kontrovers, niemand wird überredet.',
+    ger:{gesp:['Gesprächsrunde','Impuls, Leitfrage, Gespräch, Bezug zur Verfassung',()=>[
+        gPh('Verfassungsviertelstunde','Ritual eröffnen',1,'Plenum','Cover','Unsere Verfassungsviertelstunde.',{id:'cover',title:'Verfassungsviertelstunde',sub:''},'look'),
+        gSl('Impuls','Einen lebensnahen Fall wahrnehmen',3,'Impuls: Fall, Bild, Zitat oder Video','Schau dir den Impuls genau an.','Der Fall'),
+        gPh('Leitfrage','Eine eigene Meinung bilden',2,'PA','Murmelphase','Überlege mit deinem Partner: Was denkst du?',{id:'question',q:'',murmel:true},'look'),
+        {name:'Gespräch',goal:'Meinungen begründen, andere Sichtweisen hören',min:6,sf:'Plenum',method:'Gesprächskreis',txt:'Wir sprechen darüber.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Unsere Gesprächsregeln',text:'Ich lasse andere ausreden.\nIch begründe meine Meinung.\nIch respektiere andere Meinungen.',mat:'',elo:'',say:'',steps:false}]}},
+        gSl('Bezug zur Verfassung','Den Fall mit einem Artikel aus GG oder BV verbinden',2,'Unterrichtsgespräch','Was sagt die Verfassung dazu?','Was sagt die Verfassung?'),
+        gPh('Abschluss','Gedanken bündeln',1,'Plenum','Wortwolke','Ein Wort, das du mitnimmst.',{id:'wc'})]],
+      grund:['Grundrecht der Woche','Artikel lesen, erklären, an einem Fall prüfen',()=>[
+        gPh('Verfassungsviertelstunde','Ritual eröffnen',1,'Plenum','Cover','Unsere Verfassungsviertelstunde.',{id:'cover',title:'Verfassungsviertelstunde',sub:'Grundrecht der Woche'},'look'),
+        gSl('Artikel lesen','Den Wortlaut kennenlernen',2,'Lesen im Plenum','Lies den Artikel mit.','Artikel … Grundgesetz'),
+        gPh('In eigenen Worten','Den Artikel verstehen',3,'PA','Partnerarbeit','Erkläre den Artikel deinem Partner in einem Satz.',{id:'task',text:'Erkläre den Artikel deinem Partner in einem Satz.\nDann tauscht ihr.'}),
+        gPh('Fall prüfen','Das Grundrecht anwenden',4,'Plenum','Abstimmung','Stimme ab: Wird das Grundrecht hier verletzt?',{id:'quiz'}),
+        gSl('Gespräch','Die Abstimmung begründen',4,'Gesprächskreis','Warum hast du so abgestimmt?','Warum?'),
+        gSl('Merksatz','Das Wichtigste festhalten',1,'Merksatz','Das nehme ich mit.','Das nehme ich mit')]],
+      akt:['Aktuelles Thema','Nachricht oder Video, Meinungsbild, Pro und Contra',()=>[
+        gPh('Verfassungsviertelstunde','Ritual eröffnen',1,'Plenum','Cover','Unsere Verfassungsviertelstunde.',{id:'cover',title:'Verfassungsviertelstunde',sub:'Aktuelles Thema'},'look'),
+        gPh('Nachricht','Ein aktuelles Ereignis kennenlernen',3,'Plenum','Material zeigen','Schau dir die Nachricht an.',{id:'mat'},'look'),
+        gPh('Meinungsbild','Erste Meinung zeigen',2,'Plenum','Abstimmung','Wie siehst du das?',{id:'quiz'}),
+        gPh('Pro und Contra','Gründe für beide Seiten finden',4,'PA','Partnerarbeit','Sammelt zwei Gründe dafür und zwei dagegen.',{id:'task',text:'Sammelt zwei Gründe dafür und zwei Gründe dagegen.'}),
+        gSl('Gespräch','Gründe austauschen',4,'Gesprächskreis','Wir tauschen unsere Gründe aus.','Dafür und dagegen'),
+        gPh('Abschluss','Eigene Meinung prüfen',1,'Plenum','Daumen-Abfrage','Hat sich deine Meinung verändert?',{id:'thumbs',q:'Hat sich deine Meinung verändert?'})]]}},
+  tdw:{name:'Text der Woche',s:'D',min:15,url:'https://www.lesen.bayern.de/',
+    info:'Eine Woche, ein Sachtext. Jeden Tag liest die Klasse denselben Text auf eine andere Art: vorlesen und mitlesen, Chorlesen, Tandemlesen. Danach kommen Aufgaben zu Verständnis, Wortschatz und Grammatik. So wird das Lesen flüssiger.',
+    ger:{woche:['Wochenplan (5 Tage)','Jeden Tag eine kurze Lesezeit, die Phasen sind nach Tagen geordnet',()=>[
+        {name:'Montag · Kennenlernen',goal:'Text hören und mitlesen',min:10,sf:'Plenum',method:'Vorlesen und Mitlesen',txt:'Hör zu und lies leise mit.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Text der Woche',text:'Hier steht der Text der Woche.',mat:'',elo:'',say:'',steps:false}]}},
+        gPh('Montag · Wörter klären','Unbekannte Wörter verstehen',5,'PA','Partnerarbeit','Markiere Wörter, die du nicht kennst.',{id:'task',text:'Markiere Wörter, die du nicht kennst.\nKläre sie mit deinem Partner.'}),
+        {name:'Dienstag · Chorlesen',goal:'Flüssig im Takt lesen',min:10,sf:'Plenum',method:'Chorlesen',txt:'Wir lesen gemeinsam laut.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Chorlesen',text:'Wir lesen den Text gemeinsam laut.\nLies im Takt der Gruppe.',mat:'',elo:'',say:'',steps:false}]}},
+        gPh('Mittwoch · Tandemlesen','Laut lesen, Fehler selbst verbessern',10,'PA','Tandemlesen','Lest abwechselnd je einen Absatz.',{id:'task',text:'Lest abwechselnd je einen Absatz.\nWer zuhört, zeigt mit dem Finger mit und hilft bei Fehlern.'}),
+        gPh('Mittwoch · Verständnis','Den Inhalt sichern',5,'EA','Quiz','Beantworte die Fragen zum Text.',{id:'quiz'}),
+        gPh('Donnerstag · Wortschatz und Grammatik','Mit dem Text arbeiten',10,'EA','Wörterscanner','Suche im Text, was der Auftrag verlangt.',{id:'task',text:'Wörterscanner: Suche im Text alle …\nSchreib sie in dein Heft.'}),
+        gPh('Freitag · Lesen auf Zeit','Lesetempo messen',5,'EA','Lesekurve','Lies eine Minute lang. Zähle deine Wörter.',{id:'task',text:'Lies den Text eine Minute lang leise.\nZähle deine Wörter und trag die Zahl in deine Lesekurve ein.'}),
+        gSl('Freitag · Vorlesen','Den Text gestaltend vorlesen',5,'Vorleseprofis','Wer liest heute vor?','Vorleseprofis'),
+        gPh('Freitag · Rückblick','Lernstand einschätzen',2,'Plenum','Daumen-Abfrage','Kannst du den Text jetzt flüssig lesen?',{id:'thumbs',q:'Kannst du den Text jetzt flüssig lesen?'})]],
+      tag:['Tageseinheit (15 Min)','Eine Lesezeit: lesen, Aufgabe, kurzer Rückblick',()=>[
+        {name:'Lesen',goal:'Den Text der Woche lesen',min:7,sf:'Plenum',method:'Chorlesen, Tandemlesen oder Mitlesen',txt:'Wir lesen den Text der Woche.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Text der Woche',text:'Hier steht der Text der Woche.',mat:'',elo:'',say:'',steps:false}]}},
+        gPh('Aufgabe','Verständnis, Wortschatz oder Grammatik',6,'EA','Arbeitsauftrag','Bearbeite die Aufgabe von heute.',{id:'task',text:''}),
+        gPh('Rückblick','Lernstand einschätzen',2,'Plenum','Daumen-Abfrage','Wie gut klappt das Lesen schon?',{id:'thumbs',q:'Wie gut klappt das Lesen schon?'})]],
+      lotse:['Mit Lese- und Arbeitslotse','Die SuS arbeiten selbstständig nach dem Lotsen',()=>[
+        {name:'Lotse',goal:'Den Wochenablauf kennen',min:3,sf:'Plenum',method:'Lese- und Arbeitslotse',txt:'So arbeitest du diese Woche.',act:'look',tool:{id:'slide',slides:[{layout:'std',bg:'allgemein',title:'Dein Lese- und Arbeitslotse',text:'Montag: Text leise lesen, unbekannte Wörter markieren.\nDienstag: Text laut lesen, mit Partner.\nMittwoch: Fragen zum Text beantworten.\nDonnerstag: Wörterscanner und Grammatik.\nFreitag: Text vorlesen, Lesezeit eintragen.',mat:'',elo:'',say:'',steps:true}]}},
+        gPh('Arbeit nach dem Lotsen','Selbstständig lesen und arbeiten',10,'EA','Lese- und Arbeitslotse','Arbeite nach deinem Lotsen. Hake jeden Schritt ab.',{id:'task',text:'Arbeite nach deinem Lotsen.\nHake jeden Schritt ab, wenn du fertig bist.'}),
+        gPh('Rückblick','Lernstand einschätzen',2,'Plenum','Daumen-Abfrage','Wie weit bist du heute gekommen?',{id:'thumbs',q:'Wie weit bist du heute gekommen?'})]]}}};
+const ritLogo=k=>((TD.ritLogo||{})[k])?`<img src="${esc(TD.ritLogo[k])}" alt="">`:RIT_SVG[k];
+function kwOf(ds){const d=new Date(ds+'T12:00');d.setDate(d.getDate()+3-((d.getDay()+6)%7));const j=new Date(d.getFullYear(),0,4);return 1+Math.round(((d-j)/864e5-3+((j.getDay()+6)%7))/7)}
+const ritL=(k,wk)=>lessonById(((TD.rit||{})[k+'|'+wk]));
+function ritRow(wk){return `<div class="rit-row"><span class="label">Wochenrituale</span>${Object.entries(RIT).map(([k,R])=>{const L=ritL(k,wk);
+  return `<button class="rit-b s-${R.s} ${L?'planned':''}" data-act="rit-open" data-k="${k}" data-w="${wk}"><span class="rit-lg">${ritLogo(k)}</span><span style="flex:1;min-width:0"><b>${R.name}</b><small>${L?(L.title.startsWith(R.name+' · KW')?'Geplant':esc(L.title))+' · '+lessonMin(L)+' Min':'+ für diese Woche planen'}</small></span></button>`}).join('')}</div>`}
+function ritOv(k,wk){const R=RIT[k],L=ritL(k,wk),kw=kwOf(wk);
+  const logo=`<div class="row" style="gap:8px;margin-top:10px"><label class="btn sm">Eigenes Logo hochladen<input type="file" accept="image/*" id="rit-logo" data-k="${k}" hidden></label>${(TD.ritLogo||{})[k]?`<button class="btn sm" data-act="rit-logo-del" data-k="${k}" data-w="${wk}">Logo zurücksetzen</button>`:''}<a class="btn sm" href="${R.url}" target="_blank" rel="noopener">Infos und Material</a></div>`;
+  const head=`<div class="row" style="gap:12px;flex-wrap:nowrap"><span class="rit-lg big">${ritLogo(k)}</span><div><span class="label">KW ${kw} · ${new Date(wk+'T12:00').toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} bis ${(d=>(d.setDate(d.getDate()+4),d.toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})))(new Date(wk+'T12:00'))}</span><h2 style="margin:0">${R.name}</h2></div></div>`;
+  if(L){showOv(`<div class="box" style="text-align:left;max-width:600px">${head}<p class="muted" style="font-weight:700;margin-top:8px">${esc(L.title)} · ${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="rit-unset" data-k="${k}" data-w="${wk}">Aus der Woche nehmen</button><button class="btn sm" data-act="close-ov">Schließen</button></div>${logo}</div>`);return}
+  const old=lessons().filter(x=>x.rit===k&&!x.vorlage).slice(-8).reverse();
+  showOv(`<div class="box" style="text-align:left;max-width:680px">${head}<p class="muted" style="font-weight:700;margin-top:8px">${R.info}</p>
+    <span class="label" style="display:block;margin-top:12px">Muster</span><div class="pool" style="margin-top:6px">${Object.entries(R.ger).map(([g,[n,t]])=>`<button data-act="rit-new" data-k="${k}" data-w="${wk}" data-g="${g}"><b>${esc(n)}</b><small>${esc(t)}</small></button>`).join('')}</div>
+    <p class="muted" style="font-size:.85rem;font-weight:700;margin-top:8px">Texte, Bilder und Videos legst du in der Bibliothek ab und zeigst sie mit „Material zeigen“ oder auf einer Folie.</p>
+    ${old.length?`<details style="margin-top:10px"><summary class="muted" style="font-weight:800;cursor:pointer">Frühere Themen (${old.length}) · wiederverwenden</summary><div class="row" style="margin-top:8px"><select id="rit-ex" style="flex:1">${old.map(x=>`<option value="${x.id}">${esc(x.title)}</option>`).join('')}</select><button class="btn" data-act="rit-reuse" data-k="${k}" data-w="${wk}">Als Kopie nehmen</button></div></details>`:''}
+    ${logo}<div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="close-ov">Abbrechen</button></div></div>`)}
+function ritNew(k,wk,g,src){const R=RIT[k];let L;
+  if(src){const S0=lessonById(src);if(!S0)return null;L=clone(S0);L.id=lid();delete L.owner;delete L.shared;delete L.arc;L.cid=S.cls;L.title=`${R.name} · KW ${kwOf(wk)}`;lessons().push(L);save()}
+  else{const G=R.ger[g];if(!G)return null;const base=G[2]();L=newLessonFrom(R.s,base.reduce((a,p)=>a+p.min,0),`${R.name} · KW ${kwOf(wk)}`,{base,own:false})}
+  L.rit=k;TD.rit=TD.rit||{};TD.rit[k+'|'+wk]=L.id;save();tsave();return L}
+// Eigenes Logo: klein als PNG, damit Transparenz bleibt
+document.addEventListener('change',e=>{const f=e.target;if(!f||f.id!=='rit-logo'||!f.files||!f.files[0])return;const k=f.dataset.k,u=URL.createObjectURL(f.files[0]),im=new Image();
+  im.onload=()=>{const s=Math.min(1,256/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);
+    TD.ritLogo=TD.ritLogo||{};TD.ritLogo[k]=c.toDataURL('image/png');tsave();$('#ov').hidden=true;render()};im.onerror=()=>{URL.revokeObjectURL(u);V.msg='Das Bild ging nicht.';render()};im.src=u});
 
 /* =====================================================================
    JAHRES- UND SEQUENZPLANUNG (Bayern)
@@ -8492,6 +8570,10 @@ document.addEventListener('click',e=>{
     case 'tp-new':{const sl=slotOf(+d.d,+d.i,d.date),dbl=$('#tp-dbl')&&$('#tp-dbl').checked;
       const sq=yrD().seq[d.date+'|'+d.i]||{},L=newLessonFrom(sl.s,dbl?90:45,sq.t||`${SUBJECTS[sl.s].name} ${sl.c} · ${DAYS[+d.d]} ${new Date(d.date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${dbl?' (Doppelstunde)':''}`);if(sq.k&&!L.akomp)L.akomp=sq.k;
       tpAssign(+d.d,+d.i,d.date,L.id);$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
+    case 'rit-open':ritOv(d.k,d.w);break;
+    case 'rit-new':case 'rit-reuse':{const L=ritNew(d.k,d.w,d.g,d.act==='rit-reuse'?($('#rit-ex')||{}).value:null);if(!L)break;$('#ov').hidden=true;go('lesson-edit',{id:L.id});break}
+    case 'rit-unset':{if(TD.rit)delete TD.rit[d.k+'|'+d.w];tsave();$('#ov').hidden=true;render();break}
+    case 'rit-logo-del':{if(TD.ritLogo)delete TD.ritLogo[d.k];tsave();render();ritOv(d.k,d.w);break}
     case 'tp-assign':tpAssign(+d.d,+d.i,d.date,$('#tp-ex').value);$('#ov').hidden=true;render();break;
     case 'tp-unset':{const lid=TD.plan[d.k];Object.keys(TD.plan).forEach(k=>{if(TD.plan[k]===lid&&k.split('|')[0]===d.k.split('|')[0]){cloudUnplan(k);delete TD.plan[k]}});tsave();$('#ov').hidden=true;render();break}
     case 'tool-pool':V.tpR=d.r==='1';toolPool(+d.i);break;
