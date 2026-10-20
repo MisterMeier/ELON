@@ -1657,14 +1657,21 @@ const SND={
   mission(){[392,523,659].forEach((f,i)=>tone(f,i*.15,.4,'square',.07));tone(784,.45,.7,'triangle',.18)},
   change(){[523,784,659,1047].forEach((f,i)=>tone(f,i*.25,.8,'sine',.22))},
   right(){tone(660,0,.14,'sine',.18);tone(990,.09,.25,'sine',.18)},
-  oops(){tone(300,0,.22,'sine',.12)},
+  oops(){if(!fileSnd('assets/audio/elio-error.mp3',.8))tone(300,0,.22,'sine',.12)},
 };
+/* Feste Klang-Dateien (Fabian 20.10.): Fehler in Aufgaben = elio-error, App-Start = futuristisch (einmal), Werkzeug startet = futuristisch-2.
+   Ein Element pro Datei: schnelles Wiederholen startet neu statt zu stapeln. */
+const FSND={el:{},bad:{}};
+function fileSnd(f,vol){if(FSND.bad[f])return false;try{let a=FSND.el[f];if(!a){a=FSND.el[f]=new Audio(f);a.preload='auto';a.onerror=()=>{FSND.bad[f]=1}}
+  a.volume=vol||.8;a.pause();a.currentTime=0;const pr=a.play();if(pr)pr.catch(()=>{});return true}catch(e){return false}}
+// App-Start: einmal pro Öffnen, beim ersten Tippen (iPads erlauben Ton erst nach einer Berührung). Nicht an der Tafel, Schalter „UI-Sounds“ gilt.
+if(!BOARD){const st=()=>{document.removeEventListener('pointerdown',st,true);try{if(sessionStorage.getItem('elio-startsnd'))return;sessionStorage.setItem('elio-startsnd','1')}catch(e){}if(UIS.on())fileSnd('assets/audio/futuristisch.mp3',.7)};document.addEventListener('pointerdown',st,true)}
 /* UI-Sounds (Klick, Bestätigen, Fehler, Menü auf/zu): Dateien in assets/sounds/ui/, Zuordnung in assets/sounds/ui/ui-sounds.json.
    Fehlt eine Datei, bleibt es still. Ein Audio-Element pro Sound: schnelles Klicken startet ihn neu statt zu stapeln. Schalter im Logo-Menü, gilt pro Gerät. */
-const UIS={map:{klick:'klick.mp3',ok:'bestaetigen.mp3',fehler:'fehler.mp3',auf:'menue-auf.mp3',zu:'menue-zu.mp3'},vol:.35,el:{},bad:{},at:0,
+const UIS={map:{klick:'klick.mp3'},vol:.35,el:{},bad:{},at:0,
   on(){try{return localStorage.getItem('elio-uisnd')!=='0'}catch(e){return true}},set(v){try{localStorage.setItem('elio-uisnd',v?'1':'0')}catch(e){}}};
 setTimeout(()=>fetch('assets/sounds/ui/ui-sounds.json?v='+BUILD).then(r=>r.ok?r.json():null).then(J=>{if(!J||typeof J!=='object')return;
-  Object.entries(J.sounds||{}).forEach(([k,f])=>{if(/^[\w-]{1,20}$/.test(k)&&/^[\w.-]{1,80}\.(mp3|m4a|wav|ogg)$/i.test(f||''))UIS.map[k]=f});if(+J.lautstaerke>0&&+J.lautstaerke<=1)UIS.vol=+J.lautstaerke}).catch(()=>{}),0);// BUILD steht weiter unten
+  Object.entries(J.sounds||{}).forEach(([k,f])=>{if(f===''){delete UIS.map[k];return}if(/^[\w-]{1,20}$/.test(k)&&/^[\w.-]{1,80}\.(mp3|m4a|wav|ogg)$/i.test(f||''))UIS.map[k]=f});if(+J.lautstaerke>0&&+J.lautstaerke<=1)UIS.vol=+J.lautstaerke}).catch(()=>{}),0);// BUILD steht weiter unten
 function uiSnd(k){if(BOARD||!UIS.on()||UIS.bad[k]||!UIS.map[k])return;const now=Date.now();if(now-UIS.at<70)return;UIS.at=now;
   try{let a=UIS.el[k];if(!a){a=UIS.el[k]=new Audio('assets/sounds/ui/'+UIS.map[k]);a.preload='auto';a.onerror=()=>{UIS.bad[k]=1}}
     a.volume=UIS.vol;a.pause();a.currentTime=0;const pr=a.play();if(pr)pr.catch(()=>{})}catch(e){}}
@@ -3715,8 +3722,19 @@ async function voWhy(r){const e=r&&r.error,st=e&&e.context&&e.context.status;if(
     if(o&&o.err==='admin')return 'Die Elo-Stimme ist nur für Admins.';if(o&&o.err==='auth'||st===401)return 'Bitte melde dich neu an.';
     if(o&&o.err==='leer')return 'Schreib zuerst einen Satz für Elo.';
     if(o&&o.err==='timeout')return 'ElevenLabs hat zu lange gebraucht. Es wurde nichts übernommen. Versuch es in ein paar Minuten nochmal.';
+    if(o&&o.err==='voice'||o&&o.detail==='voice_not_found')return 'ElevenLabs findet die Oswald-Stimme in deinem Konto nicht. Öffne bei ElevenLabs die Voice Library, such „Oswald – Kind & Gentle Grandpa“ und tippe auf „Add to my voices“.';
+    if(o&&/quota|credit/i.test(o.detail||''))return 'Bei ElevenLabs ist das Guthaben oder das Credit-Limit des Schlüssels erreicht.';
     if(o&&o.err==='tts')return o.status===401?'ElevenLabs lehnt den Schlüssel ab. Bitte ELEVEN_KEY prüfen.':o.status===402||o.status===429?'Bei ElevenLabs ist das Guthaben oder Limit erreicht.':'ElevenLabs hat gerade nicht geantwortet ('+(o.status||'?')+'). Versuch es später nochmal.';
+    if(st>=500)return 'Die Funktion „elo-stimme“ ist auf dem Server abgestürzt ('+st+'). Meist läuft dort noch eine alte Fassung: einmal neu deployen (Anleitung ElevenLabs, Schritt 3). Details: Supabase → Edge Functions → elo-stimme → Logs.';
     return 'Die Elo-Stimme ging gerade nicht'+(st?' ('+st+')':'')+'. Die Computerstimme liest trotzdem vor.'}
+// Kostenlos prüfen, woran es liegt: Anmeldung, Admin, Schlüssel, Oswald-Stimme, Fassung der Funktion (spricht nichts, kostet keine Credits)
+async function voCheck(){if(!bbAdmin()||VO.st==='busy')return;Object.assign(VO,{st:'err',msg:'Prüfe die Elo-Stimme …'});render();
+  let m;try{const sb=await sbClient(),r=await Promise.race([sb.functions.invoke('elo-stimme',{body:{check:true}}),new Promise(res=>setTimeout(()=>res({timeout:1}),15000))]);
+    let o=r&&r.data;if(!o&&r&&r.error&&r.error.context&&r.error.context.json)try{o=await r.error.context.json()}catch(x){}
+    m=r.timeout?'Der Server antwortet nicht (15 s). Bist du online?':o&&o.ok?'✓ Alles eingerichtet: Schlüssel und Oswald-Stimme sind da'+(o.rest!=null?' (noch etwa '+o.rest+' Credits)':'')+'. Elo kann sprechen.'
+      :o&&o.err==='leer'&&!o.v?'Auf dem Server läuft noch eine alte Fassung von „elo-stimme“. Bitte einmal neu deployen (Anleitung ElevenLabs, Schritt 3).':await voWhy(r)}
+  catch(e){m='Prüfen ging nicht ('+String(e&&e.message||e).slice(0,80)+').'}
+  Object.assign(VO,{st:'err',msg:m});render()}
 async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin()||VO.st==='busy')return;
   const lang=L&&L.subject==='E'?'en':'de',txt=String(sl.say).slice(0,300),ck=lang+'|'+txt.replace(/\s+/g,' ').trim();
   // Schon erzeugt (übernommen oder in dieser Sitzung verworfen): erst nachfragen bzw. die vorhandene Aufnahme nehmen, kein neuer Bezahl-Aufruf
@@ -3775,6 +3793,8 @@ function uebGame(L,i){const p=L.phases[i],T=p.tool||{},all=ubSeq(T).map(q=>{cons
   if(!CS.uebGrp||CS.uebGrp.i!==i||CS.uebGrp.at!==CS.phaseAt)CS.uebGrp={i,at:CS.phaseAt,id:at};
   CS.game={...g,at,grp:CS.uebGrp.id,...(it.length>1?{seq:it,sk}:{})};CS.phase.look=false}
 function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
+  // Futuristic 2, wenn ein Werkzeug/eine Anwendung startet; nicht bei Folien, Start-/Textfolien oder wenn die Phase einen eigenen Sound hat
+  if(!BOARD&&T.id&&!p.snd&&!['slide','start','cover','question','task','heft','heftlink','mat'].includes(T.id)&&UIS.on())fileSnd('assets/audio/futuristisch-2.mp3',.6);
   if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean),words:!!T.mood,cloud:{}};
   if(T.id==='mood'){CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.q||'Wie geht\'s dir heute?',items:[],mood:true,only:true};CS.phase.look=false}
   if(T.id==='wc'){CS.cloud={id:'c'+Date.now(),q:T.q||'Was fällt dir dazu ein?',words:{},done:[],hide:[],max:Math.max(1,Math.min(3,+T.n||3)),cnt:{},big:true};CS.phase.look=false}
@@ -4709,7 +4729,7 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       ${tab==='elo'?`<div class="sl-row"><span class="sl-gl">Figur</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo!=='off'?`</span></div><div class="sl-row"><span class="sl-gl">Elo sagt</span><span class="sl-v"><input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="width:100%"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></span></div>
         <div class="sl-row"><span class="sl-v">${eloVoKey(sl.say)?'<span class="chip">Elo spricht diesen Satz mit seiner Stimme</span>':swH(f(j,'speak'),sl.speak,'Elo spricht den Satz','Beim Antippen von Elo an der Tafel')}</span></div>
         ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()&&VO.st!=='prev'?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}" ${VO.st==='busy'?'disabled':''}>${VO.st==='busy'?'⏳ Elo spricht ein …':sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>${VO.st==='busy'&&VO.sid===(sl.sid||'')?'<button class="btn sm" data-act="vo-stop">Abbrechen</button>':''}`:''}</div>
-        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button>${VO.again?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">Neu aufnehmen (kostet)</button>`:''}</div>${VO.msg?`<small class="sl-hint">${esc(VO.msg)}</small>`:''}`:''}${VO.st==='err'&&VO.sid===(sl.sid||'')?`<p class="err" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
+        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button>${VO.again?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">Neu aufnehmen (kostet)</button>`:''}</div>${VO.msg?`<small class="sl-hint">${esc(VO.msg)}</small>`:''}`:''}${VO.st==='err'?`<p class="${/^✓/.test(VO.msg)?'muted':'err'}" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${bbAdmin()&&!eloVoKey(sl.say)?`<div class="sl-line"><button class="btn sm ghost" data-act="vo-check">Elo-Stimme prüfen (kostenlos)</button></div>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
       ${tab==='ueb'?`
         <div class="sl-row"><span class="sl-gl">Übergang</span><span class="sl-v">${Object.entries(SL_TR).map(([k,n])=>`<button class="pill ${k===(sl.tr||'')?'on':''}" data-act="sl-tr" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}${sl.tr?`<button class="btn sm" data-act="sl-trp" data-i="${i}" data-j="${j}">Vorschau</button>`:''}${sl.tr==='morph'?`<small class="sl-hint">Gleiche Teile gleiten von der Folie davor an ihren neuen Platz. Tipp: Folie duplizieren, dann Überschrift, Bilder oder Elo verschieben.</small>`:''}</span></div>
         <div class="sl-line"><button class="btn sm ${ED.zo?'on':''}" data-act="sl-zo">${ED.zo?'Zurück zur Folie':'Rand um die Folie zeigen'}</button></div><small class="sl-hint">Am Rand geparkte Teile sieht die Klasse nicht. Mit Morph gleiten sie auf der nächsten Folie herein oder hinaus.</small>`:''}
@@ -7593,6 +7613,7 @@ document.addEventListener('click',e=>{
     case 'sl-vo-play':{const sl=slEdSlide(d),L=lessonById(V.id);if(sl)eloSay({...sl,speak:true},L&&L.subject);break}
     case 'sl-vo-gen':slVoGen(d);break;
     case 'vo-prev':voPlay(VO.id);break;
+    case 'vo-check':voCheck();break;
     case 'vo-stop':VO.n++;Object.assign(VO,{st:'',msg:'',id:''});render();break;
     case 'vo-ok':voTake(d,true);break;
     case 'vo-no':voTake(d,false);break;

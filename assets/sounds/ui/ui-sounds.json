@@ -1,11 +1,11 @@
 {
-  "_hinweis": "UI-Sounds der Steuerung. Links steht, wann der Ton kommt, rechts der Dateiname in diesem Ordner. Fehlt eine Datei, bleibt es still. lautstaerke: 0.1 (leise) bis 1 (laut). bestaetigen/menue-auf/menue-zu sind kurze Ausschnitte aus Fabians ELIO_Allgemein_Futuristic(II).mp3 (Originale ungekürzt in assets/audio/futuristisch*.mp3). klick und fehler: noch keine passende Datei.",
+  "_hinweis": "UI-Sounds der Steuerung. Links steht, wann der Ton kommt, rechts der Dateiname in diesem Ordner. Leer oder fehlende Datei = still. lautstaerke: 0.1 (leise) bis 1 (laut). Seit 20.10. still: ok, auf, zu (Fabian: Futuristic nur beim App-Start, Futuristic 2 beim Werkzeug-Start, beides fest in app.html). Fehler in Aufgaben: assets/audio/elio-error.mp3.",
   "lautstaerke": 0.35,
   "sounds": {
     "klick": "klick.mp3",
-    "ok": "bestaetigen.mp3",
-    "fehler": "fehler.mp3",
-    "auf": "menue-auf.mp3",
-    "zu": "menue-zu.mp3"
+    "ok": "",
+    "fehler": "",
+    "auf": "",
+    "zu": ""
   }
 }
