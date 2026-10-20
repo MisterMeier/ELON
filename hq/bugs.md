@@ -64,3 +64,5 @@ gelb
 | B-36 | Im Lehrer-Schreibtisch fehlten Fächer ohne Lehrplan-Module | mittel | in Test | app.html VIEWS.tdesk, DESK_SUBJ |
 | B-37 | Werkbetrachtung: Bild im Tafel-Fenster kam nicht immer, weil der Tafel-Abgleich es nicht beachtete | niedrig | in Test | app.html boardSig (skzShow, skzGal, wechsel) |
 | B-38 | Mikrofon verweigert: nur „nicht erlaubt“ ohne Hilfe, Aufnahme klappt nicht bei allen SuS | mittel | in Test | app.html micErr, MIC_NO (Ursache am iPad: Safari-Freigabe) |
+| B-39 | Rakete startete zu früh, sobald alle gerade verbundenen iPads bereit waren (Fehlende und Nachzügler zählten nicht) | hoch | in Test | app.html rdGo, expN, absList |
+| B-40 | Irregular Verbs: bei falscher Eingabe war die Korrektur zu unauffällig | mittel | in Test | app.html gramQuiz, AKT.irreg |
