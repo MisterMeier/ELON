@@ -7077,12 +7077,46 @@ const vokFor=()=>(TD.vok||[]).filter(l=>l.cls===S.cls).slice(-40).map(({id,title
 function vokSync(){if(S.role!=='student'||!Array.isArray(S.vokRecv))return;const D=vokD();let ch=0;
   S.vokRecv.forEach(L=>{if(!L||!Array.isArray(L.words))return;L.words.forEach(w=>{if(!Array.isArray(w))return;const en=vokClean(w[0]),de=vokClean(w[1]);if(!en||!de)return;const id=String(L.id).slice(0,40)+':'+vokNorm(en).slice(0,60),c=D.c[id];
     if(!c){D.c[id]={en,de,b:0,due:'',src:String(L.id).slice(0,40),t:vokClean(L.title),at:Date.now()};ch=1}else if(c.en!==en||c.de!==de||c.t!==vokClean(L.title)){c.en=en;c.de=de;c.t=vokClean(L.title);ch=1}})});if(ch)save()}
+// Gescannte Vokabelliste → Zeilen „englisch = deutsch“. Lautschrift ([..] oder /../) und Beispielsätze fallen weg.
+// Spalten erkennt ELIO an großen Lücken (die Texterkennung liefert sie als drei Leerzeichen).
+const VOK_EN=/\b(the|a|an|is|are|was|were|i|you|he|she|it|we|they|my|your|his|her|our|their|this|that|to|of|in|on|at|for|with|can|do|does|did|have|has|don't|i'm|it's|there)\b/i;
+function vokScan(txt){const out=[];
+  String(txt||'').split('\n').forEach(l=>{
+    l=l.replace(/\[[^\]]{1,40}\]|\/[^\/\s][^\/]{0,38}\//g,'   ').replace(/[|•·▪►]/g,' ').replace(/^\s*\d{1,3}[.)]\s+/,'');
+    let p=l.split(/\s*(?:=|\t|\s–\s|\s-\s|;|\s{3,})\s*/).map(x=>x.trim()).filter(Boolean);
+    // Beispielsätze (mehrere Wörter mit Satzzeichen am Ende, oder englische Satzwörter ab dem 3. Teil) weg
+    const sent=x=>x.split(' ').length>=4&&/[.!?]$/.test(x)||x.split(' ').length>=5;
+    p=p.filter((x,i)=>i<2||!sent(x));if(p.length>2)p=p.filter((x,i)=>i<1||!(sent(x)&&VOK_EN.test(x)));
+    if(p.length<2){const w=(p[0]||'').split(' ');if(w.length===2&&!/[.!?]$/.test(p[0]))p=w;else return}
+    let en=p[0],de=p[1];if(sent(en)||sent(de))return;
+    if(/^(english|englisch|deutsch|german|word|wort|page|seite)$/i.test(en)||/^unit\b/i.test(en))return;
+    en=en.replace(/[^\p{L}\p{N}' ().,\/\-!?…]/gu,'').trim();de=de.replace(/[^\p{L}\p{N}' ().,\/\-!?…]/gu,'').trim();
+    if(en.length<2||de.length<2||!/\p{L}/u.test(en)||!/\p{L}/u.test(de))return;out.push(en+' = '+de)});
+  return [...new Set(out)].slice(0,200).join('\n')}
+
+// Foto oder PDF einlesen: läuft auf dem Gerät der Lehrkraft (Texterkennung Tesseract, PDF-Text mit pdf.js; beides wird nur beim Tippen nachgeladen).
+// Das Bild verlässt das Gerät nicht. Ergebnis landet zum Prüfen im Textfeld, geschickt wird erst mit „An alle SuS schicken“.
+const VOK_LIB={tess:'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js',pdf:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',pdfw:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'};
+const vokJs=u=>new Promise((res,rej)=>{if(document.querySelector(`script[src="${u}"]`))return res();const x=document.createElement('script');x.src=u;x.onload=res;x.onerror=()=>rej(new Error('Laden ging nicht. Bist du online?'));document.head.appendChild(x)});
+// Wörter einer Zeile mit großer Lücke (Spalte) durch drei Leerzeichen trennen
+const vokCols=ws=>{ws=ws.filter(w=>w.t.trim());if(!ws.length)return '';const ch=ws.reduce((a,w)=>a+(w.x1-w.x0)/Math.max(1,w.t.length),0)/ws.length;return ws.map((w,i)=>(i&&w.x0-ws[i-1].x1>ch*2.2?'   ':i?' ':'')+w.t).join('')};
+async function vokOcrImg(src,msg){await vokJs(VOK_LIB.tess);const r=await Tesseract.recognize(src,'eng+deu',{logger:m=>{if(m.status==='recognizing text')msg('Elo liest … '+Math.round(100*m.progress)+' %')}});
+  return (r.data.lines||[]).map(l=>vokCols((l.words||[]).map(w=>({t:w.text,x0:w.bbox.x0,x1:w.bbox.x1})))).join('\n')}
+async function vokOcr(f){const msg=t=>{V.vkOcr=t;const el=$('#vk-ocr-m');if(el)el.textContent=t};msg('Elo lädt die Texterkennung …');
+  let txt='';if(/pdf/i.test(f.type)||/\.pdf$/i.test(f.name)){await vokJs(VOK_LIB.pdf);pdfjsLib.GlobalWorkerOptions.workerSrc=VOK_LIB.pdfw;const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    for(let n=1;n<=Math.min(doc.numPages,6);n++){const pg=await doc.getPage(n),tc=await pg.getTextContent(),rows={};
+      tc.items.forEach(it=>{if(!it.str||!it.str.trim())return;const y=Math.round(it.transform[5]/4);(rows[y]=rows[y]||[]).push({t:it.str.trim(),x0:it.transform[4],x1:it.transform[4]+it.width})});
+      let t=Object.keys(rows).map(Number).sort((a,b)=>b-a).map(y=>vokCols(rows[y].sort((a,b)=>a.x0-b.x0))).join('\n');
+      if(t.replace(/\s/g,'').length<20){msg('Seite '+n+' ist ein Scan, Elo liest das Bild …');const vp=pg.getViewport({scale:2}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;t=await vokOcrImg(c,msg)}
+      txt+=t+'\n'}}
+  else txt=await vokOcrImg(f,msg);
+  return vokScan(txt)}
 function vokTeach(){const Ls=(TD.vok||[]).filter(l=>l.cls===S.cls).slice().reverse();
   return `<h2 style="margin:18px 0 8px">📘 Vokabelheft · Listen für die SuS</h2>
   <section class="panel"><p class="muted" style="font-weight:700;margin:0 0 8px">Jede Liste landet automatisch im Vokabelheft aller SuS. Dort werden die Wörter abgefragt wie bei Phase 6.</p>
     <div class="lgrid"><label style="grid-column:1/-1">Titel der Liste<input id="vk-t" type="text" maxlength="60" placeholder="Unit 2 · At the zoo"></label>
     <label style="grid-column:1/-1">Vokabeln (eine pro Zeile: englisch = deutsch)<textarea id="vk-x" rows="6" placeholder="zoo = Zoo&#10;to feed = füttern&#10;giraffe = Giraffe"></textarea></label></div>
-    <div class="row" style="margin-top:8px"><button class="btn pri" data-act="vk-send">📨 An alle SuS schicken</button></div></section>
+    <div class="row" style="margin-top:8px;gap:8px"><label class="btn">📷 Foto oder PDF einlesen<input type="file" id="vk-file" accept="image/*,application/pdf" hidden></label><button class="btn pri" data-act="vk-send">📨 An alle SuS schicken</button><small class="muted" id="vk-ocr-m" style="font-weight:700">${esc(V.vkOcr||'Elo übernimmt nur Englisch und Deutsch, Lautschrift und Beispielsätze lässt er weg. Bitte danach kurz prüfen.')}</small></div></section>
   ${Ls.length?`<div class="vk-list" style="margin-top:10px">${Ls.map(l=>`<div class="vk-w"><span class="en">${esc(l.title)}</span><span class="de muted" style="font-weight:700">${l.words.length} Wörter · ${esc(l.date||'')}<br><small>${esc(l.words.slice(0,4).map(w=>w[0]).join(', '))}${l.words.length>4?' …':''}</small></span><button class="btn sm red" data-act="vk-del" data-id="${esc(l.id)}">Löschen</button></div>`).join('')}</div>`:''}`}
 VIEWS.vok=()=>{const D=vokD(),C=Object.entries(D.c),due=C.filter(([,c])=>vokDue(c)),bx=VOK_F.map((_,b)=>C.filter(([,c])=>(c.b||0)===b).length);
   if(VQ)return vokQuiz();
@@ -7470,7 +7504,10 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='pairs'){const p=L.phases[+k[1]],r=p.tool&&p.tool.pairs&&p.tool.pairs[+k[4]];if(r)r[+k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+document.addEventListener('change',e=>{if(e.target.id==='vk-file'){const F=e.target.files&&e.target.files[0];e.target.value='';if(!F)return;
+  vokOcr(F).then(t=>{const ta=$('#vk-x');if(!t){V.vkOcr='Elo hat keine Vokabelpaare gefunden. Ein schärferes, gerades Foto hilft.';}else{if(ta)ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+t;V.vkOcr=t.split('\n').length+' Vokabeln erkannt. Bitte prüfen und ggf. korrigieren, dann schicken.'}const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr})
+    .catch(er=>{V.vkOcr='Einlesen ging nicht: '+String(er&&er.message||er).slice(0,80);const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr});return}
+const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 // Werkzeug an eine andere Folie hängen (t.after = sid). Ändert nur die Reihenfolge, nichts wird überschrieben.
 document.addEventListener('change',e=>{const i=e.target.dataset&&e.target.dataset.tafter;if(i==null||V.name!=='lesson-edit')return;const L=lessonById(V.id),p=L&&L.phases[+i];if(!p||!p.tool)return;
   const v=e.target.value;if(v&&(p.xs||[]).some(sl=>sl&&sl.sid===v))p.tool.after=v;else delete p.tool.after;phTl(p);save();render()});
