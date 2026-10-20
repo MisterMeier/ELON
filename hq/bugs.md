@@ -59,3 +59,4 @@ gelb
 | B-31 | Futuristic-Sound kam bei vielen Tipps und nach Folienwechsel | mittel | in Test | app.html UIS, assets/sounds/ui/ui-sounds.json |
 | B-32 | Hefteintrag, Übung, Hilfestation: Schrift im dunklen Modus zu dunkel | mittel | in Test | app.html .page Farb-Token |
 | B-33 | Abgelaufene Erinnerungen und Übungsaufträge blieben auf dem Schüler-Dashboard | mittel | in Test | app.html aufLive, aufRemNow |
+| B-34 | Neue Bilder (Tafel-Startbild, Freeze, Logos) erschienen nach dem Update nicht, alter Stand aus dem Zwischenspeicher; Logo fehlte auf dem Tafel-Startbild | hoch | in Test | app.html Bild-Versionen ?v=, .idle-lg |
