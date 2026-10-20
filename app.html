@@ -3790,7 +3790,17 @@ async function eloAuto(sl,subj){if(!bbAdmin()||ELO_AUTO.busy)return '';const lan
 // Erst Probehören, dann übernehmen. Zeitlimit statt Hängen, Meldung in der Seite statt Pop-up. Ein Aufruf pro Klick (kostet Geld).
 const VO={st:'',msg:'',id:'',txt:'',sid:'',n:0,again:''},VOC={};// VOC: schon bezahlte Aufnahmen dieser Sitzung (Satz → Datei), damit Verwerfen und erneut Erzeugen nichts kostet
 function voPlay(id){libBlob(id).then(b=>{if(!b)return;if(!eloVoEl)eloVoEl=new Audio();eloVoEl.pause();try{speechSynthesis.cancel()}catch(e){}eloVoEl.src=URL.createObjectURL(b);eloVoEl.currentTime=0;eloVoEl.play().catch(()=>{})})}
-async function voWhy(r){const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return 'Keine Verbindung zur Elo-Stimme. Bist du online? Falls ja: Die Funktion „elo-stimme“ muss (neu) auf den Server, siehe Anleitung ElevenLabs, Schritt 3.';
+// Wenn der Aufruf gar nicht durchkommt: einfacher Test ohne Zusatz-Header (keine CORS-Vorab-Anfrage), um zu sehen, was der Server wirklich sagt
+async function voProbe(){if(!navigator.onLine)return 'Keine Verbindung: Das Gerät ist offline.';
+  let r;try{r=await fetch(LIVE_CFG.supabaseUrl+'/functions/v1/elo-stimme',{method:'POST',headers:{'Content-Type':'text/plain'},body:'{}',signal:AbortSignal.timeout(12000)})}
+  catch(e){return 'Der Aufruf kommt nicht bei der Funktion „elo-stimme“ an. Meist blockt Supabase ihn schon vorher: In Supabase → Edge Functions → elo-stimme → „Details“ den Schalter „Verify JWT with legacy secret“ ausschalten und speichern (die Funktion prüft die Anmeldung selbst). Hilft das nicht: unter „Logs“ nach einer roten Zeile schauen und mir den Text schicken. (Test: kein Zugriff)'}
+  const t=(await r.text().catch(()=>'')).slice(0,160);let o=null;try{o=JSON.parse(t)}catch(x){}
+  if(o&&o.v)return 'Die Funktion „elo-stimme“ läuft (Stand '+o.v+'), aber der Browser darf sie nicht aufrufen (CORS). Bitte die Datei unverändert neu einfügen und deployen. (Test: '+r.status+')';
+  if(r.status===401)return 'Supabase lässt den Aufruf nicht zur Funktion durch (JWT-Prüfung). In Supabase → Edge Functions → elo-stimme → „Details“ den Schalter „Verify JWT with legacy secret“ ausschalten und speichern (die Funktion prüft die Anmeldung selbst). (Test: 401)';
+  if(r.status===404)return 'Auf dem Server gibt es keine Funktion mit dem Namen „elo-stimme“. Bitte in Supabase → Edge Functions den Namen prüfen (genau so, klein, mit Bindestrich). (Test: 404)';
+  if(r.status>=500)return 'Die Funktion „elo-stimme“ startet auf dem Server nicht (Fehler '+r.status+'). Meist ist beim Einfügen etwas vom Code verloren gegangen. Supabase → Edge Functions → elo-stimme → Logs zeigt die Zeile; schick mir den Text. (Test: '+esc(t.slice(0,80))+')';
+  return 'Keine Verbindung zur Elo-Stimme. Der Server antwortet ('+r.status+': '+esc(t.slice(0,80))+'), aber der Aufruf aus ELIO kommt nicht durch. Schick mir diese Meldung.'}
+async function voWhy(r){const e=r&&r.error,st=e&&e.context&&e.context.status;if(e&&/FunctionsFetchError/.test(e.name||''))return await voProbe();
     if(st===404)return 'Die Funktion „elo-stimme“ ist noch nicht auf dem Server. Sie muss einmal deployt werden (siehe Anleitung ElevenLabs).';
     let o=r&&r.data;if(!o&&e&&e.context&&e.context.json)try{o=await e.context.json()}catch(x){}
     if(o&&o.err==='nokey')return 'Die Elo-Stimme ist noch nicht eingerichtet: Auf dem Server fehlt der ElevenLabs-Schlüssel (ELEVEN_KEY).';
