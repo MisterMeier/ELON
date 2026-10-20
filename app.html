@@ -8,7 +8,7 @@
 /* Layout: iPad-first app shell. Sticky header with clock and nav; dashboard = "Jetzt"-card + Fächer-grid; each subject has Heft / Hausaufgaben / Module. */
 :root{
   --bg:#eef1f8; --surface:#ffffff; --surface-2:#f5f7fc; --ink:#18203d; --muted:#586082; --line:#d8ddee;
-  --navy:#26337a; --red:#cf3a2c; --yellow:#f2b51d; --green:#1f8f5d; --blue:#2f6fd6; --orange:#e8743b;
+  --navy:#26337a; --red:#cf3a2c; --yellow:#f2b51d; --green:#177a4e; --blue:#2f6fd6; --orange:#e8743b;
   --on-accent:#ffffff; --on-bright:#18203d; --ok-bg:#dff4e9; --warn-bg:#fdf0d2; --late-bg:#fde3df;
   --f-display:"Baloo 2","Arial Rounded MT Bold",ui-rounded,system-ui,sans-serif;
   --f-body:"Nunito",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -67,16 +67,16 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .btn[disabled]{opacity:.45;cursor:default}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:.8rem;font-weight:800;letter-spacing:.02em;color:var(--muted)}
-.chip.ex{border-style:dashed;color:var(--orange);border-color:var(--orange)}
+.chip.ex{border-style:dashed;color:color-mix(in srgb,var(--orange) 65%,var(--ink));border-color:var(--orange)}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);min-width:0}
 .muted{color:var(--muted)}
 .label{font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .empty{padding:22px;border:2px dashed var(--line);border-radius:16px;text-align:center;color:var(--muted);font-weight:700}
 
 /* Subject colours: fixed, white text works in both themes */
-.s-WK{--sc:#b0521a}.s-ES{--sc:#c2477f}.s-T{--sc:#55606e}.s-S{--sc:#1f8f4e}.s-GS{--sc:#8d6b12}.s-ET{--sc:#5b57b8}.s-R{--sc:#7a4a2a}.s-GD{--sc:#3d6f8f}.s-DZ{--sc:#0f7c9c}
+.s-WK{--sc:#b0521a}.s-ES{--sc:#c2477f}.s-T{--sc:#55606e}.s-S{--sc:#1c7f46}.s-GS{--sc:#8d6b12}.s-ET{--sc:#5b57b8}.s-R{--sc:#7a4a2a}.s-GD{--sc:#3d6f8f}.s-DZ{--sc:#0f7c9c}
 .art-der{color:#2f63c8;font-weight:800}.art-die{color:#cf3a2c;font-weight:800}.art-das{color:#1f8f5d;font-weight:800}
-.s-E{--sc:#c8402f}.s-M{--sc:#2f63c8}.s-K{--sc:#8a4fc1}.s-D{--sc:#0e8577}.s-G{--sc:#a8650f}.s-N{--sc:#0284c7}.s-I{--sc:#4a5d78}.s-W{--sc:#c03a74}
+.s-E{--sc:#c8402f}.s-M{--sc:#2f63c8}.s-K{--sc:#8a4fc1}.s-D{--sc:#0d7a6d}.s-G{--sc:#9a5c0d}.s-N{--sc:#0272a8}.s-I{--sc:#4a5d78}.s-W{--sc:#c03a74}
 .sbadge{flex:none;width:44px;height:44px;border-radius:12px;background:var(--sc);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.05rem}
 
 /* Dashboard */
@@ -133,7 +133,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .page h4{font-family:var(--f-display);font-size:1.25rem;margin:14px 0 4px;color:#0f172a;text-decoration:underline;text-decoration-color:var(--sc);text-decoration-thickness:3px;text-underline-offset:4px}
 .page ul{margin:4px 0;padding-left:22px}
 .page li{margin-block:2px}
-.sa-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}.sa-tabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}.sa-tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.sa-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}.sa-tabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}.sa-tabs button.on{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
 .sa-pers{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.sa-pers button{border:2px solid var(--pc);color:var(--pc);background:var(--surface);border-radius:10px;padding:6px 12px;font:inherit;font-weight:800;cursor:pointer}.sa-pers button.on{background:var(--pc);color:#fff}
 .sa-cat{margin-top:12px;border-top:5px solid var(--pc)}.sa-cat h3{margin:0}.sa-it{display:grid;grid-template-columns:1fr auto auto 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.sa-it .l{font-weight:700}.sa-it .r{color:var(--muted);font-weight:600}
 .sa-seg{display:flex;border:2px solid var(--line);border-radius:10px;overflow:hidden}.sa-seg button{border:0;background:var(--surface);font:inherit;font-weight:800;min-width:42px;padding:8px 4px;cursor:pointer;color:var(--ink)}.sa-seg button+button{border-left:1px solid var(--line)}.sa-seg button.on{background:var(--pc);color:#fff}
@@ -202,7 +202,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .ttown table{width:100%;table-layout:fixed}.ttown td{padding:3px;vertical-align:top}.ttown select,.ttown input{width:100%;font-size:.78rem;padding:4px 5px;min-width:0}.ttown input{margin-top:3px}.ttown td.has{border-radius:8px}
 .daybar{margin-bottom:16px}.dstrip{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 6px;scroll-snap-type:x mandatory}
 .dcell{flex:1 0 108px;scroll-snap-align:start;position:relative;display:grid;gap:2px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--surface)}.dcell b{font-size:1rem}.dcell small{color:var(--muted);font-weight:700;font-size:.78rem}
-.dcell.past{opacity:.5}.dcell.free{border-style:dashed}.dcell.cur{border-color:var(--navy);box-shadow:0 0 0 3px rgba(40,50,120,.15);background:var(--surface-2)}.dnow{position:absolute;top:-9px;right:10px;background:var(--navy);color:#fff;font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:9px}
+.dcell.past{opacity:.5}.dcell.free{border-style:dashed}.dcell.cur{border-color:var(--navy);box-shadow:0 0 0 3px rgba(40,50,120,.15);background:var(--surface-2)}.dnow{position:absolute;top:-9px;right:10px;background:var(--navy);color:var(--on-accent);font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:9px}
 .dsug{border-top:2px solid var(--line);margin-top:8px;padding-top:10px}
 .lock{display:grid;place-items:center;min-height:60vh}.lock .panel{max-width:440px;width:100%;display:grid;gap:6px;text-align:left}.lock h1{font-size:1.5rem}
 .mods{display:grid;gap:10px}.mod-card .mi{font-size:2.2rem;flex:none}.mod-card.locked{opacity:.55;cursor:default;box-shadow:none}.mod-card .btn{flex:none}
@@ -521,7 +521,7 @@ body.wide main,body.wide .top-in{max-width:1760px}
 .nx-l{display:grid;gap:8px;margin-top:10px}.nx{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:12px;border:1px solid var(--line)}.nx.first{border:2px solid var(--green);background:var(--ok-bg)}.nx-w{display:grid;min-width:92px}.nx-w small,.nx-t small{font-weight:700}.nx-t{display:grid;flex:1;min-width:0}.nx-now{color:var(--green)}@media (max-width:620px){.nx{flex-wrap:wrap}}
 .au-med{margin-bottom:16px}.au-sum{display:flex;justify-content:space-between;align-items:center;width:100%;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer}
 .au-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:6px}.au-it{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:12px}.au-it>div{display:grid;min-width:0}.au-it small{font-weight:700}.au-lic{font-size:.72rem;color:var(--muted);opacity:.8}
-.au-pl{min-width:40px;font-size:1rem}.au-pl.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.au-pl{min-width:40px;font-size:1rem}.au-pl.on{background:var(--navy);color:var(--on-accent);border-color:var(--navy)}
 .subj-grid.main3{grid-template-columns:repeat(3,minmax(0,1fr))}@media (max-width:620px){.subj-grid.main3{grid-template-columns:1fr}}
 .subj-more{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.subj-more button{font:inherit;font-weight:700;font-size:.88rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;border-left:4px solid var(--sc,var(--line))}.subj-more button:hover{color:var(--ink)}
 button.dcell{font:inherit;color:inherit;cursor:pointer;text-align:left}
@@ -545,8 +545,8 @@ button.dcell{font:inherit;color:inherit;cursor:pointer;text-align:left}
 .pills span.cur{background:#fff;color:#18203d;opacity:1}
 .now.idle .pstrip{background:var(--surface-2);border:1px solid var(--line)}
 .now.idle .pills span{background:var(--line);color:var(--ink)}
-.now.idle .pills span.cur{background:var(--navy);color:#fff}
-.now.idle .pstrip .btn{background:var(--navy);border-color:var(--navy);color:#fff}
+.now.idle .pills span.cur{background:var(--navy);color:var(--on-accent)}
+.now.idle .pstrip .btn{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
 .lvl{display:flex;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:18px}
 .lvl .bar{height:12px;border-radius:12px;background:var(--surface-2);overflow:hidden;margin-top:8px;border:1px solid var(--line)}
 .lvl .bar i{display:block;height:100%;background:var(--green)}
@@ -595,7 +595,7 @@ button.slot{border-style:solid;border-color:var(--sc);background:var(--surface);
 
 /* v9: Lehrerbereich */
 body.teacher .top{border-bottom:3px solid var(--navy)}
-.tchip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;font-size:.85rem}
+.tchip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--navy);color:var(--on-accent);font-weight:800;font-size:.85rem}
 .areas.four{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:900px){.areas.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.areas.four{grid-template-columns:1fr}}
@@ -607,6 +607,10 @@ body.teacher .top{border-bottom:3px solid var(--navy)}
 .mat{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sc);box-shadow:var(--shadow);min-width:0}
 .mat .nm{display:flex;gap:10px;align-items:center;min-width:0}
 .mat .nm b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Bibliothek: Fächer als einklappbare Zeilen, Material als schmale Zeile (Fabian 20.10.) */
+.lib-sec{margin-top:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.lib-sec>summary{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-weight:900;font-size:1.05rem;list-style:none}.lib-sec>summary::-webkit-details-marker{display:none}.lib-sec>summary::after{content:'▾';margin-left:auto;color:var(--muted)}.lib-sec[open]>summary::after{content:'▴'}
+.lib-rows{display:grid;gap:0;padding:0 10px 8px}.lib-rows .mat{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:0;box-shadow:none;border:0;border-top:1px solid var(--line);border-left:4px solid var(--sc)}.lib-rows .mat .nm{flex:1;min-width:200px}
+.arc-l{display:grid;margin:6px 0 10px}.arc-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}
 .mat .ic{font-size:1.8rem;flex:none}
 .matchips{display:flex;flex-wrap:wrap;gap:6px}
 .matchip{display:inline-flex;gap:6px;align-items:center;padding:5px 6px 5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-weight:800;font-size:.85rem;max-width:100%}
@@ -623,7 +627,7 @@ body.teacher .top{border-bottom:3px solid var(--navy)}
 .pupil .dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block}
 .cats{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .cats button{padding:7px 12px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}
-.cats button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.cats button.on{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
 .note{padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:grid;gap:6px}
 .note .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;color:var(--muted);font-weight:700;font-size:.85rem}
 .notes{display:grid;gap:10px;margin-top:12px}
@@ -662,7 +666,7 @@ body.tboard .bal{width:48px;height:60px}
 .tpc.planned{background:color-mix(in srgb,var(--sc) 10%,var(--surface))}
 .tpc.today{box-shadow:0 0 0 3px var(--yellow)}
 .tpc b{font-size:.92rem;line-height:1.15;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.tpc .add{color:var(--sc);font-weight:800}
+.tpc .add{color:color-mix(in srgb,var(--sc) 60%,var(--ink));font-weight:800}
 .toolcard{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--surface-2)}
 .toolcard .ti{font-size:2rem}
 .pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px;text-align:left}
@@ -702,7 +706,7 @@ body.boardwin .bw{height:100vh}
 .avpick button{border:3px solid transparent;background:var(--surface-2);border-radius:20px;padding:6px;cursor:pointer;display:grid;place-items:center}
 .avpick button.on{border-color:var(--green);background:var(--ok-bg)}
 .avb{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start}.avb-prev{display:grid;justify-items:center;gap:8px;position:sticky;top:80px}.avb-r{min-width:0}.avb .psub{margin:0 0 8px;flex-wrap:wrap}
-.avb .psub button{background:var(--surface-2);color:inherit}.avb .psub button.on{background:var(--navy);color:#fff}.avb .avpick{grid-template-columns:repeat(auto-fill,minmax(66px,1fr))}@media (max-width:600px){.avb{grid-template-columns:1fr}.avb-prev{position:static}}
+.avb .psub button{background:var(--surface-2);color:inherit}.avb .psub button.on{background:var(--navy);color:var(--on-accent)}.avb .avpick{grid-template-columns:repeat(auto-fill,minmax(66px,1fr))}@media (max-width:600px){.avb{grid-template-columns:1fr}.avb-prev{position:static}}
 .qcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .qcard{background:#fff;color:#18203d;border:2px dashed #b9c2d6;border-radius:16px;padding:14px;display:grid;gap:8px;justify-items:center;text-align:center;break-inside:avoid}
 .qcard .qh{display:flex;justify-content:space-between;align-items:center;width:100%}.qcard .qh b{font-family:var(--f-display);font-size:1.6rem}
@@ -784,7 +788,7 @@ body:has(#skz-host) #tk-fab{display:none}
 .skzt-i img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff}.skzt-i small{display:block;padding:6px 8px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .skzt-kd{position:absolute;left:6px;top:6px;font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:var(--warn-bg);color:#8a5a00}.skzt-kd.werk{background:var(--ok-bg);color:#17643f}.skzt-kd.frei{background:var(--surface-2);color:var(--muted)}
 .skzt-ov{align-content:center}.skzt-box{background:var(--surface);border-radius:18px;padding:14px;width:min(1100px,96vw);box-shadow:0 20px 50px rgba(0,0,0,.3)}.skzt-box img{display:block;width:100%;max-height:72vh;object-fit:contain;background:#fff;border-radius:10px}
-.vk-box{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}.vk-box div{background:#eef2ff;border-radius:10px;padding:8px 4px;text-align:center}.vk-box b{display:block;font-size:1.4rem;color:#1e3a8a}.vk-box small{font-size:.7rem;font-weight:800;color:#64748b}
+.vk-box{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}.vk-box div{background:#eef2ff;border-radius:10px;padding:8px 4px;text-align:center}.vk-box b{display:block;font-size:1.4rem;color:#1e3a8a}.vk-box small{font-size:.7rem;font-weight:800;color:#475569}
 .vk-list{display:grid;gap:6px;margin-top:8px}.vk-w{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e0e7ff;border-radius:10px;padding:6px 10px}.vk-w .en{font-weight:800;color:#1e3a8a;flex:1}.vk-w .de{flex:1}.vk-f{font-size:.75rem;font-weight:800;background:#e0f2fe;color:#1e3a8a;border-radius:8px;padding:2px 8px;white-space:nowrap}
 .vk-q{max-width:640px;margin:0 auto;text-align:center}.vk-card{background:#fff;border:3px solid #c7d2fe;border-radius:22px;padding:28px 18px;margin:14px 0;box-shadow:0 8px 24px rgba(30,58,138,.08)}.vk-card .lang{font-size:.8rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em}.vk-card .w{font-family:var(--f-display);font-size:clamp(1.8rem,6vw,2.8rem);color:#1e3a8a;margin:8px 0}
 .vk-card input{font-size:1.4rem;text-align:center;max-width:420px;margin:10px auto 0;display:block;width:100%}.vk-ok{border-color:#38bdf8;background:#f0f9ff}.vk-bad{border-color:#f59e0b;background:#fffbeb}.vk-fb{font-weight:800;font-size:1.15rem;margin-top:10px;color:#1e3a8a}
@@ -895,7 +899,7 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .rp-cnt{padding:.45em .8em;border-radius:.8em;background:rgba(255,255,255,.92);box-shadow:0 .3em 1em rgba(30,58,138,.15);color:#1e3a8a;text-align:center}.rp-cnt .rp-tank{margin:.1em 0 .35em}.rp-cnt b{font-size:1.2em;font-weight:800}
 .pool-h{font-size:1rem;margin:14px 0 6px;color:var(--ink)}
 /* Hefteintrag immer wie helles Papier im ELIO-Blau, auch im dunklen Modus */
-.page{background-color:#fff;color:#0f172a;border-color:#dbe3f4}.page *{color:inherit}.page h3,.page h4{color:#1e3a8a!important;text-decoration-color:#38bdf8!important}.page .date{color:#475569!important}.page .merke b.l{color:#1e3a8a!important}.page .achtung .l{color:#8a5200!important}
+.page{background-color:#fff;color:#0f172a;border-color:#dbe3f4;--surface:#fff;--surface-2:#f1f5fd;--ink:#0f172a;--muted:#475569;--line:#c9d3ea;color-scheme:light}/* Heftseite ist immer Papier: helle Farbwerte auch im Dunkelmodus, sonst dunkle Kästen mit dunkler Schrift */.page *{color:inherit}.page h3,.page h4{color:#1e3a8a!important;text-decoration-color:#38bdf8!important}.page .date{color:#475569!important}.page .merke b.l{color:#1e3a8a!important}.page .achtung .l{color:#8a5200!important}
 .page .btn:not(.pri):not(.ok):not(.red):not(.on){background:#fff;color:#1e3a8a;border-color:#8da2d8}.page .btn.pri,.page .btn.ok,.page .btn.red,.page .btn.on{color:#fff}.page .btn.ok{background:#146c43;border-color:#146c43}.page .btn.red{background:#b42318;border-color:#b42318}.page .muted,.page small{color:#475569}
 .hbe-b{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;margin:8px 0;padding:8px;border:2px dashed #8da2d8;border-radius:12px;background:#f8faff}.hbe-b textarea{width:100%;min-height:44px;color:#0f172a;background:#fff;border:2px solid #8da2d8;border-radius:10px;padding:8px;font:inherit}.hbe-c{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.hbe-add{display:flex;gap:8px;justify-content:center;margin:4px 0}.hbe-b .hfoto{grid-column:1/-1;margin:0}
 .page table th,.page table td{background:#fff!important;color:#0f172a!important;border-color:#c7d2fe!important}.page table tr:first-child td,.page table th{background:#e0e7ff!important;color:#1e3a8a!important}
@@ -1153,7 +1157,7 @@ body.tboard .wlw-mapw{height:clamp(320px,calc(100vh - 260px),1400px)}
 .cwh{flex:1;min-width:240px;display:grid;gap:10px;font-weight:600}.cwh ol{margin:4px 0 0 1.4em}
 .ak-wg{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}.wgg{display:grid;gap:3px;width:min(100%,560px)}
 .wgg button{aspect-ratio:1;border:1px solid var(--line);background:var(--surface);border-radius:6px;font:inherit;font-weight:800;font-size:1.1rem;cursor:pointer;padding:0;color:var(--ink)}
-.wgg button.on{background:var(--navy);color:#fff}.wgg button.f{background:#ffe08a}
+.wgg button.on{background:var(--navy);color:var(--on-accent)}.wgg button.f{background:#ffe08a}
 .wgl{display:flex;flex-wrap:wrap;gap:8px;max-width:260px}.wgl span{font-weight:800;padding:4px 10px;border-radius:999px;background:var(--surface-2)}.wgl span.f{text-decoration:line-through;background:var(--ok-bg)}
 .ak-mio{display:grid;grid-template-columns:1fr 170px;gap:16px;background:radial-gradient(circle at 50% 30%,#23306b,#0b1030);color:#fff;border-radius:20px;padding:20px}
 .ak-mio h2{color:#fff;text-align:center;font-size:1.8rem;margin:14px 0}.ak-mio .mtop{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:#ffd666}
@@ -1245,7 +1249,7 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .bw-main .bw-big{font-size:12cqh;font-family:var(--f-display)}
 .bw-foot{padding:1.4cqh 2.4cqw;display:flex;justify-content:center;gap:2cqw;flex-wrap:wrap}
 .bw-note{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1cqh 2.4cqw;font-weight:800;font-size:3cqh}
-.bw-hint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--navy);color:#fff;font-weight:800;padding:10px 18px;border-radius:999px;z-index:5;transition:opacity .6s}
+.bw-hint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--navy);color:var(--on-accent);font-weight:800;padding:10px 18px;border-radius:999px;z-index:5;transition:opacity .6s}
 .lov.full:not([hidden])~.mt{display:none}
 body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .mt{position:fixed;right:12px;bottom:12px;z-index:31;width:min(320px,46vw);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--surface)}
@@ -1258,7 +1262,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .mt-frame>.bw,.tprev>.bw{position:absolute;inset:0;height:auto}.sl-pv>.rt,.sl-big>.rt{position:absolute;inset:0;height:auto}.mt.big{right:12px;bottom:auto;top:50%;transform:translateY(-50%);grid-template-rows:auto auto}.mt.big .mt-frame{width:min(100%,calc((100vh - 90px)*16/9));justify-self:center;cursor:default}
 .mt.big{inset:0;top:0;transform:none;border-radius:0;border:0;width:auto;background:#0f172a;align-content:center;padding:0 92px 0 12px;grid-template-rows:auto 1fr}.mt.big .mt-bar{background:transparent;color:#fff}.mt.big .mt-frame{width:min(100%,calc((100vh - 60px)*16/9));align-self:center;border-radius:12px;overflow:hidden}
 .lov{z-index:50}.srail{z-index:55}
-.mt-pill{border:0;background:var(--navy);color:#fff;font:inherit;font-weight:800;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer;min-height:44px}
+.mt-pill{border:0;background:var(--navy);color:var(--on-accent);font:inherit;font-weight:800;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);cursor:pointer;min-height:44px}
 .slide{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
 .slide h1{font-size:clamp(2.6rem,6vw,5.5rem);line-height:1.05}
 .slide p{font-size:clamp(1.3rem,2.6vw,2.2rem);font-weight:700;color:var(--muted);max-width:30ch}
@@ -1361,14 +1365,14 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .ctt .cell.has{border-color:var(--sc);background:color-mix(in srgb,var(--sc) 8%,var(--surface))}
 .clsw{display:flex;flex-wrap:wrap;gap:8px}
 .clsw button{padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font:inherit;font-weight:800;cursor:pointer;color:var(--ink)}
-.clsw button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.clsw button.on{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
 .tlink{background:none;border:0;color:var(--muted);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer;margin-top:6px}
 .pod{position:fixed;inset:5vh 5vw;z-index:80;background:color-mix(in srgb,var(--surface) 96%,transparent);border:4px solid var(--navy);border-radius:28px;padding:2vh 2vw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vh;box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .pod.mini{position:static;inset:auto;border-width:2px;border-radius:14px;padding:8px;gap:6px;box-shadow:none;margin-top:6px}
 .pod-h{font-size:4.5vh;font-weight:900}.pod.mini .pod-h{font-size:1rem}.pod-h small{font-size:.55em;opacity:.7;margin-left:8px}
 .pod-st{display:flex;align-items:flex-end;justify-content:center;gap:2vw}
 .pod-c{display:flex;flex-direction:column;align-items:center;gap:6px;animation:podpop .55s cubic-bezier(.3,1.6,.5,1) both}.pod-c b{font-size:2.6vh;max-width:16vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pod-c.empty{opacity:.3}.pod-b{width:14vw;max-width:200px;border-radius:14px 14px 0 0;background:var(--navy);color:#fff;font-weight:900;font-size:5vh;display:grid;place-items:center}
+.pod-c.empty{opacity:.3}.pod-b{width:14vw;max-width:200px;border-radius:14px 14px 0 0;background:var(--navy);color:var(--on-accent);font-weight:900;font-size:5vh;display:grid;place-items:center}
 .pod-c.p1 .pod-b{height:24vh;background:#d9a100}.pod-c.p2 .pod-b{height:17vh;background:#8f9bb3}.pod-c.p3 .pod-b{height:12vh;background:#c0763a}
 .pod.mini .pod-b{width:52px;font-size:1rem}.pod.mini .p1 .pod-b{height:46px}.pod.mini .p2 .pod-b{height:32px}.pod.mini .p3 .pod-b{height:22px}.pod.mini .pod-c b{font-size:.7rem;max-width:60px}
 .pod-rest{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:80vw}.pod-r{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border-radius:999px;padding:4px 12px 4px 4px;font-size:2vh;animation:podpop .45s cubic-bezier(.3,1.6,.5,1) both}
@@ -1379,7 +1383,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .abg{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}.abg-f{flex-basis:100%;display:grid;gap:6px}.abg-th{height:48px;border-radius:8px}
 .abg-t{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px;display:grid;gap:6px}.abg-t.ok{opacity:.75}.abg-img{max-width:100%;max-height:420px;border-radius:10px;border:1px solid var(--line)}
 .chat{display:flex;flex-direction:column;gap:8px;max-height:52vh;overflow:auto;padding:8px 2px;margin:8px 0}.cm{max-width:80%;align-self:flex-start;display:grid;gap:2px}.cm.me{align-self:flex-end;text-align:right}
-.cb{background:var(--surface-2);border-radius:14px;padding:8px 12px;white-space:pre-wrap;text-align:left}.cm.me .cb{background:var(--navy);color:#fff}.cm small{font-size:.75rem;color:var(--muted)}
+.cb{background:var(--surface-2);border-radius:14px;padding:8px 12px;white-space:pre-wrap;text-align:left}.cm.me .cb{background:var(--navy);color:var(--on-accent)}.cm small{font-size:.75rem;color:var(--muted)}
 .chat-in{gap:8px;align-items:stretch}.chat-in textarea{flex:1}
 .st-t{width:100%;border-collapse:collapse}.st-t td{padding:5px 6px;border-bottom:1px solid var(--line);font-size:.92rem}.bar.sm{display:inline-block;width:70px;height:8px;border-radius:9px;background:var(--surface-2);vertical-align:middle;overflow:hidden}.bar.sm i{display:block;height:100%;background:var(--green,#2e9e5b)}
 .st-hw{margin:0;padding-left:1.1em;display:grid;gap:4px}
@@ -1443,7 +1447,9 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
    ===================================================================== */
 // Fächer als Bildkarten: eigene Illustrationen (selbst gezeichnet, frei nutzbar)
 const SUBJ_ART={M:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M30 78L92 78 30 30z" fill="#bae6fd" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M38 70h36M38 70V40" stroke="#38bdf8" stroke-width="2"/><rect x="58" y="22" width="40" height="56" rx="6" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="64" y="28" width="28" height="12" rx="2" fill="#e0f2fe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="64" y="46" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="74" y="46" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="84" y="46" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="64" y="55" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="74" y="55" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="84" y="55" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="64" y="64" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="74" y="64" width="7" height="6" rx="1.5" fill="#fff7ed"/><rect x="84" y="64" width="7" height="6" rx="1.5" fill="#fff7ed"/><path d="M22 14l14 40M22 14l-8 40" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="13" r="4" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>',D:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M14 26c14-6 30-6 46 2 16-8 32-8 46-2v52c-14-6-30-6-46 2-16-8-32-8-46-2z" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M60 28v52" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M22 40h28M22 50h24M22 60h28M70 40h28M70 50h22M70 60h26" stroke="#c7d2fe" stroke-width="3" stroke-linecap="round"/><path d="M6 12q54 22 108 0" fill="none" stroke="#1e3a8a" stroke-width="2"/><path d="M16 15l10 0-5 12z" fill="#111827" stroke="#1e3a8a" stroke-width="1.2"/><path d="M34 19l10 0-5 12z" fill="#dc2626" stroke="#1e3a8a" stroke-width="1.2"/><path d="M52 21l10 0-5 12z" fill="#facc15" stroke="#1e3a8a" stroke-width="1.2"/><path d="M70 20l10 0-5 12z" fill="#111827" stroke="#1e3a8a" stroke-width="1.2"/><path d="M88 17l10 0-5 12z" fill="#dc2626" stroke="#1e3a8a" stroke-width="1.2"/></svg>',E:'<svg viewBox="0 0 120 92" aria-hidden="true"><rect x="78" y="14" width="12" height="52" fill="#fde68a" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M78 14l6-10 6 10" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="84" cy="26" r="4" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="48" cy="48" r="30" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><clipPath id="ukc"><circle cx="48" cy="48" r="30"/></clipPath><g clip-path="url(#ukc)"><path d="M18 18L78 78M78 18L18 78" stroke="#fff" stroke-width="10"/><path d="M18 18L78 78M78 18L18 78" stroke="#dc2626" stroke-width="4"/><path d="M48 18v60M18 48h60" stroke="#fff" stroke-width="14"/><path d="M48 18v60M18 48h60" stroke="#dc2626" stroke-width="8"/></g><circle cx="48" cy="48" r="30" fill="none" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="70" y="60" width="40" height="24" rx="5" fill="#dc2626" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M74 66h8v7h-8zM86 66h8v7h-8zM98 66h8v7h-8z" fill="#e0f2fe"/><circle cx="78" cy="85" r="4" fill="#1e3a8a"/><circle cx="102" cy="85" r="4" fill="#1e3a8a"/></svg>',G:'<svg viewBox="0 0 120 92" aria-hidden="true"><rect x="6" y="46" width="34" height="30" rx="3" fill="#fde68a" transform="rotate(-10 23 61)" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M12 64l8-8 6 6 8-10" stroke="#38bdf8" stroke-width="2.4" fill="none" transform="rotate(-10 23 61)"/><circle cx="68" cy="42" r="28" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M50 30c8 2 10 8 18 6s6 10 14 8M46 52c6-2 12 4 18 2s8 6 16 2" fill="none" stroke="#86efac" stroke-width="6" stroke-linecap="round"/><circle cx="68" cy="42" r="28" fill="none" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M40 70c10 8 46 8 56 0" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/><path d="M68 70v12M56 84h24" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="102" cy="78" r="12" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M102 68l3 10-3 10-3-10z" fill="#dc2626"/></svg>',N:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M46 82h44" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M56 82c0-10 8-14 18-14" fill="none" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="58" y="16" width="12" height="40" rx="4" fill="#c7d2fe" transform="rotate(-25 64 36)" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M74 40l12 18" stroke="#1e3a8a" stroke-width="6" stroke-linecap="round"/><rect x="62" y="56" width="30" height="6" rx="2" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="26" cy="72" r="14" fill="#e0f2fe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M20 70c3-4 6 4 10 0M22 76c3-3 6 3 9 0" stroke="#4f46e5" stroke-width="2" fill="none"/><path d="M100 82V54" stroke="#1e3a8a" stroke-width="3"/><path d="M100 62c-10-2-12-12-8-16 6 2 10 8 8 16zM100 58c8-4 14-2 14 4-6 4-12 2-14-4z" fill="#bae6fd" stroke="#1e3a8a" stroke-width="1.5"/></svg>',K:'<svg viewBox="0 0 120 92" aria-hidden="true"><rect x="10" y="44" width="26" height="36" rx="6" fill="#bfdbfe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="10" y="60" width="26" height="20" rx="4" fill="#38bdf8"/><rect x="40" y="38" width="26" height="42" rx="6" fill="#fef3c7" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="40" y="60" width="26" height="20" rx="4" fill="#f59e0b"/><rect x="70" y="48" width="24" height="32" rx="6" fill="#fce7f3" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="70" y="64" width="24" height="16" rx="4" fill="#ec4899"/><path d="M48 50L34 10" stroke="#92400e" stroke-width="3" stroke-linecap="round"/><path d="M31 14l3-10 3 10z" fill="#4f46e5" stroke="#1e3a8a" stroke-width="1.2"/><path d="M54 50L52 10" stroke="#92400e" stroke-width="3" stroke-linecap="round"/><path d="M49 14l3-10 3 10z" fill="#dc2626" stroke="#1e3a8a" stroke-width="1.2"/><path d="M60 50L70 10" stroke="#92400e" stroke-width="3" stroke-linecap="round"/><path d="M67 14l3-10 3 10z" fill="#16a34a" stroke="#1e3a8a" stroke-width="1.2"/><path d="M80 50L94 10" stroke="#92400e" stroke-width="3" stroke-linecap="round"/><path d="M91 14l3-10 3 10z" fill="#f59e0b" stroke="#1e3a8a" stroke-width="1.2"/><ellipse cx="104" cy="80" rx="12" ry="4" fill="#4f46e5"/></svg>',ET:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M14 70c10-2 22 4 30 10l16 2V64L40 50c-6-4-14 0-12 6l6 6-20 0z" fill="#fde7d4" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 70c-10-2-22 4-30 10l-16 2V64l20-14c6-4 14 0 12 6l-6 6 20 0z" fill="#fde7d4" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M60 46c-12-8-18-20-8-26 4-2 8 0 8 4 0-4 4-6 8-4 10 6 4 18-8 26z" fill="#ec4899" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="26" cy="22" r="6" fill="#38bdf8"/><circle cx="96" cy="24" r="5" fill="#f59e0b"/><circle cx="86" cy="12" r="3" fill="#4f46e5"/></svg>',R:'<svg viewBox="0 0 120 92" aria-hidden="true"><rect x="48" y="40" width="22" height="42" rx="3" fill="#fff7ed" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M59 40v-6" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M59 14c6 8 6 14 0 18-6-4-6-10 0-18z" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M40 82h38" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M82 34c8-6 18-6 24 2-6 0-8 4-10 8-6 4-14 2-18-2l-8 2 6-6z" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="98" cy="34" r="1.6" fill="#1e3a8a"/></svg>',W:'<svg viewBox="0 0 120 92" aria-hidden="true"><circle cx="74" cy="40" r="28" fill="#c7d2fe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M74 40V12a28 28 0 0 1 26 18z" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M74 40l26-10a28 28 0 0 1-4 24z" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M18 30l20 16 14-8 24 26" fill="none" stroke="#4f46e5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 64l8 0 -2 -8z" fill="#4f46e5"/><ellipse cx="26" cy="84" rx="12" ry="4" fill="#facc15" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="26" cy="78" rx="12" ry="4" fill="#facc15" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="26" cy="72" rx="12" ry="4" fill="#facc15" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="48" cy="84" rx="12" ry="4" fill="#facc15" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="48" cy="78" rx="12" ry="4" fill="#facc15" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>',WK:'<svg viewBox="0 0 120 92" aria-hidden="true"><rect x="12" y="20" width="70" height="46" rx="5" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="17" y="25" width="60" height="36" rx="2" fill="#e0f2fe"/><path d="M24 52l10-10 8 6 12-14 12 10" stroke="#4f46e5" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M4 72h86l-6 8H10z" fill="#c7d2fe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="86" y="30" width="26" height="46" rx="5" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M92 40h14M92 48h14M92 56h10" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/></svg>',I:'<svg viewBox="0 0 120 92" aria-hidden="true"><rect x="20" y="16" width="80" height="52" rx="6" fill="#1e3a8a" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="26" y="22" width="68" height="40" rx="2" fill="#0f172a"/><path d="M36 34l-6 6 6 6M50 46l6-12M66 34l6 6-6 6" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M78 40h10" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/><path d="M8 72h104l-8 10H16z" fill="#c7d2fe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>',ES:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M20 44h60v24c0 8-6 14-14 14H34c-8 0-14-6-14-14z" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M14 44h72" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M20 50h-8M80 50h8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M36 34c0-6 6-6 6-12M50 34c0-6 6-6 6-12M64 34c0-6 6-6 6-12" stroke="#94a3b8" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M98 50c-8-6-16 0-12 12 2 8 8 14 12 10 4 4 10-2 12-10 4-12-4-18-12-12z" fill="#dc2626" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M98 50c0-6 2-8 6-10" stroke="#15803d" stroke-width="2.4"/></svg>',T:'<svg viewBox="0 0 120 92" aria-hidden="true"><g transform="translate(42 46)"><circle r="20" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(0)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(45)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(90)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(135)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(180)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(225)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(270)"/><rect x="-4" y="-26" width="8" height="8" rx="1.5" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(315)"/><circle r="8" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></g><g transform="translate(84 64)"><circle r="14" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(0)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(45)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(90)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(135)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(180)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(225)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(270)"/><rect x="-4" y="-20" width="8" height="8" rx="1.5" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(315)"/><circle r="5" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></g><path d="M78 14l-8 8 4 4 8-8c4 2 10 0 10-6l-5 3-3-3 3-5c-6 0-8 4-9 7z" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>',S:'<svg viewBox="0 0 120 92" aria-hidden="true"><circle cx="50" cy="50" r="30" fill="#fff" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M50 36l13 9-5 16H42l-5-16z" fill="#1e3a8a"/><path d="M50 36V20M63 45l15-4M58 61l9 12M42 61l-9 12M37 45l-15-4" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="98" cy="30" r="10" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><rect x="80" y="26" width="16" height="8" rx="2" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M104 22c6-10 10 4 4 14" fill="none" stroke="#4f46e5" stroke-width="2.4"/></svg>',GS:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M40 74V24l50-10v50" fill="none" stroke="#1e3a8a" stroke-width="4" stroke-linejoin="round"/><path d="M40 34l50-10" stroke="#1e3a8a" stroke-width="6"/><ellipse cx="32" cy="74" rx="10" ry="8" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="82" cy="64" rx="10" ry="8" fill="#38bdf8" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M104 40l4 8 8 2-6 6 2 8-8-4-8 4 2-8-6-6 8-2z" fill="#f59e0b"/></svg>',DZ:'<svg viewBox="0 0 120 92" aria-hidden="true"><path d="M10 18h60a8 8 0 0 1 8 8v24a8 8 0 0 1-8 8H34l-12 12V58H18a8 8 0 0 1-8-8V26a8 8 0 0 1 8-8z" fill="#4f46e5" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><text x="44" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#fff" font-family="Arial">Hallo!</text><path d="M58 44h48a8 8 0 0 1 8 8v20a8 8 0 0 1-8 8h-4v10l-10-10H58a8 8 0 0 1-8-8V52a8 8 0 0 1 8-8z" fill="#e0f2fe" stroke="#1e3a8a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><text x="82" y="67" text-anchor="middle" font-size="13" font-weight="900" fill="#1e3a8a" font-family="Arial">Merhaba</text></svg>'};
-const subjArt=k=>`<span class="f-art">${SUBJ_ART[k]||SUBJ_ART.D}</span>`;
+// Fach-Logos (ElevenLabs, 20.10.): Bild für die Fächer mit eigenem Logo, sonst die gezeichnete Grafik
+const SUBJ_IMG=['E','M','K','D','DZ','W','WK','N','I','ET'];
+const subjArt=k=>`<span class="f-art">${SUBJ_IMG.includes(k)?`<img src="assets/icons/fach/${k==='WK'?'W':k}.webp" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;display:block">`:SUBJ_ART[k]||SUBJ_ART.D}</span>`;
 const SUBJECTS={
   E:{name:'Englisch',short:'E',prep:['Englisch-Heft','iPad mit ELIO offen','Federmäppchen']},
   M:{name:'Mathematik',short:'M',prep:['Mathe-Heft','Geodreieck','Taschenrechner']},
@@ -1634,9 +1640,9 @@ function slotNow(){
 const hhmm=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
 function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function daysUntil(iso){return Math.round((new Date(iso+'T00:00')-new Date(todayISO()+'T00:00'))/864e5)}
-function dueLabel(iso){const d=daysUntil(iso);if(d<0)return ['late','überfällig'];if(d===0)return ['soon','heute'];if(d===1)return ['soon','morgen'];
+function dueLabel(iso){if(!iso)return ['','ohne Frist'];const d=daysUntil(iso);if(d<0)return ['late','überfällig'];if(d===0)return ['soon','heute'];if(d===1)return ['soon','morgen'];
   const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return ['',`bis ${w}, ${iso.slice(8,10)}.${iso.slice(5,7)}.`]}
-const fmtDate=iso=>`${iso.slice(8,10)}.${iso.slice(5,7)}.${iso.slice(0,4)}`;
+const fmtDate=iso=>iso?`${iso.slice(8,10)}.${iso.slice(5,7)}.${iso.slice(0,4)}`:'ohne Frist';
 
 /* ---------- Sound ---------- */
 let AC;
@@ -1657,14 +1663,21 @@ const SND={
   mission(){[392,523,659].forEach((f,i)=>tone(f,i*.15,.4,'square',.07));tone(784,.45,.7,'triangle',.18)},
   change(){[523,784,659,1047].forEach((f,i)=>tone(f,i*.25,.8,'sine',.22))},
   right(){tone(660,0,.14,'sine',.18);tone(990,.09,.25,'sine',.18)},
-  oops(){tone(300,0,.22,'sine',.12)},
+  oops(){if(!fileSnd('assets/audio/elio-error.mp3',.8))tone(300,0,.22,'sine',.12)},
 };
+/* Feste Klang-Dateien (Fabian 20.10.): Fehler in Aufgaben = elio-error, App-Start = futuristisch (einmal), Werkzeug startet = futuristisch-2.
+   Ein Element pro Datei: schnelles Wiederholen startet neu statt zu stapeln. */
+const FSND={el:{},bad:{}};
+function fileSnd(f,vol){if(FSND.bad[f])return false;try{let a=FSND.el[f];if(!a){a=FSND.el[f]=new Audio(f);a.preload='auto';a.onerror=()=>{FSND.bad[f]=1}}
+  a.volume=vol||.8;a.pause();a.currentTime=0;const pr=a.play();if(pr)pr.catch(()=>{});return true}catch(e){return false}}
+// App-Start: einmal pro Öffnen, beim ersten Tippen (iPads erlauben Ton erst nach einer Berührung). Nicht an der Tafel, Schalter „UI-Sounds“ gilt.
+if(!BOARD){const st=()=>{document.removeEventListener('pointerdown',st,true);try{if(sessionStorage.getItem('elio-startsnd'))return;sessionStorage.setItem('elio-startsnd','1')}catch(e){}if(UIS.on())fileSnd('assets/audio/futuristisch.mp3',.7)};document.addEventListener('pointerdown',st,true)}
 /* UI-Sounds (Klick, Bestätigen, Fehler, Menü auf/zu): Dateien in assets/sounds/ui/, Zuordnung in assets/sounds/ui/ui-sounds.json.
    Fehlt eine Datei, bleibt es still. Ein Audio-Element pro Sound: schnelles Klicken startet ihn neu statt zu stapeln. Schalter im Logo-Menü, gilt pro Gerät. */
-const UIS={map:{klick:'klick.mp3',ok:'bestaetigen.mp3',fehler:'fehler.mp3',auf:'menue-auf.mp3',zu:'menue-zu.mp3'},vol:.35,el:{},bad:{},at:0,
+const UIS={map:{klick:'klick.mp3'},vol:.35,el:{},bad:{},at:0,
   on(){try{return localStorage.getItem('elio-uisnd')!=='0'}catch(e){return true}},set(v){try{localStorage.setItem('elio-uisnd',v?'1':'0')}catch(e){}}};
 setTimeout(()=>fetch('assets/sounds/ui/ui-sounds.json?v='+BUILD).then(r=>r.ok?r.json():null).then(J=>{if(!J||typeof J!=='object')return;
-  Object.entries(J.sounds||{}).forEach(([k,f])=>{if(/^[\w-]{1,20}$/.test(k)&&/^[\w.-]{1,80}\.(mp3|m4a|wav|ogg)$/i.test(f||''))UIS.map[k]=f});if(+J.lautstaerke>0&&+J.lautstaerke<=1)UIS.vol=+J.lautstaerke}).catch(()=>{}),0);// BUILD steht weiter unten
+  Object.entries(J.sounds||{}).forEach(([k,f])=>{if(f===''){delete UIS.map[k];return}if(/^[\w-]{1,20}$/.test(k)&&/^[\w.-]{1,80}\.(mp3|m4a|wav|ogg)$/i.test(f||''))UIS.map[k]=f});if(+J.lautstaerke>0&&+J.lautstaerke<=1)UIS.vol=+J.lautstaerke}).catch(()=>{}),0);// BUILD steht weiter unten
 function uiSnd(k){if(BOARD||!UIS.on()||UIS.bad[k]||!UIS.map[k])return;const now=Date.now();if(now-UIS.at<70)return;UIS.at=now;
   try{let a=UIS.el[k];if(!a){a=UIS.el[k]=new Audio('assets/sounds/ui/'+UIS.map[k]);a.preload='auto';a.onerror=()=>{UIS.bad[k]=1}}
     a.volume=UIS.vol;a.pause();a.currentTime=0;const pr=a.play();if(pr)pr.catch(()=>{})}catch(e){}}
@@ -1858,7 +1871,7 @@ VIEWS.dash=()=>{
       return `<button class="dcell ${cls} ${s?'s-'+s:'free'}" ${s?`data-act="subject" data-s="${s}"`:''}><small>${p[0]}. · ${p[1]}</small><b>${s?esc(SUBJECTS[s].name):'frei'}</b>${cur?'<span class="dnow">jetzt</span>':''}</button>`}).join('')}</div></section>`;
   const L=lvlInfo(),planTxt=sl.kind==='lesson'?`Jetzt: ${SUBJECTS[sl.l.s].name}`:sl.next?`Als Nächstes: ${SUBJECTS[sl.next.s].name} um ${sl.next.from}`:'Deine Woche im Überblick';
   const areas=`<div class="areas">
-      <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${aufOpen().length?aufOpen().length+' Übungsauftrag'+(aufOpen().length>1?'e':'')+' offen':'Alles erledigt'}</small></button>
+      <button class="area a-hw" data-act="homework"><span class="ai">📚</span><b>Aufgaben</b><small>${aufOpen().length?aufOpen().length+' Auftr'+(aufOpen().length>1?'äge':'ag')+' offen':'Alles erledigt'}</small></button>
       <button class="area a-plan" data-act="week"><span class="ai">🗓️</span><b>Stundenplan</b><small>${esc(planTxt)}</small></button>
     </div>`;
   return `${S.role==='teacher'?'<div class="priv">👀 Vorschau: So sieht das Dashboard für deine Schüler aus.<span class="spacer"></span><button class="btn sm" data-act="tdash">Zurück ins Lehrerzimmer</button></div>':''}<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}</h1>
@@ -1870,13 +1883,13 @@ VIEWS.dash=()=>{
 const DESK=['M','E','D'];
 // Ordner pro Klasse freigeben: TD.deskV[Klasse][Fach]=true/false. Ohne Einstellung sind Mathe, Englisch, Deutsch sichtbar
 // und jedes Fach, in dem es freigegebene Einträge genau dieser Klasse gibt. Ein ausgeblendeter Ordner geht gar nicht erst an die iPads.
-function deskOn(k,c){c=c||S.cls||'-';const v=((TD&&TD.deskV||{})[c]||{})[k];if(typeof v==='boolean')return v;return DESK.includes(k)||((TD&&TD.heft)||[]).some(e=>e.s===k&&e.cls===c&&e.pub!==false)}
+function deskOn(k,c){c=c||S.cls||'-';const v=((TD&&TD.deskV||{})[c]||{})[k];if(typeof v==='boolean')return v;return DESK.includes(k)||((TD&&TD.heft)||[]).some(e=>e.s===k&&e.cls===c&&isPub(e))}
 const deskList=()=>Object.keys(SUBJECTS).filter(k=>deskOn(k));
 VIEWS.desk=()=>{
   const ks=Array.isArray(S.deskRecv)?S.deskRecv.filter(k=>SUBJECTS[k]):[...new Set([...DESK,...Object.keys(SUBJECTS).filter(k=>(S.heftRecv||[]).some(e=>e.s===k))])];
   const days=Object.keys(S.diary||{}).length+(S.journal||[]).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch</h1>${S.av!=null?avatar(S.av,44):''}</div>
-  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]).length;
+  <div class="desk">${ks.map(k=>{const n=heftAll(k).length,neu=heftAll(k).filter(e=>!S.copied[e.id]).length,hw=hwAll().filter(h=>h.s===k&&!S.hwDone[h.id]&&!(h.due&&daysUntil(h.due)<0)).length;
       return `<button class="folder s-${k}" data-act="desk-open" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${n} Einträge${neu?` · <em>${neu} neu</em>`:''}</small>${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}</span></button>`}).join('')}
     <button class="diary" data-act="journal"><span class="spine"></span><b>Lerntagebuch</b><small>${days?days+' Einträge':'Noch leer'}</small></button>
     ${(()=>{const C=Object.values(vokD().c),du=C.filter(vokDue).length;return `<button class="diary vokb" data-act="vok"><span class="spine"></span><b>Vokabelheft</b><small>${C.length?C.length+' Wörter'+(du?` · <em>${du} fällig</em>`:''):'Englisch · noch leer'}</small></button>`})()}
@@ -1893,7 +1906,8 @@ function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze
 const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
 function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;if(!R&&S.skzT&&RCS&&RCS.skzEnd===S.skzT.id){S.skzT=null;save()}
   if(R&&R.id){const t={id:String(R.id).slice(0,20),text:String(R.text||'').slice(0,200),n:Math.max(1,Math.min(4,+R.n||2)),werk:!!R.werk};if(JSON.stringify(t)!==JSON.stringify(S.skzT)){S.skzT=t;save()}return t}
-  return S.skzT||null}
+  // Auftrag nur, solange die Skizzenphase live läuft; danach ist es wieder ein reines Skizzenbuch (Fabian 20.10.)
+  if(S.skzT){S.skzT=null;save()}return null}
 function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(skzClose);let host=$('#skz-host');if(!host){host=document.createElement('div');host.id='skz-host';document.body.appendChild(host)}
   const from=V.from||(S.role==='teacher'?'tdesk':'desk');
   skzLoad().then(()=>{if(!SKZ_ON)return;return Skizze.mount(host,{owner:skzOwner(),who:S.role==='teacher'?'teacher':'student',task:skzTask(),elo:eloImg('kunst','K'),
@@ -2108,20 +2122,23 @@ const aufAll=()=>S.role==='teacher'?(TD.auf||[]).filter(a=>a.cls===S.cls):(Array
 const annAll=()=>(S.role==='teacher'?(TD.ann||[]).filter(a=>a.cls===S.cls):(Array.isArray(S.annRecv)?S.annRecv:[])).filter(a=>a&&a.until>=todayISO());
 const chName=ch=>String(ch||'').replace(/^\d+\s*/,'');
 // Alles, was zu einem Auftrag gehört: jede interaktive Übung jedes freigegebenen Unterkapitels, dazu ein Minitest pro Unterkapitel
-function aufEntries(a){return modEntries(a.s,a.ch).filter(e=>e.pub!==false)}
+function aufEntries(a){return modEntries(a.s,a.ch).filter(e=>isPub(e))}
 function aufItems(a){return aufEntries(a).flatMap(e=>[...ubList(e).map((u,i)=>({e,i,k:e.id+'#'+i})),...(a.mt&&e.mt?[{e,mt:1,k:'mt:'+e.id}]:[])])}
 // Fortschritt aus Sicht des iPads (ohne pr) oder aus dem Lernstand, den die Lehrkraft bekommt (pr)
 function aufProg(a,pr){const ub=pr?pr.ub:Object.keys(S.ubDone||{}).filter(k=>S.ubDone[k]),mt=pr?pr.mt||{}:S.mt||{},ut=pr?pr.ut||{}:S.ubAt||{};
   const L=aufItems(a),D=L.filter(it=>it.mt?!!mt[it.e.id]:ub.includes(it.k));let last=0;D.forEach(it=>{last=Math.max(last,it.mt?+mt[it.e.id].at||0:+ut[it.k]||0)});
   return {n:L.length,d:D.length,last,done:L.length>0&&D.length===L.length}}
-const aufOpen=()=>aufAll().filter(a=>!aufProg(a).done);
+// Auftrag läuft: nicht von der Lehrkraft abgeschlossen und Frist nicht vorbei (ohne Frist läuft er bis zum Abschließen)
+const aufLive=a=>!a.closed&&(!a.due||daysUntil(a.due)>=0);
+const aufOpen=()=>aufAll().filter(a=>aufLive(a)&&!aufProg(a).done);
+const aufTyp=a=>a&&a.typ==='ha'?'🏠 Hausaufgabe':'📚 Übung';
 const hmNow=()=>{const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')};
 // Ab der Uhrzeit der Lehrkraft wird jeden Tag erinnert, bis alles erledigt ist
-const aufRemNow=a=>daysUntil(a.due)<0||hmNow()>=(a.rem||'16:00');
+const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261019-1500';let verTold=false;
+const BUILD='20261020-1200';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2151,7 +2168,7 @@ function notify(t,b){const o={body:b,icon:'assets/icon/icon-192.png',tag:'elio'}
 const notifOk=()=>'Notification' in window&&Notification.permission==='granted';
 function aufNotify(){if(S.role!=='student')return;const t=todayISO();S.remDay=S.remDay||{};S.annSeen=S.annSeen||{};let ch=0;
   aufOpen().forEach(a=>{if(S.remDay[a.id]===t||!aufRemNow(a))return;S.remDay[a.id]=t;ch=1;const p=aufProg(a);
-    if(notifOk())notify('ELIO erinnert dich',`Noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${chName(a.ch)}“, ${daysUntil(a.due)<0?'die Frist ist schon vorbei':'bis '+dayLabel(a.due)}.`)});
+    if(notifOk())notify('ELIO erinnert dich',`Noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${chName(a.ch)}“, bis ${dayLabel(a.due)}.`)});
   annAll().forEach(a=>{if(S.annSeen[a.id])return;S.annSeen[a.id]=1;ch=1;if(notifOk())notify('Nachricht von deiner Lehrkraft',a.t)});
   if(ch)save()}
 // Minitest: Antworten werden gemischt, gezählt wird der erste Versuch und der beste
@@ -2165,8 +2182,8 @@ const mtTxt=m=>m?`${m.f} von ${m.n}${m.x>1&&m.b>m.f?` · bester ${m.b}`:''}`:'';
 const mtCls=m=>!m?'':m.f/m.n>=.75?'ok':m.f/m.n>=.5?'mid':'low';
 const tsTxt=t=>t?new Date(t).toLocaleString('de-DE',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'}):'';
 function aufCard(a,full){const p=aufProg(a),[c,l]=dueLabel(a.due),es=aufEntries(a),firstOpen=es.find(e=>aufItems(a).some(it=>it.e.id===e.id&&!(it.mt?(S.mt||{})[e.id]:(S.ubDone||{})[it.k])));
-  const head=`<div class="row" style="justify-content:space-between;gap:8px"><div><span class="label">📚 Übungsauftrag · Modul ${esc(String(a.ch).split(' ')[0])}</span><h2 style="font-size:1.25rem">${esc(chName(a.ch))}</h2></div>
-    ${p.done?'<span class="chip ok">✓ alles erledigt</span>':`<span class="due ${c}">${daysUntil(a.due)<0?'überfällig':'bis '+dayLabel(a.due)}</span>`}</div>
+  const head=`<div class="row" style="justify-content:space-between;gap:8px"><div><span class="label">${aufTyp(a)} · Modul ${esc(String(a.ch).split(' ')[0])}</span><h2 style="font-size:1.25rem">${esc(chName(a.ch))}</h2></div>
+    ${p.done?'<span class="chip ok">✓ alles erledigt</span>':a.closed?'<span class="chip">abgeschlossen</span>':!a.due?'<span class="chip">ohne Frist</span>':`<span class="due ${c}">${daysUntil(a.due)<0?'Frist vorbei':'bis '+dayLabel(a.due)}</span>`}</div>
     <div class="bar"><i style="width:${p.n?Math.round(100*p.d/p.n):0}%"></i></div><small class="muted" style="font-weight:800">${p.d} von ${p.n} erledigt${a.mt?' · mit Minitest pro Unterkapitel':''}</small>`;
   if(!full)return `<button class="auf-mini ${p.done?'done':''}" data-act="homework">${head}</button>`;
   return `<section class="panel auf ${p.done?'done':''}">${head}<div class="auf-subs">${es.map(e=>{const L=aufItems(a).filter(it=>it.e.id===e.id),dn=L.filter(it=>it.mt?(S.mt||{})[e.id]:(S.ubDone||{})[it.k]).length,m=(S.mt||{})[e.id];
@@ -2177,18 +2194,19 @@ function aufCard(a,full){const p=aufProg(a),[c,l]=dueLabel(a.due),es=aufEntries(
 function annHTML(){const L=annAll();if(!L.length)return '';
   return L.map(a=>`<div class="ann">${S.role==='student'&&S.av!=null?avatar(S.av,44):'<span class="ai">📣</span>'}<div style="flex:1;min-width:0"><span class="label">📣 Von deiner Lehrkraft</span><p>${esc(a.t)}</p></div></div>`).join('')}
 function remindHTML(){const L=aufOpen().filter(aufRemNow);if(!L.length)return '';
-  return `<div class="remind">⏰ <span style="flex:1"><b>Erinnerung:</b> ${L.map(a=>{const p=aufProg(a);return `noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${esc(chName(a.ch))}“ ${daysUntil(a.due)<0?'(Frist vorbei)':'bis '+dayLabel(a.due)}`}).join(', ').replace(/\.$/,'')}.</span>${V.name==='homework'?'':'<button class="btn sm pri" data-act="homework">Los geht’s</button>'}</div>`}
+  return `<div class="remind">⏰ <span style="flex:1"><b>Erinnerung:</b> ${L.map(a=>{const p=aufProg(a);return `noch ${p.n-p.d} Übung${p.n-p.d===1?'':'en'} in „${esc(chName(a.ch))}“ bis ${dayLabel(a.due)}`}).join(', ').replace(/\.$/,'')}.</span>${V.name==='homework'?'':'<button class="btn sm pri" data-act="homework">Los geht’s</button>'}</div>`}
 function notifHTML(){if(!aufAll().length&&!annAll().length)return '';if(!('Notification' in window))return `<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Mitteilungen gehen auf dem iPad erst, wenn ELIO auf dem Home-Bildschirm liegt (Teilen → „Zum Home-Bildschirm“). Die Erinnerung hier in ELIO kommt trotzdem.</p>`;
   if(Notification.permission==='default')return `<div class="row" style="margin:-4px 0 12px"><button class="btn sm" data-act="notif-ok">🔔 Erinnerungen auf diesem Gerät erlauben</button></div>`;
   return Notification.permission==='granted'?'<p class="muted" style="font-size:.85rem;margin:-4px 0 12px">🔔 Erinnerungen sind an. Sie kommen, solange ELIO auf diesem Gerät offen ist.</p>':''}
 VIEWS.homework=()=>{
   const all=hwAll().slice().sort((a,b)=>a.due.localeCompare(b.due));
   const open=all.filter(h=>!S.hwDone[h.id]),done=all.filter(h=>S.hwDone[h.id]);
-  const A=aufAll().slice().sort((a,b)=>a.due.localeCompare(b.due)),Ao=A.filter(a=>!aufProg(a).done),Ad=A.filter(a=>aufProg(a).done);
+  const A=aufAll().slice().sort((a,b)=>(a.due||'9').localeCompare(b.due||'9')),Ao=A.filter(a=>aufLive(a)&&!aufProg(a).done),Ad=A.filter(a=>aufProg(a).done),Ax=A.filter(a=>!aufLive(a)&&!aufProg(a).done);
   return `<h1 style="margin-bottom:14px">Aufgaben</h1>${remindHTML()}${notifHTML()}
-    <span class="label">📚 Übungsaufträge · ${Ao.length} offen</span>
-    ${Ao.length?Ao.map(a=>aufCard(a,1)).join(''):`<div class="empty" style="margin:10px 0 0">${A.length?'Alle Übungsaufträge erledigt. Stark!':'Gerade kein Übungsauftrag. Deine Lehrkraft gibt die Übungen frei.'}</div>`}
-    ${Ad.length?`<details style="margin-top:18px"><summary class="label" style="cursor:pointer">✓ Erledigte Übungsaufträge · ${Ad.length}</summary>${Ad.map(a=>aufCard(a,1)).join('')}</details>`:''}
+    <span class="label">📌 Aufträge · ${Ao.length} offen</span>
+    ${Ao.length?Ao.map(a=>aufCard(a,1)).join(''):`<div class="empty" style="margin:10px 0 0">${A.length?'Alle Aufträge erledigt. Stark!':'Gerade kein Auftrag. Deine Lehrkraft gibt die Übungen frei.'}</div>`}
+    ${Ad.length?`<details style="margin-top:18px"><summary class="label" style="cursor:pointer">✓ Erledigte Aufträge · ${Ad.length}</summary>${Ad.map(a=>aufCard(a,1)).join('')}</details>`:''}
+    ${Ax.length?`<details style="margin-top:12px"><summary class="label" style="cursor:pointer">⌛ Abgelaufen oder abgeschlossen · ${Ax.length} (üben geht weiter)</summary>${Ax.map(a=>aufCard(a,1)).join('')}</details>`:''}
     <div class="free"><span class="ai">🎮</span><div style="flex:1"><b>Freies Üben</b><small class="muted" style="display:block">Lernspiele, wenn alles erledigt ist</small></div><button class="btn sm" data-act="practice">Öffnen</button></div>
     <p class="muted" style="margin-top:16px;font-size:.9rem">Übungen und Minitests hakt ELIO selbst ab.</p>`;
 };
@@ -2206,7 +2224,7 @@ function weekView(){
 VIEWS.subject=()=>{
   const k=V.s,sub=SUBJECTS[k],tab=V.tab||((k==='E'&&!V.desk)||LANDS[k]?'module':'heft');
   const entries=heftAll(k).sort(heftSort);
-  const hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+  const hws=hwAll().filter(h=>h.s===k&&!(h.due&&daysUntil(h.due)<0)).sort((a,b)=>a.due.localeCompare(b.due));// Frist vorbei: blendet sich aus
   let body='';
   const hl=tab==='heft'&&V.hl&&entries.find(e=>e.id===V.hl);
   if(tab==='heft')body=hl?`<div class="hl-ban">✍️ Schreib diesen Hefteintrag in dein Regelheft ab.</div><div class="entries">${heftPage(hl)}</div><button class="btn sm" data-act="hl-all" style="margin-top:12px">Alle Einträge zeigen</button>`:entries.length?`<div class="entries">${entries.map(heftPage).join('')}</div>`
@@ -2973,9 +2991,9 @@ const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebun
 // Elo-Figuren an EINER Stelle: assets/elo/figuren.json (Fach → Figur, alle Figuren mit Datei und Namen).
 // Neue Figur = Bild nach assets/elo/ und dort eintragen. Die Werte hier sind nur die Rückfallebene, falls die Datei nicht lädt.
 // Grundposen (ELO_GRUND): im Fach mit eigener Figur (z. B. Englisch) nimmt Elo automatisch die Fach-Figur.
-const ELO_FIG={heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-real-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-real-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-real-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-real-512.webp'},
+const ELO_FIG={standard:{name:'Elo (Standard)',datei:'elo-standard-512.webp'},heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-real-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-real-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-real-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-real-512.webp'},
   uk:{name:'Elo in England',datei:'elo-uk-real-512.webp'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-real-512.webp'},kunst:{name:'Elo als Maler',datei:'elo-kunst-real-512.webp'},banker:{name:'Elo als Banker',datei:'elo-banker-real-512.webp'}};
-const ELO_SUBJ={M:'mathe',E:'uk',K:'kunst',W:'banker',WK:'banker'},ELO_STD={k:'hilfe'},ELO_GRUND=['heft','uebung','hilfe','fleiss','hallo'];
+const ELO_SUBJ={M:'mathe',E:'uk',K:'kunst',W:'banker',WK:'banker'},ELO_STD={k:'standard'},ELO_GRUND=['standard','heft','uebung','hilfe','fleiss','hallo'];
 const eloV=(k,s)=>k==='auto'||!ELO_FIG[k]?(ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:ELO_STD.k):ELO_GRUND.includes(k)&&ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:k,
   eloImg=(k,s)=>'assets/elo/'+(ELO_FIG[eloV(k,s)]||ELO_FIG.hilfe).datei,eloLidsS=(k,s)=>ELO_EYES[eloV(k,s)]?eloLids(eloV(k,s)):'';
 // Elo spielt einen Sound: passende Figur dazu (Dudelsack = Schottland-Elo)
@@ -3531,7 +3549,7 @@ function audStop(){try{if(AUD.el){AUD.el.pause();AUD.el=null}}catch(e){}const wa
 function audPlay(id,toggle=true){const x=audById(id);if(!x){if(!AUD.list)audLoad().then(()=>{if(audById(id))audPlay(id,toggle)});return}const was=audStop();if(toggle&&was===id)return;
   try{const a=!toggle&&AUD.fx?AUD.fx:new Audio();a.src=x.datei;a.currentTime=0;a.loop=!!x.loop;a.volume=x.loop?.6:.9;a.onended=()=>{if(AUD.el===a)audStop()};a.play().catch(()=>{});AUD.el=a;AUD.id=id;document.querySelectorAll(`[data-act=au-play][data-id="${id}"]`).forEach(b=>{b.classList.add('on');b.textContent='■'})}catch(e){}}
 function audHTML(){if(!AUD.list){audLoad();return '<p class="muted">Lädt …</p>'}const cats=['Alle',...new Set(AUD.list.map(x=>x.kategorie))],L=AUD.list.filter(x=>AUD.cat==='Alle'||x.kategorie===AUD.cat);
-  return `<div class="psub" style="margin:8px 0">${cats.map(c=>`<button class="${AUD.cat===c?'on':''}" data-act="au-cat" data-c="${esc(c)}" style="--sc:var(--navy)">${esc(c)}</button>`).join('')}</div>
+  return `<div class="psub" style="margin:8px 0">${cats.map(c=>`<button class="${AUD.cat===c?'on':''}" data-act="au-cat" data-c="${esc(c)}" style="--sc:#26337a">${esc(c)}</button>`).join('')}</div>
     <div class="au-list">${L.map(x=>`<div class="au-it"><button class="btn sm au-pl ${AUD.id===x.id?'on':''}" data-act="au-play" data-id="${x.id}" aria-label="${esc(x.titel)} abspielen">${AUD.id===x.id?'■':'▶'}</button><div><b>${esc(x.titel)}</b>${x.loop?' <span class="chip">Schleife</span>':''}<small class="muted">${esc(x.stichworte||'')} · ${+x.dauer||0} s</small>${/^Eigene Synthese/.test(x.lizenz)?'':`<small class="au-lic">${esc(x.urheber||'')} · ${esc(x.lizenz)}</small>`}</div></div>`).join('')}</div>`}
 // Wie bei PowerPoint: Mit der Fenster-Erlaubnis von Chrome geht das Tafel-Fenster direkt im Vollbild auf dem Beamer auf,
 // sonst bildschirmfüllend, und ein Tipp im Fenster schaltet Vollbild ein
@@ -3715,8 +3733,19 @@ async function voWhy(r){const e=r&&r.error,st=e&&e.context&&e.context.status;if(
     if(o&&o.err==='admin')return 'Die Elo-Stimme ist nur für Admins.';if(o&&o.err==='auth'||st===401)return 'Bitte melde dich neu an.';
     if(o&&o.err==='leer')return 'Schreib zuerst einen Satz für Elo.';
     if(o&&o.err==='timeout')return 'ElevenLabs hat zu lange gebraucht. Es wurde nichts übernommen. Versuch es in ein paar Minuten nochmal.';
+    if(o&&o.err==='voice'||o&&o.detail==='voice_not_found')return 'ElevenLabs findet die Oswald-Stimme in deinem Konto nicht. Öffne bei ElevenLabs die Voice Library, such „Oswald – Kind & Gentle Grandpa“ und tippe auf „Add to my voices“.';
+    if(o&&/quota|credit/i.test(o.detail||''))return 'Bei ElevenLabs ist das Guthaben oder das Credit-Limit des Schlüssels erreicht.';
     if(o&&o.err==='tts')return o.status===401?'ElevenLabs lehnt den Schlüssel ab. Bitte ELEVEN_KEY prüfen.':o.status===402||o.status===429?'Bei ElevenLabs ist das Guthaben oder Limit erreicht.':'ElevenLabs hat gerade nicht geantwortet ('+(o.status||'?')+'). Versuch es später nochmal.';
+    if(st>=500)return 'Die Funktion „elo-stimme“ ist auf dem Server abgestürzt ('+st+'). Meist läuft dort noch eine alte Fassung: einmal neu deployen (Anleitung ElevenLabs, Schritt 3). Details: Supabase → Edge Functions → elo-stimme → Logs.';
     return 'Die Elo-Stimme ging gerade nicht'+(st?' ('+st+')':'')+'. Die Computerstimme liest trotzdem vor.'}
+// Kostenlos prüfen, woran es liegt: Anmeldung, Admin, Schlüssel, Oswald-Stimme, Fassung der Funktion (spricht nichts, kostet keine Credits)
+async function voCheck(){if(!bbAdmin()||VO.st==='busy')return;Object.assign(VO,{st:'err',msg:'Prüfe die Elo-Stimme …'});render();
+  let m;try{const sb=await sbClient(),r=await Promise.race([sb.functions.invoke('elo-stimme',{body:{check:true}}),new Promise(res=>setTimeout(()=>res({timeout:1}),15000))]);
+    let o=r&&r.data;if(!o&&r&&r.error&&r.error.context&&r.error.context.json)try{o=await r.error.context.json()}catch(x){}
+    m=r.timeout?'Der Server antwortet nicht (15 s). Bist du online?':o&&o.ok?'✓ Alles eingerichtet: Schlüssel und Oswald-Stimme sind da'+(o.rest!=null?' (noch etwa '+o.rest+' Credits)':'')+'. Elo kann sprechen.'
+      :o&&o.err==='leer'&&!o.v?'Auf dem Server läuft noch eine alte Fassung von „elo-stimme“. Bitte einmal neu deployen (Anleitung ElevenLabs, Schritt 3).':await voWhy(r)}
+  catch(e){m='Prüfen ging nicht ('+String(e&&e.message||e).slice(0,80)+').'}
+  Object.assign(VO,{st:'err',msg:m});render()}
 async function slVoGen(d){const sl=slEdSlide(d),L=lessonById(V.id);if(!sl||!sl.say||!bbAdmin()||VO.st==='busy')return;
   const lang=L&&L.subject==='E'?'en':'de',txt=String(sl.say).slice(0,300),ck=lang+'|'+txt.replace(/\s+/g,' ').trim();
   // Schon erzeugt (übernommen oder in dieser Sitzung verworfen): erst nachfragen bzw. die vorhandene Aufnahme nehmen, kein neuer Bezahl-Aufruf
@@ -3775,6 +3804,8 @@ function uebGame(L,i){const p=L.phases[i],T=p.tool||{},all=ubSeq(T).map(q=>{cons
   if(!CS.uebGrp||CS.uebGrp.i!==i||CS.uebGrp.at!==CS.phaseAt)CS.uebGrp={i,at:CS.phaseAt,id:at};
   CS.game={...g,at,grp:CS.uebGrp.id,...(it.length>1?{seq:it,sk}:{})};CS.phase.look=false}
 function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
+  // Futuristic 2, wenn ein Werkzeug/eine Anwendung startet; nicht bei Folien, Start-/Textfolien oder wenn die Phase einen eigenen Sound hat
+  if(!BOARD&&T.id&&!p.snd&&!['slide','start','cover','question','task','heft','heftlink','mat'].includes(T.id)&&UIS.on())fileSnd('assets/audio/futuristisch-2.mp3',.6);
   if(T.id==='start')CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.hint||'Bist du bereit?',items:String(T.items||'').split(',').map(x=>x.trim()).filter(Boolean),words:!!T.mood,cloud:{}};
   if(T.id==='mood'){CS.ready={id:'r'+Date.now(),done:[],rewarded:false,msg:T.q||'Wie geht\'s dir heute?',items:[],mood:true,only:true};CS.phase.look=false}
   if(T.id==='wc'){CS.cloud={id:'c'+Date.now(),q:T.q||'Was fällt dir dazu ein?',words:{},done:[],hide:[],max:Math.max(1,Math.min(3,+T.n||3)),cnt:{},big:true};CS.phase.look=false}
@@ -3791,7 +3822,7 @@ function toolStart(L,i){const p=L.phases[i],T=p.tool||{};
   if(T.id==='corners4'){CS.poll={id:'p'+Date.now(),type:'corners',q:T.q||'Wie gut kannst du es schon?',opts:lines(T.opts||C4_OPTS).slice(0,4).map((o,k)=>`Ecke ${k+1}: ${o}`),voted:[]};TALLY={}}
   if(T.id==='kfb'){if(!KF)kfbStart(T.level,true)}else if(KF)kfbStop(true);
   if(T.id==='vw'){CS.vw={i:0,open:false,sc:[0,0],team:0,at:0};CS.phase.look=true}else CS.vw=null;
-  if(T.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===T.eid);if(e&&e.pub===false){e.pub=true;tsave()}if(!p.noipad){CS.phase.go='heft:'+L.subject+(e?':'+e.id:'');CS.phase.look=false}}
+  if(T.id==='heftlink'){const e=(TD.heft||[]).find(x=>x.id===T.eid);if(e&&!isPub(e)){setPub(e,true);tsave()}if(!p.noipad){CS.phase.go='heft:'+L.subject+(e?':'+e.id:'');CS.phase.look=false}}
   if(T.id==='ueb')uebGame(L,i);
   if(p.noipad&&TOOL_IPAD[T.id]){CS.ready=null;CS.game=null;CS.phase.go=null;CS.phase.look=true}
 }
@@ -4009,26 +4040,26 @@ function libListHTML(){
       ${V.ldel===m.id?`<button class="btn sm red" data-act="lib-del-yes" data-id="${m.id}">Wirklich löschen</button><button class="btn sm" data-act="lib-del-no">Nein</button>`:`<button class="btn sm" data-act="lib-del" data-id="${m.id}">Löschen</button>`}</div></article>`;
   // Bei „Alle Fächer“ nach Fächern sortiert, jedes Fach mit eigener Überschrift
   if(f==='all'&&!q){const ks=[...new Set(list.map(m=>m.subject))].sort((a,b)=>Object.keys(SUBJECTS).indexOf(a)-Object.keys(SUBJECTS).indexOf(b));
-    return ks.map(k=>`<h3 class="lib-h s-${k}">${badge(k)} ${SUBJECTS[k]?SUBJECTS[k].name:'Ohne Fach'} <small class="muted">${list.filter(m=>m.subject===k).length}</small></h3><div class="libgrid">${list.filter(m=>m.subject===k).map(card).join('')}</div>`).join('')}
-  return `<div class="libgrid">${list.map(card).join('')}</div>`;
+    return ks.map(k=>`<details class="lib-sec s-${k}" ${(V.lopen||{})[k]?'open':''} data-lsec="${k}"><summary>${badge(k)} ${SUBJECTS[k]?SUBJECTS[k].name:'Ohne Fach'} <small class="muted">${list.filter(m=>m.subject===k).length}</small></summary><div class="lib-rows">${list.filter(m=>m.subject===k).map(card).join('')}</div></details>`).join('')}
+  return `<div class="lib-rows" style="padding:0">${list.map(card).join('')}</div>`;
 }
 VIEWS.library=()=>{
   const f=V.f||'all',subjOpts=Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${k===(V.us||'E')?'selected':''}>${v.name}</option>`).join('');
   const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Bibliothek</h1><span class="chip">${LIB.items.length} Materialien</span></div>
-  <div class="priv">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
+  <div class="libbar">
+    <section class="panel"><span class="label" style="font-size:1rem">⬆️ Datei hochladen</span><p class="muted" style="font-weight:700;margin:4px 0 10px">PowerPoint, PDF, Bilder, Arbeitsblätter, Audio, Video</p>
+      <div class="row"><select id="lib-subj" aria-label="Fach">${subjOpts}</select><label class="btn pri" style="cursor:pointer">Dateien auswählen<input type="file" id="lib-file" multiple hidden></label></div></section>
+    <section class="panel"><span class="label" style="font-size:1rem">🔗 Link speichern</span><p class="muted" style="font-weight:700;margin:4px 0 10px">z. B. LearningApps, YouTube, Padlet. Links kannst du an die iPads senden.</p>
+      <div class="row"><input id="lib-url" type="url" placeholder="https://…" style="flex:2;min-width:180px"><input id="lib-title" type="text" placeholder="Titel (freiwillig)" style="flex:1;min-width:130px"><button class="btn" data-act="lib-link">Speichern</button></div></section>
+  </div>
+  <div class="priv" style="margin-top:12px">🔒 Deine Materialien liegen nur auf diesem Gerät. Schüler sehen sie nur, wenn du sie an der Tafel zeigst oder einen Link teilst.</div>
   ${S.role==='teacher'?arcHTML():''}
   <section class="panel au-med"><button class="au-sum" data-act="au-open" aria-expanded="${V.am?'true':'false'}"><span class="label">🔊 Audio-Mediathek · Akustische Signale</span><span class="muted">${V.am?'▲':'▼'}</span></button>
     ${V.am?`<p class="muted" style="font-weight:700;margin-top:6px">Geräusche für den Unterricht. In der Planung legst du für jede Phase ein Signal fest, das beim Start der Phase erklingt. Alle Geräusche sind selbst erzeugt und frei nutzbar.</p>${audHTML()}`:''}</section>
-  <div class="libbar">
-    <section class="panel"><span class="label">Dateien hochladen</span><p class="muted" style="font-weight:700;margin:4px 0 10px">PowerPoint, PDF, Bilder, Arbeitsblätter, Audio, Video</p>
-      <div class="row"><select id="lib-subj" aria-label="Fach">${subjOpts}</select><label class="btn pri" style="cursor:pointer">Dateien auswählen<input type="file" id="lib-file" multiple hidden></label></div></section>
-    <section class="panel"><span class="label">Link speichern</span><p class="muted" style="font-weight:700;margin:4px 0 10px">z. B. LearningApps, YouTube, Padlet. Links kannst du an die iPads senden.</p>
-      <div class="row"><input id="lib-url" type="url" placeholder="https://…" style="flex:2;min-width:180px"><input id="lib-title" type="text" placeholder="Titel (freiwillig)" style="flex:1;min-width:130px"><button class="btn" data-act="lib-link">Speichern</button></div></section>
-  </div>
   ${LIB.msg?`<p class="saved">${esc(LIB.msg)}</p>`:''}${CLOUD&&S.role==='teacher'&&LC.miss?'<p class="err">Die Cloud-Bibliothek ist noch aus. Führ einmal supabase/bibliothek.sql im Supabase SQL Editor aus, dann ist dein Material auf allen Geräten.</p>':''}${LIB.err?'<p class="err">Die Bibliothek konnte auf diesem Gerät nicht geöffnet werden (privates Surfen?).</p>':''}
   <div class="lib-types">${MTYPES.map(([k,n])=>{const c=LIB.items.filter(m=>k==='all'||matType(m)===k).length;return `<button class="lt-b ${(V.lt||'all')===k?'on':''}" data-act="lib-t" data-t="${k}"><span class="ct-i">${LIB_ICO[k]}</span><b>${n}</b><small>${c}</small></button>`}).join('')}<button class="lt-b ${(V.lt||'all')==='lic'?'on':''}" data-act="lib-t" data-t="lic" title="Fremde Rechte, z. B. Verlags-CDs: nie veröffentlichen"><span class="ct-i"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="21" width="28" height="20" rx="4" fill="#f59e0b" stroke="#1e3a8a" stroke-width="2.6"/><path d="M16 21v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#1e3a8a" stroke-width="2.6" stroke-linecap="round"/></svg></span><b>Verlag</b><small>${LIB.items.filter(m=>m.lic).length}</small></button></div>
-  <div class="row" style="margin-top:18px;justify-content:space-between"><div class="psub" style="margin:0">${['all',...Object.keys(SUBJECTS)].filter(k=>k==='all'||cnt(k)).map(k=>`<button class="${k==='all'?'':'s-'+k} ${f===k?'on':''}" data-act="lib-f" data-f="${k}" ${k==='all'?'style="--sc:var(--navy)"':''}>${k==='all'?'Alle':SUBJECTS[k].name} · ${cnt(k)}</button>`).join('')}</div>
+  <div class="row" style="margin-top:18px;justify-content:space-between"><div class="psub" style="margin:0">${['all',...Object.keys(SUBJECTS)].filter(k=>k==='all'||cnt(k)).map(k=>`<button class="${k==='all'?'':'s-'+k} ${f===k?'on':''}" data-act="lib-f" data-f="${k}" ${k==='all'?'style="--sc:#26337a"':''}>${k==='all'?'Alle':SUBJECTS[k].name} · ${cnt(k)}</button>`).join('')}</div>
     <input id="lib-q" type="search" placeholder="Suchen …" value="${esc(V.q||'')}" style="min-width:200px;width:auto"></div>
   <div id="lib-list">${libListHTML()}</div>`;
 };
@@ -4709,7 +4740,7 @@ function deckEd(t,i,L){const X=String(i)[0]==='x';const SL=X?(t.slides||[]):deck
       ${tab==='elo'?`<div class="sl-row"><span class="sl-gl">Figur</span><span class="sl-v"><select data-f="${f(j,'elo')}" style="width:auto">${Object.entries(SL_ELO).map(([k,n])=>`<option value="${k}" ${k===(sl.elo||'')?'selected':''}>${n}</option>`).join('')}</select>${sl.elo!=='off'?`</span></div><div class="sl-row"><span class="sl-gl">Elo sagt</span><span class="sl-v"><input type="text" list="elo-vo" data-f="${f(j,'say')}" value="${esc(sl.say||'')}" placeholder="Elo sagt … (Satz wählen oder eigenen schreiben)" style="width:100%"><datalist id="elo-vo">${Object.values(ELO_VO).map(t=>`<option value="${esc(t)}">`).join('')}</datalist></span></div>
         <div class="sl-row"><span class="sl-v">${eloVoKey(sl.say)?'<span class="chip">Elo spricht diesen Satz mit seiner Stimme</span>':swH(f(j,'speak'),sl.speak,'Elo spricht den Satz','Beim Antippen von Elo an der Tafel')}</span></div>
         ${sl.say&&(eloVoKey(sl.say)||sl.speak)?`<div class="sl-line"><button class="btn sm" data-act="sl-vo-play" data-i="${i}" data-j="${j}">Anhören</button>${!eloVoKey(sl.say)&&bbAdmin()&&VO.st!=='prev'?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}" ${VO.st==='busy'?'disabled':''}>${VO.st==='busy'?'⏳ Elo spricht ein …':sl.vo&&sl.voT===sl.say?'Elo-Stimme neu erzeugen':'Elo-Stimme erzeugen'}</button>${VO.st==='busy'&&VO.sid===(sl.sid||'')?'<button class="btn sm" data-act="vo-stop">Abbrechen</button>':''}`:''}</div>
-        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button>${VO.again?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">Neu aufnehmen (kostet)</button>`:''}</div>${VO.msg?`<small class="sl-hint">${esc(VO.msg)}</small>`:''}`:''}${VO.st==='err'&&VO.sid===(sl.sid||'')?`<p class="err" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
+        ${VO.st==='prev'&&VO.sid===(sl.sid||'')?`<div class="sl-line"><button class="btn sm" data-act="vo-prev">▶ Probe anhören</button><button class="btn sm pri" data-act="vo-ok" data-i="${i}" data-j="${j}">✓ Übernehmen</button><button class="btn sm" data-act="vo-no" data-i="${i}" data-j="${j}">✕ Verwerfen</button>${VO.again?`<button class="btn sm" data-act="sl-vo-gen" data-i="${i}" data-j="${j}">Neu aufnehmen (kostet)</button>`:''}</div>${VO.msg?`<small class="sl-hint">${esc(VO.msg)}</small>`:''}`:''}${VO.st==='err'?`<p class="${/^✓/.test(VO.msg)?'muted':'err'}" style="margin:6px 0 0">${esc(VO.msg)}</p>`:''}${bbAdmin()&&!eloVoKey(sl.say)?`<div class="sl-line"><button class="btn sm ghost" data-act="vo-check">Elo-Stimme prüfen (kostenlos)</button></div>`:''}${!eloVoKey(sl.say)?`<small class="sl-hint">${sl.vo&&sl.voT===sl.say?'Elo spricht mit seiner echten Stimme.':'Ohne erzeugte Elo-Stimme liest die Computerstimme des Geräts vor.'}</small>`:''}`:''}`:`<div class="sl-line"><button class="btn sm pri" data-act="sl-elo-add" data-i="${i}" data-j="${j}">Elo auf die Folie holen</button></div>`}`:''}
       ${tab==='ueb'?`
         <div class="sl-row"><span class="sl-gl">Übergang</span><span class="sl-v">${Object.entries(SL_TR).map(([k,n])=>`<button class="pill ${k===(sl.tr||'')?'on':''}" data-act="sl-tr" data-i="${i}" data-j="${j}" data-v="${k}">${n}</button>`).join('')}${sl.tr?`<button class="btn sm" data-act="sl-trp" data-i="${i}" data-j="${j}">Vorschau</button>`:''}${sl.tr==='morph'?`<small class="sl-hint">Gleiche Teile gleiten von der Folie davor an ihren neuen Platz. Tipp: Folie duplizieren, dann Überschrift, Bilder oder Elo verschieben.</small>`:''}</span></div>
         <div class="sl-line"><button class="btn sm ${ED.zo?'on':''}" data-act="sl-zo">${ED.zo?'Zurück zur Folie':'Rand um die Folie zeigen'}</button></div><small class="sl-hint">Am Rand geparkte Teile sieht die Klasse nicht. Mit Morph gleiten sie auf der nächsten Folie herein oder hinaus.</small>`:''}
@@ -5528,7 +5559,7 @@ VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();i
       <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span>${one?'<small class="chip">einmalig</small>':''}</span>
       ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):(sq.t||sq.typ?`<span class="sq-h">${esc((sq.typ?sq.typ+': ':'')+(sq.t||''))}</span>`:'')+'<span class="add">+ Stunde planen</span>'}</div>`};
   return `${planTabs('woche')}<div class="row" style="justify-content:space-between;margin:12px 0 10px"><h1>Wochenplanung</h1>
-    <div class="row"><button class="btn sm" data-act="wk-print">🖨️ Wochenplan exportieren (A4)</button><button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
+    <div class="row"><button class="btn sm" data-act="wk-arc" title="Alle geplanten Stunden dieser Woche ins Stunden-Archiv der Bibliothek">🗂️ Woche ins Archiv</button><button class="btn sm" data-act="wk-print">🖨️ Wochenplan exportieren (A4)</button><button class="btn sm" data-act="toolbox">🧰 Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
   ${TD.ttEx&&!(CLOUD&&Cloud.prof)?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
   ${ed?'<div class="priv">✏️ Tippe auf ein Feld, um Fach und Klasse einzutragen. Das gilt für jede Woche.</div>':''}
   <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
@@ -5554,7 +5585,7 @@ function tpCell(d,i,date){
   const nx=slotOf(d,i+1,date),dblOk=nx&&nx.s===sl.s&&nx.c===sl.c&&!TD.plan[date+'|'+(i+1)];
   const when=`${DAYS[d]}, ${new Date(date).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} · ${i+1}. Stunde`;
   if(L){showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${esc(L.title)}</h2><p class="muted" style="font-weight:700">${L.phases.length} Phasen · ${lessonMin(L)} Minuten</p>
-    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button>${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
+    <div class="row" style="margin-top:14px"><button class="btn ok" data-act="l-start" data-id="${L.id}">Live starten</button><button class="btn" data-act="l-edit" data-id="${L.id}">Bearbeiten</button><button class="btn sm" data-act="l-art" data-id="${L.id}" title="Als Artikulation (Word) exportieren">📄 Artikulation</button><button class="btn sm" data-act="tp-cp" data-k="${key}">Für andere Klasse kopieren</button><button class="btn sm" data-act="arc-one" data-id="${L.id}" title="Als .elonuki-Datei herunterladen (passt auch für die Stundenbörse)">💾 Als Datei</button><button class="btn sm ${L.arc?'on':''}" data-act="l-arc" data-id="${L.id}">${L.arc?'✓ Im Archiv':'🗂️ Ins Archiv'}</button>${bxOk()?`<button class="btn sm" data-act="bx-share" data-id="${L.id}">📤 In die Börse</button>`:''}<button class="btn sm" data-act="tp-unset" data-k="${key}">Aus dem Plan nehmen</button>${one?`<button class="btn sm" data-act="tp-one-del" data-k="${key}">Einzelstunde entfernen</button>`:''}<button class="btn sm" data-act="close-ov">Schließen</button></div></div>`);return}
   const others=lessons().filter(x=>x.subject===sl.s);
   showOv(`<div class="box" style="text-align:left;max-width:560px"><span class="label">${when}</span><h2>${SUBJECTS[sl.s].name} · ${esc(sl.c)}: Stunde planen</h2>
     ${dblOk?`<label class="row" style="margin-top:10px;font-weight:800"><input type="checkbox" id="tp-dbl" checked style="width:22px;height:22px"> Doppelstunde (auch die ${i+2}. Stunde)</label>`:''}
@@ -6367,7 +6398,7 @@ VIEWS['kl-cards']=()=>{
     <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
-const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub!==false&&deskOn(e.s)).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
+const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&isPub(e)&&deskOn(e.s)).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
 // Typische Fehler gehören in die Hilfestation, nicht in den Hefteintrag: alte Einträge werden einmal aufgeräumt
 const HELPRE=/^(achtung|falsch|richtig)\s*:|^[✗✓]/i;
 const HEFT_V=7;
@@ -6805,7 +6836,7 @@ function eloTips(B,ks){const T=[],act=ks.filter(k=>B[k]&&B[k].prog),pr=k=>B[k]&&
     if(weak.length>=2||(weak.length&&weak.length>=R.length*.3))T.push({w:weak.length*3,c:'warn',t:`${weak.length} ${weak.length===1?'Kind hängt':'Kinder hängen'} bei „${e.title}“`,d:`Im Minitest unter 60 % beim ersten Versuch.${h?' Häufiger Fehler laut Katalog: '+h:''}`,
       sug:`Vorschlag: eine Förderrunde zu „${chName(e.ch)||e.title}“${u?` mit der Übung „${u.n&&u.n!=='Übung'?u.n:AKT[u.t].name}“`:''}.`,who:nm(weak),s:e.s,ch:e.ch});
     else if(strong.length>=3&&strong.length>=R.length*.6)T.push({w:1,c:'good',t:`„${e.title}“ sitzt bei ${strong.length} Kindern`,d:'Mindestens 90 % beim ersten Minitest.',sug:'Vorschlag: für diese Kinder das Plus-Niveau anbieten.',who:nm(strong),s:e.s,ch:e.ch})});
-  aufAll().forEach(a=>{const R=act.map(k=>({k,q:aufProg(a,pr(k))}));const open=R.filter(x=>!x.q.done),none=R.filter(x=>x.q.d===0),late=daysUntil(a.due)<0;
+  aufAll().forEach(a=>{const R=act.map(k=>({k,q:aufProg(a,pr(k))}));const open=R.filter(x=>!x.q.done),none=R.filter(x=>x.q.d===0),late=!!a.due&&daysUntil(a.due)<0;
     if(late&&open.length)T.push({w:open.length*2,c:'warn',t:`${open.length} ${open.length===1?'Kind ist':'Kinder sind'} mit „${chName(a.ch)}“ noch nicht fertig`,d:`Der Übungsauftrag war fällig am ${new Date(a.due+'T12:00').toLocaleDateString('de-DE')}.`,sug:'Vorschlag: kurze Übungszeit in der nächsten Stunde oder eine Erinnerung an die Klasse.',who:nm(open.map(x=>x.k)),s:a.s,ch:a.ch});
     else if(!late&&R.length>=3&&none.length>=R.length*.5&&Date.now()-(a.at||0)>2*864e5)T.push({w:none.length,c:'info',t:`„${chName(a.ch)}“ ist bei ${none.length} Kindern noch nicht angefangen`,d:'Der Auftrag läuft seit mehr als zwei Tagen.',sug:'Vorschlag: den Auftrag in der Stunde kurz gemeinsam starten.',who:nm(none.map(x=>x.k)),s:a.s,ch:a.ch})});
   return T.sort((a,b)=>b.w-a.w).slice(0,5)}
@@ -6813,13 +6844,16 @@ function eloTipsHTML(B,ks){const T=eloTips(B,ks);
   return `<section class="panel et"><div class="et-h">${elo('think',52)}<div><h2>Elo gibt Tipps</h2><p class="muted">Aus dem Lernstand der Übungen. Keine Bewertung, keine Diagnose. Nur du siehst das.</p></div></div>
     ${T.length?T.map(x=>`<div class="et-i et-${x.c}"><b>${esc(x.t)}</b><p>${esc(x.d)}</p><p class="et-s">${esc(x.sug)}</p><div class="row" style="gap:8px;flex-wrap:wrap">${x.s&&x.ch?`<button class="btn sm" data-act="mod-open" data-s="${esc(x.s)}" data-ch="${esc(x.ch)}">Modul öffnen</button>`:''}<details><summary>Welche Kinder?</summary>${x.who.map(esc).join(', ')}</details></div></div>`).join('')
       :'<p class="et-none">Gerade gibt es nichts Auffälliges. Sobald Kinder Minitests und Übungsaufträge bearbeiten, sammelt Elo hier Hinweise.</p>'}</section>`}
-function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),N=annAll(),pr=k=>B[k]&&B[k].prog;
+function aufTeachHTML(B,ks,act){const A=aufAll().slice().sort((a,b)=>(b.due||'9').localeCompare(a.due||'9')),N=annAll(),pr=k=>B[k]&&B[k].prog;
   const row=a=>{const P=act.map(k=>[k,pr(k)]).filter(x=>x[1]),fin=P.filter(([,p])=>aufProg(a,p).done),mts=P.flatMap(([,p])=>Object.entries(p.mt||{}).filter(([id])=>aufEntries(a).some(e=>e.id===id)).map(([,m])=>m.f/m.n));
-    return `<div class="auf-t"><div style="flex:1;min-width:200px"><b>${esc(a.ch)}</b><small class="muted" style="display:block">bis ${fmtDate(a.due)} · Erinnerung ab ${esc(a.rem||'16:00')} Uhr${a.mt?' · mit Minitests':''}</small></div>
+    return `<div class="auf-t ${a.closed?'done':''}"><div style="flex:1;min-width:200px"><b>${aufTyp(a)}: ${esc(a.ch)}</b><small class="muted" style="display:block">${a.closed?'abgeschlossen am '+new Date(a.closed).toLocaleDateString('de-DE')+' · ':''}${a.due?'bis '+fmtDate(a.due)+(daysUntil(a.due)<0?' (Frist vorbei, bei den SuS ausgeblendet)':' · Erinnerung ab '+esc(a.rem||'16:00')+' Uhr'):'ohne Frist'}${a.mt?' · mit Minitests':''}</small></div>
       <span class="chip ${fin.length&&fin.length===P.length?'ok':''}">✓ ${fin.length} von ${act.length} fertig</span>${mts.length?`<span class="chip">🎯 Minitests im Schnitt ${Math.round(100*mts.reduce((x,y)=>x+y,0)/mts.length)} %</span>`:''}
-      <button class="btn sm" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">Modul</button><button class="btn sm red" data-act="auf-del" data-id="${esc(a.id)}">Löschen</button></div>${aufStats(a,act,pr)}`};
-  return `<section class="panel" style="margin:12px 0 16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">📚 Übungsaufträge</h2><button class="btn sm" data-act="tdesk">＋ Modul als Auftrag geben</button></div>
-    ${A.length?A.map(row).join(''):'<p class="muted" style="font-weight:700">Noch keiner. Öffne im Schreibtisch ein Modul und tippe auf „📚 Als Übungsauftrag“.</p>'}
+      <button class="btn sm" data-act="mod-open" data-s="${a.s}" data-ch="${esc(a.ch)}">Modul</button><button class="btn sm ${a.closed?'':'ok'}" data-act="auf-close" data-id="${esc(a.id)}">${a.closed?'Wieder öffnen':'✓ Abschließen'}</button><button class="btn sm red" data-act="auf-del" data-id="${esc(a.id)}">Löschen</button></div>${aufStats(a,act,pr)}`};
+  const nx=V.aufNext;
+  return `<section class="panel" style="margin:12px 0 16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">📌 Aufträge</h2><button class="btn sm" data-act="tdesk">＋ Modul als Auftrag geben</button></div>
+    <p class="muted" style="font-weight:700;margin:2px 0 8px">So geht es weiter: Auftrag fertig → „✓ Abschließen“ → ELIO bietet das nächste Modul an. Nach der Frist blendet sich ein Auftrag bei den SuS von selbst aus.</p>
+    ${nx?`<div class="remind">➡️ <span style="flex:1"><b>Weiter:</b> nächstes Modul „${esc(chName(nx.ch))}“ als Auftrag geben?</span><button class="btn sm pri" data-act="auf-next">Ja, öffnen</button></div>`:''}
+    ${A.length?A.filter(a=>!a.closed).concat(A.filter(a=>a.closed)).map(row).join(''):'<p class="muted" style="font-weight:700">Noch keiner. Öffne im Schreibtisch ein Modul und tippe auf „📌 Als Auftrag geben“.</p>'}
     <h2 style="font-size:1.15rem;margin-top:16px">📣 Erinnerung an die Klasse</h2><p class="muted" style="font-weight:700;margin:2px 0 8px">Steht ganz oben auf dem Dashboard der SuS, der Avatar liest sie auf Wunsch vor.</p>
     <div class="row" style="gap:8px;align-items:flex-end"><input id="ann-t" type="text" maxlength="300" placeholder="z. B. Denkt morgen an Geodreieck und Zirkel!" style="flex:1;min-width:220px"><label style="display:flex;flex-direction:column;font-weight:800;font-size:.85rem;gap:4px">zeigen bis<input id="ann-u" type="date" value="${new Date(Date.now()+864e5).toISOString().slice(0,10)}"></label><button class="btn pri" data-act="ann-add">Senden</button></div>${CLOUD?`<label style="display:flex;gap:8px;align-items:center;font-weight:700;margin-top:6px"><input type="checkbox" id="ann-p" checked> Am Abend vorher um 18 Uhr aufs iPad erinnern (ohne Text, nur „Denk an deine Erinnerung“)</label>`:''}
     ${N.map(a=>`<div class="auf-t"><span style="flex:1">📣 ${esc(a.t)} <small class="muted">· bis ${fmtDate(a.until)}${a.pAt?' · Push '+new Date(a.pAt).toLocaleString('de-DE',{weekday:'short',hour:'2-digit',minute:'2-digit'}):''}</small></span><button class="btn sm red" data-act="ann-del" data-id="${esc(a.id)}">Entfernen</button></div>`).join('')}</section>`}
@@ -6832,11 +6866,11 @@ function susTab(k,tab){const P=susP(k,false)||{chat:[],abg:{}};if((tab==='chat'&
       ${A.t?`<p style="white-space:pre-wrap">${esc(A.t)}</p>`:''}${A.img&&IMGRE.test(A.img)?`<a href="${A.img}" target="_blank" rel="noopener"><img class="abg-img" src="${A.img}" alt="Foto der Abgabe"></a>`:''}
       <div class="row" style="gap:6px">${A.ok?'<span class="chip ok">✓ angeschaut</span>':`<input id="abg-c-${esc(hw)}" type="text" maxlength="600" placeholder="Rückmeldung (optional)" style="flex:1;min-width:160px"><button class="btn sm ok" data-act="abg-ok" data-id="${esc(hw)}">✓ Angeschaut</button>`}</div></div>`).join('')||'<div class="empty">Noch keine Abgaben.</div>'}</section>`}
   const pr=P.prog;if(!pr)return '<div class="empty">Noch kein Lernstand. Er kommt, sobald das Kind auf seinem iPad übt.</div>';
-  const es=tHeft('M').concat(tHeft().filter(e=>e.s!=='M')).filter(e=>e.pub!==false&&(ubList(e).length||(e.hx||[]).length)).sort(heftSort),hw=hwAll();
+  const es=tHeft('M').concat(tHeft().filter(e=>e.s!=='M')).filter(e=>isPub(e)&&(ubList(e).length||(e.hx||[]).length)).sort(heftSort),hw=hwAll();
   const chs=[...new Set(es.map(e=>e.ch||'Ohne Kapitel'))];
-  const AU=aufAll().slice().sort((a,b)=>b.due.localeCompare(a.due)),ut=pr.ut||{},mt=pr.mt||{};
-  const auf=AU.length?`<h3 style="margin:14px 0 6px">📚 Übungsaufträge</h3><table class="st-t"><tbody>${AU.map(a=>{const q=aufProg(a,pr),late=!q.done&&daysUntil(a.due)<0,fin=q.done&&q.last;
-    return `<tr><td><b>${esc(a.ch)}</b><br><small class="muted">bis ${fmtDate(a.due)}</small></td><td><span class="bar sm"><i style="width:${q.n?Math.round(100*q.d/q.n):0}%"></i></span> ${q.d}/${q.n}</td><td>${q.done?`<span class="chip ok">✓ fertig ${esc(tsTxt(fin))}</span>${fin&&new Date(fin).toISOString().slice(0,10)>a.due?' <small class="err">nach der Frist</small>':''}`:late?'<span class="err" style="font-weight:800">überfällig</span>':q.last?`<small class="muted">zuletzt ${esc(tsTxt(q.last))}</small>`:'<small class="muted">noch nicht angefangen</small>'}</td></tr>`}).join('')}</tbody></table>`:'';
+  const AU=aufAll().slice().sort((a,b)=>(b.due||'9').localeCompare(a.due||'9')),ut=pr.ut||{},mt=pr.mt||{};
+  const auf=AU.length?`<h3 style="margin:14px 0 6px">📌 Aufträge</h3><table class="st-t"><tbody>${AU.map(a=>{const q=aufProg(a,pr),late=!q.done&&!!a.due&&daysUntil(a.due)<0,fin=q.done&&q.last;
+    return `<tr><td><b>${esc(a.ch)}</b><br><small class="muted">bis ${fmtDate(a.due)}</small></td><td><span class="bar sm"><i style="width:${q.n?Math.round(100*q.d/q.n):0}%"></i></span> ${q.d}/${q.n}</td><td>${q.done?`<span class="chip ok">✓ fertig ${esc(tsTxt(fin))}</span>${fin&&a.due&&new Date(fin).toISOString().slice(0,10)>a.due?' <small class="err">nach der Frist</small>':''}`:late?'<span class="err" style="font-weight:800">überfällig</span>':q.last?`<small class="muted">zuletzt ${esc(tsTxt(q.last))}</small>`:'<small class="muted">noch nicht angefangen</small>'}</td></tr>`}).join('')}</tbody></table>`:'';
   return `<section class="panel"><div class="row" style="gap:10px;flex-wrap:wrap"><span class="chip">⭐ ${pr.st} Stern${pr.st===1?'':'e'}</span><span class="chip">💪 ${pr.fl} Fleißpunkte</span><span class="chip">✏️ ${pr.ub.length} Übungen</span><span class="chip">✍️ ${pr.hx.length} Heftaufgaben</span><span class="chip">📌 ${hw.filter(h=>pr.hw.includes(h.id)).length} von ${hw.length} Hausaufgaben</span><small class="muted">Stand ${new Date(pr.at).toLocaleString('de-DE',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</small></div>
     ${auf}${chs.map(ch=>{const L=es.filter(e=>(e.ch||'Ohne Kapitel')===ch),sm=mt[stId(L[0].s,ch)];return `<h3 style="margin:14px 0 6px">${esc(ch)}${sm?` <span class="mtr ${mtCls(sm)}" style="font-size:.85rem">🎓 Selbsttest ${mtTxt(sm)}</span>`:''}</h3><table class="st-t"><tbody>${L.map(e=>{const U=ubList(e),H=e.hx||[],u=U.filter((_,i)=>pr.ub.includes(e.id+'#'+i)).length,x=H.filter((_,j)=>pr.hx.includes(e.id+'#'+j)).length;
       const t=Math.max(0,...U.map((_,i)=>+ut[e.id+'#'+i]||0)),m=mt[e.id];
@@ -6950,6 +6984,9 @@ const kChips=k=>Array.isArray(k)&&k.length?`<span class="kcs">${k.filter(n=>KOMP
 function kCover(e){const c=new Set([...ubList(e),...(e.hx||[])].flatMap(x=>x.k||[]));if(!c.size)return '';const miss=[1,2,3,4,5,6].filter(n=>!c.has(n));
   return `<div class="kcov"><span class="label">Kompetenzen</span>${[1,2,3,4,5,6].map(n=>`<span class="kc k${n} ${c.has(n)?'':'off'}" title="K${n} ${KOMP[n]}${c.has(n)?'':' · fehlt noch'}">K${n}</span>`).join('')}<small class="muted">${miss.length?'Fehlt: '+miss.map(n=>KOMP[n]).join(', '):'alle sechs abgedeckt'}</small></div>`}
 /* ---------- Module: Jahresplan-Kapitel mit Unterkapiteln, Hilfestation und Fleiß-Station ---------- */
+// Freigabe pro Klasse: Einträge ohne eigene Klasse (z. B. aus dem Jahresplan) merken sich die Freigabe je Klasse in pubC; ohne Eintrag gilt pub wie bisher
+const isPub=(e,c)=>{c=c||S.cls||'-';return e.cls||!e.pubC||!(c in e.pubC)?e.pub!==false:!!e.pubC[c]};
+function setPub(e,on,c){c=c||S.cls||'-';if(e.cls)e.pub=!!on;else{e.pubC=e.pubC||{};e.pubC[c]=!!on;if(on)e.pub=true}}
 const tHeft=k=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&(!k||e.s===k));
 function hwAll(){if(S.role==='teacher')return (TD.hw||[]).filter(h=>h.cls===S.cls);return Array.isArray(S.hwRecv)&&S.hwRecv.length?S.hwRecv:HOMEWORK}
 function ubFind(id){return S.role==='teacher'?(TD.heft||[]).find(e=>e.id===id):(S.heftRecv||[]).find(e=>e.id===id)}
@@ -6959,7 +6996,7 @@ function ubDoneMark(id,i){if(S.role!=='student')return;i=+i||0;S.ubDone=S.ubDone
   hwAll().filter(h=>h.eid===id&&(h.i==null||+h.i===i)&&h.mode!=='hand'&&!S.hwDone[h.id]).forEach(h=>{S.hwDone[h.id]=1;earnOnce('hw_'+h.id)});save();progTick()}
 // Kapitel eines Fachs in Jahresplan-Reihenfolge; on = mindestens ein Unterkapitel bei den SuS
 function modChs(k){if(S.role==='teacher'){const es=tHeft(k).filter(e=>e.ch).sort(heftSort),chs=[...new Set(es.map(e=>e.ch))];
-    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>e.pub!==false).length;return {ch,n:x.length,p:n,on:n>0,all:n===x.length}})}
+    return chs.map(ch=>{const x=es.filter(e=>e.ch===ch),n=x.filter(e=>isPub(e)).length;return {ch,n:x.length,p:n,on:n>0,all:n===x.length}})}
   if(Array.isArray(S.modsRecv))return S.modsRecv.filter(m=>m.s===k);
   return [...new Set(heftAll(k).filter(e=>e.ch).sort(heftSort).map(e=>e.ch))].map(ch=>({ch,on:true}))}
 function modPush(){const ks=[...new Set(tHeft().filter(e=>e.ch&&deskOn(e.s)).map(e=>e.s))];CS.mods=[];CS.modx={};CS.desk=deskList();
@@ -6987,14 +7024,14 @@ function modList(k){const T=S.role==='teacher';
 function subExtras(e,T){const op=V.op||{},hk='h-'+e.id,done=S.ubDone&&S.ubDone[e.id];
   if(!e.help&&!ubList(e).length)return '';
   return `<div class="sub-btns">${e.help?`<button class="btn sm ${op[hk]?'on':''}" data-act="mx-tog" data-k="${hk}">⚠️ Typische Fehler & Hilfen</button>`:''}${ubList(e).length?`<button class="btn sm pri" data-act="ub-go" data-id="${e.id}">✏️ Üben${done?' ✓':''}</button>`:''}
-    ${T&&ubList(e).length?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}">📺 An der Tafel</button><button class="btn sm ${V.hwf===e.id+'#0'?'on':''}" data-act="hw-form" data-id="${e.id}">📌 Als Hausaufgabe</button>`:''}</div>
-    ${T&&V.hwf===e.id+'#0'?`<div class="hw-form"><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label><label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label><button class="btn ok" data-act="hw-add" data-id="${e.id}">Hausaufgabe stellen</button></div>`:''}
+    ${T&&ubList(e).length?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}">📺 An der Tafel</button><button class="btn sm ${V.hwf===e.id+'#0'?'on':''}" data-act="hw-form" data-id="${e.id}">📌 Als Auftrag</button>`:''}</div>
+    ${T&&V.hwf===e.id+'#0'?`<div class="hw-form"><label>Art<select id="hw-typ"><option value="ha">🏠 Hausaufgabe</option><option value="ueb">📚 Übung</option></select></label><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label><label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label><button class="btn ok" data-act="hw-add" data-id="${e.id}">Auftrag geben</button></div>`:''}
     ${op[hk]?`<div class="helpbox"><b class="l">⚠️ Typische Fehler & Hilfen</b>${heftBody(heftBlocks(e.help))}</div>`:''}`}
 function aufForm(k,ch,es){const hasMt=es.some(e=>e.mt),ex=aufAll().filter(a=>a.ch===ch&&a.s===k);
-  return `<section class="panel auf-f"><h2 style="font-size:1.15rem">📚 Übungsauftrag für ${esc(className())}</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Die SuS sehen unter „Aufgaben“ alle Übungen dieses Moduls${hasMt?' und pro Unterkapitel einen kurzen Minitest':''}. Das Modul wird dabei freigegeben. Ab der Uhrzeit erinnert ELIO jeden Tag, bis alles erledigt ist.</p>
-    <div class="row" style="gap:12px;align-items:flex-end"><label>Erledigt bis<input id="auf-due" type="date" value="${new Date(Date.now()+7*864e5).toISOString().slice(0,10)}"></label><label>Erinnern ab<input id="auf-rem" type="time" value="16:00"></label>
+  return `<section class="panel auf-f"><h2 style="font-size:1.15rem">📌 Auftrag für ${esc(className())}</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Die SuS sehen unter „Aufgaben“ alle Übungen dieses Moduls${hasMt?' und pro Unterkapitel einen kurzen Minitest':''}. Das Modul wird dabei freigegeben. Mit Frist erinnert ELIO ab der Uhrzeit jeden Tag; nach der Frist verschwindet der Auftrag bei den SuS. Fertig? Unter Klassen → Schüler/innen auf „Abschließen“ tippen.</p>
+    <div class="row" style="gap:12px;align-items:flex-end"><label>Art<select id="auf-typ"><option value="ueb">📚 Übung</option><option value="ha">🏠 Hausaufgabe</option></select></label><label>Erledigt bis (leer = ohne Frist)<input id="auf-due" type="date" value="${new Date(Date.now()+7*864e5).toISOString().slice(0,10)}"></label><label>Erinnern ab<input id="auf-rem" type="time" value="16:00"></label>
     ${hasMt?'<label class="row" style="gap:6px;font-weight:800"><input id="auf-mt" type="checkbox" checked> Minitest pro Unterkapitel</label>':''}<button class="btn ok" data-act="auf-add" data-s="${k}" data-ch="${esc(ch)}">Auftrag geben</button></div>
-    ${ex.length?`<p class="muted" style="margin-top:8px;font-size:.9rem">Schon gestellt: ${ex.map(a=>'bis '+fmtDate(a.due)).join(', ')}. Ein neuer Auftrag kommt dazu.</p>`:''}</section>`}
+    ${ex.length?`<p class="muted" style="margin-top:8px;font-size:.9rem">Schon gestellt: ${ex.map(a=>a.due?'bis '+fmtDate(a.due):'ohne Frist').join(', ')}. Ein neuer Auftrag kommt dazu.</p>`:''}</section>`}
 VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=modX(ch),op=V.op||{};
   const m=modChs(k).find(x=>x.ch===ch)||{},pts=Object.entries(S.fleiss||{}).filter(([q])=>q.startsWith(ch+'#')).reduce((a,[,p])=>a+p,0);
   // Pro Unterkapitel drei Boxen: Hefteintrag, Übungen, Hilfestation. Es ist immer nur eine offen.
@@ -7002,22 +7039,27 @@ VIEWS.mod=()=>{const k=V.s,ch=V.ch,T=S.role==='teacher',es=modEntries(k,ch),X=mo
   const sub=e=>{const pk='p-'+e.id,cur=(V.box||{})[e.id],c=S.ubDone&&S.ubDone[e.id],nU=ubList(e).length,nH=(e.hx||[]).length,box=(b,ic,l,sm)=>`<button class="sbox ${cur===b?'on':''}" data-act="sbox" data-id="${e.id}" data-b="${b}"><span class="si">${ic}</span><b>${l}</b><small>${sm}</small></button>`;
     let body='';
     if(cur==='heft')body=`<div class="sb-pane">${heftBody(e.blocks)}</div>`;
-    if(cur==='ub'){const L=ubList(e),H=e.hx||[],hwf=(i,dig)=>T&&V.hwf===e.id+'#'+i?`<div class="hw-form"><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label>${dig?`<label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label>`:''}<button class="btn ok" data-act="hw-add" data-id="${e.id}" data-i="${i}">Hausaufgabe stellen</button></div>`:'';
+    if(cur==='ub'){const L=ubList(e),H=e.hx||[],hwf=(i,dig)=>T&&V.hwf===e.id+'#'+i?`<div class="hw-form"><label>Art<select id="hw-typ"><option value="ha">🏠 Hausaufgabe</option><option value="ueb">📚 Übung</option></select></label><label>Fällig am<input id="hw-due" type="date" value="${new Date(Date.now()+2*864e5).toISOString().slice(0,10)}"></label>${dig?`<label>So wird sie gemacht<select id="hw-mode"><option value="digital">digital in ELIO (hakt sich selbst ab)</option><option value="hand">von Hand ins Heft, wird präsentiert</option></select></label>`:''}<button class="btn ok" data-act="hw-add" data-id="${e.id}" data-i="${i}">Auftrag geben</button></div>`:'';
       const row=(u,i)=>{const A=AKT[u.t],ok=S.ubDone&&(S.ubDone[e.id+'#'+i]||(i===0&&S.ubDone[e.id]&&!L.slice(1).some((_,j)=>S.ubDone[e.id+'#'+(j+1)])));let n='';try{n=A.count(A.parse(u.x))}catch(_){}
         return `<div class="ub-item"><div class="ub-row"><span class="si">${A.icon}</span><div style="flex:1;min-width:0"><b>${esc(u.n&&u.n!=='Übung'?u.n:A.name)}</b><small class="muted" style="display:block">${esc(A.name)}${n?' · '+esc(n):''} ${T?kChips(u.k):''}</small></div>${ok?'<span class="chip ok">✓</span>':''}</div>
-        <div class="sub-btns"><button class="btn sm pri" data-act="ub-go" data-id="${e.id}" data-i="${i}">▶ Üben</button>${T?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}" data-i="${i}">📺 Tafel</button><button class="btn sm ${V.hwf===e.id+'#'+i?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="${i}">📌 HA</button>`:''}</div>${hwf(i,1)}</div>`};
+        <div class="sub-btns"><button class="btn sm pri" data-act="ub-go" data-id="${e.id}" data-i="${i}">▶ Üben</button>${T?`<button class="btn sm" data-act="ub-tafel" data-id="${e.id}" data-i="${i}">📺 Tafel</button><button class="btn sm ${V.hwf===e.id+'#'+i?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="${i}">📌 Auftrag</button>`:''}</div>${hwf(i,1)}</div>`};
       const st=l=>'★'.repeat(l)+'<span class="off">'+'★'.repeat(3-l)+'</span>';
       body=`<div class="sb-pane">${T?kCover(e):''}${L.length?`<span class="label">🎮 Interaktiv · ${L.length}</span><div class="ub-list">${L.map(row).join('')}</div>`:'<p class="muted">Interaktive Übungen kommen noch.</p>'}${e.mt?`<div class="ub-item"><div class="ub-row"><span class="si">🎯</span><div style="flex:1;min-width:0"><b>Minitest</b><small class="muted" style="display:block">${AKT.mc.parse(e.mt).qs.length} Fragen zum Abschluss${T?' · Ergebnis kommt in den Lernstand':''}</small></div>${!T&&(S.mt||{})[e.id]?`<span class="mtr ${mtCls(S.mt[e.id])}">${mtTxt(S.mt[e.id])}</span>`:''}</div><div class="sub-btns"><button class="btn sm pri" data-act="mt-go" data-id="${e.id}">▶ ${T?'Ansehen':'Starten'}</button></div></div>`:''}
-      ${H.length?`<div class="hx"><div class="row" style="justify-content:space-between;gap:6px"><span class="label">✍️ Fürs Übungsheft · ${H.length} Aufgaben</span>${T?`<button class="btn sm ${V.hwf===e.id+'#hx'?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="hx">📌 Als HA (von Hand)</button>`:''}</div>${hwf('hx',0)}
+      ${H.length?`<div class="hx"><div class="row" style="justify-content:space-between;gap:6px"><span class="label">✍️ Fürs Übungsheft · ${H.length} Aufgaben</span>${T?`<button class="btn sm ${V.hwf===e.id+'#hx'?'on':''}" data-act="hw-form" data-id="${e.id}" data-i="hx">📌 Als Auftrag (von Hand)</button>`:''}</div>${hwf('hx',0)}
         <p class="muted" style="font-size:.85rem;margin:2px 0 6px">Schreib Datum und Aufgabe ab, rechne im Heft. Erst danach die Lösung aufdecken.</p>
         <ol class="hx-list">${H.map((h,j)=>{const lk='hx-'+e.id+'-'+j,hk=e.id+'#'+j,dn=S.hxDone&&S.hxDone[hk];return `<li class="${dn?'dn':''}"><div class="hx-q"><span class="hxl" title="Stufe ${h.l}">${st(h.l)}</span>${T?kChips(h.k):''} ${esc(h.q)} ${T?'':rdBtn(null,h.q)}</div>
           <div class="sub-btns"><button class="btn sm ${op[lk]?'on':''}" data-act="mx-tog" data-k="${lk}">${op[lk]?'Lösung verbergen':'👀 Lösung zeigen'}</button>${T?'':`<button class="btn sm ${dn?'ok':''}" data-act="hx-ok" data-k="${hk}">${dn?'✓ gerechnet':'Im Heft gerechnet'}</button>`}</div>
           ${op[lk]?`<div class="hx-a">✓ ${esc(h.a)}</div>`:''}</li>`}).join('')}</ol></div>`:''}
       <p class="muted" style="font-size:.85rem;margin-top:8px">📖 Buchseiten und Arbeitsblätter zu diesem Thema kommen hier noch dazu.</p></div>`}
     if(cur==='help')body=`<div class="sb-pane helpbox"><div class="elo-help"><img src="assets/elo/elo-hilfe.png" alt="Elo, die Eule"><span class="bub">Ich bin Elo. Hier siehst du, wo viele stolpern, und wie du es richtig machst.</span></div><b class="l">⚠️ Typische Fehler und wie du sie vermeidest</b>${e.help?heftBody(heftBlocks(e.help)):'<p>Kommt noch.</p>'}${X.tipps&&X.tipps.length?tips:''}</div>`;
-    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(e.pub===false?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`):c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
+    return `<article class="page sub s-${k}"><header><h3>${esc(e.title)}</h3><span class="row" style="gap:6px">${T?(!isPub(e)?`<span class="chip">noch nicht frei</span><button class="btn sm ok" data-act="sub-on" data-id="${esc(e.id)}">Nur dieses freigeben</button>`:`<span class="chip ok">bei den SuS</span><button class="btn sm" data-act="sub-off" data-id="${esc(e.id)}">Zurücknehmen</button>`)+`<button class="btn sm ${V.subEd===e.id?'on':''}" data-act="sub-ed" data-id="${esc(e.id)}">✏️ Bearbeiten</button>`:c?'<span class="chip ok">✓ geübt</span>':''}</span></header>
+      ${T&&V.subEd===e.id?`<div class="panel sub-ed" style="margin:8px 0"><input type="hidden" id="hf-s" value="${esc(e.s)}"><label class="label" style="display:block">Titel<input id="hf-t" type="text" maxlength="80" value="${esc(e.title)}"></label>
+        <label class="label" style="display:block;margin-top:8px">Hefteintrag<textarea id="hf-x" rows="9">${esc(e.text||'')}</textarea></label>
+        <div class="row" style="gap:8px;margin-top:6px"><button class="btn sm" type="button" data-act="hf-img">🖼️ Bild hochladen</button><input type="file" id="hf-file" accept="image/*" hidden><small class="muted" style="font-weight:700">Das Bild kommt an die Cursor-Stelle.</small></div>
+        <label class="label" style="display:block;margin-top:8px">Hilfestation (typische Fehler)<textarea id="hf-h" rows="3">${esc(e.help||'')}</textarea></label>
+        <p class="err" id="hf-err"></p><div class="row" style="gap:8px"><button class="btn pri" data-act="sub-save" data-id="${esc(e.id)}">Speichern</button><button class="btn" data-act="sub-ed" data-id="${esc(e.id)}">Abbrechen</button><small class="muted" style="font-weight:700">${isPub(e)?'Die SuS sehen die Änderung sofort.':'Noch nicht freigegeben.'}</small></div></div>`:''}
       <div class="sboxes">${box('heft','<img class="si-owl" src="assets/elo/elo-heft.png" alt="">','Hefteintrag','zum Abschreiben')}${box('ub','<img class="si-owl" src="assets/elo/elo-uebung.png" alt="">','Übungen',nU+nH?[nU?nU+' Spiel'+(nU>1?'e':''):'',nH?nH+' fürs Heft':''].filter(Boolean).join(' · ')+(c?' ✓':''):'kommt noch')}${box('help','<img class="si-owl" src="assets/elo/elo-hilfe.png" alt="">','Hilfestation','Elo hilft bei Fehlern')}</div>${body}</article>`};
-  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📚 Als Übungsauftrag</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
+  return `<div class="subj-head s-${k}"><button class="btn sm" data-act="mod-back">← Zurück</button>${badge(k)}<h1>${esc(ch)}</h1>${T&&m.on&&!m.all?`<span class="chip">${m.p} von ${m.n} frei</span>`:''}${T?(m.all?`<button class="btn sm" data-act="mod-off" data-s="${k}" data-ch="${esc(ch)}">Zurücknehmen</button>`:`<button class="btn sm ok" data-act="mod-on" data-s="${k}" data-ch="${esc(ch)}">${m.on?'Alle freigeben':'Ganzes Modul freigeben'}</button>`)+`<button class="btn sm pri ${V.auff?'on':''}" data-act="auf-form">📌 Als Auftrag geben</button>`:`<span class="chip">⭐ ${pts} Fleißpunkte</span>`}</div>
   ${T&&V.auff?aufForm(k,ch,es):''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
   <div class="mod-grid"><section><span class="label">Unterkapitel · ${es.length}</span><div class="entries">${es.map(sub).join('')||'<div class="empty">Noch nichts freigegeben.</div>'}</div></section>
   <div style="display:grid;gap:16px;align-content:start">
@@ -7049,12 +7091,46 @@ const vokFor=()=>(TD.vok||[]).filter(l=>l.cls===S.cls).slice(-40).map(({id,title
 function vokSync(){if(S.role!=='student'||!Array.isArray(S.vokRecv))return;const D=vokD();let ch=0;
   S.vokRecv.forEach(L=>{if(!L||!Array.isArray(L.words))return;L.words.forEach(w=>{if(!Array.isArray(w))return;const en=vokClean(w[0]),de=vokClean(w[1]);if(!en||!de)return;const id=String(L.id).slice(0,40)+':'+vokNorm(en).slice(0,60),c=D.c[id];
     if(!c){D.c[id]={en,de,b:0,due:'',src:String(L.id).slice(0,40),t:vokClean(L.title),at:Date.now()};ch=1}else if(c.en!==en||c.de!==de||c.t!==vokClean(L.title)){c.en=en;c.de=de;c.t=vokClean(L.title);ch=1}})});if(ch)save()}
+// Gescannte Vokabelliste → Zeilen „englisch = deutsch“. Lautschrift ([..] oder /../) und Beispielsätze fallen weg.
+// Spalten erkennt ELIO an großen Lücken (die Texterkennung liefert sie als drei Leerzeichen).
+const VOK_EN=/\b(the|a|an|is|are|was|were|i|you|he|she|it|we|they|my|your|his|her|our|their|this|that|to|of|in|on|at|for|with|can|do|does|did|have|has|don't|i'm|it's|there)\b/i;
+function vokScan(txt){const out=[];
+  String(txt||'').split('\n').forEach(l=>{
+    l=l.replace(/\[[^\]]{1,40}\]|\/[^\/\s][^\/]{0,38}\//g,'   ').replace(/[|•·▪►]/g,' ').replace(/^\s*\d{1,3}[.)]\s+/,'');
+    let p=l.split(/\s*(?:=|\t|\s–\s|\s-\s|;|\s{3,})\s*/).map(x=>x.trim()).filter(Boolean);
+    // Beispielsätze (mehrere Wörter mit Satzzeichen am Ende, oder englische Satzwörter ab dem 3. Teil) weg
+    const sent=x=>x.split(' ').length>=4&&/[.!?]$/.test(x)||x.split(' ').length>=5;
+    p=p.filter((x,i)=>i<2||!sent(x));if(p.length>2)p=p.filter((x,i)=>i<1||!(sent(x)&&VOK_EN.test(x)));
+    if(p.length<2){const w=(p[0]||'').split(' ');if(w.length===2&&!/[.!?]$/.test(p[0]))p=w;else return}
+    let en=p[0],de=p[1];if(sent(en)||sent(de))return;
+    if(/^(english|englisch|deutsch|german|word|wort|page|seite)$/i.test(en)||/^unit\b/i.test(en))return;
+    en=en.replace(/[^\p{L}\p{N}' ().,\/\-!?…]/gu,'').trim();de=de.replace(/[^\p{L}\p{N}' ().,\/\-!?…]/gu,'').trim();
+    if(en.length<2||de.length<2||!/\p{L}/u.test(en)||!/\p{L}/u.test(de))return;out.push(en+' = '+de)});
+  return [...new Set(out)].slice(0,200).join('\n')}
+
+// Foto oder PDF einlesen: läuft auf dem Gerät der Lehrkraft (Texterkennung Tesseract, PDF-Text mit pdf.js; beides wird nur beim Tippen nachgeladen).
+// Das Bild verlässt das Gerät nicht. Ergebnis landet zum Prüfen im Textfeld, geschickt wird erst mit „An alle SuS schicken“.
+const VOK_LIB={tess:'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js',pdf:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',pdfw:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'};
+const vokJs=u=>new Promise((res,rej)=>{if(document.querySelector(`script[src="${u}"]`))return res();const x=document.createElement('script');x.src=u;x.onload=res;x.onerror=()=>rej(new Error('Laden ging nicht. Bist du online?'));document.head.appendChild(x)});
+// Wörter einer Zeile mit großer Lücke (Spalte) durch drei Leerzeichen trennen
+const vokCols=ws=>{ws=ws.filter(w=>w.t.trim());if(!ws.length)return '';const ch=ws.reduce((a,w)=>a+(w.x1-w.x0)/Math.max(1,w.t.length),0)/ws.length;return ws.map((w,i)=>(i&&w.x0-ws[i-1].x1>ch*2.2?'   ':i?' ':'')+w.t).join('')};
+async function vokOcrImg(src,msg){await vokJs(VOK_LIB.tess);const r=await Tesseract.recognize(src,'eng+deu',{logger:m=>{if(m.status==='recognizing text')msg('Elo liest … '+Math.round(100*m.progress)+' %')}});
+  return (r.data.lines||[]).map(l=>vokCols((l.words||[]).map(w=>({t:w.text,x0:w.bbox.x0,x1:w.bbox.x1})))).join('\n')}
+async function vokOcr(f){const msg=t=>{V.vkOcr=t;const el=$('#vk-ocr-m');if(el)el.textContent=t};msg('Elo lädt die Texterkennung …');
+  let txt='';if(/pdf/i.test(f.type)||/\.pdf$/i.test(f.name)){await vokJs(VOK_LIB.pdf);pdfjsLib.GlobalWorkerOptions.workerSrc=VOK_LIB.pdfw;const doc=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+    for(let n=1;n<=Math.min(doc.numPages,6);n++){const pg=await doc.getPage(n),tc=await pg.getTextContent(),rows={};
+      tc.items.forEach(it=>{if(!it.str||!it.str.trim())return;const y=Math.round(it.transform[5]/4);(rows[y]=rows[y]||[]).push({t:it.str.trim(),x0:it.transform[4],x1:it.transform[4]+it.width})});
+      let t=Object.keys(rows).map(Number).sort((a,b)=>b-a).map(y=>vokCols(rows[y].sort((a,b)=>a.x0-b.x0))).join('\n');
+      if(t.replace(/\s/g,'').length<20){msg('Seite '+n+' ist ein Scan, Elo liest das Bild …');const vp=pg.getViewport({scale:2}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;t=await vokOcrImg(c,msg)}
+      txt+=t+'\n'}}
+  else txt=await vokOcrImg(f,msg);
+  return vokScan(txt)}
 function vokTeach(){const Ls=(TD.vok||[]).filter(l=>l.cls===S.cls).slice().reverse();
   return `<h2 style="margin:18px 0 8px">📘 Vokabelheft · Listen für die SuS</h2>
   <section class="panel"><p class="muted" style="font-weight:700;margin:0 0 8px">Jede Liste landet automatisch im Vokabelheft aller SuS. Dort werden die Wörter abgefragt wie bei Phase 6.</p>
     <div class="lgrid"><label style="grid-column:1/-1">Titel der Liste<input id="vk-t" type="text" maxlength="60" placeholder="Unit 2 · At the zoo"></label>
     <label style="grid-column:1/-1">Vokabeln (eine pro Zeile: englisch = deutsch)<textarea id="vk-x" rows="6" placeholder="zoo = Zoo&#10;to feed = füttern&#10;giraffe = Giraffe"></textarea></label></div>
-    <div class="row" style="margin-top:8px"><button class="btn pri" data-act="vk-send">📨 An alle SuS schicken</button></div></section>
+    <div class="row" style="margin-top:8px;gap:8px"><label class="btn">📷 Foto oder PDF einlesen<input type="file" id="vk-file" accept="image/*,application/pdf" hidden></label><button class="btn pri" data-act="vk-send">📨 An alle SuS schicken</button><small class="muted" id="vk-ocr-m" style="font-weight:700">${esc(V.vkOcr||'Elo übernimmt nur Englisch und Deutsch, Lautschrift und Beispielsätze lässt er weg. Bitte danach kurz prüfen.')}</small></div></section>
   ${Ls.length?`<div class="vk-list" style="margin-top:10px">${Ls.map(l=>`<div class="vk-w"><span class="en">${esc(l.title)}</span><span class="de muted" style="font-weight:700">${l.words.length} Wörter · ${esc(l.date||'')}<br><small>${esc(l.words.slice(0,4).map(w=>w[0]).join(', '))}${l.words.length>4?' …':''}</small></span><button class="btn sm red" data-act="vk-del" data-id="${esc(l.id)}">Löschen</button></div>`).join('')}</div>`:''}`}
 VIEWS.vok=()=>{const D=vokD(),C=Object.entries(D.c),due=C.filter(([,c])=>vokDue(c)),bx=VOK_F.map((_,b)=>C.filter(([,c])=>(c.b||0)===b).length);
   if(VQ)return vokQuiz();
@@ -7088,18 +7164,17 @@ function vokNext(){if(!VQ)return;nsStop();const id=VQ.q.shift();if(VQ.res==='bad
 document.addEventListener('keydown',e=>{if(V.name!=='vok'||!VQ||e.key!=='Enter')return;e.preventDefault();if(VQ.res)vokNext();else{const i=$('#vk-a');vokCheck(i?i.value:'')}});
 VIEWS.tdesk=()=>{const ks=[...new Set([...Object.keys(PLANS),...tHeft().map(e=>e.s)])].filter(k=>SUBJECTS[k]);
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>Mein Schreibtisch · ${esc(className())}</h1></div>
-  <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
+  <div class="desk">${ks.map(k=>{const es=tHeft(k),pub=es.filter(e=>isPub(e)).length,mods=modChs(k),hw=hwAll().filter(h=>h.s===k).length;
     return `<button class="folder s-${k}${deskOn(k)?'':' f-off'}" data-act="tsubj" data-s="${k}"><span class="tab"></span><span class="fbody">${subjArt(k)}<b>${SUBJECTS[k].name}</b><small>📒 Regelheft · ${pub} bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</small>${mods.length?`<small>📗 ${mods.filter(m=>m.on).length} von ${mods.length} Modulen frei</small>`:''}${hw?`<small>📝 ${hw} Übung${hw>1?'en':''}</small>`:''}<small class="f-vis">${deskOn(k)?'👁 Für diese Klasse sichtbar':'🚫 Für diese Klasse ausgeblendet'}</small></span></button>`}).join('')}
     <button class="folder" data-act="theft"><span class="tab"></span><span class="fbody"><b>+ Neuer Eintrag</b><small>Hefteintrag für ein Fach schreiben</small></span></button></div>`};
-VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>e.pub!==false).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
+VIEWS.tsubj=()=>{const k=V.s,es=tHeft(k),pub=es.filter(e=>isPub(e)).length,hws=hwAll().filter(h=>h.s===k).sort((a,b)=>a.due.localeCompare(b.due));
   return `<div class="subj-head s-${k}"><button class="btn sm" data-act="tdesk">← Schreibtisch</button>${badge(k)}<h1>${SUBJECTS[k].name}</h1></div>
   ${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
-  ${deskVisHTML(k)}
-  <button class="mod-card heft-card" data-act="theft" data-s="${k}"><span class="mi">📒</span><span class="t"><span class="label">Regelheft</span><b>${pub} Einträge bei den SuS${es.length>pub?` · ${es.length-pub} Entwürfe`:''}</b><span class="muted">Einträge schreiben, bearbeiten, einzeln veröffentlichen</span></span><span class="btn">Bearbeiten</span></button>
+  ${(()=>{const on=deskOn(k);return `<div class="row" style="gap:8px;margin:4px 0 6px"><button class="pill ${on?'on':''}" data-act="desk-vis" data-s="${k}" aria-pressed="${on}" title="Ordner bei den SuS dieser Klasse zeigen oder ausblenden">${on?'👁 Ordner sichtbar für '+esc(className()):'🚫 Ordner ausgeblendet für '+esc(className())}</button><button class="pill" data-act="theft" data-s="${k}">📒 Eigener Eintrag · ${pub} bei den SuS${es.length>pub?', '+(es.length-pub)+' Entwürfe':''}</button></div>`})()}
   ${PLANS[k]&&!es.some(e=>e.ch)?`<section class="panel" style="margin-top:12px"><b>Noch keine Module.</b> Lade die ${PLANS[k].t}, dann erscheinen hier ${PLANS[k].d}. Bei den SuS ist erst etwas, wenn du ein Modul freigibst.<div class="row" style="margin-top:8px"><button class="btn pri" data-act="hf-plan" data-s="${k}">📚 ${k==='DZ'?'Lernlandschaft':'Jahresplan'} laden</button></div></section>`:''}
   ${k==='E'?vokTeach():''}${k==='K'?skzTeach():''}
-  <h2 style="margin:18px 0 8px">Lernmodule nach Jahresplan</h2>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
-  <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Als Hausaufgabe“.</div>'}`};
+  <h2 style="margin:18px 0 8px">${SUBJECTS[k].name}${jgst()?' '+jgst():''} · Lernmodule nach Jahresplan</h2><p class="muted" style="font-weight:700;margin:-4px 0 8px">Modul antippen: Einträge ansehen, bearbeiten (✏️), einzeln freigeben oder zurücknehmen. „Ganzes Modul freigeben“ fragt nach den Klassen.</p>${modChs(k).length?landHTML(k)+modList(k):'<div class="empty">Noch keine Module in diesem Fach.</div>'}
+  <h2 style="margin:18px 0 8px">Übungen · ${hws.length}</h2>${hws.length?`<div class="hw-list">${hws.map(h=>{const [c,l]=dueLabel(h.due);return `<div class="hw s-${h.s}">${badge(h.s)}<div class="tx">${esc(h.task)}<div class="row" style="gap:6px;margin-top:4px"><span class="due ${c}">${l}</span></div></div><button class="btn sm red" data-act="hw-del" data-id="${h.id}">Löschen</button></div>`}).join('')}</div>`:'<div class="empty">Keine Übungen gestellt. Im Modul tippst du bei einem Unterkapitel auf „📌 Auftrag“.</div>'}`};
 // Freigabe des Ordners pro Klasse: aktive Klasse groß, die anderen eigenen Klassen als Schalter daneben
 function deskVisHTML(k){const M=(CLOUD&&Cloud.myClasses||[]).filter(c=>c.id!==S.cls),on=deskOn(k),cn=className();
   return `<section class="panel desk-vis"><span class="label">Ordner „${esc(SUBJECTS[k].name)}“ bei den SuS</span>
@@ -7121,8 +7196,8 @@ VIEWS.theft=()=>{const list=(TD.heft||[]).filter(e=>!e.cls||e.cls===S.cls).slice
   ${V.msg?`<p class="saved" style="margin-top:12px">${esc(V.msg)}</p>`:''}
   <section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><span class="label">Jahresplan Mathematik 7 · nach LehrplanPLUS</span><button class="btn sm" data-act="hf-plan">📚 Jahresplan laden oder aktualisieren</button></div>
     <p class="muted" style="font-weight:700;margin-top:6px">34 fertige Einträge von 1.1 Terme bis 8.2 Kennwerte. Sie landen hier als Entwurf, und du veröffentlichst sie, wenn das Thema dran ist.</p></section>
-  ${(()=>{const pub=list.filter(e=>e.pub!==false),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
-    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${e.pub===false?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm ${V.hbe===e.id?'on':''}" data-act="hbe-open" data-id="${e.id}">Im Eintrag bearbeiten</button><button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${V.hbe===e.id?hbeHTML(e):heftBody(heftBlocks(e.text))}</article>`;
+  ${(()=>{const pub=list.filter(e=>isPub(e)),dr=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&!isPub(e)).sort(heftSort),chs=[...new Set(dr.map(e=>e.ch||'Entwürfe'))];
+    const card=e=>`<article class="page s-${e.s}"><header><h3>${badge(e.s)} ${esc(e.title)}</h3><span class="row" style="gap:6px">${!isPub(e)?`<button class="btn sm ok" data-act="hf-pub" data-id="${e.id}">Veröffentlichen</button>`:`<span class="date">${fmtDate(e.date)}</span><button class="btn sm" data-act="hf-unpub" data-id="${e.id}">Zurückziehen</button>`}<button class="btn sm ${V.hbe===e.id?'on':''}" data-act="hbe-open" data-id="${e.id}">Im Eintrag bearbeiten</button><button class="btn sm" data-act="hf-edit" data-id="${e.id}">Bearbeiten</button><button class="btn sm" data-act="hf-print" data-id="${e.id}">Drucken / PDF</button><button class="btn sm red" data-act="hf-del" data-id="${e.id}">Löschen</button></span></header>${V.hbe===e.id?hbeHTML(e):heftBody(heftBlocks(e.text))}</article>`;
     return `<h2 style="margin:18px 0 8px">Bei den SuS · ${pub.length}</h2><div class="entries">${pub.sort(heftSort).map(card).join('')||'<div class="empty">Noch nichts veröffentlicht.</div>'}</div>
       ${chs.map(ch=>{const es=dr.filter(e=>(e.ch||'Entwürfe')===ch);return `<details class="panel" style="margin-top:12px"><summary class="row" style="justify-content:space-between;cursor:pointer"><b>📁 ${esc(ch)} · ${es.length} Entwürfe</b><span class="row" style="gap:6px"><button class="btn sm" data-act="hf-printch" data-ch="${esc(ch)}">Kapitel drucken / PDF</button><button class="btn sm ok" data-act="hf-pubch" data-ch="${esc(ch)}">Ganzes Kapitel veröffentlichen</button></span></summary><div class="entries" style="margin-top:10px">${es.map(card).join('')}</div></details>`}).join('')}`})()}`};
 // Hefteintrag Block für Block bearbeiten (Etappe 1): eigener Text, Foto, verschieben, löschen. Gespeichert wird sofort.
@@ -7200,7 +7275,7 @@ async function arcMake(list,name){ARC.busy=1;ARC.msg='Archiv wird gepackt …';A
         if(m.lic==='verlag'||m.lic==='verlagsmedien'){files[id]={meta:m,big:1};continue}
         if(size+b.size>ARC_MAX){skip++;files[id]={meta:m,big:1};continue}size+=b.size;files[id]={meta:m,file:'medien/'+id};media.push(['medien/'+id,new Uint8Array(await b.arrayBuffer())])}
       r.eid.forEach(id=>{const e=(TD.heft||[]).find(x=>x.id===id);if(e)heft[id]=clone(e)})}
-    const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes'].forEach(k=>delete d[k]);return d});
+    const lessonsOut=list.map(L=>{const d=clone(L);['owner','shared','cid','alit_priv','obs','notes','arc'].forEach(k=>delete d[k]);return d});
     const doc={elio:'stunden',schema:'elonuki-stunde',fv:ARC_FV,build:typeof BUILD!=='undefined'?BUILD:'',at:new Date().toISOString(),lessons:lessonsOut,heft,files};
     const readme='ELONUKI-Stunde (.elonuki)\r\n\r\nDiese Datei ist ein ZIP-Archiv. Du kannst die Endung in .zip ändern und sie entpacken.\r\n- stunde.json: die Stunde(n) mit Phasen, Folien und Werkzeugen\r\n- medien/: eigene Bilder, Audio und Dateien\r\n- ansicht.html: Stunde ohne ELONUKI lesen (Doppelklick)\r\n\r\nZurück in ELONUKI: Schreibtisch, Bibliothek, Stunden-Archiv, „Archiv einspielen“.\r\nEnthält keine Schülerdaten. Verlagsmedien sind nicht enthalten.\r\n';
     dl(zipStore([['stunde.json',JSON.stringify(doc)],['LIESMICH.txt',readme],['ansicht.html',arcHtml(lessonsOut,heft)],...media],'application/zip'),name);
@@ -7231,8 +7306,9 @@ async function arcImport(file){ARC.busy=1;ARC.msg='Archiv wird eingelesen …';A
     save();tsave();await libLoad();
     ARC.msg=`${n} Stunde${n===1?'':'n'} übernommen${nf?', '+nf+' Datei'+(nf>1?'en':'')+' in die Bibliothek gelegt':''}${dup?'. '+dup+' Stunde'+(dup>1?'n waren':' war')+' schon da und '+(dup>1?'wurden':'wurde')+' übersprungen':''}. Du findest sie unter „Meine Stunden“.`}
   catch(e){ARC.msg=e instanceof SyntaxError?'Die Datei ist beschädigt oder keine ELIO-Archivdatei.':(e.message||String(e));ARC.err=1}ARC.busy=0;render()}
-function arcHTML(){const L=lessons(),subs=[...new Set(L.map(x=>x.subject))].filter(k=>SUBJECTS[k]);
+function arcHTML(){const L=lessons(),subs=[...new Set(L.map(x=>x.subject))].filter(k=>SUBJECTS[k]),A=L.filter(x=>x.arc).sort((a,b)=>b.arc-a.arc);
   return `<section class="panel arc"><span class="label">🗂️ Stunden-Archiv</span>
+    <div class="arc-l">${A.length?A.map(x=>`<div class="arc-r s-${x.subject}">${badge(x.subject)}<span style="flex:1;min-width:140px"><b>${esc(x.title)}</b> <small class="muted">· ${x.phases.length} Phasen · archiviert ${new Date(x.arc).toLocaleDateString('de-DE')}</small></span><button class="btn sm" data-act="arc-one" data-id="${x.id}">💾 Datei</button>${bxOk()?`<button class="btn sm pri" data-act="bx-share" data-id="${x.id}">📤 In die Börse</button>`:''}<button class="btn sm ghost" data-act="l-arc" data-id="${x.id}" title="Aus dem Archiv nehmen">✕</button></div>`).join(''):'<p class="muted" style="font-weight:700">Noch leer. In der Planung eine Stunde antippen und „🗂️ Ins Archiv“ wählen, oder oben „🗂️ Woche ins Archiv“.</p>'}</div>
     <p class="muted" style="font-weight:700;margin:4px 0 10px">Sichere deine Stunden als Datei auf deinem Computer, zum Beispiel für das nächste Mal in dieser Jahrgangsstufe. Folien, Werkzeuge, Übungen und eigene Bilder sind mit drin. Auch neuere ELIO-Versionen lesen die Datei.</p>
     <div class="row"><button class="btn pri" data-act="arc-all" ${L.length&&!ARC.busy?'':'disabled'}>Alle ${L.length} Stunden sichern</button>${subs.length>1?`<select id="arc-subj" aria-label="Fach" style="width:auto;flex:none">${subs.map(k=>`<option value="${k}">${esc(SUBJECTS[k].name)} · ${L.filter(x=>x.subject===k).length}</option>`).join('')}</select><button class="btn" data-act="arc-subj" ${ARC.busy?'disabled':''}>Nur dieses Fach sichern</button>`:''}
       <label class="btn" style="cursor:pointer">Archiv einspielen<input type="file" id="arc-file" accept=".elonuki,.zip,.json,application/json,application/zip" hidden></label>${bxOk()?'<button class="btn" data-act="bx-open">Mit Kollegen teilen: Stundenbörse</button>':''}</div>
@@ -7250,10 +7326,12 @@ const bxOk=()=>CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending'&&S.role==='teacher
 const bxSchools=()=>{const ids=[...new Set(Cloud.myClasses.map(c=>c.school_id))];return ids.map(id=>schoolBy(id)||{id,name:'Schule'})};
 // Kopie ohne eigene Bilder (die liegen nur auf diesem Gerät und haben oft fremde Rechte)
 function bxSnap(L){const d=clone(lessonRow(L).data);let n=0;const nb=b=>b&&b!=='none'&&!SL_BG[b];
-  ['alit_priv','obs','notes'].forEach(k=>delete d[k]);
+  ['alit_priv','obs','notes','arc'].forEach(k=>delete d[k]);
   (d.phases||[]).forEach(p=>{const t=p.tool||{};if(nb(t.bg)){t.bg='allgemein';n++}[...(p.xs||[]),...(t.slides||[])].forEach(sl=>{if(!sl)return;if(nb(sl.bg)){sl.bg='allgemein';n++}if((sl.imgs||[]).length){n+=sl.imgs.length;sl.imgs=[]}})});
   return {d,n}}
 async function bxLoad(){if(!bxOk())return;BX.busy=true;render();
+  // Lehrkräfte der eigenen Schule(n) mit Konto: zum Auswählen statt Kürzel tippen
+  try{const ids=bxSchools().map(x=>x.id),me=Cloud.user&&Cloud.user.id;BX.staff=(await q(Cloud.sb.from('staff').select('short,profile_id,school_id').not('profile_id','is',null).order('short'))).filter(x=>x.short&&x.profile_id!==me&&(!ids.length||ids.includes(x.school_id)))}catch(e){BX.staff=null}
   try{BX.rows=await q(Cloud.sb.from('lesson_pool').select('id,owner,school_id,scope,to_short,to_profile,from_short,subject,grade,topic,lp,note,title,created_at').order('created_at',{ascending:false}).limit(300))}
   catch(e){BX.rows=[];BX.msg=/lesson_pool|relation|schema cache/i.test(e.message||'')?'Die Börse ist auf dem Server noch nicht eingerichtet: bitte boerse.sql einmal im Supabase SQL Editor ausführen.':'Laden hat nicht geklappt: '+(e.message||e)}
   BX.busy=false;render()}
@@ -7265,7 +7343,7 @@ VIEWS.boerse=()=>{const uid=Cloud.user&&Cloud.user.id;
     return `<div class="row" style="justify-content:space-between"><h1>Stunde teilen</h1><button class="btn" data-act="bx-back">Zurück</button></div>
     <section class="panel bx-form"><h2>${esc(share.title)}</h2>
       <div class="bx-seg"><button class="btn ${f.scope!=='school'?'pri':''}" data-act="bx-scope" data-s="person">An eine Kollegin / einen Kollegen</button><button class="btn ${f.scope==='school'?'pri':''}" data-act="bx-scope" data-s="school">In die Börse meiner Schule</button></div>
-      <div class="lgrid">${f.scope!=='school'?`<label>Kürzel der Lehrkraft<input type="text" id="bx-to" maxlength="12" value="${esc(f.to||'')}" placeholder="z. B. MÜL" autocapitalize="characters"></label>`:''}
+      <div class="lgrid">${f.scope!=='school'?(BX.staff&&BX.staff.length?`<label>Lehrkraft auf ELONUKI<select id="bx-to">${[...new Map(BX.staff.map(x=>[x.short.toUpperCase(),x])).keys()].map(k=>`<option ${k===String(f.to||'').toUpperCase()?'selected':''}>${esc(k)}</option>`).join('')}</select></label>`:`<label>Kürzel der Lehrkraft<input type="text" id="bx-to" maxlength="12" value="${esc(f.to||'')}" placeholder="z. B. MÜL" autocapitalize="characters"></label>`):''}
         ${sc.length>1?`<label>Schule<select id="bx-sch">${sc.map(x=>`<option value="${x.id}" ${x.id===(f.sch||S.school)?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label>`:''}
         <label>Jahrgangsstufe<select id="bx-gr">${[5,6,7,8,9,10].map(g=>`<option ${g===(+f.gr||+share.lpj||7)?'selected':''}>${g}</option>`).join('')}</select></label>
         <label>Thema<input type="text" id="bx-top" maxlength="120" value="${esc(f.top||share.title)}"></label>
@@ -7442,7 +7520,11 @@ document.addEventListener('input',e=>{
   const k=f.split('.');if(k[0]==='ph'&&k[2]==='xs'){const p=L.phases[+k[1]],sl=p.xs&&p.xs[+k[3]];if(sl)sl[k[4]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='slides'){const p=L.phases[+k[1]],sl=p.tool&&deckSlides(p.tool)[+k[4]];if(sl)sl[k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'&&k[3]==='pairs'){const p=L.phases[+k[1]],r=p.tool&&p.tool.pairs&&p.tool.pairs[+k[4]];if(r)r[+k[5]]=v}else if(k[0]==='ph'&&k[2]==='tool'){const p=L.phases[+k[1]];if(p.tool){p.tool[k[3]]=v;if(k[3]==='mat'){const m=libById(v);if(m&&m.kind==='link')p.tool.matUrl=String(m.url||'').slice(0,600);else delete p.tool.matUrl}if(p.tool.id==='start'&&k[3]==='hint')p.txt=v}}else if(k[0]==='ph'){const p=L.phases[+k[1]];p[k[2]]=v;if(k[2]==='act'&&v==='goto'&&!p.target)p.target='module'}else L[k[0]]=v;
   save();const t=$('#l-total');if(t)t.textContent=lessonMin(L);
 });
-document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+document.addEventListener('toggle',e=>{const k=e.target&&e.target.dataset&&e.target.dataset.lsec;if(k){V.lopen=V.lopen||{};V.lopen[k]=e.target.open}},true);
+document.addEventListener('change',e=>{if(e.target.id==='vk-file'){const F=e.target.files&&e.target.files[0];e.target.value='';if(!F)return;
+  vokOcr(F).then(t=>{const ta=$('#vk-x');if(!t){V.vkOcr='Elo hat keine Vokabelpaare gefunden. Ein schärferes, gerades Foto hilft.';}else{if(ta)ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+t;V.vkOcr=t.split('\n').length+' Vokabeln erkannt. Bitte prüfen und ggf. korrigieren, dann schicken.'}const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr})
+    .catch(er=>{V.vkOcr='Einlesen ging nicht: '+String(er&&er.message||er).slice(0,80);const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr});return}
+const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 // Werkzeug an eine andere Folie hängen (t.after = sid). Ändert nur die Reihenfolge, nichts wird überschrieben.
 document.addEventListener('change',e=>{const i=e.target.dataset&&e.target.dataset.tafter;if(i==null||V.name!=='lesson-edit')return;const L=lessonById(V.id),p=L&&L.phases[+i];if(!p||!p.tool)return;
   const v=e.target.value;if(v&&(p.xs||[]).some(sl=>sl&&sl.sid===v))p.tool.after=v;else delete p.tool.after;phTl(p);save();render()});
@@ -7526,7 +7608,11 @@ document.addEventListener('click',e=>{
     case 'arc-subj':{const k=$('#arc-subj')&&$('#arc-subj').value;if(SUBJECTS[k])arcMake(lessons().filter(x=>x.subject===k),arcName(SUBJECTS[k].name));break}
     case 'arc-one':{const L=lessonById(d.id);if(L)arcMake([L],arcName(L.title||'Stunde'));break}
     case 'arc-go':go('library');break;
-    case 'bx-share':BX.f={scope:'person'};BX.msg='';go('boerse',{share:d.id});break;
+    // Stunden-Archiv in ELIO: Stunde bleibt, wie sie ist, und steht zusätzlich in Bibliothek → Stunden-Archiv (von dort Datei oder Börse)
+    case 'l-arc':{const L=lessonById(d.id);if(!L)break;L.arc=L.arc?0:Date.now();save();toast(L.arc?'Im Stunden-Archiv (Bibliothek).':'Aus dem Archiv genommen.');if(!$('#ov').hidden)$('#ov').hidden=true;render();break}
+    case 'wk-arc':{const mo=monday(weekOff()),days=[0,1,2,3,4].map(k=>{const x=new Date(mo);x.setDate(mo.getDate()+k);return isoD(x)});const ids=[...new Set(Object.entries(TD.plan||{}).filter(([k])=>days.includes(k.split('|')[0])).map(([,v])=>v))];let n=0;
+      ids.forEach(id=>{const L=lessonById(id);if(L&&!L.arc){L.arc=Date.now();n++}});save();toast(n?n+' Stunde'+(n>1?'n':'')+' ins Archiv überführt. Du findest sie in der Bibliothek.':ids.length?'Alle Stunden dieser Woche sind schon im Archiv.':'Diese Woche ist noch keine Stunde geplant.');render();break}
+    case 'bx-share':BX.f={scope:'person'};BX.msg='';if(!$('#ov').hidden)$('#ov').hidden=true;go('boerse',{share:d.id});break;
     case 'bx-back':BX.msg='';go('lessons');break;
     case 'bx-tab':BX.tab=d.t;render();break;
     case 'bx-reload':bxLoad();break;
@@ -7593,6 +7679,7 @@ document.addEventListener('click',e=>{
     case 'sl-vo-play':{const sl=slEdSlide(d),L=lessonById(V.id);if(sl)eloSay({...sl,speak:true},L&&L.subject);break}
     case 'sl-vo-gen':slVoGen(d);break;
     case 'vo-prev':voPlay(VO.id);break;
+    case 'vo-check':voCheck();break;
     case 'vo-stop':VO.n++;Object.assign(VO,{st:'',msg:'',id:''});render();break;
     case 'vo-ok':voTake(d,true);break;
     case 'vo-no':voTake(d,false);break;
@@ -7760,13 +7847,23 @@ document.addEventListener('click',e=>{
     case 'ub-back':{const b=AK.G&&AK.G.back;AK.G=null;b?go(b.name,b):go(S.role==='teacher'?'tdesk':'desk');break}
     case 'hl-all':V.hl=null;render();break;
     case 'ub-tafel':{const x=ubFind(d.id),u=ubList(x)[+d.i||0];if(!u)break;if(!CS)initTeacher();CS.game={g:u.t,at:Date.now(),title:(u.n&&u.n!=='Übung'?u.n+' · ':'Üben: ')+x.title,data:AKT[u.t].parse(u.x)};pushCS();V.msg='„'+x.title+'“ läuft jetzt an der Tafel und auf den iPads.';render();break}
-    case 'sub-on':case 'sub-off':{const on=d.act==='sub-on',x=(TD.heft||[]).find(y=>y.id===d.id&&(!y.cls||y.cls===S.cls));if(!x)break;if(on&&x.pub===false)x.date=todayISO();x.pub=on;tsave();if(!CS)initTeacher();pushCS();V.msg=on?'„'+x.title+'“ ist freigegeben.':'„'+x.title+'“ ist zurückgenommen.';render();break}
-    case 'mod-on':case 'mod-off':{const on=d.act==='mod-on';(TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)){if(on&&x.pub===false)x.date=todayISO();x.pub=on}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
+    case 'sub-on':case 'sub-off':{const on=d.act==='sub-on',x=(TD.heft||[]).find(y=>y.id===d.id&&(!y.cls||y.cls===S.cls));if(!x)break;if(on&&!isPub(x))x.date=todayISO();setPub(x,on);tsave();if(!CS)initTeacher();pushCS();V.msg=on?'„'+x.title+'“ ist freigegeben.':'„'+x.title+'“ ist zurückgenommen.';render();break}
+    case 'mod-on':case 'mod-off':{const on=d.act==='mod-on',M=(CLOUD&&Cloud.myClasses||[]);
+      // Mehrere eigene Klassen: erst fragen, für welche Klassen (Freigabe gilt je Klasse; andere Klassen bekommen es, sobald du dort die Steuerung öffnest)
+      if(on&&M.length>1&&!d.go){showOv(`<div class="box" style="text-align:left;max-width:520px"><span class="label">Ganzes Modul freigeben</span><h2>${esc(chName(d.ch))}</h2><p class="muted" style="font-weight:700">Für welche Klassen?</p>
+        <div style="display:grid;gap:6px;margin-top:8px">${M.map(c=>`<label class="row" style="gap:10px;font-weight:800"><input type="checkbox" class="mod-cls" value="${esc(c.id)}" ${c.id===S.cls?'checked':''} style="width:22px;height:22px"> ${esc(c.name)}</label>`).join('')}</div>
+        <div class="row" style="justify-content:flex-end;margin-top:12px;gap:8px"><button class="btn" data-act="close-ov">Abbrechen</button><button class="btn ok" data-act="mod-on" data-go="1" data-s="${esc(d.s)}" data-ch="${esc(d.ch)}">Freigeben</button></div></div>`);break}
+      const cl=d.go?[...document.querySelectorAll('.mod-cls:checked')].map(x=>x.value):[S.cls||'-'];if(d.go)$('#ov').hidden=true;if(!cl.length)break;
+      (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls||(on&&cl.includes(x.cls)))){if(on&&!isPub(x))x.date=todayISO();if(x.cls)x.pub=on;else cl.forEach(c=>setPub(x,on,c))}});tsave();if(!CS)initTeacher();pushCS();V.msg=on?'Modul „'+d.ch+'“ ist freigegeben. Alle Unterkapitel sind jetzt im Regelheft der SuS.':'Modul „'+d.ch+'“ ist zurückgenommen.';render();break}
     case 'auf-form':V.auff=!V.auff;render();break;
-    case 'auf-add':{const due=($('#auf-due')||{}).value||todayISO(),rem=/^\d\d:\d\d$/.test(($('#auf-rem')||{}).value||'')?$('#auf-rem').value:'16:00',mt=!!(($('#auf-mt')||{}).checked);
-      (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)&&x.pub===false){x.date=todayISO();x.pub=true}});
-      TD.auf=TD.auf||[];TD.auf.push({id:'au'+Date.now().toString(36),cls:S.cls,s:d.s,ch:d.ch,due,rem,mt:mt?1:0,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.auff=false;
-      V.msg='Übungsauftrag „'+chName(d.ch)+'“ ist bei den SuS, erledigt bis '+fmtDate(due)+', Erinnerung ab '+rem+' Uhr. Den Stand pro Kind siehst du unter Klassen → Schüler/innen.';render();break}
+    case 'auf-add':{const due=($('#auf-due')||{}).value||'',typ=($('#auf-typ')||{}).value==='ha'?'ha':'ueb',rem=/^\d\d:\d\d$/.test(($('#auf-rem')||{}).value||'')?$('#auf-rem').value:'16:00',mt=!!(($('#auf-mt')||{}).checked);
+      (TD.heft||[]).forEach(x=>{if(x.ch===d.ch&&x.s===d.s&&(!x.cls||x.cls===S.cls)&&!isPub(x)){x.date=todayISO();setPub(x,true)}});
+      TD.auf=TD.auf||[];TD.auf.push({id:'au'+Date.now().toString(36),cls:S.cls,s:d.s,ch:d.ch,due,rem,mt:mt?1:0,typ,at:Date.now()});tsave();if(!CS)initTeacher();pushCS();V.auff=false;
+      V.msg='Auftrag „'+chName(d.ch)+'“ ist bei den SuS'+(due?', erledigt bis '+fmtDate(due)+', Erinnerung ab '+rem+' Uhr':', ohne Frist')+'. Den Stand pro Kind und „Abschließen“ findest du unter Klassen → Schüler/innen.';render();break}
+    // Abschließen: verschwindet bei den SuS aus den offenen Aufträgen; danach direkt das nächste Modul anbieten
+    case 'auf-close':{const a=(TD.auf||[]).find(x=>x.id===d.id);if(!a)break;a.closed=a.closed?0:Date.now();tsave();if(CS)pushCS();
+      const L=modChs(a.s).map(x=>x.ch),nx=a.closed?L[L.indexOf(a.ch)+1]:null;V.aufNext=nx?{s:a.s,ch:nx}:null;render();break}
+    case 'auf-next':{const n=V.aufNext;if(!n)break;V.aufNext=null;go('mod',{s:n.s,ch:n.ch,auff:true,back:{name:V.name,s:V.s}});break}
     case 'auf-del':TD.auf=(TD.auf||[]).filter(a=>a.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'push-keys':pushKeyGen();break;
     case 'ann-add':{const t=(($('#ann-t')||{}).value||'').trim().slice(0,300),u=($('#ann-u')||{}).value||todayISO();if(!t)break;TD.ann=(TD.ann||[]).filter(a=>a.until>=todayISO());const A={id:'an'+Date.now().toString(36),cls:S.cls,t,until:u,at:Date.now()};TD.ann.push(A);tsave();if(!CS)initTeacher();pushCS();const pj=($('#ann-p')||{}).checked?pushPlan(A):null;V.msg='Erinnerung ist auf dem Dashboard der SuS.'+(pj?' Push-Erinnerung: '+pj+'.':'');render();break}
@@ -7778,8 +7875,8 @@ document.addEventListener('click',e=>{
     case 'hw-form':{const k=d.id+'#'+(d.i||0);V.hwf=V.hwf===k?null:k;render();break}
     case 'hw-add':{const x=ubFind(d.id);if(!x)break;const due=($('#hw-due')||{}).value||todayISO(),hx=d.i==='hx';let mode=hx?'hand':($('#hw-mode')||{}).value||'digital';TD.hw=TD.hw||[];
       const i=hx?null:+d.i||0,u=hx?null:ubList(x)[i],nm=u&&u.n&&u.n!=='Übung'?u.n+' zu „'+x.title+'“':'Übung „'+x.title+'“',hn=(x.hx||[]).length;
-      TD.hw.push({id:'hw'+Date.now().toString(36),cls:S.cls,s:x.s,due,eid:x.id,i,mode,task:hx?'Übungsheft: Aufgaben 1 bis '+hn+' zu „'+x.title+'“ von Hand rechnen. Die Aufgaben stehen in ELIO unter Übungen.':mode==='hand'?nm+' von Hand ins Heft rechnen. Wir besprechen sie in der Stunde.':nm+' digital in ELIO lösen.'});
-      tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Hausaufgabe gestellt: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
+      TD.hw.push({id:'hw'+Date.now().toString(36),cls:S.cls,s:x.s,due,eid:x.id,i,mode,typ:($('#hw-typ')||{}).value==='ueb'?'ueb':'ha',task:hx?'Übungsheft: Aufgaben 1 bis '+hn+' zu „'+x.title+'“ von Hand rechnen. Die Aufgaben stehen in ELIO unter Übungen.':mode==='hand'?nm+' von Hand ins Heft rechnen. Wir besprechen sie in der Stunde.':nm+' digital in ELIO lösen.'});
+      tsave();if(!CS)initTeacher();pushCS();V.hwf=null;V.msg='Auftrag gegeben: '+x.title+', fällig '+fmtDate(due)+'.';render();break}
     case 'hw-del':TD.hw=(TD.hw||[]).filter(h=>h.id!==d.id);tsave();if(CS)pushCS();render();break;
     case 'hx-ok':S.hxDone=S.hxDone||{};S.hxDone[d.k]=S.hxDone[d.k]?0:1;if(S.hxDone[d.k])SND.right();save();progTick();render();break;
     case 't-lotsen':if(CS){CS.lotsen=d.n==='0'?[0]:d.n!=null?[]:kidsFrom(($('#t-lotsen')||{}).value||'');pushCS();render()}break;
@@ -7823,10 +7920,14 @@ document.addEventListener('click',e=>{
     case 'hf-add':{const t=$('#hf-t').value.trim(),k=$('#hf-s').value,xl=$('#hf-x').value.trim().split('\n'),x=xl.filter(l=>!HELPRE.test(l.trim())).join('\n').trim(),hl=[$('#hf-h').value.trim(),...xl.filter(l=>HELPRE.test(l.trim()))].filter(Boolean).join('\n');if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
       if(!CS)initTeacher();if(V.hedit){const y=(TD.heft||[]).find(z=>z.id===V.hedit);if(y){Object.assign(y,{s:k,title:t,text:x,help:hl});tsave();pushCS()}V.hedit=null}else heftPublish({id:'h'+Date.now().toString(36),s:k,title:t,text:x,help:hl});V.hs=k;render();break}
     case 'hf-plan':heftLoadPlan(false,d.s||'M');break;
-    case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){e.pub=a==='hf-pub';if(e.pub)e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
-    case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(x.pub===false&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){x.pub=true;x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
+    // Bearbeiten direkt im Modul (Text, Bild, Hilfestation)
+    case 'sub-ed':V.subEd=V.subEd===d.id?null:d.id;render();break;
+    case 'sub-save':{const y=(TD.heft||[]).find(z=>z.id===d.id);if(!y)break;const t=$('#hf-t').value.trim(),x=$('#hf-x').value.trim();if(!t||!x){$('#hf-err').textContent='Bitte Titel und Inhalt eingeben.';break}
+      Object.assign(y,{title:t,text:x,help:$('#hf-h').value.trim()});tsave();if(!CS)initTeacher();pushCS();V.subEd=null;V.msg='„'+t+'“ ist gespeichert.';render();break}
+    case 'hf-pub':case 'hf-unpub':{const e=(TD.heft||[]).find(x=>x.id===d.id);if(e){setPub(e,a==='hf-pub');if(isPub(e))e.date=todayISO();tsave();if(CS)pushCS();V.msg='';render()}break}
+    case 'hf-pubch':{e.preventDefault();e.stopPropagation();(TD.heft||[]).forEach(x=>{if(!isPub(x)&&(x.ch||'Entwürfe')===d.ch&&(!x.cls||x.cls===S.cls)){setPub(x,true);x.date=todayISO()}});tsave();if(!CS)initTeacher();pushCS();render();break}
     case 'hf-print':{const x=(TD.heft||[]).find(y=>y.id===d.id);if(x)heftPrint([x],x.s);break}
-    case 'hf-printch':{const es=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&e.pub===false&&(e.ch||'Entwürfe')===d.ch).sort(heftSort);if(es.length)heftPrint(es,es[0].s);break}
+    case 'hf-printch':{const es=(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&!isPub(e)&&(e.ch||'Entwürfe')===d.ch).sort(heftSort);if(es.length)heftPrint(es,es[0].s);break}
     case 'hf-img':{const fi=$('#hf-file'),ta=$('#hf-x');if(!fi||!ta)break;const pos=ta.selectionStart!=null?ta.selectionStart:ta.value.length;fi.value='';fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f||!/^image\//.test(f.type||''))return;
       const id=newId(),b=await medSmall(f);try{await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:f.name,mime:b.type||f.type||'',size:b.size,subject:$('#hf-s')?$('#hf-s').value:'',src:'heft',added:Date.now()}))}catch(e){$('#hf-err').textContent='Bild konnte nicht gespeichert werden. Ist der Speicher voll?';return}
       const v=ta.value,a=v.slice(0,pos),z=v.slice(pos),cap='Bildunterschrift',ins=(a&&!a.endsWith('\n')?'\n':'')+'[Foto: '+id+' | '+cap+']'+(z&&!z.startsWith('\n')?'\n':'');ta.value=a+ins+z;const st=a.length+ins.indexOf(cap);ta.focus();ta.setSelectionRange(st,st+cap.length)};fi.click();break}

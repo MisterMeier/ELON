@@ -382,7 +382,7 @@
   "datei": "assets/audio/futuristisch.mp3",
   "titel": "Futuristisch",
   "kategorie": "Signale",
-  "stichworte": "Start, Steuerung, Raumschiff, Neu",
+  "stichworte": "App-Start",
   "dauer": 2.8,
   "quelle": "ElevenLabs (Sound-Effekte), von Fabian erstellt",
   "urheber": "Fabian Meier (ELONUKI), erstellt mit ElevenLabs",
@@ -396,7 +396,7 @@
   "datei": "assets/audio/futuristisch-2.mp3",
   "titel": "Futuristisch 2",
   "kategorie": "Signale",
-  "stichworte": "Steuerung, Fenster, Übergang",
+  "stichworte": "Werkzeug startet",
   "dauer": 2.0,
   "quelle": "ElevenLabs (Sound-Effekte), von Fabian erstellt",
   "urheber": "Fabian Meier (ELONUKI), erstellt mit ElevenLabs",
@@ -458,6 +458,20 @@
   "urheber": "Fabian Meier (ELONUKI), erstellt mit ElevenLabs",
   "lizenz": "Eigene Erstellung mit ElevenLabs, Nutzung nach ElevenLabs-Bedingungen",
   "erzeugt_am": "2026-10-18",
+  "bearbeitet": "",
+  "loop": false
+ },
+ {
+  "id": "elio-error",
+  "datei": "assets/audio/elio-error.mp3",
+  "titel": "Elio Fehler",
+  "kategorie": "Signale",
+  "stichworte": "Fehler, falsch, nochmal",
+  "dauer": 1.0,
+  "quelle": "ElevenLabs (Sound-Effekte), von Fabian erstellt",
+  "urheber": "Fabian Meier (ELONUKI), erstellt mit ElevenLabs",
+  "lizenz": "Eigene Erstellung mit ElevenLabs, Nutzung nach ElevenLabs-Bedingungen",
+  "erzeugt_am": "2026-10-20",
   "bearbeitet": "",
   "loop": false
  }

@@ -929,27 +929,21 @@ async function showGallery(){APP.ed=null;revoke();await refresh();if(!APP.root)r
   const ti=taskInfo(),f=APP.filter,L=APP.pages.filter(p=>f==='alle'||p.kind===f),elo=APP.ctx.elo;
   const card=p=>`<div class="skz-card" data-open="${p.id}" role="button" tabindex="0"><div class="th" style="background-image:url('${thumbUrl(p)}');background-color:${esc(p.bg||'#fff')}"></div><span class="skz-kind ${p.kind}">${{skizze:'Skizze',werk:'Werk',frei:'Blatt'}[p.kind]||'Blatt'}</span>
     <button class="skz-b mn" data-menu="${p.id}" aria-label="Mehr">${ico('more')}</button><div class="in"><b>${esc(p.title||'Ohne Titel')}</b><small>${new Date(p.updated).toLocaleDateString('de-DE',{day:'numeric',month:'short'})}${p.kind==='skizze'&&p.task?(isDone(p)?' · angelegt':' · noch zu wenig'):''}</small></div></div>`;
-  let auf='';if(ti){const steps=[];for(let i=0;i<ti.n;i++){const p=ti.sk[i];steps.push(p?`<div class="skz-step ${isDone(p)?'done':''}" data-open="${p.id}" role="button"><img src="${thumbUrl(p)}" alt=""><span>Skizze ${i+1}</span><small>${isDone(p)?'angelegt':'weiterzeichnen'}</small></div>`
-        :`<button class="skz-step" data-k="new-sk">${ico('plus',28)}<span>Skizze ${i+1}</span><small>anlegen</small></button>`)}
-    const wk=ti.wk[0];steps.push(`<span class="skz-arrow">${ico('back',26).replace('<svg','<svg style="transform:rotate(180deg)"')}</span>`);
-    steps.push(wk?`<div class="skz-step werk" data-open="${wk.id}" role="button"><img src="${thumbUrl(wk)}" alt=""><span>Mein Werk</span><small>weiterarbeiten</small></div>`
-      :ti.open?`<button class="skz-step werk" data-k="new-wk">${ico('pinsel',30)}<span>Werk beginnen</span><small>mit deiner besten Skizze</small></button>`
-      :`<div class="skz-step lock">${ico('lock',28)}<span>Werk</span><small>erst ${ti.n} Skizze${ti.n>1?'n':''} (${ti.done}/${ti.n})</small></div>`);
-    auf=`<section class="skz-auf"><span class="k">Auftrag · Erst skizzieren, dann gestalten</span><h2>${esc(ti.T.text||'Skizziere deine Ideen')}</h2><div class="skz-steps">${steps.join('')}</div>
-      <p style="margin:10px 0 0;font-weight:700;color:var(--muted)">Probiere in den Skizzen verschiedene Ideen aus (Aufbau, Formen, Licht und Schatten). Eine Skizze zählt, sobald du ein paar Striche gezeichnet hast. Dein Werk beginnst du dann mit der besten Skizze als Vorlage.</p></section>`}
+  // Reines Skizzenbuch (Fabian 20.10.): kein Werk-Schritt mehr. Läuft gerade eine Skizzenphase, steht nur eine schmale Zeile mit dem Auftrag.
+  let auf='';if(ti)auf=`<section class="skz-auf" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px"><span style="flex:1;min-width:180px;font-weight:800">✏️ ${esc(ti.T.text||'Skizziere deine Ideen')} <span style="color:var(--muted)">· ${ti.done} von ${ti.n} Skizzen</span></span><button class="skz-b pri" data-k="new-sk">${ico('plus',20)} Skizze</button></section>`;
   R.innerHTML=`<div class="skz-top"><button class="skz-b" data-k="exit">${ico('back')}<span>Zurück</span></button><div class="skz-ttl"></div>${APP.ctx.who==='teacher'?'<span class="skz-saved">Dein eigenes Skizzenbuch (Lehrkraft)</span>':''}</div>
-    <div class="skz-gal"><div class="skz-gin"><div class="skz-gh">${elo?`<img src="${esc(elo)}" alt="">`:''}<h1>Mein Skizzenbuch</h1><button class="skz-b pri" data-k="new">${ico('plus',20)} Neues Blatt</button></div>
+    <div class="skz-gal"><div class="skz-gin"><div class="skz-gh">${elo?`<img src="${esc(elo)}" alt="">`:''}<h1>Mein Skizzenbuch</h1><button class="skz-b pri" data-k="new">${ico('plus',20)} Neue Skizze</button></div>
       ${APP.err?`<div class="skz-auf" style="border-left-color:var(--red)">${esc(APP.err)}</div>`:''}${auf}
-      <div class="skz-tabs">${[['alle','Alle'],['skizze','Skizzen'],['werk','Werke'],['frei','Freie Blätter']].map(([k,n])=>`<button class="skz-b ${f===k?'on':'line'}" data-filter="${k}">${n} · ${k==='alle'?APP.pages.length:APP.pages.filter(p=>p.kind===k).length}</button>`).join('')}</div>
-      <div class="skz-cards">${L.length?L.map(card).join(''):''}<button class="skz-new" data-k="new">${ico('plus',30)}Neues Blatt</button></div>
+      <div class="skz-tabs">${[['alle','Alle'],['skizze','Skizzen'],['werk','Werke'],['frei','Freie Blätter']].filter(([k])=>k!=='werk'||APP.pages.some(p=>p.kind==='werk')).map(([k,n])=>`<button class="skz-b ${f===k?'on':'line'}" data-filter="${k}">${n} · ${k==='alle'?APP.pages.length:APP.pages.filter(p=>p.kind===k).length}</button>`).join('')}</div>
+      <div class="skz-cards">${L.length?L.map(card).join(''):''}<button class="skz-new" data-k="new">${ico('plus',30)}Neue Skizze</button></div>
       ${!APP.pages.length?'<p class="skz-empty">Dein Skizzenbuch ist noch leer. Leg ein neues Blatt an und probier die Pinsel aus.</p>':''}
       <p class="skz-empty" style="font-size:.85rem">Alles im Skizzenbuch bleibt auf diesem iPad. Nur was du selbst an deine Lehrkraft schickst, sieht sie.</p></div></div>`}
 function modal(html){const m=D.createElement('div');m.className='skz-modal';m.innerHTML=`<div>${html}</div>`;APP.root.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.remove()});return m}
-function newDialog(kind,taskId){const ti=taskInfo(),forTask=taskId&&ti;const st={kind:kind||'frei',fmt:'quer',bg:'#ffffff',vor:null,title:''};
+function newDialog(kind,taskId){const ti=taskInfo(),forTask=taskId&&ti;const st={kind:kind||'skizze',fmt:'quer',bg:'#ffffff',vor:null,title:''};
   if(forTask&&st.kind==='werk'){const best=ti.sk.filter(isDone).sort((a,b)=>(b.n||0)-(a.n||0))[0]||ti.sk[0];st.vor=best?best.id:null}
   const sketches=APP.pages.filter(p=>p.kind==='skizze'||p.kind==='frei');
   const m=modal('');const draw=()=>{m.firstChild.innerHTML=`<h3>${forTask?(st.kind==='werk'?'Werk beginnen':'Neue Skizze zum Auftrag'):'Neues Blatt'}</h3>
-    ${forTask?'':`<h4>Art</h4><div class="skz-ch">${[['skizze','Skizze'],['werk','Werk'],['frei','Freies Blatt']].map(([k,n])=>`<button data-nk="${k}" class="${st.kind===k?'on':''}">${n}</button>`).join('')}</div>`}
+    ${forTask?'':`<h4>Art</h4><div class="skz-ch">${[['skizze','Skizze'],['frei','Freies Blatt']].map(([k,n])=>`<button data-nk="${k}" class="${st.kind===k?'on':''}">${n}</button>`).join('')}</div>`}
     <h4>Name</h4><input class="skz-in" data-nt maxlength="60" placeholder="${forTask?esc((st.kind==='werk'?'Werk: ':'Skizze: ')+(ti.T.text||'')).slice(0,60):'z. B. Mein Baum'}" value="${esc(st.title)}">
     <h4>Format</h4><div class="skz-ch">${FORMAT.map(([k,n,fw,fh])=>`<button data-nf="${k}" class="${st.fmt===k?'on':''}"><i class="fm" style="width:${fw/90}px;height:${fh/90}px"></i>${n}</button>`).join('')}</div>
     <h4>Papier</h4><div class="skz-ch">${PAPER.map(([c,n])=>`<button data-np="${c}" class="${st.bg===c?'on':''}"><i class="pp" style="background:${c}"></i>${n}</button>`).join('')}</div>
