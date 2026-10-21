@@ -1761,8 +1761,8 @@ const rdUseL1=()=>S.rd==='l1'&&S.l1&&S.l1!=='de'&&S.l1!=='x';
 function rdHasVoice(bcp){if(!bcp)return false;try{return !!bestVoice(bcp)}catch(e){return false}}
 /* ---------- Icons: Datei assets/icons/<name>.webp, sonst sofort SVG-Ersatz (Liste: elon/anleitungen/icons-erzeugen.md) ---------- */
 // Neue Datei hochgeladen? Namen hier eintragen und ICO_V hochzählen.
-const ICO_V='20261021b';
-const ICO_FILES=new Set(['abmelden','admin','aufgaben','dashboard','datenschutz','klassen','lehrerzimmer','postfach','problem','profil','schreibtisch','stundenplan','tafel','hilfe','bereit','sendet','angekommen','vorlesen']);
+const ICO_V='20261021c';
+const ICO_FILES=new Set(['abmelden','admin','aufgaben','dashboard','datenschutz','klassen','lehrerzimmer','postfach','problem','profil','schreibtisch','stundenplan','tafel','hilfe','bereit','sendet','angekommen','vorlesen','ankuendigung','ueben','erinnerung','weiter','minitest','skizzenbuch','auftrag','sozialform','zeit','geruest','vorlage','leere-phase','kein-werkzeug','bearbeiten','karte-ganz','w-slide','w-kfb','w-memory','w-salad','w-balloon','w-mat','w-start','w-vw','w-ueb','w-heftlink','w-heft']);
 const ICO_SVG={
   problem:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
   tafel:'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20l4-4 4 4"/>',
@@ -1793,10 +1793,10 @@ const ICO_SVG={
   'w-allg':'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
   punkt:'<circle cx="12" cy="12" r="4"/>'};
 // Ersatz-Symbol, solange ein Werkzeug noch kein eigenes Bild hat
-const ICO_ALIAS={bearbeiten:'auftrag',winken:'hilfe','w-task':'auftrag','w-heft':'heft','w-heftlink':'heft','w-diary':'heft','w-vok':'heft','w-irreg':'heft','w-skizze':'skizzenbuch','w-say':'vorlesen','w-quiz':'minitest','w-mc':'minitest','w-exit':'angekommen','w-thumbs':'bereit','w-high5':'hilfe','w-dialog':'sozialform','w-corners4':'sozialform','w-slide':'tafel','w-start':'tafel','w-cover':'tafel','w-mat':'tafel','w-memory':'ueben','w-salad':'ueben','w-balloon':'ueben','w-kfb':'ueben','w-mio':'ueben','w-geo':'karte-ganz'};
+const ICO_ALIAS={bearbeiten:'auftrag',winken:'hilfe','w-task':'auftrag','w-heft':'heft','w-heftlink':'heft','w-diary':'heft','w-vok':'heft','w-irreg':'heft','w-skizze':'skizzenbuch','w-say':'vorlesen','w-quiz':'minitest','w-mc':'minitest','w-exit':'angekommen','w-thumbs':'bereit','w-high5':'hilfe','w-dialog':'sozialform','w-corners4':'sozialform','w-slide':'tafel','w-start':'tafel','w-cover':'tafel','w-mat':'tafel','w-memory':'ueben','w-salad':'ueben','w-balloon':'ueben','w-kfb':'ueben','w-mio':'ueben'};
 function icoSvg(n){const p=ICO_SVG[n]||ICO_SVG[ICO_ALIAS[n]]||ICO_SVG[/^w-/.test(n)?'w-allg':'punkt'];
   return `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`}
-function ico(n){return ICO_FILES.has(n)?`<img class="ico" src="assets/icons/${n}.webp?v=${ICO_V}" alt="" draggable="false" data-n="${n}" onerror="icoErr(this)">`:icoSvg(n)}
+function ico(n){const f=ICO_FILES.has(n)?n:ICO_FILES.has(ICO_ALIAS[n])?ICO_ALIAS[n]:'';return f?`<img class="ico" src="assets/icons/${f}.webp?v=${ICO_V}" alt="" draggable="false" data-n="${n}" onerror="icoErr(this)">`:icoSvg(n)}
 function icoErr(el){el.outerHTML=icoSvg(el.dataset.n)}
 const RD_SPK='<svg viewBox="0 0 24 24" class="rd-ic" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 // Knopf „Elo liest vor“: i = Index der festen Anweisung (RD_DE), t = freier Text; ohne t liest Elo den Text des umgebenden [data-rdc]

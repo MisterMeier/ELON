@@ -10,13 +10,13 @@ gelb
 60%
 
 ## Nächste 3 Schritte
-- Weitere Icons per ElevenLabs erzeugen (Liste elon/anleitungen/icons-erzeugen.md): 6 Seitenknopf-Icons sind fertig, 25 Menü- und 38 Werkzeug-Icons folgen
+- Restliche Werkzeug-Icons per ElevenLabs erzeugen (Credits sind aufgebraucht, Liste in den Projektdateien elon/anleitungen/icons-erzeugen.md): 38 von 62 Icons sind fertig
 - Realistische Elos für Doktorhut und Heft sowie kurze Töne für Klick und Fehler ergänzen
 - Gemeinsame Schriftfarben-Komponente für alle Editoren (Runde 2)
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
-- 21.10., im Test: Icon-System ico(name): Bild aus assets/icons/<name>.webp, sonst sofort ein sauberes Strich-Symbol; alle durch die Emoji-Entfernung leer gewordenen Knöpfe (SuS-Seitenleiste, Problem melden, Vorlesen, Planung, 41 Werkzeuge) haben wieder ein Symbol
+- 21.10., im Test: Icon-System ico(name): Bild aus assets/icons/<name>.webp, sonst sofort ein sauberes Strich-Symbol; alle durch die Emoji-Entfernung leer gewordenen Knöpfe (SuS-Seitenleiste, Problem melden, Vorlesen, Planung, 41 Werkzeuge) haben wieder ein Symbol Bereits 38 ElevenLabs-Icons eingebunden (Seitenknöpfe, Menü, 17 Werkzeuge).
 - 20.10., im Test: Kontrast zentral über Farb-Token (Heftseiten im dunklen Modus hell, WCAG AA geprüft mit tools/kontrast-check.js); neue Bilder per ElevenLabs: Standard-Elo, Startbild, Ruhebild, Freeze-Elo, Fußballfeld, 9 Fach-Logos ohne Schrift
 - Designstandard für Material (elon/designstandard-material.md) bei jedem neuen Hefteintrag anwenden
 
