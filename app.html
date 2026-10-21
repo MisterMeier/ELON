@@ -2241,7 +2241,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1700';let verTold=false;
+const BUILD='20261021-1730';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -5055,7 +5055,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
     return `<div class="rt rt-c4"><h1>${esc(t.q||'Wie gut kannst du es schon?')}</h1><div class="cg">${o.map((x,k)=>`<div class="${CORNERS[k].c}"><b>Ecke ${k+1}</b><span>${esc(x)}</span></div>`).join('')}</div><p>Stimm auf deinem iPad ab und geh in deine Ecke.</p></div>`}
   return '';
 }
-function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(AKT[id])return {id,title:'',text:AKT[id].ex};
+function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(id==='vok')return {id,title:'',text:'',vm:'heft'};if(AKT[id])return {id,title:'',text:AKT[id].ex};
   if(id==='dgeo')return {id,title:'',mode:'ks',pts:'',fn:'',snap:true};if(id==='itten')return {id,title:'Farbkreis nach Itten',stage:'1'};
   return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:L.subject==='E'?'welt':L.subject==='K'?'atelier':L.subject==='W'||L.subject==='WK'?'boerse':'start',region:'uk-ie',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:'Wie geht\'s dir heute?'},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},skizze:{id,text:'',n:2},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
@@ -5205,6 +5205,12 @@ function toolEditor(p,i,L){
         <div class="lgrid">${ta('tg','Grund (leichter)',t.tg,4)}${ta('tp','Plus (schwerer)',t.tp,4)}
         <label>Wer wählt das Niveau?<select data-f="ph.${i}.tool.lvm"><option value="self" ${t.lvm!=='teacher'?'selected':''}>Jedes Kind wählt selbst</option><option value="teacher" ${t.lvm==='teacher'?'selected':''}>Ich weise zu (Klasse → Schüler/innen)</option></select></label>
         <div><button class="btn sm" disabled title="Kommt mit Elo-KI">Leichter/schwerer erzeugen (bald)</button></div></div></details></div>`}
+  // Vokabeltrainer: zuerst wählen, was die SuS üben. Vorgegebene Wörter auch aus den Vokabelheft-Listen (alle Klassen) einsetzen
+  if(t.id==='vok'){const hm=t.vm==='heft',VL=(TD.vok||[]).slice().reverse(),cn=id=>{const c=((typeof Cloud!=='undefined'&&Cloud.myClasses)||[]).find(k=>k.id===id);return c?c.name:''};
+    const head=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Was üben die SuS?<select data-f="ph.${i}.tool.vm"><option value="heft" ${hm?'selected':''}>Im eigenen Vokabelheft weiterlernen (Lernstand pro Kind)</option><option value="" ${hm?'':'selected'}>Bestimmte Wörter wiederholen (gebe ich vor)</option></select></label></div>`;
+    cfg=hm?head+`<div class="lgrid">${inp('title','Titel an der Tafel (freiwillig)',t.title,'Vokabelheft')}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Jedes Kind bekommt die Wörter aus seinem Vokabelheft, die heute dran sind (höchstens 20). Ist nichts fällig, wiederholt es 15 Wörter freiwillig. Jede Antwort zählt im Karteikasten.</p></div>`
+      :head+`<div class="row" style="gap:8px;margin-top:8px">${VL.length?`<select id="vk-pick-${i}" aria-label="Liste aus dem Vokabelheft"><option value="">Liste aus dem Vokabelheft …</option>${VL.map(l=>`<option value="${esc(l.id)}">${esc(l.title)} · ${l.words.length} Wörter${l.cls!==S.cls&&cn(l.cls)?' · '+esc(cn(l.cls)):''}</option>`).join('')}</select><button class="btn sm" data-act="vk-pick" data-i="${i}">Wörter einsetzen</button>`:'<span class="muted" style="font-weight:700;font-size:.9rem">Noch keine Listen im Vokabelheft. Listen schickst du im Fach Englisch unter „Vokabelheft“.</span>'}
+        <label class="row" style="gap:6px"><input type="checkbox" data-f="ph.${i}.tool.vx" ${t.vx?'checked':''} style="width:auto"> fällige Wörter aus dem eigenen Heft dazunehmen</label></div>`+cfg}
   // Eigene Listen speichern und laden (Irregular Verbs, Tabelle): liegen in den Lehrer-Daten, nicht in der Stunde
   const lstBar=`<div class="row" style="grid-column:1/-1;gap:8px"><select id="lst-sel-${i}" aria-label="Gespeicherte Liste"><option value="">Gespeicherte Liste laden …</option>${(TD.lists||[]).filter(x=>x.tool===t.id).map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select><button class="btn sm" data-act="lst-load" data-i="${i}">Laden</button><button class="btn sm" data-act="lst-save" data-i="${i}">Als Liste speichern</button><button class="btn sm ghost" data-act="lst-del" data-i="${i}">Liste löschen</button></div>`;
   if(t.id==='irreg'&&cfg)cfg=cfg.replace(/<\/div>$/,lstBar+'</div>');
@@ -5483,25 +5489,31 @@ const AKT={
     parse:t=>{let L=String(t||'').split('\n'),en=false;const m=(L.find(x=>x.trim())||'').match(/^\s*(richtung|direction)\s*:\s*(.+)$/i);
       if(m){en=/^\s*(engl|en\b)/i.test(m[2]);L=L.filter(x=>x!==L.find(y=>y.trim()))}return {en,words:vokParse(L.join('\n')).slice(0,60)}},
     count:d=>d.words.length+(d.words.length===1?' Vokabel':' Vokabeln')+' · '+(d.en?'Englisch → Deutsch':'Deutsch → Englisch')+' · mit Vokabelheft',
-    // Auf dem iPad kommen die fälligen Wörter aus dem eigenen Vokabelheft dazu (höchstens 10)
-    init:d=>{const w=d.words.map(x=>[x[0],x[1]]);let ext=0;
-      if(S.role==='student'){const D=vokD(),have=new Set(w.map(x=>vokNorm(x[0])));Object.entries(D.c).filter(([,c])=>vokDue(c)&&!have.has(vokNorm(c.en))).sort((a,b)=>(a[1].b||0)-(b[1].b||0)).slice(0,10).forEach(([id,c])=>{w.push([c.en,c.de,id]);ext++})}
-      return {w,ext,q:shuffle(w.map((_,i)=>i)),ok:{},wr:{},res:null,ans:'',tries:0}},
-    view:(d,s)=>{const W=s.w||d.words;if(!W.length)return '<div class="empty">Keine Vokabeln eingetragen.</div>';const i=s.q[0],w=W[i],n=Object.keys(s.ok).length;
+    // Aus der Stunde: vm 'heft' (oder keine Wörter eingetragen) = jedes Kind lernt im eigenen Vokabelheft weiter; sonst genau die vorgegebenen Wörter, mit vx die fälligen aus dem Heft dazu
+    fromTool:T=>{if(T.vm!=='heft'){const d=AKT.vok.parse(T.text);if(d.words.length)return {...d,vx:T.vx?1:0}}return {heft:1,en:false,words:[]}},
+    // Auf dem iPad: im Heft-Modus die fälligen Wörter (höchstens 20, sonst 15 freiwillig), bei vorgegebenen Wörtern auf Wunsch fällige dazu (höchstens 10)
+    init:d=>{let w=d.heft?[]:d.words.map(x=>[x[0],x[1]]),ext=0,en=!!d.en,free=0;
+      if(S.role==='student'){const D=vokD(),C=Object.entries(D.c);
+        if(d.heft){en=D.dir==='en';let q=shuffle(C.filter(([,c])=>vokDue(c))).sort((a,b)=>(a[1].b||0)-(b[1].b||0)).slice(0,20);if(!q.length){q=shuffle(C).slice(0,15);free=1}w=q.map(([id,c])=>[c.en,c.de,id]);ext=w.length}
+        else if(d.vx!==0){const have=new Set(w.map(x=>vokNorm(x[0])));C.filter(([,c])=>vokDue(c)&&!have.has(vokNorm(c.en))).sort((a,b)=>(a[1].b||0)-(b[1].b||0)).slice(0,10).forEach(([id,c])=>{w.push([c.en,c.de,id]);ext++})}}
+      return {w,ext,en,free,q:shuffle(w.map((_,i)=>i)),ok:{},wr:{},res:null,ans:'',tries:0}},
+    view:(d,s)=>{const W=s.w||d.words,en=s.en!=null?s.en:d.en;
+      if(!W.length)return d.heft?(S.role==='student'?'<div class="vk-card"><b style="font-size:1.3em">Dein Vokabelheft ist noch leer.</b><p class="muted">Sobald Wörter drin sind, übst du sie hier.</p></div>':'<div class="vk-card"><b style="font-size:1.4em">Alle üben in ihrem eigenen Vokabelheft</b><p class="muted">Jedes Kind bekommt die Wörter, die bei ihm heute dran sind. Jede Antwort zählt im Karteikasten.</p></div>'):'<div class="empty">Keine Vokabeln eingetragen.</div>';
+      const i=s.q[0],w=W[i],n=Object.keys(s.ok).length;
       if(i==null)return `<div class="vk-card"><b style="font-size:1.4em">Alle ${W.length} Vokabeln sitzen!</b><p class="muted">Dein Vokabelheft ist auf dem neuesten Stand.</p></div>`;
-      const ask=d.en?w[0]:w[1],sol=d.en?w[1]:w[0],r=s.res;
-      return `<div class="say-prog"><i style="width:${n/W.length*100}%"></i></div><p class="say-stat">${n} von ${W.length} sitzen${s.ext?` · davon ${s.ext} aus deinem Vokabelheft, die heute dran sind`:''}</p>
-      <div class="vk-card"><span class="label">${d.en?'Englisch → Deutsch':'Deutsch → Englisch'}${w[2]?' · aus deinem Vokabelheft':''}</span><div class="say-w">${esc(ask)}</div>
-        <input id="ak-vok-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${d.en?'auf Deutsch …':'in English …'}" value="${esc(s.ans)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">
+      const ask=en?w[0]:w[1],sol=en?w[1]:w[0],r=s.res;
+      return `<div class="say-prog"><i style="width:${n/W.length*100}%"></i></div><p class="say-stat">${n} von ${W.length} sitzen${d.heft?(s.free?' · freiwillig wiederholen, heute ist nichts fällig':' · aus deinem Vokabelheft, heute dran'):s.ext?` · davon ${s.ext} aus deinem Vokabelheft, die heute dran sind`:''}</p>
+      <div class="vk-card"><span class="label">${en?'Englisch → Deutsch':'Deutsch → Englisch'}${w[2]&&!d.heft?' · aus deinem Vokabelheft':''}</span><div class="say-w">${esc(ask)}</div>
+        <input id="ak-vok-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${en?'auf Deutsch …':'in English …'}" value="${esc(s.ans)}" ${r?'disabled':''} style="font-size:1.3em;text-align:center;max-width:420px;width:100%">
         ${r?`<p class="vk-fb ${r}"><b>${r==='ok'?'Richtig!':'Noch nicht.'}</b> ${s.ch&&r!=='ok'?'Achte auf Groß- und Kleinschreibung (Nomen und Satzanfänge groß). ':''}${r==='ok'?'':'Richtig ist: '}<b>${esc(sol)}</b></p>
           <div class="row" style="justify-content:center"><button class="btn" data-act="ak" data-k="hear">Anhören</button><button class="btn pri" data-act="ak" data-k="next" id="ak-vok-go">Weiter</button></div>`
         :`<div class="row" style="justify-content:center"><button class="btn pri" data-act="ak" data-k="chk" id="ak-vok-go">Prüfen</button><button class="btn" data-act="ak" data-k="skip">Weiß ich nicht</button></div>`}</div>`},
-    act:(d,s,a)=>{const W=s.w||d.words,i=s.q[0],w=W[i];if(w==null)return;
+    act:(d,s,a)=>{const W=s.w||d.words,i=s.q[0],w=W[i],en=s.en!=null?s.en:d.en;if(w==null)return;
       if(a.k==='hear'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w[0]);u.lang='en-GB';u.rate=.85;const v=bestVoice('en-GB');if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}return}
-      if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const sl=d.en?w[1]:w[0],ok=a.k==='chk'&&vokOk(sl,s.ans,true);s.ch=!ok&&a.k==='chk'&&!!String(s.ans).trim()&&vokOk(sl,s.ans,false);s.res=ok?'ok':'no';s.tries++;
+      if(a.k==='chk'||a.k==='skip'){const el=document.getElementById('ak-vok-in');s.ans=a.k==='skip'?'':(el?el.value:'');const sl=en?w[1]:w[0],ok=a.k==='chk'&&vokOk(sl,s.ans,true);s.ch=!ok&&a.k==='chk'&&!!String(s.ans).trim()&&vokOk(sl,s.ans,false);s.res=ok?'ok':'no';s.tries++;
         if(ok){s.ok[i]=1;SND.right()}else{SND.oops()}
         // Karteikasten wie bei Phase 6: richtig = ein Fach weiter (war es vorher falsch: Fach 1), falsch = zurück in Fach 0
-        if(S.role==='student'){const c=vokCard(w);if(ok){c.b=s.wr[i]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}else{c.b=0;c.due=''}save()}
+        if(S.role==='student'&&!s.free){const c=vokCard(w);if(ok){c.b=s.wr[i]?1:Math.min(6,(c.b||0)+1);c.due=vokDay(VOK_DAYS[c.b])}else{c.b=0;c.due=''}save()}
         if(!ok)s.wr[i]=1;return}
       if(a.k==='next'){s.q.shift();if(s.res!=='ok')s.q.splice(Math.min(s.q.length,2),0,i);s.res=null;s.ans='';
         if(!s.q.length)s.win=true;
@@ -8142,7 +8154,7 @@ document.addEventListener('toggle',e=>{const k=e.target&&e.target.dataset&&e.tar
 document.addEventListener('change',e=>{if(e.target.id==='vk-file'){const F=e.target.files&&e.target.files[0];e.target.value='';if(!F)return;
   vokOcr(F).then(t=>{const ta=$('#vk-x');if(!t){V.vkOcr='Elo hat keine Vokabelpaare gefunden. Ein schärferes, gerades Foto hilft.';}else{if(ta)ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+t;V.vkOcr=t.split('\n').length+' Vokabeln erkannt. Bitte prüfen und ggf. korrigieren, dann schicken.'}const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr})
     .catch(er=>{V.vkOcr='Einlesen ging nicht: '+String(er&&er.message||er).slice(0,80);const m=$('#vk-ocr-m');if(m)m.textContent=V.vkOcr});return}
-const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
+const f=e.target.dataset&&e.target.dataset.f;if(f&&V.name==='lesson-edit'&&(/\.tool\.(slides|bg|date|mood|title|items|hint|eid|region|wcat|vm)|\.name$|\.xs\./.test(f)||/\.noipad$|^eloOff$/.test(f))){render();return}if(f&&/\.(act|snd)$/.test(f)&&V.name==='lesson-edit'){if(/\.snd$/.test(f)){if(e.target.value)audPlay(e.target.value,false);else audStop()}render()}});
 // Werkzeug an eine andere Folie hängen (t.after = sid). Ändert nur die Reihenfolge, nichts wird überschrieben.
 document.addEventListener('change',e=>{const i=e.target.dataset&&e.target.dataset.tafter;if(i==null||V.name!=='lesson-edit')return;const L=lessonById(V.id),p=L&&L.phases[+i];if(!p||!p.tool)return;
   const v=e.target.value;if(v&&(p.xs||[]).some(sl=>sl&&sl.sid===v))p.tool.after=v;else delete p.tool.after;phTl(p);save();render()});
@@ -8471,6 +8483,12 @@ document.addEventListener('click',e=>{
       if(a==='lst-save'){const nm=(prompt('Wie soll die Liste heißen?',t.title||'')||'').trim().slice(0,60);if(!nm)break;const ex=TD.lists.find(x=>x.tool===t.id&&x.name===nm);if(ex)ex.text=t.text||'';else TD.lists.push({id:'l'+Date.now().toString(36),name:nm,tool:t.id,text:t.text||''});tsave();render();toast('Liste „'+nm+'“ gespeichert.');break}
       const id=($('#lst-sel-'+d.i)||{}).value,x=TD.lists.find(y=>y.id===id);if(!x){toast('Wähle zuerst eine Liste.');break}
       if(a==='lst-load'){t.text=x.text;save();render()}else if(confirm('Liste „'+x.name+'“ löschen?')){TD.lists=TD.lists.filter(y=>y.id!==id);tsave();render()}break}
+    case 'vk-pick':{const L=lessonById(V.id),t=L&&L.phases[+d.i]&&L.phases[+d.i].tool,l=(TD.vok||[]).find(x=>x.id===($('#vk-pick-'+d.i)||{}).value);if(!t||!l){toast('Wähle zuerst eine Liste.');break}
+      // Beispielwörter fliegen raus, eigene Wörter bleiben; die Richtung bleibt erhalten
+      const cur=String(t.text||''),isEx=[AKT.vok.ex,AKT.vok.exE].includes(cur),dir=(cur.match(/^\s*(richtung|direction)\s*:.*$/im)||['Richtung: Deutsch → Englisch'])[0].trim(),
+        body=isEx?'':cur.split('\n').filter(x=>!/^\s*(richtung|direction)\s*:/i.test(x)).join('\n').trim();
+      t.text=[dir,body,l.words.map(w=>w[0]+' = '+w[1]).join('\n')].filter(Boolean).join('\n');if(!t.title)t.title=l.title;save();render();
+      if(AKT.vok.parse(t.text).words.length>=60)toast('Es zählen die ersten 60 Wörter.');break}
     case 'ak-ex':{const L=lessonById(V.id),t=L&&L.phases[+d.i].tool;if(t&&AKT[t.id]){t.text=(L.subject==='E'&&AKT[t.id].exE)||AKT[t.id].ex;save();render()}break}
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
     case 'desk-vis':{if(!SUBJECTS[d.s])break;const c=d.c||S.cls||'-';TD.deskV=TD.deskV||{};(TD.deskV[c]=TD.deskV[c]||{})[d.s]=!deskOn(d.s,c);tsave();if(c===(S.cls||'-')&&CS)pushCS();render();break}

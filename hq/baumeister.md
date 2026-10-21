@@ -10,6 +10,7 @@ gelb
 42%
 
 ## Nächste 3 Schritte
+- Vokabeltrainer in der Stunde testen: „Was üben die SuS?“ auf „Im eigenen Vokabelheft weiterlernen“ stellen und Phase starten; zweite Phase mit „Bestimmte Wörter“ und einer Liste aus dem Vokabelheft
 - Folien-Editor testen (Runde 5): Textfeld und Tabelle einfügen, Textfeld löschen, Bild freistellen, Folie unter „Meine Folien“ speichern und in einer anderen Stunde einfügen
 - SuS-Tester einrichten: supabase/tester.sql einmal im SQL Editor ausführen, dann Lehreransicht „Test“ und am iPad im SuS-Login „Lehrkraft · als Test-Schüler/in anmelden“
 - Admin-Ansicht testen: Schule antippen, Reiter Klassen und Kollegium, neue Konten mit „Zu … holen“ freischalten
@@ -22,6 +23,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Vokabeltrainer in der Stunde (21.10.), im Test: Auswahl „Im eigenen Vokabelheft weiterlernen“ (jedes Kind bekommt seine fälligen Wörter, Lernstand bleibt) oder „Bestimmte Wörter wiederholen“ (Listen aus dem Vokabelheft aller Klassen einsetzen, fällige Wörter nur auf Wunsch dazu); neue Phasen starten ohne Beispielwörter
 - Skizzenphase (21.10.), im Test: Sobald die Tafel beim Werkzeug Skizzenbuch ist, öffnet sich bei jedem Kind das Skizzenbuch mit Auftrag und hochgeladener Vorlage; Hinweise wie Freeze oder neue Phase liegen über dem Skizzenbuch
 - Folien-Editor aufgeräumt (21.10.), im Test: Anweisung an die SuS steht oben bei Phase und Minuten, Folientyp-Auswahl entfernt, feste Knöpfe Bild, Audio/Video, Textfeld, Tabelle, Elo, Blackbox, Übergang; Löschen entfernt das ganze Textfeld; freigestellte Bilder ohne Rand und auf den sichtbaren Teil zugeschnitten; „Folie speichern“ und „Meine Folien“ zum Wiederverwenden in anderen Stunden
 - SuS-Tester mit dem Lehrerkonto (21.10.), im Test: Lehrkraft meldet sich im SuS-Login mit dem eigenen Konto an und ist Kind Nr. 1 ihrer eigenen, unsichtbaren Testklasse; der Knopf „Test“ in der Lehreransicht nutzt dieselbe Testklasse über den Server (gleicher Kanal, Schlüssel, Inhalte, Postfach wie echte Klassen). Ersetzt den Pseudonym-Schüleraccount. Dazu: iPads laden sich sofort neu, wenn die Lehrkraft eine neuere ELONUKI-Version hat, auch mitten in der Stunde; Hinweis im Dashboard, solange iPads noch alt laufen
