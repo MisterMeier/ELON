@@ -71,3 +71,5 @@ gelb
 | B-42 | Schüler-iPads blieben während einer laufenden Stunde auf altem Code, obwohl die Lehrkraft schon die neue Version hatte | hoch | in Test | app.html verChk, pushCS (bv) |
 | B-43 | E-Mail-Feld im Lehrer-Login hatte keine Gestaltung (kleines graues Kästchen) | niedrig | in Test | app.html CSS input[type=email] |
 | B-44 | Stunde starten im Testmodus wechselte still in die echte Klasse; der Tester-Schüler bekam nichts | hoch | in Test | app.html Stunde starten (testOn-Prüfung) |
+| B-45 | Freigestellte Bilder zeigten in der Folie noch Rahmen/Schatten und leere Ränder | mittel | in Test | app.html slBgRemove, .sl-imc.nb |
+| B-46 | Textfeld löschen leerte nur den Inhalt, das Feld blieb | mittel | in Test | app.html slElDel (noT/noB) |
