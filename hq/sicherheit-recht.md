@@ -15,6 +15,7 @@ gelb
 - Marke ELONUKI prüfen (DPMAregister, TMview; Klassen 9, 41, 42) und anmelden
 
 ## In Arbeit
+- Eigene Werkzeuge von Lehrkräften (21.10.): laufen nur im Schutzkasten (eigener, abgeschotteter Rahmen, kein Internet, kein Zugriff auf Konto und Speicher, keine Namen); Freigabe nur durch den Konto-Admin, serverseitig geprüft; neuer Test supabase/tests/co_autor_werkzeuge_test.sql, 55 von 55 bestanden (lokal mit Supabase-Nachbau); Dateien in der Bibliothek werden beim Anzeigen mit festem Dateityp gezeigt
 - Runde 2 (20.10.): Folienbilder liegen verschlüsselt als Dateien im privaten Speicher „cmedia“ (nur Klasse liest, nur Lehrkraft schreibt); JSXGraph (MIT-Lizenz) liegt lokal, kein fremder Server; Zuschauer-iPad sendet nichts; Wechsel-Song bleibt als Verlagsmaterial auf dem Gerät
 - Markenprüfung nach recherche/anleitung-markenpruefung-elio.md
 - Supabase-SQL-Skripte prüfen und ausführen (bibliothek.sql, t39)

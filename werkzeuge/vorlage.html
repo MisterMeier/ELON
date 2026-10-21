@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PFLICHT: Name, Fach (Kürzel wie in ELONUKI, z. B. W, G, M, E, K), Phase, Version, Autor-Kürzel, ipad, namen -->
+<meta name="elonuki-tool" content='{"name":"Preis-Check","fach":"W","phase":"uebung","version":"1.0","autor":"ELO","ipad":false,"namen":false}'>
+<title>Preis-Check</title>
+<!--
+  ELONUKI-Werkzeug-Vorlage. Handbuch: werkzeuge/HANDBUCH.md
+  Regeln kurz: eine Datei, nichts aus dem Internet, kein Speichern auf dem Gerät, keine Namen abfragen.
+  Mit ELONUKI sprichst du nur über  elonuki.senden(typ, daten)  und  elonuki.wenn(typ, funktion).
+  Ändere nur den Teil zwischen  INHALT ANFANG  und  INHALT ENDE  (und die Kopfzeile oben).
+-->
+<style>
+  :root{--bg:#eef1f8;--surface:#fff;--ink:#18203d;--muted:#586082;--line:#d8ddee;--navy:#26337a;--red:#cf3a2c;--yellow:#f2b51d;--green:#177a4e;--blue:#2f6fd6}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  /* Schriften: ELONUKI gibt --elo-display (Überschriften, Baloo 2) und --elo-text (Text, Nunito) mit */
+  body{background:var(--bg);color:var(--ink);font:600 clamp(16px,2.4vw,30px)/1.4 var(--elo-text,ui-rounded,system-ui,sans-serif);display:flex;flex-direction:column}
+  header{background:var(--navy);color:#fff;padding:.5em 1em;display:flex;justify-content:space-between;align-items:center}
+  header b,h1,h2,.frage{font-family:var(--elo-display,ui-rounded,system-ui,sans-serif);font-weight:800}
+  header b{font-size:1.3em}
+  /* Leitfigur (Elo oder die Figur deines Fachs): sparsam, nur als Tipp-Geber */
+  .figur{display:flex;align-items:center;gap:.6em;max-width:32em}.figur img{width:4.5em;height:auto}.figur p{margin:0;background:var(--surface);border:2px solid var(--line);border-radius:1em;padding:.5em .8em}
+  main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8em;padding:1em}
+  button{font:inherit;border:0;border-radius:.6em;cursor:pointer;touch-action:manipulation}
+  .btn{background:var(--yellow);color:#2b2110;padding:.5em 1.2em;font-weight:800}
+  /* INHALT ANFANG (Stile) */
+  .frage{font-size:1.3em;text-align:center}
+  .wahl{display:flex;gap:1em;flex-wrap:wrap;justify-content:center;width:100%}
+  .karte{background:var(--surface);border:4px solid var(--line);min-width:9em;padding:.8em 1.2em;display:flex;flex-direction:column;align-items:center;gap:.2em}
+  .karte .n{font-size:1.2em}.karte .p{font-size:1.8em;color:var(--navy)}.karte .m{color:var(--muted)}
+  .karte:disabled{color:inherit;cursor:default}.karte.ok{border-color:var(--green)}.karte.no{border-color:var(--red)}
+  .gp{color:var(--muted);font-size:.85em;min-height:1.4em;display:flex;flex-direction:column;align-items:center;gap:.5em;text-align:center}
+  /* INHALT ENDE (Stile) */
+</style>
+</head>
+<body>
+<header><b id="titel">Preis-Check</b><span id="stand"></span></header>
+<main id="app"></main>
+<script>
+// Ohne ELONUKI (Datei direkt im Browser geöffnet) läuft die Vorlage trotzdem, zum Ausprobieren
+window.elonuki = window.elonuki || { senden: function(){}, wenn: function(t, f){ if (t === 'start') setTimeout(function(){ f({ rolle: 'tafel', fach: 'W', sprache: 'de', einstellungen: '', farben: {} }) }, 0) } };
+
+// ELONUKI-Farben übernehmen (hell/dunkel passt dann automatisch)
+function farben(F){ for (var k in (F || {})) document.documentElement.style.setProperty('--' + k, F[k]) }
+
+/* ===================== INHALT ANFANG ===================== */
+// Aufgaben: Welches Angebot ist günstiger? Die Lehrkraft kann in der Planung eigene eintragen, eine Zeile pro Aufgabe:
+// Name A | Preis A | Menge A | Name B | Preis B | Menge B | Einheit
+var AUFGABEN = [
+  ['Müsli klein', 2.49, 375, 'Müsli groß', 3.99, 750, 'g'],
+  ['Saft 1 l', 1.79, 1000, 'Saft 1,5 l', 2.49, 1500, 'ml'],
+  ['Nudeln 500 g', 0.99, 500, 'Nudeln 1 kg', 2.19, 1000, 'g']
+];
+var nr = 0, punkte = 0, FIGUR = null;
+function euro(x){ return x.toFixed(2).replace('.', ',') + ' €' }
+function grund(p, m, e){ return e === 'ml' ? euro(p / m * 1000) + ' pro Liter' : euro(p / m * 1000) + ' pro kg' }
+function lies(txt){
+  var L = String(txt || '').split('\n').map(function(z){ return z.split('|').map(function(x){ return x.trim() }) }).filter(function(z){ return z.length >= 6 });
+  return L.map(function(z){ return [z[0], parseFloat(z[1].replace(',', '.')), parseFloat(z[2]), z[3], parseFloat(z[4].replace(',', '.')), parseFloat(z[5]), z[6] || 'g'] })
+          .filter(function(z){ return z[1] > 0 && z[2] > 0 && z[4] > 0 && z[5] > 0 });
+}
+function zeige(){
+  var app = document.getElementById('app'), A = AUFGABEN[nr];
+  document.getElementById('stand').textContent = 'Aufgabe ' + (nr + 1) + ' / ' + AUFGABEN.length + ' · ' + punkte + ' richtig';
+  if (!A){ app.innerHTML = '<p class="frage">Geschafft! ' + punkte + ' von ' + AUFGABEN.length + ' richtig.</p><button class="btn" id="neu">Nochmal</button>';
+    elonuki.senden('ton', { name: 'fertig' }); elonuki.senden('fertig', { punkte: punkte });
+    document.getElementById('neu').onclick = function(){ nr = 0; punkte = 0; zeige() }; return }
+  app.innerHTML = '<p class="frage">Welches Angebot ist günstiger?</p><div class="wahl">' +
+    [0, 1].map(function(i){ var o = i * 3; return '<button class="karte" data-i="' + i + '"><span class="n">' + A[o] + '</span><span class="p">' + euro(A[o + 1]) + '</span><span class="m">' + A[o + 2] + ' ' + A[6] + '</span></button>' }).join('') +
+    '</div><p class="gp" id="gp"></p>';
+  app.querySelectorAll('.karte').forEach(function(b){ b.onclick = function(){
+    var a = A[1] / A[2], c = A[4] / A[5], gut = a <= c ? 0 : 1, i = +b.dataset.i;
+    app.querySelectorAll('.karte').forEach(function(k){ k.disabled = true; k.classList.add(+k.dataset.i === gut ? 'ok' : 'no') });
+    var tipp = '';
+    if (i === gut){ punkte++; elonuki.senden('ton', { name: 'richtig' }) } else { elonuki.senden('ton', { name: 'falsch' }); tipp = 'Tipp: Rechne den Preis pro kg oder Liter aus.' }
+    document.getElementById('gp').innerHTML = (i === gut ? 'Richtig! ' : 'Leider falsch. ') + A[0] + ': ' + grund(A[1], A[2], A[6]) + ' · ' + A[3] + ': ' + grund(A[4], A[5], A[6]) + ' <button class="btn" id="weiter">Weiter</button>' +
+      (tipp && FIGUR ? '<div class="figur"><img src="' + FIGUR.bild + '" alt="' + FIGUR.name + '"><p>' + tipp + '</p></div>' : tipp ? '<p>' + tipp + '</p>' : '');
+    document.getElementById('weiter').onclick = function(){ nr++; zeige() };
+  } });
+}
+/* ===================== INHALT ENDE ===================== */
+
+elonuki.wenn('start', function(s){
+  farben(s.farben); FIGUR = s.figur || null;
+  var eigene = lies(s.einstellungen); if (eigene.length) AUFGABEN = eigene;
+  zeige();
+});
+</script>
+</body>
+</html>
