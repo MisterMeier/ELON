@@ -806,6 +806,7 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 .diary .spine{position:absolute;left:0;top:0;bottom:0;width:16px;border-radius:8px 0 0 8px;background:#2a3566}.diary b{font-family:var(--f-display);font-size:1.5rem}.diary.vokb{background:#4f46e5}.diary.vokb .spine{background:#1e3a8a}.diary em{font-style:normal;background:#f59e0b;color:#1e3a8a;border-radius:8px;padding:0 6px;font-weight:800}
 /* Skizzenbuch (Kunst) */
 body:has(#skz-host) #tk-fab{display:none}
+body:has(#skz-host) .lov:not([hidden]){z-index:47}
 .diary.skzb{background:#c0392b}.diary.skzb .spine{background:#7d241b}
 .diary.gramb{background:#b45309}.diary.gramb .spine{background:#78350f}
 .gram-t tr.g-hard td{background:var(--late-bg)}.gram-t tr.g-sure td{background:var(--ok-bg)}
@@ -1992,7 +1993,7 @@ VIEWS.desk=()=>{
    Die Zeichen-App steht in assets/skizze/skizze.js und wird erst beim Öffnen geladen. Blätter bleiben auf dem Gerät (IndexedDB 'elio-skizze').
    Phasen-Werkzeug „Skizzenphase“: CS.skz={id,text,n,werk,p:{nr:[Skizzen,Werk]}}. Erst n Skizzen, dann geht das Werk auf (oder die Lehrkraft gibt es frei).
    Was ein Kind „an die Lehrkraft schickt“, geht verschlüsselt über das Postfach (k:'skz') und liegt bei der Lehrkraft verschlüsselt in IndexedDB. */
-let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0;
+let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0,SKZ_AUTO='';// SKZ_AUTO: Auftrag, für den das Skizzenbuch schon von selbst aufging
 function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze)return res();const s=document.createElement('script');s.src='assets/skizze/skizze.js?v='+BUILD;s.onload=()=>res();s.onerror=()=>{SKZ_P=null;s.remove();rej(new Error('skizze'))};document.head.appendChild(s)}))}
 const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
 function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;if(!R&&S.skzT&&RCS&&RCS.skzEnd===S.skzT.id){S.skzT=null;save()}
@@ -2240,7 +2241,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1600';let verTold=false;
+const BUILD='20261021-1700';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3391,6 +3392,9 @@ function liveOverlay(){
       html=`<div class="look">${elo('cheer',110)}<h1>${I.icon} ${esc(G.title||I.name)}</h1><p>${AKT[G.g]?'':esc(I.txt)+' '}Spiel mit auf deinem iPad!</p>
         <button class="btn pri big" data-act="g-join" style="margin-top:18px">Jetzt spielen</button></div>`;
       if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}}}}
+  // Skizzenphase: sobald die Tafel beim Werkzeug Skizzenbuch ist, geht das Skizzenbuch mit Auftrag und Vorlage von selbst auf (einmal pro Auftrag)
+  else if(RCS.skz&&RCS.skz.id&&!RCS.freeze&&ph.go==='skizze'&&SKZ_AUTO!==RCS.skz.id){SKZ_AUTO=RCS.skz.id;S.phaseSeen=String(RCS.phaseAt);save();if(MINI==='big'){MINI='small';renderMini(true);updRail()}
+    if(V.name!=='skizze'){go('skizze',{from:'dash'});window.scrollTo(0,0)}}
   else if(RCS.freeze&&!frzPend()){sig='frz';full=true;
     html=`<div class="wt-lov fz-lov"><img class="wt-bg" src="assets/folien/freeze.webp?v=20261020b" alt=""><div class="wt-card">${S.av!=null?avatar(S.av,56):''}<h2>Freeze!</h2><p>Hände weg vom iPad. Augen nach vorne. Gleich geht es weiter.</p><div class="wt-bar"><i></i></div></div></div>`}
   else if(ph.look){sig='look'+RCS.phaseAt;full=true;
