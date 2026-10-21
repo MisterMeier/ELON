@@ -2307,7 +2307,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-2330';let verTold=false;
+const BUILD='20261022-0000';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -6775,8 +6775,8 @@ const extUuid=x=>/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
 const extDoc=h=>'<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="'+extCsp()+'"><link rel="stylesheet" href="'+extBase()+'fonts/fonts.css"><style>:root{--elo-display:"Baloo 2","Arial Rounded MT Bold",ui-rounded,system-ui,sans-serif;--elo-text:"Nunito",ui-rounded,system-ui,sans-serif}</style>'+EXT_BRIDGE+String(h||'').replace(/^﻿?\s*<!doctype[^>]*>/i,'');
 async function extLoad(src,cls){const k=src+'|'+(cls||'');if(EXT.cache[k])return EXT.cache[k];let r;
   try{if(src==='demo'){const h=await fetch(EXT_DEMO,{cache:'no-cache'}).then(x=>x.ok?x.text():'');r=h?{html:h,name:'Beispiel: Preis-Check',ver:1,live:true,names:false}:{err:'weg'}}
-    else if(extUuid(src)&&CLOUD){const sb=await sbClient();const d=await q(sb.rpc('tool_html',{p_tool:src,p_class:extUuid(cls)?cls:null}));r=d&&d.html?d:{err:d&&d.err||'weg'}}
-    else r={err:'weg'}}catch(e){r={err:/tool_html|PGRST202|function/i.test(String(e&&(e.message||e.code)))?'sql':'netz'}}
+    else if(extUuid(src)&&CLOUD){const sb=await sbClient();const d=await q(sb.rpc('tool_html',{p_id:src,p_class:extUuid(cls)?cls:null}));r=d&&d.html?d:{err:d&&d.err||'weg'}}
+    else r={err:'weg'}}catch(e){r={err:/PGRST202|Could not find the function/i.test(String(e&&(e.code+' '+e.message)))?'sql':'netz'}}
   if(r.html)EXT.cache[k]=r;return r}
 const EXT_ERR={testklasse:'Dieses Werkzeug ist noch nicht freigegeben. Es läuft erst in deiner Testklasse.',gesperrt:'Dieses Werkzeug ist gerade gesperrt.',denied:'Dieses Werkzeug gibt es für dich nicht (andere Schule oder noch nicht freigegeben).',
   weg:'Das Werkzeug wurde nicht gefunden.',sql:'Auf dem Server fehlt noch die Einrichtung (supabase/migrations/20261021180000_co_autor_werkzeuge.sql).',netz:'ELONUKI ist gerade nicht erreichbar. Versuch es gleich nochmal.',weg2:'Das Werkzeug wollte die Seite verlassen und wurde angehalten.'};
@@ -6851,7 +6851,7 @@ async function extSave(){const U=EXT.up;if(!U||U.busy)return;U.name=(($('#ext-up
   try{const r=await q(Cloud.sb.rpc('tool_save',{p_id:U.id,p_name:U.name,p_subject:U.fach,p_info:U.info,p_html:U.html,p_needs_names:U.names}));
     if(r&&r.id){EXT.up=null;toast(r.status==='freigegeben'?'Neue Version ist live (Version '+r.ver+').':U.id?'Neue Version gespeichert.':'Gespeichert. Probier es mit „Ansehen“ oder in deiner Testklasse aus und reiche es dann ein.')}
     else{U.busy=false;toast({denied:'Hochladen dürfen nur Co-Autoren. Fabian kann dich im Admin dazu machen.',noschool:'Dein Konto gehört noch zu keiner Schule.',gross:'Die Datei ist zu groß (höchstens 600 KB).',leer:'Die Datei ist leer.',name:'Bitte einen Namen eintragen.'}[r&&r.err]||'Das ging nicht.')}}
-  catch(e){U.busy=false;toast(/tool_save|PGRST202|function/i.test(String(e&&(e.message||e.code)))?'Auf dem Server fehlt noch die Einrichtung (20261021180000_co_autor_werkzeuge.sql).':'ELONUKI ist gerade nicht erreichbar.')}
+  catch(e){U.busy=false;toast(/PGRST202|Could not find the function/i.test(String(e&&(e.code+' '+e.message)))?'Auf dem Server fehlt noch die Einrichtung (20261021180000_co_autor_werkzeuge.sql).':'ELONUKI ist gerade nicht erreichbar.')}
   EXT.list=null;EXT.cache={};render()}
 async function extOwn(a,id){if(a==='ext-del'&&V.extDel!==id){V.extDel=id;render();return}V.extDel=null;
   try{const r=await q(a==='ext-submit'?Cloud.sb.rpc('tool_submit',{p_id:id}):Cloud.sb.rpc('tool_delete',{p_id:id}));

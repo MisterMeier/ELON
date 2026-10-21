@@ -82,3 +82,4 @@ gelb
 | B-53 | Neue Lehrkraft kam nicht in die App: Anmeldung mit unbestätigter E-Mail meldete nur „Stimmen E-Mail und Passwort?“, Wartebildschirm merkte die Freischaltung nicht von selbst, neue Konten waren im Admin nur über Schule und Kollegium zu finden | hoch | in Test | app.html lgIn, VIEWS.login, VIEWS.admin (adNewHTML) |
 | B-54 | Anzeige von Bibliotheksdateien an der Tafel nachgeschärft (Details nur im Chat) | hoch | in Test | app.html libView, fillMedia (showUrl) |
 | B-55 | version.txt und App-Version passten nach PR #56 nicht zusammen: SuS-iPads und Tafel luden sich außerhalb der Stunde jede Minute neu | hoch | in Test | version.txt, app.html BUILD |
+| B-56 | Eigene Werkzeuge starteten nicht: App rief tool_html mit falschem Feldnamen auf, Meldung „Einrichtung fehlt“ trotz ausgeführter SQL | hoch | in Test | app.html extLoad |
