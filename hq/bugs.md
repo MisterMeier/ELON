@@ -68,3 +68,5 @@ gelb
 | B-40 | Irregular Verbs: bei falscher Eingabe war die Korrektur zu unauffällig | mittel | in Test | app.html gramQuiz, AKT.irreg |
 | B-41 | Nach dem Entfernen der Emojis waren Knöpfe leer: SuS-Seitenleiste (Tafel, Hilfe, Bereit), „Problem melden“ unten links, Vorlesen, Planung, Werkzeuge | hoch | in Test | app.html ico(), ICO_SVG, updRail, #tk-fab |
 | B-35 | Elo-Stimme: „Keine Verbindung“ nach dem Neu-Deployen; App zeigt jetzt per Test die genaue Ursache (vermutet: JWT-Prüfung im Dashboard an) | hoch | in Test | app.html voProbe, supabase/functions/elo-stimme |
+| B-42 | Schüler-iPads blieben während einer laufenden Stunde auf altem Code, obwohl die Lehrkraft schon die neue Version hatte | hoch | in Test | app.html verChk, pushCS (bv) |
+| B-43 | E-Mail-Feld im Lehrer-Login hatte keine Gestaltung (kleines graues Kästchen) | niedrig | in Test | app.html CSS input[type=email] |
