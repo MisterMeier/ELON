@@ -10,7 +10,7 @@ gelb
 60%
 
 ## Nächste 3 Schritte
-- Icons per ElevenLabs in Serie erzeugen (Anleitung elon/anleitungen/icons-erzeugen.md in den Projektdateien), Claude baut sie ein
+- Weitere Icons per ElevenLabs erzeugen (Liste elon/anleitungen/icons-erzeugen.md): 6 Seitenknopf-Icons sind fertig, 25 Menü- und 38 Werkzeug-Icons folgen
 - Realistische Elos für Doktorhut und Heft sowie kurze Töne für Klick und Fehler ergänzen
 - Gemeinsame Schriftfarben-Komponente für alle Editoren (Runde 2)
 - Logo und Farben für ELONUKI festlegen (Runde 6)
