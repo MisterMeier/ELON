@@ -49,3 +49,4 @@ gelb
 - Skizzenbuch Kunst (PR #7, #17)
 - Geografiespiel „Wo liegt was?“ mit Globus (PR #15)
 - Börsen-Startfolie mit Elo als Banker (PR #5)
+- Startfolie Weltkugel (21.10.): Kugel dreht sich auch in der Lehrer-Vorschau, Text bleibt neben der Kugel; Start-Knopf je Startfolie benannt (Zoom starten, Atelier öffnen, Börse eröffnen, Rakete starten)
