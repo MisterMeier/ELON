@@ -1305,6 +1305,7 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .bw-note{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1cqh 2.4cqw;font-weight:800;font-size:3cqh}
 .bw-hint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--navy);color:var(--on-accent);font-weight:800;padding:10px 18px;border-radius:999px;z-index:5;transition:opacity .6s}
 .lov.full:not([hidden])~.mt{display:none}
+.lov.lk{background:#0f172a;padding:0 92px 0 12px}.lk-bw{width:min(100%,calc((100vh - 24px)*16/9))}.lk-bw .mt-frame{border-radius:12px;overflow:hidden;cursor:default}
 body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .mt{position:fixed;right:12px;bottom:12px;z-index:31;width:min(320px,46vw);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--surface)}
 .mt.big{left:12px;width:auto;display:grid;z-index:32}
@@ -2260,7 +2261,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1800';let verTold=false;
+const BUILD='20261021-1900';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3217,10 +3218,16 @@ let LEP=0;function liveEditPush(){clearTimeout(LEP);LEP=setTimeout(()=>{if(CS&&C
 document.addEventListener('input',()=>{if(V.name==='lesson-edit')liveEditPush()});document.addEventListener('change',()=>{if(V.name==='lesson-edit')liveEditPush()});
 function stageOf(){
   const L=CS.lesson&&lessonById(CS.lesson.id);if(!L)return null;
-  const p=L.phases[CS.step]||{},D=phDeck(p,CS.sub||0),t=D.t||{};
+  const p=L.phases[CS.step]||{},D=phDeck(p,CS.sub||0),t=D.t||{};let tool=t.id?stageTool(t,L,D.s):null,hold='';
+  // Folie bleibt stehen: Läuft das Werkzeug auf den iPads, zeigen Tafel und iPad-Tafel weiter die letzte Folie davor
+  if(!D.x&&t.id&&t.id!=='slide'&&!p.noipad&&!toolOnBoard(t)){const F=phSeq(p);for(let k=Math.min(CS.sub||0,F.length-1);k>=0;k--)if(F[k].x){tool=stageTool(F[k].t,L,F[k].s);hold=t.id;break}}
   return {subj:L.subject,title:L.title,step:CS.step||0,n:L.phases.length,name:p.name||'',txt:p.txt||'',act:p.act||'',
-    sf:p.sf||'',min:+p.min||0,sub:CS.sub||0,tool:t.id?stageTool(t,L,D.s):null};
+    sf:p.sf||'',min:+p.min||0,sub:CS.sub||0,tool,hold};
 }
+// Werkzeuge, die selbst an die Tafel gehören (Startfolie, Stundenfrage, Quiz, Tafelspiele …). Alle anderen laufen auf den iPads, vorne bleibt die Folie.
+// Pro Werkzeug in der Planung umschaltbar: t.brd 1 = Werkzeug an der Tafel, 0 = Folie bleibt
+const TOOL_BOARD=['start','cover','question','hypo','task','high5','heft','heftlink','mat','dialog','dgeo','itten','quiz','corners4','vw','kfb','wc','memory','salad','balloon'];
+const toolOnBoard=t=>t&&(t.brd===0||t.brd===1)?t.brd===1:!!t&&TOOL_BOARD.includes(t.id);
 function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof libById==='function'?libById(t.mat):null,o={...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:'',matUrl:m&&m.kind==='link'?String(m.url||'').slice(0,600):m?'':String(t.matUrl||'')};
   // Datei schon jetzt aus der Cloud holen, damit das Tafel-Fenster sie auf diesem Gerät findet
   if(m&&m.kind==='file'&&!BOARD&&S.role==='teacher')libBlob(m.id).catch(()=>{});
@@ -3246,7 +3253,7 @@ function boardHTML(R,mini){const h=boardHTMLc(R,mini),fx=R&&fxOn(R.fx)?R.fx.k:''
   return h.replace(/<\/div>\s*$/,`<div class="bw-elo" style="animation-duration:${(R.fx.d||6000)/1000}s"><div class="sl-elo fx-${fx}" style="position:relative;right:auto;bottom:auto;width:100%"><img src="${eloImg(ek,sj)}" alt="Elo" draggable="false">${eloLidsS(ek,sj)}${fx==='wave'?'<i class="fx-i">'+ico('winken')+'</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}</div></div></div>`)}
 function boardHTMLc(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL.big):'';
   if(R&&R.skzShow&&!(R.freeze&&R.lesson))return skzShowHTML(R.skzShow,mini);
-  if(R&&R.skzGal&&!(R.freeze&&R.lesson)&&!(R.skz&&R.skzGal.task===R.skz.id))return skzGalHTML(R.skzGal,mini);
+  if(R&&R.skzGal&&!(R.freeze&&R.lesson)&&!(R.skz&&R.skzGal.task===R.skz.id&&!(R.stage&&R.stage.hold)))return skzGalHTML(R.skzGal,mini);
   // Abstimmungs-Ergebnis groß an der Tafel (die Lehrkraft blendet es ein), immer ohne Namen
   if(R&&R.poll&&R.poll.show&&R.poll.res&&R.poll.type!=='quiz'){const P=R.poll,tot=Math.max(1,P.res.reduce((a,b)=>a+b,0));
     return `<div class="bw bw-rt"><div class="rt rt-res" ${bgAttr('allgemein')}><span class="res-l">Ergebnis · ${P.voted.length} abgestimmt</span><h1>${esc(P.q||'')}</h1><div class="res-b">${P.opts.map((o,i)=>`<div class="res-r"><span>${esc(o)}</span><i style="--w:${(P.res[i]||0)/tot*100}%"></i><b>${P.res[i]||0}</b></div>`).join('')}</div></div></div>`}
@@ -3267,7 +3274,7 @@ function boardHTML0(R,mini){
   else if(R.groups)return `<div class="bw bw-rt">${groupsHTML(R.groups)}</div>`;
   else if(R.wheel)return `<div class="bw bw-rt">${wheelHTML(R.wheel,mini)}</div>`;
   else if(R.media)main=`<div class="slide"><h1 style="font-size:5cqh">${esc(R.media.name)}</h1>${mini||!BOARD?`<span class="bw-note">Läuft an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(R.media.id)}" data-url="${esc(R.media.url||'')}"></div>`}</div>`;
-  else if(R.game&&gInfo(R.game.g))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>${R.game.fin.length} geschafft</p>`:''}</div>`;
+  else if(R.game&&gInfo(R.game.g)&&!(st&&st.hold&&!R.game.pod))main=`<div class="slide"><span class="gi">${gInfo(R.game.g).icon}</span><h1>${esc(R.game.title||gInfo(R.game.g).name)}</h1><p>${mini?'Spiel mit auf deinem iPad!':'Alle spielen mit.'}</p>${R.game.pod?podHTML(R.game,mini):R.game.fin&&R.game.fin.length?`<p>${R.game.fin.length} geschafft</p>`:''}</div>`;
   else if(R.poll&&!['quiz','thumbs','corners'].includes(R.poll.type)&&!(st&&['thumbs','corners4','quiz'].includes(t.id))){const P=R.poll,n=P.voted.length;
     return sceneHTML('abstimmung',`<h1>Abstimmung</h1><p class="sc-q">${esc(P.q||'')}</p>${(P.opts||[]).length?`<div class="sc-o">${P.opts.map((o,i)=>`<span>${esc(o)}${P.res?` <b>${P.res[i]||0}</b>`:''}</span>`).join('')}</div>`:''}<p>Stimme jetzt auf deinem iPad ab.</p><b>${n} / ${Math.max(R.onN||0,n)||'–'} abgestimmt</b>`,'left:61%;top:4%;width:36%')}
   else if(R.poll&&R.poll.type==='quiz')return `<div class="bw bw-rt">${quizHTML(R.poll,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
@@ -3296,7 +3303,7 @@ VIEWS.beamer=()=>{const h=boardHTML(BRCS);if(!(BRCS&&BRCS.keyQr&&ckOk(BOARDCK)))
 function onBoardState(p){const old=BRCS;BRCS=p;updPod(p);
   if(V.name==='beamer'&&old&&old.poll&&p.poll&&p.poll.type==='quiz'&&old.poll.id===p.poll.id&&!old.poll.res===!p.poll.res&&boardSig({...old,poll:p.poll})===boardSig(p)&&updQuiz(p.poll,{})){bSig=boardSig(p);OFF=Date.now()-p.now;return}OFF=Date.now()-p.now;if(p.mission)S.mission=p.mission;const sg=boardSig(p);if(sg===bSig)return;bSig=sg;
   // Spiel läuft: die Tafel zeigt es spielbar (Touch), sonst die normale Tafelansicht
-  const G=!p.freeze&&!p.kfb&&p.game&&gInfo(p.game.g)?p.game:null;
+  const G=!p.freeze&&!p.kfb&&p.game&&gInfo(p.game.g)&&!(p.stage&&p.stage.hold)?p.game:null;
   let ch=false;if(G&&V.gat!==G.at){V=AKT[G.g]?{name:'akt',gat:G.at}:{name:G.g,s:G.s,gat:G.at,pairs:G.pairs};if(AKT[G.g])akStart(G);ch=true}else if(!G&&V.name!=='beamer')V={name:'beamer'};
   if(V.name==='beamer'){const go=()=>{render();fillMedia()},tr=!ch&&slTrOf(old,p);tr?slTrans(tr.k,go,()=>document.querySelector('#view .bw'),tr.back):go()}else if(ch)render()}
 let MINI='off',miniSig='',HELPL=null,MINI_L=null;
@@ -3417,6 +3424,9 @@ function liveOverlay(){
     if(V.name!=='skizze'){go('skizze',{from:'dash'});window.scrollTo(0,0)}}
   else if(RCS.freeze&&!frzPend()){sig='frz';full=true;
     html=`<div class="wt-lov fz-lov"><img class="wt-bg" src="assets/folien/freeze.webp?v=20261020b" alt=""><div class="wt-card">${S.av!=null?avatar(S.av,56):''}<h2>Freeze!</h2><p>Hände weg vom iPad. Augen nach vorne. Gleich geht es weiter.</p><div class="wt-bar"><i></i></div></div></div>`}
+  // Alle schauen nach vorne: Läuft eine Stunde mit Folie, sehen die iPads dieselbe Folie wie die Tafel (statt „Schau zur Tafel“)
+  else if(ph.look&&RCS.lesson&&RCS.stage&&RCS.stage.tool&&!RCS.freeze){const R=meR(RCS);sig='lookb'+boardSig(R);full=true;
+    html=`<div class="lk-bw"><div class="mt-frame">${boardHTML(R,true)}</div></div>`}
   else if(ph.look){sig='look'+RCS.phaseAt;full=true;
     html=`<div class="look">${elo('think',120)}<h1>${RCS.freeze?'Freeze!':'Schau zur Tafel'}</h1><p>${RCS.freeze?'Hände weg vom iPad. Augen nach vorne.':'Das iPad bleibt liegen.'}</p></div>`}
   else if(RCS.cloud&&!RCS.freeze&&!(S.cloudDone||{})[RCS.cloud.id]&&!RCS.cloud.done.includes(S.nr)){sig='cl'+RCS.cloud.id;
@@ -3456,7 +3466,7 @@ function liveOverlay(){
   if(sig===lastOvSig)return;
   // Muss das Kind etwas antippen, darf die große Tafel nicht darüber liegen
   if(MINI==='big'&&!/^(frz|look)/.test(sig)){MINI='small';renderMini(true);updRail()}
-  lastOvSig=sig;el.innerHTML=html;el.classList.toggle('full',full);el.hidden=false;
+  lastOvSig=sig;el.innerHTML=html;el.classList.toggle('full',full);el.classList.toggle('lk',sig.startsWith('lookb'));el.hidden=false;
 }
 
 /* --- Role screen --- */
@@ -5275,7 +5285,8 @@ function phBody(p,i,L){const t=p.tool,T=t&&TOOLS[t.id],G=isGreet(p),own=t&&(TOOL
     ${G?'':`<span class="ph-c"><span class="ph-l">Werkzeug</span>${phTl(p).map((x,k)=>{const X=TOOLS[x.id];if(!X)return '';const n=(p.xs||[]).findIndex(sl=>sl&&sl.sid===x.after),at=n>=0?' · nach Folie '+(n+1):'';const xs=(p.xs||[]).filter(Boolean),sel=xs.length&&x.id!=='start'?`<select class="pill-sel" data-tafter="${i}" aria-label="Wo das Werkzeug in der Phase kommt">${xs.map((sl,n)=>`<option value="${esc(sl.sid||'')}" ${sl.sid===x.after?'selected':''}>nach Folie ${n+1}</option>`).join('')}<option value="" ${n<0?'selected':''}>am Ende der Phase</option></select>`:'';
       return x===p.tool?`<button class="pill on" data-act="tool-pool" data-i="${i}" data-r="1" title="Werkzeug ändern">${X.icon} ${esc(X.name)}${sel?'':at}</button>${sel}<button class="pill x" data-act="tool-rm" data-i="${i}" data-k="${k}" title="Werkzeug entfernen" aria-label="${esc(X.name)} entfernen">✕</button>`:`<button class="pill" data-act="tool-sel" data-i="${i}" data-k="${k}" title="Dieses Werkzeug bearbeiten">${X.icon} ${esc(X.name)}${at}</button>`}).join('')}<button class="pill" data-act="tool-pool" data-i="${i}" title="Weiteres Werkzeug hinter die geöffnete Folie">＋ Werkzeug</button></span>`}
     <span class="ph-c"><span class="ph-l">iPads</span>${own?`${IPAD_OFF.includes(t.id)?`<button class="pill ${p.noipad?'':'on'}" data-act="ph-ipad" data-i="${i}" data-v="1" title="${esc(TOOL_IPAD[t.id]||'Die SuS machen auf dem iPad mit.')}">Mit iPads</button><button class="pill ${p.noipad?'on':''}" data-act="ph-ipad" data-i="${i}" data-v="0" title="Alle schauen nach vorne.">Ohne iPads</button>`:`<span class="pill on" title="${esc(TOOL_IPAD[t.id]||'')}">läuft mit dem Werkzeug</span>`}`
-      :`${Object.entries(ACT_MODES).map(([k,x])=>`<button class="pill ${k===md?'on':''}" data-act="ph-mode" data-i="${i}" data-m="${k}" title="${esc(x.d)}">${x.l}</button>`).join('')}${M.acts.length>1?`<select class="pill-sel" data-f="ph.${i}.act" aria-label="Art der Interaktion">${M.acts.map(a=>`<option value="${a}" ${a===(p.act||M.acts[0])?'selected':''}>${esc(ACTS[a])}</option>`).join('')}</select>`:''}`}</span></div>`;
+      :`${Object.entries(ACT_MODES).map(([k,x])=>`<button class="pill ${k===md?'on':''}" data-act="ph-mode" data-i="${i}" data-m="${k}" title="${esc(x.d)}">${x.l}</button>`).join('')}${M.acts.length>1?`<select class="pill-sel" data-f="ph.${i}.act" aria-label="Art der Interaktion">${M.acts.map(a=>`<option value="${a}" ${a===(p.act||M.acts[0])?'selected':''}>${esc(ACTS[a])}</option>`).join('')}</select>`:''}`}</span>
+    ${!G&&t&&t.id!=='start'&&t.id!=='slide'&&(p.xs||[]).length&&!p.noipad?(()=>{const b=toolOnBoard(t);return `<span class="ph-c"><span class="ph-l">Tafel</span><button class="pill ${b?'':'on'}" data-act="ph-brd" data-i="${i}" data-v="0" title="Vorne bleibt die letzte Folie stehen, das Werkzeug läuft auf den iPads.">Folie bleibt</button><button class="pill ${b?'on':''}" data-act="ph-brd" data-i="${i}" data-v="1" title="Die Tafel zeigt das Werkzeug statt der Folie.">Werkzeug zeigen</button></span>`})():''}</div>`;
   const extra=own?'':`${p.act==='goto'?`<label class="ph-mini">Welche Seite?<select data-f="ph.${i}.target">${Object.entries(TARGETS).map(([k,v])=>`<option value="${k}" ${k===(p.target||'module')?'selected':''}>${esc(v)}</option>`).join('')}</select></label>`:''}${p.act==='cloud'?`<label class="ph-mini">Frage an die SuS (Wortwolke)<input type="text" data-f="ph.${i}.cq" value="${esc(p.cq||'')}" placeholder="Schreib deine Vermutung auf."></label>`:''}${p.act==='poll'?`<label class="ph-mini">Welche Abstimmung?<select data-f="ph.${i}.poll">${[['thumbs','Daumen: verstanden?'],['corners','4 Ecken']].map(([k,v])=>`<option value="${k}" ${k===(p.poll||'thumbs')?'selected':''}>${v}</option>`).join('')}</select></label>`:''}`;
   return `${strip}${chips}${extra}${cfg}`}
 // Auswahl aus dem Schreibtisch: Hefteintrag oder Übung, nach Kapiteln sortiert
@@ -8316,6 +8327,7 @@ document.addEventListener('click',e=>{
       if(a==='sl-dup'){const c=clone(A[j]);c.sid=newSid();A.splice(j+1,0,c);if(E&&E.j>j)E.j++}
       if(a==='sl-mv'){const k=j+(+d.d);if(k>=0&&k<A.length){[A[j],A[k]]=[A[k],A[j]];if(E){if(E.j===j)E.j=k;else if(E.j===k)E.j=j}}}if(t._x&&!A.length){const ph=L.phases[+String(d.i).slice(1)];if(isGreet(ph))delete ph.xs}save();render();break}
     case 'ph-ipad':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.noipad=d.v==='0';save();render();break}
+    case 'ph-brd':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;p.tool.brd=+d.v;save();liveEditPush();render();break}
     case 'kf-lvl':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p||!p.tool)break;p.tool.level=d.v;save();render();break}
     case 'ph-xs':{const L=lessonById(V.id),p=L&&L.phases[+d.i];if(!p)break;p.xs=p.xs||[];p.xs.push({sid:newSid(),layout:'std',bg:'allgemein',title:p.xs.length||isGreet(p)?'':p.name||'',text:'',mat:'',elo:'',say:'',steps:false});V.sle={i:'x'+d.i,j:p.xs.length-1,sel:null};save();render();break}
     case 'sl-arr':V.sle={i:d.i,j:+d.j,sel:null};render();setTimeout(()=>{const b=$('.sl-ed-big');b&&b.scrollIntoView({block:'start'})},0);break;
