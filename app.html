@@ -810,9 +810,16 @@ body:has(#skz-host) .lov:not([hidden]){z-index:47}
 .diary.skzb{background:#c0392b}.diary.skzb .spine{background:#7d241b}
 .diary.gramb{background:#b45309}.diary.gramb .spine{background:#78350f}
 .gram-t tr.g-hard td{background:var(--late-bg)}.gram-t tr.g-sure td{background:var(--ok-bg)}
-.rt-skz{background:#fffaf0}.skz-b-in{flex:1;display:flex;align-items:center;gap:1.4em;padding:1.2em 2em}.skz-b-in>div{flex:1;min-width:0}.rt-skz h1{font-family:var(--f-display);font-size:2.2em;line-height:1.15;margin:0 0 .6em;color:#7d241b}
-.rt-skz p{font-size:1.15em;font-weight:700;margin:.8em 0}.rt-skz b{font-size:1.2em}.skz-b-elo{height:70%;max-height:16em;object-fit:contain}
-.skz-flow{display:flex;align-items:center;gap:.5em;flex-wrap:wrap;font-weight:800;font-size:1.2em}.skz-flow .st{border:.14em dashed #c0392b;border-radius:.6em;padding:.4em .8em;background:#fff}.skz-flow .st.werk{border-style:solid;background:#c0392b;color:#fff}.skz-flow i{font-style:normal;color:#7d241b}
+.rt-skz{background:#fff;justify-content:center;align-items:center;gap:1.2em;padding:2em}
+.skz-say{display:flex;align-items:flex-end;gap:1.2em;max-width:88%}.skz-say>img{height:16em;max-height:58cqh;flex:none;object-fit:contain;filter:drop-shadow(0 .4em .8em rgba(30,58,138,.18))}
+.skz-bub{position:relative;background:#fff;border:.16em solid #1e3a8a;border-radius:1.2em;padding:1em 1.4em;margin-bottom:5em;box-shadow:0 .5em 1.4em rgba(30,58,138,.12);display:grid;gap:.4em}
+.skz-bub::before{content:"";position:absolute;left:-1.05em;bottom:1.2em;border:.6em solid transparent;border-right:.9em solid #1e3a8a}
+.skz-bub b{font-family:var(--f-display);font-size:2.4em;line-height:1.1;color:#1e3a8a}.skz-bub span{font-size:1.25em;font-weight:700;color:#334155}
+.skz-pr{margin:0;font-weight:800;font-size:1.1em;color:#64748b}
+.rt-skz.has-gal{justify-content:flex-start;align-items:stretch;padding:1.2em 1.2em 1.2em 14em;position:relative}
+.skz-gw{flex:1;min-height:0;display:grid;grid-template-columns:repeat(var(--c),1fr);grid-template-rows:repeat(var(--r),minmax(0,1fr));gap:1em;align-items:center;justify-items:center}
+.skz-gw img{max-width:100%;max-height:100%;object-fit:contain;border-radius:.5em;background:#fff;box-shadow:0 .4em 1.2em rgba(15,23,42,.18)}.skz-gp{grid-column:1/-1;font-weight:800;font-size:1.4em;color:#1e3a8a}
+.skz-say.sm{position:absolute;left:1em;bottom:1em;flex-direction:column;align-items:flex-start;gap:.4em;width:12em}.skz-say.sm>img{height:9em}.skz-say.sm .skz-bub{margin:0;padding:.6em .8em}.skz-say.sm .skz-bub::before{left:2em;top:-1.05em;bottom:auto;border:.6em solid transparent;border-bottom:.9em solid #1e3a8a}.skz-say.sm .skz-bub b{font-size:1.4em}.skz-say.sm .skz-bub span{font-size:.95em}
 .bw.skz-sh{background:#1d1f27;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqh;padding:2cqh;position:relative}.skz-sh img{max-width:96%;max-height:84cqh;object-fit:contain;border-radius:.6cqh;box-shadow:0 1cqh 4cqh rgba(0,0,0,.5);background:#fff}
 .skz-sh-k{position:absolute;left:2cqh;top:1.6cqh;color:#fff;font-family:var(--f-display);font-size:3cqh;opacity:.85}.skz-sh-p{color:#fff;font-weight:800;font-size:3cqh;margin:0}.skz-sh img+.skz-sh-p{display:none}.skz-sh.nobild img{display:none}.skz-sh.nobild .skz-sh-p{display:block}
 .bw.skz-gal{background:#1d1f27;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqh;padding:6cqh 2cqh 2cqh;position:relative}
@@ -2008,8 +2015,18 @@ function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(s
 function skzClose(){if(!SKZ_ON)return;SKZ_ON=false;const h=$('#skz-host');if(window.Skizze)Skizze.unmount().then(()=>{if(h&&!SKZ_ON)h.remove()});else if(h)h.remove()}
 VIEWS.skizze=()=>{setTimeout(skzMount,0);return `<div class="empty" style="margin-top:40px">Das Skizzenbuch öffnet sich …</div>`};
 // SuS: Skizze an die Lehrkraft (höchstens 3 Bilder warten gleichzeitig, damit der Speicher nicht vollläuft)
-function skzShare(o){if(S.role!=='student')return false;S.mbq=(S.mbq||[]).filter(x=>!(x.k==='skz'&&x.id===o.id));const q=S.mbq.filter(x=>x.k==='skz');if(q.length>=3)S.mbq=S.mbq.filter(x=>x!==q[0]);
-  mbQueue({k:'skz',id:String(o.id).slice(0,40),title:String(o.title||'').slice(0,80),kind:o.kind,task:o.task||'',tt:String(o.taskText||'').slice(0,200),img:o.img,at:Date.now()});return !!S.tpk}
+async function skzShare(o){if(S.role!=='student')return false;S.mbq=(S.mbq||[]).filter(x=>!(x.k==='skz'&&x.id===o.id));const q=S.mbq.filter(x=>x.k==='skz');if(q.length>=3)S.mbq=S.mbq.filter(x=>x!==q[0]);
+  const img=await skzSmall(o.img);if(!img)return false;
+  mbQueue({k:'skz',id:String(o.id).slice(0,40),title:String(o.title||'').slice(0,80),kind:o.kind,task:o.task||'',tt:String(o.taskText||'').slice(0,200),img,at:Date.now()});
+  // Warten, bis das Postfach es angenommen hat; sonst ehrlich „später“ melden
+  for(let k=0;k<40&&MB.busy;k++)await new Promise(r=>setTimeout(r,250));await mbFlush();return !!S.tpk&&!(S.mbq||[]).some(x=>x.k==='skz'&&x.id===String(o.id).slice(0,40))}
+// Bilder so klein rechnen, dass sie sicher durchs Postfach passen (Server nimmt höchstens 1,6 MB verschlüsselt, das sind gut 1,1 MB Bild)
+const SKZ_MAX=700000;
+async function skzSmall(src){if(typeof src!=='string'||!IMGRE.test(src))return null;if(src.length<=SKZ_MAX)return src;
+  try{const im=new Image();im.src=src;await im.decode();let w=im.naturalWidth,h=im.naturalHeight,ql=.72,out=src;
+    for(let k=0;k<6&&out.length>SKZ_MAX;k++){const f=Math.min(1,(k<2?1400:1400*Math.pow(.8,k-1))/Math.max(w,h)),cv=document.createElement('canvas');cv.width=Math.round(w*f);cv.height=Math.round(h*f);
+      const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);out=cv.toDataURL('image/jpeg',ql);ql=Math.max(.5,ql-.08)}
+    return out.length<1500000?out:null}catch(e){return null}}
 // SuS: Stand im Auftrag an die Tafel (nur Zahlen: Skizzen und ob das Werk begonnen ist)
 function skzProg(p){const R=RCS&&RCS.skz;if(S.role!=='student'||!R||R.id!==p.id)return;const k=p.id+':'+p.s+':'+p.w;if(S.skzSent===k)return;S.skzSent=k;save();sendMsg({k:'skz',id:p.id,s:p.s,w:p.w})}
 function skzSync(p){if(S.role!=='student'||!p)return;if(!p.skz&&S.skzT&&p.skzEnd===S.skzT.id){S.skzT=null;save();if(V.name==='desk')render()}if(!p.skz||!p.skz.id)return;const t=skzTask();if(window.Skizze&&SKZ_ON)Skizze.setTask(t);
@@ -2022,7 +2039,7 @@ async function skzStore(nr,o){if(!TDKEY)return;const c=S.cls||'-',key='skz:'+c+'
   TD.skz=TD.skz||{};const B=(TD.skz[c]=TD.skz[c]||{}),L=(B[nr]=B[nr]||[]),i=L.findIndex(x=>x.key===key);if(i>=0)L.splice(i,1);
   L.unshift({key,t:String(o.title||'Skizze').slice(0,80),kind:['skizze','werk','frei'].includes(o.kind)?o.kind:'frei',task:String(o.task||'').slice(0,20),tt:String(o.tt||'').slice(0,200),at:Date.now(),neu:1});
   while(L.length>30){const x=L.pop();idb('blob','readwrite',st=>st.delete(x.key)).catch(()=>{})}if(SKZU[key]){URL.revokeObjectURL(SKZU[key]);delete SKZU[key]}
-  tsave();navTBadge();if(CS&&CS.skzGal&&(!CS.skzGal.task||CS.skzGal.task===o.task)){clearTimeout(skzGalT);skzGalT=setTimeout(()=>skzGallery(CS.skzGal&&CS.skzGal.task),1500)}if(['skzT','tsubj','tafel'].includes(V.name))V.name==='tafel'?updTafel():render()}
+  tsave();navTBadge();toast((o.kind==='werk'?'Neues Werk':'Neue Skizze')+' von '+kidName(nr)+' ist angekommen.');if(CS&&CS.skzGal&&(!CS.skzGal.task||CS.skzGal.task===o.task)){clearTimeout(skzGalT);skzGalT=setTimeout(()=>skzGallery(CS.skzGal&&CS.skzGal.task),1500)}if(['skzT','tsubj','tafel'].includes(V.name))V.name==='tafel'?updTafel():render()}
 async function skzUrl(key){if(SKZU[key])return SKZU[key];const r=await libBlob(key);if(!r)return '';
   const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:r.iv},await skzCK(),r.ct);return SKZU[key]=URL.createObjectURL(new Blob([pt],{type:'image/jpeg'}))}
 function skzFill(){if(S.role==='teacher'||BOARD)document.querySelectorAll('img[data-skzgal]:not([src])').forEach(im=>{im.setAttribute('src','data:image/gif;base64,R0lGODlhAQABAAAAACw=');libBlob('skzgal-'+im.dataset.skzgal).then(b=>{if(b)im.src=URL.createObjectURL(b);else im.remove()}).catch(()=>im.remove())});
@@ -2046,15 +2063,17 @@ async function skzGallery(task){if(!CS)return;const L=skzAll().filter(x=>!task||
 function skzGalOff(){if(!CS||!CS.skzGal)return;CS.skzGal=null;for(let i=0;i<SKZ_GAL;i++)idb('blob','readwrite',st=>st.delete('skzgal-'+i)).catch(()=>{})}
 const skzGalHTML=(X,mini)=>`<div class="bw skz-gal"><span class="skz-sh-k">Galerie · ${X.n} Bild${X.n>1?'er':''}</span>${S.role==='teacher'||BOARD?`<div class="skz-gal-g" style="--n:${Math.ceil(Math.sqrt(X.n||1))}">${Array.from({length:X.n},(_,i)=>`<img data-skzgal="${i}" data-at="${X.at}" alt="Bild ${i+1}">`).join('')}</div>`:''}<p class="skz-sh-p">Schau zur Tafel: Welches Bild spricht dich an? Warum?</p></div>`;
 const skzCount=(K,onN)=>{const P=K.p||{},v=Object.values(P);return {n:K.n,full:v.filter(x=>x[0]>=K.n||x[1]).length,w:v.filter(x=>x[1]).length,of:Math.max(onN||0,v.length)}};
-function skzBoard(t,c){const n=Math.max(1,Math.min(4,+t.n||2)),k=c.sk;
-  return `<div class="rt rt-skz"><div class="band">Kunst · Erst skizzieren, dann gestalten</div><div class="skz-b-in"><div><h1>${esc(t.text||c.name||'Skizziere deine Ideen')}</h1>
-    <div class="skz-flow">${Array.from({length:n},(_,i)=>`<span class="st">Skizze ${i+1}</span>`).join('<i>→</i>')}<i>→</i><span class="st werk">Werk</span></div>
-    <p>Öffne dein Skizzenbuch auf dem iPad. Probiere in jeder Skizze eine andere Idee aus.</p>${k?`<b>${k.full} / ${k.of||'–'} haben ihre Skizzen${k.w?` · ${k.w} am Werk`:''}</b>${pgBar(k.full,Math.max(k.full,k.of||0))}`:''}</div>
-    <img class="skz-b-elo" src="${eloImg('kunst','K')}" alt="Elo mit Palette"></div></div>`}
+// Tafel in der Skizzenphase: weiße Fläche, der Maler-Elo sagt den Auftrag. Gibt die Lehrkraft die Werke frei, erscheinen sie genau hier (ohne Namen).
+function skzBoard(t,c){const k=c.sk,G=c.gal,tx=t.text||c.name||'';
+  if(G&&G.n){const n=G.n,cols=Math.ceil(Math.sqrt(n*16/9/1.3));
+    return `<div class="rt rt-skz has-gal"><div class="skz-gw" style="--c:${cols};--r:${Math.ceil(n/cols)}">${S.role==='teacher'||BOARD?Array.from({length:n},(_,i)=>`<img data-skzgal="${i}" data-at="${G.at}" alt="Bild ${i+1}">`).join(''):'<p class="skz-gp">Schau zur Tafel: Welches Werk spricht dich an? Warum?</p>'}</div>
+      <div class="skz-say sm"><img src="${eloImg('kunst','K')}" alt="Elo mit Palette"><div class="skz-bub"><b>Eure Werke!</b><span>Welches spricht dich an? Warum?</span></div></div></div>`}
+  return `<div class="rt rt-skz"><div class="skz-say"><img src="${eloImg('kunst','K')}" alt="Elo mit Palette"><div class="skz-bub"><b>Öffnet jetzt euer Skizzenbuch.</b>${tx?`<span>${esc(tx)}</span>`:''}</div></div>
+    ${k&&k.of?`<p class="skz-pr">${k.w?`${k.w} von ${k.of} ${k.w>1?'sind':'ist'} am Werk`:`${k.full} von ${k.of} mit Skizzen fertig`}</p>`:''}</div>`}
 function skzCtl(on){if(!CS.skz)return CS.skzGal?`<span class="label">Galerie an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">${CS.skzGal.n} Bilder aus dem Skizzenbuch sind an der Tafel, ohne Namen. Neue Bilder kommen von selbst dazu.</p><button class="btn sm red" data-act="skz-hide">Galerie beenden</button>`:`<span class="label">Werkbetrachtung an der Tafel</span><p class="muted" style="font-weight:700;margin:4px 0 8px">Ein Bild aus dem Skizzenbuch ist groß an der Tafel, ohne Namen.</p><button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>`;const K=CS.skz,P=K.p||{},ids=[...new Set([...(on||[]).map(Number),...Object.keys(P).map(Number)])].sort((a,b)=>a-b),c=skzCount(K,(on||[]).length),nn=skzNew();
   return `<span class="label">Skizzenphase · ${c.full} / ${ids.length||'–'} mit ${K.n} Skizze${K.n>1?'n':''}${c.w?` · ${c.w} am Werk`:''}</span>${pgBar(c.full,Math.max(1,ids.length))}<p style="font-weight:800;margin-top:4px">${esc(K.text)}</p>
     <div class="cw-t">${ids.map(k=>{const v=P[k]||[0,0];return `<span class="chip ${v[1]||v[0]>=K.n?'ok':''}">${esc(nickOf(k)||kidName(k))} · ${v[1]?'Werk':Math.min(v[0],K.n)+'/'+K.n}</span>`}).join(' ')}</div>
-    <div class="row" style="margin-top:8px"><button class="btn sm ${K.werk?'on':''}" data-act="skz-werk">${K.werk?'Werk ist für alle frei':'Werk für alle freigeben'}</button>${V.name==='skzT'?'':`<button class="btn sm" data-act="skzT" data-from="tafel">Geschickte Bilder${nn?' · '+nn+' neu':''}</button>`}${CS.skzShow?'<button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>':''}<button class="btn sm red" data-act="skz-end">Auftrag beenden …</button></div>`}
+    <div class="row" style="margin-top:8px">${(()=>{const m=skzAll().filter(x=>x.task===K.id).length;return CS.skzGal&&CS.skzGal.task===K.id?`<button class="btn sm red" data-act="skz-gal-x">Werke an der Tafel ausblenden</button>`:`<button class="btn sm pri" data-act="skz-gal" data-t="${esc(K.id)}" ${m?'':'disabled'}>Werke an die Tafel${m?' ('+m+')':''}</button>`})()}<button class="btn sm ${K.werk?'on':''}" data-act="skz-werk" title="Die SuS dürfen ihr Werk beginnen, auch wenn noch Skizzen fehlen">${K.werk?'Werk-Blatt ist für alle offen':'Werk-Blatt schon jetzt öffnen'}</button>${V.name==='skzT'?'':`<button class="btn sm" data-act="skzT" data-from="tafel">Geschickte Bilder${nn?' · '+nn+' neu':''}</button>`}${CS.skzShow?'<button class="btn sm red" data-act="skz-hide">Werkbetrachtung beenden</button>':''}<button class="btn sm red" data-act="skz-end">Auftrag beenden …</button></div>`}
 // Alten Skizzen-Auftrag beenden: zuerst genau zeigen, was gelöscht wird; gelöscht wird erst nach „Ja, löschen“
 function skzEndOv(){const K=CS&&CS.skz;if(!K)return;const imgs=skzAll().filter(x=>x.task===K.id),kids=Object.keys(K.p||{}).length,t0=parseInt(String(K.id).slice(1),36),d0=t0>1e12?fmtDate(new Date(t0).toISOString().slice(0,10)):'';
   showOv(`<div class="box" style="max-width:620px;text-align:left"><span class="label">Skizzenbuch-Auftrag beenden</span><h2>Das wird gelöscht</h2>
@@ -2079,7 +2098,7 @@ VIEWS.skzT=()=>{const all=skzAll(),tasks=[...new Map(all.filter(x=>x.task).map(x
   ${tasks.length?`<div class="row" style="gap:6px;margin-bottom:12px"><button class="btn sm ${!f?'on':''}" data-act="skz-task" data-t="">Alle</button>${tasks.map(([id,tt])=>`<button class="btn sm ${f===id?'on':''}" data-act="skz-task" data-t="${esc(id)}">${esc(String(tt||'Auftrag').slice(0,40))}</button>`).join('')}</div>`:''}
   ${kids.length?kids.map(n=>`<section class="panel skzt-k"><div class="row" style="gap:8px"><b>${avOf(n)} ${esc(nickOf(n)||kidName(n))}</b><span class="muted" style="font-weight:700">${L.filter(x=>x.nr===n).length} Bild${L.filter(x=>x.nr===n).length>1?'er':''}</span></div>
     <div class="skzt-g">${L.filter(x=>x.nr===n).map(x=>`<button class="skzt-i ${x.neu?'neu':''}" data-act="skz-big" data-key="${esc(x.key)}"><img data-skz="${esc(x.key)}" alt="${esc(x.t)}"><span class="skzt-kd ${x.kind}">${{skizze:'Skizze',werk:'Werk',frei:'Blatt'}[x.kind]}</span><small>${esc(x.t)} · ${new Date(x.at).toLocaleDateString('de-DE',{day:'numeric',month:'short'})}</small></button>`).join('')}</div></section>`).join('')
-    :'<div class="empty">Noch keine Bilder. Die SuS schicken Skizzen aus ihrem Skizzenbuch über „Exportieren → An meine Lehrkraft schicken“.</div>'}
+    :'<div class="empty">Noch keine Bilder. Die SuS schicken Skizzen aus ihrem Skizzenbuch über den grünen Knopf „Mit Lehrkraft teilen“.</div>'}
   <p class="foot">Die Bilder liegen verschlüsselt nur auf diesem Gerät. An der Tafel erscheinen sie ohne Namen.</p>
   ${big?`<div class="lov skzt-ov"><div class="skzt-box"><img data-skz="${esc(big.key)}" alt="${esc(big.t)}"><div class="row" style="justify-content:space-between;margin-top:10px"><span><b>${esc(nickOf(big.nr)||kidName(big.nr))}</b> · ${esc(big.t)}${big.tt?` <span class="muted">· ${esc(big.tt)}</span>`:''}</span>
     <span class="row" style="gap:6px">${CS?`<button class="btn sm pri" data-act="skz-show" data-key="${esc(big.key)}">An der Tafel zeigen (ohne Namen)</button>`:''}${CS&&CS.skzShow?'<button class="btn sm" data-act="skz-hide">Tafel: Bild ausblenden</button>':''}<button class="btn sm red" data-act="skz-del" data-key="${esc(big.key)}">Löschen</button><button class="btn sm" data-act="skz-big" data-key="">Schließen</button></span></div></div></div>`:''}`};
@@ -2241,7 +2260,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1730';let verTold=false;
+const BUILD='20261021-1800';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3000,6 +3019,7 @@ function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   if(m.k==='hi'&&!ROSTER[nr].known){ROSTER[nr].known=1;ch=true}
   if(m.k==='hi')mbFlushDown(nr);
   if(m.k==='mb'&&m.r){mbUp({...m.r,nr});return}
+  if(m.k==='mbn'){if(MB.tbusy)setTimeout(mbPullTeacher,3000);else mbPullTeacher();return}
   // Podium: wer das Tafel-Spiel auf dem iPad geschafft hat, in der Reihenfolge des Ankommens
   if(m.k==='gwin'&&CS.game&&+m.at===CS.game.at){const F=(CS.game.fin=CS.game.fin||[]);if(!F.some(f=>f.n===nr)&&F.length<40){F.push({n:nr,nk:cleanNick(nickOf(nr)||m.nick)||kidName(nr),av:cleanAv((TD.avs||{})[nr]||m.av||0)});ch=true;SND.right()}}
   if(CS.ready&&CS.ready.only&&!CS.ready.rewarded){const on=online();if(on.length&&on.every(n=>CS.ready.done.includes(n))){CS.ready.rewarded=true;CS.ready.goAt=Date.now();CS.rocket=Math.min(10,CS.rocket+1);try{audPlay(CS.stage&&CS.stage.tool&&CS.stage.tool.bg==='boerse'?'boerse':'raketenstart',false)}catch(e){SND.cheer()}ch=true}}
@@ -3226,7 +3246,7 @@ function boardHTML(R,mini){const h=boardHTMLc(R,mini),fx=R&&fxOn(R.fx)?R.fx.k:''
   return h.replace(/<\/div>\s*$/,`<div class="bw-elo" style="animation-duration:${(R.fx.d||6000)/1000}s"><div class="sl-elo fx-${fx}" style="position:relative;right:auto;bottom:auto;width:100%"><img src="${eloImg(ek,sj)}" alt="Elo" draggable="false">${eloLidsS(ek,sj)}${fx==='wave'?'<i class="fx-i">'+ico('winken')+'</i>':fx==='tweet'||fx==='snd'?'<i class="fx-i fx-n">♪ ♫ ♪</i>':''}</div></div></div>`)}
 function boardHTMLc(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL.big):'';
   if(R&&R.skzShow&&!(R.freeze&&R.lesson))return skzShowHTML(R.skzShow,mini);
-  if(R&&R.skzGal&&!(R.freeze&&R.lesson))return skzGalHTML(R.skzGal,mini);
+  if(R&&R.skzGal&&!(R.freeze&&R.lesson)&&!(R.skz&&R.skzGal.task===R.skz.id))return skzGalHTML(R.skzGal,mini);
   // Abstimmungs-Ergebnis groß an der Tafel (die Lehrkraft blendet es ein), immer ohne Namen
   if(R&&R.poll&&R.poll.show&&R.poll.res&&R.poll.type!=='quiz'){const P=R.poll,tot=Math.max(1,P.res.reduce((a,b)=>a+b,0));
     return `<div class="bw bw-rt"><div class="rt rt-res" ${bgAttr('allgemein')}><span class="res-l">Ergebnis · ${P.voted.length} abgestimmt</span><h1>${esc(P.q||'')}</h1><div class="res-b">${P.opts.map((o,i)=>`<div class="res-r"><span>${esc(o)}</span><i style="--w:${(P.res[i]||0)/tot*100}%"></i><b>${P.res[i]||0}</b></div>`).join('')}</div></div></div>`}
@@ -3257,7 +3277,7 @@ function boardHTML0(R,mini){
     return `<div class="bw bw-rt s-${st.subj}"><div class="rt rt-ask" ${bgAttr('allgemein')}><span class="ask-i">${t.id==='mood'?MOOD5.join(' '):''}</span><h1>${esc(t.id==='exit'?'Exit-Ticket':t.q||I.name)}</h1>${t.id==='exit'&&R.exit?`<ol>${R.exit.qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`:''}<p>Tippe auf deinem iPad.</p><b class="ask-n">${n} / ${Math.max(R.onN||0,n)||'–'} fertig</b><img class="ask-e" src="assets/elo/elo-uebung-512.png" alt=""></div>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`}
   else if(st&&t.id==='vw')return `<div class="bw bw-rt s-${st.subj}">${vwHTML(t,{mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='heftlink')return `<div class="bw bw-rt s-${st.subj}">${richTool({id:'heft',title:t.title,text:t.text},{subj:st.subj,name:st.name,mini})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
-  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&(R.ready.msg||t.id==='start')?{g:R.ready.goAt||R.now,d:R.ready.done.length,n:R.expN||Math.max(R.onN||0,R.ready.done.length),go:!!R.ready.goAt}:null,cw:R.ready&&R.ready.cloud,jn:R.journal?[R.journal.done.length,Math.max(R.onN||0,R.journal.done.length)]:null,sk:R.skz?skzCount(R.skz,R.onN):null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
+  else if(st&&RICH.includes(t.id))return `<div class="bw bw-rt s-${st.subj}">${richTool(t,{subj:st.subj,name:st.name,sf:st.sf,min:st.min,mini,rd:R.ready&&(R.ready.msg||t.id==='start')?{g:R.ready.goAt||R.now,d:R.ready.done.length,n:R.expN||Math.max(R.onN||0,R.ready.done.length),go:!!R.ready.goAt}:null,cw:R.ready&&R.ready.cloud,jn:R.journal?[R.journal.done.length,Math.max(R.onN||0,R.journal.done.length)]:null,sk:R.skz?skzCount(R.skz,R.onN):null,gal:R.skz&&R.skzGal&&R.skzGal.task===R.skz.id?R.skzGal:null})}${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&t.id==='kfb')return `<div class="bw bw-rt"><div class="rt rt-kfl"><i class="kfl-ln"></i><i class="kfl-c"></i><div class="kfl-t"><span>Kopfrechnen</span><b>Fußball</b></div><div class="kfl-b"><img src="assets/kfb/ball.webp" alt=""><i class="kfl-sh"></i></div><p>Gleich geht's los!</p></div>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;
   else if(st&&GAME_INFO[t.id])main=`<div class="slide"><span class="gi">${GAME_INFO[t.id].icon}</span><h1>${esc(GAME_INFO[t.id].name)}</h1><p>${esc(st.txt)}</p></div>`;
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
@@ -7034,9 +7054,9 @@ async function mbInsert(row){if(!mbCloudOk())return false;try{const sb=await sbC
 async function mbFlush(){if(MB.busy||S.role!=='student'||!S.tpk||!(window.crypto&&crypto.subtle))return;const Q=S.mbq||[];if(!Q.length)return;MB.busy=true;
   try{const K=await myKeys();const live=RCS&&Date.now()-rcsAt<15000&&RCS.dpk&&RCS.dpk.n===S.tpk.n;
     while((S.mbq||[]).length){const it=S.mbq[0],body=await dEnc(S.tpk,{...it,pk:K.pub,nick:S.nick||'',av:S.av}),row={class_id:mbCls()?S.cls:null,dir:'up',nr:+S.nr,fp:mbFp(S.tpk),body};
-      let ok=await mbInsert(row);if(!ok&&live){sendMsg({k:'mb',r:{fp:row.fp,body}});ok=true}
+      let ok=await mbInsert(row);if(ok&&live&&it.k!=='prog')MB.ping=1;if(!ok&&live&&body.c.length<180000){sendMsg({k:'mb',r:{fp:row.fp,body}});ok=true}
       if(!ok){MB.fail=true;break}S.mbq.shift();if(it.k==='chat'){const c=(S.chat||[]).find(x=>x.id===it.id);if(c)c.st='ok'}if(it.k==='abg'&&S.abg&&S.abg[it.hw])S.abg[it.hw].st='ok'}
-    if(!(S.mbq||[]).length)MB.fail=false;save()}catch(e){console.warn(e);MB.fail=true}MB.busy=false;offlUpd();if(['chat','homework'].includes(V.name))render()}
+    if(!(S.mbq||[]).length)MB.fail=false;save();if(MB.ping){MB.ping=0;sendMsg({k:'mbn'})}}catch(e){console.warn(e);MB.fail=true}MB.busy=false;offlUpd();if(['chat','homework'].includes(V.name))render()}
 // Offline: Ergebnisse warten in S.mbq und gehen raus, sobald wieder Netz da ist. Sichtbarer Hinweis für das Kind.
 // Verbindungsanzeige am iPad: grün „Verbunden“, sobald die Tafel da ist; ohne WLAN eine einfache Hilfe
 let OFFL_H=false;
