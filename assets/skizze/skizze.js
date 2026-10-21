@@ -143,6 +143,7 @@ const CSS=`
 .skz *{box-sizing:border-box}.skz button{font:inherit;color:inherit}
 .skz-b{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 10px;border-radius:12px;border:0;background:transparent;cursor:pointer;touch-action:manipulation;font-weight:800;font-size:.92rem}
 .skz-b:hover{background:var(--surface-2,#f5f7fc)}.skz-b:disabled{opacity:.35;cursor:default}.skz-b.on{background:var(--navy,#26337a);color:var(--on-accent,#fff)}
+.skz-send{position:absolute;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:6;min-height:52px;padding:0 18px;border-radius:16px;font-size:1rem;box-shadow:0 6px 18px rgba(31,143,93,.35)}.skz.focus .skz-send{display:none}
 .skz-b.pri{background:var(--navy,#26337a);color:var(--on-accent,#fff)}.skz-b.ok{background:var(--green,#1f8f5d);color:#fff}.skz-b.red{color:var(--red,#cf3a2c)}.skz-b.line{border:2px solid var(--line,#d8ddee);background:var(--surface,#fff)}
 .skz-top{display:flex;align-items:center;gap:4px;padding:4px 8px;padding-top:max(4px,env(safe-area-inset-top));background:var(--surface,#fff);border-bottom:1px solid var(--line,#d8ddee);min-height:54px;flex:none}
 .skz-ttl{min-width:0;flex:1;display:flex;align-items:center;gap:8px;overflow:hidden}.skz-ttl b{font-family:var(--f-display,"Baloo 2",system-ui);font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
@@ -271,7 +272,7 @@ function Editor(app,page){
     </div>
     <div class="skz-main"><div class="skz-side"></div>
       <div class="skz-stage"><div class="skz-doc"></div><div class="skz-hud"></div><div class="skz-cur"></div><div class="skz-zoom"></div>
-        <div class="skz-ctx"></div><div class="skz-fx"><button class="skz-b" data-k="undo">${ico('undo')}</button><button class="skz-b" data-k="fit" title="Zoom zurücksetzen" aria-label="Zoom zurücksetzen">${ico('fit')}</button><button class="skz-b skz-close" data-k="unfocus" aria-label="Vollbild schließen">${ico('unfull')}<span>Schließen</span></button></div></div></div>`);
+        <div class="skz-ctx"></div>${app.ctx.onShare?`<button class="skz-b ok skz-send" data-k="send">${ico('send',20)}<span>Mit Lehrkraft teilen</span></button>`:''}<div class="skz-fx"><button class="skz-b" data-k="undo">${ico('undo')}</button><button class="skz-b" data-k="fit" title="Zoom zurücksetzen" aria-label="Zoom zurücksetzen">${ico('fit')}</button><button class="skz-b skz-close" data-k="unfocus" aria-label="Vollbild schließen">${ico('unfull')}<span>Schließen</span></button></div></div></div>`);
   const $=s=>root.querySelector(s);
   const stage=$('.skz-stage'),doc=$('.skz-doc'),hud=$('.skz-hud'),cur=$('.skz-cur'),ctxBar=$('.skz-ctx'),side=$('.skz-side');
   doc.style.width=w+'px';doc.style.height=h+'px';
@@ -873,7 +874,7 @@ function Editor(app,page){
       case 'c-pick':closePop();setTool('pipette');break;
       case 'pal-add':if(!PREF.pal.includes(PREF.color)&&PREF.pal.length<30){PREF.pal.push(PREF.color);prefSave()}colorPop();break;
       case 'pal-edit':E.palEdit=!E.palEdit;colorPop();break;case 'brush':openPop('brush');break;
-      case 'full':goFull();break;case 'unfocus':exitFull();break;
+      case 'send':app.share(true);break;case 'full':goFull();break;case 'unfocus':exitFull();break;
       case 'rename':{const n=prompt('Name für dieses Blatt',page.title||'');if(n!=null&&n.trim()){page.title=n.trim().slice(0,60);$('.skz-ttl b').textContent=page.title;queueSave()}break}
       case 'fit':fit();break;case 'z100':{const r=stage.getBoundingClientRect();zoomAt(r.width/2,r.height/2,(2/(W.devicePixelRatio||1))/V.s);break}
       case 'l-add':case 'l-dup':case 'l-up':case 'l-down':case 'l-del':case 'l-clear':case 'l-merge':case 'l-ref':case 'l-ren':case 'l-lockA':case 'l-fill':layerAct(k);break;

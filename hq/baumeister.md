@@ -23,6 +23,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Skizzenbuch Runde 2 (21.10.), im Test: grüner Knopf „Mit Lehrkraft teilen“ im offenen Blatt; geteilte Bilder kommen sofort an (Hinweis bei der Lehrkraft), werden passend verkleinert und gehen nicht mehr verloren; Tafel in der Skizzenphase neu: weiß, Maler-Elo sagt „Öffnet jetzt euer Skizzenbuch“, Knopf „Werke an die Tafel“ zeigt die geschickten Werke ohne Namen genau dort
 - Vokabeltrainer in der Stunde (21.10.), im Test: Auswahl „Im eigenen Vokabelheft weiterlernen“ (jedes Kind bekommt seine fälligen Wörter, Lernstand bleibt) oder „Bestimmte Wörter wiederholen“ (Listen aus dem Vokabelheft aller Klassen einsetzen, fällige Wörter nur auf Wunsch dazu); neue Phasen starten ohne Beispielwörter
 - Skizzenphase (21.10.), im Test: Sobald die Tafel beim Werkzeug Skizzenbuch ist, öffnet sich bei jedem Kind das Skizzenbuch mit Auftrag und hochgeladener Vorlage; Hinweise wie Freeze oder neue Phase liegen über dem Skizzenbuch
 - Folien-Editor aufgeräumt (21.10.), im Test: Anweisung an die SuS steht oben bei Phase und Minuten, Folientyp-Auswahl entfernt, feste Knöpfe Bild, Audio/Video, Textfeld, Tabelle, Elo, Blackbox, Übergang; Löschen entfernt das ganze Textfeld; freigestellte Bilder ohne Rand und auf den sichtbaren Teil zugeschnitten; „Folie speichern“ und „Meine Folien“ zum Wiederverwenden in anderen Stunden
