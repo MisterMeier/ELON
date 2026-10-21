@@ -610,6 +610,7 @@ body.boardwin #wsbar{font-size:3rem;top:2vh}
 .rt-dgeo,.rt-itten{display:flex;flex-direction:column;gap:10px}
 .rt-ext{height:100%;background:var(--surface)}.ext-slot{flex:1;width:100%;min-height:55vh}.ext-card{margin:auto;text-align:center;padding:1em}.ext-card b{font-family:var(--f-display);font-size:1.6em}
 .tb-tool{position:relative}.wip-b{position:absolute;top:5px;right:5px;width:24px;height:24px;padding:3px;border-radius:7px;background:var(--yellow);color:#3a2a00;display:grid;place-items:center}.wip-b .ico{width:100%;height:100%}
+.ext-file{cursor:pointer}.ext-t{align-items:flex-start}.ext-up{border:2px dashed var(--line);border-radius:14px;padding:12px;margin:0 0 12px}.ext-hint{background:#fdf0d2;color:#2b2110;border-radius:10px;padding:8px 12px;margin-top:8px}.ext-hint ul{margin:4px 0;padding-left:20px}
 .ext-pv{width:min(1100px,92vw);height:min(720px,80vh)}.ext-pv .ext-slot{height:100%;min-height:0}
 .ext-fr{position:fixed;z-index:10;border:0;border-radius:1em;background:#fff;color-scheme:light}.ext-msg{display:grid;place-items:center;background:var(--surface);color:var(--ink);font-weight:800;font-size:1.3rem;padding:20px;text-align:center}
 .dg-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -2306,7 +2307,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-2230';let verTold=false;
+const BUILD='20261021-2330';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -6759,7 +6760,7 @@ async function fillMedia(n){
    Läuft nur im Schutzkasten: iframe mit sandbox="allow-scripts" ohne allow-same-origin (kein Zugriff auf Konto, Speicher, Cookies, ELONUKI-Seite),
    dazu eine Sicherheitsregel ohne Internet. Mit ELONUKI spricht das Werkzeug nur über die Brücke (postMessage), siehe werkzeuge/HANDBUCH.md.
    Der Rahmen liegt fest über dem Platzhalter .ext-slot, damit das Werkzeug beim Neuzeichnen der Tafel nicht neu startet. */
-const EXT={fr:null,box:null,key:'',cache:{},list:null,n:0,t0:0,loads:0,info:null};
+const EXT={fr:null,box:null,key:'',cache:{},list:null,n:0,t0:0,loads:0,info:null,author:false,up:null};
 // Erlaubt sind nur: eigener Code in der Datei, ELONUKI-Schriften und -Figuren (Elo, Nuki …) vom ELONUKI-Server. Kein Internet sonst.
 const extBase=()=>location.origin+location.pathname.replace(/[^/]*$/,'')+'assets/';
 const extCsp=()=>{const A=extBase();return `default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' ${A}fonts/; img-src data: blob: ${A}elo/ ${A}icons/; media-src data: blob:; font-src data: ${A}fonts/; connect-src 'none'; form-action 'none'; base-uri 'none'`};
@@ -6820,20 +6821,59 @@ addEventListener('message',e=>{if(!EXT.fr||e.source!==EXT.fr.contentWindow)retur
   else if(m.typ==='fertig')toast('Werkzeug fertig.');
   else if(['an_ipads','an_ipad','an_gruppe','ergebnis'].includes(m.typ))extSend('hinweis','Die iPads sind noch nicht angebunden. Das kommt in der nächsten Stufe.')});
 // Werkzeuge für die Auswahl in der Planung (eigene Entwürfe und freigegebene der Schule)
-function extListLoad(){if(EXT.list||!(CLOUD&&Cloud.sb&&Cloud.user))return;EXT.list=[];q(Cloud.sb.rpc('tool_list')).then(L=>{EXT.list=L||[];render()}).catch(()=>{})}
 function extOpts(sel){extListLoad();const L=EXT.list||[];
   return `<option value="demo" ${sel==='demo'||!sel?'selected':''}>Beispiel: Preis-Check</option>${L.map(x=>`<option value="${esc(x.id)}" ${x.id===sel?'selected':''}>${esc(x.name)}${x.status==='freigegeben'?'':x.status==='gesperrt'?' (gesperrt)':' (Entwurf, nur Testklasse)'}${x.mine?'':' · '+esc(x.author||'')}</option>`).join('')}`}
 // Baustellen-Symbol: Werkzeug ist noch nicht zur Nutzung freigegeben
 const wipBadge=()=>`<i class="wip-b" title="In Arbeit: noch nicht zur Nutzung freigegeben">${ico('baustelle')}</i>`;
 const EXT_ST={entwurf:'Entwurf',eingereicht:'Zur Prüfung eingereicht',freigegeben:'Freigegeben',abgelehnt:'Zurück an den Autor',gesperrt:'Gesperrt'};
 const EXT_DEMO_ROW={id:'demo',name:'Beispiel: Preis-Check',status:'freigegeben',author:'ELONUKI',ver:1};
-// Werkzeugkasten: eigene Werkzeuge der Schule. Admin sieht auch Entwürfe, kann sie ansehen, freigeben und im Notfall sperren.
-function extToolbox(){if(!(CLOUD&&Cloud.sb&&Cloud.user))return '';extListLoad();const L=EXT.list||[],adm=!!(Cloud.prof&&Cloud.prof.role==='admin');
+function extListLoad(){if(EXT.list||!(CLOUD&&Cloud.sb&&Cloud.user))return;EXT.list=[];
+  q(Cloud.sb.rpc('tool_list')).then(L=>{EXT.list=L||[];render()}).catch(()=>{});
+  // Darf ich hochladen? Co-Autor oder Admin in meiner Schule, oder Konto-Admin
+  q(Cloud.sb.from('school_members').select('role').eq('profile_id',Cloud.user.id)).then(L=>{const v=(L||[]).some(m=>m.role==='author'||m.role==='admin');if(v!==EXT.author){EXT.author=v;render()}}).catch(()=>{})}
+const extCanUp=()=>!!(Cloud.prof&&Cloud.prof.role==='admin')||!!EXT.author;
+// Kopfzeile <meta name="elonuki-tool" content='{…}'> lesen (Name, Fach, Version …)
+function extMeta(h){const m=/<meta[^>]+name=["']elonuki-tool["'][^>]*>/i.exec(h||'');if(!m)return null;const c=/content=(["'])([\s\S]*?)\1/i.exec(m[0]);try{const j=c?JSON.parse(c[2].replace(/&quot;/g,'"')):null;return j&&typeof j==='object'?j:null}catch(e){return null}}
+// Vorprüfung beim Hochladen: Hinweise in einfachen Worten. Der eigentliche Schutz ist der Kasten, nicht diese Liste.
+function extCheck(h){const P=[],s=String(h||'');if(!extMeta(s))P.push('Die Kopfzeile <meta name="elonuki-tool"> fehlt oder ist kaputt. Name und Fach bitte unten eintragen.');
+  [[/(src|href)\s*=\s*["']?\s*(https?:)?\/\//i,'Lädt etwas aus dem Internet (src oder href mit http). Bilder und Töne müssen in der Datei stecken.'],[/url\(\s*["']?\s*(https?:)?\/\//i,'Lädt Bilder oder Schriften aus dem Internet (url(…)).'],[/@import/i,'Lädt Stile von außen (@import).'],
+   [/\b(fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|sendBeacon)\b/,'Will etwas übers Internet schicken oder holen. Das klappt im Schutzkasten nicht.'],[/\b(localStorage|sessionStorage|indexedDB|document\.cookie)\b/,'Will auf dem Gerät speichern. Das klappt im Schutzkasten nicht, dafür gibt es „speichern“ über die Brücke.'],
+   [/\b(eval|Function)\s*\(/,'Benutzt eval oder new Function.'],[/\b(top|parent|opener)\s*\.(?!postMessage)/,'Greift direkt auf ELONUKI zu (parent/top). Das geht nur über die Brücke.'],[/\b(window\.open|location\s*=|location\.(href|assign|replace))/,'Will die Seite wechseln oder ein Fenster öffnen. ELONUKI hält das Werkzeug dann an.'],
+   [/[\u{1F300}-\u{1FAFF}☀-➿]/u,'Enthält Emojis. Im ELONUKI-Design bitte einfache SVG-Symbole nehmen.']].forEach(([r,t])=>{if(r.test(s))P.push(t)});
+  if(!/elonuki\.(senden|wenn)/.test(s))P.push('Benutzt die ELONUKI-Brücke nicht (elonuki.senden / elonuki.wenn). Es läuft trotzdem, bekommt aber keine Farben, Töne und Figur.');
+  return P}
+// Datei gewählt: lesen, prüfen, dann Bestätigung zeigen (neues Werkzeug oder neue Version eines eigenen)
+function extFile(f,id){if(!f)return;if(!/\.html?$/i.test(f.name)&&f.type!=='text/html'){toast('Bitte eine .html-Datei wählen.');return}if(f.size>600000){toast('Die Datei ist größer als 600 KB. Bilder kleiner machen oder als SVG einbauen.');return}
+  f.text().then(h=>{const m=extMeta(h)||{},x=id&&(EXT.list||[]).find(y=>y.id===id);
+    EXT.up={id:id||null,html:h,name:String(m.name||(x&&x.name)||f.name.replace(/\.html?$/i,'')).slice(0,80),fach:SUBJECTS[m.fach]?m.fach:(x&&x.subject)||'',info:String(m.info||m.beschreibung||(x&&x.info)||'').slice(0,400),names:!!m.namen,probs:extCheck(h),busy:false};render()}).catch(()=>toast('Die Datei ließ sich nicht lesen.'))}
+async function extSave(){const U=EXT.up;if(!U||U.busy)return;U.name=(($('#ext-up-n')||{}).value||U.name).trim();U.fach=($('#ext-up-f')||{}).value||U.fach;U.info=(($('#ext-up-i')||{}).value||'').trim();
+  if(!U.name){toast('Bitte einen Namen eintragen.');return}U.busy=true;render();
+  try{const r=await q(Cloud.sb.rpc('tool_save',{p_id:U.id,p_name:U.name,p_subject:U.fach,p_info:U.info,p_html:U.html,p_needs_names:U.names}));
+    if(r&&r.id){EXT.up=null;toast(r.status==='freigegeben'?'Neue Version ist live (Version '+r.ver+').':U.id?'Neue Version gespeichert.':'Gespeichert. Probier es mit „Ansehen“ oder in deiner Testklasse aus und reiche es dann ein.')}
+    else{U.busy=false;toast({denied:'Hochladen dürfen nur Co-Autoren. Fabian kann dich im Admin dazu machen.',noschool:'Dein Konto gehört noch zu keiner Schule.',gross:'Die Datei ist zu groß (höchstens 600 KB).',leer:'Die Datei ist leer.',name:'Bitte einen Namen eintragen.'}[r&&r.err]||'Das ging nicht.')}}
+  catch(e){U.busy=false;toast(/tool_save|PGRST202|function/i.test(String(e&&(e.message||e.code)))?'Auf dem Server fehlt noch die Einrichtung (20261021180000_co_autor_werkzeuge.sql).':'ELONUKI ist gerade nicht erreichbar.')}
+  EXT.list=null;EXT.cache={};render()}
+async function extOwn(a,id){if(a==='ext-del'&&V.extDel!==id){V.extDel=id;render();return}V.extDel=null;
+  try{const r=await q(a==='ext-submit'?Cloud.sb.rpc('tool_submit',{p_id:id}):Cloud.sb.rpc('tool_delete',{p_id:id}));
+    toast(r==='ok'?(a==='ext-submit'?'Eingereicht. Fabian bekommt es zur Prüfung.':'Gelöscht.'):'Das ging nicht.')}catch(e){toast('ELONUKI ist gerade nicht erreichbar.')}
+  EXT.list=null;EXT.cache={};render()}
+function extUpHTML(){const U=EXT.up;if(!U)return '';
+  return `<div class="ext-up"><b>${U.id?'Neue Version':'Neues Werkzeug'}: ${esc(U.name)}</b>
+    <div class="lgrid" style="margin-top:8px"><label>Name<input id="ext-up-n" type="text" maxlength="80" value="${esc(U.name)}"></label><label>Fach<select id="ext-up-f"><option value="">– alle Fächer –</option>${Object.entries(SUBJECTS).map(([k,s])=>`<option value="${k}" ${k===U.fach?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label>
+    <label style="grid-column:1/-1">Kurz, was es tut<input id="ext-up-i" type="text" maxlength="400" value="${esc(U.info)}" placeholder="z. B. Preise vergleichen: Welches Angebot ist günstiger?"></label></div>
+    ${U.probs.length?`<div class="ext-hint"><b>Das ist ELONUKI aufgefallen</b><ul>${U.probs.map(p=>`<li>${esc(p)}</li>`).join('')}</ul><small>Du kannst trotzdem speichern und ausprobieren. Am besten lässt du es von deiner KI nach dem Handbuch anpassen.</small></div>`:'<p class="saved">Vorprüfung ohne Auffälligkeiten.</p>'}
+    ${U.names?'<p class="muted">Das Werkzeug möchte Vornamen. Die bekommt es erst, wenn Fabian das bei der Freigabe erlaubt.</p>':''}
+    <div class="row" style="margin-top:8px"><button class="btn pri" data-act="ext-save" ${U.busy?'disabled':''}>${U.busy?'Wird gespeichert …':'Speichern'}</button><button class="btn" data-act="ext-up-x">Abbrechen</button></div></div>`}
+// Werkzeugkasten: eigene Werkzeuge der Schule. Co-Autoren laden hoch, testen und reichen ein. Admin sieht auch Entwürfe, kann sie ansehen, freigeben und im Notfall sperren.
+function extToolbox(){if(!(CLOUD&&Cloud.sb&&Cloud.user))return '';extListLoad();const L=EXT.list||[],adm=!!(Cloud.prof&&Cloud.prof.role==='admin'),up=extCanUp();
   const btn=(a,x,t,c)=>`<button class="btn sm ${c||''}" data-act="${a}" data-id="${esc(x.id)}">${t}</button>`;
-  return `<section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">Eigene Werkzeuge der Schule</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Werkzeuge, die Lehrkräfte deiner Schule als HTML-Datei gebaut haben. Sie laufen im Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI. Das Baustellen-Symbol heißt: noch nicht zur Nutzung freigegeben, läuft nur in der Vorschau und in der Testklasse. In einer Stunde wählst du sie über das Werkzeug „Eigenes Werkzeug“.</p>
-    <div class="tb-tools">${[EXT_DEMO_ROW,...L].map(x=>`<div class="tb-tool on">${x.status!=='freigegeben'?wipBadge():''}<span style="flex:1;min-width:0;display:grid"><b>${esc(x.name)}</b><small>${esc(EXT_ST[x.status]||x.status)} · ${x.mine?'von dir':'von '+esc(x.author||'?')} · Version ${+x.ver||1}</small>
-      <span class="row" style="margin-top:6px;gap:6px">${btn('ext-view',x,'Ansehen')}${adm&&x.id!=='demo'?x.status==='gesperrt'?btn('ext-unblock',x,'Sperre aufheben'):x.status==='freigegeben'?btn('ext-block',x,'Sperren'):btn('ext-ok',x,'Freigeben','pri'):''}</span></span></div>`).join('')}</div>
-    ${L.length?'':`<p class="muted" style="margin-top:8px">${EXT.list===null?'Wird geladen …':'Noch keine eigenen Werkzeuge. Hochladen kommt in der nächsten Runde.'}</p>`}</section>`}
+  const own=x=>x.mine?`<label class="btn sm ext-file">Neue Version<input type="file" accept=".html,.htm,text/html" data-extup="${esc(x.id)}" hidden></label>${['entwurf','abgelehnt'].includes(x.status)?btn('ext-submit',x,'Einreichen','pri'):''}${V.extDel===x.id?btn('ext-del',x,'Wirklich löschen','red'):btn('ext-del',x,'Löschen')}`:'';
+  return `<section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.2rem">Eigene Werkzeuge der Schule</h2>${up?`<label class="btn pri ext-file">Werkzeug hochladen (.html)<input type="file" accept=".html,.htm,text/html" data-extup="" hidden></label>`:''}</div>
+    <p class="muted" style="font-weight:700;margin:4px 0 10px">Werkzeuge, die Lehrkräfte deiner Schule als HTML-Datei gebaut haben. Sie laufen im Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI. Das Baustellen-Symbol heißt: noch nicht zur Nutzung freigegeben, läuft nur in der Vorschau und in der Testklasse. In einer Stunde wählst du sie über das Werkzeug „Eigenes Werkzeug“.</p>${up?`<p style="margin:0 0 10px"><a class="btn sm" href="werkzeuge/HANDBUCH.md" target="_blank" rel="noopener">Handbuch mit Prompt für deine KI</a> <a class="btn sm" href="werkzeuge/vorlage.html" download="elonuki-vorlage.html">Vorlage herunterladen</a></p>`:''}
+    ${extUpHTML()}
+    <div class="tb-tools">${[EXT_DEMO_ROW,...L].map(x=>`<div class="tb-tool on ext-t">${x.status!=='freigegeben'?wipBadge():''}<span style="flex:1;min-width:0;display:grid"><b>${esc(x.name)}</b><small>${esc(EXT_ST[x.status]||x.status)} · ${x.mine?'von dir':'von '+esc(x.author||'?')} · Version ${+x.ver||1}</small>${x.info?`<small>${esc(x.info)}</small>`:''}${x.note&&(x.mine||adm)?`<small><b>Notiz:</b> ${esc(x.note)}</small>`:''}
+      <span class="row" style="margin-top:6px;gap:6px">${btn('ext-view',x,'Ansehen')}${own(x)}${adm&&x.id!=='demo'?x.status==='gesperrt'?btn('ext-unblock',x,'Sperre aufheben'):x.status==='freigegeben'?btn('ext-block',x,'Sperren'):btn('ext-ok',x,'Freigeben','pri'):''}</span></span></div>`).join('')}</div>
+    ${L.length?'':`<p class="muted" style="margin-top:8px">${up?'Noch keine eigenen Werkzeuge. Lade oben dein erstes hoch.':'Noch keine eigenen Werkzeuge an deiner Schule.'}</p>`}</section>`}
 function extView(id){const x=id==='demo'?EXT_DEMO_ROW:(EXT.list||[]).find(y=>y.id===id);if(!x)return;
   showOv(`<div class="box viewer" role="dialog" aria-label="${esc(x.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${esc(x.name)} <small class="muted">Version ${+x.ver||1}${x.status==='freigegeben'?'':' · Vorschau'}</small></b><button class="btn sm pri" data-act="close-ov">Schließen</button></div>
     <div class="ext-pv"><div class="ext-slot" data-src="${esc(x.id)}" data-pv="1" data-subj="${esc(x.subject||'')}"></div></div></div>`);extMount()}
@@ -7040,6 +7080,7 @@ async function lgIn(up){
 
 /* --- Admin (nur Rolle admin; der Server prüft das zusätzlich) --- */
 const A={schools:[],classes:[],profiles:[],ct:[],staff:[],members:[],ok:false,msg:''};
+const mRole=id=>((A.members||[]).find(m=>m.profile_id===id)||{}).role||'';
 const mSchool=id=>((A.members||[]).find(m=>m.profile_id===id)||{}).school_id||'';
 const STAFF_SEED='Kat, Sun, Sim, Mat, GmS, Ver, Ant, Jan, Vera';
 async function adminLoad(){
@@ -7142,7 +7183,7 @@ function adUserRow(p,sc,isNew){const ms=mSchool(p.id),own=p.id===Cloud.user.id,a
   return `<tr${isNew?' class="ad-new"':''}><td>${esc(p.email||'')}${p.wish_school?`<br><small class="muted">Wunschschule: <b>${esc(p.wish_school)}</b></small>`:''}${p.email?`<br><button class="btn sm" data-act="ad-pwmail" data-m="${esc(p.email)}" style="margin-top:4px">Passwort-Link schicken</button>${A.pwSent===p.email?' <small class="saved">gesendet</small>':''}`:''}</td>
     <td><div class="row" style="flex-wrap:nowrap"><input id="ad-pn-${p.id}" type="text" value="${esc(p.name||'')}" placeholder="Name" style="min-width:120px"><button class="btn sm" data-act="ad-name" data-id="${p.id}">✓</button></div></td>
     <td>${adm?'<span class="muted">alle (Admin)</span>':isNew?`<button class="btn sm pri" data-act="ad-assign" data-id="${p.id}" data-s="${sc.id}">Zu ${esc(sc.name)} holen</button>`:`<select data-adschool="${p.id}" style="width:auto" aria-label="Schule von ${esc(p.email||'')}"><option value="">– keine –</option>${A.schools.map(s=>`<option value="${s.id}" ${ms===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select>`}</td>
-    <td><select data-adrole="${p.id}" ${own?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
+    <td><select data-adrole="${p.id}" ${own?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['author','Co-Autor'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${(p.role==='teacher'&&mRole(p.id)==='author'?'author':p.role)===k?'selected':''}>${t}</option>`).join('')}</select></td>
     <td>${isNew?'<span class="muted">nach dem Zuweisen</span>':`<div class="cls-chk">${cls.map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">–</span>'}</div>`}</td>
     <td style="text-align:right">${own||adm?'':V.adel==='u'+p.id?`<button class="btn sm red" data-act="ad-user-del" data-id="${p.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="u${p.id}">Konto löschen</button>`}</td></tr>`}
 const adAuth=id=>(A.auth||[]).find(x=>x.id===id);
@@ -7203,8 +7244,13 @@ VIEWS.admin=()=>{
 };
 document.addEventListener('change',e=>{
   const t=e.target,sb=Cloud.sb;if(!sb)return;
+  if(t.dataset.extup!=null&&t.files){extFile(t.files[0],t.dataset.extup);t.value='';return}
   if(t.dataset.adschool)adminRpc(sb.rpc('admin_set_school',{p_profile:t.dataset.adschool,p_school:t.value||null}),t.value?'Schule gespeichert. Das Konto ist freigeschaltet.':'Aus der Schule entfernt.');
-  if(t.dataset.adrole)adminDo(sb.from('profiles').update({role:t.value}).eq('id',t.dataset.adrole),'Rolle geändert.');
+  // Co-Autor = Lehrkraft mit Rolle „author“ in ihrer Schule (darf eigene Werkzeuge hochladen)
+  if(t.dataset.adrole){const id=t.dataset.adrole,v=t.value,au=v==='author'||mRole(id)==='author';
+    adminDo((async()=>{await q(sb.from('profiles').update({role:v==='author'?'teacher':v}).eq('id',id));
+      if(au){if(!mSchool(id))throw new Error('Erst eine Schule zuweisen, dann zum Co-Autor machen.');const r=await q(sb.rpc('school_set_role',{p_profile:id,p_role:v==='author'?'author':'teacher'}));if(r!=='ok')throw new Error(r)}return {data:1}})(),
+      v==='author'?'Co-Autor: darf jetzt eigene Werkzeuge hochladen.':'Rolle geändert.')}
   if(t.dataset.adct){const [tid,cid]=t.dataset.adct.split('|');adminDo(t.checked?sb.from('class_teachers').insert([{class_id:cid,teacher_id:tid}]):sb.from('class_teachers').delete().eq('class_id',cid).eq('teacher_id',tid),'Klassen gespeichert.')}
   if(t.dataset.slot)cttSave(t.dataset.slot);
   if(t.dataset.adstaff)adminDo(sb.from('staff').update({profile_id:t.value||null}).eq('id',t.dataset.adstaff),'Kürzel verknüpft.');
@@ -9164,6 +9210,9 @@ document.addEventListener('click',e=>{
     case 'lib-view':libView(d.id);break;
     case 'ext-view':extView(d.id);break;
     case 'ext-ok':case 'ext-block':case 'ext-unblock':extAdmin(a,d.id);break;
+    case 'ext-save':extSave();break;
+    case 'ext-up-x':EXT.up=null;render();break;
+    case 'ext-submit':case 'ext-del':extOwn(a,d.id);break;
     case 'lib-dl':libDownload(d.id);break;
     case 'lib-del':V.ldel=d.id;$('#lib-list').innerHTML=libListHTML();break;
     case 'lib-lic':{const m=libById(d.id);if(!m)break;if(m.lic)delete m.lic;else m.lic='verlag';idb('meta','readwrite',st=>st.put(m)).then(()=>render());break}
