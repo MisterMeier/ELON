@@ -74,3 +74,4 @@ gelb
 | B-45 | Freigestellte Bilder zeigten in der Folie noch Rahmen/Schatten und leere Ränder | mittel | in Test | app.html slBgRemove, .sl-imc.nb |
 | B-46 | Textfeld löschen leerte nur den Inhalt, das Feld blieb | mittel | in Test | app.html slElDel (noT/noB) |
 | B-47 | Testmodus blieb auf dem Gerät hängen (alter gespeicherter Test-Code), „Test“ tat nichts; Tester-iPad bekam kein Signal | hoch | in Test | app.html testEnter |
+| B-48 | Skizzenphase: SuS sahen nur die Tafel-Folie, das Skizzenbuch mit Auftrag und Vorlage ging nicht auf | hoch | in Test | app.html liveOverlay (Skizzenphase), .lov über Skizzenbuch |
