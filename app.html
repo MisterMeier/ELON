@@ -6800,7 +6800,8 @@ async function cloudLoadMe(){
   if(Cloud.prof&&Cloud.prof.role!=='pending'){
     let [all,sc,ct]=await Promise.all([q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('class_teachers').select('class_id,lead').eq('teacher_id',uid))]);
     buildSchools(sc,all);all=all.filter(c=>!isTestCode(c.code));Cloud.lead=ct.filter(x=>x.lead).map(x=>x.class_id);
-    if(Cloud.prof.role==='admin')Cloud.myClasses=all;
+    if(Cloud.prof.role==='admin'){Cloud.myClasses=all;
+      try{const [ps,ms]=await Promise.all([q(sb.from('profiles').select('id,role')),q(sb.from('school_members').select('profile_id'))]);Cloud.newAcc=ps.filter(p=>p.role!=='admin'&&!ms.some(m=>m.profile_id===p.id)).length}catch(e){}}
     else Cloud.myClasses=all.filter(c=>ct.some(x=>x.class_id===c.id));
   }
 }
@@ -6896,6 +6897,7 @@ VIEWS.login=()=>{
   if(!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
   if(Cloud.user&&Cloud.prof&&Cloud.prof.role==='pending')return `<div class="start"><div class="start-head">${back}</div><h1>Fast geschafft</h1>
     <section class="panel"><p style="font-weight:700">Dein Konto <b>${esc(Cloud.user.email||'')}</b> ist angelegt. Der Admin muss dich noch freischalten und in deine Schule aufnehmen.</p>
+    <p class="muted" style="font-weight:700;margin-top:8px">Diese Seite prüft alle 20 Sekunden von selbst. Sobald du freigeschaltet bist, geht es weiter.</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}${lgWait()}
     <div class="row" style="margin-top:14px"><button class="btn pri" data-act="lg-refresh">Nochmal prüfen</button><button class="btn" data-act="lg-out">Abmelden</button></div></section></div>`;
   if(Cloud.user&&Cloud.prof){const mc=Cloud.myClasses;
     return `<div class="start"><div class="start-head">${back}<span class="label">${esc(Cloud.user.email||'')}</span></div><h1>Welche Klasse?</h1>
@@ -6908,17 +6910,26 @@ VIEWS.login=()=>{
       <label class="label" for="lg-mail" style="display:block">E-Mail</label><input id="lg-mail" name="email" type="email" autocomplete="username" autocapitalize="off">
       <label class="label" for="lg-pw" style="display:block;margin-top:12px">Passwort</label><input id="lg-pw" name="password" type="password" autocomplete="current-password">
       <label class="label" for="lg-school" style="display:block;margin-top:12px">Deine Schule <span class="muted">(nur beim Erstellen eines Kontos)</span></label><input id="lg-school" name="organization" type="text" autocomplete="organization" maxlength="80" placeholder="z. B. Mittelschule Musterstadt" value="${esc(V.school||'')}">
-      <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
+      <p class="err" id="lg-err">${esc(V.err||'')}</p>${V.resend?`<button class="btn sm" type="button" data-act="lg-resend">Bestätigungs-Mail nochmal schicken</button>`:''}${V.msg?`<p class="saved">${esc(V.msg)}</p>`:''}
       <div class="row" style="margin-top:14px"><button class="btn pri" type="submit" data-act="lg-in">Anmelden</button><button class="btn" type="button" data-act="lg-up">Konto erstellen</button></div>
       ${LIVE_CFG.vidis?`<div class="bycs"><button class="btn" type="button" data-act="lg-bycs">Mit ByCS anmelden</button></div>`:''}
       <p class="muted" style="margin-top:12px;font-size:.9rem">Neue Konten schaltet der Admin frei. Das allererste Konto wird automatisch Admin.</p></form></div>`;
 };
+// Wartendes Konto: regelmäßig nachsehen, ob der Admin es freigeschaltet hat
+let lgT=0;
+function lgWait(){if(!lgT)lgT=setTimeout(()=>{lgT=0;if(V.name==='login'&&Cloud.user&&Cloud.prof&&Cloud.prof.role==='pending')lgRefresh(false)},20000);return ''}
+async function lgRefresh(manual){try{await cloudLoadMe()}catch(e){}
+  if(Cloud.prof&&Cloud.prof.role!=='pending'){V.msg='';if(Cloud.myClasses.length===1&&Cloud.prof.role==='teacher'){await teacherEnter(Cloud.myClasses[0]);return}}
+  else if(manual)V.msg='Noch nicht freigeschaltet. Sag dem Admin Bescheid, falls es länger dauert.';
+  if(V.name==='login')render()}
 async function lgIn(up){
   const em=($('#lg-mail').value||'').trim(),pw=$('#lg-pw').value||'',sch=(($('#lg-school')||{}).value||'').trim().slice(0,80);V.school=sch;
   if(!/\S+@\S+\.\S+/.test(em)||pw.length<8){V.err='Bitte E-Mail und ein Passwort mit mindestens 8 Zeichen eingeben.';V.msg='';render();return}
   if(up&&sch.length<3){V.err='Bitte gib deine Schule an, damit der Admin dich zuordnen kann.';V.msg='';render();return}
   const sb=await sbClient();
   const r=up?await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+location.pathname,data:{school:sch}}}):await sb.auth.signInWithPassword({email:em,password:pw});
+  V.resend='';
+  if(r.error&&!up&&/confirm/i.test(r.error.message||'')){V.err='Deine E-Mail-Adresse ist noch nicht bestätigt. Öffne den Link in der Bestätigungs-Mail von ELONUKI (auch im Spam-Ordner nachsehen) und melde dich dann hier an.';V.resend=em;V.msg='';render();return}
   if(r.error){V.err=up?'Konto konnte nicht erstellt werden: '+r.error.message:'Anmelden hat nicht geklappt. Stimmen E-Mail und Passwort?';V.msg='';render();return}
   if(up&&!r.data.session){V.err='';V.msg='Fast geschafft: Bestätige den Link in deiner E-Mail und melde dich dann hier an.';render();return}
   Cloud.user=r.data.user;V.err='';V.msg='';await cloudLoadMe();
@@ -6933,8 +6944,10 @@ const mSchool=id=>((A.members||[]).find(m=>m.profile_id===id)||{}).school_id||''
 const STAFF_SEED='Kat, Sun, Sim, Mat, GmS, Ver, Ant, Jan, Vera';
 async function adminLoad(){
   const sb=Cloud.sb;
-  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')).then(L=>L.filter(c=>!isTestCode(c.code))),q(sb.from('profiles').select('id,email,name,role,wish_school').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true;
-    try{const r=await sb.from('push_cfg').select('vapid_pub').eq('id',1).maybeSingle();A.push=!!(r&&r.data&&r.data.vapid_pub)}catch(e){A.push=false}}
+  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')).then(L=>L.filter(c=>!isTestCode(c.code))),q(sb.from('profiles').select('id,email,name,role,wish_school,created_at').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true;
+    try{const r=await sb.from('push_cfg').select('vapid_pub').eq('id',1).maybeSingle();A.push=!!(r&&r.data&&r.data.vapid_pub)}catch(e){A.push=false}
+    try{A.auth=await q(sb.rpc('admin_konten'))}catch(e){A.auth=null}
+    Cloud.newAcc=adNew().length}
   catch(e){A.msg='Laden fehlgeschlagen: '+(e.message||e)}
   if(V.name==='admin')render();
 }
@@ -7032,6 +7045,22 @@ function adUserRow(p,sc,isNew){const ms=mSchool(p.id),own=p.id===Cloud.user.id,a
     <td><select data-adrole="${p.id}" ${own?'disabled':''} style="width:auto">${[['pending','wartet'],['teacher','Lehrkraft'],['admin','Admin']].map(([k,t])=>`<option value="${k}" ${p.role===k?'selected':''}>${t}</option>`).join('')}</select></td>
     <td>${isNew?'<span class="muted">nach dem Zuweisen</span>':`<div class="cls-chk">${cls.map(c=>`<label><input type="checkbox" data-adct="${p.id}|${c.id}" ${A.ct.some(x=>x.teacher_id===p.id&&x.class_id===c.id)?'checked':''}>${esc(c.name)}</label>`).join('')||'<span class="muted">–</span>'}</div>`}</td>
     <td style="text-align:right">${own||adm?'':V.adel==='u'+p.id?`<button class="btn sm red" data-act="ad-user-del" data-id="${p.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="u${p.id}">Konto löschen</button>`}</td></tr>`}
+const adAuth=id=>(A.auth||[]).find(x=>x.id===id);
+const adWhen=t=>t?new Date(t).toLocaleString('de-DE',{day:'numeric',month:'numeric',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'–';
+const adWords=x=>String(x||'').toLowerCase().split(/[^a-z0-9äöüß]+/).filter(w=>w.length>2&&!['mittelschule','grundschule','schule','staatliche','der','die','das','und'].includes(w));
+// Schule vorschlagen: die Schule mit den meisten gleichen Wörtern wie die Wunschschule, sonst die gerade gewählte
+function adGuess(p,sc){const w=adWords(p.wish_school);let best=null,n=0;A.schools.forEach(s=>{const k=adWords(s.name+' '+(s.place||'')).filter(x=>w.includes(x)).length;if(k>n){n=k;best=s}});return best?best.id:sc?sc.id:''}
+// Neuanmeldungen: immer oben im Admin, egal welche Schule gewählt ist
+function adNewHTML(sc){const nw=adNew();if(!nw.length)return '';
+  return `<section class="panel ad-pop"><span class="label">Neuanmeldungen · ${nw.length}</span>
+    <p class="muted" style="font-weight:700;margin-top:4px">Diese Konten haben noch keine Schule und kommen noch nicht in ELONUKI hinein. Schule wählen und „Aufnehmen“ tippen, dann ist das Konto freigeschaltet. Steht bei E-Mail „nicht bestätigt“, hat die Lehrkraft den Link aus der Bestätigungs-Mail noch nicht geöffnet und kann sich deshalb nicht anmelden.</p>
+    ${A.auth?'':'<p class="muted" style="font-size:.85rem">Den Stand der E-Mail-Bestätigung zeigt ELONUKI, sobald supabase/migrations/20261021120000_neuanmeldungen.sql einmal ausgeführt ist.</p>'}
+    <table><tr><th>Konto</th><th>Angemeldet</th><th>E-Mail</th><th>Schule</th><th></th></tr>${nw.map(p=>{const a=adAuth(p.id),g=adGuess(p,sc);
+      return `<tr class="ad-new"><td><b>${esc(p.email||'')}</b>${p.wish_school?`<br><small class="muted">Wunschschule: <b>${esc(p.wish_school)}</b></small>`:''}${p.role==='teacher'?'<br><small class="muted">war schon freigeschaltet, ohne Schule</small>':''}</td>
+      <td>${esc(adWhen(a?a.created_at:p.created_at))}${a?`<br><small class="muted">${a.last_login?'zuletzt da: '+esc(adWhen(a.last_login)):'noch nie angemeldet'}</small>`:''}</td>
+      <td>${!a?'<span class="muted">?</span>':a.confirmed?'bestätigt':`<b style="color:var(--red)">nicht bestätigt</b><br><button class="btn sm" data-act="ad-confirm" data-id="${p.id}" style="margin-top:4px">Selbst bestätigen</button>`}</td>
+      <td><div class="row" style="flex-wrap:nowrap"><select id="ad-ns-${p.id}" style="width:auto" aria-label="Schule für ${esc(p.email||'')}"><option value="">– Schule wählen –</option>${A.schools.map(s=>`<option value="${s.id}" ${s.id===g?'selected':''}>${esc(s.name)}</option>`).join('')}</select><button class="btn sm pri" data-act="ad-assign" data-id="${p.id}">Aufnehmen</button></div></td>
+      <td style="text-align:right">${V.adel==='u'+p.id?`<button class="btn sm red" data-act="ad-user-del" data-id="${p.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="u${p.id}">Konto löschen</button>`}</td></tr>`}).join('')}</table></section>`}
 const AD_UHEAD='<tr><th>Konto</th><th>Name</th><th>Schule</th><th>Rolle</th><th>Klassen</th><th></th></tr>';
 function adClassesHTML(sc){const cls=A.classes.filter(c=>c.school_id===sc.id);
   return `<section class="panel"><span class="label">Klassen an der ${esc(sc.name)} · ${cls.length}</span>
@@ -7045,10 +7074,8 @@ function adClassesHTML(sc){const cls=A.classes.filter(c=>c.school_id===sc.id);
         ${extra.map(p=>`<option value="${p.id}" ${ld&&ld.teacher_id===p.id?'selected':''}>${esc(p.name||p.email)}</option>`).join('')}</select>`})()}</td>
       <td style="text-align:right"><button class="btn sm" data-act="ctt-open" data-id="${c.id}">Stundenplan</button>${V.adel==='c'+c.id?`<button class="btn sm red" data-act="ad-class-del" data-id="${c.id}">Wirklich löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button>`:`<button class="btn sm" data-act="ad-ask" data-k="c${c.id}">Löschen</button>`}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">Noch keine Klasse.</td></tr>'}</table>
     <div class="row" style="margin-top:8px"><input id="ad-cn-${sc.id}" type="text" placeholder="Neue Klasse, z. B. 7bG" style="max-width:220px"><input id="ad-cs-${sc.id}" type="number" min="2" max="40" value="24" style="width:90px" aria-label="Anzahl SuS"><button class="btn sm" data-act="ad-class-add" data-id="${sc.id}">Klasse anlegen</button></div></section>`}
-function adStaffHTML(sc){const st=A.staff.filter(x=>x.school_id===sc.id),mem=A.profiles.filter(p=>p.role==='admin'||mSchool(p.id)===sc.id),nw=adNew();
-  return `${nw.length?`<section class="panel ad-pop"><span class="label">Neu angemeldet · ${nw.length}</span><p class="muted" style="font-weight:700;margin-top:4px">Diese Konten haben noch keine Schule. „Zu ${esc(sc.name)} holen“ schaltet das Konto frei. Danach legt die Lehrkraft unter „Meine Klassen“ ihre eigenen Klassen an, du siehst sie im Reiter Klassen.</p>
-    <table>${AD_UHEAD}${nw.map(p=>adUserRow(p,sc,true)).join('')}</table></section>`:''}
-  <section class="panel"><span class="label">Lehrkräfte an der ${esc(sc.name)} · ${mem.length}</span><p class="muted" style="font-weight:700;margin-top:4px">Eine Lehrkraft sieht nur ihre Schule. „Konto löschen“ entfernt auch die E-Mail-Adresse, sie lässt sich danach neu registrieren.</p>
+function adStaffHTML(sc){const st=A.staff.filter(x=>x.school_id===sc.id),mem=A.profiles.filter(p=>p.role==='admin'||mSchool(p.id)===sc.id);
+  return `<section class="panel"><span class="label">Lehrkräfte an der ${esc(sc.name)} · ${mem.length}</span><p class="muted" style="font-weight:700;margin-top:4px">Eine Lehrkraft sieht nur ihre Schule. „Konto löschen“ entfernt auch die E-Mail-Adresse, sie lässt sich danach neu registrieren.</p>
     <table>${AD_UHEAD}${mem.map(p=>adUserRow(p,sc,false)).join('')}</table></section>
   <section class="panel"><span class="label">Kürzel für den Stundenplan</span>
     <p class="muted" style="font-weight:700;margin-top:4px">Kürzel brauchen kein Konto. Verknüpfe ein Kürzel mit einem Konto, dann sieht die Lehrkraft ihre Stunden in der Planung und gehört automatisch zu den Klassen, in denen sie unterrichtet.</p>
@@ -7060,9 +7087,9 @@ VIEWS.admin=()=>{
   if(!CLOUD)return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Der Admin-Bereich funktioniert nur auf der echten ELIO-Seite mit Server.</div>`;
   if(!(Cloud.prof&&Cloud.prof.role==='admin'))return `<h1>Admin</h1><div class="empty" style="margin-top:12px">Nur für den Admin.</div>`;
   if(!A.ok){adminLoad();return '<div class="empty">Lädt …</div>'}
-  const sc=A.schools.find(s=>String(s.id)===String(V.ads)),nw=adNew(),msg=A.msg?`<p class="saved">${esc(A.msg)}</p>`:'';
+  const sc=A.schools.find(s=>String(s.id)===String(V.ads)),msg=A.msg?`<p class="saved">${esc(A.msg)}</p>`:'';
   if(!sc)return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1>Admin</h1><span class="chip">nur für dich</span></div>${msg}
-    ${nw.length?`<p class="ad-pop panel" style="font-weight:800">${nw.length===1?'Ein neues Konto wartet':nw.length+' neue Konten warten'} auf eine Schule: ${nw.map(p=>esc(p.name||p.email)+(p.wish_school?' ('+esc(p.wish_school)+')':'')).join(', ')}. Wähle die Schule und dann „Kollegium“.</p>`:''}
+    ${adNewHTML(null)}
     <p class="muted" style="font-weight:700;margin-bottom:10px">Wähle eine Schule.</p>
     <div class="ad-schools">${A.schools.map(s=>{const nc=A.classes.filter(c=>c.school_id===s.id).length,nl=A.profiles.filter(p=>p.role!=='admin'&&mSchool(p.id)===s.id).length;
       return `<button class="ad-sc" data-act="ad-sc" data-id="${s.id}"><b>${esc(s.name)}</b><small>${esc(s.place||'')}</small><span>${nc} Klasse${nc===1?'':'n'} · ${nl} Lehrkr${nl===1?'aft':'äfte'}</span></button>`}).join('')||'<p class="muted">Noch keine Schule.</p>'}</div>
@@ -7071,8 +7098,8 @@ VIEWS.admin=()=>{
   const t=V.adt==='ko'?'ko':'kl';
   return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><button class="btn sm" data-act="ad-sc" data-id="">← Alle Schulen</button><h1>${esc(sc.name)} <span class="muted" style="font-size:1rem">${esc(sc.place||'')}</span></h1></div>
     ${V.adel==='s'+sc.id?`<span class="row"><button class="btn sm red" data-act="ad-school-del" data-id="${sc.id}">Schule mit allen Klassen löschen</button><button class="btn sm" data-act="ad-cancel">Nein</button></span>`:`<button class="btn sm" data-act="ad-ask" data-k="s${sc.id}">Schule löschen</button>`}</div>
-  <div class="tabs"><button class="${t==='kl'?'on':''}" data-act="ad-tab" data-t="kl">Klassen · ${A.classes.filter(c=>c.school_id===sc.id).length}</button><button class="${t==='ko'?'on':''}" data-act="ad-tab" data-t="ko">Kollegium${nw.length?' · '+nw.length:''}</button></div>
-  ${msg}<div class="adm">${t==='kl'?adClassesHTML(sc):adStaffHTML(sc)}</div>`;
+  <div class="tabs"><button class="${t==='kl'?'on':''}" data-act="ad-tab" data-t="kl">Klassen · ${A.classes.filter(c=>c.school_id===sc.id).length}</button><button class="${t==='ko'?'on':''}" data-act="ad-tab" data-t="ko">Kollegium</button></div>
+  ${msg}${adNewHTML(sc)}<div class="adm">${t==='kl'?adClassesHTML(sc):adStaffHTML(sc)}</div>`;
 };
 document.addEventListener('change',e=>{
   const t=e.target,sb=Cloud.sb;if(!sb)return;
@@ -7371,7 +7398,7 @@ VIEWS.chat=()=>{(S.chat||[]).forEach(c=>{if(c.neu)c.neu=0});setTimeout(()=>{cons
 // Lehrkraft: neue Chat-Nachrichten und Abgaben als Zahl am Reiter Klassen
 function navTBadge(){const b=$('#nav-klassen');if(!b)return;const n=S.role==='teacher'&&TDKEY?susUnread('abg'):0;b.innerHTML='Klassen'+(n?` <span class="tk-n" title="neue Abgaben">${n}</span>`:'');ibBadge()}
 function ibBadge(){const b=$('#nav-inbox');if(!b)return;const isT=S.role==='teacher',n=isT?(tkAdmin()?tkLocal().filter(t=>t.status==='neu').length+(TK.n||0):0)+(TDKEY?susUnread('chat'):0):0;b.hidden=!isT;b.innerHTML='Postfach'+(n?` <span class="tk-n">${n}</span>`:'')}
-function navBadges(){const b=$('#nav-chat');if(!b)return;const n=(S.chat||[]).filter(c=>c.neu).length;b.innerHTML='Chat'+(n?` <span class="tk-n">${n}</span>`:'')}
+function navBadges(){const ad=$('#nav-admin');if(ad)ad.innerHTML='Admin'+(Cloud.newAcc?` <span class="tk-n">${Cloud.newAcc}</span>`:'');const b=$('#nav-chat');if(!b)return;const n=(S.chat||[]).filter(c=>c.neu).length;b.innerHTML='Chat'+(n?` <span class="tk-n">${n}</span>`:'')}
 /* ---------- Impressum und Datenschutz (öffentlich, auch ohne Anmeldung) ---------- */
 const LEGAL={name:'Fabian Meier',addr:'',mail:'hallo@elio.schule',stand:'9. Oktober 2026'};
 const legalTodo=t=>`<span class="chip ex">${t}</span>`;
@@ -8891,7 +8918,9 @@ document.addEventListener('click',e=>{
     case 'foto-del':if(FOTO.url)try{URL.revokeObjectURL(FOTO.url)}catch(x){}FOTO={url:''};render();break;
     case 'lg-up':lgIn(true);break;
     case 'lg-out':try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[];S.role=null;save();go('role',{step:'splash'});break;
-    case 'lg-refresh':cloudLoadMe().then(render);break;
+    case 'lg-refresh':lgRefresh(true);break;
+    case 'lg-resend':(async()=>{const sb=await sbClient(),r=await sb.auth.resend({type:'signup',email:V.resend,options:{emailRedirectTo:location.origin+location.pathname}});
+      V.err=r.error?'Mail konnte nicht geschickt werden: '+r.error.message:'';V.msg=r.error?'':'Neue Bestätigungs-Mail ist unterwegs. Link öffnen, dann hier anmelden.';if(!r.error)V.resend='';render()})();break;
     case 'lg-cls':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c)teacherEnter(c);break}
     case 'lg-admin':S.role='teacher';saveRole();if(!CS)initTeacher();A.ok=false;go('admin');break;
     case 'admin':A.ok=false;A.msg='';go('admin');break;
@@ -8913,7 +8942,10 @@ document.addEventListener('click',e=>{
     case 'ad-ask':V.adel=d.k;render();break;
     case 'ad-sc':V.ads=d.id||null;V.adel=null;A.msg='';render();scrollTo(0,0);break;
     case 'ad-tab':V.adt=d.t;V.adel=null;A.msg='';render();break;
-    case 'ad-assign':adminRpc(Cloud.sb.rpc('admin_set_school',{p_profile:d.id,p_school:d.s}),'Schule gespeichert. Das Konto ist freigeschaltet.');break;
+    case 'ad-assign':{const s=($('#ad-ns-'+d.id)||{}).value;if(!s){A.msg='Bitte zuerst die Schule wählen.';render();break}
+      const nm=(A.schools.find(x=>x.id===s)||{}).name||'',a=adAuth(d.id);
+      adminRpc(Cloud.sb.rpc('admin_set_school',{p_profile:d.id,p_school:s}),'Aufgenommen in '+nm+'. Das Konto ist freigeschaltet.'+(a&&!a.confirmed?' Die E-Mail ist aber noch nicht bestätigt, dafür „Selbst bestätigen“ oder den Link in der Mail.':''));break}
+    case 'ad-confirm':adminRpc(Cloud.sb.rpc('admin_confirm_mail',{p_profile:d.id}),'E-Mail bestätigt. Die Lehrkraft kann sich jetzt mit E-Mail und Passwort anmelden.');break;
     case 'ad-cancel':V.adel=null;render();break;
     case 'ad-staff-add':{const ex=A.staff.filter(x=>x.school_id===d.id).map(x=>x.short.toLowerCase()),seen=new Set();
       const rows=($('#ad-st-'+d.id).value||'').split(/[,;\n]/).map(x=>x.trim().slice(0,12)).filter(x=>x&&!ex.includes(x.toLowerCase())&&!seen.has(x.toLowerCase())&&seen.add(x.toLowerCase())).map(short=>({school_id:d.id,short}));
