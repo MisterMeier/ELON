@@ -2235,7 +2235,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1530';let verTold=false;
+const BUILD='20261021-1600';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -6548,6 +6548,7 @@ async function cloudBoot(){
     if(S.role==='student'&&S.cls)await cloudLoadWeek(S.cls);
   }catch(e){Cloud.err='Der ELIO-Server ist gerade nicht erreichbar.';console.warn(e)}
   Cloud.ready=true;render();
+  if(S.role==='teacher'&&S.code===TEST_CODE&&Cloud.user&&Cloud.prof&&Cloud.prof.role!=='pending')testEnter();
 }
 async function cloudLoadMe(){
   const sb=Cloud.sb,uid=Cloud.user.id;
@@ -7232,6 +7233,14 @@ async function testerLogin(){if(V.busy)return;const em=(($('#t-mail')||{}).value
     if(!S.nick||S.av==null){V.step='nick';V.av=null;saveRole();render();return}
     S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});cloudLoadWeek(S.cls).then(render)}
   catch(e){console.warn('tester',e);fail('ELONUKI ist gerade nicht erreichbar. Versuch es gleich nochmal.')}}
+// Testmodus der Lehrkraft. Mit Server: eigene Testklasse, in die auch das Tester-iPad kommt. Sonst (oder wenn der Server nicht antwortet) nur auf diesem Gerät.
+// Ein noch gespeicherter Geräte-Testmodus (Code „test“) wird dabei auf die Server-Testklasse umgestellt, sobald das Konto angemeldet ist.
+function testEnter(){if(testOn()&&S.code!==TEST_CODE)return;if(S.cls&&!isTestCode(S.code))S.testPrev=S.cls;
+  const loc=()=>{if(testOn())return;useClass({id:TEST_ID,school_id:S.school,code:TEST_CODE,size:S.classSize||25});S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(TEST_CODE).then(pushCS);render()};
+  if(!(CLOUD&&Cloud.sb&&Cloud.user)){loc();return}
+  q(Cloud.sb.rpc('my_test_class')).then(c=>{if(!c||c.err||!c.id){if(c&&c.err==='noschool')toast('Testklasse geht erst, wenn dein Konto zu einer Schule gehört. Bis dahin nur auf diesem Gerät.');loc();return}
+    useClass(c);S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()})
+    .catch(e=>{if(/my_test_class|function|schema|PGRST202/i.test(String(e&&(e.message||e.code))))toast('Für das Tester-iPad fehlt noch supabase/tester.sql. Bis dahin Test nur auf diesem Gerät.');loc()})}
 // Lehrkraft: Zugänge der Klasse verwalten. PINs liegen nur im Lehrer-Tresor (zum Nachdrucken).
 const ZG={list:null,err:'',busy:false,cid:null};
 const ZG_C='BDFGKLMNPRSTWZ',ZG_V='AEIOU',ZG_BAD=/^(NAZI|PENI|KAKA|PIPI|POPO|TOTE|MOFO|NUTE|SAFE|FOTZ|FICK)$/;
@@ -8662,13 +8671,7 @@ document.addEventListener('click',e=>{
     case 'ad-class-del':V.adel=null;adminDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
     case 'ad-name':adminDo(Cloud.sb.from('profiles').update({name:$('#ad-pn-'+d.id).value.trim().slice(0,60)}).eq('id',d.id),'Name gespeichert.');break;
     case 'ctt-open':CT.cid=null;go('ctt',{cid:d.id,from:d.from||'admin'});break;
-    case 'test-mode':{if(testOn())break;if(S.cls&&!isTestCode(S.code))S.testPrev=S.cls;
-      // Mit Server: eigene Testklasse, in die auch das Tester-iPad kommt. Sonst wie bisher nur auf diesem Gerät.
-      const loc=()=>{useClass({id:TEST_ID,school_id:S.school,code:TEST_CODE,size:S.classSize||25});S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(TEST_CODE).then(pushCS);render()};
-      if(!(CLOUD&&Cloud.sb&&Cloud.user)){loc();break}
-      q(Cloud.sb.rpc('my_test_class')).then(c=>{if(!c||c.err||!c.id){if(c&&c.err==='noschool')toast('Testklasse geht erst, wenn dein Konto zu einer Schule gehört. Bis dahin nur auf diesem Gerät.');loc();return}
-        useClass(c);S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()})
-        .catch(e=>{if(/my_test_class|function|schema|PGRST202/i.test(String(e&&(e.message||e.code))))toast('Für das Tester-iPad fehlt noch supabase/tester.sql. Bis dahin Test nur auf diesem Gerät.');loc()});break}
+    case 'test-mode':testEnter();break;
     case 'cls-switch':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()}break}
 
     case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
