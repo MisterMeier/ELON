@@ -88,7 +88,14 @@ Grenzen: Jede Nachricht höchstens 8 KB, höchstens 20 Nachrichten pro Sekunde. 
 ## 6. Ausprobieren ohne ELONUKI
 
 `vorlage.html` lässt sich auch direkt im Browser öffnen. Sie tut dann so, als käme ein `start` von ELONUKI.
-In ELONUKI siehst du dein Werkzeug im **Werkzeugkasten → Eigene Werkzeuge der Schule → Ansehen**.
+
+## 6b. Hochladen, testen, einreichen
+
+1. **Werkzeugkasten → Eigene Werkzeuge der Schule → Werkzeug hochladen (.html)**. Das geht, sobald der Admin dich zum Co-Autor gemacht hat.
+2. ELONUKI liest Name und Fach aus der Kopfzeile und zeigt, was ihm auffällt (z. B. Internet, Emojis). Du kannst trotzdem speichern.
+3. **Ansehen** startet es sofort in der Vorschau. In einer Stunde wählst du das Werkzeug „Eigenes Werkzeug“ und darin deins. Vor der Freigabe läuft es nur in deiner Testklasse (Knopf „Test“).
+4. **Einreichen**: Der Admin prüft es einmal und gibt es frei. Danach sieht es deine ganze Schule.
+5. **Neue Version**: einfach die geänderte Datei hochladen. Nach der Freigabe geht sie sofort live.
 
 ## 7. Prompt-Vorlage für deine KI
 
