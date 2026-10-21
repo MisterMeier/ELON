@@ -2235,7 +2235,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1500';let verTold=false;
+const BUILD='20261021-1530';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2307,7 +2307,7 @@ VIEWS.homework=()=>{
     <div class="free"><span class="ai">${ico('ueben')}</span><div style="flex:1"><b>Freies Üben</b><small class="muted" style="display:block">Lernspiele, wenn alles erledigt ist</small></div><button class="btn sm" data-act="practice">Öffnen</button></div>
     <p class="muted" style="margin-top:16px;font-size:.9rem">Übungen und Minitests hakt ELIO selbst ab.</p>`;
 };
-{const _d=VIEWS.dash;VIEWS.dash=()=>splitPanel(true)+_d()}
+{const _d=VIEWS.dash;VIEWS.dash=()=>(S.tester?diagBox():'')+splitPanel(true)+_d()}
 VIEWS.week=()=>splitPanel(false)+weekView();
 function weekView(){
   const n=nowInfo();
@@ -2956,6 +2956,11 @@ const devsOn=n=>{const D=ROSTER[n]&&ROSTER[n].dv||{},t=Date.now();return Object.
 function dupNrs(){return online().filter(n=>devsOn(n)>1)}
 const devCount=()=>online().reduce((a,n)=>a+Math.max(1,devsOn(n)),0)
 function connTxt(){return `${Live.kind==='server'?(Live.st==='SUBSCRIBED'?(Live.priv?'Live geschützt · verbunden':'Live offen · verbunden'):Live.st==='connecting'?'Live über Server · verbinde …':'Server nicht erreichbar ('+esc(String(Live.st))+')'):Live.kind==='demo'?'Demo-Modus: nur Fenster auf diesem Gerät':'Keine Verbindung'}${Live.kind==='server'?` · Rückkanal ${Live.upSt==='SUBSCRIBED'?(Live.upPriv?'':'offen')+' ✓':esc(String(Live.upSt||'…'))} · Kanal …${esc(String(Live.code||'').slice(-4))} · von iPads: ${Live.stat.got}${Live.stat.bad?` (${Live.stat.bad} unlesbar)`:''}${Live.stat.last?` · zuletzt vor ${Math.round((Date.now()-Live.stat.last)/1000)} s`:''}`:''}`}
+// Prüfzeile für den Testmodus (Lehrkraft) und den Tester am iPad: zeigt Kanal, Schlüssel und ob etwas ankommt
+function diagTxt(){const k=Live.code?!!myCk(Live.code):false;
+  return connTxt()+' · Schlüssel '+(k?'✓':'fehlt')+(S.role==='student'?' · Signal von der Tafel '+(RCS&&rcsAt&&Date.now()-rcsAt<15000?'✓':'keins'):' · iPads online: '+online().length)+' · Version '+BUILD}
+const diagBox=()=>`<div class="priv" id="t-diag" style="margin-bottom:14px;font-size:.85rem"><b>Test-Prüfzeile:</b> <span>${diagTxt()}</span></div>`;
+setInterval(()=>{const e=document.querySelector('#t-diag span');if(e)e.innerHTML=diagTxt()},2000);
 function updConn(){const el=$('#t-conn');if(el)el.innerHTML=connTxt()+(LW.n&&!liveOk()?' <button class="btn sm" data-act="live-reload">⟳ Aktualisieren</button>':'')}
 setInterval(()=>{if(V.name==='tafel'&&S.role==='teacher')updConn()},3000);
 function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
@@ -4520,6 +4525,7 @@ VIEWS.tdash=()=>{
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}${Cloud.prof&&Cloud.prof.name?' '+esc(Cloud.prof.name.split(' ')[0]):''}</h1><span class="chip">${esc(className())}</span></div>
   ${mc.length||testOn()?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}<button class="${testOn()?'on':''}" data-act="test-mode" title="Ausprobieren ohne Klasse: Live, Effekte und Freigaben gehen nur an deine Testklasse und dein Tester-iPad">Test</button></div></div>`:''}
   ${testOn()?`<div class="priv" style="margin-bottom:14px"><b>Testmodus:</b> ${S.code===TEST_CODE?'Live-Stunde, Effekte, Freigaben und Nachrichten bleiben auf diesem Gerät und im Tafel-Fenster.':'Live-Stunde, Effekte, Freigaben und Nachrichten gehen nur an deine Testklasse. Auf deinem iPad: im SuS-Login „Lehrkraft · als Test-Schüler/in anmelden“, dann siehst du alles wie ein Kind.'} Keine echte Klasse sieht etwas. Deine Planung und deine Stunden bleiben echt. Zurück: oben deine Klasse antippen.</div>`:''}
+  ${testOn()?diagBox():''}
   ${(()=>{const o=online().filter(n=>ROSTER[n]&&ROSTER[n].bv&&ROSTER[n].bv<BUILD).length;return o?`<div class="priv" style="margin-bottom:14px">${o} iPad${o>1?'s laufen':' läuft'} noch mit einer älteren ELONUKI-Version und ${o>1?'laden':'lädt'} sich gleich selbst neu.</div>`:''})()}
   ${dayStrip()}
   ${dashNext()}
