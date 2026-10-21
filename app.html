@@ -806,6 +806,7 @@ iframe.emb{width:100%;aspect-ratio:16/9;max-height:62vh;border:0;border-radius:1
 .diary .spine{position:absolute;left:0;top:0;bottom:0;width:16px;border-radius:8px 0 0 8px;background:#2a3566}.diary b{font-family:var(--f-display);font-size:1.5rem}.diary.vokb{background:#4f46e5}.diary.vokb .spine{background:#1e3a8a}.diary em{font-style:normal;background:#f59e0b;color:#1e3a8a;border-radius:8px;padding:0 6px;font-weight:800}
 /* Skizzenbuch (Kunst) */
 body:has(#skz-host) #tk-fab{display:none}
+body:has(#skz-host) .lov:not([hidden]){z-index:47}
 .diary.skzb{background:#c0392b}.diary.skzb .spine{background:#7d241b}
 .diary.gramb{background:#b45309}.diary.gramb .spine{background:#78350f}
 .gram-t tr.g-hard td{background:var(--late-bg)}.gram-t tr.g-sure td{background:var(--ok-bg)}
@@ -1246,7 +1247,7 @@ body.tboard .ak-c{min-height:80px;font-size:1.5rem}body.tboard .ak-gap{font-size
 .cw{position:absolute;left:3%;bottom:5%;width:47%;max-height:46%;background:#1e3a8a;border-radius:.8em;padding:.6em 1em .8em;box-shadow:0 .3em 1.2em rgba(30,58,138,.35);z-index:2;overflow:hidden}.cw-h{display:block;color:#c7d2fe;font-weight:800;font-size:.95em;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.2em}
 .cw-w{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.15em .7em;font-family:var(--f-display);font-weight:800;line-height:1.1}.cw-w span{display:inline-block}.cw-w sup{font-size:.45em;opacity:.8;margin-left:.1em}
 .bw-cloud{position:relative;container-type:size}.cw.cw-big{width:auto;max-height:none;display:flex;flex-direction:column;font-size:2.4em}.sl-bgk.rt-h img{mix-blend-mode:multiply}.cw.cw-big .cw-w{flex:1;align-content:center}.bw .cw{z-index:7}
-.rt-start.has-cw .in{position:absolute;top:8%;left:2.4em}.cw-t{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.cw-x{border:0;background:none;color:#64748b;font-weight:900;cursor:pointer;padding:0 0 0 4px}
+.rt-start.has-cw .in{position:absolute;top:8%;left:2.4em}.rt-start.st-geo.has-cw .in{left:auto;right:3%;top:30%}.st-geo .cw{left:auto;right:3%;bottom:4%;width:41%;max-height:40%}.cw-t{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.cw-x{border:0;background:none;color:#64748b;font-weight:900;cursor:pointer;padding:0 0 0 4px}
 .mood5,.amp3{display:flex;gap:8px;justify-content:center;margin:8px 0}.mood5 button,.amp3 button{font-size:2.2rem;border:3px solid var(--line);background:var(--surface);border-radius:16px;padding:6px 10px;cursor:pointer;display:grid;justify-items:center}
 .amp3 button{font-size:1.8rem;min-width:84px}.amp3 small{font-size:.8rem;font-weight:800;color:var(--ink)}.mood5 button.on,.amp3 button.on{border-color:#4f46e5;background:#eef2ff;transform:scale(1.08)}
 .ex-l{display:grid;gap:8px;margin-top:6px;max-height:320px;overflow:auto}.ex-l>div{border:1px solid var(--line);border-radius:10px;padding:6px 10px}.ex-l p{margin:2px 0}
@@ -1992,7 +1993,7 @@ VIEWS.desk=()=>{
    Die Zeichen-App steht in assets/skizze/skizze.js und wird erst beim Öffnen geladen. Blätter bleiben auf dem Gerät (IndexedDB 'elio-skizze').
    Phasen-Werkzeug „Skizzenphase“: CS.skz={id,text,n,werk,p:{nr:[Skizzen,Werk]}}. Erst n Skizzen, dann geht das Werk auf (oder die Lehrkraft gibt es frei).
    Was ein Kind „an die Lehrkraft schickt“, geht verschlüsselt über das Postfach (k:'skz') und liegt bei der Lehrkraft verschlüsselt in IndexedDB. */
-let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0;
+let SKZ_P=null,SKZ_ON=false,SKZ_SYNC=0,SKZ_AUTO='';// SKZ_AUTO: Auftrag, für den das Skizzenbuch schon von selbst aufging
 function skzLoad(){return SKZ_P||(SKZ_P=new Promise((res,rej)=>{if(window.Skizze)return res();const s=document.createElement('script');s.src='assets/skizze/skizze.js?v='+BUILD;s.onload=()=>res();s.onerror=()=>{SKZ_P=null;s.remove();rej(new Error('skizze'))};document.head.appendChild(s)}))}
 const skzOwner=()=>S.role==='teacher'?'lehrkraft':meId()||'gast';
 function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcsAt<90000&&RCS.skz;if(!R&&S.skzT&&RCS&&RCS.skzEnd===S.skzT.id){S.skzT=null;save()}
@@ -2240,7 +2241,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1700';let verTold=false;
+const BUILD='20261021-1730';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2943,7 +2944,7 @@ function updPrev(){const el=$('#tprev');if(!el||!CS)return;mirListen();
   if(MIR&&Date.now()-MIR.at<5000){if(MIR.same&&el.dataset.sig==='mir')return;el.dataset.sig='mir';const k=el.clientWidth/MIR.w;
     const h=MIR.html.replace(/<iframe[\s\S]*?<\/iframe>/g,'<div class="tmir-ph">Video läuft an der Tafel</div>').replace(/\sautoplay/g,'').replace(/<video/g,'<video muted');
     el.innerHTML=`<div class="tmir ${/tboard/.test(MIR.cls)?'tb':''}" style="width:${MIR.w}px;height:${MIR.h}px;transform:scale(${k})">${h}</div><span class="tmir-live">● live</span>`;return}
-  const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,true)}
+  const R={...CS,now:Date.now(),stage:CS.stage||stageOf()},sg=boardSig(R);if(el.dataset.sig===sg)return;el.dataset.sig=sg;el.innerHTML=boardHTML(R,'live')}
 setInterval(()=>{if(V.name==='tafel'&&MIR&&Date.now()-MIR.at>=5000&&$('#tprev')&&$('#tprev').dataset.sig==='mir'){$('#tprev').dataset.sig='';updPrev()}},2000);
 // Anwesenheit: wer heute als fehlend markiert ist, zählt beim Bereit-Check nicht mit
 let ABM=false;
@@ -2952,9 +2953,12 @@ function absTgl(n){TD.abs=TD.abs||{};const c=S.cls||'-',d=todayISO(),B=(TD.abs[c
 function expN(){return Math.max(0,S.classSize-absList().length)}
 // Rakete startet nur auf Knopfdruck der Lehrkraft; danach steigen Nachzügler direkt in die Folie ein
 function rdGo(){if(!CS||!CS.ready||CS.ready.goAt)return;CS.ready.rewarded=true;CS.ready.goAt=Date.now();CS.rocket=Math.min(10,CS.rocket+1);try{audPlay(CS.stage&&CS.stage.tool&&CS.stage.tool.bg==='boerse'?'boerse':'raketenstart',false)}catch(e){SND.cheer()}pushCS();if(V.name==='tafel')updTafel()}
+// Start-Knopf je Startfolie benennen (Länder-Zoom, Atelier, Börse, sonst Rakete)
+function rdLbl(){const t=CS.stage&&CS.stage.tool&&CS.stage.tool.id==='start'?CS.stage.tool:null,b=t&&t.bg;
+  return b==='welt'?'Zoom starten':b==='atelier'?'Atelier öffnen':b==='boerse'?'Börse eröffnen':t&&b&&b!=='start'?'Stunde starten':'Rakete starten'}
 function rdCtl(on){if(!CS.ready||CS.ready.only)return '';if(CS.ready.goAt)return '<p style="font-weight:800;color:var(--green);margin-top:6px">Gestartet. Wer jetzt dazukommt, steigt direkt in die Folie ein.</p>';
   const ab=absList(),miss=Array.from({length:S.classSize},(_,i)=>i+1).filter(k=>!ab.includes(k)&&!CS.ready.done.includes(k));
-  return `<div class="row" style="margin-top:8px"><button class="btn pri" data-act="t-launch">Rakete starten</button><button class="btn sm ${ABM?'on':''}" data-act="abs-m">${ABM?'✓ Fertig':'Wer fehlt?'}</button></div>${ABM?'<p class="muted" style="font-weight:700;margin-top:6px">Tippe unten auf die Plätze der Kinder, die heute fehlen.</p>':''}${miss.length?`<p class="muted" style="font-weight:700;margin-top:6px">Noch nicht bereit: ${miss.map(k=>esc(kidName(k))+(on.includes(k)?'':' ')).join(', ')}</p><p class="muted" style="font-size:.85rem">= noch nicht verbunden</p>`:''}${ab.length?`<p class="muted" style="font-weight:700;margin-top:4px">Fehlen heute: ${ab.map(k=>esc(kidName(k))).join(', ')}</p>`:''}`}
+  return `<div class="row" style="margin-top:8px"><button class="btn pri" data-act="t-launch">${ico('weiter')} ${rdLbl()}</button><button class="btn sm ${ABM?'on':''}" data-act="abs-m">${ABM?'✓ Fertig':'Wer fehlt?'}</button></div>${ABM?'<p class="muted" style="font-weight:700;margin-top:6px">Tippe unten auf die Plätze der Kinder, die heute fehlen.</p>':''}${miss.length?`<p class="muted" style="font-weight:700;margin-top:6px">Noch nicht bereit: ${miss.map(k=>esc(kidName(k))+(on.includes(k)?'':' ')).join(', ')}</p><p class="muted" style="font-size:.85rem">= noch nicht verbunden</p>`:''}${ab.length?`<p class="muted" style="font-weight:700;margin-top:4px">Fehlen heute: ${ab.map(k=>esc(kidName(k))).join(', ')}</p>`:''}`}
 function online(){const t=Date.now();return Object.keys(ROSTER).map(Number).filter(n=>t-ROSTER[n].seen<20000)}
 // Gleiche Nummer auf mehreren Geräten: Geräte, die in den letzten 20 s gefunkt haben
 const devsOn=n=>{const D=ROSTER[n]&&ROSTER[n].dv||{},t=Date.now();return Object.keys(D).filter(k=>t-D[k]<20000).length};
@@ -3094,7 +3098,7 @@ function updTafel(){
     :CS.cloud?`<span class="label">Wortwolke · ${CS.cloud.done.length} / ${Math.max(on.length,CS.cloud.done.length)||'–'} geantwortet</span>${pgBar(CS.cloud.done.length,Math.max(on.length,CS.cloud.done.length))}<p style="font-weight:800;margin-top:4px">${esc(CS.cloud.q)}</p><div class="cw-t">${Object.entries(CS.cloud.words).map(([k,[w,n]])=>`<span class="chip">${esc(w)}${n>1?' ×'+n:''} <button class="cw-x" data-act="cl-del" data-k="${esc(k)}" title="Von der Tafel nehmen" aria-label="${esc(w)} von der Tafel nehmen">✕</button></span>`).join(' ')||'<p class="muted" style="font-weight:700">Noch keine Antworten.</p>'}</div><div class="row" style="margin-top:8px"><button class="btn sm ${CS.cloud.big?'on':''}" data-act="cl-big">${CS.cloud.big?'Wolke klein (Folie zeigen)':'Wolke groß an der Tafel'}</button><button class="btn sm" data-act="cl-end">Beenden</button></div>`
     :CS.skz||CS.skzShow||CS.skzGal?skzCtl(on)
     :CS.journal?`<span class="label">Lerntagebuch</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.journal.done.length} / ${Math.max(on.length,CS.journal.done.length)||'–'} eingetragen</p>${pgBar(CS.journal.done.length,Math.max(on.length,CS.journal.done.length))}`:CS.ready?`<span class="label">Bereit-Check</span><p style="font-family:var(--f-display);font-size:2rem;margin-top:4px">${CS.ready.done.length} / ${expN()} bereit</p>${pgBar(CS.ready.done.length,expN())}${rdCtl(on)}`
-    :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Die Rakete startet, wenn du auf „Rakete starten“ tippst.</p>';
+    :'<span class="label">Bereit-Check</span><p class="muted" style="font-weight:700;margin-top:4px">Starte ihn unten. Es geht los, wenn du auf „'+rdLbl()+'“ tippst.</p>';
   if(CS.poll){const tot=Math.max(1,CS.poll.voted.length);
     $('#t-poll').innerHTML=`<span class="label">Abstimmung · ${CS.poll.voted.length} / ${Math.max(on.length,CS.poll.voted.length)||'–'} abgestimmt</span>${pgBar(CS.poll.voted.length,Math.max(on.length,CS.poll.voted.length))}<h3 style="margin-top:4px">${esc(CS.poll.q)}</h3>
       <div class="bars">${CS.poll.opts.map((o,i)=>`<div class="barrow"><div class="track"><i style="width:${(TALLY[i]||0)/tot*100}%"></i><span>${esc(o)}</span></div><b>${TALLY[i]||0}</b></div>`).join('')}</div>`}
@@ -3388,6 +3392,9 @@ function liveOverlay(){
       html=`<div class="look">${elo('cheer',110)}<h1>${I.icon} ${esc(G.title||I.name)}</h1><p>${AKT[G.g]?'':esc(I.txt)+' '}Spiel mit auf deinem iPad!</p>
         <button class="btn pri big" data-act="g-join" style="margin-top:18px">Jetzt spielen</button></div>`;
       if(sig!==lastOvSig){SND.mission();try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}}}}
+  // Skizzenphase: sobald die Tafel beim Werkzeug Skizzenbuch ist, geht das Skizzenbuch mit Auftrag und Vorlage von selbst auf (einmal pro Auftrag)
+  else if(RCS.skz&&RCS.skz.id&&!RCS.freeze&&ph.go==='skizze'&&SKZ_AUTO!==RCS.skz.id){SKZ_AUTO=RCS.skz.id;S.phaseSeen=String(RCS.phaseAt);save();if(MINI==='big'){MINI='small';renderMini(true);updRail()}
+    if(V.name!=='skizze'){go('skizze',{from:'dash'});window.scrollTo(0,0)}}
   else if(RCS.freeze&&!frzPend()){sig='frz';full=true;
     html=`<div class="wt-lov fz-lov"><img class="wt-bg" src="assets/folien/freeze.webp?v=20261020b" alt=""><div class="wt-card">${S.av!=null?avatar(S.av,56):''}<h2>Freeze!</h2><p>Hände weg vom iPad. Augen nach vorne. Gleich geht es weiter.</p><div class="wt-bar"><i></i></div></div></div>`}
   else if(ph.look){sig='look'+RCS.phaseAt;full=true;
@@ -5027,7 +5034,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   if(t.id==='start'&&t.bg==='boerse'){const cw=cloudHTML(c.cw);
     return `<div class="rt rt-start st-elio st-bs ${cw?'has-cw':''}">${bsScene(c.rd,c.mini)}<div class="in"><h1>${esc(t.title||'Willkommen an der Börse')}</h1>${t.date!==false?`<p>${dateDE()}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}</div>${cw}</div>`}
   if(t.id==='start'&&t.bg==='welt'){const cw=cloudHTML(c.cw),rd=c.rd,reg=GEO_R[t.region]?t.region:'uk-ie',full=!!(rd&&rd.go);
-    return `<div class="rt rt-start st-elio st-geo ${cw?'has-cw':''}"><div class="geo-w ${full?'geo-z':''}"><canvas class="geo-c" data-reg="${reg}" ${rd?`data-p="${rd.n?Math.min(1,rd.d/rd.n):0}" data-full="${full?1:0}" data-g="${rd.g||0}"`:''} ${c.mini?'data-still="1"':''}></canvas></div>${geoFlags(reg)}
+    return `<div class="rt rt-start st-elio st-geo ${cw?'has-cw':''}"><div class="geo-w ${full?'geo-z':''}"><canvas class="geo-c" data-reg="${reg}" ${rd?`data-p="${rd.n?Math.min(1,rd.d/rd.n):0}" data-full="${full?1:0}" data-g="${rd.g||0}"`:''} ${c.mini&&c.mini!=='live'?'data-still="1"':''}></canvas></div>${geoFlags(reg)}
     <div class="in"><h1>${esc(t.title||'Welcome to English class')}</h1>${t.date!==false?`<p>${new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p>`:''}${t.hint?`<span class="hint">${esc(t.hint)}</span>`:''}${t.items&&!cw?`<ul class="st-items">${String(t.items).split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<li><i class="st-box"></i>${esc(x)}</li>`).join('')}</ul>`:''}
 </div>${rd?`<div class="geo-cnt" style="--pc:${rd.n?Math.min(1,rd.d/rd.n):0}"><div class="rp-tank"><i></i></div><b>${full?'Alle bereit! Let\'s go to '+esc(GEO_R[reg].n.replace(/^The /,'the '))+'!':rd.d+' / '+(rd.n||'–')+' bereit'}</b></div>`:''}${cw}</div>`}
   if(t.id==='start'){const bg=t.bg||'start',vid=bg==='video';fillBg();

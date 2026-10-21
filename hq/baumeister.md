@@ -24,6 +24,7 @@ gelb
 
 ## In Arbeit
 - Vokabeltrainer in der Stunde (21.10.), im Test: Auswahl „Im eigenen Vokabelheft weiterlernen“ (jedes Kind bekommt seine fälligen Wörter, Lernstand bleibt) oder „Bestimmte Wörter wiederholen“ (Listen aus dem Vokabelheft aller Klassen einsetzen, fällige Wörter nur auf Wunsch dazu); neue Phasen starten ohne Beispielwörter
+- Skizzenphase (21.10.), im Test: Sobald die Tafel beim Werkzeug Skizzenbuch ist, öffnet sich bei jedem Kind das Skizzenbuch mit Auftrag und hochgeladener Vorlage; Hinweise wie Freeze oder neue Phase liegen über dem Skizzenbuch
 - Folien-Editor aufgeräumt (21.10.), im Test: Anweisung an die SuS steht oben bei Phase und Minuten, Folientyp-Auswahl entfernt, feste Knöpfe Bild, Audio/Video, Textfeld, Tabelle, Elo, Blackbox, Übergang; Löschen entfernt das ganze Textfeld; freigestellte Bilder ohne Rand und auf den sichtbaren Teil zugeschnitten; „Folie speichern“ und „Meine Folien“ zum Wiederverwenden in anderen Stunden
 - SuS-Tester mit dem Lehrerkonto (21.10.), im Test: Lehrkraft meldet sich im SuS-Login mit dem eigenen Konto an und ist Kind Nr. 1 ihrer eigenen, unsichtbaren Testklasse; der Knopf „Test“ in der Lehreransicht nutzt dieselbe Testklasse über den Server (gleicher Kanal, Schlüssel, Inhalte, Postfach wie echte Klassen). Ersetzt den Pseudonym-Schüleraccount. Dazu: iPads laden sich sofort neu, wenn die Lehrkraft eine neuere ELONUKI-Version hat, auch mitten in der Stunde; Hinweis im Dashboard, solange iPads noch alt laufen
 - Runde 4 (20.10.), im Test: Vokabellisten auch für andere Klassen (Häkchen beim Senden, Knopf „+ Klasse“ an bestehenden Listen), „Meine Klassen“ und Bibliothek als große Kacheln wie die Schulen-Ansicht im Admin (Bibliothek: Hochladen, Material, Archiv, Börse, Audio, Video), Klassenziel oben im Schüler-Dashboard mit Fortschritt, Reststernen und Elo
@@ -50,3 +51,4 @@ gelb
 - Skizzenbuch Kunst (PR #7, #17)
 - Geografiespiel „Wo liegt was?“ mit Globus (PR #15)
 - Börsen-Startfolie mit Elo als Banker (PR #5)
+- Startfolie Weltkugel (21.10.): Kugel dreht sich auch in der Lehrer-Vorschau, Text bleibt neben der Kugel; Start-Knopf je Startfolie benannt (Zoom starten, Atelier öffnen, Börse eröffnen, Rakete starten)
