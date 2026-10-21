@@ -10,6 +10,7 @@ gelb
 42%
 
 ## Nächste 3 Schritte
+- SuS-Tester einrichten: supabase/tester.sql einmal im SQL Editor ausführen, dann Lehreransicht „Test“ und am iPad im SuS-Login „Lehrkraft · als Test-Schüler/in anmelden“
 - Admin-Ansicht testen: Schule antippen, Reiter Klassen und Kollegium, neue Konten mit „Zu … holen“ freischalten
 - Wochenrituale testen: In der Wochenplanung „Verfassungsviertelstunde“ und „Text der Woche“ antippen, Muster wählen, offizielles Logo selbst hochladen
 - Runde 3 testen: Morgens „Wer fehlt?“ antippen, Rakete selbst starten, WLAN-Anzeige am iPad, Irregular Verbs mit Korrektur
@@ -20,6 +21,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- SuS-Tester mit dem Lehrerkonto (21.10.), im Test: Lehrkraft meldet sich im SuS-Login mit dem eigenen Konto an und ist Kind Nr. 1 ihrer eigenen, unsichtbaren Testklasse; der Knopf „Test“ in der Lehreransicht nutzt dieselbe Testklasse über den Server (gleicher Kanal, Schlüssel, Inhalte, Postfach wie echte Klassen). Ersetzt den Pseudonym-Schüleraccount. Dazu: iPads laden sich sofort neu, wenn die Lehrkraft eine neuere ELONUKI-Version hat, auch mitten in der Stunde; Hinweis im Dashboard, solange iPads noch alt laufen
 - Runde 4 (20.10.), im Test: Vokabellisten auch für andere Klassen (Häkchen beim Senden, Knopf „+ Klasse“ an bestehenden Listen), „Meine Klassen“ und Bibliothek als große Kacheln wie die Schulen-Ansicht im Admin (Bibliothek: Hochladen, Material, Archiv, Börse, Audio, Video), Klassenziel oben im Schüler-Dashboard mit Fortschritt, Reststernen und Elo
 - Admin-Ansicht nach Schulen (20.10.), im Test: zuerst Schule wählen, dann Reiter Klassen (anlegen, Klassenleitung, Stundenplan, löschen; auch von Lehrkräften angelegte Klassen) und Kollegium (neu angemeldete Konten oben mit „Zu … holen“, Lehrkräfte der Schule mit Passwort-Link, Rolle, Klassen, Konto löschen; Kürzel). Push-Einrichtung nur noch eingeklappt, wenn noch kein Schlüssel hinterlegt ist
 - Wer-fehlt-Nachtrag (20.10.), im Test: Glücksrad, Gruppen und „Kind drannehmen“ (Fußball) lassen als fehlend markierte Kinder aus

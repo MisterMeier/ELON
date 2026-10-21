@@ -289,7 +289,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
 .corner b{font-family:var(--f-display);font-size:1.5rem}
 .c1{background:#ffd95e}.c2{background:#ffb57d}.c3{background:#8fe0b5}.c4{background:#9cc2ff}
 [hidden]{display:none!important}
-textarea,input[type=text],input[type=url],input[type=search],input[type=number],input[type=time],input[type=password],select{font:inherit;width:100%;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+textarea,input[type=text],input[type=url],input[type=search],input[type=number],input[type=time],input[type=password],input[type=email],select{font:inherit;width:100%;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
 
 /* Week */
 .wk{overflow-x:auto}
@@ -1900,7 +1900,7 @@ function render(){
   navTBadge();$('#nav-admin').hidden=!(isT&&Cloud.prof&&Cloud.prof.role==='admin');{$('#tk-fab').hidden=!S.role||BOARD||['role','present','beamer'].includes(V.name);ibBadge()}navBadges();{const kl=isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending';$('#nav-obs').hidden=!isT||!!kl}$('#nav-klassen').hidden=!(isT&&CLOUD&&Cloud.prof&&Cloud.prof.role!=='pending');
   $('#tchip').textContent=isT?(testOn()?'Testmodus · geht an keine Klasse':'Lehrkraft · '+className().replace(/^Klasse /,'')):'Lehrkraft';
   $('#nav-journal').hidden=S.role!=='student';$('#nav-board').hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk()){V.name='dash';return render()}
-  document.body.classList.toggle('teacher',isT);document.body.classList.toggle('testm',testOn());document.body.classList.toggle('viewer',viewer());
+  document.body.classList.toggle('teacher',isT);document.body.classList.toggle('testm',testOn()||(S.role==='student'&&!!S.tester));document.body.classList.toggle('viewer',viewer());
   {let vb=$('#viewbar');if(viewer()&&!vb){vb=document.createElement('div');vb.id='viewbar';vb.innerHTML='Zuschauer-Ansicht: Sie sehen, was die Schülerinnen und Schüler sehen. Eingaben sind abgeschaltet.';document.body.appendChild(vb)}if(vb)vb.hidden=!viewer()}$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')||(S.role==='student'&&['practice','memory','salad','balloon','game'].includes(V.name)&&b.dataset.nav==='homework')));
   updBanner();renderMini();
@@ -2235,7 +2235,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-0700';let verTold=false;
+const BUILD='20261021-1400';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2802,13 +2802,16 @@ function loadScript(src){return new Promise((res,rej)=>{const s=document.createE
 // Schüler-iPad kommt nicht in den Klassenkanal: einmal automatisch neu an die Klasse binden (Kürzel-Anmeldung) und neu verbinden
 let LIVE_REB=null;
 async function liveRelink(){if(S.role!=='student'||!S.code)return;Live.relinking=true;updBanner();
-  try{if(S.acct&&S.acct.u&&S.acct.p)await acctLogin(S.acct.u,S.acct.p,true);else{const sb=await sbClient();await acctAnon(sb)}}catch(e){console.warn('relink',e)}
+  try{if(S.tester)await testerBind();else if(S.acct&&S.acct.u&&S.acct.p)await acctLogin(S.acct.u,S.acct.p,true);else{const sb=await sbClient();await acctAnon(sb)}}catch(e){console.warn('relink',e)}
   Live.relinking=false;Live.start(S.code)}
 // Tafel-Fenster auf demselben Gerät bekommt den Zustand immer auch direkt (ohne Internet, ohne Server)
 let LBC=null,LBCc='';function localBC(code,d){try{if(!LBC||LBCc!==code){try{LBC&&LBC.close()}catch(e){}LBC=new BroadcastChannel('elio-local-'+code);LBCc=code;if(BOARD)LBC.onmessage=e=>{if(e.data&&e.data.t==='state')Live.recv2(e.data)}}if(d)LBC.postMessage(d)}catch(e){}}
 // Testmodus (Lehrkraft) und Zuschauer-iPad (Prüfungskommission bei UV und Lehrprobe)
-const TEST_CODE='test',TEST_ID='test',VIEW_NR=40;
-const testOn=()=>S.role==='teacher'&&S.cls===TEST_ID;
+// Testklasse: auf dem Server eine eigene, unsichtbare Klasse je Lehrkraft (supabase/tester.sql, Code „test-…“). Läuft über dieselben Wege wie jede echte Klasse.
+// Ohne Server (oder solange tester.sql fehlt) bleibt der alte Testmodus nur auf diesem Gerät (Code „test“).
+const TEST_CODE='test',TEST_ID='test',VIEW_NR=40,TESTER_NR=1;
+const isTestCode=c=>c===TEST_CODE||/^test-/.test(String(c||''));
+const testOn=()=>S.role==='teacher'&&(S.cls===TEST_ID||isTestCode(S.code));
 const viewer=()=>S.role==='student'&&!!S.viewer;
 const Live={bc:null,sb:null,kind:'off',stat:{sent:0,got:0,bad:0,last:0},
   async start(code){
@@ -2889,7 +2892,7 @@ function myCk(code){code=code||S.code;if(ckOk(CKMEM[code]))return CKMEM[code];if
   const k=(S.ck||{})[code];return ckOk(k)?k:null}
 // Klassenschlüssel vom Server (supabase/keys.sql): alle Lehrkräfte und beigetretenen iPads der Klasse bekommen denselben, ohne QR-Code
 async function ckSync(c,code){try{let k=await q(c.rpc('class_key',{p_code:code}));
-    if(!ckOk(k)&&S.role==='teacher'&&!BOARD){const mine=TDKEY?myCk(code):b64u(crypto.getRandomValues(new Uint8Array(32)));k=await q(c.rpc('set_class_key',{p_code:code,p_k:mine}))}
+    if(!ckOk(k)&&(S.role==='teacher'||S.tester)&&!BOARD){const mine=S.role==='teacher'&&TDKEY?myCk(code):b64u(crypto.getRandomValues(new Uint8Array(32)));k=await q(c.rpc('set_class_key',{p_code:code,p_k:mine}))}
     if(ckOk(k)){CKMEM[code]=k;Live.dbKey=true;if(S.role==='teacher'&&TDKEY){TD.ck=TD.ck||{};if(TD.ck[code]!==k){TD.ck[code]=k;tsave()}}if(S.role==='student'){S.ck=S.ck||{};if(S.ck[code]!==k){S.ck[code]=k;save()}}}}
   catch(e){Live.dbKey=false}}
 async function ckSeal(k,o){const iv=crypto.getRandomValues(new Uint8Array(12));return {iv:b64e(iv),ct:b64e(await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),new TextEncoder().encode(JSON.stringify(o))))}}
@@ -2921,7 +2924,7 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.mission=S.mission;CS.onN=online().length;CS.expN=expN();CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();CS.upOk=!!(Live.upAt&&Date.now()-Live.upAt<30000);S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',csLean());updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.bv=BUILD;CS.mission=S.mission;CS.onN=online().length;CS.expN=expN();CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();CS.upOk=!!(Live.upAt&&Date.now()-Live.upAt<30000);S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',csLean());updPrev();ccPush()}
 // Datensparen: Heft, Vokabeln, Aufgaben usw. gehen nur mit, wenn sie sich geändert haben (und spätestens alle 2 Minuten).
 // Sonst schickt der 3-s-Takt nur Phase, Timer, Folie … plus eine Kennung (cs). Fehlt einem iPad etwas, holt es den Stand aus class_content.
 const CS_CF=['heft','vok','hw','mods','modx','auf','ann','games','desk'],LEAN={cs:'',at:0};
@@ -2957,7 +2960,7 @@ function updConn(){const el=$('#t-conn');if(el)el.innerHTML=connTxt()+(LW.n&&!li
 setInterval(()=>{if(V.name==='tafel'&&S.role==='teacher')updConn()},3000);
 function onStudentMsg(m){if(!TDKEY||!m||m.k==='mbd')return;
   const nr=+m.nr;if(!(nr>=1&&nr<=40)||!CS)return;
-  (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();if(typeof m.dv==='string'&&/^[a-z0-9]{4,12}$/.test(m.dv)){const D=(ROSTER[nr].dv=ROSTER[nr].dv||{});D[m.dv]=Date.now()}
+  (ROSTER[nr]=ROSTER[nr]||{}).seen=Date.now();if(typeof m.dv==='string'&&/^[a-z0-9]{4,12}$/.test(m.dv)){const D=(ROSTER[nr].dv=ROSTER[nr].dv||{});D[m.dv]=Date.now()}if(typeof m.bv==='string'&&/^\d{8}-\d{4}$/.test(m.bv))ROSTER[nr].bv=m.bv;
   if(m.k==='diary'){if(TD.dk&&m.w)dDec(TD.dk.priv,m).then(o=>{if(!o||!/^\d{4}-\d\d-\d\d$/.test(o.d))return;const c=S.cls||'-';TD.diary=TD.diary||{};const B=(TD.diary[c]=TD.diary[c]||{}),P=(B[nr]=B[nr]||{});
     P[o.d]={t:String(o.t||'').slice(0,8000),at:Date.now(),nick:cleanNick(m.nick)};tsave();if(V.name==='obs'||(V.name==='obs-p'&&V.n===nr))render()}).catch(()=>{});return}
   if(m.av!=null&&ROSTER[nr].av!==cleanAv(m.av)){ROSTER[nr].av=cleanAv(m.av);TD.avs=TD.avs||{};TD.avs[nr]=ROSTER[nr].av;tsave();if(V.name==='tafel')updTafel()}
@@ -3294,7 +3297,11 @@ function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mis
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok,p.desk]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.deskRecv=Array.isArray(p.desk)?p.desk.filter(k=>typeof k==='string'&&SUBJECTS[k]):null;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
-function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;if(p&&p.freeze&&!p.lesson&&!p.fzAt)p.freeze=false;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
+// Lehrkraft hat eine neuere ELONUKI-Version als dieses iPad: sofort neu laden, auch mitten in der Stunde (sonst fehlt z. B. ein neues Werkzeug).
+// Nicht beim Tippen, und pro Version nur ein Versuch (falls der Server die neue Datei noch nicht ausliefert).
+function verChk(bv){if(BOARD||typeof bv!=='string'||!/^\d{8}-\d{4}$/.test(bv)||bv<=BUILD)return;const ae=document.activeElement;if(ae&&/INPUT|TEXTAREA/.test(ae.tagName))return;
+  try{if(sessionStorage.getItem('elio-bv')===bv)return;sessionStorage.setItem('elio-bv',bv)}catch(e){return}try{save()}catch(e){}location.reload()}
+function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;if(p&&S.role==='student')verChk(p.bv);if(p&&p.freeze&&!p.lesson&&!p.fzAt)p.freeze=false;RCS=p;rcsAt=Date.now();try{onOut(p);if(!S.locked)onDM(p)}catch(e){}if(S.role==='student'){wipeChk(p.wipe);nyStudent(p.yr);const gs=JSON.stringify(p.goal||null);if(gs!==JSON.stringify(S.goalL||null)){S.goalL=p.goal||null;save();if(V.name==='dash')render()}}
   // Läuft eine Stunde, sehen die SuS erst mal groß das Tafelbild. Zum Dashboard geht es über den Tafel-Knopf an der Seite.
   {const lid=p&&p.lesson&&p.lesson.id;if(lid&&lid!==MINI_L){MINI_L=lid;MINI='big'}else if(!lid&&MINI_L){MINI_L=null;MINI='off'}}
   skzSync(p);OFF=Date.now()-p.now;if(S.role==='student'){if(Array.isArray(p.heft)){if(p.cs)S.csHave=p.cs}else if(p.cs&&p.cs!==S.csHave)ccWant(p.cs)}applyContent(p,!!Live.priv||Live.kind==='demo');diarySync();updBanner();liveOverlay();renderMini();{const nb=$('#nav-board');if(nb)nb.hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk())go('dash')}
@@ -3303,7 +3310,7 @@ function onClassState(p){if(RCS&&p&&p.now<RCS.now&&RCS.now-p.now<8000)return;if(
 function stuWipe(){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk;S.acctAt=Date.now();save();ACCT.sig='';acctSave(true);V={name:'role',step:'nick',nr:S.nr,only:'student',school:S.school,cls:S.cls};render()}
 function wipeChk(W){if(S.role!=='student'||!W||!S.nr)return false;const at=+W[S.nr]||0;if(!at||(+S.nickAt||0)>at)return false;stuWipe();return true}
 function devId(){if(!S.dev){S.dev=Math.random().toString(36).slice(2,10);save()}return S.dev}
-function sendMsg(m){if(viewer())return;Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av,dv:devId()})}
+function sendMsg(m){if(viewer())return;Live.post('msg',{...m,nr:S.nr,nick:S.nick||'',av:S.av,dv:devId(),bv:BUILD})}
 /* Lerntagebuch an die Lehrkraft: verschlüsselt mit ihrem öffentlichen Schlüssel, nur ihr Gerät kann es lesen */
 const DIARY_ALG={name:'RSA-OAEP',hash:'SHA-256'};
 const b64e=b=>{const u=new Uint8Array(b);let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
@@ -3442,7 +3449,17 @@ VIEWS.role=()=>{
       <p class="muted" style="font-weight:700;margin-top:6px">Hast du eine Karte mit QR-Code? Scanne ihn einfach mit der Kamera.</p><label class="label" for="j-code" style="display:block;margin-top:12px">Klassencode</label><input id="j-code" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="z. B. 4821" style="font-size:1.6rem;letter-spacing:.1em">
       <label class="label" for="j-pw" style="display:block;margin-top:12px">Passwort</label><input id="j-pw" type="password" inputmode="numeric" autocomplete="off" maxlength="20" style="font-size:1.6rem;letter-spacing:.1em">
       <p class="err" id="j-err"></p><button class="btn big" data-act="join" style="width:100%;margin-top:12px">Weiter</button></details>`:''}
-    <p class="muted" style="max-width:460px;margin-top:14px;font-weight:700">Kürzel und PIN bekommst du von deiner Lehrkraft. Merk sie dir gut: Damit kommst du überall in dein ELIO, in der Schule und zu Hause.</p></div>`;
+    <p class="muted" style="max-width:460px;margin-top:14px;font-weight:700">Kürzel und PIN bekommst du von deiner Lehrkraft. Merk sie dir gut: Damit kommst du überall in dein ELIO, in der Schule und zu Hause.</p>
+    <button class="adm-link" data-act="st-step" data-step="tester">Lehrkraft · als Test-Schüler/in anmelden</button></div>`;
+  // SuS-Tester: Lehrkraft meldet sich mit dem eigenen Konto an und landet als Kind Nr. 1 in ihrer Testklasse (Knopf „Test“ in der Lehreransicht)
+  if(step==='tester'){const me=Cloud.user&&Cloud.prof&&Cloud.prof.role!=='pending';
+    return `<div class="start"><div class="start-head">${back('join')}</div><h1>Als Test-Schüler/in anmelden</h1>
+    <form class="panel" id="t-f" method="post" action="#" style="max-width:460px"><p style="font-weight:700">Mit deinem Lehrerkonto siehst du ELONUKI genau so wie deine Klasse, nur in deiner Testklasse. Starte in der Lehreransicht oben „Test“, dann kommt hier alles an.</p>
+      ${me?`<p style="font-weight:700;margin-top:10px">Angemeldet als <b>${esc(Cloud.user.email||'')}</b></p>`
+      :`<label class="label" for="t-mail" style="display:block;margin-top:10px">E-Mail</label><input id="t-mail" name="email" type="email" autocomplete="username" autocapitalize="off">
+      <label class="label" for="t-pw" style="display:block;margin-top:12px">Passwort</label><input id="t-pw" name="password" type="password" autocomplete="current-password">`}
+      <p class="err">${esc(V.err||'')}</p><button class="btn ok big" type="submit" data-act="tester-in" style="width:100%;margin-top:8px" ${V.busy?'disabled':''}>${V.busy?'Einen Moment …':'Als Test-Schüler/in starten'}</button></form>
+    <p class="muted" style="max-width:460px;margin-top:14px;font-weight:700">Nur auf deinem eigenen iPad. Echte Klassen und echte Schülerdaten bleiben unberührt. Abmelden wie ein Kind über das Menü.</p></div>`}
   if(step==='school'&&CLOUD&&!Cloud.ready)return `<div class="start"><div class="empty">Verbinde mit ELIO …</div></div>`;
   if(step==='school'&&!SCHOOLS.length)return `<div class="start"><div class="start-head">${back('splash')}</div><div class="empty">Hier ist noch keine Schule eingetragen. ${Cloud.err?esc(Cloud.err):'Deine Lehrkraft richtet das gerade ein.'}</div></div>`;
   if(step==='school')return `<div class="start"><div class="start-head">${back('splash')}<span class="label">Schritt 1 von 3</span></div><h1>Wähle deine Schule</h1>
@@ -4051,7 +4068,7 @@ async function lockGo(){const pw=($('#lk-pw')||{}).value||'',p2=$('#lk-pw2');
   let ok=false;try{ok=await tdOpen(pw)}catch(e){console.warn(e);V.lkErr='Das hat nicht geklappt ('+String(e&&e.message||e).slice(0,80)+'). Lade die Seite neu und versuch es noch einmal.';render();return}if(!ok){TDFAIL++;if(TDFAIL>=5){TDWAIT=Date.now()+30000;TDFAIL=0}V.lkErr='Das Passwort stimmt nicht.';render();return}
   TDFAIL=0;V.lkErr='';V.lkForget=false;if(HK.ck){const i=HK.ck.lastIndexOf('.'),c=HK.ck.slice(0,i),k=HK.ck.slice(i+1);if(c&&ckOk(k)){TD.ck=TD.ck||{};TD.ck[c]=k;tsave();V.msg='Klassenschlüssel für '+c+' übernommen.'}HK.ck=null}if(!CS)initTeacher();pushCS();if(CLOUD&&Cloud.user&&typeof cloudSync==='function')cloudSync();if(!VIEWS[V.name]||V.name==='role')V={name:'tdash'};render();heftClean()}
 // Anmeldeformulare: Erst das echte „submit“ abwarten, dann die Aktion ausführen. Nur so bietet Safari an, Kürzel und PIN (bzw. Passwort) zu speichern.
-const PW_FORMS=['lg-f','lk-f','a-f','pw-f','pr-f'];
+const PW_FORMS=['lg-f','lk-f','a-f','t-f','pw-f','pr-f'];
 document.addEventListener('submit',e=>{const f=e.target;if(!f||!PW_FORMS.includes(f.id))return;e.preventDefault();
   const sb=(e.submitter&&e.submitter.dataset&&e.submitter.dataset.act?e.submitter:null)||f.querySelector('[type=submit][data-act]');if(!sb||sb.disabled)return;
   const b=document.createElement('button');b.type='button';b.hidden=true;Object.assign(b.dataset,sb.dataset);b.dataset.fs='1';setTimeout(()=>{document.body.appendChild(b);b.click();b.remove()},0)});
@@ -4501,8 +4518,9 @@ VIEWS.tdash=()=>{
   const ls=lessons();
   const mc=CLOUD&&Cloud.myClasses||[];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h1>${hi}${Cloud.prof&&Cloud.prof.name?' '+esc(Cloud.prof.name.split(' ')[0]):''}</h1><span class="chip">${esc(className())}</span></div>
-  ${mc.length||testOn()?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}<button class="${testOn()?'on':''}" data-act="test-mode" title="Ausprobieren ohne Klasse: Live, Effekte und Freigaben bleiben auf diesem Gerät">Test</button></div></div>`:''}
-  ${testOn()?`<div class="priv" style="margin-bottom:14px"><b>Testmodus:</b> Live-Stunde, Effekte, Freigaben und Nachrichten bleiben auf diesem Gerät und im Tafel-Fenster. Keine Klasse sieht etwas. Deine Planung und deine Stunden bleiben echt. Zurück: oben deine Klasse antippen.</div>`:''}
+  ${mc.length||testOn()?`<div class="row" style="margin-bottom:14px"><span class="label">Meine Klassen</span><div class="clsw">${mc.map(c=>`<button class="${c.id===S.cls?'on':''}" data-act="cls-switch" data-id="${c.id}">${esc(c.name)}</button>`).join('')}<button class="${testOn()?'on':''}" data-act="test-mode" title="Ausprobieren ohne Klasse: Live, Effekte und Freigaben gehen nur an deine Testklasse und dein Tester-iPad">Test</button></div></div>`:''}
+  ${testOn()?`<div class="priv" style="margin-bottom:14px"><b>Testmodus:</b> ${S.code===TEST_CODE?'Live-Stunde, Effekte, Freigaben und Nachrichten bleiben auf diesem Gerät und im Tafel-Fenster.':'Live-Stunde, Effekte, Freigaben und Nachrichten gehen nur an deine Testklasse. Auf deinem iPad: im SuS-Login „Lehrkraft · als Test-Schüler/in anmelden“, dann siehst du alles wie ein Kind.'} Keine echte Klasse sieht etwas. Deine Planung und deine Stunden bleiben echt. Zurück: oben deine Klasse antippen.</div>`:''}
+  ${(()=>{const o=online().filter(n=>ROSTER[n]&&ROSTER[n].bv&&ROSTER[n].bv<BUILD).length;return o?`<div class="priv" style="margin-bottom:14px">${o} iPad${o>1?'s laufen':' läuft'} noch mit einer älteren ELONUKI-Version und ${o>1?'laden':'lädt'} sich gleich selbst neu.</div>`:''})()}
   ${dayStrip()}
   ${dashNext()}
   <div class="dk-grid">${dashKids()}${dashTodo()}</div>
@@ -6511,7 +6529,7 @@ async function sbClient(){if(Cloud.sb)return Cloud.sb;if(!window.supabase)await 
   try{Cloud.sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY'){PWREC=true;go('pwrec')}})}catch(e){}if(PWREC)setTimeout(()=>go('pwrec'),0);return Cloud.sb}
 const CLS_COLS='id,school_id,name,size,code';
 async function q(p){const r=await p;if(r.error)throw r.error;return r.data}
-function buildSchools(sc,cl){SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}));if(typeof addJoined==='function')addJoined()}
+function buildSchools(sc,cl){cl=cl.filter(c=>!isTestCode(c.code));SCHOOLS.length=0;sc.forEach(x=>SCHOOLS.push({id:x.id,name:x.name,place:x.place||'',classes:cl.filter(c=>c.school_id===x.id).map(c=>({id:c.id,label:c.name,name:'Klasse '+c.name,size:c.size,code:c.code}))}));if(typeof addJoined==='function')addJoined()}
 const isLead=cid=>!!(Cloud.prof&&(Cloud.prof.role==='admin'||(Cloud.lead||[]).includes(cid)));
 async function cloudBoot(){
   try{const sb=await sbClient();
@@ -6530,8 +6548,8 @@ async function cloudLoadMe(){
   Cloud.prof=(await q(sb.from('profiles').select('id,email,name,role').eq('id',uid)))[0]||null;
   Cloud.myClasses=[];
   if(Cloud.prof&&Cloud.prof.role!=='pending'){
-    const [all,sc,ct]=await Promise.all([q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('class_teachers').select('class_id,lead').eq('teacher_id',uid))]);
-    buildSchools(sc,all);Cloud.lead=ct.filter(x=>x.lead).map(x=>x.class_id);
+    let [all,sc,ct]=await Promise.all([q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('class_teachers').select('class_id,lead').eq('teacher_id',uid))]);
+    buildSchools(sc,all);all=all.filter(c=>!isTestCode(c.code));Cloud.lead=ct.filter(x=>x.lead).map(x=>x.class_id);
     if(Cloud.prof.role==='admin')Cloud.myClasses=all;
     else Cloud.myClasses=all.filter(c=>ct.some(x=>x.class_id===c.id));
   }
@@ -6665,7 +6683,7 @@ const mSchool=id=>((A.members||[]).find(m=>m.profile_id===id)||{}).school_id||''
 const STAFF_SEED='Kat, Sun, Sim, Mat, GmS, Ver, Ant, Jan, Vera';
 async function adminLoad(){
   const sb=Cloud.sb;
-  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')),q(sb.from('profiles').select('id,email,name,role,wish_school').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true;
+  try{[A.schools,A.classes,A.profiles,A.ct,A.staff,A.members]=await Promise.all([q(sb.from('schools').select('id,name,place').order('name')),q(sb.from('classes').select(CLS_COLS).order('name')).then(L=>L.filter(c=>!isTestCode(c.code))),q(sb.from('profiles').select('id,email,name,role,wish_school').order('created_at')).catch(()=>q(sb.from('profiles').select('id,email,name,role').order('created_at'))),q(sb.from('class_teachers').select('class_id,teacher_id,lead')),q(sb.from('staff').select('id,school_id,short,profile_id').order('short')),q(sb.from('school_members').select('school_id,profile_id,role')).catch(()=>[])]);A.ok=true;
     try{const r=await sb.from('push_cfg').select('vapid_pub').eq('id',1).maybeSingle();A.push=!!(r&&r.data&&r.data.vapid_pub)}catch(e){A.push=false}}
   catch(e){A.msg='Laden fehlgeschlagen: '+(e.message||e)}
   if(V.name==='admin')render();
@@ -7183,7 +7201,7 @@ async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p
     if(!r||r.err){if(quiet)return false;V.busy=0;V.err=r&&/function|schema/i.test(String(r.err))?'Die persönlichen Zugänge sind noch nicht eingerichtet.':ACCT_ERR[r&&r.err]||ACCT_ERR.wrong;V.step='join';render();return false}
     const c={id:r.id,school_id:r.school_id,school_name:r.school_name,name:r.name,size:r.size,code:r.code};JOINED=c;addJoined();
     if(quiet)return true;
-    V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.nr=+r.nr;S.viewer=S.nr===VIEW_NR;meLoad();
+    V.school=c.school_id;V.cls=c.id;setClass();S.role='student';S.tester=false;S.nr=+r.nr;S.viewer=S.nr===VIEW_NR;meLoad();
     if(S.viewer){S.nick='Zuschauer';S.av=0;S.acct={u,p};S.phaseSeen='';V.busy=0;S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;saveRole();Live.start(S.code);go('dash');return true}
     // Sicherung vom Server: übernehmen, wenn sie neuer ist als das, was auf diesem iPad liegt
     if(r.prof&&r.prof.ct){try{const o=await acctOpen(u,p,r.prof);if(o&&o.wipe&&(+S.nickAt||0)<+o.wipe){const pk=S.pk,tpk=S.tpk;meClear();if(pk)S.pk=pk;if(tpk)S.tpk=tpk}else if(o&&(+o.acctAt||0)>=(+S.acctAt||0))ACCT_KEYS.concat('acctAt').forEach(k=>{if(k in o)S[k]=o[k]})}catch(e){console.warn('acct open',e)}}
@@ -7191,6 +7209,23 @@ async function acctLogin(u,p,quiet){u=cleanU(u);p=cleanPin(p);if(u.length!==4||p
     if(!S.nick||S.av==null){V.nr=S.nr;V.only='student';V.step='nick';V.av=null;saveRole();render();return true}
     saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});acctSave(true);cloudLoadWeek(S.cls).then(render);return true}
   catch(e){if(quiet)return false;V.busy=0;V.err=/pupil_login|function|schema|404|PGRST202/i.test(String(e&&(e.message||e.code)))?'Die persönlichen Zugänge sind noch nicht eingerichtet. Melde dich mit Klassencode an.':'ELIO ist gerade nicht erreichbar. Versuch es gleich nochmal.';V.step='join';render();return false}}
+// SuS-Tester: Lehrerkonto im SuS-Login. Danach läuft alles wie bei einem Kind (gleiche Ansichten, gleicher Kanal, gleiche Wege), nur in der eigenen Testklasse.
+async function testerBind(){const c=await q(Cloud.sb.rpc('my_test_class'));return c&&!c.err&&c.id?c:null}
+async function testerLogin(){if(V.busy)return;const em=(($('#t-mail')||{}).value||'').trim(),pw=($('#t-pw')||{}).value||'';V.busy=1;V.err='';render();
+  const fail=t=>{V.busy=0;V.err=t;V.step='tester';render()};
+  try{const sb=await sbClient();
+    if(!(Cloud.user&&Cloud.prof)){if(!/\S+@\S+\.\S+/.test(em)||!pw)return fail('Bitte E-Mail und Passwort deines Lehrerkontos eingeben.');
+      const r=await sb.auth.signInWithPassword({email:em,password:pw});if(r.error)return fail('Anmelden hat nicht geklappt. Stimmen E-Mail und Passwort?');
+      Cloud.user=r.data.user;Cloud.anon=null;await cloudLoadMe()}
+    if(!Cloud.prof||Cloud.prof.role==='pending')return fail('Dieses Konto ist noch nicht freigeschaltet.');
+    let c;try{c=await testerBind()}catch(e){return fail(/my_test_class|function|schema|PGRST202/i.test(String(e&&(e.message||e.code)))?'Auf dem Server fehlt noch die Einrichtung (supabase/tester.sql).':'ELONUKI ist gerade nicht erreichbar. Versuch es gleich nochmal.')}
+    if(!c)return fail('Deine Testklasse ging nicht. Gehört dein Konto schon zu einer Schule?');
+    JOINED={id:c.id,school_id:c.school_id,school_name:'',name:c.name,size:c.size,code:c.code};addJoined();
+    V.school=c.school_id;V.cls=c.id;V.nr=TESTER_NR;V.only='student';V.tester=true;V.busy=0;
+    setClass();S.clsName='Testklasse';S.role='student';S.tester=true;S.nr=TESTER_NR;S.viewer=false;delete S.acct;meLoad();
+    if(!S.nick||S.av==null){V.step='nick';V.av=null;saveRole();render();return}
+    S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.phaseSeen='';saveRole();Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});cloudLoadWeek(S.cls).then(render)}
+  catch(e){console.warn('tester',e);fail('ELONUKI ist gerade nicht erreichbar. Versuch es gleich nochmal.')}}
 // Lehrkraft: Zugänge der Klasse verwalten. PINs liegen nur im Lehrer-Tresor (zum Nachdrucken).
 const ZG={list:null,err:'',busy:false,cid:null};
 const ZG_C='BDFGKLMNPRSTWZ',ZG_V='AEIOU',ZG_BAD=/^(NAZI|PENI|KAKA|PIPI|POPO|TOTE|MOFO|NUTE|SAFE|FOTZ|FICK)$/;
@@ -8342,6 +8377,7 @@ document.addEventListener('click',e=>{
     case 'ui-snd':{UIS.set(!UIS.on());const m=$('#umenu');if(m)m.innerHTML=umenuHTML();break}
     case 'umenu':{const m=$('#umenu');if(!S.role){go('role',{step:'splash'});break}if(!m.hidden){m.hidden=true;break}m.innerHTML=umenuHTML();const lg=$('.top .logo');m.style.top=(lg.offsetTop+lg.offsetHeight+6)+'px';m.hidden=false;break}
     case 'acct-login':acctLogin($('#a-u').value,$('#a-p').value);break;
+    case 'tester-in':testerLogin();break;
     case 'zug':ZG.list=null;go('zug',{cid:d.id});break;
     case 'pw-dev':pwDevice();break;
     case 'pw-acc':pwAccount();break;
@@ -8518,12 +8554,12 @@ document.addEventListener('click',e=>{
     case 'nick-more':{const f=$('#nick')||$('#me-n');if(f)V.nd=f.value;V.sugg=Object.assign(avNames(V.av),{av:V.av});render();break}
     case 'nick-ok':{const raw=$('#nick').value,nk=cleanNick(raw);
       if(!nk||nk.length<2){$('#nick-err').textContent='Gib deinem Avatar einen Namen.';break}
-      setClass();S.role='student';S.nr=V.nr;S.viewer=false;meLoad();S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
+      setClass();S.role='student';S.tester=!!V.tester;S.nr=V.nr;S.viewer=false;meLoad();S.inAt=Date.now();S.lastAct=Date.now();S.locked=false;S.nick=nk;S.av=cleanAv(V.av);S.nickAt=Date.now();V.nd=null;S.phaseSeen='';saveRole();acctSave(true);Live.start(S.code);go('dash');setTimeout(()=>sendMsg({k:'hi'}),300);mbQueue({k:'hi',at:Date.now()});if(CLOUD&&Cloud.sb)cloudLoadWeek(S.cls).then(render);break}
     case 'r-teach':if(CLOUD&&!Cloud.err)break;
       setClass();S.role='teacher';saveRole();initTeacher();Live.start(S.code).then(pushCS);libLoad();go('tdash');break;
     case 'lk-go':lockGo();break;
     case 'lk-forget':if(!V.lkForget){V.lkForget=true;render();break}try{localStorage.removeItem(TKEY)}catch(e){}tdClose();V.lkForget=false;V.lkErr='Die Lehrer-Notizen auf diesem Gerät sind gelöscht. Leg ein neues Passwort fest.';render();break;
-    case 'role-reset':$('#umenu').hidden=true;if(S.role==='student')pushOff();if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;S.locked=false;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
+    case 'role-reset':$('#umenu').hidden=true;delete S.tester;if(S.role==='student')pushOff();if(S.role==='student'&&S.acct){acctFlush();delete S.acct;ACCT.sig='';ACCT.k=null}if(S.role==='teacher')tdClose();if(S.role==='student'&&Cloud.anon&&Cloud.sb){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.anon=null}Live.stop();if(CLOUD&&Cloud.user){try{Cloud.sb.auth.signOut()}catch(e){}Cloud.user=null;Cloud.prof=null;Cloud.myClasses=[]}if(S.role==='student')save();meClear();S.role=null;S.locked=false;try{sessionStorage.removeItem('elon-role')}catch(e){}save();RCS=null;$('#live-ov').hidden=true;go('role',{step:'splash'});break;
     case 'tafel':go('tafel');break;
     case 'l-live-edit':{const i=CS?CS.step:0;go('lesson-edit',{id:d.id});setTimeout(()=>{const el=$('#ph-card-'+i);if(el)el.scrollIntoView({block:'start',behavior:'smooth'})},60);break}
     case 'elo-read':{if(b.classList.contains('on')){rdStop();break}if(d.live){const x=rdLive();rdSpeak(rdParts(x.i,x.tx),b);break}rdSpeak(rdParts(d.i!=null&&d.i!==''?+d.i:null,rdText(b)),b);break}
@@ -8620,7 +8656,13 @@ document.addEventListener('click',e=>{
     case 'ad-class-del':V.adel=null;adminDo(Cloud.sb.from('classes').delete().eq('id',d.id),'Klasse gelöscht.');break;
     case 'ad-name':adminDo(Cloud.sb.from('profiles').update({name:$('#ad-pn-'+d.id).value.trim().slice(0,60)}).eq('id',d.id),'Name gespeichert.');break;
     case 'ctt-open':CT.cid=null;go('ctt',{cid:d.id,from:d.from||'admin'});break;
-    case 'test-mode':{if(testOn())break;if(S.cls&&S.cls!==TEST_ID)S.testPrev=S.cls;useClass({id:TEST_ID,school_id:S.school,code:TEST_CODE,size:S.classSize||25});S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(TEST_CODE).then(pushCS);render();break}
+    case 'test-mode':{if(testOn())break;if(S.cls&&!isTestCode(S.code))S.testPrev=S.cls;
+      // Mit Server: eigene Testklasse, in die auch das Tester-iPad kommt. Sonst wie bisher nur auf diesem Gerät.
+      const loc=()=>{useClass({id:TEST_ID,school_id:S.school,code:TEST_CODE,size:S.classSize||25});S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(TEST_CODE).then(pushCS);render()};
+      if(!(CLOUD&&Cloud.sb&&Cloud.user)){loc();break}
+      q(Cloud.sb.rpc('my_test_class')).then(c=>{if(!c||c.err||!c.id){if(c&&c.err==='noschool')toast('Testklasse geht erst, wenn dein Konto zu einer Schule gehört. Bis dahin nur auf diesem Gerät.');loc();return}
+        useClass(c);S.clsName='Testklasse';CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()})
+        .catch(e=>{if(/my_test_class|function|schema|PGRST202/i.test(String(e&&(e.message||e.code))))toast('Für das Tester-iPad fehlt noch supabase/tester.sql. Bis dahin Test nur auf diesem Gerät.');loc()});break}
     case 'cls-switch':{const c=Cloud.myClasses.find(x=>x.id===d.id);if(c){useClass(c);CS=null;S.cs=null;initTeacher();Live.start(S.code).then(pushCS);render()}break}
 
     case 'tplan':$('#ov').hidden=true;go('tplan',V.name==='tplan'?{w:V.w}:{});break;
