@@ -80,3 +80,5 @@ gelb
 | B-51 | Skizzenbuch: geteilte Werke kamen bei der Lehrkraft nicht an (große Bilder gingen beim Live-Ersatzweg still verloren, Abholen nur jede Minute) | hoch | in Test | app.html skzShare, mbFlush, Nachricht mbn |
 | B-52 | Nach Folie und Weiter zum Werkzeug (z. B. Vokabeltrainer) zeigte die Tafel statt der Folie die Werkzeug-Ansicht; iPads zeigten bei „Alle schauen nach vorne“ nur „Schau zur Tafel“ statt der Folie | hoch | in Test | app.html stageOf, boardHTML0, onBoardState, liveOverlay |
 | B-53 | Neue Lehrkraft kam nicht in die App: Anmeldung mit unbestätigter E-Mail meldete nur „Stimmen E-Mail und Passwort?“, Wartebildschirm merkte die Freischaltung nicht von selbst, neue Konten waren im Admin nur über Schule und Kollegium zu finden | hoch | in Test | app.html lgIn, VIEWS.login, VIEWS.admin (adNewHTML) |
+| B-54 | Anzeige von Bibliotheksdateien an der Tafel nachgeschärft (Details nur im Chat) | hoch | in Test | app.html libView, fillMedia (showUrl) |
+| B-55 | version.txt und App-Version passten nach PR #56 nicht zusammen: SuS-iPads und Tafel luden sich außerhalb der Stunde jede Minute neu | hoch | in Test | version.txt, app.html BUILD |

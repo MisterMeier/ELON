@@ -608,6 +608,10 @@ body.boardwin #wsbar{font-size:3rem;top:2vh}
 .ns-live.ns-mic{background:var(--warn-bg);color:var(--ink);border-radius:12px;padding:10px 12px;text-align:left;line-height:1.45}
 /* Geometrie (JSXGraph) und Farbkreis nach Itten */
 .rt-dgeo,.rt-itten{display:flex;flex-direction:column;gap:10px}
+.rt-ext{height:100%;background:var(--surface)}.ext-slot{flex:1;width:100%;min-height:55vh}.ext-card{margin:auto;text-align:center;padding:1em}.ext-card b{font-family:var(--f-display);font-size:1.6em}
+.tb-tool{position:relative}.wip-b{position:absolute;top:5px;right:5px;width:24px;height:24px;padding:3px;border-radius:7px;background:var(--yellow);color:#3a2a00;display:grid;place-items:center}.wip-b .ico{width:100%;height:100%}
+.ext-pv{width:min(1100px,92vw);height:min(720px,80vh)}.ext-pv .ext-slot{height:100%;min-height:0}
+.ext-fr{position:fixed;z-index:10;border:0;border-radius:1em;background:#fff;color-scheme:light}.ext-msg{display:grid;place-items:center;background:var(--surface);color:var(--ink);font-weight:800;font-size:1.3rem;padding:20px;text-align:center}
 .dg-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .dg-bar>button{display:flex;flex-direction:column;align-items:center;min-width:64px;padding:6px 8px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;cursor:pointer}
 .dg-bar>button span{font-size:1.4rem;line-height:1}.dg-bar>button small{font-size:.75rem}
@@ -1844,6 +1848,7 @@ const ICO_SVG={
   'karte-ganz':'<path d="M3 11l9-7 9 7M5 10v10h14V10"/>',
   heft:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zm0 16V5M8 7h7"/>',
   'w-allg':'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  baustelle:'<path d="M10.3 3.6 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0z"/><path d="M7.5 17h9M9.5 13h5M12 7.5v1.5"/>',
   punkt:'<circle cx="12" cy="12" r="4"/>'};
 // Ersatz-Symbol, solange ein Werkzeug noch kein eigenes Bild hat
 const ICO_ALIAS={bearbeiten:'auftrag',winken:'hilfe','w-task':'auftrag','w-heft':'heft','w-heftlink':'heft','w-diary':'heft','w-vok':'heft','w-irreg':'heft','w-skizze':'skizzenbuch','w-say':'vorlesen','w-quiz':'minitest','w-mc':'minitest','w-exit':'angekommen','w-thumbs':'bereit','w-high5':'hilfe','w-dialog':'sozialform','w-corners4':'sozialform','w-slide':'tafel','w-start':'tafel','w-cover':'tafel','w-mat':'tafel','w-memory':'ueben','w-salad':'ueben','w-balloon':'ueben','w-kfb':'ueben','w-mio':'ueben'};
@@ -1946,6 +1951,7 @@ function render(){
   document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
   document.body.classList.toggle('pres',V.name==='present');
   if(V.name==='present'||V.name==='beamer')fillMedia();
+  extMount();
   document.body.classList.toggle('tboard',(S.role==='teacher'||BOARD)&&['memory','salad','balloon','akt'].includes(V.name));
   const isT=S.role==='teacher';
   document.querySelectorAll('#nav .tv').forEach(b=>b.hidden=!isT);
@@ -2300,7 +2306,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-2000';let verTold=false;
+const BUILD='20261021-2230';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3267,7 +3273,7 @@ function stageOf(){
 }
 // Werkzeuge, die selbst an die Tafel gehören (Startfolie, Stundenfrage, Quiz, Tafelspiele …). Alle anderen laufen auf den iPads, vorne bleibt die Folie.
 // Pro Werkzeug in der Planung umschaltbar: t.brd 1 = Werkzeug an der Tafel, 0 = Folie bleibt
-const TOOL_BOARD=['start','cover','question','hypo','task','high5','heft','heftlink','mat','dialog','dgeo','itten','quiz','corners4','vw','kfb','wc','memory','salad','balloon'];
+const TOOL_BOARD=['ext','start','cover','question','hypo','task','high5','heft','heftlink','mat','dialog','dgeo','itten','quiz','corners4','vw','kfb','wc','memory','salad','balloon'];
 const toolOnBoard=t=>t&&(t.brd===0||t.brd===1)?t.brd===1:!!t&&TOOL_BOARD.includes(t.id);
 function stageTool(t,L,sub){sub=sub==null?CS.sub||0:sub;const m=t.mat&&typeof libById==='function'?libById(t.mat):null,o={...t,title:t.title||'',text:t.text||'',mat:t.mat||'',matName:m?m.name:'',matUrl:m&&m.kind==='link'?String(m.url||'').slice(0,600):m?'':String(t.matUrl||'')};
   // Datei schon jetzt aus der Cloud holen, damit das Tafel-Fenster sie auf diesem Gerät findet
@@ -4298,6 +4304,8 @@ function matType(m){const n=(m.name||'').toLowerCase(),t=m.mime||'';if(m.kind===
   if(t.startsWith('video/'))return 'video';if(t==='application/pdf'||n.endsWith('.pdf'))return 'pdf';if(t.startsWith('image/'))return 'bild';if(/\.(pptx?|key|odp)$/.test(n))return 'ppt';
   if(/\.(docx?|pages|odt|txt|rtf|xlsx?|numbers|ods|csv)$/.test(n))return 'doc';if(t.startsWith('audio/'))return 'audio';return 'other'}
 const fsize=b=>b>=1e6?(b/1e6).toFixed(1).replace('.',',')+' MB':Math.max(1,Math.round(b/1e3))+' KB';
+// Anzeigen immer mit festem Dateityp: Bild, Video, Ton so wie angegeben, alles andere als PDF
+const showUrl=(b,t)=>URL.createObjectURL(new Blob([b],{type:/^(image|video|audio)\//.test(t)?t:'application/pdf'}));
 const canShow=m=>m.kind==='link'||(m.mime||'').startsWith('image/')||m.mime==='application/pdf'||(m.mime||'').startsWith('video/')||(m.mime||'').startsWith('audio/')||/\.pdf$/i.test(m.name);
 function libListHTML(){
   const f=V.f||'all',q=(V.q||'').toLowerCase().trim(),lt=V.lt||'all';
@@ -4360,7 +4368,7 @@ async function libView(id){
       <div class="row"><a class="btn sm" href="${esc(m.url)}" target="_blank" rel="noopener">Im Browser öffnen</a><button class="btn sm pri" data-act="close-ov">Schließen</button></div></div><div class="vbody">${e}</div></div>`);return}
   const b=await libBlob(id);if(!b)return;
   if(!canShow(m)){dl(b,m.name);return}
-  const u=URL.createObjectURL(b),t=m.mime||'';
+  const t=m.mime||'',u=showUrl(b,t);
   const body=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls style="max-width:100%;max-height:100%"></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
   showOv(`<div class="box viewer" role="dialog" aria-label="${esc(m.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${matIcon(m)} ${esc(m.name)}</b>
     <div class="row"><button class="btn sm" data-act="lib-dl" data-id="${m.id}">Herunterladen</button><button class="btn sm pri" data-act="close-ov">Schließen</button></div></div><div class="vbody">${body}</div></div>`);
@@ -4774,7 +4782,8 @@ function newLessonFrom(subj,min,title,gb){
   const L={id:lid(),cid:S.cls,title,subject:subj,mission:'',phases:base,tpl:'Vorlage'};
   lessons().push(L);save();return L;
 }
-const RICH=['dgeo','itten','skizze','dialog','heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
+const RICH=['ext','dgeo','itten','skizze','dialog','heft','diary','quiz','start','cover','question','hypo','task','high5','corners4'];
+// wip:1 an einem Werkzeug = Baustellen-Symbol im Werkzeugkasten (noch nicht zur Nutzung freigegeben)
 const TOOLS={
   slide:{name:'Folien',icon:'',txt:'Eine oder mehrere Folien im ELIO-Design: Überschrift, Text, eigenes Hintergrundbild, Elo als Figur. Weiter wie bei PowerPoint.',fit:/begr|einstieg|problem|ziel|vorwissen|sicherung|ausblick|merke/i},
   kfb:{name:'Kopfrechenfußball',icon:'',txt:'Zwei Teams abwechselnd. Du bewertest Richtig/Falsch, der Ball rollt Richtung Tor. Mit Stadion-Sound, eigenen Aufgaben und optional iPads.',fit:/warm|ritual|kopf|wiederhol/i,subj:'M'},
@@ -4802,6 +4811,7 @@ const TOOLS={
   dialog:{name:'Dialog',icon:'',txt:'Einen Dialog zeigen und anhören, oder als Dialogbauer: Gruppen wählen Ort und Rollen und bauen am iPad aus Bausteinen ihren eigenen Dialog, üben ihn auf der Dialog-Leiter und nehmen ihn auf.',fit:/dialog|gespräch|sprech|rollen|role/i},
   dgeo:{name:'Geometrie & Koordinatensystem',icon:'',txt:'Wie GeoGebra: Punkte, Strecken, Geraden, Kreise, Winkel, Vielecke und Funktionsgraphen. Punkte lassen sich ziehen, alles bewegt sich mit. Startpunkte und Funktionen planst du vorher.',fit:/geometr|koordinat|funktion|graph|dreieck|kreis|winkel|konstru/i,subj:'M'},
   itten:{name:'Farbmischung nach Itten',icon:'',txt:'Der 12-teilige Farbkreis in drei Stufen: Grundfarben, Mischfarben 2. und 3. Ordnung. Zwei Farben antippen zeigt die Mischung, dazu Komplementärfarben, Aufhellen und Abdunkeln.',fit:/farb|itten|misch|komplement|kunst/i,subj:'K'},
+  ext:{name:'Eigenes Werkzeug',icon:'',txt:'Ein Werkzeug, das eine Lehrkraft deiner Schule als HTML-Datei gebaut hat. Läuft an der Tafel in einem Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI.',fit:/eigen|werkzeug|anwend|übung/i},
   corners4:{name:'4-Ecken-Reflexion',icon:'',txt:'Alle stimmen auf dem iPad ab, die Tafel zeigt die vier Ecken.',fit:/reflex|feedback|abschluss/i},
 };
 // Diese stecken jetzt in der Planung (Gerüst, Begrüßung, Phasenmuster) und stehen nicht mehr im Werkzeugkasten. Alte Stunden mit ihnen laufen weiter.
@@ -4819,7 +4829,7 @@ const PH_MUSTER=[
   ['','Material zeigen',{name:'Material',goal:'Material betrachten',min:3,sf:'Plenum',method:'Material zeigen',txt:'Augen zur Tafel.',act:'look',tool:{id:'mat'}}],
   ['','Hefteintrag',{name:'Sicherung',goal:'Ergebnisse festhalten',min:6,sf:'Plenum',method:'Hefteintrag',txt:'Schreib den Hefteintrag in dein Heft ab.',act:'look',tool:{id:'heftlink'}}]];
 // Werkzeugkasten nach Unterrichtsphasen geordnet (nicht nach Fächern)
-const TOOL_CAT=[['','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog','dgeo','itten']],['','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','irreg','tbl','geo','memory','salad','balloon']],['','Sichern',['heftlink','heft']],['','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
+const TOOL_CAT=[['','Stundenstart & Warm-up',['start','cover','mood','wc','kfb','vw']],['','Einstieg & Erarbeitung',['question','hypo','task','skizze','mat','dialog','dgeo','itten','ext']],['','Üben',['ueb','quiz','match','gap','mc','numline','cw','wg','mio','say','vok','irreg','tbl','geo','memory','salad','balloon']],['','Sichern',['heftlink','heft']],['','Reflexion & Abschluss',['thumbs','high5','corners4','exit','diary']]];
 const toolCats=ids=>{const seen=new Set(),out=TOOL_CAT.map(([ic,n,L])=>{const x=L.filter(id=>ids.includes(id));x.forEach(id=>seen.add(id));return [ic,n,x]}).filter(c=>c[2].length);const rest=ids.filter(id=>!seen.has(id));if(rest.length)out.push(['','Weitere',rest]);return out};
 const dateDE=()=>new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
 // Werkzeuge, die die iPads selbst steuern: dann muss man in der Phase nichts mehr einstellen
@@ -5226,6 +5236,7 @@ function itAct(a,d){if(a==='it-m'){IT.mode=d.m;IT.a=IT.b=null}else if(a==='it-s'
 function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||'';
   if(t.id==='dgeo')return dgHTML(t,c);
   if(t.id==='itten')return ittenHTML(t,c);
+  if(t.id==='ext')return extSlot(t,c);
   if(t.id==='heft')return `<div class="rt rt-heft"><div class="band">Hefteintrag · ${esc(sn)}</div><article class="page"><header><h3>${esc(t.title||c.name)}</h3><span class="date">${fmtDate(todayISO())}</span></header>${heftBody(heftBlocks(t.text))||'<p class="muted">Hier steht dein Hefteintrag.</p>'}</article></div>`;
   if(t.id==='skizze')return skzBoard(t,c);
   if(t.id==='diary')return sceneHTML('lerntagebuch',`<h1>Lerntagebuch</h1><p>Trage jetzt deinen Eintrag auf deinem iPad ein.</p>${c.jn?`<b>${c.jn[0]} / ${c.jn[1]||'–'} eingetragen</b>${pgBar(c.jn[0],Math.max(c.jn[0],c.jn[1]||0))}`:''}`,'left:57%;top:12%;width:37%');
@@ -5257,7 +5268,7 @@ function richTool(t,c){const MA='assets/mathe/',sn=(SUBJECTS[c.subj]||{}).name||
   return '';
 }
 function toolDefaults(id,p,L){const gs=GAMES[L.subject]?L.subject:'E';if(id==='vok')return {id,title:'',text:'',vm:'heft'};if(AKT[id])return {id,title:'',text:AKT[id].ex};
-  if(id==='dgeo')return {id,title:'',mode:'ks',pts:'',fn:'',snap:true};if(id==='itten')return {id,title:'Farbkreis nach Itten',stage:'1'};
+  if(id==='dgeo')return {id,title:'',mode:'ks',pts:'',fn:'',snap:true};if(id==='itten')return {id,title:'Farbkreis nach Itten',stage:'1'};if(id==='ext')return {id,src:'demo',cfg:''};
   return {start:{id,hint:'Guten Morgen! Leg deine Sachen bereit.',items:L.subject==='M'?'Mathebuch, Heft, Regelheft':'Buch, Heft',bg:L.subject==='E'?'welt':L.subject==='K'?'atelier':L.subject==='W'||L.subject==='WK'?'boerse':'start',region:'uk-ie',date:true,title:''},heftlink:{id,eid:''},ueb:{id,eid:'',ui:0},thumbs:{id,q:'Hast du es verstanden?'},wc:{id,q:'',n:3},exit:{id,qs:'Das habe ich heute gelernt:\nDas ist mir noch unklar:',amp:true},mood:{id,q:L.subject==='E'?MOOD_Q_EN:MOOD_Q_DE},vw:{id,teams:'Team A, Team B',cards:L.subject==='M'?'Dreieck: drei, Ecken, Form\nSumme: plus, addieren, Ergebnis\nUmfang: außen, Rand, herum':'Schule: lernen, Lehrer, Klasse\nFußball: Ball, Tor, spielen\nSommer: warm, Sonne, Ferien'},cover:{id,title:L.title||'',sub:''},question:{id,q:'',murmel:true},hypo:{id,text:'Gib eine Vermutung ab! Wir prüfen sie später.'},
     task:{id,text:''},dialog:{id,title:'',text:"A: Hello! Can I help you?\nB: Yes, please. I'm looking for a hoodie.\nA: What size are you?\nB: Medium, I think.",lang:'en-GB'},heft:{id,title:p.name==='Sicherung'?'':p.name,text:''},skizze:{id,text:'',n:2},diary:{id,prompt:'Was habe ich heute gelernt?\nWas war schwierig für mich?\nWas möchte ich noch üben?'},quiz:{id,q:'',opts:'',right:'',multi:false,mat:''},high5:{id,qs:H5_QS},corners4:{id,q:'Wie gut kannst du es schon?',opts:C4_OPTS},slide:{id,slides:[{layout:'std',bg:'allgemein',title:p.name,text:'',mat:'',elo:'',say:'',steps:false}]},kfb:{id,level:'lms'},memory:{id,s:gs},salad:{id,s:gs},balloon:{id,s:gs},mat:{id,mat:''}}[id]}
 const matOpts=(sel,filter)=>`<option value="">– keins –</option>${LIB.items.filter(filter||(()=>true)).map(m=>`<option value="${m.id}" ${m.id===sel?'selected':''}>${matIcon(m)} ${esc(m.name)}</option>`).join('')}`;
@@ -5394,6 +5405,7 @@ function toolEditor(p,i,L){
   if(t.id==='hypo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('text','Text an der Tafel',t.text)}</div>`;
   if(t.id==='dgeo')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'z. B. Dreiecke konstruieren')}<label>Zeichenfläche<select data-f="ph.${i}.tool.mode"><option value="ks" ${t.mode!=='frei'?'selected':''}>Koordinatensystem mit Gitter</option><option value="frei" ${t.mode==='frei'?'selected':''}>Leeres Zeichenblatt</option></select></label>
     ${ta('pts','Startpunkte (eine Zeile pro Punkt, z. B. A(1|2))',t.pts,3)}${ta('fn','Funktionen (eine pro Zeile, z. B. f(x)=2x+1)',t.fn,2)}<div style="grid-column:1/-1">${swH(`ph.${i}.tool.snap`,t.snap!==false,'Punkte rasten im Gitter ein','in halben Schritten')}</div></div>`;
+  if(t.id==='ext')cfg=`<div class="lgrid" style="margin-top:8px"><label style="grid-column:1/-1">Werkzeug<select data-f="ph.${i}.tool.src">${extOpts(t.src)}</select></label>${ta('cfg','Einstellungen für das Werkzeug (frei, das Werkzeug liest sie beim Start)',t.cfg,2)}<p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">Läuft an der Tafel im Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI. Noch nicht freigegebene Werkzeuge laufen nur in deiner Testklasse.</p></div>`;
   if(t.id==='itten')cfg=`<div class="lgrid" style="margin-top:8px">${inp('title','Überschrift',t.title,'Farbkreis nach Itten')}<label>Start mit<select data-f="ph.${i}.tool.stage">${[['1','Stufe 1: Grundfarben'],['2','Stufe 2: Mischfarben 2. Ordnung'],['3','Stufe 3: ganzer Farbkreis']].map(([v,n])=>`<option value="${v}" ${String(t.stage||'1')===v?'selected':''}>${n}</option>`).join('')}</select></label><p class="muted" style="grid-column:1/-1;font-weight:700;font-size:.9rem">An der Tafel baust du den Farbkreis Stufe für Stufe auf. Mischen und Komplementärfarben gehen per Antippen.</p></div>`;
   if(t.id==='dialog'){const bau=t.mode==='bau',P=bau?dbParse(t):null;cfg=`<div class="lgrid" style="margin-top:8px"><label>Art<select data-f="ph.${i}.tool.mode"><option value="" ${bau?'':'selected'}>Dialog zeigen und anhören (Tafel)</option><option value="bau" ${bau?'selected':''}>Dialogbauer: Gruppen bauen am iPad</option></select></label>${inp('title','Überschrift',t.title,'z. B. In the shop')}<label>Sprache<select data-f="ph.${i}.tool.lang">${[['en-GB','Englisch'],['de-DE','Deutsch'],['fr-FR','Französisch']].map(([v,n])=>`<option value="${v}" ${(t.lang||'en-GB')===v?'selected':''}>${n}</option>`).join('')}</select></label>
     ${bau?`<div class="row" style="grid-column:1/-1;gap:8px"><span class="muted" style="font-weight:800">Vorlage:</span><button class="btn sm" data-act="db-ex" data-i="${i}" data-k="shop">Shopping in London</button><button class="btn sm" data-act="db-ex" data-i="${i}" data-k="weg">Wegbeschreibung in London</button><button class="btn sm pri" data-act="db-try" data-i="${i}" ${P.L.length?'':'disabled'}>Als SuS ausprobieren</button></div>
@@ -6181,7 +6193,7 @@ VIEWS.toolbox=()=>{const G=((TD.games||{})[S.cls||'-'])||{},off=TD.toolsOff||[];
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row"><button class="btn sm" data-act="tplan">← Planung</button><h1>Werkzeugkasten</h1></div><span class="chip">${esc(className())}</span></div>
   <button class="wlw-card" data-act="wlw-free"><span class="wlw-ci pin">${WLW_IC.pin}</span><span style="flex:1;min-width:0"><b>Wo liegt was? ausprobieren</b><small>Das Geografiespiel selbst spielen, z. B. am Whiteboard. Für die ganze Klasse planst du es als Werkzeug in einer Stunde ein. Die SuS finden es außerdem unter Freies Üben.</small></span><span class="btn sm pri">Öffnen</span></button>
   <section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">Werkzeuge für die Planung</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Ausgeblendete Werkzeuge erscheinen nicht mehr im Werkzeug-Pool, wenn du eine Stunde planst.</p>
-    ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide'&&!TOOL_PLAN.includes(id))).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}"><span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div>`).join('')}</section>`};
+    ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide'&&!TOOL_PLAN.includes(id))).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}">${TOOLS[id].wip?wipBadge():''}<span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div>`).join('')}</section>${extToolbox()}`};
 VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();if(pt==='seq')return seqView();
   const off=weekOff(),mo=monday(off),days=[0,1,2,3,4].map(d=>{const x=new Date(mo);x.setDate(mo.getDate()+d);return x});
   const td=isoD(new Date()),ed=!!V.ttEdit;
@@ -6739,9 +6751,97 @@ async function fillMedia(n){
   const b=await libBlob(m.id);if(!$('#slide-media'))return;
   if(!b){if(BOARD&&(n||0)<6){el.innerHTML='<p class="muted">Material wird geladen …</p>';again();return}
     el.innerHTML=`<p class="muted">„${esc(m.name)}“ liegt nur auf einem anderen Gerät${m.lic==='verlag'?' (Verlagsmaterial bleibt dort)':''}. ${LC.miss?'Die Cloud-Bibliothek ist noch nicht eingerichtet (bibliothek.sql in Supabase ausführen).':'Öffne ELIO dort einmal mit Internet, dann lädt es sich hoch.'}</p>`;return}
-  const u=URL.createObjectURL(b),t=m.mime||b.type||'';
+  if(!canShow(m)){el.innerHTML=`<p class="muted">„${esc(m.name)}“ lässt sich an der Tafel nicht anzeigen. Bilder, Videos, Töne und PDF gehen.</p>`;return}
+  const t=m.mime||b.type||'',u=showUrl(b,t);
   el.innerHTML=t.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:t.startsWith('video/')?`<video src="${u}" controls playsinline></video>`:t.startsWith('audio/')?`<audio src="${u}" controls></audio>`:`<iframe src="${u}" title="${esc(m.name)}"></iframe>`;
 }
+/* --- Eigene Werkzeuge (HTML-Datei einer Lehrkraft) ---
+   Läuft nur im Schutzkasten: iframe mit sandbox="allow-scripts" ohne allow-same-origin (kein Zugriff auf Konto, Speicher, Cookies, ELONUKI-Seite),
+   dazu eine Sicherheitsregel ohne Internet. Mit ELONUKI spricht das Werkzeug nur über die Brücke (postMessage), siehe werkzeuge/HANDBUCH.md.
+   Der Rahmen liegt fest über dem Platzhalter .ext-slot, damit das Werkzeug beim Neuzeichnen der Tafel nicht neu startet. */
+const EXT={fr:null,box:null,key:'',cache:{},list:null,n:0,t0:0,loads:0,info:null};
+// Erlaubt sind nur: eigener Code in der Datei, ELONUKI-Schriften und -Figuren (Elo, Nuki …) vom ELONUKI-Server. Kein Internet sonst.
+const extBase=()=>location.origin+location.pathname.replace(/[^/]*$/,'')+'assets/';
+const extCsp=()=>{const A=extBase();return `default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' ${A}fonts/; img-src data: blob: ${A}elo/ ${A}icons/; media-src data: blob:; font-src data: ${A}fonts/; connect-src 'none'; form-action 'none'; base-uri 'none'`};
+const EXT_BRIDGE=`<script>(function(){var P=parent,H={};window.elonuki=Object.freeze({senden:function(t,d){P.postMessage({elonuki:1,typ:String(t),daten:d===undefined?null:d},'*')},wenn:function(t,f){(H[t]=H[t]||[]).push(f)}});
+addEventListener('message',function(e){if(e.source!==P)return;var m=e.data;if(!m||m.elonuki!==1)return;(H[m.typ]||[]).forEach(function(f){try{f(m.daten)}catch(x){console.error(x)}})});
+addEventListener('load',function(){elonuki.senden('bereit')})})()<\/script>`;
+const EXT_SND={richtig:'right',falsch:'oops',fertig:'cheer',jubel:'cheer',wechsel:'change',an:'on'};
+const EXT_DEMO='werkzeuge/vorlage.html';
+const extUuid=x=>/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(x||''));
+// Das Werkzeug kommt hinter unsere Sicherheitsregel und die Brücke (die eigene doctype-Zeile fällt weg, sonst Quirks-Modus)
+// Dazu ELONUKI-Schriften: Überschriften var(--elo-display), Text var(--elo-text)
+const extDoc=h=>'<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="'+extCsp()+'"><link rel="stylesheet" href="'+extBase()+'fonts/fonts.css"><style>:root{--elo-display:"Baloo 2","Arial Rounded MT Bold",ui-rounded,system-ui,sans-serif;--elo-text:"Nunito",ui-rounded,system-ui,sans-serif}</style>'+EXT_BRIDGE+String(h||'').replace(/^﻿?\s*<!doctype[^>]*>/i,'');
+async function extLoad(src,cls){const k=src+'|'+(cls||'');if(EXT.cache[k])return EXT.cache[k];let r;
+  try{if(src==='demo'){const h=await fetch(EXT_DEMO,{cache:'no-cache'}).then(x=>x.ok?x.text():'');r=h?{html:h,name:'Beispiel: Preis-Check',ver:1,live:true,names:false}:{err:'weg'}}
+    else if(extUuid(src)&&CLOUD){const sb=await sbClient();const d=await q(sb.rpc('tool_html',{p_tool:src,p_class:extUuid(cls)?cls:null}));r=d&&d.html?d:{err:d&&d.err||'weg'}}
+    else r={err:'weg'}}catch(e){r={err:/tool_html|PGRST202|function/i.test(String(e&&(e.message||e.code)))?'sql':'netz'}}
+  if(r.html)EXT.cache[k]=r;return r}
+const EXT_ERR={testklasse:'Dieses Werkzeug ist noch nicht freigegeben. Es läuft erst in deiner Testklasse.',gesperrt:'Dieses Werkzeug ist gerade gesperrt.',denied:'Dieses Werkzeug gibt es für dich nicht (andere Schule oder noch nicht freigegeben).',
+  weg:'Das Werkzeug wurde nicht gefunden.',sql:'Auf dem Server fehlt noch die Einrichtung (supabase/migrations/20261021180000_co_autor_werkzeuge.sql).',netz:'ELONUKI ist gerade nicht erreichbar. Versuch es gleich nochmal.',weg2:'Das Werkzeug wollte die Seite verlassen und wurde angehalten.'};
+function extStop(){if(EXT.fr)EXT.fr.remove();if(EXT.box)EXT.box.remove();EXT.fr=EXT.box=null;EXT.key='';EXT.info=null}
+function extMsgBox(t){if(EXT.fr){EXT.fr.remove();EXT.fr=null}if(!EXT.box){EXT.box=document.createElement('div');EXT.box.className='ext-fr ext-msg';document.body.appendChild(EXT.box)}EXT.box.innerHTML=`<p>${esc(t)}</p>`;extPlace()}
+// Nach jedem Zeichnen: Rahmen über den Platzhalter legen, bei einem anderen Werkzeug neu starten, ohne Platzhalter beenden
+const extSlotEl=()=>[...document.querySelectorAll('.ext-slot')].find(x=>!x.closest('[hidden]'));
+function extMount(){const sl=extSlotEl();if(!sl){if(EXT.key)extStop();return}
+  const src=sl.dataset.src||'',cls=sl.dataset.pv?'':S.cls||'',key=src+'|'+cls+'|'+(sl.dataset.cfg||'');
+  if(EXT.key===key){extPlace();return}
+  extStop();EXT.key=key;extMsgBox('Werkzeug wird geladen …');
+  extLoad(src,cls).then(r=>{if(EXT.key!==key)return;if(!r.html){extMsgBox(EXT_ERR[r.err]||EXT_ERR.weg);return}
+    if(EXT.box){EXT.box.remove();EXT.box=null}
+    const f=document.createElement('iframe');f.className='ext-fr';f.title=r.name||'Eigenes Werkzeug';f.setAttribute('sandbox','allow-scripts');
+    f.setAttribute('referrerpolicy','no-referrer');
+    EXT.loads=0;EXT.info={src,name:r.name,ver:r.ver,live:r.live,names:r.names,subj:sl.dataset.subj||'',cfg:sl.dataset.cfg||''};
+    // Ein Werkzeug lädt genau einmal. Ein zweites Laden heißt: es hat versucht, wegzunavigieren. Dann anhalten.
+    f.addEventListener('load',()=>{if(++EXT.loads>1&&EXT.fr===f){EXT.key=key;extMsgBox(EXT_ERR.weg2)}});
+    f.srcdoc=extDoc(r.html);EXT.fr=f;document.body.appendChild(f);extPlace()})}
+// Tafel und Präsentation starten das Werkzeug, alle anderen Ansichten zeigen nur eine Karte
+function extSlot(t,c){const src=t.src||'demo',nm=src==='demo'?'Beispiel: Preis-Check':((EXT.list||[]).find(x=>x.id===src)||{}).name||'Eigenes Werkzeug';
+  if(!c.mini&&(BOARD||V.name==='present'))return `<div class="rt rt-ext"><div class="ext-slot" data-src="${esc(src)}" data-subj="${esc(c.subj||'')}" data-cfg="${esc(String(t.cfg||'').slice(0,2000))}"></div></div>`;
+  return `<div class="rt rt-ext"><div class="ext-card"><b>${esc(nm)}</b><p>Eigenes Werkzeug. Läuft an der Tafel im Schutzkasten.</p></div></div>`}
+function extPlace(){const el=EXT.fr||EXT.box,sl=extSlotEl();if(!el)return;if(!sl){el.style.display='none';return}
+  const b=sl.getBoundingClientRect();if(!b.width||!b.height){el.style.display='none';return}
+  Object.assign(el.style,{display:'',zIndex:sl.closest('.ov')?'25':'',left:b.left+'px',top:b.top+'px',width:b.width+'px',height:b.height+'px'})}
+addEventListener('resize',extPlace);addEventListener('scroll',extPlace,true);
+function extSend(typ,daten){try{EXT.fr&&EXT.fr.contentWindow.postMessage({elonuki:1,typ,daten},'*')}catch(e){}}
+// Leitfigur des Fachs (Elo, später z. B. Nuki), wie in assets/elo/figuren.json eingetragen
+function extFig(subj){const k=eloV('auto',subj),f=ELO_FIG[k]||ELO_FIG.standard;return {id:k,name:String(f.name||'Elo').replace(/\s*\(.*\)$/,''),bild:extBase()+'elo/'+f.datei}}
+function extColors(){const c=getComputedStyle(document.documentElement),o={};['bg','surface','ink','muted','line','navy','red','yellow','green','blue','orange'].forEach(k=>{const v=c.getPropertyValue('--'+k).trim();if(v)o[k]=v});return o}
+// Nachrichten aus dem Kasten: nur vom eigenen Rahmen, nur bekannte Typen, höchstens 8 KB und 20 pro Sekunde
+addEventListener('message',e=>{if(!EXT.fr||e.source!==EXT.fr.contentWindow)return;const m=e.data;if(!m||m.elonuki!==1||typeof m.typ!=='string')return;
+  const now=Date.now();if(now-EXT.t0>1000){EXT.t0=now;EXT.n=0}if(++EXT.n>20)return;
+  let s;try{s=JSON.stringify(m.daten===undefined?null:m.daten)}catch(x){return}if(s.length>8192)return;
+  const I=EXT.info||{},d=m.daten,sk='elio-ext-'+(I.src||'');
+  if(m.typ==='bereit')extSend('start',{rolle:BOARD?'tafel':'lehrer',fach:I.subj,sprache:I.subj==='E'?'en':'de',einstellungen:I.cfg,farben:extColors(),figur:extFig(I.subj),basis:extBase(),plaetze:+S.classSize||0,namen:null,version:I.ver||1,freigegeben:!!I.live});
+  else if(m.typ==='ton'){const k=EXT_SND[String(d&&d.name||d||'')];if(k&&SND[k])SND[k]()}
+  else if(m.typ==='elo'){const t=String(d&&d.text||d||'').slice(0,160);if(t)toast(t)}
+  else if(m.typ==='speichern'){try{localStorage.setItem(sk,s)}catch(x){}extSend('gespeichert',null)}
+  else if(m.typ==='laden'){let v=null;try{v=JSON.parse(localStorage.getItem(sk)||'null')}catch(x){}extSend('geladen',v)}
+  else if(m.typ==='fertig')toast('Werkzeug fertig.');
+  else if(['an_ipads','an_ipad','an_gruppe','ergebnis'].includes(m.typ))extSend('hinweis','Die iPads sind noch nicht angebunden. Das kommt in der nächsten Stufe.')});
+// Werkzeuge für die Auswahl in der Planung (eigene Entwürfe und freigegebene der Schule)
+function extListLoad(){if(EXT.list||!(CLOUD&&Cloud.sb&&Cloud.user))return;EXT.list=[];q(Cloud.sb.rpc('tool_list')).then(L=>{EXT.list=L||[];render()}).catch(()=>{})}
+function extOpts(sel){extListLoad();const L=EXT.list||[];
+  return `<option value="demo" ${sel==='demo'||!sel?'selected':''}>Beispiel: Preis-Check</option>${L.map(x=>`<option value="${esc(x.id)}" ${x.id===sel?'selected':''}>${esc(x.name)}${x.status==='freigegeben'?'':x.status==='gesperrt'?' (gesperrt)':' (Entwurf, nur Testklasse)'}${x.mine?'':' · '+esc(x.author||'')}</option>`).join('')}`}
+// Baustellen-Symbol: Werkzeug ist noch nicht zur Nutzung freigegeben
+const wipBadge=()=>`<i class="wip-b" title="In Arbeit: noch nicht zur Nutzung freigegeben">${ico('baustelle')}</i>`;
+const EXT_ST={entwurf:'Entwurf',eingereicht:'Zur Prüfung eingereicht',freigegeben:'Freigegeben',abgelehnt:'Zurück an den Autor',gesperrt:'Gesperrt'};
+const EXT_DEMO_ROW={id:'demo',name:'Beispiel: Preis-Check',status:'freigegeben',author:'ELONUKI',ver:1};
+// Werkzeugkasten: eigene Werkzeuge der Schule. Admin sieht auch Entwürfe, kann sie ansehen, freigeben und im Notfall sperren.
+function extToolbox(){if(!(CLOUD&&Cloud.sb&&Cloud.user))return '';extListLoad();const L=EXT.list||[],adm=!!(Cloud.prof&&Cloud.prof.role==='admin');
+  const btn=(a,x,t,c)=>`<button class="btn sm ${c||''}" data-act="${a}" data-id="${esc(x.id)}">${t}</button>`;
+  return `<section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">Eigene Werkzeuge der Schule</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Werkzeuge, die Lehrkräfte deiner Schule als HTML-Datei gebaut haben. Sie laufen im Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI. Das Baustellen-Symbol heißt: noch nicht zur Nutzung freigegeben, läuft nur in der Vorschau und in der Testklasse. In einer Stunde wählst du sie über das Werkzeug „Eigenes Werkzeug“.</p>
+    <div class="tb-tools">${[EXT_DEMO_ROW,...L].map(x=>`<div class="tb-tool on">${x.status!=='freigegeben'?wipBadge():''}<span style="flex:1;min-width:0;display:grid"><b>${esc(x.name)}</b><small>${esc(EXT_ST[x.status]||x.status)} · ${x.mine?'von dir':'von '+esc(x.author||'?')} · Version ${+x.ver||1}</small>
+      <span class="row" style="margin-top:6px;gap:6px">${btn('ext-view',x,'Ansehen')}${adm&&x.id!=='demo'?x.status==='gesperrt'?btn('ext-unblock',x,'Sperre aufheben'):x.status==='freigegeben'?btn('ext-block',x,'Sperren'):btn('ext-ok',x,'Freigeben','pri'):''}</span></span></div>`).join('')}</div>
+    ${L.length?'':`<p class="muted" style="margin-top:8px">${EXT.list===null?'Wird geladen …':'Noch keine eigenen Werkzeuge. Hochladen kommt in der nächsten Runde.'}</p>`}</section>`}
+function extView(id){const x=id==='demo'?EXT_DEMO_ROW:(EXT.list||[]).find(y=>y.id===id);if(!x)return;
+  showOv(`<div class="box viewer" role="dialog" aria-label="${esc(x.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${esc(x.name)} <small class="muted">Version ${+x.ver||1}${x.status==='freigegeben'?'':' · Vorschau'}</small></b><button class="btn sm pri" data-act="close-ov">Schließen</button></div>
+    <div class="ext-pv"><div class="ext-slot" data-src="${esc(x.id)}" data-pv="1" data-subj="${esc(x.subject||'')}"></div></div></div>`);extMount()}
+async function extAdmin(a,id){const x=(EXT.list||[]).find(y=>y.id===id);if(!x)return;
+  try{const r=a==='ext-ok'?await q(Cloud.sb.rpc('tool_review',{p_id:id,p_ver:x.ver,p_ok:true,p_note:'',p_names:false})):await q(Cloud.sb.rpc('tool_block',{p_id:id,p_on:a==='ext-block',p_note:''}));
+    toast(r==='ok'?(a==='ext-ok'?'Freigegeben. Die Schule kann es jetzt nutzen.':a==='ext-block'?'Gesperrt.':'Sperre aufgehoben.'):r==='geaendert'?'Inzwischen gibt es eine neue Version. Bitte nochmal ansehen.':'Das ging nicht.')}
+  catch(e){toast('ELONUKI ist gerade nicht erreichbar.')}
+  EXT.list=null;EXT.cache={};render()}
 VIEWS.present=()=>{
   const L=CS&&CS.lesson&&lessonById(CS.lesson.id);
   if(!L)return `<div class="empty" style="margin-top:40px">Gerade läuft keine Stunde.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn pri" data-act="tplan">Zur Planung</button><button class="btn" data-act="tdash">Lehrerzimmer</button></div></div>`;
@@ -9062,6 +9162,8 @@ document.addEventListener('click',e=>{
     case 'lib-ppt':pptImport(d.id);break;
     case 'lib-link':libAddLink($('#lib-url').value.trim(),$('#lib-title').value.trim(),$('#lib-subj').value);break;
     case 'lib-view':libView(d.id);break;
+    case 'ext-view':extView(d.id);break;
+    case 'ext-ok':case 'ext-block':case 'ext-unblock':extAdmin(a,d.id);break;
     case 'lib-dl':libDownload(d.id);break;
     case 'lib-del':V.ldel=d.id;$('#lib-list').innerHTML=libListHTML();break;
     case 'lib-lic':{const m=libById(d.id);if(!m)break;if(m.lic)delete m.lic;else m.lic='verlag';idb('meta','readwrite',st=>st.put(m)).then(()=>render());break}
@@ -9160,7 +9262,7 @@ document.addEventListener('click',e=>{
     case 'subject':go('subject',{s:d.s});break;
     case 'tab':V.tab=d.t;render();break;
     case 'module':go('module');break;
-    case 'close-ov':$('#ov').hidden=true;if(d.to==='subject')go('subject',{s:d.s});else if(d.to)go(d.to);break;
+    case 'close-ov':$('#ov').hidden=true;extMount();if(d.to==='subject')go('subject',{s:d.s});else if(d.to)go(d.to);break;
     case 'prep':{b.classList.toggle('on');const on=b.classList.contains('on');b.querySelector('i').textContent=on?'✓':'';if(PREPON&&d.k!=null){const k=+d.k;PREPON.on=PREPON.on.filter(x=>x!==k);if(on)PREPON.on.push(k)}SND.right();prepUpd();break}
     case 'recheck':{const sl=slotNow();if(sl.kind==='lesson')lessonPopup(sl,null);break}
     case 'hw':S.hwDone[d.id]=!S.hwDone[d.id];if(S.hwDone[d.id]){SND.right();earnOnce('hw_'+d.id)}save();progTick();render();break;
