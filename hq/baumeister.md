@@ -10,6 +10,7 @@ gelb
 42%
 
 ## Nächste 3 Schritte
+- Folie bleibt stehen testen: Phase mit Folie und danach Vokabeltrainer starten, weiterklicken; Tafel und iPads zeigen weiter die Folie, die SuS üben auf dem iPad
 - Vokabeltrainer in der Stunde testen: „Was üben die SuS?“ auf „Im eigenen Vokabelheft weiterlernen“ stellen und Phase starten; zweite Phase mit „Bestimmte Wörter“ und einer Liste aus dem Vokabelheft
 - Folien-Editor testen (Runde 5): Textfeld und Tabelle einfügen, Textfeld löschen, Bild freistellen, Folie unter „Meine Folien“ speichern und in einer anderen Stunde einfügen
 - SuS-Tester einrichten: supabase/tester.sql einmal im SQL Editor ausführen, dann Lehreransicht „Test“ und am iPad im SuS-Login „Lehrkraft · als Test-Schüler/in anmelden“
@@ -23,6 +24,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- Folie bleibt stehen (21.10.), im Test: Kommt in einer Phase nach Folien ein Werkzeug, das auf den iPads läuft (Übungen, Vokabeltrainer, Daumen, Exit-Ticket, Tagebuch, Skizzenphase …), bleibt an der Tafel die letzte Folie stehen. Werkzeuge für die Tafel (Startfolie, Stundenfrage, Quiz, Wortwolke, Tafelspiele …) zeigen sich wie bisher. Pro Werkzeug in der Planung umschaltbar (Tafel: „Folie bleibt“ / „Werkzeug zeigen“). Siegertreppchen und „Werke an die Tafel“ aus der Steuerung gehen immer nach vorne. Bei „Alle schauen nach vorne“ sehen die iPads die Folie statt „Schau zur Tafel“
 - Skizzenbuch Runde 2 (21.10.), im Test: grüner Knopf „Mit Lehrkraft teilen“ im offenen Blatt; geteilte Bilder kommen sofort an (Hinweis bei der Lehrkraft), werden passend verkleinert und gehen nicht mehr verloren; Tafel in der Skizzenphase neu: weiß, Maler-Elo sagt „Öffnet jetzt euer Skizzenbuch“, Knopf „Werke an die Tafel“ zeigt die geschickten Werke ohne Namen genau dort
 - Vokabeltrainer in der Stunde (21.10.), im Test: Auswahl „Im eigenen Vokabelheft weiterlernen“ (jedes Kind bekommt seine fälligen Wörter, Lernstand bleibt) oder „Bestimmte Wörter wiederholen“ (Listen aus dem Vokabelheft aller Klassen einsetzen, fällige Wörter nur auf Wunsch dazu); neue Phasen starten ohne Beispielwörter
 - Skizzenphase (21.10.), im Test: Sobald die Tafel beim Werkzeug Skizzenbuch ist, öffnet sich bei jedem Kind das Skizzenbuch mit Auftrag und hochgeladener Vorlage; Hinweise wie Freeze oder neue Phase liegen über dem Skizzenbuch

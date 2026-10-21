@@ -78,3 +78,4 @@ gelb
 | B-48 | Skizzenphase: SuS sahen nur die Tafel-Folie, das Skizzenbuch mit Auftrag und Vorlage ging nicht auf | hoch | in Test | app.html liveOverlay (Skizzenphase), .lov über Skizzenbuch |
 | B-49 | Weltkugel-Startfolie: Lehrer-Vorschau zeigte die Erdkugel still, und mit Stimmungswörtern rutschte „Welcome to English class“ auf die Kugel | mittel | in Test | app.html updPrev, .st-geo.has-cw |
 | B-51 | Skizzenbuch: geteilte Werke kamen bei der Lehrkraft nicht an (große Bilder gingen beim Live-Ersatzweg still verloren, Abholen nur jede Minute) | hoch | in Test | app.html skzShare, mbFlush, Nachricht mbn |
+| B-52 | Nach Folie und Weiter zum Werkzeug (z. B. Vokabeltrainer) zeigte die Tafel statt der Folie die Werkzeug-Ansicht; iPads zeigten bei „Alle schauen nach vorne“ nur „Schau zur Tafel“ statt der Folie | hoch | in Test | app.html stageOf, boardHTML0, onBoardState, liveOverlay |
