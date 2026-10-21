@@ -2235,7 +2235,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261021-1400';let verTold=false;
+const BUILD='20261021-1500';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3942,7 +3942,7 @@ async function wsGo(){const x=wsNext();if(!x)return;const id=($('#ws-song')||{})
   if(id){const m=libById(id);if(m&&!m.lic){m.lic='verlag';try{await idb('meta','readwrite',st=>st.put(m))}catch(e){}}}$('#ov').hidden=true;
   if(KF)kfbStop(true);audStop();skzOff();wsStop();
   const cid=x.sl&&x.sl.cid;
-  if(cid&&cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(k=>k.id===cid);if(c){if(CS){CS.lesson=null;CS.phase='arrive';CS.timer={run:false,total:300,left:300,endsAt:0};pushCS()}await teacherEnter(c)}}
+  if(cid&&cid!==S.cls&&CLOUD&&!testOn()){const c=(Cloud.myClasses||[]).find(k=>k.id===cid);if(c){if(CS){CS.lesson=null;CS.phase='arrive';CS.timer={run:false,total:300,left:300,endsAt:0};pushCS()}await teacherEnter(c)}}
   const L=lessonById(x.L.id)||x.L;phNorm(L);if(!CS)initTeacher();CS.game=null;CS.pick=null;CS.freeze=false;CS.lesson={id:L.id,title:L.title,plan:L.phases.map(p=>p.name)};if(L.mission)S.mission=L.mission;save();startStep(0);
   CS.timer={run:true,total:sec,left:sec,endsAt:Date.now()+sec*1000};CS.wechsel={at:Date.now(),fach:(SUBJECTS[L.subject]||{}).name||''};pushCS();go('tafel');
   if(id)libBlob(id).then(b=>{if(!b||!CS||!CS.wechsel)return;WS.url=URL.createObjectURL(b);WS.el=new Audio(WS.url);WS.el.volume=.85;WS.el.loop=true;WS.el.play().catch(()=>{})}).catch(()=>{})}
@@ -8213,7 +8213,7 @@ document.addEventListener('click',e=>{
     case 'l-del-yes':cloudDelLesson(d.id);S.lessons=lessons().filter(l=>l.id!==d.id);if(CS&&CS.lesson&&CS.lesson.id===d.id)CS.lesson=null;save();V.del=null;render();break;
     case 'l-start':{const L=lessonById(d.id);if(!L||!L.phases.length)break;
       // Stunde gehört zu einer anderen Klasse: erst dorthin wechseln (Live-Kanal, SuS, Hefte), dann starten
-      if(d.cid&&d.cid!==S.cls&&CLOUD){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;tafelSet(L2)});break}}tafelSet(L);break}
+      if(d.cid&&d.cid!==S.cls&&CLOUD&&!testOn()){const c=(Cloud.myClasses||[]).find(x=>x.id===d.cid);if(c){teacherEnter(c).then(()=>{const L2=lessonById(d.id)||L;tafelSet(L2)});break}}tafelSet(L);break}
     case 'l-go':startStep(+d.i);break;
     case 'l-nav':lNav(+d.d);break;
     case 'vw':vwDo(d.k);break;
