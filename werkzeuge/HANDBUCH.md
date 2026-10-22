@@ -15,7 +15,7 @@ Die Vorlage dazu ist [`vorlage.html`](vorlage.html). Sie ist gleichzeitig das Be
 1. **Eine einzige Datei.** Bilder als `data:`-Adresse oder als SVG direkt in der Datei.
 2. **Nichts aus dem Internet.** Keine fremden Bibliotheken, Schriften, Bilder, keine Links nach außen. Das wird ohnehin blockiert.
    Erlaubt sind nur ELONUKI-Schriften und ELONUKI-Figuren (siehe unten).
-3. **Kein Speichern auf dem Gerät** (`localStorage`, Cookies, IndexedDB). Dafür gibt es `speichern` und `laden` über die Brücke.
+3. **Speichern:** `localStorage`, `sessionStorage` und Cookies laufen nur im Arbeitsspeicher, der Stand geht beim Neuladen verloren. IndexedDB geht nicht. Dauerhaft merken geht über `speichern` und `laden` der Brücke. Formulare und `alert`/`confirm` gehen.
 4. **Keine Namen abfragen.** Die SuS sind „du“.
 5. **Nicht wegnavigieren**, keine Fenster öffnen. Sonst hält ELONUKI das Werkzeug an.
 6. **Kopfzeile** im `<head>`:
@@ -96,6 +96,7 @@ Grenzen: Jede Nachricht höchstens 8 KB, höchstens 20 Nachrichten pro Sekunde. 
 3. **Ansehen** startet es sofort in der Vorschau. In einer Stunde wählst du das Werkzeug „Eigenes Werkzeug“ und darin deins. Vor der Freigabe läuft es nur in deiner Testklasse (Knopf „Test“).
 4. **Einreichen**: Der Admin prüft es einmal und gibt es frei. Danach sieht es deine ganze Schule.
 5. **Neue Version**: einfach die geänderte Datei hochladen. Nach der Freigabe geht sie sofort live.
+6. **Weiterarbeiten mit deiner KI:** Mit „Herunterladen“ holst du die aktuelle Datei zurück, lässt sie von deiner KI ändern und lädst sie als „Neue Version“ hoch. Die Freigabe bleibt, du musst nicht neu einreichen.
 
 ## 7. Prompt-Vorlage für deine KI
 
