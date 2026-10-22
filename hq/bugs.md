@@ -88,3 +88,4 @@ gelb
 | B-59 | Skizzenbuch: grüner Knopf „Mit Lehrkraft teilen“ reagierte am iPad nicht (Tipp wurde von der Leinwand als Strich geschluckt) | hoch | in Test | assets/skizze/skizze.js onDown, noTouch |
 | B-60 | Neue Klasse (7a): Schrift auf iPads teils unlesbar. Ursache: App folgte dem dunklen Modus des iPads, der nur stellenweise geprüft war (nicht klassenbezogen) | hoch | in Test | app.html data-theme, THEME |
 | B-61 | Kontrast hell: Fach-Kürzel im Regelheft-Titel, Lernleiter-Überschrift, Team-2-Beschriftung im Kicker unter WCAG AA | niedrig | in Test | app.html .page h3 .sbadge, .ladder-top, .kf-teams |
+| B-62 | Vorlesen: englische Wörter in Arbeitsaufträgen (z. B. „Swap and Talk“) und Elos Sprechblasen in Englischstunden kamen mit deutscher Stimme | hoch | in Test | app.html lgSplit, rdParts, ttsSay |
