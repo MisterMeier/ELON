@@ -2307,7 +2307,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261022-0000';let verTold=false;
+const BUILD='20261022-1000';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -6760,11 +6760,16 @@ async function fillMedia(n){
    Läuft nur im Schutzkasten: iframe mit sandbox="allow-scripts" ohne allow-same-origin (kein Zugriff auf Konto, Speicher, Cookies, ELONUKI-Seite),
    dazu eine Sicherheitsregel ohne Internet. Mit ELONUKI spricht das Werkzeug nur über die Brücke (postMessage), siehe werkzeuge/HANDBUCH.md.
    Der Rahmen liegt fest über dem Platzhalter .ext-slot, damit das Werkzeug beim Neuzeichnen der Tafel nicht neu startet. */
-const EXT={fr:null,box:null,key:'',cache:{},list:null,n:0,t0:0,loads:0,info:null,author:false,up:null};
+const EXT={fr:null,box:null,key:'',cache:{},list:null,n:0,t0:0,loads:0,info:null,author:false,up:null,keys:null,newKey:null};
 // Erlaubt sind nur: eigener Code in der Datei, ELONUKI-Schriften und -Figuren (Elo, Nuki …) vom ELONUKI-Server. Kein Internet sonst.
 const extBase=()=>location.origin+location.pathname.replace(/[^/]*$/,'')+'assets/';
 const extCsp=()=>{const A=extBase();return `default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' ${A}fonts/; img-src data: blob: ${A}elo/ ${A}icons/; media-src data: blob:; font-src data: ${A}fonts/; connect-src 'none'; form-action 'none'; base-uri 'none'`};
-const EXT_BRIDGE=`<script>(function(){var P=parent,H={};window.elonuki=Object.freeze({senden:function(t,d){P.postMessage({elonuki:1,typ:String(t),daten:d===undefined?null:d},'*')},wenn:function(t,f){(H[t]=H[t]||[]).push(f)}});
+// Im Schutzkasten wirft localStorage/Cookie einen Fehler und viele Apps brechen dann mitten im Start ab.
+// Darum bekommen sie Speicher nur im Arbeitsspeicher (geht beim Neuladen verloren; dauerhaft geht „speichern“ über die Brücke).
+const EXT_BRIDGE=`<script>(function(){var P=parent,H={};
+function mk(){var d={};return {getItem:function(k){return Object.prototype.hasOwnProperty.call(d,k)?d[k]:null},setItem:function(k,v){d[k]=String(v)},removeItem:function(k){delete d[k]},clear:function(){d={}},key:function(i){return Object.keys(d)[i]||null},get length(){return Object.keys(d).length}}}
+['localStorage','sessionStorage'].forEach(function(n){try{Object.defineProperty(window,n,{value:mk(),configurable:true})}catch(e){}});
+try{var ck={};Object.defineProperty(document,'cookie',{configurable:true,get:function(){return Object.keys(ck).map(function(k){return k+'='+ck[k]}).join('; ')},set:function(v){var m=/^([^=;]+)=([^;]*)/.exec(String(v));if(m)ck[m[1].trim()]=m[2]}})}catch(e){}window.elonuki=Object.freeze({senden:function(t,d){P.postMessage({elonuki:1,typ:String(t),daten:d===undefined?null:d},'*')},wenn:function(t,f){(H[t]=H[t]||[]).push(f)}});
 addEventListener('message',function(e){if(e.source!==P)return;var m=e.data;if(!m||m.elonuki!==1)return;(H[m.typ]||[]).forEach(function(f){try{f(m.daten)}catch(x){console.error(x)}})});
 addEventListener('load',function(){elonuki.senden('bereit')})})()<\/script>`;
 const EXT_SND={richtig:'right',falsch:'oops',fertig:'cheer',jubel:'cheer',wechsel:'change',an:'on'};
@@ -6790,7 +6795,7 @@ function extMount(){const sl=extSlotEl();if(!sl){if(EXT.key)extStop();return}
   extStop();EXT.key=key;extMsgBox('Werkzeug wird geladen …');
   extLoad(src,cls).then(r=>{if(EXT.key!==key)return;if(!r.html){extMsgBox(EXT_ERR[r.err]||EXT_ERR.weg);return}
     if(EXT.box){EXT.box.remove();EXT.box=null}
-    const f=document.createElement('iframe');f.className='ext-fr';f.title=r.name||'Eigenes Werkzeug';f.setAttribute('sandbox','allow-scripts');
+    const f=document.createElement('iframe');f.className='ext-fr';f.title=r.name||'Eigenes Werkzeug';f.setAttribute('sandbox','allow-scripts allow-forms allow-modals');
     f.setAttribute('referrerpolicy','no-referrer');
     EXT.loads=0;EXT.info={src,name:r.name,ver:r.ver,live:r.live,names:r.names,subj:sl.dataset.subj||'',cfg:sl.dataset.cfg||''};
     // Ein Werkzeug lädt genau einmal. Ein zweites Laden heißt: es hat versucht, wegzunavigieren. Dann anhalten.
@@ -6837,11 +6842,43 @@ function extMeta(h){const m=/<meta[^>]+name=["']elonuki-tool["'][^>]*>/i.exec(h|
 // Vorprüfung beim Hochladen: Hinweise in einfachen Worten. Der eigentliche Schutz ist der Kasten, nicht diese Liste.
 function extCheck(h){const P=[],s=String(h||'');if(!extMeta(s))P.push('Die Kopfzeile <meta name="elonuki-tool"> fehlt oder ist kaputt. Name und Fach bitte unten eintragen.');
   [[/(src|href)\s*=\s*["']?\s*(https?:)?\/\//i,'Lädt etwas aus dem Internet (src oder href mit http). Bilder und Töne müssen in der Datei stecken.'],[/url\(\s*["']?\s*(https?:)?\/\//i,'Lädt Bilder oder Schriften aus dem Internet (url(…)).'],[/@import/i,'Lädt Stile von außen (@import).'],
-   [/\b(fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|sendBeacon)\b/,'Will etwas übers Internet schicken oder holen. Das klappt im Schutzkasten nicht.'],[/\b(localStorage|sessionStorage|indexedDB|document\.cookie)\b/,'Will auf dem Gerät speichern. Das klappt im Schutzkasten nicht, dafür gibt es „speichern“ über die Brücke.'],
+   [/\b(fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|sendBeacon)\b/,'Will etwas übers Internet schicken oder holen. Das klappt im Schutzkasten nicht.'],[/\b(localStorage|sessionStorage|document\.cookie)\b/,'Speichert im Browser. Das läuft, aber der Stand geht beim Neuladen verloren. Dauerhaft geht „speichern“ über die Brücke.'],[/\bindexedDB\b/,'Benutzt IndexedDB. Das klappt im Schutzkasten nicht.'],[/<script[^>]+src\s*=/i,'Lädt ein Skript aus einer Datei oder dem Internet. Alles muss in dieser einen Datei stecken.'],[/<link[^>]+rel\s*=\s*["']?(stylesheet|icon|manifest)/i,'Bindet eine Stil- oder Symbol-Datei ein. Alles muss in dieser einen Datei stecken.'],
    [/\b(eval|Function)\s*\(/,'Benutzt eval oder new Function.'],[/\b(top|parent|opener)\s*\.(?!postMessage)/,'Greift direkt auf ELONUKI zu (parent/top). Das geht nur über die Brücke.'],[/\b(window\.open|location\s*=|location\.(href|assign|replace))/,'Will die Seite wechseln oder ein Fenster öffnen. ELONUKI hält das Werkzeug dann an.'],
    [/[\u{1F300}-\u{1FAFF}☀-➿]/u,'Enthält Emojis. Im ELONUKI-Design bitte einfache SVG-Symbole nehmen.']].forEach(([r,t])=>{if(r.test(s))P.push(t)});
   if(!/elonuki\.(senden|wenn)/.test(s))P.push('Benutzt die ELONUKI-Brücke nicht (elonuki.senden / elonuki.wenn). Es läuft trotzdem, bekommt aber keine Farben, Töne und Figur.');
   return P}
+// Persönliche Schlüssel: die KI der Lehrkraft schickt Werkzeuge direkt an ELONUKI (Edge Function werkzeug-push)
+const extPushUrl=()=>String(LIVE_CFG.supabaseUrl||'').replace(/\/+$/,'')+'/functions/v1/werkzeug-push';
+function extKeysLoad(){if(EXT.keys||!(CLOUD&&Cloud.sb&&Cloud.user))return;EXT.keys=[];q(Cloud.sb.rpc('tool_key_list')).then(L=>{EXT.keys=L||[];render()}).catch(()=>{EXT.keys=[]})}
+function extPrompt(k){const u=extPushUrl();return `Du darfst mein ELONUKI-Werkzeug direkt aktualisieren. Arbeite nach ${location.origin}/werkzeuge/HANDBUCH.md (Regeln, Design, Brücke) und starte von ${location.origin}/werkzeuge/vorlage.html.
+
+Geheimer Schlüssel (nie in Dateien, Git oder Chats weitergeben): ${k}
+Lege ihn als Umgebungsvariable ab: export ELONUKI_KEY=${k}
+
+Werkzeug senden (Name und Fach stehen im <meta name="elonuki-tool"> der Datei, danach ist es sofort in ELONUKI sichtbar):
+curl -sS -X POST "${u}" -H "Authorization: Bearer $ELONUKI_KEY" -H "Content-Type: text/html" --data-binary @werkzeug.html
+
+Meine Werkzeuge auflisten:
+curl -sS "${u}" -H "Authorization: Bearer $ELONUKI_KEY"
+
+Aktuelle Datei eines Werkzeugs holen, bevor du etwas änderst:
+curl -sS -G "${u}" --data-urlencode "name=NAME" -H "Authorization: Bearer $ELONUKI_KEY"
+
+Die Antwort enthält „hinweise“. Behebe jeden Hinweis und sende erneut. Ist das Werkzeug schon freigegeben, geht jede Änderung sofort live. Teste deshalb zuerst in kleinen Schritten.`}
+async function extKeyAct(a,id){
+  try{if(a==='ext-key-new'){const r=await q(Cloud.sb.rpc('tool_key_create',{p_label:'Meine KI'}));
+      if(r&&r.key){EXT.newKey=r.key;EXT.keys=null}else toast(r&&r.err==='zuviele'?'Du hast schon 3 Schlüssel. Widerrufe erst einen.':'Das ging nicht.')}
+    else if(a==='ext-key-rev'){const r=await q(Cloud.sb.rpc('tool_key_revoke',{p_id:id}));toast(r==='ok'?'Schlüssel widerrufen. Er gilt sofort nicht mehr.':'Das ging nicht.');EXT.keys=null}
+    else if(a==='ext-key-copy'){const t=($('#ext-key-txt')||{}).value||'';try{await navigator.clipboard.writeText(t);toast('Kopiert. Jetzt in Claude Code einfügen.')}catch(e){const el=$('#ext-key-txt');if(el){el.select();toast('Markiert. Mit Strg/Cmd+C kopieren.')}}}
+    else if(a==='ext-key-hide')EXT.newKey=null}
+  catch(e){toast(/tool_key|PGRST202|Could not find the function/i.test(String(e&&(e.code+' '+e.message)))?'Auf dem Server fehlt noch die Einrichtung (20261022090000_werkzeug_schluessel.sql).':'ELONUKI ist gerade nicht erreichbar.')}
+  render()}
+function extKeysHTML(){extKeysLoad();const K=EXT.keys||[];
+  return `<div class="ext-up" style="border-style:solid"><b>Direkt mit deiner KI arbeiten (Claude Code)</b>
+    <p class="muted" style="font-weight:700;margin:4px 0 8px">Mit einem persönlichen Schlüssel schickt deine KI Änderungen direkt an ELONUKI, ohne Herunterladen und Hochladen. Bei freigegebenen Werkzeugen ist die Änderung sofort live. Der Schlüssel kann nur deine eigenen Werkzeuge schicken und lesen, nichts freigeben und nichts anderes sehen. Du kannst ihn jederzeit widerrufen.</p>
+    ${EXT.newKey?`<div class="ext-hint"><b>Dein neuer Schlüssel steht nur jetzt hier.</b> Kopiere die Anweisung und füge sie in Claude Code ein. Teile sie mit niemandem sonst.<textarea id="ext-key-txt" rows="9" readonly style="width:100%;margin-top:6px;font-size:.8rem">${esc(extPrompt(EXT.newKey))}</textarea><div class="row" style="margin-top:6px"><button class="btn sm pri" data-act="ext-key-copy">Anweisung kopieren</button><button class="btn sm" data-act="ext-key-hide">Fertig, ausblenden</button></div></div>`:''}
+    ${K.length?`<table><tr><th>Schlüssel</th><th>Erzeugt</th><th>Zuletzt benutzt</th><th></th></tr>${K.map(k=>`<tr><td>${esc(k.label||'Schlüssel')}${k.revoked?' <small class="muted">(widerrufen)</small>':''}</td><td>${esc(adWhen(k.created_at))}</td><td>${k.last_used_at?esc(adWhen(k.last_used_at)):'noch nie'}</td><td>${k.revoked?'':`<button class="btn sm" data-act="ext-key-rev" data-id="${esc(k.id)}">Widerrufen</button>`}</td></tr>`).join('')}</table>`:''}
+    <div class="row" style="margin-top:8px"><button class="btn sm pri" data-act="ext-key-new">Neuen Schlüssel erzeugen</button></div></div>`}
 // Datei gewählt: lesen, prüfen, dann Bestätigung zeigen (neues Werkzeug oder neue Version eines eigenen)
 function extFile(f,id){if(!f)return;if(!/\.html?$/i.test(f.name)&&f.type!=='text/html'){toast('Bitte eine .html-Datei wählen.');return}if(f.size>600000){toast('Die Datei ist größer als 600 KB. Bilder kleiner machen oder als SVG einbauen.');return}
   f.text().then(h=>{const m=extMeta(h)||{},x=id&&(EXT.list||[]).find(y=>y.id===id);
@@ -6853,6 +6890,8 @@ async function extSave(){const U=EXT.up;if(!U||U.busy)return;U.name=(($('#ext-up
     else{U.busy=false;toast({denied:'Hochladen dürfen nur Co-Autoren. Fabian kann dich im Admin dazu machen.',noschool:'Dein Konto gehört noch zu keiner Schule.',gross:'Die Datei ist zu groß (höchstens 600 KB).',leer:'Die Datei ist leer.',name:'Bitte einen Namen eintragen.'}[r&&r.err]||'Das ging nicht.')}}
   catch(e){U.busy=false;toast(/PGRST202|Could not find the function/i.test(String(e&&(e.code+' '+e.message)))?'Auf dem Server fehlt noch die Einrichtung (20261021180000_co_autor_werkzeuge.sql).':'ELONUKI ist gerade nicht erreichbar.')}
   EXT.list=null;EXT.cache={};render()}
+// Eigene Datei wieder herunterladen, damit man mit seiner KI weiterarbeiten und sie als neue Version hochladen kann
+async function extDl(id){try{const r=await q(Cloud.sb.rpc('tool_html',{p_id:id,p_class:null}));if(r&&r.html)dl(new Blob([r.html],{type:'text/html'}),(String(r.name||'werkzeug').replace(/[^\wäöüÄÖÜß-]+/g,'-')||'werkzeug')+'.html');else toast('Das ging nicht.')}catch(e){toast('ELONUKI ist gerade nicht erreichbar.')}}
 async function extOwn(a,id){if(a==='ext-del'&&V.extDel!==id){V.extDel=id;render();return}V.extDel=null;
   try{const r=await q(a==='ext-submit'?Cloud.sb.rpc('tool_submit',{p_id:id}):Cloud.sb.rpc('tool_delete',{p_id:id}));
     toast(r==='ok'?(a==='ext-submit'?'Eingereicht. Fabian bekommt es zur Prüfung.':'Gelöscht.'):'Das ging nicht.')}catch(e){toast('ELONUKI ist gerade nicht erreichbar.')}
@@ -6867,10 +6906,11 @@ function extUpHTML(){const U=EXT.up;if(!U)return '';
 // Werkzeugkasten: eigene Werkzeuge der Schule. Co-Autoren laden hoch, testen und reichen ein. Admin sieht auch Entwürfe, kann sie ansehen, freigeben und im Notfall sperren.
 function extToolbox(){if(!(CLOUD&&Cloud.sb&&Cloud.user))return '';extListLoad();const L=EXT.list||[],adm=!!(Cloud.prof&&Cloud.prof.role==='admin'),up=extCanUp();
   const btn=(a,x,t,c)=>`<button class="btn sm ${c||''}" data-act="${a}" data-id="${esc(x.id)}">${t}</button>`;
-  const own=x=>x.mine?`<label class="btn sm ext-file">Neue Version<input type="file" accept=".html,.htm,text/html" data-extup="${esc(x.id)}" hidden></label>${['entwurf','abgelehnt'].includes(x.status)?btn('ext-submit',x,'Einreichen','pri'):''}${V.extDel===x.id?btn('ext-del',x,'Wirklich löschen','red'):btn('ext-del',x,'Löschen')}`:'';
+  const own=x=>x.mine?`${btn('ext-dl',x,'Herunterladen')}<label class="btn sm ext-file">Neue Version<input type="file" accept=".html,.htm,text/html" data-extup="${esc(x.id)}" hidden></label>${['entwurf','abgelehnt'].includes(x.status)?btn('ext-submit',x,'Einreichen','pri'):''}${V.extDel===x.id?btn('ext-del',x,'Wirklich löschen','red'):btn('ext-del',x,'Löschen')}`:'';
   return `<section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.2rem">Eigene Werkzeuge der Schule</h2>${up?`<label class="btn pri ext-file">Werkzeug hochladen (.html)<input type="file" accept=".html,.htm,text/html" data-extup="" hidden></label>`:''}</div>
     <p class="muted" style="font-weight:700;margin:4px 0 10px">Werkzeuge, die Lehrkräfte deiner Schule als HTML-Datei gebaut haben. Sie laufen im Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI. Das Baustellen-Symbol heißt: noch nicht zur Nutzung freigegeben, läuft nur in der Vorschau und in der Testklasse. In einer Stunde wählst du sie über das Werkzeug „Eigenes Werkzeug“.</p>${up?`<p style="margin:0 0 10px"><a class="btn sm" href="werkzeuge/HANDBUCH.md" target="_blank" rel="noopener">Handbuch mit Prompt für deine KI</a> <a class="btn sm" href="werkzeuge/vorlage.html" download="elonuki-vorlage.html">Vorlage herunterladen</a></p>`:''}
     ${extUpHTML()}
+    ${up?extKeysHTML():''}
     <div class="tb-tools">${[EXT_DEMO_ROW,...L].map(x=>`<div class="tb-tool on ext-t">${x.status!=='freigegeben'?wipBadge():''}<span style="flex:1;min-width:0;display:grid"><b>${esc(x.name)}</b><small>${esc(EXT_ST[x.status]||x.status)} · ${x.mine?'von dir':'von '+esc(x.author||'?')} · Version ${+x.ver||1}</small>${x.info?`<small>${esc(x.info)}</small>`:''}${x.note&&(x.mine||adm)?`<small><b>Notiz:</b> ${esc(x.note)}</small>`:''}
       <span class="row" style="margin-top:6px;gap:6px">${btn('ext-view',x,'Ansehen')}${own(x)}${adm&&x.id!=='demo'?x.status==='gesperrt'?btn('ext-unblock',x,'Sperre aufheben'):x.status==='freigegeben'?btn('ext-block',x,'Sperren'):btn('ext-ok',x,'Freigeben','pri'):''}</span></span></div>`).join('')}</div>
     ${L.length?'':`<p class="muted" style="margin-top:8px">${up?'Noch keine eigenen Werkzeuge. Lade oben dein erstes hoch.':'Noch keine eigenen Werkzeuge an deiner Schule.'}</p>`}</section>`}
@@ -9211,6 +9251,8 @@ document.addEventListener('click',e=>{
     case 'ext-view':extView(d.id);break;
     case 'ext-ok':case 'ext-block':case 'ext-unblock':extAdmin(a,d.id);break;
     case 'ext-save':extSave();break;
+    case 'ext-dl':extDl(d.id);break;
+    case 'ext-key-new':case 'ext-key-rev':case 'ext-key-copy':case 'ext-key-hide':extKeyAct(a,d.id);break;
     case 'ext-up-x':EXT.up=null;render();break;
     case 'ext-submit':case 'ext-del':extOwn(a,d.id);break;
     case 'lib-dl':libDownload(d.id);break;

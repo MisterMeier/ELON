@@ -83,3 +83,4 @@ gelb
 | B-54 | Anzeige von Bibliotheksdateien an der Tafel nachgeschärft (Details nur im Chat) | hoch | in Test | app.html libView, fillMedia (showUrl) |
 | B-55 | version.txt und App-Version passten nach PR #56 nicht zusammen: SuS-iPads und Tafel luden sich außerhalb der Stunde jede Minute neu | hoch | in Test | version.txt, app.html BUILD |
 | B-56 | Eigene Werkzeuge starteten nicht: App rief tool_html mit falschem Feldnamen auf, Meldung „Einrichtung fehlt“ trotz ausgeführter SQL | hoch | in Test | app.html extLoad |
+| B-57 | Eigene Werkzeuge liefen nur teilweise: Zugriff auf Browser-Speicher, Formulare und Hinweisfenster brachen im Schutzkasten ab | hoch | in Test | app.html EXT_BRIDGE, extMount |
