@@ -84,5 +84,7 @@ gelb
 | B-55 | version.txt und App-Version passten nach PR #56 nicht zusammen: SuS-iPads und Tafel luden sich außerhalb der Stunde jede Minute neu | hoch | in Test | version.txt, app.html BUILD |
 | B-56 | Eigene Werkzeuge starteten nicht: App rief tool_html mit falschem Feldnamen auf, Meldung „Einrichtung fehlt“ trotz ausgeführter SQL | hoch | in Test | app.html extLoad |
 | B-57 | Eigene Werkzeuge liefen nur teilweise: Zugriff auf Browser-Speicher, Formulare und Hinweisfenster brachen im Schutzkasten ab | hoch | in Test | app.html EXT_BRIDGE, extMount |
-| B-58 | Neue Klasse (7a): Schrift auf iPads teils unlesbar. Ursache: App folgte dem dunklen Modus des iPads, der nur stellenweise geprüft war (nicht klassenbezogen) | hoch | in Test | app.html data-theme, THEME |
-| B-59 | Kontrast hell: Fach-Kürzel im Regelheft-Titel, Lernleiter-Überschrift, Team-2-Beschriftung im Kicker unter WCAG AA | niedrig | in Test | app.html .page h3 .sbadge, .ladder-top, .kf-teams |
+| B-58 | Skizzenbuch: Zwei-Finger-Zoom am Werk zoomte oft die ganze App, SuS kamen nicht mehr heraus und sahen die Werkzeuge nicht | hoch | in Test | assets/skizze/skizze.js zoomGuard, touch-action |
+| B-59 | Skizzenbuch: grüner Knopf „Mit Lehrkraft teilen“ reagierte am iPad nicht (Tipp wurde von der Leinwand als Strich geschluckt) | hoch | in Test | assets/skizze/skizze.js onDown, noTouch |
+| B-60 | Neue Klasse (7a): Schrift auf iPads teils unlesbar. Ursache: App folgte dem dunklen Modus des iPads, der nur stellenweise geprüft war (nicht klassenbezogen) | hoch | in Test | app.html data-theme, THEME |
+| B-61 | Kontrast hell: Fach-Kürzel im Regelheft-Titel, Lernleiter-Überschrift, Team-2-Beschriftung im Kicker unter WCAG AA | niedrig | in Test | app.html .page h3 .sbadge, .ladder-top, .kf-teams |
