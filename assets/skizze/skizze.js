@@ -101,6 +101,7 @@ const IC={
   marker:`<path d="M9 15l-3 3v3h3l3-3" ${P}/><path d="M9 15l7.5-7.5 3 3L12 18z" ${P}/><path d="M15 6l2-2 3 3-2 2" ${P}/>`,
   fuellen:`<path d="M5 11l7-7 7 7-7 7z" ${P}/><path d="M5 11h14" ${P}/><path d="M20 15c1 1.6 1.5 2.6 1.5 3.3a1.5 1.5 0 0 1-3 0c0-.7.5-1.7 1.5-3.3z" fill="currentColor"/>`,
   form:`<rect x="3" y="11" width="9" height="9" rx="1" ${P}/><circle cx="16" cy="8" r="5" ${P}/>`,
+  sticker:`<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" ${P}/>`,
   linie:`<path d="M4 20L20 4" ${P}/><circle cx="4" cy="20" r="1.8" fill="currentColor"/><circle cx="20" cy="4" r="1.8" fill="currentColor"/>`,
   auswahl:`<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3" ${P}/><path d="M11 4h2M11 20h2M4 11v2M20 11v2" ${P}/>`,
   transform:`<path d="M12 3v18M3 12h18" ${P}/><path d="M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3" ${P}/>`,
@@ -129,6 +130,46 @@ const IC={
 };
 const ico=(k,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true">${IC[k]||''}</svg>`;
 
+/* ---------- Sticker und Stempel ----------
+   Eigene Formen als Pfade (kein SVG-Bild, damit die Leinwand auslesbar bleibt). f = Fläche in der gewählten Farbe, w = weiß, s = Linie (Stärke).
+   Dazu Sticker, die die Lehrkraft hochlädt (ctx.stk). */
+const pC=(x,y,r)=>`M${x-r} ${y}a${r} ${r} 0 1 0 ${2*r} 0a${r} ${r} 0 1 0 ${-2*r} 0z`;
+const pE=(x,y,a,b)=>`M${x-a} ${y}a${a} ${b} 0 1 0 ${2*a} 0a${a} ${b} 0 1 0 ${-2*a} 0z`;
+const SPIRAL=(()=>{let d='';for(let i=0;i<=140;i++){const a=i/140*Math.PI*6,r=2+a*2.1;d+=(i?'L':'M')+(50+Math.cos(a)*r).toFixed(1)+' '+(50+Math.sin(a)*r).toFixed(1)}return d})();
+const PETALS=[-90,-18,54,126,198].map(g=>pC(50+24*Math.cos(g*Math.PI/180),50+24*Math.sin(g*Math.PI/180),17)).join('');
+const STK=[
+  ['stern','Stern',[['f','M50 6l12.9 26.2 28.9 4.2-20.9 20.4 4.9 28.8L50 72 24.2 85.6l4.9-28.8L8.2 36.4l28.9-4.2z']]],
+  ['herz','Herz',[['f','M50 88S10 63 10 35a20 20 0 0 1 40-7 20 20 0 0 1 40 7c0 28-40 53-40 53z']]],
+  ['sonne','Sonne',[['f',pC(50,50,21)],['s','M50 6v12M50 82v12M6 50h12M82 50h12M19 19l9 9M72 72l9 9M19 81l9-9M72 28l9-9',7]]],
+  ['mond','Mond',[['f','M62 8a42 42 0 1 0 30 62A34 34 0 0 1 62 8z']]],
+  ['wolke','Wolke',[['f','M27 78a17 17 0 0 1-2-34 22 22 0 0 1 42-8 17 17 0 0 1 21 16 13 13 0 0 1-3 26z']]],
+  ['blitz','Blitz',[['f','M58 4L18 56h26l-8 40 46-56H54z']]],
+  ['tropfen','Tropfen',[['f','M50 6C36 28 22 44 22 62a28 28 0 0 0 56 0C78 44 64 28 50 6z']]],
+  ['blume','Blume',[['f',PETALS],['w',pC(50,50,12)],['f',pC(50,50,7)]]],
+  ['blatt','Blatt',[['f','M14 86C14 40 40 12 88 12c0 48-28 74-74 74z'],['s','M16 84L60 40',4]]],
+  ['baum','Baum',[['f',pC(50,38,30)],['f','M43 60h14v34H43z']]],
+  ['haus','Haus',[['f','M50 8L6 46h12v44h64V46h12z'],['w','M42 62h16v28H42z']]],
+  ['berg','Berge',[['f','M4 88L36 30l16 26 12-18 32 50z']]],
+  ['welle','Welle',[['s','M6 40c11-14 22-14 33 0s22 14 33 0 22-14 22-14M6 66c11-14 22-14 33 0s22 14 33 0 22-14 22-14',8]]],
+  ['vogel','Vogel',[['s','M8 46c14-12 28-12 42 6 14-18 28-18 42-6',8]]],
+  ['fisch','Fisch',[['f','M8 50c14-22 44-28 64-6l20-16v44L72 56C52 78 22 72 8 50z'],['w',pC(30,46,5)]]],
+  ['falter','Schmetterling',[['f','M48 46C36 20 10 10 8 26c-2 14 16 24 40 24zM48 52C30 54 14 66 20 80c6 12 22 2 28-24zM52 46C64 20 90 10 92 26c2 14-16 24-40 24zM52 52C70 54 86 66 80 80c-6 12-22 2-28-24zM46 30h8v52h-8z'],['s','M48 30c-2-10-8-16-14-18M52 30c2-10 8-16 14-18',3]]],
+  ['auge','Auge',[['f','M4 50s18-28 46-28 46 28 46 28-18 28-46 28S4 50 4 50z'],['w',pC(50,50,15)],['f',pC(50,50,8)]]],
+  ['pfeil','Pfeil',[['f','M6 40h52V18l36 32-36 32V60H6z']]],
+  ['sprechen','Sprechblase',[['f','M14 12h72a8 8 0 0 1 8 8v42a8 8 0 0 1-8 8H42L22 90V70h-8a8 8 0 0 1-8-8V20a8 8 0 0 1 8-8z']]],
+  ['denken','Denkblase',[['f',pE(54,38,40,28)],['f',pC(22,74,8)],['f',pC(10,90,5)]]],
+  ['krone','Krone',[['f','M10 78L4 26l24 20L50 14l22 32 24-20-6 52z'],['f','M10 82h80v10H10z']]],
+  ['note','Musiknote',[['s','M38 74V20l46-10v56',7],['f',pE(26,76,14,11)],['f',pE(72,68,14,11)]]],
+  ['spirale','Spirale',[['s',SPIRAL,6]]],
+  ['flocke','Schneeflocke',[['s','M50 8v84M14 29l72 42M14 71l72-42M40 14l10 10 10-10M40 86l10-10 10 10M12 42l14-3-4-13M88 58l-14 3 4 13M12 58l14 3-4 13M88 42l-14-3 4-13',6]]],
+  ['ring','Kreis',[['s',pC(50,50,40),9]]],
+];
+const stkSvg=(ops,col)=>`<svg viewBox="0 0 100 100" aria-hidden="true">${ops.map(([t,d,sw])=>t==='s'?`<path d="${d}" fill="none" stroke="${col}" stroke-width="${sw||7}" stroke-linecap="round" stroke-linejoin="round"/>`:`<path d="${d}" fill="${t==='w'?'#fff':col}"/>`).join('')}</svg>`;
+function stkCanvas(ops,col,n=512){const c=mkCanvas(n,n),x=ctx2(c);x.scale(n/100,n/100);x.lineCap='round';x.lineJoin='round';
+  for(const [t,d,sw] of ops){const p=new Path2D(d);if(t==='s'){x.strokeStyle=col;x.lineWidth=sw||7;x.stroke(p)}else{x.fillStyle=t==='w'?'#fff':col;x.fill(p)}}return c}
+const STKU={};// Vorschaubilder der Lehrkraft-Sticker (bleiben, solange die App offen ist)
+async function stkUrl(id){if(STKU[id])return STKU[id];const g=APP.ctx&&APP.ctx.stk&&APP.ctx.stk.get;if(!g)return '';try{const b=await g(id);return b?(STKU[id]=URL.createObjectURL(b)):''}catch(e){return ''}}
+
 /* ---------- Einstellungen pro Gerät (keine persönlichen Daten) ---------- */
 const PREF_KEY='elio-skizze-pref';
 const PREF0={penOnly:'auto',rotate:true,lefty:false,grid:0,guide:'aus',sym:false,curve:'normal',smooth:.5,color:'#1d2433',recent:[],pal:[],colTab:'scheibe',harm:'komp',sizes:{},ops:{},pinsel:'tusche',formK:'rect',formFill:false,selK:'rect',fillK:'eimer',gradK:'linear',gradEnd:'trans',fillAll:true,fillTol:40,eraseK:'hart',textFont:'baloo',lineSnap:true,hintCol:false};
@@ -141,7 +182,9 @@ const curve=p=>PREF.curve==='weich'?Math.pow(p,.6):PREF.curve==='fest'?Math.pow(
 const CSS=`
 .skz{position:fixed;inset:0;z-index:46;display:flex;flex-direction:column;background:var(--bg,#eef1f8);color:var(--ink,#18203d);font-family:var(--f-body,"Nunito",system-ui,sans-serif);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
 .skz *{box-sizing:border-box}.skz button{font:inherit;color:inherit}
-.skz-b{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 10px;border-radius:12px;border:0;background:transparent;cursor:pointer;touch-action:manipulation;font-weight:800;font-size:.92rem}
+/* Kein Seiten-Zoom im Skizzenbuch: pan-x pan-y erlaubt Wischen in Listen, aber kein Zwei-Finger-Zoom und keinen Doppeltipp-Zoom der ganzen App */
+.skz,.skz *{touch-action:pan-x pan-y}.skz-stage,.skz-stage *{touch-action:none}
+.skz-b{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 10px;border-radius:12px;border:0;background:transparent;cursor:pointer;touch-action:pan-x pan-y;font-weight:800;font-size:.92rem}
 .skz-b:hover{background:var(--surface-2,#f5f7fc)}.skz-b:disabled{opacity:.35;cursor:default}.skz-b.on{background:var(--navy,#26337a);color:var(--on-accent,#fff)}
 .skz-send{position:absolute;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:6;min-height:52px;padding:0 18px;border-radius:16px;font-size:1rem;box-shadow:0 6px 18px rgba(31,143,93,.35)}.skz.focus .skz-send{display:none}
 .skz-b.pri{background:var(--navy,#26337a);color:var(--on-accent,#fff)}.skz-b.ok{background:var(--green,#1f8f5d);color:#fff}.skz-b.red{color:var(--red,#cf3a2c)}.skz-b.line{border:2px solid var(--line,#d8ddee);background:var(--surface,#fff)}
@@ -150,7 +193,7 @@ const CSS=`
 .skz-kind{font-size:.72rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--warn-bg,#fdf0d2);color:#8a5a00;white-space:nowrap}.skz-kind.werk{background:var(--ok-bg,#dff4e9);color:#17643f}.skz-kind.frei{background:var(--surface-2,#f5f7fc);color:var(--muted,#586082)}
 .skz-saved{font-size:.78rem;font-weight:800;color:var(--muted,#586082);white-space:nowrap}
 .skz-sep{width:1px;height:28px;background:var(--line,#d8ddee);margin:0 4px}
-.skz-colb{position:relative;width:50px;height:50px;border-radius:50%;border:0;padding:0;flex:none;cursor:pointer;background:conic-gradient(#e2001a,#f39200,#f4e403,#86bc25,#009a5a,#0094c8,#3a3a8f,#b5006b,#e2001a);touch-action:manipulation}
+.skz-colb{position:relative;width:50px;height:50px;border-radius:50%;border:0;padding:0;flex:none;cursor:pointer;background:conic-gradient(#e2001a,#f39200,#f4e403,#86bc25,#009a5a,#0094c8,#3a3a8f,#b5006b,#e2001a);touch-action:pan-x pan-y}
 .skz-col{position:absolute;inset:5px;border-radius:50%;border:3px solid var(--surface,#fff);display:block}
 .skz-qc{display:flex;gap:5px;align-items:center;padding:0 4px}.skz-qc button{width:28px;height:28px;border-radius:50%;border:2px solid rgba(0,0,0,.14);padding:0;cursor:pointer;flex:none}
 @media (max-width:900px){.skz-qc{display:none}}
@@ -214,7 +257,7 @@ const CSS=`
 .skz-toast{position:absolute;left:50%;top:70px;transform:translateX(-50%);background:var(--ink,#18203d);color:var(--bg,#fff);padding:10px 16px;border-radius:14px;font-weight:800;z-index:40;max-width:min(520px,calc(100% - 24px));text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:skzIn .2s ease-out}
 @keyframes skzIn{from{opacity:0;transform:translate(-50%,-8px)}}
 .skz-task{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:800;background:var(--warn-bg,#fdf0d2);color:#6d4800;padding:4px 10px;border-radius:999px;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.skz.focus .skz-top,.skz.focus .skz-side,.skz.focus .skz-ctx{display:none}.skz-fx .skz-close{display:flex;align-items:center;gap:6px;font-weight:900;padding:0 12px;width:auto}.skz-top{position:relative;z-index:12;touch-action:manipulation}.skz-fx{position:absolute;right:12px;top:12px;z-index:6;display:none;gap:6px}.skz.focus .skz-fx{display:flex}.skz-fx .skz-b{background:rgba(255,255,255,.92);box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.skz.focus .skz-top,.skz.focus .skz-side,.skz.focus .skz-ctx{display:none}.skz-fx .skz-close{display:flex;align-items:center;gap:6px;font-weight:900;padding:0 12px;width:auto}.skz-top{position:relative;z-index:12;touch-action:pan-x pan-y}.skz-fx{position:absolute;right:12px;top:12px;z-index:6;display:none;gap:6px}.skz.focus .skz-fx{display:flex}.skz-fx .skz-b{background:rgba(255,255,255,.92);box-shadow:0 2px 10px rgba(0,0,0,.2)}
 .skz-txt{position:absolute;z-index:25;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100% - 24px))}
 .skz-txt textarea{width:100%;min-height:90px;border-radius:12px;border:2px solid var(--line,#d8ddee);padding:10px;font-size:1.1rem;font-family:inherit;background:var(--surface,#fff);color:var(--ink,#18203d);-webkit-user-select:text;user-select:text}
 .skz-in{width:100%;border-radius:12px;border:2px solid var(--line,#d8ddee);padding:10px;font:inherit;font-weight:700;background:var(--surface,#fff);color:var(--ink,#18203d);-webkit-user-select:text;user-select:text}
@@ -244,8 +287,30 @@ const CSS=`
 .skz-vor{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.skz-vor button{border:2px solid var(--line,#d8ddee);border-radius:12px;background:#fff;padding:4px;cursor:pointer}.skz-vor button.on{border-color:var(--navy,#26337a);box-shadow:0 0 0 2px var(--navy,#26337a)}.skz-vor img{width:100%;aspect-ratio:4/3;object-fit:contain;display:block}.skz-vor small{display:block;font-weight:800;font-size:.72rem;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .skz-task[hidden]{display:none}@media (max-width:900px){.skz-task{display:none}}
 @media (max-width:700px){.skz-top .skz-hide-s{display:none}.skz-side{width:56px}.skz-side .skz-b{width:48px}.skz-task{display:none}}
+.skz .skz-disc,.skz .skz-sv,.skz .skz-hue,.skz .skz-vs,.skz .skz-ref,.skz .skz-ref *{touch-action:none}
+.skz-stk{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px}.skz-stk button{width:100%;aspect-ratio:1;border:2px solid var(--line,#d8ddee);border-radius:12px;background:var(--surface-2,#f5f7fc);padding:6px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.skz-stk svg,.skz-stk img{width:100%;height:100%;object-fit:contain;pointer-events:none}.skz-stk .add{border-style:dashed;color:var(--muted,#586082);background:transparent}.skz-stk .miss{opacity:.35}
+.skz-stki{position:relative;display:block}.skz-stki .x{position:absolute;right:-6px;top:-6px;width:26px;height:26px;aspect-ratio:auto;padding:0;border-radius:50%;background:var(--red,#cf3a2c);color:#fff;border:2px solid #fff}
+.skz-stkc{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-left:6px;border:1px solid rgba(0,0,0,.25)}
 `;
 function injectCSS(){if(D.getElementById('skz-css'))return;const s=D.createElement('style');s.id='skz-css';s.textContent=CSS;D.head.appendChild(s)}
+
+/* ---------- Seiten-Zoom sperren (iPad) ----------
+   Safari verwechselt zwei Finger am Blatt sonst mit dem Zoom der ganzen App. Dann ist die App vergrößert und die Leisten sind weg.
+   Solange das Skizzenbuch offen ist: Pinch-Gesten außerhalb der Leinwand abfangen und einen schon vergrößerten Seiten-Zoom sofort zurücksetzen. */
+const VP_LOCK='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no';
+const ZG={on:false,meta:null,orig:null,t:0};
+const zgPrev=e=>{if(e.cancelable)e.preventDefault()};
+const zgTouch=e=>{if(e.touches&&e.touches.length>1&&e.cancelable)e.preventDefault()};
+// Safari setzt den Zoom nur zurück, wenn sich der Inhalt der viewport-Angabe ändert: kurz umschalten, dann wieder sperren
+function zgReset(){const m=ZG.meta;if(!m)return;m.setAttribute('content',VP_LOCK.replace('maximum-scale=1','maximum-scale=1.0'));clearTimeout(ZG.t);ZG.t=setTimeout(()=>{if(ZG.on)m.setAttribute('content',VP_LOCK)},300);try{W.scrollTo(0,0)}catch(e){}}
+const zgVV=()=>{const v=W.visualViewport;if(v&&v.scale>1.02)zgReset()};
+function zoomGuard(on){if(!!on===ZG.on)return;ZG.on=!!on;const vv=W.visualViewport;
+  if(on){let m=D.querySelector('meta[name=viewport]');if(!m){m=D.createElement('meta');m.name='viewport';D.head.appendChild(m)}ZG.meta=m;ZG.orig=m.getAttribute('content');m.setAttribute('content',VP_LOCK);
+    ['gesturestart','gesturechange','gestureend'].forEach(t=>D.addEventListener(t,zgPrev,{passive:false}));D.addEventListener('touchmove',zgTouch,{passive:false});
+    if(vv)vv.addEventListener('resize',zgVV);zgVV();return}
+  ['gesturestart','gesturechange','gestureend'].forEach(t=>D.removeEventListener(t,zgPrev,{passive:false}));D.removeEventListener('touchmove',zgTouch,{passive:false});if(vv)vv.removeEventListener('resize',zgVV);
+  clearTimeout(ZG.t);if(ZG.meta){if(ZG.orig==null)ZG.meta.removeAttribute('content');else ZG.meta.setAttribute('content',ZG.orig)}ZG.meta=null}
 
 /* =====================================================================
    Editor
@@ -352,10 +417,10 @@ function Editor(app,page){
   async function thumb(n,q){const c=flatten(n);const b=await toBlob(c,'image/jpeg',q);freeCanvas(c);return b}
 
   /* --- Werkzeugleiste --- */
-  const TOOLS=[['pinsel','Pinsel'],['bleistift','Bleistift'],['radierer','Radierer'],['wischen','Wischen'],['marker','Textmarker'],['fuellen','Füllen'],['form','Formen und Linien'],['auswahl','Auswahl'],['transform','Verschieben'],['pipette','Pipette'],['text','Text'],['bild','Bild einfügen']];
+  const TOOLS=[['pinsel','Pinsel'],['bleistift','Bleistift'],['radierer','Radierer'],['wischen','Wischen'],['marker','Textmarker'],['linie','Gerade Linie'],['fuellen','Füllen'],['form','Formen'],['sticker','Sticker und Stempel'],['auswahl','Auswahl'],['transform','Verschieben'],['pipette','Pipette'],['text','Text'],['bild','Bild einfügen']];
   side.innerHTML=TOOLS.map(([k,n])=>`<button class="skz-b" data-tool="${k}" title="${n}" aria-label="${n}">${ico(k==='pinsel'?'pinsel':k)}</button>`).join('')+
     `<div class="skz-sl"><div title="Größe"><div class="skz-vs" data-vs="size" aria-label="Größe"><i></i><b></b></div><small data-v="size"></small></div><div title="Deckkraft"><div class="skz-vs" data-vs="op" aria-label="Deckkraft"><i></i><b></b></div><small data-v="op"></small></div></div>`;
-  const brushId=()=>E.tool==='pinsel'?PREF.pinsel:E.tool==='bleistift'?'bleistift':E.tool==='marker'?'marker':E.tool==='radierer'?'radierer':E.tool==='wischen'?'wischen':E.tool==='form'?(E.lastBrush||PREF.pinsel):null;
+  const brushId=()=>E.tool==='pinsel'?PREF.pinsel:E.tool==='bleistift'?'bleistift':E.tool==='marker'?'marker':E.tool==='radierer'?'radierer':E.tool==='wischen'?'wischen':E.tool==='form'||E.tool==='linie'?(E.lastBrush||PREF.pinsel):null;
   const sizeOf=id=>PREF.sizes[id]!=null?PREF.sizes[id]:(BR[id]?BR[id].def:.3);
   const opOf=id=>PREF.ops[id]!=null?PREF.ops[id]:1;
   function updSliders(){const id=brushId();root.querySelectorAll('.skz-sl').forEach(el=>el.style.visibility=id?'':'hidden');if(!id)return;
@@ -368,7 +433,7 @@ function Editor(app,page){
     W.addEventListener('pointermove',mv);W.addEventListener('pointerup',up);W.addEventListener('pointercancel',up)});
   function showCur(sx,sy){const id=brushId();if(!id)return;const st=stage.getBoundingClientRect(),d=sizePx(BR[id],sizeOf(id))*V.s;cur.style.width=cur.style.height=Math.max(4,d)+'px';cur.style.left=(sx-st.left)+'px';cur.style.top=(sy-st.top)+'px';cur.style.display='block'}
 
-  function setTool(t){if(t==='bild'){closePop();pickImage();return}if(t===E.tool&&t==='pinsel'){openPop('brush');return}if(E.pop==='brush'||E.pop==='adjust')closePop();
+  function setTool(t){if(t==='bild'){closePop();pickImage();return}if(t==='sticker'){openPop('sticker');return}if(t===E.tool&&t==='pinsel'){openPop('brush');return}if(E.pop==='brush'||E.pop==='adjust')closePop();
     if(E.fl&&t!=='transform')commitFloat();if(E.txt)closeText();
     if(t==='transform'&&E.tool!=='transform')E.beforeT=E.tool;if(t!=='pipette')E.prevTool=t;E.tool=t;if(['pinsel','bleistift','marker'].includes(t))E.lastBrush=brushId();
     side.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('on',b.dataset.tool===t));updSliders();ctxBarUpd();
@@ -382,6 +447,7 @@ function Editor(app,page){
     if(t==='radierer')h=seg('eraseK',[['hart','Hart'],['weich','Weich'],['korn','Körnig']],PREF.eraseK);
     if(t==='wischen')h='<small style="font-weight:800;padding:0 8px;color:var(--muted)">Ziehe über Farbe, um sie zu verwischen. Unterer Regler = Stärke.</small>';
     if(t==='form')h=seg('formK',[['linie','Linie','linie'],['rect','Rechteck','rect'],['ellipse','Ellipse','ellipse'],['tri','Dreieck','tri']],PREF.formK)+(PREF.formK==='linie'?`<label><button class="skz-tg ${PREF.lineSnap?'on':''}" data-tg="lineSnap"></button> Einrasten</label>`:seg('formFill',[[false,'Umriss'],[true,'Gefüllt']],PREF.formFill))+`<small style="font-weight:800;padding:0 6px;color:var(--muted)">Pinsel: ${esc(BR[E.lastBrush||PREF.pinsel].name)}</small>`;
+    if(t==='linie')h=`<label><button class="skz-tg ${PREF.lineSnap?'on':''}" data-tg="lineSnap"></button> Einrasten (waagrecht, senkrecht, schräg)</label><small style="font-weight:800;padding:0 6px;color:var(--muted)">Pinsel: ${esc(BR[E.lastBrush||PREF.pinsel].name)} · Tipp: Mit jedem Pinsel wird ein Strich gerade, wenn du am Ende kurz stillhältst.</small>`;
     if(t==='fuellen')h=seg('fillK',[['eimer','Farbeimer'],['verlauf','Verlauf']],PREF.fillK)+(PREF.fillK==='verlauf'
       ?seg('gradK',[['linear','Gerade'],['radial','Rund']],PREF.gradK)+seg('gradEnd',[['trans','zu durchsichtig'],['zweit','zur vorigen Farbe']],PREF.gradEnd)+`<span class="skz-gp" style="width:70px;height:26px;border-radius:8px;border:1px solid var(--line);background:linear-gradient(to right,${PREF.color},${PREF.gradEnd==='zweit'?prevCol():hexA(PREF.color,0)}),repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 0 0/10px 10px"></span>`
       :`<label>Toleranz <input type="range" min="0" max="120" value="${PREF.fillTol}" data-rng="fillTol"></label>${seg('fillAll',[[true,'Alle Ebenen beachten'],[false,'Nur diese Ebene']],PREF.fillAll)}`);
@@ -403,9 +469,9 @@ function Editor(app,page){
   function closePop(){const p=root.querySelector('.skz-pop');if(p)p.remove();if(E.pop==='adjust')adjCancel();E.pop=null}
   function openPop(k){if(E.pop===k){closePop();return}closePop();E.pop=k;const p=D.createElement('div');p.className='skz-pop';
     const top=$('.skz-top').getBoundingClientRect(),rr=root.getBoundingClientRect();p.style.top=(top.bottom-rr.top+6)+'px';p.style.maxHeight=(rr.bottom-top.bottom-16)+'px';
-    if(k==='brush'){const sb=side.getBoundingClientRect();if(PREF.lefty)p.style.right=(rr.right-sb.left+6)+'px';else p.style.left=(sb.right-rr.left+6)+'px'}else p.style.right='8px';
-    if(k==='brush')p.classList.add('wide');if(k==='color'){PREF.hintCol=true;prefSave();const hn=root.querySelector('.skz-hint');if(hn)hn.remove()}
-    root.appendChild(p);({color:colorPop,brush:brushPop,layers:popLayers,settings:setPop,export:expPop,adjust:adjPop}[k])()}
+    if(k==='brush'||k==='sticker'){const sb=side.getBoundingClientRect();if(PREF.lefty)p.style.right=(rr.right-sb.left+6)+'px';else p.style.left=(sb.right-rr.left+6)+'px'}else p.style.right='8px';
+    if(k==='brush'||k==='sticker')p.classList.add('wide');if(k==='color'){PREF.hintCol=true;prefSave();const hn=root.querySelector('.skz-hint');if(hn)hn.remove()}
+    root.appendChild(p);({color:colorPop,brush:brushPop,layers:popLayers,settings:setPop,export:expPop,adjust:adjPop,sticker:stkPop}[k])()}
   E.openPop=openPop;E.closePop=closePop;
   const pop=()=>root.querySelector('.skz-pop');
   let HSV=[0,0,0];
@@ -639,14 +705,15 @@ function Editor(app,page){
   /* --- Formen und Linien --- */
   let SH=null;
   function shapeBegin(pt){const L=act();if(L.ref||!L.vis){toast(L.ref?'Diese Ebene ist gesperrt (Vorlage).':'Diese Ebene ist ausgeblendet.');return false}SH={a:pt,b:pt,L};sc.style.opacity=1;sc.style.mixBlendMode='normal';sc.style.clipPath=E.sel?`path('${E.sel.d}')`:'';return true}
+  const formK=()=>E.tool==='linie'?'linie':PREF.formK;
   function shapeDraw(){const id=E.lastBrush||PREF.pinsel,b=BR[id];sctx.clearRect(0,0,w,h);let {a,b:q}=SH;
-    if(PREF.formK==='linie'){q=snapEnd(a,q);
+    if(formK()==='linie'){q=snapEnd(a,q);
       const S=newStroke(id,PREF.color,sctx);S.redrawLine(a.x,a.y,q.x,q.y,.7);SH.bb=S.bb;sc.style.opacity=(b.op||1)*opOf(id);sc.style.mixBlendMode=cssBlend(b.blend||'source-over');return}
     const lw=Math.max(1,sizePx(b,sizeOf(id))*(b.type==='path'?b.sz(.7):.8));const x0=Math.min(a.x,q.x),y0=Math.min(a.y,q.y),x1=Math.max(a.x,q.x),y1=Math.max(a.y,q.y);
     sctx.save();sctx.lineWidth=lw;sctx.lineJoin='round';sctx.strokeStyle=sctx.fillStyle=PREF.color;sctx.beginPath();
-    if(PREF.formK==='rect')sctx.rect(x0,y0,x1-x0,y1-y0);else if(PREF.formK==='ellipse')sctx.ellipse((x0+x1)/2,(y0+y1)/2,Math.max(.5,(x1-x0)/2),Math.max(.5,(y1-y0)/2),0,0,Math.PI*2);else{sctx.moveTo((x0+x1)/2,y0);sctx.lineTo(x1,y1);sctx.lineTo(x0,y1);sctx.closePath()}
+    const K=formK();if(K==='rect')sctx.rect(x0,y0,x1-x0,y1-y0);else if(K==='ellipse')sctx.ellipse((x0+x1)/2,(y0+y1)/2,Math.max(.5,(x1-x0)/2),Math.max(.5,(y1-y0)/2),0,0,Math.PI*2);else{sctx.moveTo((x0+x1)/2,y0);sctx.lineTo(x1,y1);sctx.lineTo(x0,y1);sctx.closePath()}
     if(PREF.formFill)sctx.fill();sctx.stroke();sctx.restore();SH.bb={x0:x0-lw,y0:y0-lw,x1:x1+lw,y1:y1+lw};sc.style.opacity=opOf(id)}
-  function shapeEnd(){if(!SH)return;const L=SH.L,B=box(SH.bb);const isLine=PREF.formK==='linie',id=E.lastBrush||PREF.pinsel,b=BR[id];SH=null;if(!B){sctx.clearRect(0,0,w,h);return}
+  function shapeEnd(){if(!SH)return;const L=SH.L,B=box(SH.bb);const isLine=formK()==='linie',id=E.lastBrush||PREF.pinsel,b=BR[id];SH=null;if(!B){sctx.clearRect(0,0,w,h);return}
     const before=L.ctx.getImageData(B.x,B.y,B.w,B.h);L.ctx.save();if(E.sel)L.ctx.clip(E.sel.p2d);L.ctx.globalAlpha=isLine?(b.op||1)*opOf(id):opOf(id);L.ctx.globalCompositeOperation=L.lockA?'source-atop':isLine?(b.blend||'source-over'):'source-over';L.ctx.drawImage(sc,B.x,B.y,B.w,B.h,B.x,B.y,B.w,B.h);L.ctx.restore();sctx.clearRect(0,0,w,h);
     hpush(pxEntry(L,B.x,B.y,before,L.ctx.getImageData(B.x,B.y,B.w,B.h)));mark(L);page.n=(page.n||0)+1}
 
@@ -754,6 +821,28 @@ function Editor(app,page){
     const N=mkLayer({name:'Text: '+s.split('\n')[0].slice(0,18)}),x=N.ctx,sz=PREF.textSize||96,f=FONTS[PREF.textFont]||FONTS.baloo;x.font=`700 ${sz}px ${f[1]}`;x.fillStyle=PREF.color;x.textBaseline='top';
     s.split('\n').forEach((l,i)=>x.fillText(l,t.pt.x,t.pt.y+i*sz*1.18));closeText();addLayer(N,E.act+1);page.n=(page.n||0)+1;setTool('transform')}
 
+  /* --- Sticker und Stempel --- */
+  function stkPop(){const p=pop();if(!p)return;const X=app.ctx.stk,mine=X&&X.list?X.list():[],tch=!!(X&&X.add);
+    p.innerHTML=`<h3>Sticker und Stempel</h3><p>Tippe auf ein Symbol. Dann schiebst du es an seinen Platz, machst es größer oder drehst es.</p>
+      <h4>Stempel in deiner Farbe<i class="skz-stkc" style="background:${esc(PREF.color)}"></i></h4>
+      <div class="skz-stk">${STK.map(([k,n,ops])=>`<button data-stk="b:${k}" title="${n}" aria-label="${n}">${stkSvg(ops,esc(PREF.color))}</button>`).join('')}</div>
+      ${mine.length||tch?`<h4>${tch?'Eigene Sticker für die Klasse':'Von deiner Lehrkraft'}</h4><div class="skz-stk">${mine.map(m=>`<span class="skz-stki"><button data-stk="c:${esc(m.id)}" title="${esc(m.n)}" aria-label="${esc(m.n||'Sticker')}"><img data-stkimg="${esc(m.id)}" alt=""></button>${tch?`<button class="x" data-stkdel="${esc(m.id)}" title="Entfernen" aria-label="Sticker entfernen">${ico('x',14)}</button>`:''}</span>`).join('')}${tch?`<button class="add" data-k="stk-add" title="Bilder hochladen" aria-label="Bilder als Sticker hochladen">${ico('plus',26)}</button>`:''}</div>
+      ${tch?'<p>Am besten Bilder mit durchsichtigem Hintergrund (PNG). Sie werden klein gerechnet und kommen auf die iPads der Klasse.</p>':''}`:''}`;
+    p.querySelectorAll('img[data-stkimg]').forEach(im=>stkUrl(im.dataset.stkimg).then(u=>{if(u)im.src=u;else im.closest('button').classList.add('miss')}))}
+  async function stkPick(v){const L=act();if(L.ref||!L.vis){toast(L.ref?'Diese Ebene ist gesperrt (Vorlage). Wähle in „Ebenen“ eine andere Ebene.':'Diese Ebene ist ausgeblendet.');return}let cv=null;
+    if(v.startsWith('b:')){const s=STK.find(x=>x[0]===v.slice(2));if(s)cv=stkCanvas(s[2],PREF.color)}
+    else{const g=app.ctx.stk&&app.ctx.stk.get,b=g?await g(v.slice(2)).catch(()=>null):null;if(E.closed)return;if(!b){toast('Dieser Sticker ist noch nicht auf dem iPad. Versuch es gleich nochmal.');return}
+      try{const im=await blobImg(b),k=Math.min(1,512/Math.max(im.width,im.height));cv=mkCanvas(Math.max(1,Math.round(im.width*k)),Math.max(1,Math.round(im.height*k)));const x=ctx2(cv);x.imageSmoothingQuality='high';x.drawImage(im,0,0,cv.width,cv.height);if(im.close)im.close()}catch(e){toast('Dieser Sticker konnte nicht geöffnet werden.');return}}
+    if(!cv||E.closed)return;closePop();placeFloat(cv)}
+  // Sticker schwebt auf der aktiven Ebene (wie beim Verschieben): ziehen, Ecken = Größe, oberer Punkt = drehen, dann „Fertig“
+  function placeFloat(cv){if(E.fl)commitFloat();setSel(null);const L=act(),r=stage.getBoundingClientRect(),c=toDoc(r.width/2,r.height/2),k=Math.min(r.width,r.height)*.3/V.s/Math.max(cv.width,cv.height);
+    cv.className='skz-float';cv.style.opacity=L.op;E.fl={L,cv,before:L.ctx.getImageData(0,0,w,h),cx:clamp(c.x,0,w),cy:clamp(c.y,0,h),sx:k,sy:k,r:0,w:cv.width,h:cv.height,free:false};
+    setTool('transform');syncLayers();flView();changed();
+    if(!PREF.hintStk){PREF.hintStk=true;prefSave();toast('Schieb den Sticker an seinen Platz. Ecken = Größe, oberer Punkt = drehen. Dann auf „Fertig“.')}}
+  function stkAdd(){const X=app.ctx.stk;if(!X||!X.add)return;const i=D.createElement('input');i.type='file';i.accept='image/*';i.multiple=true;
+    i.onchange=async()=>{const fs=[...(i.files||[])];if(!fs.length)return;toast('Sticker werden gespeichert …');const n=await X.add(fs).catch(()=>0);if(E.closed)return;toast(n?n+' Sticker gespeichert. Die Klasse bekommt sie, sobald du mit ihr verbunden bist.':'Das ging gerade nicht.');if(E.pop==='sticker')stkPop()};i.click()}
+  function stkDel(id){const X=app.ctx.stk;if(!X||!X.del||!confirm('Diesen Sticker für die Klasse entfernen? In deiner Bibliothek bleibt das Bild.'))return;X.del(id);if(E.pop==='sticker')stkPop()}
+
   /* --- Bild einfügen --- */
   function pickImage(){const i=D.createElement('input');i.type='file';i.accept='image/*';i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;
       if(E.layers.length>=MAX_LAYERS){toast('Höchstens '+MAX_LAYERS+' Ebenen. Vereine oder lösche zuerst eine Ebene.');return}
@@ -781,7 +870,7 @@ function Editor(app,page){
     if(t==='fuellen'&&PREF.fillK==='verlauf'){const L=act();if(L.ref||!L.vis){toast(L.ref?'Diese Ebene ist gesperrt (Vorlage).':'Diese Ebene ist ausgeblendet.');return}
       GR={a:pt,b:pt,L};sc.style.opacity=1;sc.style.mixBlendMode='normal';sc.style.clipPath=E.sel?`path('${E.sel.d}')`:'';mode='grad';return}
     if(['pinsel','bleistift','radierer','marker','wischen'].includes(t)){if(strokeBegin(pt,e))mode='stroke';return}
-    if(t==='form'){if(shapeBegin(pt)){mode='shape'}return}
+    if(t==='form'||t==='linie'){if(shapeBegin(pt)){mode='shape'}return}
     if(t==='fuellen'){fill(pt);mode='none';return}
     if(t==='pipette'){pick(pt,false);mode='pick';return}
     if(t==='text'){openText(pt);mode='none';return}
@@ -806,7 +895,7 @@ function Editor(app,page){
   function gEnd(){if(!G)return;const ps=[...PT.values()].filter(p=>p.type==='touch');if(ps.length){gStart();return}
     const dt=performance.now()-G.t0;if(!G.moved&&dt<320){if(G.max===2){const n=performance.now();if(n-(E.tap2||0)<500){E.tap2=0;redo();fit();zoomHint()}else{E.tap2=n;undo()}}else if(G.max>=3)redo()}G=null}
   let LP=0;// langes Drücken mit dem Finger = Pipette
-  function onDown(e){if(E.closed)return;if(e.target.closest('.skz-ctx,.skz-pop,.skz-fx,.skz-txt,.skz-ref'))return;e.preventDefault();closePop();
+  function onDown(e){if(E.closed)return;if(e.target.closest('.skz-ctx,.skz-pop,.skz-fx,.skz-txt,.skz-ref,.skz-send'))return;e.preventDefault();closePop();
     if(!sRect||e.pointerType!=='touch'||!PT.size)sRect=stage.getBoundingClientRect();
     const sx=e.clientX-sRect.left,sy=e.clientY-sRect.top;PT.set(e.pointerId,{id:e.pointerId,type:e.pointerType,x:sx,y:sy});try{stage.setPointerCapture(e.pointerId)}catch(x){}
     if(e.pointerType==='pen'){if(!E.penSeen){E.penSeen=true;if(PREF.penOnly==='auto'&&mode==='stroke'&&ptrId!=null&&PT.get(ptrId)&&PT.get(ptrId).type==='touch')toolUp(e,true)}penSince=performance.now()}
@@ -834,7 +923,7 @@ function Editor(app,page){
     if(p&&p.type==='touch'){clearTimeout(LP);gEnd()}}
   stage.addEventListener('pointerdown',onDown);stage.addEventListener('pointermove',onMove);stage.addEventListener('pointerup',onUp);stage.addEventListener('pointercancel',onUp);
   stage.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch'&&!mode)cur.style.display='none'});
-  const noTouch=e=>{if(e.target.closest('.skz-pop,.skz-txt,.skz-ctx,.skz-fx'))return;e.preventDefault()};stage.addEventListener('touchstart',noTouch,{passive:false});stage.addEventListener('touchmove',noTouch,{passive:false});
+  const noTouch=e=>{if(e.target.closest('.skz-pop,.skz-txt,.skz-ctx,.skz-fx,.skz-send'))return;e.preventDefault()};stage.addEventListener('touchstart',noTouch,{passive:false});stage.addEventListener('touchmove',noTouch,{passive:false});
   stage.addEventListener('wheel',e=>{e.preventDefault();if(!sRect)sRect=stage.getBoundingClientRect();sRect=stage.getBoundingClientRect();const sx=e.clientX-sRect.left,sy=e.clientY-sRect.top;
     const mouseWheel=!e.ctrlKey&&e.deltaX===0&&Math.abs(e.deltaY)>=50&&Number.isInteger(e.deltaY);
     if(e.ctrlKey||mouseWheel)zoomAt(sx,sy,Math.exp(-e.deltaY*(e.ctrlKey?.01:.0015)));else{V.x-=e.deltaX;V.y-=e.deltaY;applyView()}},{passive:false});
@@ -843,7 +932,7 @@ function Editor(app,page){
     if(m&&k==='z'){e.preventDefault();e.shiftKey?redo():undo();return}if(m&&k==='y'){e.preventDefault();redo();return}if(m&&k==='s'){e.preventDefault();save();return}
     if(e.type==='keyup'){if(k===' ')spaceDown=false;return}if(m)return;
     if(k===' '){spaceDown=true;e.preventDefault();return}
-    if(k==='l'){PREF.formK='linie';setTool('form');return}const map={b:'pinsel',p:'bleistift',e:'radierer',w:'wischen',g:'fuellen',i:'pipette',u:'form',s:'auswahl',v:'transform',t:'text',h:'marker'};if(map[k]){setTool(map[k]);return}
+    if(k==='l'){setTool('linie');return}const map={b:'pinsel',p:'bleistift',e:'radierer',w:'wischen',g:'fuellen',i:'pipette',u:'form',s:'auswahl',v:'transform',t:'text',h:'marker'};if(map[k]){setTool(map[k]);return}
     const id=brushId();if(id&&(k==='['||k===']')){PREF.sizes[id]=clamp(sizeOf(id)+(k===']'?.04:-.04),0,1);updSliders();prefSave();return}
     if(k==='0')fit();if(k==='+'||k==='=')zoomAt(stage.clientWidth/2,stage.clientHeight/2,1.25);if(k==='-')zoomAt(stage.clientWidth/2,stage.clientHeight/2,.8);
     if((k==='escape'||k==='arrowleft'||k==='arrowup')&&root.classList.contains('focus')&&!E.fl&&!E.sel){exitFull();return}
@@ -855,6 +944,7 @@ function Editor(app,page){
   /* --- Klicks auf Knöpfe --- */
   const onRootClick=e=>{if(E.closed)return;const b=e.target.closest('button,[data-k]');if(!b||!root.contains(b))return;const k=b.dataset.k;
     if(b.dataset.tool){setTool(b.dataset.tool);return}
+    if(b.dataset.stk){stkPick(b.dataset.stk);return}if(b.dataset.stkdel){stkDel(b.dataset.stkdel);return}
     if(b.dataset.paldel!=null&&b.dataset.paldel){PREF.pal=PREF.pal.filter(c=>c!==b.dataset.paldel);if(!PREF.pal.length)E.palEdit=false;prefSave();colorPop();return}
     if(b.dataset.col){setColor(b.dataset.col);return}
     if(b.dataset.ctab){PREF.colTab=b.dataset.ctab;prefSave();colorPop();return}
@@ -873,10 +963,10 @@ function Editor(app,page){
       case 'color':case 'layers':case 'settings':case 'export':case 'adjust':openPop(k);break;
       case 'c-pick':closePop();setTool('pipette');break;
       case 'pal-add':if(!PREF.pal.includes(PREF.color)&&PREF.pal.length<30){PREF.pal.push(PREF.color);prefSave()}colorPop();break;
-      case 'pal-edit':E.palEdit=!E.palEdit;colorPop();break;case 'brush':openPop('brush');break;
-      case 'send':app.share(true);break;case 'full':goFull();break;case 'unfocus':exitFull();break;
+      case 'pal-edit':E.palEdit=!E.palEdit;colorPop();break;case 'stk-add':stkAdd();break;case 'brush':openPop('brush');break;
+      case 'send':if(b.disabled)break;b.disabled=true;b.querySelector('span').textContent='Wird geschickt …';app.share(true).finally(()=>{b.disabled=false;const sp=b.querySelector('span');if(sp)sp.textContent='Mit Lehrkraft teilen'});break;case 'full':goFull();break;case 'unfocus':exitFull();break;
       case 'rename':{const n=prompt('Name für dieses Blatt',page.title||'');if(n!=null&&n.trim()){page.title=n.trim().slice(0,60);$('.skz-ttl b').textContent=page.title;queueSave()}break}
-      case 'fit':fit();break;case 'z100':{const r=stage.getBoundingClientRect();zoomAt(r.width/2,r.height/2,(2/(W.devicePixelRatio||1))/V.s);break}
+      case 'fit':fit();zgReset();break;case 'z100':{const r=stage.getBoundingClientRect();zoomAt(r.width/2,r.height/2,(2/(W.devicePixelRatio||1))/V.s);break}
       case 'l-add':case 'l-dup':case 'l-up':case 'l-down':case 'l-del':case 'l-clear':case 'l-merge':case 'l-ref':case 'l-ren':case 'l-lockA':case 'l-fill':layerAct(k);break;
       case 'adj-ok':adjApply();break;case 'adj-reset':adjReset();break;case 'adj-g':case 'adj-i':adjSet(k.slice(4),E.adj&&E.adj[k.slice(4)]?0:1);adjPop();break;
       case 'v-flip':flipView();setPop();break;case 'v-gray':E.gray=!E.gray;doc.style.filter=E.gray?'grayscale(1)':'';setPop();break;
@@ -942,7 +1032,7 @@ async function showGallery(){APP.ed=null;revoke();await refresh();if(!APP.root)r
   const card=p=>`<div class="skz-card" data-open="${p.id}" role="button" tabindex="0"><div class="th" style="background-image:url('${thumbUrl(p)}');background-color:${esc(p.bg||'#fff')}"></div><span class="skz-kind ${p.kind}">${{skizze:'Skizze',werk:'Werk',frei:'Blatt'}[p.kind]||'Blatt'}</span>
     <button class="skz-b mn" data-menu="${p.id}" aria-label="Mehr">${ico('more')}</button><div class="in"><b>${esc(p.title||'Ohne Titel')}</b><small>${new Date(p.updated).toLocaleDateString('de-DE',{day:'numeric',month:'short'})}${p.kind==='skizze'&&p.task?(isDone(p)?' · angelegt':' · noch zu wenig'):''}</small></div></div>`;
   // Reines Skizzenbuch (Fabian 20.10.): kein Werk-Schritt mehr. Läuft gerade eine Skizzenphase, steht nur eine schmale Zeile mit dem Auftrag.
-  let auf='';if(ti)auf=`<section class="skz-auf" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px"><span style="flex:1;min-width:180px;font-weight:800">✏️ ${esc(ti.T.text||'Skizziere deine Ideen')} <span style="color:var(--muted)">· ${ti.done} von ${ti.n} Skizzen</span></span><button class="skz-b pri" data-k="new-sk">${ico('plus',20)} Skizze</button></section>`;
+  let auf='';if(ti)auf=`<section class="skz-auf" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px"><span style="flex:1;min-width:180px;font-weight:800">${esc(ti.T.text||'Skizziere deine Ideen')} <span style="color:var(--muted)">· ${ti.done} von ${ti.n} Skizzen</span></span><button class="skz-b pri" data-k="new-sk">${ico('plus',20)} Skizze</button></section>`;
   R.innerHTML=`<div class="skz-top"><button class="skz-b" data-k="exit">${ico('back')}<span>Zurück</span></button><div class="skz-ttl"></div>${APP.ctx.who==='teacher'?'<span class="skz-saved">Dein eigenes Skizzenbuch (Lehrkraft)</span>':''}</div>
     <div class="skz-gal"><div class="skz-gin"><div class="skz-gh">${elo?`<img src="${esc(elo)}" alt="">`:''}<h1>Mein Skizzenbuch</h1><button class="skz-b pri" data-k="new">${ico('plus',20)} Neue Skizze</button></div>
       ${APP.err?`<div class="skz-auf" style="border-left-color:var(--red)">${esc(APP.err)}</div>`:''}${auf}
@@ -1004,10 +1094,10 @@ function onClick(e){if(APP.ed)return;const b=e.target.closest('[data-k],[data-op
   if(d.k==='exit'){unmount().then(()=>APP.ctx&&APP.ctx.onExit&&APP.ctx.onExit());return}
   if(d.k==='new'){newDialog();return}if(d.k==='new-sk'){newDialog('skizze',true);return}if(d.k==='new-wk'){newDialog('werk',true);return}}
 const onVis=()=>{if(D.visibilityState==='hidden'&&APP.ed)APP.ed.save()};
-async function mount(el,ctx){injectCSS();if(APP.root)await unmount(true);APP.root=el;APP.ctx=ctx||{};APP.err='';el.addEventListener('click',onClick);D.addEventListener('visibilitychange',onVis);W.addEventListener('pagehide',onVis);
+async function mount(el,ctx){injectCSS();zoomGuard(true);if(APP.root)await unmount(true);APP.root=el;APP.ctx=ctx||{};APP.err='';el.addEventListener('click',onClick);D.addEventListener('visibilitychange',onVis);W.addEventListener('pagehide',onVis);
   if(ctx&&ctx.open){const p=await pageGet(ctx.open).catch(()=>null);if(p&&p.owner===ctx.owner){await refresh();return openEditor(p)}}
   await showGallery()}
-async function unmount(quiet){const e=APP.ed;APP.ed=null;if(e)await e.destroy();if(APP.root){APP.root.removeEventListener('click',onClick);APP.root.innerHTML='';APP.root.className=''}D.removeEventListener('visibilitychange',onVis);W.removeEventListener('pagehide',onVis);revoke();APP.root=null}
+async function unmount(quiet){const e=APP.ed;APP.ed=null;if(e)await e.destroy();if(APP.root){APP.root.removeEventListener('click',onClick);APP.root.innerHTML='';APP.root.className=''}D.removeEventListener('visibilitychange',onVis);W.removeEventListener('pagehide',onVis);revoke();APP.root=null;if(!quiet)zoomGuard(false)}
 function setTask(task){if(!APP.ctx)return;const a=JSON.stringify(APP.ctx.task||null),b=JSON.stringify(task||null);APP.ctx.task=task||null;if(a!==b&&APP.root&&!APP.ed)showGallery()}
 W.Skizze={mount,unmount,setTask,isOpen:()=>!!APP.root,editing:()=>!!APP.ed,_E:()=>APP.ed,MIN_STROKES};
 })();
