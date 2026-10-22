@@ -16,6 +16,7 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- 22.10., im Test: App ist auf allen Geräten, in allen Klassen und Schulen immer hell, egal ob das iPad im dunklen Modus steht (Ursache der unlesbaren Schrift in der 7a). Dunkel nur per Schalter „Dunkles Design“ im Logo-Menü der Lehrkraft. Prüfskript deckt jetzt 43 Ansichten ab, alle WCAG AA.
 - 21.10., im Test: Icon-System ico(name): Bild aus assets/icons/<name>.webp, sonst sofort ein sauberes Strich-Symbol; alle durch die Emoji-Entfernung leer gewordenen Knöpfe (SuS-Seitenleiste, Problem melden, Vorlesen, Planung, 41 Werkzeuge) haben wieder ein Symbol Bereits 38 ElevenLabs-Icons eingebunden (Seitenknöpfe, Menü, 17 Werkzeuge).
 - 20.10., im Test: Kontrast zentral über Farb-Token (Heftseiten im dunklen Modus hell, WCAG AA geprüft mit tools/kontrast-check.js); neue Bilder per ElevenLabs: Standard-Elo, Startbild, Ruhebild, Freeze-Elo, Fußballfeld, 9 Fach-Logos ohne Schrift
 - Designstandard für Material (elon/designstandard-material.md) bei jedem neuen Hefteintrag anwenden
