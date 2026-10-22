@@ -2057,6 +2057,7 @@ function skzTask(){if(S.role!=='student')return null;const R=RCS&&Date.now()-rcs
 function skzMount(){if(SKZ_ON||V.name!=='skizze')return;SKZ_ON=true;stops.push(skzClose);let host=$('#skz-host');if(!host){host=document.createElement('div');host.id='skz-host';document.body.appendChild(host)}
   const from=V.from||(S.role==='teacher'?'tdesk':'desk');
   skzLoad().then(()=>{if(!SKZ_ON)return;return Skizze.mount(host,{owner:skzOwner(),who:S.role==='teacher'?'teacher':'student',task:skzTask(),elo:eloImg('kunst','K'),getVor:id=>libBlob(id).then(b=>b||mediaGet(id)).catch(()=>null),
+      stk:{list:stkList,get:id=>libBlob(id).then(b=>b||mediaGet(id)).catch(()=>null),add:S.role==='teacher'?stkAdd:null,del:S.role==='teacher'?stkDel:null},
       onShare:S.role==='student'?skzShare:null,onProgress:skzProg,onExit:()=>{SKZ_ON=false;const h=$('#skz-host');if(h)h.remove();go(from)}})})
     .catch(()=>{SKZ_ON=false;const h=$('#skz-host');if(h)h.remove();toast('Das Skizzenbuch konnte nicht geladen werden. Bist du online?');go(from)})}
 function skzClose(){if(!SKZ_ON)return;SKZ_ON=false;const h=$('#skz-host');if(window.Skizze)Skizze.unmount().then(()=>{if(h&&!SKZ_ON)h.remove()});else if(h)h.remove()}
@@ -2074,6 +2075,21 @@ async function skzSmall(src){if(typeof src!=='string'||!IMGRE.test(src))return n
     for(let k=0;k<6&&out.length>SKZ_MAX;k++){const f=Math.min(1,(k<2?1400:1400*Math.pow(.8,k-1))/Math.max(w,h)),cv=document.createElement('canvas');cv.width=Math.round(w*f);cv.height=Math.round(h*f);
       const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);out=cv.toDataURL('image/jpeg',ql);ql=Math.max(.5,ql-.08)}
     return out.length<1500000?out:null}catch(e){return null}}
+// Sticker fürs Skizzenbuch: Die Lehrkraft lädt eigene Bilder hoch (liegen in ihrer Bibliothek, Fach Kunst, klein gerechnet).
+// Die Klasse bekommt nur die Liste (id, Name). Die Bilder gehen wie Folienbilder verschlüsselt über den Klassen-Speicher,
+// werden erst beim Öffnen der Sticker geholt und bleiben dann auf dem iPad (spart Datenvolumen).
+const STK_MAX=40;
+const stkList=()=>S.role==='teacher'?(TD.stk||[]).filter(x=>!LIB.ready||libById(x.id)):(Array.isArray(S.stk)?S.stk:[]);
+function stkRecv(L){if(S.role!=='student'||!Array.isArray(L))return;const v=L.filter(x=>x&&/^[\w-]{1,40}$/.test(String(x.id))).slice(0,STK_MAX).map(x=>({id:String(x.id),n:String(x.n||'').slice(0,40)}));
+  if(JSON.stringify(v)!==JSON.stringify(S.stk||[])){S.stk=v;save()}}
+async function stkSmall(f){const bm=await createImageBitmap(f),k=Math.min(1,360/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.max(1,Math.round(bm.width*k));cv.height=Math.max(1,Math.round(bm.height*k));
+  cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);if(bm.close)bm.close();let b=await new Promise(r=>cv.toBlob(r,'image/webp',.85));if(!b||b.type!=='image/webp')b=await new Promise(r=>cv.toBlob(r,'image/png'));return b}
+async function stkAdd(files){if(S.role!=='teacher'||!TDKEY)return 0;let n=0;TD.stk=TD.stk||[];
+  for(const f of [...files].slice(0,STK_MAX)){if(!/^image\//.test(f.type||''))continue;try{const b=await stkSmall(f);if(!b)continue;const id=newId(),nm=String(f.name||'Sticker').replace(/\.[a-z0-9]+$/i,'').slice(0,40)||'Sticker';
+    await idb('blob','readwrite',st=>st.put(b,id));await idb('meta','readwrite',st=>st.put({id,kind:'file',name:'Sticker '+nm+(b.type==='image/webp'?'.webp':'.png'),mime:b.type,size:b.size,subject:'K',stk:1,added:Date.now()}));
+    TD.stk.unshift({id,n:nm});n++}catch(e){console.warn('sticker',e)}}
+  TD.stk=TD.stk.slice(0,STK_MAX);tsave();await libLoad();pushCS();return n}
+function stkDel(id){if(S.role!=='teacher')return;TD.stk=(TD.stk||[]).filter(x=>x.id!==id);tsave();pushCS()}
 // SuS: Stand im Auftrag an die Tafel (nur Zahlen: Skizzen und ob das Werk begonnen ist)
 function skzProg(p){const R=RCS&&RCS.skz;if(S.role!=='student'||!R||R.id!==p.id)return;const k=p.id+':'+p.s+':'+p.w;if(S.skzSent===k)return;S.skzSent=k;save();sendMsg({k:'skz',id:p.id,s:p.s,w:p.w})}
 function skzSync(p){if(S.role!=='student'||!p)return;if(!p.skz&&S.skzT&&p.skzEnd===S.skzT.id){S.skzT=null;save();if(V.name==='desk')render()}if(!p.skz||!p.skz.id)return;const t=skzTask();if(window.Skizze&&SKZ_ON)Skizze.setTask(t);
@@ -2307,7 +2323,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261022-1000';let verTold=false;
+const BUILD='20261022-1500';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -2996,10 +3012,10 @@ let DKBUSY=null;
 function dKeys(){if(TD.dk||DKBUSY||!(window.crypto&&crypto.subtle))return DKBUSY;
   DKBUSY=crypto.subtle.generateKey({...DIARY_ALG,modulusLength:2048,publicExponent:new Uint8Array([1,0,1])},true,['encrypt','decrypt'])
     .then(async k=>{TD.dk={pub:await crypto.subtle.exportKey('jwk',k.publicKey),priv:await crypto.subtle.exportKey('jwk',k.privateKey)};tsave();pushCS()}).catch(e=>console.warn(e));return DKBUSY}
-function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.bv=BUILD;CS.mission=S.mission;CS.onN=online().length;CS.expN=expN();CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();modPush();CS.stage=stageOf();CS.upOk=!!(Live.upAt&&Date.now()-Live.upAt<30000);S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',csLean());updPrev();ccPush()}
+function pushCS(){if(!CS||!TDKEY)return;try{mediaPush()}catch(e){}CS.bv=BUILD;CS.mission=S.mission;CS.onN=online().length;CS.expN=expN();CS.dup=dupNrs();CS.outAt=(TD.outAt||{})[S.cls||'-']||0;CS.lotsenFx=TD.lotsenFx||LB_DEF;if(TD.dk)CS.dpk=TD.dk.pub;else dKeys();CS.goal=goalCS();CS.lvl=Object.keys(TD.lvl||{}).length?TD.lvl:null;CS.yr=(TD.yr||{})[S.cls||'-']||null;CS.wipe=(TD.wipe||{})[S.cls||'-']||null;CS.heft=heftFor();CS.vok=vokFor();CS.stk=stkList().map(x=>({id:x.id,n:x.n}));modPush();CS.stage=stageOf();CS.upOk=!!(Live.upAt&&Date.now()-Live.upAt<30000);S.cs=CS;S.rocket=CS.rocket;save();Live.post('state',csLean());updPrev();ccPush()}
 // Datensparen: Heft, Vokabeln, Aufgaben usw. gehen nur mit, wenn sie sich geändert haben (und spätestens alle 2 Minuten).
 // Sonst schickt der 3-s-Takt nur Phase, Timer, Folie … plus eine Kennung (cs). Fehlt einem iPad etwas, holt es den Stand aus class_content.
-const CS_CF=['heft','vok','hw','mods','modx','auf','ann','games','desk'],LEAN={cs:'',at:0};
+const CS_CF=['heft','vok','hw','mods','modx','auf','ann','games','desk','stk'],LEAN={cs:'',at:0};
 function csLean(){const now=Date.now(),cs=strHash(JSON.stringify(CS_CF.map(k=>CS[k]===undefined?null:CS[k]))),p={...CS,now,cs};
   if(Live.kind==='server'&&ccOk()&&cs===LEAN.cs&&now-LEAN.at<120000)CS_CF.forEach(k=>delete p[k]);else{LEAN.cs=cs;LEAN.at=now}return p}
 // Lehrer-Tafelansicht: Mini-Bildschirm zeigt live, was gerade im Tafel-Fenster ist
@@ -3382,7 +3398,7 @@ let dashSig='';
 const strHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=(h*33+t.charCodeAt(i))|0;return t.length+':'+h};
 // Schlüssel der Lehrkraft (dpk): Ein Wechsel zählt nur aus der Datenbank oder aus dem geschützten privaten Kanal,
 // damit niemand im offenen Kanal einen fremden Schlüssel unterschieben kann.
-function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;if(p.dpk&&p.dpk.n&&(!S.tpk||(S.tpk.n!==p.dpk.n&&trusted))){S.tpk=p.dpk;save();mbFlush()}
+function applyContent(p,trusted=true){if(!p||typeof p!=='object')return;if(p.mission)S.mission=p.mission;stkRecv(p.stk);if(p.dpk&&p.dpk.n&&(!S.tpk||(S.tpk.n!==p.dpk.n&&trusted))){S.tpk=p.dpk;save();mbFlush()}
   if(!Array.isArray(p.heft))return;const hs=strHash(JSON.stringify([p.heft,p.hw,p.mods,p.modx,p.auf,p.ann,p.games,p.vok,p.desk]));if(hs===S.heftSig)return;S.vokRecv=Array.isArray(p.vok)?p.vok:null;vokSync();
   S.heftRecv=p.heft;S.deskRecv=Array.isArray(p.desk)?p.desk.filter(k=>typeof k==='string'&&SUBJECTS[k]):null;S.hwRecv=p.hw||null;S.modsRecv=p.mods||null;S.modxRecv=p.modx||null;S.aufRecv=Array.isArray(p.auf)?p.auf:null;S.annRecv=Array.isArray(p.ann)?p.ann:null;S.gamesRecv=p.games&&typeof p.games==='object'?p.games:null;S.heftSig=hs;save();aufNotify();
   if(['desk','subject','dash','homework','mod','me','practice'].includes(V.name)||V.name==='vok'&&!VQ)render()}
@@ -7394,7 +7410,7 @@ const CC={t:0,at:0,sig:'',miss:false,rq:0,want:''};
 function ccWant(cs){if(Date.now()-CC.rq<15000)return;CC.rq=Date.now();CC.want=cs;ccPull(true)}
 const ccOk=()=>CLOUD&&LIVE_SERVER&&mbCls()&&!CC.miss;
 function ccPush(){if(S.role!=='teacher'||!CS||!ccOk())return;clearTimeout(CC.t);CC.t=setTimeout(async()=>{try{const k=myCk(S.code);if(!k)return;
-    const snap={heft:CS.heft,vok:CS.vok,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,games:CS.games,desk:CS.desk,dpk:CS.dpk,mission:CS.mission},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
+    const snap={heft:CS.heft,vok:CS.vok,hw:CS.hw,mods:CS.mods,modx:CS.modx,auf:CS.auf,ann:CS.ann,games:CS.games,desk:CS.desk,dpk:CS.dpk,mission:CS.mission,stk:CS.stk},sg=strHash(JSON.stringify(snap));if(sg===CC.sig)return;
     const body=await ckSeal(k,{t:'content',p:snap}),sb=await sbClient();await q(sb.from('class_content').upsert({class_id:S.cls,body,updated_at:new Date().toISOString()}));CC.sig=sg}
   catch(e){if(mbMissing(e))CC.miss=true;else console.warn('ccPush',e)}},2000)}
 // Datensparen: Ist das iPad live mit der Tafel verbunden und auf dem gleichen Stand (cs), entfällt das Nachladen.
@@ -7421,8 +7437,8 @@ function lessonMedia(L){const ids=new Set(),bg=b=>{if(b&&b!=='none'&&!SL_BG[b])i
 // 1280 px reichen für iPad und Tafel und sparen Datenvolumen.
 async function medSmall(b){if(/svg|gif/.test(b&&b.type||''))return b;try{const bm=await createImageBitmap(b),f=Math.min(1,1280/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*f);cv.height=Math.round(bm.height*f);cv.getContext('2d').drawImage(bm,0,0,cv.width,cv.height);
   let o=await new Promise(r=>cv.toBlob(r,'image/webp',.75));if(!o||o.type!=='image/webp')o=await new Promise(r=>cv.toBlob(r,'image/jpeg',.8));return o||b}catch(e){return b}}
-let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id),hf=heftFor().flatMap(e=>heftFotos(e.text));if(!L&&!hf.length)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
-  for(const id of [...new Set([...(L?lessonMedia(L):[]),...hf])]){if(done[id])continue;try{const b=await libBlob(id);if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
+let medT=0;function mediaPush(){if(S.role!=='teacher'||!CS||!ccOk()||MED.miss)return;const L=CS.lesson&&lessonById(CS.lesson.id),hf=heftFor().flatMap(e=>heftFotos(e.text)),sk=(CS.stk||[]).map(x=>x.id);if(!L&&!hf.length&&!sk.length)return;clearTimeout(medT);medT=setTimeout(async()=>{const k=myCk(S.code);if(!k)return;const done=MED.up[S.cls]||(MED.up[S.cls]={});
+  for(const id of [...new Set([...(L?lessonMedia(L):[]),...hf,...sk])]){if(done[id])continue;try{const b=await libBlob(id);if(!b){done[id]=1;continue}const sm=await medSmall(b),iv=crypto.getRandomValues(new Uint8Array(12));
     const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckImp(k),await sm.arrayBuffer());if(ct.byteLength>2500000){done[id]=1;continue}
     const sb=await sbClient(),ty=Math.max(0,MED_TY.indexOf(sm.type));
     if(MED.st){// Datei: 1 Byte Bildtyp, 12 Byte IV, dann der verschlüsselte Inhalt
@@ -8914,7 +8930,7 @@ document.addEventListener('click',e=>{
     case 'desk-open':go('subject',{s:d.s,tab:'heft',desk:1});break;
     case 'desk-vis':{if(!SUBJECTS[d.s])break;const c=d.c||S.cls||'-';TD.deskV=TD.deskV||{};(TD.deskV[c]=TD.deskV[c]||{})[d.s]=!deskOn(d.s,c);tsave();if(c===(S.cls||'-')&&CS)pushCS();render();break}
     case 'skizze':go('skizze',{from:V.name==='subject'?'desk':V.name==='tsubj'?'tdesk':V.name});break;
-    case 'skzT':go('skzT',{from:d.from||(V.name==='tafel'?'tafel':'tdesk')});break;
+    case 'skzT':go('skzT',{from:d.from||(V.name==='tafel'?'tafel':'tdesk')});mbPull();break;
     case 'skz-end':skzEndOv();break;
     case 'skz-end-ok':skzEnd(!!($('#skz-del-img')&&$('#skz-del-img').checked));break;
     case 'skz-werk':if(CS&&CS.skz){CS.skz.werk=!CS.skz.werk;pushCS();if(V.name==='tafel')updTafel();else render()}break;
