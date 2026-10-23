@@ -3,6 +3,8 @@
 Aufruf: python3 tools/medien_einpflegen.py [EINGANG]   (Standard: /mnt/project-files/medien-eingang)
 Braucht ffmpeg und Pillow. Dateiname im Eingang: FACH_thema_motiv.ext, z. B. E_london_baeckerei.png
   FACH: E M K D N G I W DZ oder ALLG.  Endung -ton im Motiv (z. B. M_bruch_pizza-ton.mp4) behält den Ton im Video.
+Knopf-Icons: Dateiname ICON_<icon-name>.png (z. B. ICON_w-quiz.png, ICON_hilfe.png) landet als assets/icons/<icon-name>.webp (192 px),
+  weißer Rand wird freigestellt, der Name kommt in ICO_FILES in app.html und ICO_V wird hochgezählt.
 Ergebnis: assets/medien/<fach>/<thema>-<motiv>.webp|.mp4|.svg, bei Videos dazu -poster.webp,
 ein Eintrag in assets/medien/medien.json und (außer Videos) in assets/offline.json. Erledigte Dateien wandern nach EINGANG/erledigt/.
 Die Dateien kommen über GitHub Pages, nicht über Supabase, kosten also keinen Supabase-Egress."""
@@ -53,6 +55,31 @@ def svg(src, ziel):
     m = re.search(r'viewBox\s*=\s*"[\d.\-]+[ ,]+[\d.\-]+[ ,]+([\d.]+)[ ,]+([\d.]+)"', t)
     return {'typ': 'svg', **({'breite': round(float(m[1])), 'hoehe': round(float(m[2]))} if m else {})}
 
+ICO = os.path.join(ROOT, 'assets', 'icons'); APP = os.path.join(ROOT, 'app.html')
+
+def freistellen(im):
+    """Weißen Hintergrund vom Rand her transparent machen (Gemini liefert oft keine echte Transparenz)."""
+    im = im.convert('RGBA'); w, h = im.size; px = im.load()
+    if im.getextrema()[3][0] < 250: return im            # schon transparent
+    weiss = lambda c: c[0] > 238 and c[1] > 238 and c[2] > 238
+    todo = [(x, y) for x in range(w) for y in (0, h - 1)] + [(x, y) for y in range(h) for x in (0, w - 1)]; seen = set()
+    while todo:
+        x, y = todo.pop()
+        if (x, y) in seen or not (0 <= x < w and 0 <= y < h) or not weiss(px[x, y]): continue
+        seen.add((x, y)); px[x, y] = (255, 255, 255, 0)
+        todo += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+    return im
+
+def icon(src, name):
+    im = freistellen(Image.open(src)); im = im.crop(im.getbbox() or (0, 0, im.width, im.height))
+    side = max(im.size); sq = Image.new('RGBA', (side, side), (0, 0, 0, 0)); sq.paste(im, ((side - im.width) // 2, (side - im.height) // 2))
+    sq = sq.resize((192, 192), Image.LANCZOS); os.makedirs(ICO, exist_ok=True); sq.save(os.path.join(ICO, name + '.webp'), 'WEBP', quality=85, method=6)
+    a = open(APP, encoding='utf-8').read(); m = re.search(r"const ICO_FILES=new Set\(\[([^\]]*)\]\)", a)
+    if m and f"'{name}'" not in m[1]:
+        a = a.replace(m[0], m[0][:-2] + f",'{name}'])", 1)
+    a = re.sub(r"const ICO_V='[^']*'", "const ICO_V='" + datetime.date.today().strftime('%Y%m%d') + "i'", a, count=1)
+    open(APP, 'w', encoding='utf-8').write(a)
+
 def main():
     ein = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else '/mnt/project-files/medien-eingang')
     kat = json.load(open(KAT, encoding='utf-8')) if os.path.exists(KAT) else []
@@ -61,6 +88,11 @@ def main():
         src = os.path.join(ein, f); stem, ext = os.path.splitext(f); ext = ext.lower()
         if not os.path.isfile(src) or f.startswith('.') or ext == '.md': continue
         teile = stem.split('_')
+        if teile[0].upper() == 'ICON' and len(teile) == 2 and ext in ('.png', '.jpg', '.jpeg', '.webp'):
+            nm = re.sub(r'[^a-z0-9-]', '', teile[1].lower())
+            try: icon(src, nm)
+            except Exception as e: print(f'FEHLER {f}: {e}'); continue
+            print(f'OK {f} → assets/icons/{nm}.webp'); n += 1; os.makedirs(fertig, exist_ok=True); os.replace(src, os.path.join(fertig, f)); continue
         if len(teile) < 3 or teile[0].upper() not in FACH:
             print(f'ÜBERSPRUNGEN {f}: Name muss FACH_thema_motiv sein, z. B. E_london_baeckerei.png'); continue
         if ext == '.json':
