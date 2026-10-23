@@ -655,6 +655,7 @@ body.viewer #tk-fab{display:none!important}
 .matchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .matchip button{border:0;background:var(--line);border-radius:50%;width:22px;height:22px;cursor:pointer;font-weight:800;flex:none}
 .ov .box.viewer{max-width:min(1200px,96vw);width:96vw;height:90vh;display:flex;flex-direction:column;gap:10px;text-align:left;border-color:var(--navy)}
+.tb-pvb .tb-pv{flex:0 1 auto;min-height:0;width:min(100%,calc((90vh - 170px)*16/9));align-self:center;background:#fff}
 .viewer .vbody{flex:1;min-height:0;display:grid;place-items:center;background:var(--surface-2);border-radius:14px;overflow:auto}
 .viewer img{max-width:100%;max-height:100%;object-fit:contain}
 .viewer iframe{width:100%;height:100%;border:0;border-radius:14px;background:#fff}
@@ -1073,6 +1074,16 @@ span.pill{cursor:default}.pill-sel{border:1.5px solid #c7d2fe;border-radius:999p
 .rit-b.planned{background:color-mix(in srgb,var(--sc) 10%,var(--surface))}.rit-b b{display:block}.rit-b small{display:block;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rit-lg{flex:none;width:44px;height:44px;display:grid;place-items:center}.rit-lg.big{width:64px;height:64px}.rit-lg svg,.rit-lg img{width:100%;height:100%;object-fit:contain}
 .tpc.off{opacity:.55;background:repeating-linear-gradient(135deg,#f1f5f9 0 8px,#fff 8px 16px)}.tpc.off small{font-weight:800;color:#0369a1}.tp-fr{color:#0369a1;font-weight:800}.sq-h{font-size:.82rem;font-weight:800;color:#4f46e5}
+/* Lehrkraft am großen Bildschirm (Mac): Lehrerzimmer, Planung, Bibliothek nutzen die volle Breite; iPad bleibt wie bisher */
+@media (min-width:1200px){body.twide main,body.twide .top-in{max-width:1760px;padding-inline:24px}}
+.tp-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:0 0 10px}.tp-head>.pt-tabs{margin-left:auto}
+.tp-head .pt-tabs{padding:3px;border-radius:14px}.tp-head .pt-tabs button{padding:6px 12px;font-size:.92rem}
+.tp-wk{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tp-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin-bottom:4px}.tp-bar .rit-row{margin:0;gap:8px}.tp-bar .rit-row>.label{width:auto;margin-right:2px}
+.tp-bar .rit-b{flex:0 1 auto;max-width:260px;padding:4px 10px;gap:8px;border-radius:12px}.tp-bar .rit-lg{width:30px;height:30px}.tp-bar .rit-b small{font-size:.78rem}
+.tp-tools{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}.tp-tools .btn{font-size:.85rem;padding:5px 10px;min-height:34px}
+@media (min-width:1100px){.tp table{border-spacing:5px}.tp th{padding:0 2px}.tpc{min-height:44px;padding:4px 8px;gap:2px;justify-content:center}.tpc .sbadge{width:28px;height:28px;font-size:.75rem;border-radius:8px}
+ .tpc:not(.planned)>.row{flex-wrap:nowrap}.tpc.has{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:4px 8px}.tpc.has>b{flex:1 1 120px;min-width:0}.tpc.has>.btn{min-height:28px;padding:2px 10px}.tp td.tm{font-size:.75rem;vertical-align:middle}.tp thead th:first-child{width:84px}.tp tr.pause td{padding:1px;font-size:.72rem}}
 .ph-ins{display:flex;justify-content:center;margin:-6px 0;position:relative;z-index:1}.ph-ins::before{content:'';position:absolute;left:10%;right:10%;top:50%;border-top:2px dashed #c7d2fe}.ph-plus{position:relative;width:38px;height:38px;border-radius:50%;border:2px solid #4f46e5;background:#fff;color:#4f46e5;font-size:1.3rem;font-weight:900;cursor:pointer;box-shadow:0 2px 6px rgba(30,58,138,.15)}.ph-plus:hover{background:#4f46e5;color:#fff}.xs-add{margin-top:8px}.xs-box{margin-top:12px;padding:10px;border:2px dashed #c7d2fe;border-radius:12px;background:#f5f7ff}
 .sl-tabs{display:flex;gap:2px;background:#eef2ff;border-radius:10px;padding:3px;margin:8px 0 2px}
 .sl-tabs button{flex:1;border:0;background:none;font:inherit;font-weight:800;font-size:.78rem;padding:7px 2px;border-radius:8px;color:#1e3a8a;cursor:pointer}
@@ -1500,6 +1511,8 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 .adm .cls-chk label{display:inline-flex;gap:5px;align-items:center;padding:4px 10px;border-radius:999px;border:2px solid var(--line);font-weight:800;font-size:.85rem;cursor:pointer}
 .adm .cls-chk input{width:18px;height:18px}
 .ad-schools{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.wk-sc{flex-direction:row!important;align-items:center;gap:14px!important;border-color:#fca5a5!important;background:linear-gradient(135deg,var(--surface) 60%,color-mix(in srgb,#ef4444 12%,var(--surface)))!important}.wk-sc .wk-t{display:flex;flex-direction:column;gap:4px}.wk-i{flex:none;width:64px;height:64px;display:inline-grid}.wk-i svg{width:100%;height:100%}
+.wk-sc>.wk-i,.wk-sc>.wk-t{margin-top:0!important}.ext-keys{margin:0 0 10px}.ext-keys summary{cursor:pointer;font-weight:800;padding:6px 0}.tb-tools .ext-t{opacity:1}
 .ad-sc{display:flex;flex-direction:column;gap:4px;text-align:left;padding:18px;border-radius:18px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;color:var(--ink)}
 .ad-sc:hover{border-color:var(--sc)}.ad-sc b{font-family:var(--f-display);font-size:1.25rem}.ad-sc small{color:var(--muted);font-weight:700}.ad-sc span{font-weight:800;font-size:.9rem;margin-top:6px}
 .ad-pop{border:2px solid var(--sc);margin-bottom:14px}
@@ -2012,6 +2025,7 @@ function render(){THEME.apply();
   $('#nav').hidden=V.name==='role'||tdLocked()||!S.role;{const f=$('#legal-f');if(f)f.hidden=BOARD||['present','beamer','tafel','kfb'].includes(V.name)||['impressum','datenschutz','umzug'].includes(V.name)}
   document.querySelector('.top').hidden=V.name==='role'&&(V.step||'splash')==='splash';
   document.body.classList.toggle('wide',V.name==='tafel'||V.name==='kfb');
+  document.body.classList.toggle('twide',S.role==='teacher'&&['tdash','tplan','library','lessons','toolbox','tdesk'].includes(V.name));
   document.body.classList.toggle('pres',V.name==='present');
   if(V.name==='present'||V.name==='beamer')fillMedia();
   extMount();
@@ -2024,7 +2038,7 @@ function render(){THEME.apply();
   $('#nav-journal').hidden=S.role!=='student';$('#nav-board').hidden=!lotsenOk();if(V.name==='board'&&S.role==='student'&&!lotsenOk()){V.name='dash';return render()}
   document.body.classList.toggle('teacher',isT);document.body.classList.toggle('testm',testOn()||(S.role==='student'&&!!S.tester));document.body.classList.toggle('viewer',viewer());
   {let vb=$('#viewbar');if(viewer()&&!vb){vb=document.createElement('div');vb.id='viewbar';vb.innerHTML='Zuschauer-Ansicht: Sie sehen, was die Schülerinnen und Schüler sehen. Eingaben sind abgeschaltet.';document.body.appendChild(vb)}if(vb)vb.hidden=!viewer()}$('#tchip').hidden=!isT;document.querySelector('.stars').hidden=isT;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')||(S.role==='student'&&['practice','memory','salad','balloon','game'].includes(V.name)&&b.dataset.nav==='homework')));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===V.name||(V.name==='obs-p'&&b.dataset.nav==='obs')||(V.name==='ctt'&&b.dataset.nav===(V.from||'tplan'))||(V.name==='kl-new'&&b.dataset.nav==='klassen')||(['theft','tsubj','mod','akt'].includes(V.name)&&S.role==='teacher'&&b.dataset.nav==='tdesk')||(['lesson-edit','lessons'].includes(V.name)&&b.dataset.nav==='tplan')||(V.name==='toolbox'&&b.dataset.nav==='library')||(S.role==='student'&&['practice','memory','salad','balloon','game'].includes(V.name)&&b.dataset.nav==='homework')));
   updBanner();renderMini();
   if(V.name==='tafel')updTafel();
   kfAnimate();skzFill();wlwMount();dgMount();
@@ -2385,7 +2399,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261022-2000';let verTold=false;
+const BUILD='20261023-1330';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -4549,12 +4563,15 @@ function libListHTML(){
     return ks.map(k=>`<details class="lib-sec s-${k}" ${(V.lopen||{})[k]?'open':''} data-lsec="${k}"><summary>${badge(k)} ${SUBJECTS[k]?SUBJECTS[k].name:'Ohne Fach'} <small class="muted">${list.filter(m=>m.subject===k).length}</small></summary><div class="lib-rows">${list.filter(m=>m.subject===k).map(card).join('')}</div></details>`).join('')}
   return `<div class="lib-rows" style="padding:0">${list.map(card).join('')}</div>`;
 }
+// Roter Werkzeugkasten (Kachel in der Bibliothek). Bis ein ElevenLabs-Bild da ist, als SVG.
+const WK_ICO=`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M23 18v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/><rect x="6" y="18" width="52" height="38" rx="7" fill="#dc2626"/><rect x="6" y="18" width="52" height="12" rx="6" fill="#ef4444"/><rect x="6" y="28" width="52" height="4" fill="#b91c1c"/><rect x="27" y="26" width="10" height="9" rx="2" fill="#fbbf24"/><path d="M12 22h18" stroke="#fca5a5" stroke-width="2.5" stroke-linecap="round"/></svg>`;
 VIEWS.library=()=>{
   const f=V.f||'all',subjOpts=Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${k===(V.us||'E')?'selected':''}>${v.name}</option>`).join('');
   const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;
   return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row">${V.lh?'<button class="btn sm" data-act="lib-h" data-h="">← Bibliothek</button>':''}<h1>Bibliothek</h1></div><span class="chip">${LIB.items.length} Materialien</span></div>
   ${LIB.msg?`<p class="saved">${esc(LIB.msg)}</p>`:''}
   ${!V.lh?`<div class="ad-schools">
+    ${S.role==='teacher'?`<button class="ad-sc wk-sc" data-act="toolbox"><span class="wk-i">${WK_ICO}</span><span class="wk-t"><b>Werkzeugkasten</b><small>Werkzeuge ansehen und ausprobieren</small><span>${Object.keys(TOOLS).filter(id=>id!=='slide').length} Werkzeuge</span></span></button>`:''}
     <button class="ad-sc" data-act="lib-h" data-h="up"><b>Hochladen</b><small>Dateien und Links</small><span>PowerPoint, PDF, Bilder, Docs, Links</span></button>
     <button class="ad-sc" data-act="lib-h" data-h="mat"><b>Material</b><small>Alles auf einen Blick</small><span>${LIB.items.length} Materialien</span></button>
     ${S.role==='teacher'?`<button class="ad-sc" data-act="lib-h" data-h="arc"><b>Archiv</b><small>Stunden sichern</small><span>${lessons().filter(x=>x.arc).length} archiviert</span></button>`:''}
@@ -6551,10 +6568,10 @@ const isoD=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x.toISOString().s
 function weekOff(){if(V.w!=null)return V.w;const n=new Date(),g=n.getDay();return g===0||g===6||(g===5&&n.getHours()>=13)?1:0}
 // Werkzeugkasten der Lehrkraft: Lernspiele für die Klasse freigeben, Werkzeuge für die Planung ein- und ausblenden
 VIEWS.toolbox=()=>{const G=((TD.games||{})[S.cls||'-'])||{},off=TD.toolsOff||[];
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row"><button class="btn sm" data-act="tplan">← Planung</button><h1>Werkzeugkasten</h1></div><span class="chip">${esc(className())}</span></div>
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><div class="row"><button class="btn sm" data-act="library">← Bibliothek</button><span class="wk-i" style="width:44px;height:44px">${WK_ICO}</span><h1>Werkzeugkasten</h1></div><span class="chip">${esc(className())}</span></div>
   <button class="wlw-card" data-act="wlw-free"><span class="wlw-ci pin">${WLW_IC.pin}</span><span style="flex:1;min-width:0"><b>Wo liegt was? ausprobieren</b><small>Das Geografiespiel selbst spielen, z. B. am Whiteboard. Für die ganze Klasse planst du es als Werkzeug in einer Stunde ein. Die SuS finden es außerdem unter Freies Üben.</small></span><span class="btn sm pri">Öffnen</span></button>
   <section class="panel" style="margin-top:16px"><h2 style="font-size:1.2rem">Werkzeuge für die Planung</h2><p class="muted" style="font-weight:700;margin:4px 0 10px">Ausgeblendete Werkzeuge erscheinen nicht mehr im Werkzeug-Pool, wenn du eine Stunde planst.</p>
-    ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide'&&!TOOL_PLAN.includes(id))).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-tool" data-t="${id}" aria-pressed="${on}">${TOOLS[id].wip?wipBadge():''}<span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'}</small></span></button>`}).join('')}</div>`).join('')}</section>${extToolbox()}`};
+    ${toolCats(Object.keys(TOOLS).filter(id=>id!=='slide'&&!TOOL_PLAN.includes(id))).map(([ic,n,L])=>`<h3 class="pool-h">${ic} ${n}</h3><div class="tb-tools">${L.map(id=>{const on=!off.includes(id);return `<button class="tb-tool ${on?'on':''}" data-act="tb-prev" data-t="${id}" title="Beispiel ansehen">${TOOLS[id].wip?wipBadge():''}<span class="gi">${TOOLS[id].icon}</span><span><b>${TOOLS[id].name}</b><small>${on?'im Pool':'ausgeblendet'} · ansehen</small></span></button>`}).join('')}</div>`).join('')}</section>${extToolbox()}`};
 VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();if(pt==='seq')return seqView();
   const off=weekOff(),mo=monday(off),days=[0,1,2,3,4].map(d=>{const x=new Date(mo);x.setDate(mo.getDate()+d);return x});
   const td=isoD(new Date()),ed=!!V.ttEdit;
@@ -6566,14 +6583,10 @@ VIEWS.tplan=()=>{const pt=V.pt||S.pt||'woche';if(pt==='jahr')return yearView();i
     return `<div class="tpc has s-${sl.s} ${L?'planned':''} ${date===td?'today':''}" data-act="tp-cell" data-d="${d}" data-i="${i}" data-date="${date}" role="button" tabindex="0">
       <span class="row" style="gap:6px">${badge(sl.s)}<span>${esc(sl.c||'')}</span>${one?'<small class="chip">einmalig</small>':''}</span>
       ${ed?'':L?(prev?`<span>↳ Doppelstunde</span>`:`<b>${esc(L.title)}</b>${date===td?`<button class="btn sm ok" data-act="l-start" data-id="${L.id}">Live</button>`:''}`):(sq.t||sq.typ?`<span class="sq-h">${esc((sq.typ?sq.typ+': ':'')+(sq.t||''))}</span>`:'')+'<span class="add">+ Stunde planen</span>'}</div>`};
-  return `${planTabs('woche')}<div class="row" style="justify-content:space-between;margin:12px 0 10px"><h1>Wochenplanung</h1>
-    <div class="row"><button class="btn sm" data-act="wk-arc" title="Alle geplanten Stunden dieser Woche ins Stunden-Archiv der Bibliothek">Woche ins Archiv</button><button class="btn sm" data-act="wk-print">Wochenplan exportieren (A4)</button><button class="btn sm" data-act="toolbox">Werkzeugkasten</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
+  return `<div class="tp-head"><h1>Wochenplanung</h1><div class="tp-wk"><button class="btn sm" data-act="tp-w" data-w="${off-1}" title="Vorwoche" aria-label="Vorwoche">◀</button><b style="font-family:var(--f-display);font-size:1.2rem">${days[0].toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} – ${days[4].toLocaleDateString('de-DE',{day:'numeric',month:'numeric',year:'numeric'})}${off===0?' · diese Woche':off===1?' · nächste Woche':''}</b><button class="btn sm" data-act="tp-w" data-w="${off+1}" title="Nächste Woche" aria-label="Nächste Woche">▶</button></div>${planTabs('woche')}</div>
   ${TD.ttEx&&!(CLOUD&&Cloud.prof)?'<p class="muted" style="font-weight:700;margin-bottom:8px"><span class="chip ex">Beispiel-Stundenplan</span> Trag über „Stundenplan bearbeiten“ deinen echten Lehrer-Stundenplan ein.</p>':''}
   ${ed?'<div class="priv">Tippe auf ein Feld, um Fach und Klasse einzutragen. Das gilt für jede Woche.</div>':''}
-  <div class="row" style="justify-content:space-between"><button class="btn sm" data-act="tp-w" data-w="${off-1}">◀ Vorwoche</button>
-    <b style="font-family:var(--f-display);font-size:1.2rem">${days[0].toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})} – ${days[4].toLocaleDateString('de-DE',{day:'numeric',month:'numeric',year:'numeric'})}${off===0?' · diese Woche':off===1?' · nächste Woche':''}</b>
-    <button class="btn sm" data-act="tp-w" data-w="${off+1}">Nächste Woche ▶</button></div>
-  ${ed?'':ritRow(isoD(mo))}
+  <div class="tp-bar">${ed?'':ritRow(isoD(mo))}<div class="tp-tools"><button class="btn sm" data-act="wk-arc" title="Alle geplanten Stunden dieser Woche ins Stunden-Archiv der Bibliothek">Woche ins Archiv</button><button class="btn sm" data-act="wk-print" title="Wochenplan als A4 exportieren">Export (A4)</button><button class="btn sm" data-act="lessons">Alle Stunden</button><button class="btn sm ${ed?'on':''}" data-act="tt-edit">${ed?'Fertig':CLOUD&&Cloud.prof?'Klassen-Stundenplan bearbeiten':'Stundenplan bearbeiten'}</button></div></div>
   <div class="tp"><table><thead><tr><th></th>${days.map((x,d)=>`<th>${DAYS[d]} ${x.toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}${(f=>f?`<br><small class="tp-fr">${esc(f.n)}</small>`:'')(dayFree(isoD(x)))}</th>`).join('')}</tr></thead><tbody>
     ${PERIODS.map((pp,i)=>`${pauseTr(i)}<tr><td class="tm">${pp[0]}. Std<br>${pp[1]}–${pp[2]}</td>${days.map((_,d)=>`<td>${cell(d,i)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 };
@@ -6770,7 +6783,7 @@ function yearView(){const y=sjKey(),SJ=BY_SJ[y],K=subjKeys(),G=sjSegs(SJ),Y=yrD(
     dIter(first,last,(ds,wd)=>{const I=dayInfo(SJ,ds,wd);cells+=`<button class="yd ${I.k} ${ds===td?'today':''}" ${I.k==='sch'||I.k==='blk'?`data-act="yb-day" data-ds="${ds}"`:'disabled'} title="${esc(dDE(ds,1)+(I.n?' · '+I.n:''))}">${+ds.slice(8)}</button>`});
     return `<div class="ym"><b>${new Date(first+'T12:00Z').toLocaleDateString('de-DE',{month:'long',year:'numeric'})}</b><div class="yg"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>${cells}</div></div>`}).join('');
   const C=yk?cnt(yk):[],tot=C.reduce((a,b)=>a+b,0),TS=yk?topicSpread(SJ,yk):[],used=TS.reduce((a,t)=>a+t.h,0);
-  return `${planTabs('jahr')}<div class="row" style="justify-content:space-between;margin:12px 0"><h1>Jahresplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm pri" data-act="yr-docx">Jahresplan ${esc(keyName(yk))} als Word</button>`:''}</div></div>
+  return `<div class="tp-head"><h1>Jahresplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm pri" data-act="yr-docx">Jahresplan ${esc(keyName(yk))} als Word</button>`:''}</div>${planTabs('jahr')}</div>
   <div class="yn-row"><label>Dein Name (Kopfzeile im Export)<input type="text" data-yn="yrName" value="${esc(TD.yrName||'')}" placeholder="z. B. Vorname NACHNAME"></label><label>Schule<input type="text" data-yn="yrSchool" value="${esc(TD.yrSchool||'')}" placeholder="z. B. Mittelschule …"></label></div>
   <p class="muted" style="font-weight:700;margin-bottom:10px">Ferien und Feiertage in Bayern sind schon eingetragen. Tippe auf einen Schultag, um ihn zu blocken (z. B. Wandertag). ELIO zählt dann, wie viele Stunden du in jedem Fach wirklich hältst.</p>
   ${K.length?`<div class="yk-cards">${K.map(k=>{const c=cnt(k),t=c.reduce((a,b)=>a+b,0),s=k.split('|')[0];return `<button class="yk s-${s} ${k===yk?'on':''}" data-act="yk" data-k="${esc(k)}">${badge(s)}<b>${esc(keyName(k))}</b><span class="yk-n">${t}<small> Stunden</small></span><small>${c.join(' · ')}</small></button>`}).join('')}</div>`:'<div class="priv">Trag zuerst in der Wochenplanung deinen Stundenplan ein. Dann zählt ELIO hier die Stunden.</div>'}
@@ -6784,7 +6797,7 @@ function yearView(){const y=sjKey(),SJ=BY_SJ[y],K=subjKeys(),G=sjSegs(SJ),Y=yrD(
     ${blocks.length?`<div class="row" style="margin-top:10px;gap:6px">${blocks.map(([d,n])=>`<span class="chip">${dDE(d)} ${esc(n)} <button class="cw-x" data-act="yb-del" data-ds="${d}" aria-label="Freigeben">✕</button></span>`).join('')}</div>`:''}</section>`}
 function seqView(){const y=sjKey(),SJ=BY_SJ[y],K=subjKeys(),G=sjSegs(SJ),Y=yrD(),yk=K.includes(V.yk)?V.yk:K[0],td=isoD(new Date());
   const gi=V.sg!=null?Math.min(+V.sg,G.length-1):Math.max(0,G.findIndex(g=>td<=g.b)),g=G[gi<0?0:gi];
-  const head=`${planTabs('seq')}<div class="row" style="justify-content:space-between;margin:12px 0"><h1>Sequenzplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm pri" data-act="seq-docx">Sequenzplan als Word</button>`:''}</div></div>`;
+  const head=`<div class="tp-head"><h1>Sequenzplanung</h1><div class="row"><label class="row" style="gap:6px;font-weight:800">Schuljahr ${sjPick(y)}</label>${yk?`<button class="btn sm pri" data-act="seq-docx">Sequenzplan als Word</button>`:''}</div>${planTabs('seq')}</div>`;
   if(!yk)return head+'<div class="priv">Trag zuerst in der Wochenplanung deinen Stundenplan ein.</div>';
   const S=slotsIn(SJ,g.a,g.b,yk),pat=Y.pat[yk]=Y.pat[yk]||{},pk=[...new Set(S.map(x=>x.wd+'-'+x.i))].sort((a,b)=>a.split('-')[0]-b.split('-')[0]||a.split('-')[1]-b.split('-')[1]);
   const TS=topicSpread(SJ,yk).filter(t=>t.from&&t.from<=g.b&&t.to>=g.a);
@@ -7267,13 +7280,19 @@ function extUpHTML(){const U=EXT.up;if(!U)return '';
 function extToolbox(){if(!(CLOUD&&Cloud.sb&&Cloud.user))return '';extListLoad();const L=EXT.list||[],adm=!!(Cloud.prof&&Cloud.prof.role==='admin'),up=extCanUp();
   const btn=(a,x,t,c)=>`<button class="btn sm ${c||''}" data-act="${a}" data-id="${esc(x.id)}">${t}</button>`;
   const own=x=>x.mine?`${btn('ext-dl',x,'Herunterladen')}<label class="btn sm ext-file">Neue Version<input type="file" accept=".html,.htm,text/html" data-extup="${esc(x.id)}" hidden></label>${['entwurf','abgelehnt'].includes(x.status)?btn('ext-submit',x,'Einreichen','pri'):''}${V.extDel===x.id?btn('ext-del',x,'Wirklich löschen','red'):btn('ext-del',x,'Löschen')}`:'';
-  return `<section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.2rem">Eigene Werkzeuge der Schule</h2>${up?`<label class="btn pri ext-file">Werkzeug hochladen (.html)<input type="file" accept=".html,.htm,text/html" data-extup="" hidden></label>`:''}</div>
-    <p class="muted" style="font-weight:700;margin:4px 0 10px">Werkzeuge, die Lehrkräfte deiner Schule als HTML-Datei gebaut haben. Sie laufen im Schutzkasten: ohne Internet, ohne Namen, ohne Zugriff auf ELONUKI. Das Baustellen-Symbol heißt: noch nicht zur Nutzung freigegeben, läuft nur in der Vorschau und in der Testklasse. In einer Stunde wählst du sie über das Werkzeug „Eigenes Werkzeug“.</p>${up?`<p style="margin:0 0 10px"><a class="btn sm" href="werkzeuge/HANDBUCH.md" target="_blank" rel="noopener">Handbuch mit Prompt für deine KI</a> <a class="btn sm" href="werkzeuge/vorlage.html" download="elonuki-vorlage.html">Vorlage herunterladen</a></p>`:''}
+  return `<section class="panel" style="margin-top:16px"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.2rem">Eigene Werkzeuge der Schule</h2>${up?`<span class="row" style="gap:6px"><a class="btn sm" href="werkzeuge/HANDBUCH.md" target="_blank" rel="noopener">Handbuch</a><a class="btn sm" href="werkzeuge/vorlage.html" download="elonuki-vorlage.html">Vorlage</a><label class="btn sm pri ext-file">Hochladen (.html)<input type="file" accept=".html,.htm,text/html" data-extup="" hidden></label></span>`:''}</div>
+    <p class="muted" style="font-weight:700;margin:4px 0 10px;font-size:.88rem">Von Lehrkräften deiner Schule gebaut, laufen im Schutzkasten (ohne Internet, ohne Namen). Baustelle = noch nicht freigegeben. In einer Stunde über „Eigenes Werkzeug“.</p>
     ${extUpHTML()}
-    ${up?extKeysHTML():''}
+    ${up?`<details class="ext-keys" ${EXT.newKey?'open':''}><summary>Direkt mit deiner KI arbeiten (Schlüssel)</summary>${extKeysHTML()}</details>`:''}
     <div class="tb-tools">${[EXT_DEMO_ROW,...L].map(x=>`<div class="tb-tool on ext-t">${x.status!=='freigegeben'?wipBadge():''}<span style="flex:1;min-width:0;display:grid"><b>${esc(x.name)}</b><small>${esc(EXT_ST[x.status]||x.status)} · ${x.mine?'von dir':'von '+esc(x.author||'?')} · Version ${+x.ver||1}</small>${x.info?`<small>${esc(x.info)}</small>`:''}${x.note&&(x.mine||adm)?`<small><b>Notiz:</b> ${esc(x.note)}</small>`:''}
       <span class="row" style="margin-top:6px;gap:6px">${btn('ext-view',x,'Ansehen')}${own(x)}${adm&&x.id!=='demo'?x.status==='gesperrt'?btn('ext-unblock',x,'Sperre aufheben'):x.status==='freigegeben'?btn('ext-block',x,'Sperren'):btn('ext-ok',x,'Freigeben','pri'):''}</span></span></div>`).join('')}</div>
     ${L.length?'':`<p class="muted" style="margin-top:8px">${up?'Noch keine eigenen Werkzeuge. Lade oben dein erstes hoch.':'Noch keine eigenen Werkzeuge an deiner Schule.'}</p>`}</section>`}
+// Werkzeugkasten: Beispiel eines Werkzeugs so zeigen, wie es an der Tafel aussieht (Standard-Inhalte aus toolDefaults, nichts wird gespeichert oder gesendet)
+function tbPrev(id){const T=TOOLS[id];if(!T)return;const subj=T.subj||'E',L={subject:subj,title:'Beispielstunde',phases:[]},t=toolDefaults(id,{name:T.name},L)||{id};if(id==='quiz'&&!t.q)Object.assign(t,{q:'Wie heißt die Hauptstadt von England?',opts:'London\nManchester\nLiverpool',right:'1'});
+  const R={now:Date.now(),stage:{subj,title:L.title,step:0,n:1,name:T.name,txt:'',act:'',sf:'',min:0,sub:0,tool:stageTool(t,L,0),hold:''}};let h='';try{h=boardHTML(R,'live')}catch(e){h='<div class="bw"><p class="muted" style="padding:20px">Für dieses Werkzeug gibt es noch kein Beispielbild.</p></div>'}
+  const on=!(TD.toolsOff||[]).includes(id);
+  showOv(`<div class="box viewer tb-pvb" role="dialog" aria-label="${esc(T.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${T.icon} ${esc(T.name)} <small class="muted">Beispiel</small></b><span class="row" style="gap:6px"><button class="btn sm ${on?'':'pri'}" data-act="tb-tool" data-t="${id}">${on?'Aus dem Pool nehmen':'In den Pool'}</button><button class="btn sm pri" data-act="close-ov">Schließen</button></span></div>
+    <p class="muted" style="font-weight:700;margin:0">${esc(T.txt||'')}${toolOnBoard(t)?'':' So sieht die Tafel aus, die SuS arbeiten auf dem iPad.'}</p><div class="tprev tb-pv">${h}</div></div>`);extMount()}
 function extView(id){const x=id==='demo'?EXT_DEMO_ROW:(EXT.list||[]).find(y=>y.id===id);if(!x)return;
   showOv(`<div class="box viewer" role="dialog" aria-label="${esc(x.name)}"><div class="row" style="justify-content:space-between"><b style="font-family:var(--f-display);font-size:1.3rem">${esc(x.name)} <small class="muted">Version ${+x.ver||1}${x.status==='freigegeben'?'':' · Vorschau'}</small></b><button class="btn sm pri" data-act="close-ov">Schließen</button></div>
     <div class="ext-pv"><div class="ext-slot" data-src="${esc(x.id)}" data-pv="1" data-subj="${esc(x.subject||'')}"></div></div></div>`);extMount()}
@@ -9761,7 +9780,8 @@ document.addEventListener('click',e=>{
     case 'ps':S.lastPs=d.s;save();V.s=d.s;render();break;
     case 'toolbox':$('#ov').hidden=true;go('toolbox');break;
     case 'tb-game':{TD.games=TD.games||{};const c=S.cls||'-',G=(TD.games[c]=TD.games[c]||{}),L=G[d.s]=G[d.s]||[];if(L.includes(d.g))G[d.s]=L.filter(x=>x!==d.g);else L.push(d.g);tsave();if(!CS)initTeacher();pushCS();render();break}
-    case 'tb-tool':{TD.toolsOff=TD.toolsOff||[];TD.toolsOff=TD.toolsOff.includes(d.t)?TD.toolsOff.filter(x=>x!==d.t):[...TD.toolsOff,d.t];tsave();render();break}
+    case 'tb-tool':{TD.toolsOff=TD.toolsOff||[];TD.toolsOff=TD.toolsOff.includes(d.t)?TD.toolsOff.filter(x=>x!==d.t):[...TD.toolsOff,d.t];tsave();render();if(!$('#ov').hidden&&$('.tb-pvb'))tbPrev(d.t);break}
+    case 'tb-prev':tbPrev(d.t);break;
     case 'game':go(d.g,{s:d.s});break;
     case 'g-again':go(V.name,{s:V.s,back:V.back,pairs:V.pairs});break;
     case 'mem':memClick(+d.i);break;
