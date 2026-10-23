@@ -10,12 +10,16 @@ gelb
 60%
 
 ## Nächste 3 Schritte
+- Icon-Stil festlegen, dann 19 Werkzeuge ohne Icon zuerst (Liste in elon/anleitungen/uebersicht-medien-bestand.md)
+- 6 Folien-Hintergründe mit neuem Elo neu erzeugen (Flow-Bilder)
 - Restliche Werkzeug-Icons per ElevenLabs erzeugen (Credits sind aufgebraucht, Liste in den Projektdateien elon/anleitungen/icons-erzeugen.md): 38 von 62 Icons sind fertig
 - Realistische Elos für Doktorhut und Heft sowie kurze Töne für Klick und Fehler ergänzen
 - Gemeinsame Schriftfarben-Komponente für alle Editoren (Runde 2)
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- 23.10., im Test: Tafel-Ruhebild lebendig (Elo winkt zur Begrüßung, danach Standard-Elo still; altes Bild mit eingemaltem Elo ersetzt). Allgemeine Animationen (Winken, Zeit um) spielt jetzt immer das Standard-Elo, auch in Fächern mit eigenem Elo. Schlachtplan Wochenende: elon/anleitungen/uebersicht-medien-bestand.md
+- 23.10., im Test: Neue Elos jetzt überall sichtbar: rund 25 fest eingetragene alte Elo-Bilder (Startbildschirm, Rollenkarten, Hefteintrag/Übungen, Hilfe- und Fleiß-Station, Rückmelde-Elos, Psst, Lehrer-Zentrale, DaZ-Lernlandschaft, Info-Seite) auf Standard-Elo und Elo-Gefühle umgestellt. Startfolien unverändert. Offen: 6 Folien-Hintergründe mit eingemaltem alten Elo. Gesamtliste zum Abhaken: elon/anleitungen/uebersicht-medien-bestand.md (Projektdateien)
 - 23.10., im Test: Neue Elo-Generation aus Google Flow (Greenscreen, freigestellt mit tools/elo_keyen.py): Standard-Elo und alle Fach-Elos (Mathe, Englisch, Schottland, Kunst, Wirtschaft, Deutsch, GPG, N&T) ersetzt, neu Informatik und DaZ. Startfolien (Rakete, Atelier, Börse, Englisch-Welt) unverändert. 8 Elo-Gefühle und 4 Ansichten nur abgelegt (assets/medien/allg), noch ohne Einsatz in der App. Prompt-Listen: elon/anleitungen/flow-mini-videos.md
 - 23.10., im Test: Drei neue realistische Fach-Elos (Deutsch: Dichter mit Feder, GPG: Entdecker mit Karte und Globus, N&T: Forscher mit Lupe) freigestellt und automatisch im Fach; GPG hat jetzt ein Fach-Logo im Stil der anderen Fächer am Schreibtisch (vorläufig aus den Elo-Bildern zusammengesetzt, kann bei neuen ElevenLabs-Credits ersetzt werden). Freistell-Skript: tools/elo_freistellen.py
 - 23.10.: Roter Werkzeugkasten als Kachel-Symbol in der Bibliothek, vorerst als SVG; ElevenLabs-Bild folgt, sobald wieder Credits da sind (Icon-Name werkzeugkasten)
