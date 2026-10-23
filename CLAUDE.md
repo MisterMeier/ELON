@@ -8,6 +8,7 @@ Leitfigur ist die Eule Elo. Ansprechpartner: Fabian (Lehrer, kein Entwickler). A
 - `supabase/`: SQL-Skripte und Edge Functions
 - `hq/`: Projektstand je Feld (Markdown) – Quelle für das HQ-Dashboard
 - `hq-dashboard/`: internes Dashboard, getrennt von der App, passwortgeschützt
+- `.claude/skills/`: projektbezogene Skills (Liste und Zweck in `hq/skills.md`)
 
 ## Nach jeder Änderung
 - Die passende `/hq`-Datei aktualisieren: Status, Fortschritt, Nächste 3 Schritte, In Arbeit, Erledigt.
