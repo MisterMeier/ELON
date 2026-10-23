@@ -9,22 +9,74 @@
     "WK": "banker",
     "D": "deutsch",
     "G": "gpg",
-    "N": "nt"
+    "N": "nt",
+    "I": "informatik",
+    "DZ": "daz"
   },
   "figuren": {
-    "standard": { "name": "Elo (Standard)", "datei": "elo-standard-512.webp" },
-    "hilfe":  { "name": "Elo hilft", "datei": "elo-hilfe-real-512.webp" },
-    "hallo":  { "name": "Elo winkt", "datei": "elo-hallo-real-512.webp" },
-    "fleiss": { "name": "Elo stark", "datei": "elo-fleiss-real-512.webp" },
-    "heft":   { "name": "Elo mit Doktorhut (gezeichnet)", "datei": "elo-heft-512.png" },
-    "uebung": { "name": "Elo mit Heft (gezeichnet)", "datei": "elo-uebung-512.png" },
-    "mathe":  { "name": "Elo als Mathelehrer", "datei": "elo-mathe-real-512.webp" },
-    "uk":     { "name": "Elo in England", "datei": "elo-uk-real-512.webp" },
-    "scot":   { "name": "Elo in Schottland (Dudelsack)", "datei": "elo-scot-real-512.webp" },
-    "kunst":  { "name": "Elo als Maler", "datei": "elo-kunst-real-512.webp" },
-    "banker": { "name": "Elo als Banker", "datei": "elo-banker-real-512.webp" },
-    "deutsch": { "name": "Elo als Dichter (Deutsch)", "datei": "elo-deutsch-real-512.webp" },
-    "gpg":    { "name": "Elo als Entdecker (GPG)", "datei": "elo-gpg-real-512.webp" },
-    "nt":     { "name": "Elo als Forscher (N&T)", "datei": "elo-nt-real-512.webp" }
+    "standard": {
+      "name": "Elo (Standard)",
+      "datei": "elo-standard-v2-512.webp"
+    },
+    "hilfe": {
+      "name": "Elo hilft",
+      "datei": "elo-hilfe-real-512.webp"
+    },
+    "hallo": {
+      "name": "Elo winkt",
+      "datei": "elo-hallo-real-512.webp"
+    },
+    "fleiss": {
+      "name": "Elo stark",
+      "datei": "elo-fleiss-real-512.webp"
+    },
+    "heft": {
+      "name": "Elo mit Doktorhut (gezeichnet)",
+      "datei": "elo-heft-512.png"
+    },
+    "uebung": {
+      "name": "Elo mit Heft (gezeichnet)",
+      "datei": "elo-uebung-512.png"
+    },
+    "mathe": {
+      "name": "Elo als Mathelehrer",
+      "datei": "elo-mathe-v2-512.webp"
+    },
+    "uk": {
+      "name": "Elo in England",
+      "datei": "elo-uk-v2-512.webp"
+    },
+    "scot": {
+      "name": "Elo in Schottland (Dudelsack)",
+      "datei": "elo-scot-v2-512.webp"
+    },
+    "kunst": {
+      "name": "Elo als Maler",
+      "datei": "elo-kunst-v2-512.webp"
+    },
+    "banker": {
+      "name": "Elo als Banker",
+      "datei": "elo-banker-v2-512.webp"
+    },
+    "deutsch": {
+      "name": "Elo als Dichter (Deutsch)",
+      "datei": "elo-deutsch-v2-512.webp"
+    },
+    "gpg": {
+      "name": "Elo als Entdecker (GPG)",
+      "datei": "elo-gpg-v2-512.webp"
+    },
+    "nt": {
+      "name": "Elo als Forscher (N&T)",
+      "datei": "elo-nt-v2-512.webp"
+    },
+    "informatik": {
+      "name": "Elo als Informatiker",
+      "datei": "elo-informatik-v2-512.webp"
+    },
+    "daz": {
+      "name": "Elo für DaZ (Hallo, Привіт)",
+      "datei": "elo-daz-v2-512.webp"
+    }
   }
 }
