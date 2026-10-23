@@ -68,6 +68,7 @@ gelb
 - Mehrlehrer-Pilot (zweite Lehrkraft, andere Schule): Schulen-Trennung ist im Test erfolgreich und live eingespielt (Fabian, 18.10.). Neu im PR (Entwurf): Admin-Bereich mit Konto löschen, Schule auswählen (schaltet frei und nimmt auf), Wunschschule bei Registrierung; dazu zweite SQL-Umstellung, Reihenfolge laut supabase/ANLEITUNG-schulen-trennen.md (Schritt 3b). Offen: Freigabe pro Werkzeug.
 
 ## Erledigt
+- Medien einpflegen: Knopf-Icons als ICON_<name>.png aus Gemini nach assets/icons (23.10.); Gemini-Prompt liegt in den Anleitungen
 - Ist-Analyse Mehrlehrer-Pilot (15.10.): Tabellen, Rollen, Blackbox, Börse, Bibliothek geprüft
 - Runde 1 (PR #18): feste Folien-IDs, mehrere Werkzeuge pro Phase, sicherer Cloud-Sync, Cloud-Bibliothek, Elo-Stimme ohne Hängen
 - Skizzenbuch Kunst (PR #7, #17)
