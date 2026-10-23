@@ -957,7 +957,19 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .page .btn:not(.pri):not(.ok):not(.red):not(.on){background:#fff;color:#1e3a8a;border-color:#8da2d8}.page .btn.pri,.page .btn.ok,.page .btn.red,.page .btn.on{color:#fff}.page .btn.ok{background:#146c43;border-color:#146c43}.page .btn.red{background:#b42318;border-color:#b42318}.page .muted,.page small{color:#475569}
 .hbe-b{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;margin:8px 0;padding:8px;border:2px dashed #8da2d8;border-radius:12px;background:#f8faff}.hbe-b textarea{width:100%;min-height:44px;color:#0f172a;background:#fff;border:2px solid #8da2d8;border-radius:10px;padding:8px;font:inherit}.hbe-c{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.hbe-add{display:flex;gap:8px;justify-content:center;margin:4px 0}.hbe-b .hfoto{grid-column:1/-1;margin:0}
 .page table th,.page table td{background:#fff!important;color:#0f172a!important;border-color:#c7d2fe!important}.page table tr:first-child td,.page table th{background:#e0e7ff!important;color:#1e3a8a!important}
-.page .merke,.page [class*=merke]{background:#eef2ff!important;border-color:#4f46e5!important;color:#0f172a!important}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
+.page .merke,.page [class*=merke]{background:#eef2ff!important;border-color:#4f46e5!important;color:#0f172a!important}
+/* Hefteintrag-Stil nach dem ELIO-Designstandard (nur Aussehen): Baloo-Überschriften, Nunito-Text, Zeilenabstand 1,45, gelber Merke-Kasten, Achtung gestrichelt orange */
+.page{line-height:1.45;font-family:var(--f-body)}.page p{margin:.4em 0;max-width:70ch}
+.page h3{font-family:var(--f-display);font-weight:800;line-height:1.2;color:#18203d}
+.page h4{font-weight:700;font-size:1.2rem;line-height:1.25;margin:1.1em 0 .35em;color:#18203d}.page h4:first-child{margin-top:.2em}
+.page ul{padding-left:1.4em}.page li{margin-block:.25em}.page li::marker{color:var(--sc);font-weight:800}
+.page .merke{background:#fdf0d2!important;border:0!important;border-left:7px solid #f2b51d!important;border-radius:4px 12px 12px 4px;padding:.75em 1.1em;margin-block:1.1em;color:#18203d!important;font-weight:600}
+.page .merke b.l{font-family:var(--f-display);font-size:1.08em;color:#7a4f00!important}
+.page .achtung{background:#fff7ef;border:2px dashed #e8743b;border-radius:12px;padding:.75em 1.1em;margin-block:1.1em;color:#18203d}
+.page .achtung b.l{font-family:var(--f-display);font-size:1.08em;color:#a8481a!important}
+.page .vs{border-radius:8px;padding:.4em .9em;margin:.35em 0;font-weight:700}.page .vs b{font-family:var(--f-display);letter-spacing:.01em}
+.page .achtung+.vs,.page .vs+.vs{margin-top:.25em}.page .vs+:not(.vs){margin-top:1em}
+.page .tbl{margin-block:.9em}.page .tbl td,.page .tbl th{padding:.45em .8em}.bw .rt-heft .page{zoom:1.7;width:min(92%,38em)}.rt-heft .page{margin:1em auto;width:min(92%,60em);font-size:1.15em;overflow:auto}
 .rt-sl{background:#f6f8fc center/cover no-repeat;padding:1.4em 2em;gap:.6em;justify-content:center}
 .rt-sl.sl-white{background:#fff}
 .rt-sl.sl-pic{padding:0}

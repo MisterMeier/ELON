@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elo animiert (Prototyp)</title>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+:root{--ink:#18203d;--muted:#586082;--line:#d8ddee;--blue:#2f63c8;--ok:#1f8f5d;--no:#cf3a2c}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;background:#f4f6fc;color:var(--ink);font:500 1.05rem/1.45 "Nunito",system-ui,sans-serif;display:grid;place-items:center;padding:16px}
+main{width:min(100%,46rem);display:grid;grid-template-columns:minmax(0,15rem) 1fr;gap:24px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+h1{font:800 1.6rem/1.2 "Baloo 2",system-ui,sans-serif;margin:0 0 4px}
+.hint{color:var(--muted);margin:0 0 16px}
+#elo img{width:100%;display:block}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+button{font:inherit;font-weight:800;border:2px solid var(--blue);color:var(--blue);background:#fff;border-radius:12px;padding:10px 16px;cursor:pointer;min-height:44px;transition:transform .12s cubic-bezier(.2,0,0,1)}
+button:active{transform:scale(.96)}
+button:focus-visible{outline:3px solid #f2b51d;outline-offset:2px}
+.quiz p{font:700 1.25rem/1.3 "Baloo 2",system-ui,sans-serif;margin:0 0 8px}
+.fb{min-height:1.5em;font-weight:800;margin:4px 0 0}.fb.ok{color:var(--ok)}.fb.no{color:var(--no)}
+@media (max-width:560px){main{grid-template-columns:1fr;justify-items:center;text-align:center}.row{justify-content:center}#elo{width:12rem}}
+</style>
+</head>
+<body>
+<main>
+  <!-- Rückfallebene: das bisherige Elo-Bild, falls SVG oder das Skript nicht laden -->
+  <div id="elo"><img src="../assets/elo/elo-standard-512.webp" alt="Elo, die Eule"></div>
+  <div>
+    <h1>Elo bewegt sich</h1>
+    <p class="hint">Prototyp: Elo als gezeichnete SVG-Figur. Tippe auf die Knöpfe oder beantworte die Frage.</p>
+    <div class="row">
+      <button type="button" data-a="blink">Blinzeln</button>
+      <button type="button" data-a="wave">Winken</button>
+      <button type="button" data-a="hop">Hüpfen</button>
+    </div>
+    <div class="quiz">
+      <p>3 · (4 + 2) = ?</p>
+      <div class="row" id="opts"><button type="button" data-v="14">14</button><button type="button" data-v="18">18</button><button type="button" data-v="24">24</button></div>
+      <p class="fb" id="fb" aria-live="polite"></p>
+    </div>
+  </div>
+</main>
+<script src="../assets/elo/elo-svg.js"></script>
+<script>
+const box=document.getElementById('elo'),fb=document.getElementById('fb');
+if(window.EloSvg&&EloSvg.mount(box))EloSvg.life(box);
+document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>window.EloSvg&&EloSvg[b.dataset.a](box));
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{
+  const ok=b.dataset.v==='18';fb.className='fb '+(ok?'ok':'no');
+  fb.textContent=ok?'Richtig! 3 · 6 = 18':'Noch nicht. Rechne zuerst die Klammer.';
+  if(ok&&window.EloSvg)EloSvg.hop(box);
+});
+</script>
+</body>
+</html>
