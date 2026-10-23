@@ -6,7 +6,10 @@
     "E": "uk",
     "K": "kunst",
     "W": "banker",
-    "WK": "banker"
+    "WK": "banker",
+    "D": "deutsch",
+    "G": "gpg",
+    "N": "nt"
   },
   "figuren": {
     "standard": { "name": "Elo (Standard)", "datei": "elo-standard-512.webp" },
@@ -19,6 +22,9 @@
     "uk":     { "name": "Elo in England", "datei": "elo-uk-real-512.webp" },
     "scot":   { "name": "Elo in Schottland (Dudelsack)", "datei": "elo-scot-real-512.webp" },
     "kunst":  { "name": "Elo als Maler", "datei": "elo-kunst-real-512.webp" },
-    "banker": { "name": "Elo als Banker", "datei": "elo-banker-real-512.webp" }
+    "banker": { "name": "Elo als Banker", "datei": "elo-banker-real-512.webp" },
+    "deutsch": { "name": "Elo als Dichter (Deutsch)", "datei": "elo-deutsch-real-512.webp" },
+    "gpg":    { "name": "Elo als Entdecker (GPG)", "datei": "elo-gpg-real-512.webp" },
+    "nt":     { "name": "Elo als Forscher (N&T)", "datei": "elo-nt-real-512.webp" }
   }
 }
