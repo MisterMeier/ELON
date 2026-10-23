@@ -16,7 +16,7 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
-- 23.10., Vorschlag: Hefteintrag-Stil nach Designstandard (Baloo/Nunito, Zeilenabstand 1,45, gelber Merke-Kasten, Achtung gestrichelt orange, Falsch/Richtig enger gesetzt), nur Aussehen. Elo als animierte SVG-Figur (blinzeln, winken, hüpfen) als Prototyp unter prototyp/elo-animiert.html. Animations-Skills: hq/skills.md
+- 23.10., Vorschlag: Hefteintrag-Stil nach Designstandard (Baloo/Nunito, Zeilenabstand 1,45, gelber Merke-Kasten, Achtung gestrichelt orange, Falsch/Richtig enger gesetzt), nur Aussehen. Original-Elo animiert (blinzeln, winken, hüpfen; die gezeichnete SVG-Elo war Fabian zu schlecht) als Prototyp unter prototyp/elo-animiert.html. Animations-Skills: hq/skills.md
 - 23.10.: Auftragsvorlage für Gemini-Medien (Elo-Stil, App-Farben, keine Schrift im Bild, Formate und Größen) in assets/medien/ANLEITUNG.md
 - 22.10., im Test: App ist auf allen Geräten, in allen Klassen und Schulen immer hell, egal ob das iPad im dunklen Modus steht (Ursache der unlesbaren Schrift in der 7a). Dunkel nur per Schalter „Dunkles Design“ im Logo-Menü der Lehrkraft. Prüfskript deckt jetzt 43 Ansichten ab, alle WCAG AA.
 - 21.10., im Test: Icon-System ico(name): Bild aus assets/icons/<name>.webp, sonst sofort ein sauberes Strich-Symbol; alle durch die Emoji-Entfernung leer gewordenen Knöpfe (SuS-Seitenleiste, Problem melden, Vorlesen, Planung, 41 Werkzeuge) haben wieder ein Symbol Bereits 38 ElevenLabs-Icons eingebunden (Seitenknöpfe, Menü, 17 Werkzeuge).
