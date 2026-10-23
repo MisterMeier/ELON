@@ -2399,7 +2399,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261023-1330';let verTold=false;
+const BUILD='20261023-1545';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3297,10 +3297,10 @@ const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebun
 // Elo-Figuren an EINER Stelle: assets/elo/figuren.json (Fach → Figur, alle Figuren mit Datei und Namen).
 // Neue Figur = Bild nach assets/elo/ und dort eintragen. Die Werte hier sind nur die Rückfallebene, falls die Datei nicht lädt.
 // Grundposen (ELO_GRUND): im Fach mit eigener Figur (z. B. Englisch) nimmt Elo automatisch die Fach-Figur.
-const ELO_FIG={standard:{name:'Elo (Standard)',datei:'elo-standard-512.webp'},heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-real-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-real-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-real-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-real-512.webp'},
-  uk:{name:'Elo in England',datei:'elo-uk-real-512.webp'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-real-512.webp'},kunst:{name:'Elo als Maler',datei:'elo-kunst-real-512.webp'},banker:{name:'Elo als Banker',datei:'elo-banker-real-512.webp'},
-  deutsch:{name:'Elo als Dichter (Deutsch)',datei:'elo-deutsch-real-512.webp'},gpg:{name:'Elo als Entdecker (GPG)',datei:'elo-gpg-real-512.webp'},nt:{name:'Elo als Forscher (N&T)',datei:'elo-nt-real-512.webp'}};
-const ELO_SUBJ={M:'mathe',E:'uk',K:'kunst',W:'banker',WK:'banker',D:'deutsch',G:'gpg',N:'nt'},ELO_STD={k:'standard'},ELO_GRUND=['standard','heft','uebung','hilfe','fleiss','hallo'];
+const ELO_FIG={standard:{name:'Elo (Standard)',datei:'elo-standard-v2-512.webp'},heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-real-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-real-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-real-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-v2-512.webp'},
+  uk:{name:'Elo in England',datei:'elo-uk-v2-512.webp'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-v2-512.webp'},kunst:{name:'Elo als Maler',datei:'elo-kunst-v2-512.webp'},banker:{name:'Elo als Banker',datei:'elo-banker-v2-512.webp'},
+  deutsch:{name:'Elo als Dichter (Deutsch)',datei:'elo-deutsch-v2-512.webp'},gpg:{name:'Elo als Entdecker (GPG)',datei:'elo-gpg-v2-512.webp'},nt:{name:'Elo als Forscher (N&T)',datei:'elo-nt-v2-512.webp'},informatik:{name:'Elo als Informatiker',datei:'elo-informatik-v2-512.webp'},daz:{name:'Elo für DaZ',datei:'elo-daz-v2-512.webp'}};
+const ELO_SUBJ={M:'mathe',E:'uk',K:'kunst',W:'banker',WK:'banker',D:'deutsch',G:'gpg',N:'nt',I:'informatik',DZ:'daz'},ELO_STD={k:'standard'},ELO_GRUND=['standard','heft','uebung','hilfe','fleiss','hallo'];
 const eloV=(k,s)=>k==='auto'||!ELO_FIG[k]?(ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:ELO_STD.k):ELO_GRUND.includes(k)&&ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO_SUBJ[s]:k,
   eloImg=(k,s)=>'assets/elo/'+(ELO_FIG[eloV(k,s)]||ELO_FIG.hilfe).datei,eloLidsS=(k,s)=>ELO_EYES[eloV(k,s)]?eloLids(eloV(k,s)):'';
 // Elo spielt einen Sound: passende Figur dazu (Dudelsack = Schottland-Elo)

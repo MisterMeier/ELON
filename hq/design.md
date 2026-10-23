@@ -16,6 +16,7 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- 23.10., im Test: Neue Elo-Generation aus Google Flow (Greenscreen, freigestellt mit tools/elo_keyen.py): Standard-Elo und alle Fach-Elos (Mathe, Englisch, Schottland, Kunst, Wirtschaft, Deutsch, GPG, N&T) ersetzt, neu Informatik und DaZ. Startfolien (Rakete, Atelier, Börse, Englisch-Welt) unverändert. 8 Elo-Gefühle und 4 Ansichten nur abgelegt (assets/medien/allg), noch ohne Einsatz in der App. Prompt-Listen: elon/anleitungen/flow-mini-videos.md
 - 23.10., im Test: Drei neue realistische Fach-Elos (Deutsch: Dichter mit Feder, GPG: Entdecker mit Karte und Globus, N&T: Forscher mit Lupe) freigestellt und automatisch im Fach; GPG hat jetzt ein Fach-Logo im Stil der anderen Fächer am Schreibtisch (vorläufig aus den Elo-Bildern zusammengesetzt, kann bei neuen ElevenLabs-Credits ersetzt werden). Freistell-Skript: tools/elo_freistellen.py
 - 23.10.: Roter Werkzeugkasten als Kachel-Symbol in der Bibliothek, vorerst als SVG; ElevenLabs-Bild folgt, sobald wieder Credits da sind (Icon-Name werkzeugkasten)
 - 23.10., Vorschlag: Hefteintrag-Stil nach Designstandard (Baloo/Nunito, Zeilenabstand 1,45, gelber Merke-Kasten, Achtung gestrichelt orange, Falsch/Richtig enger gesetzt), nur Aussehen. Original-Elo animiert (blinzeln, winken, hüpfen; die gezeichnete SVG-Elo war Fabian zu schlecht) als Prototyp unter prototyp/elo-animiert.html. Animations-Skills: hq/skills.md
