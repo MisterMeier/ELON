@@ -90,3 +90,4 @@ gelb
 | B-61 | Kontrast hell: Fach-Kürzel im Regelheft-Titel, Lernleiter-Überschrift, Team-2-Beschriftung im Kicker unter WCAG AA | niedrig | in Test | app.html .page h3 .sbadge, .ladder-top, .kf-teams |
 | B-62 | Vorlesen: englische Wörter in Arbeitsaufträgen (z. B. „Swap and Talk“) und Elos Sprechblasen in Englischstunden kamen mit deutscher Stimme | hoch | in Test | app.html lgSplit, rdParts, ttsSay |
 | B-63 | Neue Elos aus PR #72 kaum sichtbar: viele Stellen hatten das alte Elo-Bild fest im Code statt über figuren.json | mittel | in Test | app.html (Splash, Stationen, elo(), Psst), index.html |
+| B-64 | Reste des alten Namens ELIO in der App: Fußzeile „Über ELIO“, Fenstertitel, Startbild (Splash) mit „E“ + „LIO“, Alt-Texte | niedrig | offen | app.html legal-f, title, BIGLOGO |

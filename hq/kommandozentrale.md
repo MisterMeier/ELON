@@ -18,6 +18,7 @@ gelb
 - Runden laut elon/plan-elonuki.md, ein PR pro Runde
 
 ## Erledigt
+- Factsheet (.docx/.pdf, 2 Seiten) und PowerPoint (15 Folien) für die Schulleitung auf ELONUKI aktualisiert, mit neuen Elos, Icons und frischen Screenshots (24.10.); Dateien in den Projektdateien unter elon/praesentation/ELONUKI-*
 - HQ-Dashboard eingerichtet (15.10.)
 
 ## Meilensteine
