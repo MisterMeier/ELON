@@ -10,6 +10,7 @@ gelb
 60%
 
 ## Nächste 3 Schritte
+- Steuerungs-Icons erzeugen (Testrunde: Timer, Freeze, Bereit-Check), in medien-eingang legen, „Steuerungs-Icons einpflegen“
 - Icon-Stil festlegen, dann 19 Werkzeuge ohne Icon zuerst (Liste in elon/anleitungen/uebersicht-medien-bestand.md)
 - 6 Folien-Hintergründe mit neuem Elo neu erzeugen (Flow-Bilder)
 - Restliche Werkzeug-Icons per ElevenLabs erzeugen (Credits sind aufgebraucht, Liste in den Projektdateien elon/anleitungen/icons-erzeugen.md): 38 von 62 Icons sind fertig
@@ -18,6 +19,7 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- 24.10., im Test: Tafel-Steuerung als Icon-Leiste unten im Stunden-Feld (Name und Status beim Drüberfahren mit der Maus). Prompts für einen neuen, ruhigen Satz Steuerungs-Icons: elon/anleitungen/steuerung-icons-prompts.md (Projektdateien); hochgeladene `st-…`-Icons ersetzen die alten automatisch
 - 24.10., im Test: Neues ELONUKI-Titelbild an der Tafel (Logo und Elo aus Flow). Beim Start winkt Elo (Animation) auf dem Bild ohne Eule, nach 9 Sekunden blendet das fertige Titelbild ein. Dateien assets/folien/tafel-start.webp und tafel-start-leer.webp
 - 23.10., im Test: Tafel-Ruhebild lebendig (Elo winkt zur Begrüßung, danach Standard-Elo still; altes Bild mit eingemaltem Elo ersetzt). Allgemeine Animationen (Winken, Zeit um) spielt jetzt immer das Standard-Elo, auch in Fächern mit eigenem Elo. Schlachtplan Wochenende: elon/anleitungen/uebersicht-medien-bestand.md
 - 23.10., im Test: Neue Elos jetzt überall sichtbar: rund 25 fest eingetragene alte Elo-Bilder (Startbildschirm, Rollenkarten, Hefteintrag/Übungen, Hilfe- und Fleiß-Station, Rückmelde-Elos, Psst, Lehrer-Zentrale, DaZ-Lernlandschaft, Info-Seite) auf Standard-Elo und Elo-Gefühle umgestellt. Startfolien unverändert. Offen: 6 Folien-Hintergründe mit eingemaltem alten Elo. Gesamtliste zum Abhaken: elon/anleitungen/uebersicht-medien-bestand.md (Projektdateien)
