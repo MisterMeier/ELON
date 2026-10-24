@@ -10,6 +10,7 @@ gelb
 42%
 
 ## Nächste 3 Schritte
+- Lehreransicht aufgeräumt (24.10.) am Mac testen: Werkzeugkasten (nur Icons), Wochenplanung (Stundenplan-Quadrate, Rituale als Icons), Lehrerzimmer im Testmodus (Prüfpunkte), Tafel-Steuerung Knopf „Wortwolke“ mit dem SuS-Tester; überall mit der Maus drüberfahren
 - Medien aus Gemini (23.10.) ausprobieren: ein Bild und ein kurzes Video nach assets/medien/ANLEITUNG.md erzeugen, in den Projektordner medien-eingang legen, „Medien einpflegen“ schreiben; danach im Folien-Editor Kachel „Medien“ testen
 - Didaktik-Runde 2 (22.10.) testen: Mathestunde planen mit „Erst schätzen“ (Einstieg), „Arbeitsauftrag“ mit Schalter Ich-Du-Wir, „Multiple Choice“ (Beispiel einsetzen, dort stehen Denkfehler mit # und Hilfen mit ?) und „Sachaufgaben-Lotse“; Englischstunde mit „Hörverstehen“; live mit dem SuS-Tester: schätzen, Lösungsweg schicken, „Elo, hilf mir“ antippen, falsche Antwort wählen; in der Steuerung Hilfen und Denkfehler ansehen
 - Didaktik-Runde 1 (22.10.) testen: Englischstunde planen mit „Swap & Talk“ (Warm-up), „Dialog“ als Dialogbauer mit Vorlage Shopping, „Feedback-Karte“ und „Fehler-Detektiv“; oben „Stunde prüfen“ antippen; dann live mit dem SuS-Tester (Stufe wählen, Supporter-Checkliste, Karte bei Find your partner, Feedback abschicken); Vorlesen in Englisch anhören
@@ -33,6 +34,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- 24.10., im Test: Lehreransicht am Mac (nur mit Maus, iPads unverändert) cleaner: Werkzeugkasten nur Icon-Kacheln (Name und Infos beim Drüberfahren; Werkzeuge ohne eigenes Icon behalten einen kleinen Namen); Lehrerzimmer: Testmodus-Kasten weg, Erklärung beim Drüberfahren über „Test“, Prüfzeile als kleine grün/rot-Punkte; Wochenplanung: Verfassungsviertelstunde und Text der Woche nur als Logo, Häkchen = geplant; Stundenplan als Quadrate mit Fachbuchstabe und Klasse, gefüllt = geplant, Titel und Jahresplan-Thema beim Drüberfahren, heute geplante Stunde mit kleinem ▶ zum Live-Start; Tafel-Steuerung: neuer Knopf „Wortwolke“ (Frage eintippen, sofort Wörter sammeln, ohne geplante Stunde).
 - 24.10., im Test: Tipp auf ein Fach öffnet immer zuerst die Lernmodule (auch SuS-Ansicht), danach Regelheft, Vokabeln, Übungen.
 - 24.10., im Test: Tafel-Steuerung kompakt: alle Steuer-Knöpfe (Timer, Freeze, Bereit-Check, Abstimmung, Glücksrad, Gruppen, Elo, Nachricht, Erinnerung, Abmelden) nur noch als Icons in einer Leiste unten im Feld mit Stundentitel und Folien-Navigation; Erklärung erscheint beim Drüberfahren mit der Maus. Optionen öffnen sich wie bisher darunter.
 - 23.10., im Test: Elo animiert (Google Flow, freigestellt): „Winken“ und „Zeit um“ an der Tafel laufen als echte Bewegung, nur beim Standard-Elo; Fach-Elos behalten das Standbild. Bei Timer-Ende zeigt Elo „Zeit um“. Start-Loop und Jubeln liegen bereit, noch nicht eingebaut.
