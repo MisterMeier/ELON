@@ -3,7 +3,7 @@
 // Gespeichert werden nur ELIOs eigene Dateien (Seite, Bilder, Schriften, Geräusche), keine Daten von Kindern und nichts von Supabase.
 const C='elio-v5';
 const CORE=['./','index.html','app.html','assets/site/tafel.webp','assets/fonts/fonts.css','assets/fonts/baloo2-latin-1.woff2','assets/fonts/baloo2-latin-ext-0.woff2','assets/fonts/nunito-latin-3.woff2','assets/fonts/nunito-latin-ext-2.woff2',
-  'assets/folien/allgemein.webp','assets/folien/start.webp','assets/folien/idle.webp','assets/folien/rakete.webp','assets/elo/e.png','assets/elo/elo.png','assets/vendor/qrcode.js'];
+  'assets/folien/allgemein.webp','assets/folien/start.webp','assets/folien/idle.webp','assets/folien/rakete.webp','assets/elo/e.png','assets/elo/e-elonuki.webp','assets/elo/elo.png','assets/vendor/qrcode.js'];
 // Für den Offline-Betrieb der iPads: alle eigenen Bilder, Geräusche und Elos Stimme (Liste in assets/offline.json, ohne Videos)
 const warm=c=>fetch('assets/offline.json',{cache:'no-store'}).then(r=>r.json()).then(L=>Promise.all(L.map(u=>c.match(u).then(h=>h||c.add(u)).catch(()=>{})))).catch(()=>{});
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>Promise.all(CORE.map(u=>c.add(u).catch(()=>{}))).then(()=>warm(c))))});

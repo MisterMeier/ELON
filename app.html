@@ -43,7 +43,7 @@ button{font:inherit;color:inherit}
 :root{--brand-g:linear-gradient(120deg,#1f7bff 0%,#3d55f0 55%,#6b4cf6 100%);--brand-ink:#2c3ad6}
 .logo,.biglogo{color:var(--brand-ink)}@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .logo,:root:not([data-theme=light]) .biglogo{color:#a9b6ff}}:root[data-theme=dark] .logo,:root[data-theme=dark] .biglogo{color:#a9b6ff}
 .lg-t{letter-spacing:.04em}
-.lg-e{height:1em;width:auto;margin:0 2px 0 0;display:inline-block}.biglogo .lg-e{height:.82em}
+.lg-e{height:1em;width:auto;margin:0 2px 0 0;display:inline-block}.logo .lg-e{height:1.25em;margin:0}.biglogo .lg-e{height:.82em}
 .si-owl{width:2.6rem;height:2.6rem;object-fit:contain;vertical-align:middle;filter:drop-shadow(0 2px 3px rgba(44,58,214,.18))}.st-h{display:flex;align-items:center;gap:8px}.st-h img{width:52px;height:52px;margin:-8px 0}
 .elo-help{display:flex;gap:12px;align-items:center;margin-bottom:10px}.elo-help img{width:84px;height:84px;flex:none;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(44,58,214,.2))}.elo-help .bub{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:8px 12px;font-weight:800}
 .logo .on{display:inline-flex;align-items:center;gap:5px;background:var(--brand-g);color:#fff;border-radius:999px;padding:2px 4px 0 11px}
@@ -1577,7 +1577,7 @@ body.has-mt main#view{padding-bottom:calc(min(320px,46vw)*9/16 + 80px)}
 </style>
 
 <header class="top"><div class="top-in">
-  <button class="logo" data-act="umenu" aria-label="ELIO Menü: Profil und Abmelden" aria-haspopup="true"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></button><div id="umenu" class="umenu" hidden></div>
+  <button class="logo" data-act="umenu" aria-label="ELONUKI Menü: Profil und Abmelden" aria-haspopup="true"><img class="lg-e" src="assets/elo/e-elonuki.webp" alt="ELONUKI"></button><div id="umenu" class="umenu" hidden></div>
   <nav class="nav" id="nav">
     <button class="tv" data-act="tdash" data-nav="tdash" hidden>Lehrerzimmer</button>
     <button class="tv" data-act="tafel" data-nav="tafel" id="nav-tafel" hidden>Tafel</button>
@@ -1975,7 +1975,7 @@ function say(t){
 function addStars(n){S.stars+=n;save();hdr()}
 function earnOnce(key){if(!S.earned[key]){S.earned[key]=1;addStars(1)}}
 function mutStar(){if(S.mut<30){S.mut++;addStars(1)}}
-// Menü hinter dem ELIO-Logo: wer bin ich, Profil, Abmelden
+// Menü hinter dem ELONUKI-Logo: wer bin ich, Profil, Abmelden
 function umenuHTML(){const T=S.role==='teacher',ic=n=>`<img class="um-ic" src="assets/icons/${n}.webp" alt="">`,it=(v,n,l)=>`<button data-act="um-go" data-v="${v}">${ic(n)}${l}</button>`;
   const who=T?`<b>${esc(Cloud.prof&&Cloud.prof.name||'Lehrkraft')}</b><small>${esc(Cloud.user&&Cloud.user.email||'Demo-Modus')} · ${esc(className())}</small>`
     :`<span class="row" style="gap:8px">${S.av!=null?avatar(S.av,36):''}<span><b>${esc(S.nick||(S.acct&&S.acct.u)||'Nr. '+S.nr)}</b><small>${S.acct&&S.acct.u?esc(S.acct.u)+' · ':''}${esc(className())}</small></span></span>`;
@@ -2404,7 +2404,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261024-0100';let verTold=false;
+const BUILD='20261024-0200';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3538,7 +3538,7 @@ function boardHTMLc(R,mini){const CL=R&&R.cloud,cw=CL?cloudHTML(CL.words,CL.q,CL
   if(CL&&CL.big)return `<div class="bw bw-cloud">${cw||`<div class="cw cw-big"><span class="cw-h">${esc(CL.q)}</span><div class="cw-w"><span style="color:#4f46e5;opacity:.6">Die Antworten erscheinen hier …</span></div></div>`}</div>`;
   let h=boardHTML0(R,mini);if(cw)h=h.replace(/<\/div>\s*$/,cw+'</div>');const T=R&&R.lay&&R.lay.timer;return T?h.replace(/<span class="bw-timer btimer/g,`<span ${layStyle(T)} class="bw-timer btimer`):h}
 function boardHTML0(R,mini){
-  const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
+  const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e-elonuki.webp" alt="ELONUKI"></span>';
   if(!R)return `<div class="bw"><div class="bw-top">${LOGO}<span class="tt">${esc(className())}</span></div><div class="bw-main">${elo('think',mini?50:140)}<div class="bw-big">Gleich geht's los</div><p class="muted" style="font-weight:700">Warte auf die Lehrkraft …</p></div><div></div></div>`;
   const st=R.stage,K=R.kfb,t=st&&st.tool||{};let main='';
   const tl=timerLeft(R.timer,OFF),showT=R.timer&&(R.timer.run||tl<R.timer.total);
@@ -7735,7 +7735,7 @@ VIEWS['kl-cards']=()=>{
   return `<div class="st-head noprint"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">QR-Karten · ${esc(c.name)}</h1>
       <button class="btn pri" data-act="kl-print">Drucken</button><button class="btn" data-act="kl-copy">Links kopieren</button>${V.copied===1?'<span class="chip">Kopiert</span>':V.copied===2?'<span class="chip">Kopieren ging nicht</span>':''}</div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Jede Karte gehört zu einer Nummer der Klassenliste. Wer scannt, landet direkt in ${esc(c.name)} mit seiner Nummer und baut sich nur noch seinen Avatar. Die Links kannst du auch einzeln verschicken. Erzeugst du einen neuen Zugang, gelten die alten Karten nicht mehr.</p>
-    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
+    <div class="qcards">${nrs.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e-elonuki.webp" alt="ELONUKI"></span><b>Nr. ${k}</b></div><div class="qr" data-qr="${esc(joinUrl(ac.join_code,ac.pw,k,ck))}"></div>
       <div class="qn">Name: ______________</div><small>Scannen mit der Kamera · oder auf der Startseite „Schüler/in“ wählen und eintippen:<br><b>${esc(ac.join_code)}-${esc(ac.pw)}-${k}</b></small></div>`).join('')}</div>`;
 };
 const heftFor=()=>(TD.heft||[]).filter(e=>(!e.cls||e.cls===S.cls)&&isPub(e)&&deskOn(e.s)).slice(-140).map(({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt})=>({id,s,title,text,date,o,ch,help,ub,ubs,hx,mt}));
@@ -7914,7 +7914,7 @@ function goalStu(G){const left=Math.max(0,G.n-G.c),pc=G.n?Math.round(G.c/G.n*100
     <p class="muted" style="font-weight:800">${G.done?'Elo ist stolz auf euch.':`Noch ${left} Sterne bis ${esc(G.t)}. Jede Übung bringt Sterne, und jeder Stern zählt für die ganze Klasse.`}</p>
     ${G.done?'':'<button class="btn pri" data-act="desk" style="margin-top:8px">Jetzt Sterne sammeln</button>'}</div>
     <div class="gl-stu-elo">${elo(G.done?'cheer':'happy',96)}</div></div></section>`}
-function goalBoard(G,mini){const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>';
+function goalBoard(G,mini){const LOGO='<span class="logo"><img class="lg-e" src="assets/elo/e-elonuki.webp" alt="ELONUKI"></span>';
   return `<div class="bw bw-goal"><div class="gl-in"><span class="gl-k">Unser Klassenziel</span><h1>${esc(G.t)}</h1>${goalBar(G,true)}<b class="gl-n">${G.c} / ${G.n} ${GL_STAR}</b>
     <p>${G.done?'Geschafft! Das habt ihr zusammen erreicht.':'Noch '+(G.n-G.c)+' Sterne. Jeder Stern aus euren Übungen zählt für die ganze Klasse.'}</p></div><div class="gl-elo">${elo(G.done?'cheer':'happy',mini?60:220)}</div></div>`}
 /* Neues Schuljahr: alles auf null, Stunden und Vorlagen bleiben */
@@ -8111,7 +8111,7 @@ VIEWS.zug=()=>{const c=(Cloud.myClasses||[]).find(x=>x.id===V.cid);if(!c)return 
     return `<div class="st-head noprint"><button class="btn sm" data-act="zg-print-x">← Zurück</button><h1 style="font-size:1.6rem">Zugangskarten · ${esc(c.name)}</h1><button class="btn pri" data-act="kl-print">Drucken</button></div>
     <p class="muted noprint" style="font-weight:700;margin-bottom:12px">Schneide die Karten aus und gib jedem Kind seine. Der QR-Code öffnet ELIO mit dem Kürzel, die PIN tippt das Kind selbst ein.</p>${(()=>{const mi=nrs.filter(k=>!ks.includes(k));if(!mi.length)return '';const no=mi.filter(k=>!by[k]),ot=mi.filter(k=>by[k]);
       return `<div class="priv noprint" style="margin-bottom:12px">${ks.length} von ${nrs.length} Karten. ${no.length?`Noch kein Zugang: Nr. ${no.join(', ')}. `:''}${ot.length?`PIN nicht auf diesem Gerät (auf einem anderem Gerät erzeugt): Nr. ${ot.join(', ')}. Vergib dort eine neue PIN, dann erscheint die Karte. `:''}<button class="btn sm" data-act="zg-print-x">Zu den Zugängen</button></div>`})()}
-    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span><b>${esc(nickOf(k)||'')}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
+    <div class="qcards">${ks.map(k=>`<div class="qcard"><div class="qh"><span class="logo"><img class="lg-e" src="assets/elo/e-elonuki.webp" alt="ELONUKI"></span><b>${esc(nickOf(k)||'')}</b></div><div class="qr" data-qr="${esc(url+'#u='+by[k].uname)}"></div>
       <div class="zg-c"><span>Kürzel</span><b>${esc(by[k].uname)}</b><span>PIN</span><b>${esc(st[k].p)}</b></div><small>ELIO öffnen → „Schüler/in“ → Kürzel und PIN eingeben.<br>Die PIN verrätst du niemandem.</small></div>`).join('')||'<div class="empty">Noch keine Zugänge mit bekannter PIN.</div>'}</div>`}
   return `<div class="st-head"><button class="btn sm" data-act="klassen">← Meine Klassen</button><h1 style="font-size:1.6rem">Zugänge · ${esc(c.name)}</h1>
     <button class="btn pri" data-act="zg-gen" data-id="${c.id}" ${ZG.busy?'disabled':''}>Für alle ohne Zugang erzeugen</button><button class="btn" data-act="zg-print">Karten drucken</button></div>
