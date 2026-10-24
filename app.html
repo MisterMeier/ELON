@@ -355,11 +355,11 @@ textarea,input[type=text],input[type=url],input[type=search],input[type=number],
 .land-st{position:absolute;left:1.2%;bottom:2%;background:rgba(255,255,255,.92);border-radius:999px;padding:.5cqw 1.6cqw;font-weight:800;font-size:clamp(.6rem,1.6cqw,1rem);color:#1e3a8a}
 @media (prefers-reduced-motion:reduce){.land-elo{animation:none;transition:none}}
 .bw-idle{position:relative;background:#eef2ff;overflow:hidden}
-/* Tafel-Ruhebild: Elo winkt zur Begrüßung (Flow-Animation), danach steht das Standard-Elo still */
-.idle-elo{position:absolute;left:50%;bottom:5%;height:58%;aspect-ratio:1.18;transform:translateX(-50%);pointer-events:none}.idle-elo img{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:contain!important;object-position:50% 100%}
-.idle-elo .ie-w{animation:ieOut 9s var(--d,0ms) forwards}.idle-elo .ie-s{opacity:0;animation:ieIn 9s var(--d,0ms) forwards}
+/* Tafel-Ruhebild: Elo winkt zur Begrüßung (Flow-Animation), danach das fertige ELONUKI-Titelbild */
+.idle-elo{position:absolute;left:50%;bottom:7.5%;height:60%;aspect-ratio:1.18;transform:translateX(-66%);pointer-events:none}.idle-elo img{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:contain!important;object-position:50% 100%}
+.idle-elo .ie-w{animation:ieOut 9s var(--d,0ms) forwards}.bw-idle>.ie-c{opacity:0;animation:ieIn 9s var(--d,0ms) forwards}
 @keyframes ieOut{0%,94%{opacity:1}100%{opacity:0}}@keyframes ieIn{0%,94%{opacity:0}100%{opacity:1}}
-@media (prefers-reduced-motion:reduce){.idle-elo .ie-w{display:none}.idle-elo .ie-s{opacity:1;animation:none}}.bw-idle>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.bw-idle{container-type:size}.idle-lg{position:absolute;left:50%;top:4.5%;transform:translateX(-50%);font-size:6.6cqh;background:linear-gradient(160deg,#1b1f45,#0f1230);color:#dbe3ff!important;padding:.32em .6em .26em .5em;border-radius:.42em;box-shadow:0 1.2cqh 3cqh rgba(30,41,99,.28),inset 0 0 0 1px rgba(255,255,255,.08);cursor:default;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.idle-elo{display:none}.bw-idle>.ie-c{opacity:1;animation:none}}.bw-idle>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.bw-idle{container-type:size}.idle-lg{position:absolute;left:50%;top:4.5%;transform:translateX(-50%);font-size:6.6cqh;background:linear-gradient(160deg,#1b1f45,#0f1230);color:#dbe3ff!important;padding:.32em .6em .26em .5em;border-radius:.42em;box-shadow:0 1.2cqh 3cqh rgba(30,41,99,.28),inset 0 0 0 1px rgba(255,255,255,.08);cursor:default;pointer-events:none}
 .v-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
 .v-card{margin:0;background:#fff;border:2px solid #e0e7ff;border-radius:16px;padding:10px;display:grid;justify-items:center;gap:6px;min-width:96px;max-width:150px;flex:1 1 96px;text-align:center;box-shadow:0 2px 8px rgba(30,58,138,.06)}
 .v-card figcaption{display:grid;gap:2px;font-weight:700;font-size:.9rem;color:#1e3a8a;line-height:1.2}.v-card figcaption span{color:#475569;font-weight:700;font-size:.85rem}
@@ -2417,7 +2417,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261023-1730';let verTold=false;
+const BUILD='20261024-0100';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3588,7 +3588,7 @@ function boardHTML0(R,mini){
   else if(st){const title=t.id==='slide'?(t.title||st.name):t.id==='mat'?'':st.name;
     main=`<div class="slide">${title?`<h1>${esc(title)}</h1>`:''}${t.text?`<p>${esc(t.text)}</p>`:''}${st.act==='mission'&&R.mission?`<p style="color:var(--ink)">${esc(R.mission)}</p>`:''}
       ${t.mat?(mini||!BOARD?`<span class="bw-note">${esc(t.matName||'Material')} · an der Tafel</span>`:`<div class="slide-media" id="slide-media" data-id="${esc(t.mat)}" data-url="${esc(t.matUrl||'')}"></div>`):''}${!t.text&&!t.mat&&st.act!=='mission'?`<p>${esc(st.txt)}</p>`:''}</div>`}
-  else if(!R.poll&&!R.share){const nw=Date.now();if(nw-IDLE.seen>4000)IDLE.at=nw;IDLE.seen=nw;return `<div class="bw bw-idle"><img src="assets/folien/allgemein.webp" alt="ELIO"><span class="idle-elo" style="--d:-${Math.min(nw-IDLE.at,9000)}ms"><img class="ie-w" src="assets/elo/anim/elo-winkt.webp?v=${BUILD}" alt=""><img class="ie-s" src="${eloImg('standard','')}" alt="Elo"></span><span class="logo idle-lg"><img class="lg-e" src="assets/elo/e.png" alt="E"><span class="lg-t">LIO</span></span>${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;}
+  else if(!R.poll&&!R.share){const nw=Date.now();if(nw-IDLE.seen>4000)IDLE.at=nw;IDLE.seen=nw;return `<div class="bw bw-idle"><img src="assets/folien/tafel-start-leer.webp" alt="ELONUKI"><span class="idle-elo" style="--d:-${Math.min(nw-IDLE.at,9000)}ms"><img class="ie-w" src="assets/elo/anim/elo-winkt.webp?v=${BUILD}" alt=""></span><img class="ie-c" src="assets/folien/tafel-start.webp" alt="Elo" style="--d:-${Math.min(nw-IDLE.at,9000)}ms">${showT?`<span class="bw-timer btimer rt-timer">${fmt(tl)}</span>`:''}</div>`;}
   else{const ph=phaseOf(R.phase);main=`<div class="slide"><h1>${esc(ph.name)}</h1><p>${esc(ph.txt)}</p>${R.mission?`<p style="color:var(--ink)">${esc(R.mission)}</p>`:''}</div>`}
   const foot=[R.poll?`<span class="bw-note">${esc(R.poll.q)} · ${R.poll.voted.length} abgestimmt</span>`:'',R.share?`<span class="bw-note">Auf euren iPads: ${esc(R.share.name)}</span>`:''].join('');
   return `<div class="bw ${st?'s-'+st.subj:''}"><div class="bw-top">${LOGO}<span class="tt">${st?esc(st.title)+' · '+esc(st.name):esc(className())}</span>
