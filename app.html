@@ -952,8 +952,8 @@ details.page summary{cursor:pointer;list-style:none}.jr-prompts{margin:8px 0 0 1
 .cw.cw-big .cw-h{color:#1e3a8a;font-size:.55em;text-align:center;margin-bottom:.3em}.cw.cw-big .cw-w span{text-shadow:0 0 .25em #fff,0 0 .5em #fff}
 @keyframes cwFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2%)}}
 @media (prefers-reduced-motion:reduce){.sc-fx,.sc-tw,.mm-img,.cw.cw-big{animation:none!important}}
-.bw-fz{background:#bcd6f5;display:grid;place-items:center;container-type:size;overflow:hidden}.fz-st{position:relative;width:min(100cqw,177.78cqh);aspect-ratio:16/9;background:url(assets/folien/freeze.webp?v=20261020b) center/cover;container-type:inline-size}
-.fz-elo{position:absolute;inset:0;background:url(assets/folien/freeze.webp?v=20261020b) center/cover;clip-path:ellipse(15.5% 29% at 49.5% 58%);animation:fzShiver .16s linear infinite}
+.bw-fz{background:#bcd6f5;display:grid;place-items:center;container-type:size;overflow:hidden}.fz-st{position:relative;width:min(100cqw,177.78cqh);aspect-ratio:16/9;background:url(assets/folien/freeze.webp?v=20261024) center/cover;container-type:inline-size}
+.fz-elo{position:absolute;inset:0;background:url(assets/folien/freeze.webp?v=20261024) center/cover;clip-path:ellipse(13% 32% at 51.5% 52%);animation:fzShiver .16s linear infinite}
 @keyframes fzShiver{0%{transform:translate(0,0)}25%{transform:translate(.25cqw,-.08cqw)}50%{transform:translate(-.2cqw,.06cqw)}75%{transform:translate(.18cqw,.1cqw)}100%{transform:translate(0,0)}}
 .fz-t{position:absolute;left:0;right:0;top:4%;text-align:center}.fz-t b{font-family:var(--f-display);font-size:9cqw;line-height:1;color:#1e3a8a;text-shadow:0 .3cqw 0 #fff,0 0 2cqw rgba(255,255,255,.9)}
 .fz-p{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);margin:0;padding:1cqw 3cqw;border-radius:99px;background:rgba(255,255,255,.88);color:#1e3a8a;font-weight:800;font-size:2.6cqw;white-space:nowrap;box-shadow:0 .4cqw 1.6cqw rgba(30,58,138,.18)}
@@ -1932,8 +1932,8 @@ const rdUseL1=()=>S.rd==='l1'&&S.l1&&S.l1!=='de'&&S.l1!=='x';
 function rdHasVoice(bcp){if(!bcp)return false;try{return !!bestVoice(bcp)}catch(e){return false}}
 /* ---------- Icons: Datei assets/icons/<name>.webp, sonst sofort SVG-Ersatz (Liste: elon/anleitungen/icons-erzeugen.md) ---------- */
 // Neue Datei hochgeladen? Namen hier eintragen und ICO_V hochzählen.
-const ICO_V='20261021c';
-const ICO_FILES=new Set(['abmelden','admin','aufgaben','dashboard','datenschutz','klassen','lehrerzimmer','postfach','problem','profil','schreibtisch','stundenplan','tafel','hilfe','bereit','sendet','angekommen','vorlesen','ankuendigung','ueben','erinnerung','weiter','minitest','skizzenbuch','auftrag','sozialform','zeit','geruest','vorlage','leere-phase','kein-werkzeug','bearbeiten','karte-ganz','w-slide','w-kfb','w-memory','w-salad','w-balloon','w-mat','w-start','w-vw','w-ueb','w-heftlink','w-heft']);
+const ICO_V='20261024a';
+const ICO_FILES=new Set(['abmelden','admin','aufgaben','dashboard','datenschutz','klassen','lehrerzimmer','postfach','problem','profil','schreibtisch','stundenplan','tafel','hilfe','bereit','sendet','angekommen','vorlesen','ankuendigung','ueben','erinnerung','weiter','minitest','skizzenbuch','auftrag','sozialform','zeit','geruest','vorlage','leere-phase','kein-werkzeug','bearbeiten','karte-ganz','w-slide','w-kfb','w-memory','w-salad','w-balloon','w-mat','w-start','w-vw','w-ueb','w-heftlink','w-heft','st-timer','st-freeze','w-est','st-poll','st-ann','w-task','w-diary','st-dm','w-itten','w-vok','st-game','w-mood','w-tbl','w-wg','w-hv','w-numline','st-out','st-elo','w-skizze','w-match','st-ready','w-dgeo','w-fb','w-question','st-psst','w-swap','st-keyqr','st-share','st-groups','w-gap','w-wc','w-irreg','werkzeugkasten','st-noise','st-wheel','baustelle']);
 const ICO_SVG={
   problem:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
   tafel:'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20l4-4 4 4"/>',
@@ -2437,7 +2437,7 @@ const aufRemNow=a=>!!a.due&&hmNow()>=(a.rem||'16:00');
 function dayLabel(iso){const d=daysUntil(iso);if(d===0)return 'heute';if(d===1)return 'morgen';const w=['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(iso+'T00:00').getDay()];return w+', '+iso.slice(8,10)+'.'+iso.slice(5,7)+'.'}
 // Kleiner Service Worker nur für Mitteilungen (kein Zwischenspeicher)
 // Neue Version online? Schüler-iPads laden sich selbst neu (nicht beim Tippen), Lehrkräfte bekommen einen Hinweis. version.txt wird bei jedem Hochladen erneuert.
-const BUILD='20261024-1130';let verTold=false;
+const BUILD='20261024-1230';let verTold=false;
 setInterval(async()=>{if(document.hidden)return;try{const v=(await (await fetch('version.txt?'+Date.now(),{cache:'no-store'})).text()).trim();if(!/^\d{8}-\d{4}$/.test(v)||v===BUILD)return;
   // Nicht mitten in der Stunde neu laden (Tafel würde das Vollbild verlieren, iPads kurz aufs Dashboard springen). Erst wenn keine Stunde läuft oder Freeze ist.
   const ae=document.activeElement,R=BOARD?BRCS:RCS,busy=R&&R.lesson&&!R.freeze;if(S.role==='student'||BOARD){if(!busy&&!(ae&&/INPUT|TEXTAREA/.test(ae.tagName)))location.reload()}else if(!verTold){verTold=true;toast('Es gibt eine neue ELIO-Version. Lade die Seite neu, wenn es passt.')}}catch(e){}},60000);
@@ -3338,7 +3338,7 @@ const ELO_EYES={heft:[[35.4,43.9,9.4,'#e0e4fa'],[59.2,43.9,9.0,'#eef0fc']],uebun
 // Elo-Figuren an EINER Stelle: assets/elo/figuren.json (Fach → Figur, alle Figuren mit Datei und Namen).
 // Neue Figur = Bild nach assets/elo/ und dort eintragen. Die Werte hier sind nur die Rückfallebene, falls die Datei nicht lädt.
 // Grundposen (ELO_GRUND): im Fach mit eigener Figur (z. B. Englisch) nimmt Elo automatisch die Fach-Figur.
-const ELO_FIG={standard:{name:'Elo (Standard)',datei:'elo-standard-v2-512.webp'},heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-real-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-real-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-real-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-v2-512.webp'},
+const ELO_FIG={standard:{name:'Elo (Standard)',datei:'elo-standard-v2-512.webp'},heft:{name:'Elo mit Doktorhut',datei:'elo-heft-512.png'},uebung:{name:'Elo mit Heft',datei:'elo-uebung-512.png'},hilfe:{name:'Elo hilft',datei:'elo-hilfe-v2-512.webp'},fleiss:{name:'Elo stark',datei:'elo-fleiss-v2-512.webp'},hallo:{name:'Elo winkt',datei:'elo-hallo-v2-512.webp'},mathe:{name:'Elo als Mathelehrer',datei:'elo-mathe-v2-512.webp'},
   uk:{name:'Elo in England',datei:'elo-uk-v2-512.webp'},scot:{name:'Elo in Schottland (Dudelsack)',datei:'elo-scot-v2-512.webp'},kunst:{name:'Elo als Maler',datei:'elo-kunst-v2-512.webp'},banker:{name:'Elo als Banker',datei:'elo-banker-v2-512.webp'},
   deutsch:{name:'Elo als Dichter (Deutsch)',datei:'elo-deutsch-v2-512.webp'},gpg:{name:'Elo als Entdecker (GPG)',datei:'elo-gpg-v2-512.webp'},nt:{name:'Elo als Forscher (N&T)',datei:'elo-nt-v2-512.webp'},informatik:{name:'Elo als Informatiker',datei:'elo-informatik-v2-512.webp'},daz:{name:'Elo für DaZ',datei:'elo-daz-v2-512.webp'}};
 const ELO_SUBJ={M:'mathe',E:'uk',K:'kunst',W:'banker',WK:'banker',D:'deutsch',G:'gpg',N:'nt',I:'informatik',DZ:'daz'},ELO_STD={k:'standard'},ELO_GRUND=['standard','heft','uebung','hilfe','fleiss','hallo'];
@@ -3346,7 +3346,7 @@ const eloV=(k,s)=>k==='auto'||!ELO_FIG[k]?(ELO_SUBJ[s]&&ELO_FIG[ELO_SUBJ[s]]?ELO
   eloImg=(k,s)=>'assets/elo/'+(ELO_FIG[eloV(k,s)]||ELO_FIG.hilfe).datei,eloLidsS=(k,s)=>ELO_EYES[eloV(k,s)]?eloLids(eloV(k,s)):'';
 // Elo spielt einen Sound: passende Figur dazu (Dudelsack = Schottland-Elo)
 // Echte Elo-Animationen (Flow): allgemeine Aktionen (Winken, Zeit um) spielt immer das Standard-Elo, auch im Fach; danach ist wieder das Fach-Elo da
-const eloAnimSrc=(fx,k,s)=>{const f=fx==='wave'?'winkt':fx==='zeitum'?'zeit-um':'';return f?'assets/elo/anim/elo-'+f+'.webp?v='+BUILD:''};
+const eloAnimSrc=(fx,k,s)=>{const f=fx==='wave'?'winkt':fx==='zeitum'?'zeit-um':fx==='hop'?'jubelt':'';return f?'assets/elo/anim/elo-'+f+'.webp?v='+BUILD:''};
 const ELO_SND_FIG={dudelsack:'scot',bigben:'uk'},fxOn=f=>!!(f&&Date.now()-f.at<(f.d||6000));
 const eloLids=k=>(ELO_EYES[k]||[]).map(([x,y,r,c])=>`<i class="elo-lid" style="left:${x-r}%;top:${y-r}%;width:${2*r}%;--c:${c}"></i>`).join('');
 // Elo lebt: blinzelt, legt den Kopf schief, schüttelt sich (kratzt sich), hüpft. Nur wenn gerade keine andere Animation läuft.
@@ -3554,13 +3554,10 @@ const boardSig=R=>R?JSON.stringify([R.wechsel&&R.wechsel.at,R.skzShow&&R.skzShow
 // Bildschirm anordnen: Die Lehrkraft schiebt den Timer in der Vorschau an eine andere Stelle und macht ihn größer
 function layStyle(o){return o?`style="position:absolute;left:${o.x}%;top:${o.y}%;right:auto;bottom:auto;transform:translate(-50%,-50%);font-size:${(9*o.s).toFixed(1)}cqh;z-index:6"`:''}
 /* Tafelbilder mit Bewegung: Hintergrund 16:9, darüber bewegte Ausschnitte (gleiches Bild, per clip-path) und eine Textkarte */
-const SC_FX={
-  lerntagebuch:[{c:'polygon(9% 64%,15% 58%,25% 58%,25% 82%,9% 82%)',o:'20% 74%',a:'scWig 1.6s ease-in-out infinite'}],
-  exit:[{c:'polygon(47% 17%,67% 17%,67% 45%,58% 63%,46% 63%)',o:'52% 60%',a:'scWave 1.4s ease-in-out infinite'}],
-  abstimmung:[{c:'polygon(44.5% 40%,55.5% 38%,57% 58.5%,46% 60.5%)',o:'50% 50%',a:'scDrop 2.4s ease-in-out infinite'}]};
-const SC_GLOW={abstimmung:[[47.5,78,9,14,2.6],[53,38,6,8,1.8]]};
+const SC_FX={};
+const SC_GLOW={};
 function sceneHTML(img,card,pos){const u='assets/folien/'+img+'.webp';
-  return `<div class="bw bw-sc"><div class="sc-st" style="background-image:url(${u})">${(SC_FX[img]||[]).map(f=>`<i class="sc-fx" style="background-image:url(${u});clip-path:${f.c};transform-origin:${f.o};animation:${f.a}"></i>`).join('')}${img==='lerntagebuch'?'<i class="sc-tw" style="left:62%;top:8%"></i><i class="sc-tw" style="left:84%;top:20%;animation-delay:.7s"></i><i class="sc-tw" style="left:71%;top:30%;animation-delay:1.3s"></i>':''}${(SC_GLOW[img]||[]).map(([x,y,w,h,d])=>`<i class="sc-gl" style="left:${x-w/2}%;top:${y-h/2}%;width:${w}%;height:${h}%;animation-duration:${d}s"></i>`).join('')}<div class="sc-card" style="${pos}">${card}</div></div></div>`}
+  return `<div class="bw bw-sc"><div class="sc-st" style="background-image:url(${u})">${(SC_FX[img]||[]).map(f=>`<i class="sc-fx" style="background-image:url(${u});clip-path:${f.c};transform-origin:${f.o};animation:${f.a}"></i>`).join('')}${(SC_GLOW[img]||[]).map(([x,y,w,h,d])=>`<i class="sc-gl" style="left:${x-w/2}%;top:${y-h/2}%;width:${w}%;height:${h}%;animation-duration:${d}s"></i>`).join('')}<div class="sc-card" style="${pos}">${card}</div></div></div>`}
 // Elo-Effekte gehen immer: Ist Elo nicht auf der Folie, springt er für ein paar Sekunden unten rechts ins Bild
 function boardHTML(R,mini){const h=boardHTMLc(R,mini),fx=R&&fxOn(R.fx)?R.fx.k:'';if(!fx||h.includes('class="sl-elo')||!/<\/div>\s*$/.test(h))return h;
   const ek=fx==='snd'&&ELO_SND_FIG[R.fx.s]||'hilfe',sj=R&&R.stage&&R.stage.subj;
@@ -3744,7 +3741,7 @@ function liveOverlay(){
   else if(RCS.dlg&&RCS.dlg.id&&!RCS.freeze&&ph.go==='dialog'&&DB_AUTO!==RCS.dlg.id){DB_AUTO=RCS.dlg.id;S.phaseSeen=String(RCS.phaseAt);save();if(MINI==='big'){MINI='small';renderMini(true);updRail()}
     if(V.name!=='dlgb'){go('dlgb',{from:'dash'});window.scrollTo(0,0)}}
   else if(RCS.freeze&&!frzPend()){sig='frz';full=true;
-    html=`<div class="wt-lov fz-lov"><img class="wt-bg" src="assets/folien/freeze.webp?v=20261020b" alt=""><div class="wt-card">${S.av!=null?avatar(S.av,56):''}<h2>Freeze!</h2><p>Hände weg vom iPad. Augen nach vorne. Gleich geht es weiter.</p><div class="wt-bar"><i></i></div></div></div>`}
+    html=`<div class="wt-lov fz-lov"><img class="wt-bg" src="assets/folien/freeze.webp?v=20261024" alt=""><div class="wt-card">${S.av!=null?avatar(S.av,56):''}<h2>Freeze!</h2><p>Hände weg vom iPad. Augen nach vorne. Gleich geht es weiter.</p><div class="wt-bar"><i></i></div></div></div>`}
   // Alle schauen nach vorne: Läuft eine Stunde mit Folie, sehen die iPads dieselbe Folie wie die Tafel (statt „Schau zur Tafel“)
   else if(RCS.sw&&RCS.sw.a&&RCS.sw.a[S.nr]&&!RCS.freeze&&RCS.stage&&RCS.stage.tool&&RCS.stage.tool.id==='swap'){const T=RCS.stage.tool,[pi,h]=RCS.sw.a[S.nr],c=(T.pairs||[])[pi];sig='sw'+RCS.sw.at+pi+h;
     if(c){const en=T.en;html=box(`<span class="label">Find your partner</span><h2 style="margin-top:6px">${h?(en?'Your answer card':'Deine Antwortkarte'):(en?'Your question card':'Deine Fragekarte')}</h2><div class="sw-card ${h?'a':'q'}">${esc(c[h])}</div>${rdBtn('',c[h],en?'Listen':'Anhören')}<p style="font-weight:700;margin-top:10px">${en?(h?'Find the person with the question. Answer it.':'Find the person with the answer. Ask your question.'):(h?'Finde die Person mit der passenden Frage.':'Finde die Person mit der passenden Antwort.')}</p>`)}}
@@ -4607,8 +4604,8 @@ function libListHTML(){
     return ks.map(k=>`<details class="lib-sec s-${k}" ${(V.lopen||{})[k]?'open':''} data-lsec="${k}"><summary>${badge(k)} ${SUBJECTS[k]?SUBJECTS[k].name:'Ohne Fach'} <small class="muted">${list.filter(m=>m.subject===k).length}</small></summary><div class="lib-rows">${list.filter(m=>m.subject===k).map(card).join('')}</div></details>`).join('')}
   return `<div class="lib-rows" style="padding:0">${list.map(card).join('')}</div>`;
 }
-// Roter Werkzeugkasten (Kachel in der Bibliothek). Bis ein ElevenLabs-Bild da ist, als SVG.
-const WK_ICO=`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M23 18v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/><rect x="6" y="18" width="52" height="38" rx="7" fill="#dc2626"/><rect x="6" y="18" width="52" height="12" rx="6" fill="#ef4444"/><rect x="6" y="28" width="52" height="4" fill="#b91c1c"/><rect x="27" y="26" width="10" height="9" rx="2" fill="#fbbf24"/><path d="M12 22h18" stroke="#fca5a5" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+// Werkzeugkasten (Kachel in der Bibliothek)
+const WK_ICO=ico('werkzeugkasten');
 VIEWS.library=()=>{
   const f=V.f||'all',subjOpts=Object.entries(SUBJECTS).map(([k,v])=>`<option value="${k}" ${k===(V.us||'E')?'selected':''}>${v.name}</option>`).join('');
   const cnt=k=>LIB.items.filter(m=>k==='all'||m.subject===k).length;

@@ -190,5 +190,53 @@
   "quelle": "Google Gemini (KI-erzeugt)",
   "lizenz": "Eigene KI-Erzeugung für den Unterricht",
   "erzeugt_am": "2026-10-23"
+ },
+ {
+  "id": "allg-elo-gefuehl-psst",
+  "datei": "assets/medien/allg/elo-gefuehl-psst.webp",
+  "typ": "bild",
+  "fach": "",
+  "titel": "Elo · Psst",
+  "alt": "",
+  "stichworte": "elo",
+  "breite": 600,
+  "hoehe": 740,
+  "frei": true,
+  "bytes": 96336,
+  "quelle": "Google Flow (KI-erzeugt)",
+  "lizenz": "Eigene KI-Erzeugung für den Unterricht",
+  "erzeugt_am": "2026-10-24"
+ },
+ {
+  "id": "allg-elo-gefuehl-troestend",
+  "datei": "assets/medien/allg/elo-gefuehl-troestend.webp",
+  "typ": "bild",
+  "fach": "",
+  "titel": "Elo · tröstend",
+  "alt": "",
+  "stichworte": "elo",
+  "breite": 618,
+  "hoehe": 740,
+  "frei": true,
+  "bytes": 96036,
+  "quelle": "Google Flow (KI-erzeugt)",
+  "lizenz": "Eigene KI-Erzeugung für den Unterricht",
+  "erzeugt_am": "2026-10-24"
+ },
+ {
+  "id": "allg-elo-gefuehl-traurig",
+  "datei": "assets/medien/allg/elo-gefuehl-traurig.webp",
+  "typ": "bild",
+  "fach": "",
+  "titel": "Elo · enttäuscht",
+  "alt": "",
+  "stichworte": "elo",
+  "breite": 740,
+  "hoehe": 676,
+  "frei": true,
+  "bytes": 88514,
+  "quelle": "Google Flow (KI-erzeugt)",
+  "lizenz": "Eigene KI-Erzeugung für den Unterricht",
+  "erzeugt_am": "2026-10-24"
  }
 ]

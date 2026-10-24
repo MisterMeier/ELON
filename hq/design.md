@@ -19,6 +19,7 @@ gelb
 - Logo und Farben für ELONUKI festlegen (Runde 6)
 
 ## In Arbeit
+- 24.10., im Test: 36 neue Icons im neuen Stil (Steuerung an der Tafel, 19 Werkzeuge ohne Bild, Werkzeugkasten, Baustelle, Elo-Knopf); neue Folien Freeze, Abstimmung, Exit, Lerntagebuch (Wackel- und Glitzer-Effekte auf den alten Bildern entfernt); Elo-Posen Hilfe, Hallo, Fleiß neu; Gefühle Psst, Tröstend, Enttäuscht abgelegt; animiertes Jubeln (Elo hüpft, Standard-Elo) und Start-Loop als Dateien da (Start-Loop noch nicht eingebaut). Werkzeug tools/icon_freistellen.py
 - 24.10., im Test: Steuerungs-Leiste an der Tafel linksbündig, Elo-Knopf als erster. Prompt für den vereinfachten Elo-Button (Kachel mit Elo) in den Projektdateien
 - 24.10., im Test: Schreibtisch-Fächer als quadratische Kacheln, nur Bild und Fachname. Infos (Einträge, Übungen, Module, sichtbar für die Klasse) als Hover bei der Lehrkraft; bei den SuS nur eine kleine Marke „neu“ und Übungen, weil das iPad kein Hover kennt
 - 24.10., im Test: Tafel-Steuerung als Icon-Leiste unten im Stunden-Feld (Name und Status beim Drüberfahren mit der Maus). Prompts für einen neuen, ruhigen Satz Steuerungs-Icons: elon/anleitungen/steuerung-icons-prompts.md (Projektdateien); hochgeladene `st-…`-Icons ersetzen die alten automatisch
