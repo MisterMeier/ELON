@@ -33,6 +33,7 @@ gelb
 - Runde 3 Bibliothek & Schreibtisch: Umbenennen, Fach verschieben, Fach-Tabs oben
 
 ## In Arbeit
+- 24.10., im Test: Tipp auf ein Fach öffnet immer zuerst die Lernmodule (auch SuS-Ansicht), danach Regelheft, Vokabeln, Übungen.
 - 24.10., im Test: Tafel-Steuerung kompakt: alle Steuer-Knöpfe (Timer, Freeze, Bereit-Check, Abstimmung, Glücksrad, Gruppen, Elo, Nachricht, Erinnerung, Abmelden) nur noch als Icons in einer Leiste unten im Feld mit Stundentitel und Folien-Navigation; Erklärung erscheint beim Drüberfahren mit der Maus. Optionen öffnen sich wie bisher darunter.
 - 23.10., im Test: Elo animiert (Google Flow, freigestellt): „Winken“ und „Zeit um“ an der Tafel laufen als echte Bewegung, nur beim Standard-Elo; Fach-Elos behalten das Standbild. Bei Timer-Ende zeigt Elo „Zeit um“. Start-Loop und Jubeln liegen bereit, noch nicht eingebaut.
 - 23.10., im Test: Lehreransicht am Mac in voller Breite (Lehrerzimmer, Planung, Bibliothek, ab 1200 px; iPad unverändert). Wochenplanung kompakt: Kopfzeile mit Woche und Umschalter Jahr/Sequenz/Woche rechts, Rituale und Knöpfe in einer Zeile, ganzer Stundenplan ohne Scrollen. Werkzeugkasten zieht in die Bibliothek (rote Kachel); Antippen eines Werkzeugs zeigt ein Beispiel, wie es an der Tafel aussieht; Bereich „Eigene Werkzeuge“ kompakter (Schlüssel aufklappbar).
